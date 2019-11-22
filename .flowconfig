@@ -1,0 +1,18 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.file_ext=.js
+module.file_ext=.jsx
+module.file_ext=.ts
+module.file_ext=.tsx
+module.file_ext=.scss
+module.name_mapper.extension='scss' -> 'empty/object'
+module.file_ext=.less
+module.name_mapper.extension='less' -> 'empty/object'
+[strict]
