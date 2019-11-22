@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { DBSchema } from 'idb/lib/entry';
+import { IIDBFolderSchmV1 } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
 
 export enum MailContactType {
 	from = 'from',
@@ -22,14 +22,7 @@ export enum MailContactType {
 	resentFrom = 'resent-from'
 }
 
-export interface IMailIdbSchema extends DBSchema {
-	folders: {
-		key: string;
-		value: IFolderSchm;
-		indexes: {
-			parent: string;
-		};
-	};
+export interface IMailIdbSchema extends IIDBFolderSchmV1 {
 	mails: {
 		key: string;
 		value: IMailSchm;
@@ -38,13 +31,6 @@ export interface IMailIdbSchema extends DBSchema {
 			conversation: string;
 		};
 	};
-}
-
-interface IFolderSchm {
-	id: string;
-	parent: string;
-	name: string;
-	unread: boolean;
 }
 
 export interface IMailSchm {
