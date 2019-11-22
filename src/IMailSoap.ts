@@ -10,7 +10,13 @@
  */
 
 import { ISoapResponseContent } from '@zextras/zapp-shell/lib/network/ISoap';
-import { map } from 'lodash';
+import {
+	map,
+	filter,
+	flattenDeep,
+	trim,
+	reduce
+} from 'lodash';
 import {
 	IMailContactSchm,
 	IMailPartSchm,
@@ -92,7 +98,7 @@ export interface IMsgPartObj {
 	/**	Size	*/ s: number;
 	/**	Content id (for inline images)	*/ ci: string;
 	/**	Parts	*/ mp: Array<IMsgPartObj>;
-	/**	Set if is the body of the message	*/ body?: 1;
+	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;
 }
@@ -151,9 +157,43 @@ function normalizeMailContacts(e: Array<IMsgContactObj>): Array<IMailContactSchm
 	);
 }
 
+function generateBodyPath(mp: Array<IMsgPartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => {
+			return `part[${index}].${partialPath}`;
+		},
+		''
+	);
+	return trim(path, '.');
+}
+
+function recursiveBodyPath(mp: Array<IMsgPartObj>): Array<number> {
+	const result = flattenDeep(map(mp, bodyPathReductionFn));
+	return result;
+}
+
+function bodyPathReductionFn(v: IMsgPartObj, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	else {
+		if(v.mp) {
+			const paths = recursiveBodyPath(v.mp);
+			if (paths.length > 0) {
+				paths.push(idx);
+				return paths;
+			}
+		}
+	}
+	return [];
+}
+
 export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 	const contacts: Array<IMailContactSchm> = normalizeMailContacts(m.e || []);
 	const parts: Array<IMailPartSchm> = normalizeMailParts(m.mp || []);
+	const bodyPath: string = generateBodyPath(m.mp || []);
 	return {
 		conversationId: m.cid,
 		id: m.id,
@@ -162,9 +202,11 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 		folder: m.l,
 		parts,
 		fragment: m.fr,
-		bodyPath: '',
+		bodyPath,
 		subject: m.su,
 		contacts,
-		read: /u/.test(m.f) // TODO: Fix here, sometimes is undefined and return true!
+		read: !(/u/.test(m.f || '')),
+		attachment: /a/.test(m.f || ''),
+		flagged: /f/.test(m.f || '')
 	};
 };
