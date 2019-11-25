@@ -10,7 +10,12 @@
  */
 
 import { ISoapResponseContent } from '@zextras/zapp-shell/lib/network/ISoap';
-import { map } from 'lodash';
+import {
+	map,
+	flattenDeep,
+	trim,
+	reduce
+} from 'lodash';
 import {
 	IMailContactSchm,
 	IMailPartSchm,
@@ -92,7 +97,7 @@ export interface IMsgPartObj {
 	/**	Size	*/ s: number;
 	/**	Content id (for inline images)	*/ ci: string;
 	/**	Parts	*/ mp: Array<IMsgPartObj>;
-	/**	Set if is the body of the message	*/ body?: 1;
+	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;
 }
@@ -151,9 +156,41 @@ function normalizeMailContacts(e: Array<IMsgContactObj>): Array<IMailContactSchm
 	);
 }
 
+function recursiveBodyPath(mp: Array<IMsgPartObj>): Array<number> {
+	// eslint-disable-next-line @typescript-eslint/no-use-before-define
+	const result = flattenDeep(map(mp, bodyPathMapFn));
+	return result;
+}
+
+function generateBodyPath(mp: Array<IMsgPartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `part[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
+}
+
+
+function bodyPathMapFn(v: IMsgPartObj, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	if (v.mp) {
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
+		}
+	}
+	return [];
+}
+
 export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 	const contacts: Array<IMailContactSchm> = normalizeMailContacts(m.e || []);
 	const parts: Array<IMailPartSchm> = normalizeMailParts(m.mp || []);
+	const bodyPath: string = generateBodyPath(m.mp || []);
 	return {
 		conversationId: m.cid,
 		id: m.id,
@@ -162,9 +199,11 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 		folder: m.l,
 		parts,
 		fragment: m.fr,
-		bodyPath: '',
+		bodyPath,
 		subject: m.su,
 		contacts,
-		read: /u/.test(m.f) // TODO: Fix here, sometimes is undefined and return true!
+		read: !(/u/.test(m.f || '')),
+		attachment: /a/.test(m.f || ''),
+		flagged: /f/.test(m.f || '')
 	};
 };
