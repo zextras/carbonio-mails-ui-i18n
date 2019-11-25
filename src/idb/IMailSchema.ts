@@ -44,6 +44,8 @@ export interface IMailSchm {
 	read: boolean;
 	parts: Array<IMailPartSchm>;
 	size: number;
+	attachment: boolean;
+	flagged: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
 }
 
