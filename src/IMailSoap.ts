@@ -12,7 +12,6 @@
 import { ISoapResponseContent } from '@zextras/zapp-shell/lib/network/ISoap';
 import {
 	map,
-	filter,
 	flattenDeep,
 	trim,
 	reduce
@@ -157,34 +156,32 @@ function normalizeMailContacts(e: Array<IMsgContactObj>): Array<IMailContactSchm
 	);
 }
 
+function recursiveBodyPath(mp: Array<IMsgPartObj>): Array<number> {
+	// eslint-disable-next-line @typescript-eslint/no-use-before-define
+	const result = flattenDeep(map(mp, bodyPathMapFn));
+	return result;
+}
+
 function generateBodyPath(mp: Array<IMsgPartObj>): string {
 	const indexes = recursiveBodyPath(mp);
 	const path = reduce(
 		indexes,
-		(partialPath: string, index: number): string => {
-			return `part[${index}].${partialPath}`;
-		},
+		(partialPath: string, index: number): string => `part[${index}].${partialPath}`,
 		''
 	);
 	return trim(path, '.');
 }
 
-function recursiveBodyPath(mp: Array<IMsgPartObj>): Array<number> {
-	const result = flattenDeep(map(mp, bodyPathReductionFn));
-	return result;
-}
 
-function bodyPathReductionFn(v: IMsgPartObj, idx: number): Array<number> {
+function bodyPathMapFn(v: IMsgPartObj, idx: number): Array<number> {
 	if (v.body) {
 		return [idx];
 	}
-	else {
-		if(v.mp) {
-			const paths = recursiveBodyPath(v.mp);
-			if (paths.length > 0) {
-				paths.push(idx);
-				return paths;
-			}
+	if (v.mp) {
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
 		}
 	}
 	return [];
