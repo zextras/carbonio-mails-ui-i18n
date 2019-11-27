@@ -9,9 +9,16 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { registerSyncItemParser, registerSyncFolderParser, syncFolderById } from '@zextras/zapp-shell/sync';
+import {
+	registerSyncItemParser,
+	registerSyncFolderParser,
+	syncFolderById
+} from '@zextras/zapp-shell/sync';
 import { registerNotificationParser, sendSOAPRequest } from '@zextras/zapp-shell/network';
-import { ISyncFolderParser, ISyncItemParser } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import {
+	ISyncFolderParser,
+	ISyncItemParser
+} from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
 import { map, uniq, forEach } from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
