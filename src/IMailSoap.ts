@@ -23,19 +23,6 @@ import {
 	MailContactType
 } from './idb/IMailSchema';
 
-export interface IGetFolderRequestData {
-	folder: {
-		l: string;
-		depth?: number;
-	};
-}
-
-export interface IGetFolderResponseData extends ISoapResponseContent {
-	folder: Array<{
-		folder: Array<ISoapFolderObj>;
-	}>;
-}
-
 export type FolderView = 'document'|'appointment'|'message'|'contact'|'task';
 
 export interface IGetMsgReq {
@@ -46,18 +33,6 @@ export interface IGetMsgReq {
 
 export interface IGetMsgResp extends ISoapResponseContent {
 	m: Array<IMsgItemObj>;
-}
-
-export interface ISoapFolderObj {
-	id: string;
-	/** Parent ID */ l: string;
-	name: string;
-	view: FolderView;
-	absFolderPath: string;
-	/** Size */ s: number;
-	/** Count of unread messages */ u: number;
-	/** Count of non-folder items */ n: number;
-	deletable: boolean;
 }
 
 export interface IMsgItemObj {
