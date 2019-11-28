@@ -13,12 +13,10 @@ import React from 'react';
 import { fc } from '@zextras/zapp-shell/fc';
 
 import { setUpgradeFcn } from '@zextras/zapp-shell/idb';
+import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
+import { Mail } from '@material-ui/icons';
 import { MailSyncService } from './sync/MailSyncService';
 import { MailService } from './mail/MailService';
-import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
-
-import { Inbox } from '@material-ui/icons';
-
 import MailListView from './ui/MailListView';
 import MailComposeView from './ui/MailComposeView';
 import MailView from './ui/MailView';
@@ -35,8 +33,14 @@ export default function app(): void {
 	registerRoute('/mail/:id', MailView, {});
 
 	addMainMenuItem(
-		<Inbox />,
+		<Mail />,
 		'Mail',
 		'/mail'
+	);
+
+	addCreateMenuItem(
+		<Mail />,
+		'New Mail',
+		'/mail/compose'
 	);
 }
