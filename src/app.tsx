@@ -9,12 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React from 'react';
+import React, { FC } from 'react';
 import { fc } from '@zextras/zapp-shell/fc';
 
 import { setUpgradeFcn } from '@zextras/zapp-shell/idb';
 import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
-import { Mail } from '@material-ui/icons';
+import { MailOutlined } from '@material-ui/icons';
 import { MailSyncService } from './sync/MailSyncService';
 import { MailService } from './mail/MailService';
 import MailListView from './ui/MailListView';
@@ -26,20 +26,21 @@ export default function app(): void {
 	setUpgradeFcn(schemaVersion, upgradeFn);
 	fc.subscribe(console.log);
 	const syncSrvc = new MailSyncService();
-	const mailSrvc = new MailService();
+	const mailSrvc = new MailService(syncSrvc);
 
-	registerRoute('/mail', MailListView, {});
+	registerRoute('/mail/folder/:path', MailListView, {});
 	registerRoute('/mail/compose', MailComposeView, {});
-	registerRoute('/mail/:id', MailView, {});
+	registerRoute('/mail/view/:id', MailView, {});
 
 	addMainMenuItem(
-		<Mail />,
+		<MailOutlined />,
 		'Mail',
-		'/mail'
+		'/mail/folder/Inbox',
+		mailSrvc.mainMenuChildren
 	);
 
 	addCreateMenuItem(
-		<Mail />,
+		<MailOutlined />,
 		'New Mail',
 		'/mail/compose'
 	);
