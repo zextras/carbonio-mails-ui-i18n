@@ -16,12 +16,30 @@ import {
 	DeleteOutline,
 	ReportOutlined,
 	SendOutlined,
-	InsertDriveFileOutlined
+	InsertDriveFileOutlined,
+	ChatBubbleOutlined
 } from '@material-ui/icons';
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
+import { IMailService } from './IMailService';
+
+function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFolder|undefined {
+	for (let i = 0; i < folders.length; i += 1) {
+		if (folders[i].path === path) return folders[i];
+		if (folders[i].children) return _findFolderByPath(path, folders[i].children);
+	}
+	return undefined;
+}
+
+function _findFolderById(id: string, folders: Array<IMailFolder>): IMailFolder|undefined {
+	for (let i = 0; i < folders.length; i += 1) {
+		if (folders[i].id === id) return folders[i];
+		if (folders[i].children) return _findFolderById(id, folders[i].children);
+	}
+	return undefined;
+}
 
 function _getFolderIcon(f: IMailFolder): ReactElement {
 	switch (f.id) {
@@ -35,6 +53,8 @@ function _getFolderIcon(f: IMailFolder): ReactElement {
 			return (<SendOutlined />);
 		case '6':
 			return (<InsertDriveFileOutlined />);
+		case '14':
+			return (<ChatBubbleOutlined />);
 		default:
 			return (<FolderOutlined />);
 	}
@@ -45,7 +65,7 @@ function _convertFolderToMenuItem(f: IMailFolder): IMainSubMenuItemData {
 	return {
 		icon: _getFolderIcon(f),
 		label: f.name,
-		to: `/mail/folder${f.path}`,
+		to: encodeURI(`/mail/folder${f.path}`),
 		id: `folder-${f.id}`,
 		children: map(
 			f.children || [],
@@ -54,11 +74,11 @@ function _convertFolderToMenuItem(f: IMailFolder): IMainSubMenuItemData {
 	};
 }
 
-export class MailService {
+export class MailService implements IMailService {
 	public mainMenuChildren = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
 
-	constructor(syncSrvc: IMailSyncService) {
-		syncSrvc.folders.subscribe(
+	constructor(private _syncSrvc: IMailSyncService) {
+		_syncSrvc.folders.subscribe(
 			(folders) => {
 				this.mainMenuChildren.next(
 					map(
@@ -68,5 +88,26 @@ export class MailService {
 				);
 			}
 		);
+	}
+
+	public getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>] {
+		const folders = this._syncSrvc.folders.getValue();
+
+		const currFolder = _findFolderByPath(path, folders);
+		if (!currFolder) return [undefined, []];
+
+		const crumbs = [];
+		let parentId: string | undefined = currFolder.parent;
+		while (parentId) {
+			const parent: IMailFolder|undefined = _findFolderById(parentId, folders);
+			if (parent)	{
+				crumbs.unshift(parent);
+				parentId = parent.parent;
+			}
+			else {
+				parentId = undefined;
+			}
+		}
+		return [currFolder, crumbs];
 	}
 }
