@@ -17,10 +17,10 @@ import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp
 import { MailOutlined } from '@material-ui/icons';
 import { MailSyncService } from './sync/MailSyncService';
 import { MailService } from './mail/MailService';
-import MailListView from './ui/MailListView';
-import MailComposeView from './ui/MailComposeView';
-import MailView from './ui/MailView';
+// import MailComposeView from './ui/MailComposeView';
+// import MailView from './ui/MailView';
 import { schemaVersion, upgradeFn } from './idb/MailIdb';
+import MailMainView, { ROUTE as MainRoute } from './ui/MailMainView';
 
 export default function app(): void {
 	setUpgradeFcn(schemaVersion, upgradeFn);
@@ -28,9 +28,9 @@ export default function app(): void {
 	const syncSrvc = new MailSyncService();
 	const mailSrvc = new MailService(syncSrvc);
 
-	registerRoute('/mail/folder/:path', MailListView, {});
-	registerRoute('/mail/compose', MailComposeView, {});
-	registerRoute('/mail/view/:id', MailView, {});
+	registerRoute(MainRoute, MailMainView, { mailSrvc });
+	// registerRoute('/mail/compose', MailComposeView, {});
+	// registerRoute('/mail/view/:id', MailView, {});
 
 	addMainMenuItem(
 		<MailOutlined />,
