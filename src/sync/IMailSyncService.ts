@@ -9,7 +9,15 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { BehaviorSubject } from 'rxjs';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+
 export interface IMailSyncService {
+	folders: BehaviorSubject<Array<IMailFolder>>;
+}
+
+export interface IMailFolder extends IFolderSchmV1 {
+	children: Array<IMailFolder>;
 }
 
 export interface ISyncMailItemData {

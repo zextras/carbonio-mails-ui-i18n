@@ -10,8 +10,8 @@
  */
 
 import { IDBPDatabase, IDBPTransaction } from 'idb';
-import { IMailIdbSchema } from './IMailSchema';
 import { createFolderIdb } from '@zextras/zapp-shell/utils';
+import { IMailIdbSchema } from './IMailSchema';
 
 export const schemaVersion = 1;
 

@@ -10,13 +10,23 @@
  */
 
 import React, { FC } from 'react';
+import { useRouteMatch, Redirect } from 'react-router-dom';
 
-interface IMailListViewProps {
-}
+interface IMailListViewProps {}
 
 const MailListView: FC<IMailListViewProps> = () => {
+	const match = useRouteMatch<{ path: string }>('/mail/folder/:path');
+	if (match && match.params && match.params.path) {
+		return (
+			<div>
+				Hello mail
+			</div>
+		);
+	}
 	return (
-		<div>Hello mail</div>
+		<Redirect
+			to="/"
+		/>
 	);
 };
 export default MailListView;
