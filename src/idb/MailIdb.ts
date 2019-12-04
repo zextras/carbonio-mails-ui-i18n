@@ -19,6 +19,7 @@ function createDb(db: IDBPDatabase<IMailIdbSchema>): void {
 	const mailsStore = db.createObjectStore('mails', { keyPath: 'id' });
 	mailsStore.createIndex('folder', 'folder', { unique: false });
 	mailsStore.createIndex('conversation', 'conversationId', { unique: false });
+	const conversationsStore = db.createObjectStore('conversations', { keyPath: 'id' });
 	createFolderIdb(1, db);
 }
 

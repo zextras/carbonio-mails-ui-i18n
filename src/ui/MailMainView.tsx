@@ -13,27 +13,34 @@ import React, { FC } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { IMailService } from '../mail/IMailService';
 import MailFolderListView from './MailFolderListView';
-import MailServiceContextProvider from '../mail/MailServiceContextProvider';
-
-interface IMailListViewProps {
-	mailSrvc: IMailService;
-}
+import { IMailSyncService } from '../sync/IMailSyncService';
+import MailServicesContextProvider from '../context/MailServicesContextProvider';
 
 export const ROUTE = '/mail/folder/:path*';
 
-const MailMainView: FC<IMailListViewProps> = ({ mailSrvc }) => {
+interface IMailListViewProps {
+	mailSrvc: IMailService;
+	syncSrvc: IMailSyncService;
+}
+
+const MailMainView: FC<IMailListViewProps> = ({ mailSrvc, syncSrvc }) => {
 	const { path } = useParams<{ path: string }>();
 
 	if (path) {
 		return (
-			<MailServiceContextProvider mailSrvc={mailSrvc} path={decodeURI(path)}>
-				<MailFolderListView />
-			</MailServiceContextProvider>
+			<MailServicesContextProvider
+				mailSrvc={mailSrvc}
+				syncSrvc={syncSrvc}
+			>
+				<MailFolderListView
+					path={path}
+				/>
+			</MailServicesContextProvider>
 		);
 	}
 	return (
 		<Redirect
-			to="/"
+			to="/mail/folder/Inbox"
 		/>
 	);
 };

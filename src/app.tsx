@@ -28,7 +28,7 @@ export default function app(): void {
 	const syncSrvc = new MailSyncService();
 	const mailSrvc = new MailService(syncSrvc);
 
-	registerRoute(MainRoute, MailMainView, { mailSrvc });
+	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });
 	// registerRoute('/mail/compose', MailComposeView, {});
 	// registerRoute('/mail/view/:id', MailView, {});
 

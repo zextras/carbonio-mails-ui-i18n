@@ -30,10 +30,11 @@
     "@types/react": "16.9.9",
     "@types/react-dom": "16.9.2",
     "@types/react-router-dom": "5.1.0",
+    "@types/react-virtualized": "9.21.5",
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
     "@zextras/zapp-cli": "0.0.11",
-    "@zextras/zapp-shell": "0.0.19",
+    "@zextras/zapp-shell": "0.0.22",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",
     "babel-preset-flow": "6.23.0",
@@ -56,6 +57,7 @@
   "dependencies": {
     "@babel/preset-typescript": "7.6.0",
     "@testing-library/dom": "6.7.0",
+    "clsx": "1.0.4",
     "css-loader": "3.2.0",
     "idb": "4.0.5",
     "less-loader": "5.0.0",
@@ -65,6 +67,7 @@
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-hot-loader": "4.12.15",
+    "react-virtualized": "9.21.2",
     "rxjs": "6.5.3",
     "sass-loader": "8.0.0",
     "style-loader": "1.0.0"

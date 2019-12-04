@@ -31,6 +31,12 @@ export interface IMailIdbSchema extends IIDBFolderSchmV1 {
 			conversation: string;
 		};
 	};
+	conversations: {
+		key: string;
+		value: IConvSchm;
+		indexes: {
+		};
+	};
 }
 
 export interface IMailSchm {
@@ -47,6 +53,18 @@ export interface IMailSchm {
 	attachment: boolean;
 	flagged: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
+}
+
+export interface IConvSchm {
+	id: string;
+	contacts: Array<IMailContactSchm>;
+	messages: Array<string>;
+	date: number;
+	subject: string;
+	fragment: string;
+	msgCount: number;
+	unreadMsgCount: number;
+	read: boolean;
 }
 
 export interface IMailPartSchm {

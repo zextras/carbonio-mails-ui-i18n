@@ -15,7 +15,7 @@ import { useRouteMatch } from 'react-router';
 interface IMailViewProps {
 }
 
-const MailView: FC<IMailViewProps> = () => {
+const MailView: FC<IMailViewProps> = (_) => {
 	// let { id } = useRouteMatch<{id: string}>();
 
 	return (

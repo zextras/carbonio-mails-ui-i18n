@@ -12,8 +12,10 @@
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
 import { IMailFolder } from '../sync/IMailSyncService';
+import { IConvSchm } from '../idb/IMailSchema';
 
 export interface IMailService {
-	mainMenuChildren: BehaviorSubject<Array<IMainSubMenuItemData>>
+	mainMenuChildren: BehaviorSubject<Array<IMainSubMenuItemData>>;
 	getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>];
+	folderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
 }

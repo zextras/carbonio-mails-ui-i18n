@@ -9,48 +9,132 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, ReactElement, useContext } from 'react';
-import { Breadcrumbs, Typography } from '@material-ui/core';
+import React, {
+	FC,
+	ReactElement,
+	useContext,
+	useEffect,
+	useRef,
+	useState
+} from 'react';
+import {
+	Breadcrumbs,
+	createStyles,
+	List,
+	makeStyles,
+	Theme,
+	Typography
+} from '@material-ui/core';
 import { Link as LinkRouter } from 'react-router-dom';
-import MailServiceContext from '../mail/MailServiceContext';
 import { reduce } from 'lodash';
+import { Subscription } from 'rxjs';
 import { IMailFolder } from '../sync/IMailSyncService';
+import MailListViewItem from './MailListViewItem';
+import { IConvSchm } from '../idb/IMailSchema';
+import { IMailServicesContext } from '../context/IMailServicesContext';
+import MailServicesContext from '../context/MailServicesContext';
 
-interface IMailFolderListViewProps {}
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		root: {
+			width: '100%',
+			overflow: 'auto',
+			maxHeight: '100%',
+			backgroundColor: theme.palette.background.paper,
+		},
+		inline: {
+			display: 'inline',
+		},
+		gridList: {
+			width: 500,
+			height: 450,
+		},
+	}));
 
-const MailFolderListView: FC<IMailFolderListViewProps> = ({}) => {
-	const { currentBreadCrumbs, currentFolder } = useContext(MailServiceContext);
+type Sample = [string, number, number, number, number];
+type Data = {
+	id: number;
+	dessert: string;
+	calories: number;
+	fat: number;
+	carbs: number;
+	protein: number;
+};
+
+const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm> }> = ({ conversations }) => {
+	const classes = useStyles();
+	return (
+		<List
+			className={classes.root}
+			// subheader={(
+			// 	<ListSubheader component="div" id="nested-list-subheader">
+			// 	</ListSubheader>
+			// )}
+		>
+			{conversations.map((conv) => (<MailListViewItem key={conv.id} conversation={conv} />))}
+		</List>
+	);
+};
+
+interface IMailFolderListViewProps {
+	path: string;
+}
+
+const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
+	const [[currentFolder, breadcrumbs], setBreadCrumbsAndCurrentFolder] = useState<[IMailFolder|undefined, Array<IMailFolder>]>([undefined, []]);
+	const [conversations, setConversations] = useState<Array<IConvSchm>>([]);
+	const ref = useRef<Subscription>();
+	const { syncSrvc, mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
+
+	useEffect(() => {
+		if (currentFolder && syncSrvc) {
+			ref.current = syncSrvc.getFolderContent(currentFolder.path).subscribe(
+				(c) => setConversations(c)
+			);
+		}
+		return () => {
+			if (ref.current) ref.current.unsubscribe();
+		};
+	}, [currentFolder, syncSrvc]);
+
+	useEffect(
+		() => {
+			if (mailSrvc) {
+				setBreadCrumbsAndCurrentFolder(
+					mailSrvc.getFolderBreadcrumbs(`/${path}`)
+				);
+			}
+		},
+		[path, mailSrvc]
+	);
 
 	const breadCrumbs = reduce<IMailFolder, Array<ReactElement>>(
-		currentBreadCrumbs,
-		(tmpBreadCrumbs, f) => {
-			return [...tmpBreadCrumbs, (
-				<LinkRouter color="inherit" to={ f.path } key={`folder-${f.id}`}>
-					{ f.name }
-				</LinkRouter>
-				)
-			];
-		},
+		breadcrumbs,
+		(tmpBreadCrumbs, f) => [...tmpBreadCrumbs, (
+			<LinkRouter color="inherit" to={`/mail/folder${f.path}`} key={`folder-${f.id}`}>
+				{ f.name }
+			</LinkRouter>
+		)],
 		[]
 	);
-	if (currentFolder) {
-		breadCrumbs.push(
-			<Typography color="textPrimary" key={currentFolder.path}>
-				{ currentFolder.name }
-			</Typography>
-		);
-	}
+
+	if (!currentFolder) return null;
+
+	breadCrumbs.push(
+		<Typography color="textPrimary" key={currentFolder.path}>
+			{ currentFolder.name }
+		</Typography>
+	);
 
 	return (
-		<div>
-			{ breadCrumbs.length > 0 ?
-				<Breadcrumbs aria-label="breadcrumb">
-					{	breadCrumbs }
-				</Breadcrumbs>
-				:
-				null
-			}
-		</div>
+		<>
+			<Breadcrumbs aria-label="breadcrumb">
+				{	breadCrumbs }
+			</Breadcrumbs>
+			<InternalMailFolderListView
+				conversations={conversations}
+			/>
+		</>
 	);
 };
 export default MailFolderListView;

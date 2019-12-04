@@ -9,11 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IMailFolder } from '../sync/IMailSyncService';
+import { IMailService } from '../mail/IMailService';
+import { IMailSyncService } from '../sync/IMailSyncService';
 
-export interface IMailServiceContext {
-	setCurrentFolder: (path: string) => void;
-	currentPath?: string;
-	currentBreadCrumbs: Array<IMailFolder>;
-	currentFolder?: IMailFolder;
+export interface IMailServicesContext {
+	mailSrvc?: IMailService;
+	syncSrvc?: IMailSyncService;
 }
