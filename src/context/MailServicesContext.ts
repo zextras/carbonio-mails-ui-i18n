@@ -9,11 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IMailServiceContext } from './IMailServiceContext';
-import { createContext, Context } from 'react';
+import { createContext } from 'react';
+import { IMailServicesContext } from './IMailServicesContext';
 
-const context: Context<IMailServiceContext> = createContext<IMailServiceContext>({
-	setCurrentFolder: (path: string) => undefined,
-	currentBreadCrumbs: []
-});
-export default context;
+export default createContext<IMailServicesContext>({});

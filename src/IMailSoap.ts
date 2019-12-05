@@ -17,6 +17,7 @@ import {
 	reduce
 } from 'lodash';
 import {
+	IConvSchm,
 	IMailContactSchm,
 	IMailPartSchm,
 	IMailSchm,
@@ -75,6 +76,28 @@ export interface IMsgPartObj {
 	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;
+}
+
+export interface IBaseMsgItemObj {
+	d: string; // contains a number
+	f: string;
+	id: string;
+	l: string;
+	s: string; // contains a number
+}
+
+export interface IConvObj {
+	d: number;
+	l: string;
+	e: Array<IMsgContactObj>;
+	f: string;
+	fr: string;
+	id: string;
+	m: Array<IBaseMsgItemObj>;
+	n: number;
+	sf: string; // contains a number
+	su: string;
+	u: number;
 }
 
 function contactTypeToEnum(t: 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf'): MailContactType {
@@ -180,5 +203,22 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 		read: !(/u/.test(m.f || '')),
 		attachment: /a/.test(m.f || ''),
 		flagged: /f/.test(m.f || '')
+	};
+};
+
+export const normalizeConversation = (c: IConvObj): IConvSchm => {
+	return {
+		contacts: normalizeMailContacts(c.e || []),
+		date: c.d,
+		fragment: c.fr,
+		subject: c.su,
+		read: !(/u/.test(c.f || '')),
+		id: c.id,
+		msgCount: c.n,
+		unreadMsgCount: c.u,
+		messages: map(
+			c.m,
+			(m) => m.id
+		)
 	};
 };

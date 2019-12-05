@@ -24,11 +24,15 @@ import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterServ
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
 import { IMailService } from './IMailService';
+import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 
 function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFolder|undefined {
 	for (let i = 0; i < folders.length; i += 1) {
 		if (folders[i].path === path) return folders[i];
-		if (folders[i].children) return _findFolderByPath(path, folders[i].children);
+		if (folders[i].children) {
+			const child = _findFolderByPath(path, folders[i].children);
+			if (child) return child;
+		}
 	}
 	return undefined;
 }
@@ -36,7 +40,10 @@ function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFold
 function _findFolderById(id: string, folders: Array<IMailFolder>): IMailFolder|undefined {
 	for (let i = 0; i < folders.length; i += 1) {
 		if (folders[i].id === id) return folders[i];
-		if (folders[i].children) return _findFolderById(id, folders[i].children);
+		if (folders[i].children) {
+			const child = _findFolderById(id, folders[i].children);
+			if (child) return child;
+		}
 	}
 	return undefined;
 }
@@ -109,5 +116,9 @@ export class MailService implements IMailService {
 			}
 		}
 		return [currFolder, crumbs];
+	}
+
+	public folderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
+		return this._syncSrvc.getFolderContent(path);
 	}
 }

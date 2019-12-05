@@ -11,9 +11,12 @@
 
 import { BehaviorSubject } from 'rxjs';
 import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 
 export interface IMailSyncService {
 	folders: BehaviorSubject<Array<IMailFolder>>;
+	getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
+	getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>>;
 }
 
 export interface IMailFolder extends IFolderSchmV1 {

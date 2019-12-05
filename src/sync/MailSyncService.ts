@@ -23,7 +23,8 @@ import {
 	flattenDeep,
 	filter as loFilter,
 	reduce,
-	forOwn
+	forOwn,
+	sortBy
 } from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
@@ -39,8 +40,8 @@ import {
 import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { normalizeFolder } from '@zextras/zapp-shell/utils';
 import { BehaviorSubject } from 'rxjs';
-import { IGetMsgReq, IGetMsgResp, normalizeMessage } from '../IMailSoap';
-import { IMailIdbSchema } from '../idb/IMailSchema';
+import { IConvObj, IGetMsgReq, IGetMsgResp, normalizeConversation, normalizeMessage } from '../IMailSoap';
+import { IConvSchm, IMailIdbSchema, IMailSchm } from '../idb/IMailSchema';
 import { IMailFolder, IMailSyncService, ISyncMailItemData } from './IMailSyncService';
 import {
 	IMailFolderDeletedEv,
@@ -48,10 +49,13 @@ import {
 	IMailItemDeletedEv,
 	IMailItemUpdatedEv
 } from '../IMailFCevents';
+import { ISearchConvResp, ISearchReq } from './IMailSoap';
 
 export class MailSyncService implements IMailSyncService {
 
 	public folders: BehaviorSubject<Array<IMailFolder>> = new BehaviorSubject<Array<IMailFolder>>([]);
+
+	private _folderContentCache: {[path: string]: BehaviorSubject<Array<IConvSchm>>} = {};
 
 	constructor() {
 		registerNotificationParser('m', this._notificationParser);
@@ -65,8 +69,6 @@ export class MailSyncService implements IMailSyncService {
 		fc.pipe(
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
-
-		this.folders.subscribe(console.log);
 	}
 
 	private _notificationParser: INotificationParser<ISyncMailItemData> = async (type, mod) => {
@@ -231,5 +233,82 @@ export class MailSyncService implements IMailSyncService {
 				(f) => f.parent === '1'
 			)
 		);
+	}
+
+	public getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
+		if (!this._folderContentCache[path]) {
+			this._folderContentCache[path] = new BehaviorSubject<Array<IConvSchm>>([]);
+			this._fetchFolderConversationsFromServer(path).then(
+				(convs) => this._storeConversationsIntoIdb(convs).then(
+					() => this._fetchFolderConversationsFromIdb(path).then(
+						(r2) => this._folderContentCache[path].next(r2)
+					)
+				)
+			);
+		}
+		return this._folderContentCache[path];
+	}
+
+	private async _fetchFolderConversationsFromServer(path: string): Promise<Array<IConvSchm>> {
+		const resp = await sendSOAPRequest<ISearchReq, ISearchConvResp>('Search', {
+			query: `in:"${path}"`,
+			limit: 100,
+			fullConversation: 1,
+			types: 'conversation'
+		}, 'urn:zimbraMail');
+		return reduce<IConvObj, Array<IConvSchm>>(
+			resp.c,
+			(res, conv) => {
+				const normConv = normalizeConversation(conv);
+				return [...res, normConv];
+			},
+			[]
+		);
+	}
+
+	private async _fetchFolderConversationsFromIdb(path: string): Promise<Array<IConvSchm>> {
+		const db = await openDb<IMailIdbSchema>();
+		const folder = await db.getFromIndex('folders', 'path', path);
+		if (folder) {
+			const conversations = await db.getAllFromIndex('conversations', 'folder', folder.id);
+			return sortBy(
+				conversations,
+				['date']
+			);
+		}
+		return [];
+	}
+
+	private async _storeConversationsIntoIdb(convs: Array<IConvSchm>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const tx = db.transaction('conversations', 'readwrite');
+		forEach(
+			convs,
+			(c) => tx.store.put(c)
+		);
+		await tx.done;
+	}
+
+	public getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>> {
+		// TODO: Actively update the subject on notification handled
+		const subject = new BehaviorSubject<Array<IMailSchm>>([]);
+		openDb<IMailIdbSchema>().then(
+			async (db) => {
+				const msgs = await db.getAllFromIndex('mails', 'conversation', convId);
+				subject.next(msgs);
+				const conv = await db.get('conversations', convId);
+				if (conv) {
+					await Promise.all(
+						forEach(
+							conv.messages,
+							(mid) => this._fetchMsg(mid)
+						)
+					);
+					const msgs2 = await db.getAllFromIndex('mails', 'conversation', convId);
+					subject.next(msgs2);
+				}
+			}
+		);
+		return subject;
 	}
 }
