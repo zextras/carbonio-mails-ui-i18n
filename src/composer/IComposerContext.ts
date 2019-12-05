@@ -8,6 +8,15 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+export interface IComposerInputs {
+	to: string;
+	cc: string;
+	subject: string;
+	message: string;
+}
 
-declare module '*.less';
-declare module '*.properties';
+export interface IComposerContext extends IComposerInputs {
+	setField: (field: 'to' | 'cc' | 'subject' | 'message', text: string) => void;
+	send: () => void;
+	save: () => void;
+}

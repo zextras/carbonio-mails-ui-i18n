@@ -20,14 +20,14 @@ interface IMailServiceContextProvider {
 }
 
 const MailServiceContextProvider: FC<IMailServiceContextProvider> = ({ children, path, mailSrvc }) => {
-	const [ currentPath, setCurrentPath ] = useState<string>(path);
-	const [ [ currentFolder, breadcrumbs], setBreadCrumbs ] = useState<[IMailFolder|undefined, Array<IMailFolder>]>([undefined, []]);
+	const [currentPath, setCurrentPath] = useState<string>(path);
+	const [[currentFolder, breadcrumbs], setBreadCrumbs] = useState<[IMailFolder|undefined, Array<IMailFolder>]>([undefined, []]);
 
-	const onSetCurrentPath = (path: string) => {
-		setCurrentPath(`/${path}`);
+	const onSetCurrentPath = (nextPath: string): void => {
+		setCurrentPath(`/${nextPath}`);
 		setBreadCrumbs(
-			mailSrvc.getFolderBreadcrumbs(`/${path}`)
-		)
+			mailSrvc.getFolderBreadcrumbs(`/${nextPath}`)
+		);
 	};
 
 	useEffect(
@@ -43,7 +43,7 @@ const MailServiceContextProvider: FC<IMailServiceContextProvider> = ({ children,
 			value={{
 				setCurrentFolder: (path) => onSetCurrentPath(path),
 				currentPath,
-				currentFolder: currentFolder,
+				currentFolder,
 				currentBreadCrumbs: breadcrumbs
 			}}
 		>
