@@ -10,8 +10,10 @@
  */
 
 import React, { FC } from 'react';
+import { find, truncate } from 'lodash';
 import {
 	Avatar,
+	Paper,
 	createStyles,
 	Grid,
 	GridListTile, ListItem,
@@ -19,30 +21,75 @@ import {
 	Theme,
 	Typography
 } from '@material-ui/core';
-import { RadioButtonUnchecked } from '@material-ui/icons';
-import { IConvSchm } from '../idb/IMailSchema';
+import { RadioButtonUnchecked, RadioButtonChecked } from '@material-ui/icons';
+import { IConvSchm, IMailContactSchm } from '../idb/IMailSchema';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		root: {
+		listItemRoot: {
+			borderRadius: 0,
 			width: '100%',
 			backgroundColor: theme.palette.background.paper,
+			height: 70,
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'flex-start',
+			alignItems: 'center'
 		},
 		inline: {
 			display: 'inline',
 		},
-	}),
-);
+		avatarRand: {
+			margin: theme.spacing(1.5),
+			color: '#ffffff',
+			backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 75%, 50%)`
+		},
+		iconsColumn: {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'flex-start'
+		}
+	}));
 
 interface IMailListViewItemProps {
 	conversation: IConvSchm;
 }
 
+const capitals = (contacts: IMailContactSchm[]): string => {
+	const addr = find(contacts, (c: IMailContactSchm): boolean => c.type === 'from');
+	return truncate(addr.address, { length: 2, omission: '' });
+};
+
 const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
+	const classes = useStyles();
 	return (
-		<ListItem>
-			{conversation.fragment}
-		</ListItem>
+		<Paper
+			className={classes.listItemRoot}
+		>
+			<Avatar
+				className={classes.avatarRand}
+				style={{ backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 50%, 50%)` }}
+			>
+				{capitals(conversation.contacts)}
+			</Avatar>
+			<Grid className={classes.iconsColumn}>
+				{ conversation.read
+					? <RadioButtonUnchecked color="primary" />
+					: <RadioButtonChecked color="primary" />}
+			</Grid>
+			<Grid className={classes.textColumn}>
+				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
+					{find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from').address}
+				</Typography>
+				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
+					{conversation.subject}
+				</Typography>
+				<Typography variant="subtitle2">
+					{truncate(conversation.fragment, { length: 30, omission: '...' })}
+				</Typography>
+			</Grid>
+		</Paper>
 	);
 
 	// {/*<Grid container spacing={2} direction="row">*/}

@@ -20,15 +20,12 @@ import {
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
 import {
 	map,
-	curry,
-	find as loFind,
 	forEach,
 	flattenDeep,
 	filter as loFilter,
 	reduce,
 	forOwn,
 	sortBy,
-	split
 } from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';

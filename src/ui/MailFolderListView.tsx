@@ -20,7 +20,7 @@ import React, {
 import {
 	Breadcrumbs,
 	createStyles,
-	List,
+	Grid,
 	makeStyles,
 	Theme,
 	Typography
@@ -36,7 +36,9 @@ import MailServicesContext from '../context/MailServicesContext';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		root: {
+		listRroot: {
+			display: 'flex',
+			flexDirection: 'column',
 			width: '100%',
 			overflow: 'auto',
 			maxHeight: '100%',
@@ -51,28 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 	}));
 
-type Sample = [string, number, number, number, number];
-type Data = {
-	id: number;
-	dessert: string;
-	calories: number;
-	fat: number;
-	carbs: number;
-	protein: number;
-};
-
 const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm> }> = ({ conversations }) => {
 	const classes = useStyles();
 	return (
-		<List
-			className={classes.root}
-			// subheader={(
-			// 	<ListSubheader component="div" id="nested-list-subheader">
-			// 	</ListSubheader>
-			// )}
-		>
+		<Grid className={classes.listRoot}>
 			{conversations.map((conv) => (<MailListViewItem key={conv.id} conversation={conv} />))}
-		</List>
+		</Grid>
 	);
 };
 
