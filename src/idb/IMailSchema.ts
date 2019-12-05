@@ -34,8 +34,6 @@ export interface IMailIdbSchema extends IIDBFolderSchmV1 {
 	conversations: {
 		key: string;
 		value: IConvSchm;
-		indexes: {
-		};
 	};
 }
 
@@ -60,6 +58,7 @@ export interface IConvSchm {
 	contacts: Array<IMailContactSchm>;
 	messages: Array<string>;
 	date: number;
+	folder: Array<string>;
 	subject: string;
 	fragment: string;
 	msgCount: number;

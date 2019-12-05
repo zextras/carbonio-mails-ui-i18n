@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2019 ZeXtras
@@ -19,12 +20,15 @@ import {
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
 import {
 	map,
+	curry,
+	find as loFind,
 	forEach,
 	flattenDeep,
 	filter as loFilter,
 	reduce,
 	forOwn,
-	sortBy
+	sortBy,
+	split
 } from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
@@ -40,7 +44,13 @@ import {
 import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { normalizeFolder } from '@zextras/zapp-shell/utils';
 import { BehaviorSubject } from 'rxjs';
-import { IConvObj, IGetMsgReq, IGetMsgResp, normalizeConversation, normalizeMessage } from '../IMailSoap';
+import {
+	IConvObj,
+	IGetMsgReq,
+	IGetMsgResp,
+	normalizeConversation,
+	normalizeMessage
+} from '../IMailSoap';
 import { IConvSchm, IMailIdbSchema, IMailSchm } from '../idb/IMailSchema';
 import { IMailFolder, IMailSyncService, ISyncMailItemData } from './IMailSyncService';
 import {
@@ -270,7 +280,14 @@ export class MailSyncService implements IMailSyncService {
 		const db = await openDb<IMailIdbSchema>();
 		const folder = await db.getFromIndex('folders', 'path', path);
 		if (folder) {
-			const conversations = await db.getAllFromIndex('conversations', 'folder', folder.id);
+			// getAllKeys returns primary keys, querying by array index doesn't have a lot of support yet.
+			const allConversations = await db.getAll('conversations');
+			const conversations = loFilter(
+				allConversations,
+				// I know it's ugly, but it's the only solution that doesn't break in mysterious ways
+				(conv: IConvSchm): boolean =>
+					loFilter(conv.folder, (id: string): boolean => id === folder.id).length > 0
+			);
 			return sortBy(
 				conversations,
 				['date']

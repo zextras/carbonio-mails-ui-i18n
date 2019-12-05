@@ -14,7 +14,8 @@ import {
 	map,
 	flattenDeep,
 	trim,
-	reduce
+	reduce,
+	uniq
 } from 'lodash';
 import {
 	IConvSchm,
@@ -206,19 +207,18 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 	};
 };
 
-export const normalizeConversation = (c: IConvObj): IConvSchm => {
-	return {
-		contacts: normalizeMailContacts(c.e || []),
-		date: c.d,
-		fragment: c.fr,
-		subject: c.su,
-		read: !(/u/.test(c.f || '')),
-		id: c.id,
-		msgCount: c.n,
-		unreadMsgCount: c.u,
-		messages: map(
-			c.m,
-			(m) => m.id
-		)
-	};
-};
+export const normalizeConversation = (c: IConvObj): IConvSchm => ({
+	contacts: normalizeMailContacts(c.e || []),
+	date: c.d,
+	fragment: c.fr,
+	subject: c.su,
+	read: !(/u/.test(c.f || '')),
+	id: c.id,
+	msgCount: c.n,
+	unreadMsgCount: c.u,
+	folder: uniq(map(c.m, (m) => m.l)),
+	messages: map(
+		c.m,
+		(m) => m.id
+	)
+});
