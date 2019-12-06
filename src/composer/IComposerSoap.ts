@@ -12,15 +12,15 @@ export interface ISaveDraftRequest {
 	m: {
 		e: Array<IMailContact>;
 		mp: Array<IDraftMP>;
+		id?: string;
+		su: string;
 	};
-	id?: string;
-	su: string;
 }
 
 export interface IMailContact {
-	t:	't' // to
-		| 'c' // cc
-		| 'f';// from
+	t: 't' // to
+	| 'c' // cc
+	| 'f';// from
 	a: string;
 }
 

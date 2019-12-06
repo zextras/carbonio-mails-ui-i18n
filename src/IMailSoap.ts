@@ -213,6 +213,8 @@ export const normalizeConversation = (c: IConvObj): IConvSchm => ({
 	fragment: c.fr,
 	subject: c.su,
 	read: !(/u/.test(c.f || '')),
+	flagged: /f/.test(c.f || ''),
+	urgent: /!/.test(c.f || ''),
 	id: c.id,
 	msgCount: c.n,
 	unreadMsgCount: c.u,

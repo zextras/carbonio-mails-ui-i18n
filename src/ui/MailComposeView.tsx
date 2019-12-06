@@ -101,7 +101,7 @@ const MailComposeView: FC<{}> = () => {
 					type="email"
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent): void => setField('to', ev.target.value)}
+					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('to', ev.target.value)}
 				/>
 				<TextField
 					inputProps={{
@@ -110,7 +110,7 @@ const MailComposeView: FC<{}> = () => {
 					label={t('mail.composer.cc', 'Cc:')}
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent): void => setField('cc', ev.target.value)}
+					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('cc', ev.target.value)}
 				/>
 				<TextField
 					inputProps={{
@@ -119,13 +119,13 @@ const MailComposeView: FC<{}> = () => {
 					label={t('mail.composer.subject', 'Subject:')}
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent): void => setField('subject', ev.target.value)}
+					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('subject', ev.target.value)}
 				/>
 				<TextField
 					className={classes.bodyTextBox}
 					label={t('mail.composer.textarea.label', 'Write here your message')}
 					multiline
-					onChange={(ev: ChangeEvent): void => setField('message', ev.target.value)}
+					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('message', ev.target.value)}
 				/>
 				<Divider />
 			</Paper>

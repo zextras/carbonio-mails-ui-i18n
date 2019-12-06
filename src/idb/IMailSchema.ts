@@ -34,6 +34,9 @@ export interface IMailIdbSchema extends IIDBFolderSchmV1 {
 	conversations: {
 		key: string;
 		value: IConvSchm;
+		indexes: {
+			folder: string;
+		};
 	};
 }
 
@@ -64,6 +67,8 @@ export interface IConvSchm {
 	msgCount: number;
 	unreadMsgCount: number;
 	read: boolean;
+	flagged: boolean;
+	urgent: boolean;
 }
 
 export interface IMailPartSchm {

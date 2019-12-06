@@ -277,14 +277,7 @@ export class MailSyncService implements IMailSyncService {
 		const db = await openDb<IMailIdbSchema>();
 		const folder = await db.getFromIndex('folders', 'path', path);
 		if (folder) {
-			// getAllKeys returns primary keys, querying by array index doesn't have a lot of support yet.
-			const allConversations = await db.getAll('conversations');
-			const conversations = loFilter(
-				allConversations,
-				// I know it's ugly, but it's the only solution that doesn't break in mysterious ways
-				(conv: IConvSchm): boolean =>
-					loFilter(conv.folder, (id: string): boolean => id === folder.id).length > 0
-			);
+			const conversations = await db.transaction('conversations', 'readonly').store.index('folder').getAll(folder.id);
 			return sortBy(
 				conversations,
 				['date']

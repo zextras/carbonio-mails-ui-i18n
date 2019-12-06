@@ -21,7 +21,7 @@ import {
 	Theme,
 	Typography
 } from '@material-ui/core';
-import { RadioButtonUnchecked, RadioButtonChecked } from '@material-ui/icons';
+import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward } from '@material-ui/icons';
 import { IConvSchm, IMailContactSchm } from '../idb/IMailSchema';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,7 +44,12 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: '#ffffff',
 			backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 75%, 50%)`
 		},
+		textColumn: {
+		},
 		iconsColumn: {
+			height: '100%',
+			padding: `${theme.spacing(0.5)}px 0`,
+			marginRight: theme.spacing(1),
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center',
@@ -56,13 +61,10 @@ interface IMailListViewItemProps {
 	conversation: IConvSchm;
 }
 
-const capitals = (contacts: IMailContactSchm[]): string => {
-	const addr = find(contacts, (c: IMailContactSchm): boolean => c.type === 'from');
-	return truncate(addr.address, { length: 2, omission: '' });
-};
-
 const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 	const classes = useStyles();
+	const fromContact: IMailContactSchm | undefined = find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from');
+
 	return (
 		<Paper
 			className={classes.listItemRoot}
@@ -71,16 +73,17 @@ const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 				className={classes.avatarRand}
 				style={{ backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 50%, 50%)` }}
 			>
-				{capitals(conversation.contacts)}
+				{fromContact ? truncate(fromContact.address, { length: 2, omission: '' }) : '?'}
 			</Avatar>
 			<Grid className={classes.iconsColumn}>
 				{ conversation.read
 					? <RadioButtonUnchecked color="primary" />
 					: <RadioButtonChecked color="primary" />}
+				{ conversation.urgent && <ArrowUpward color="error" /> }
 			</Grid>
 			<Grid className={classes.textColumn}>
 				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
-					{find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from').address}
+					{fromContact && fromContact.address}
 				</Typography>
 				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
 					{conversation.subject}

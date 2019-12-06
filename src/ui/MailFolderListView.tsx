@@ -51,6 +51,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: 500,
 			height: 450,
 		},
+		listRoot: {
+		}
 	}));
 
 const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm> }> = ({ conversations }) => {

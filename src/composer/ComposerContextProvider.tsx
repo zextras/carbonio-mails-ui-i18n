@@ -15,7 +15,7 @@ import { map } from 'lodash';
 
 import ComposerContext from './ComposerContext';
 import { IComposerInputs } from './IComposerContext';
-import { ISaveDraftRequest, ISaveDraftResponse } from './IComposerSoap';
+import { ISaveDraftRequest, ISaveDraftResponse, IMailContact } from './IComposerSoap';
 
 const ComposerContextProvider: FC<{}> = ({ children }) => {
 	const [contextValues, setContextValues] = useState<IComposerInputs>(
@@ -28,7 +28,7 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 	);
 	const [id, setId] = useState<string>();
 
-	const setField = (field: 'to' | 'cc' | 'subject' | 'text', text: string): void => {
+	const setField = (field: 'to' | 'cc' | 'subject' | 'message', text: string): void => {
 		const newValues: IComposerInputs = { ...contextValues };
 		switch (field) {
 			case 'to':
@@ -63,13 +63,13 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 						t: 't',
 						a: contextValues.to
 					},
-					...map(
-						{ ...contextValues.cc.split(' ') },
-						(str: string): object => ({
+					...(map(
+						contextValues.cc.split(' '),
+						(str: string): IMailContact => ({
 							a: str,
 							t: 'c'
 						})
-					)
+					))
 				],
 				mp: [
 					{
@@ -80,7 +80,7 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 					}
 				]
 			},
-		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => setId(r.m[0].id));
+		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => setId(r.m.id));
 	};
 
 	const send = (): void => {
@@ -99,7 +99,7 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 					},
 					...map(
 						{ ...contextValues.cc.split(' ') },
-						(str: string): object => ({
+						(str: string): IMailContact => ({
 							a: str,
 							t: 'c'
 						})
