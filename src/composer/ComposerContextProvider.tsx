@@ -18,7 +18,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import ComposerContext from './ComposerContext';
 import { IComposerInputs } from './IComposerContext';
-import { ISaveDraftRequest, ISaveDraftResponse, IMailContact } from './IComposerSoap';
+import { ISaveDraftRequest, ISaveDraftResponse, IMailContact, ISendMailRequest } from './IComposerSoap';
 
 function useObservable<T>(observable: BehaviorSubject<T>): T {
 	const [value, setValue] = useState<T>(observable.value);
@@ -94,13 +94,16 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 					}
 				]
 			},
-		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => setId(r.m.id));
+		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => {
+			console.log(r);
+			setId(r.m[0].id);
+		});
 	};
 
 	const send = (): void => {
-		const resp = sendSOAPRequest<ISaveDraftRequest, ISaveDraftResponse>('SendMsg', {
+		const resp = sendSOAPRequest<ISendMailRequest, ISaveDraftResponse>('SendMsg', {
 			m: {
-				id,
+				did: id,
 				su: contextValues.subject,
 				e: [
 					{
@@ -130,7 +133,6 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 			},
 		}, 'urn:zimbraMail').then();
 	};
-
 	return (
 		<ComposerContext.Provider
 			value={{

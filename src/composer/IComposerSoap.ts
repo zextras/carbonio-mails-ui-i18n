@@ -11,8 +11,17 @@
 export interface ISaveDraftRequest {
 	m: {
 		e: Array<IMailContact>;
-		mp: Array<IDraftMP>;
+		mp: Array<IMailMP>;
 		id?: string;
+		su: string;
+	};
+}
+
+export interface ISendMailRequest {
+	m: {
+		e: Array<IMailContact>;
+		mp: Array<IMailMP>;
+		did?: string;
 		su: string;
 	};
 }
@@ -24,7 +33,7 @@ export interface IMailContact {
 	a: string;
 }
 
-export interface IDraftMP {
+export interface IMailMP {
 	ct: 'text/plain';
 	content: {
 		_content: string;
