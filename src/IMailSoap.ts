@@ -140,7 +140,7 @@ function normalizeMailPartMapFn(v: IMsgPartObj): IMailPartSchm {
 		name: v.part,
 	};
 	if (v.filename) ret.filename = v.filename;
-	if (v.content) ret.filename = v.content;
+	if (v.content) ret.content = v.content;
 	return ret;
 }
 
@@ -165,7 +165,7 @@ function generateBodyPath(mp: Array<IMsgPartObj>): string {
 	const indexes = recursiveBodyPath(mp);
 	const path = reduce(
 		indexes,
-		(partialPath: string, index: number): string => `part[${index}].${partialPath}`,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
 		''
 	);
 	return trim(path, '.');
@@ -203,7 +203,8 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 		contacts,
 		read: !(/u/.test(m.f || '')),
 		attachment: /a/.test(m.f || ''),
-		flagged: /f/.test(m.f || '')
+		flagged: /f/.test(m.f || ''),
+		urgent: /!/.test(m.f || ''),
 	};
 };
 

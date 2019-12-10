@@ -11,6 +11,7 @@
 
 import React, { FC } from 'react';
 import { find, truncate } from 'lodash';
+import { Link as RouterLink, LinkProps as RouterLinkProps, useLocation } from 'react-router-dom';
 import {
 	Avatar,
 	Paper,
@@ -22,7 +23,8 @@ import {
 	Typography
 } from '@material-ui/core';
 import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward } from '@material-ui/icons';
-import { IConvSchm, IMailContactSchm } from '../idb/IMailSchema';
+import { IConvSchm, IMailContactSchm } from '../../idb/IMailSchema';
+import hueFromString from '../../util/hueFromString';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -42,7 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		avatarRand: {
 			margin: theme.spacing(1.5),
 			color: '#ffffff',
-			backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 75%, 50%)`
 		},
 		textColumn: {
 		},
@@ -64,16 +65,16 @@ interface IMailListViewItemProps {
 const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 	const classes = useStyles();
 	const fromContact: IMailContactSchm | undefined = find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from');
-
+	const location = useLocation();
 	return (
 		<Paper
 			className={classes.listItemRoot}
 		>
 			<Avatar
 				className={classes.avatarRand}
-				style={{ backgroundColor: `hsl(${Math.round(Math.random() * 360)}, 50%, 50%)` }}
+				style={{ backgroundColor: fromContact ? `hsl(${hueFromString(fromContact.address)}, 50%, 50%)` : 'hsl(180, 50%, 50%)' }}
 			>
-				{fromContact ? truncate(fromContact.address, { length: 2, omission: '' }) : '?'}
+				{fromContact ? truncate((fromContact.name || fromContact.address), { length: 2, omission: '' }) : '?'}
 			</Avatar>
 			<Grid className={classes.iconsColumn}>
 				{ conversation.read
@@ -83,7 +84,7 @@ const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 			</Grid>
 			<Grid className={classes.textColumn}>
 				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
-					{fromContact && fromContact.address}
+					{fromContact && (fromContact.name || fromContact.address)}
 				</Typography>
 				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
 					{conversation.subject}

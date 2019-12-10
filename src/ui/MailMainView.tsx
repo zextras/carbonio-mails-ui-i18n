@@ -11,10 +11,12 @@
 
 import React, { FC } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
+import { Grid, Hidden } from '@material-ui/core';
 import { IMailService } from '../mail/IMailService';
-import MailFolderListView from './MailFolderListView';
+import MailFolderListView from './folder/MailFolderListView';
 import { IMailSyncService } from '../sync/IMailSyncService';
 import MailServicesContextProvider from '../context/MailServicesContextProvider';
+import EmptyPanel from './folder/EmptyPanel';
 
 export const ROUTE = '/mail/folder/:path*';
 
@@ -32,9 +34,14 @@ const MailMainView: FC<IMailListViewProps> = ({ mailSrvc, syncSrvc }) => {
 				mailSrvc={mailSrvc}
 				syncSrvc={syncSrvc}
 			>
-				<MailFolderListView
-					path={path}
-				/>
+				<Grid container>
+					<MailFolderListView
+						path={path}
+					/>
+					<Hidden smDown>
+						<EmptyPanel path={path} />
+					</Hidden>
+				</Grid>
 			</MailServicesContextProvider>
 		);
 	}

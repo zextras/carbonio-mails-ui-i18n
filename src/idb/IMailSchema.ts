@@ -53,6 +53,7 @@ export interface IMailSchm {
 	size: number;
 	attachment: boolean;
 	flagged: boolean;
+	urgent: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
 }
 

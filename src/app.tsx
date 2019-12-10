@@ -17,27 +17,24 @@ import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp
 import { MailOutlined } from '@material-ui/icons';
 import { MailSyncService } from './sync/MailSyncService';
 import { MailService } from './mail/MailService';
-import MailComposeView from './ui/MailComposeView';
-// import MailView from './ui/MailView';
+import MailComposeView from './ui/compose/MailComposeView';
+import ConversationView from './ui/conversation/MailConversationView';
 import { schemaVersion, upgradeFn } from './idb/MailIdb';
 import MailMainView, { ROUTE as MainRoute } from './ui/MailMainView';
 import ComposerContextProvider from './composer/ComposerContextProvider';
-
-const MailCompose = (): ReactElement => (
-	<ComposerContextProvider>
-		<MailComposeView />
-	</ComposerContextProvider>
-);
+import { IMailSyncService } from './sync/IMailSyncService';
+import { registerTranslations } from './i18n/i18n';
 
 export default function app(): void {
+	registerTranslations();
 	setUpgradeFcn(schemaVersion, upgradeFn);
 	fc.subscribe(console.log);
-	const syncSrvc = new MailSyncService();
+	const syncSrvc: IMailSyncService = new MailSyncService();
 	const mailSrvc = new MailService(syncSrvc);
 
 	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });
-	registerRoute('/mail/compose', MailCompose, {});
-	// registerRoute('/mail/view/:id', MailView, {});
+	registerRoute('/mail/compose', MailComposeView, { mailSrvc, syncSrvc });
+	registerRoute('/mail/view/:id', ConversationView, { syncSrvc, mailSrvc });
 
 	addMainMenuItem(
 		<MailOutlined />,

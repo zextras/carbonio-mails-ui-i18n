@@ -20,15 +20,58 @@ import {
 	TextField,
 	Button,
 	Typography,
-	Grid
+	Grid,
 } from '@material-ui/core';
 import {
-	Create, Close, Send, Save
+	Create,
+	Close,
+	Send,
+	Save
 } from '@material-ui/icons';
+import { useLocation } from 'react-router';
 import clsx from 'clsx';
-import { truncate } from 'lodash';
+import { truncate, startsWith, replace } from 'lodash';
 import { I18nCtxt } from '@zextras/zapp-shell/context';
-import ComposerContext from '../composer/ComposerContext';
+import ComposerContext from '../../composer/ComposerContext';
+import { IMailService } from '../../mail/IMailService';
+import { IMailSyncService } from '../../sync/IMailSyncService';
+import MailServicesContextProvider from '../../context/MailServicesContextProvider';
+import ComposerContextProvider from '../../composer/ComposerContextProvider';
+import MailFolderListView from '../folder/MailFolderListView';
+
+interface IMailComposeViewProps {
+	mailSrvc: IMailService;
+	syncSrvc: IMailSyncService;
+}
+
+const getPath = (location: { state: any }): string => {
+	if (location.state.from) {
+		return location.state.from;
+	}
+	if (location.state.fromPathname && startsWith(location.state.fromPathname, '/mail/folder/')) {
+		return replace(location.state.fromPathname, '/mail/folder/', '');
+	}
+	return 'Drafts';
+}
+
+const MailComposeView: FC<IMailComposeViewProps> = ({ mailSrvc, syncSrvc }) => {
+	const location = useLocation();
+	return (
+		<MailServicesContextProvider
+			mailSrvc={mailSrvc}
+			syncSrvc={syncSrvc}
+		>
+			<ComposerContextProvider>
+				<Grid container>
+					<Hidden smDown>
+						<MailFolderListView path={getPath(location)} />
+					</Hidden>
+					<MailComposer />
+				</Grid>
+			</ComposerContextProvider>
+		</MailServicesContextProvider>
+	);
+};
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -57,8 +100,6 @@ const useStyles = makeStyles((theme: Theme) =>
 				margin: theme.spacing(1)
 			}
 		},
-		bodyTextBox: {
-		},
 		button: {
 			margin: theme.spacing(1.5),
 			marginLeft: 0
@@ -69,7 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-const MailComposeView: FC<{}> = () => {
+const MailComposer: FC<{}> = () => {
 	const { t } = useContext(I18nCtxt);
 	const classes = useStyles();
 	const {
@@ -83,10 +124,10 @@ const MailComposeView: FC<{}> = () => {
 	} = useContext(ComposerContext);
 
 	return (
-		<Grid className={classes.composerContainer}>
+		<Grid item xs={12} md={6} className={classes.composerContainer}>
 			<Paper className={clsx([classes.headerContainer, classes.noRoundCorners])}>
 				<Create />
-				<Typography variant="h6">
+				<Typography>
 					{truncate(subject, { length: 24, separator: ' ' }) || truncate(message, { length: 24, separator: ' ' }) || t('mail.composer.header', 'New Mail')}
 				</Typography>
 				<Close />
@@ -122,7 +163,6 @@ const MailComposeView: FC<{}> = () => {
 					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('subject', ev.target.value)}
 				/>
 				<TextField
-					className={classes.bodyTextBox}
 					label={t('mail.composer.textarea.label', 'Write here your message')}
 					multiline
 					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('message', ev.target.value)}

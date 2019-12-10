@@ -23,43 +23,50 @@ import {
 	Grid,
 	makeStyles,
 	Theme,
-	Typography
+	Typography,
+	Paper
 } from '@material-ui/core';
 import { Link as LinkRouter } from 'react-router-dom';
 import { reduce } from 'lodash';
 import { Subscription } from 'rxjs';
-import { IMailFolder } from '../sync/IMailSyncService';
+import { IMailFolder } from '../../sync/IMailSyncService';
 import MailListViewItem from './MailListViewItem';
-import { IConvSchm } from '../idb/IMailSchema';
-import { IMailServicesContext } from '../context/IMailServicesContext';
-import MailServicesContext from '../context/MailServicesContext';
+import { IConvSchm } from '../../idb/IMailSchema';
+import { IMailServicesContext } from '../../context/IMailServicesContext';
+import MailServicesContext from '../../context/MailServicesContext';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		listRroot: {
+		breadcrumbsContainer: {
+			borderRadius: 0,
 			display: 'flex',
-			flexDirection: 'column',
-			width: '100%',
-			overflow: 'auto',
-			maxHeight: '100%',
-			backgroundColor: theme.palette.background.paper,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'flex-start',
+			height: theme.spacing(6),
+			padding: theme.spacing(1.5)
 		},
-		inline: {
-			display: 'inline',
-		},
-		gridList: {
-			width: 500,
-			height: 450,
-		},
-		listRoot: {
+		routerLink: {
+			textDecoration: 'none'
 		}
 	}));
 
-const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm> }> = ({ conversations }) => {
+const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm>; path: string }> = ({ conversations, path }) => {
 	const classes = useStyles();
 	return (
-		<Grid className={classes.listRoot}>
-			{conversations.map((conv) => (<MailListViewItem key={conv.id} conversation={conv} />))}
+		<Grid>
+			{conversations.map((conv) => (
+				<LinkRouter
+					key={conv.id}
+					to={{
+						pathname: `/mail/view/${conv.id}`,
+						state: { conv, from: path }
+					}}
+					className={classes.routerLink}
+				>
+					<MailListViewItem conversation={conv} />
+				</LinkRouter>
+			))}
 		</Grid>
 	);
 };
@@ -73,7 +80,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 	const [conversations, setConversations] = useState<Array<IConvSchm>>([]);
 	const ref = useRef<Subscription>();
 	const { syncSrvc, mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
-
+	const classes = useStyles();
 	useEffect(() => {
 		if (currentFolder && syncSrvc) {
 			ref.current = syncSrvc.getFolderContent(currentFolder.path).subscribe(
@@ -115,14 +122,17 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 	);
 
 	return (
-		<>
-			<Breadcrumbs aria-label="breadcrumb">
-				{	breadCrumbs }
-			</Breadcrumbs>
+		<Grid item xs={12} md={6}>
+			<Paper className={classes.breadcrumbsContainer}>
+				<Breadcrumbs aria-label="breadcrumb">
+					{ breadCrumbs }
+				</Breadcrumbs>
+			</Paper>
 			<InternalMailFolderListView
 				conversations={conversations}
+				path={path}
 			/>
-		</>
+		</Grid>
 	);
 };
 export default MailFolderListView;

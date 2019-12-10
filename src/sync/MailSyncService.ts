@@ -62,6 +62,8 @@ export class MailSyncService implements IMailSyncService {
 
 	public folders: BehaviorSubject<Array<IMailFolder>> = new BehaviorSubject<Array<IMailFolder>>([]);
 
+	private _conversationCache: {[path: string]: BehaviorSubject<Array<IMailSchm>>} = {};
+
 	private _folderContentCache: {[path: string]: BehaviorSubject<Array<IConvSchm>>} = {};
 
 	constructor() {
@@ -297,7 +299,9 @@ export class MailSyncService implements IMailSyncService {
 	}
 
 	public getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>> {
-		// TODO: Actively update the subject on notification handled
+		if (this._conversationCache[convId]) {
+			return this._conversationCache[convId];
+		}
 		const subject = new BehaviorSubject<Array<IMailSchm>>([]);
 		openDb<IMailIdbSchema>().then(
 			async (db) => {
@@ -316,6 +320,7 @@ export class MailSyncService implements IMailSyncService {
 				}
 			}
 		);
+		this._conversationCache[convId] = subject;
 		return subject;
 	}
 }
