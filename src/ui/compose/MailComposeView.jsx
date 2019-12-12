@@ -9,19 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, {
-	FC,
-	useContext,
-	ChangeEvent,
-	useEffect
-} from 'react';
+import React, { useContext } from 'react';
 import {
 	Hidden,
 	Paper,
 	Divider,
 	makeStyles,
 	createStyles,
-	Theme,
 	TextField,
 	Button,
 	Typography,
@@ -38,18 +32,11 @@ import clsx from 'clsx';
 import { truncate, startsWith, replace } from 'lodash';
 import { I18nCtxt } from '@zextras/zapp-shell/context';
 import ComposerContext from '../../composer/ComposerContext';
-import { IMailService } from '../../mail/IMailService';
-import { IMailSyncService } from '../../sync/IMailSyncService';
 import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import ComposerContextProvider from '../../composer/ComposerContextProvider';
 import MailFolderListView from '../folder/MailFolderListView';
 
-interface IMailComposeViewProps {
-	mailSrvc: IMailService;
-	syncSrvc: IMailSyncService;
-}
-
-const getPath = (location: { state: any }): string => {
+const getPath = (location) => {
 	if (location.state.from) {
 		return location.state.from;
 	}
@@ -59,9 +46,9 @@ const getPath = (location: { state: any }): string => {
 	return 'Drafts';
 };
 
-const MailComposeView: FC<IMailComposeViewProps> = ({ mailSrvc, syncSrvc }) => {
+const MailComposeView = ({ mailSrvc, syncSrvc }) => {
 	const location = useLocation();
-	const { id } = useParams<{ id: string }>();
+	const { id } = useParams();
 	return (
 		<MailServicesContextProvider
 			mailSrvc={mailSrvc}
@@ -79,7 +66,7 @@ const MailComposeView: FC<IMailComposeViewProps> = ({ mailSrvc, syncSrvc }) => {
 	);
 };
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		composerContainer: {
 			height: 'calc(100% - 64px)'
@@ -116,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-const MailComposer: FC<{}> = () => {
+const MailComposer = () => {
 	const { t } = useContext(I18nCtxt);
 	const classes = useStyles();
 	const {
@@ -149,7 +136,7 @@ const MailComposer: FC<{}> = () => {
 					type="email"
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('to', ev.target.value)}
+					onChange={(ev) => setField('to', ev.target.value)}
 				/>
 				<TextField
 					inputProps={{
@@ -159,7 +146,7 @@ const MailComposer: FC<{}> = () => {
 					label={t('mail.composer.cc', 'Cc:')}
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('cc', ev.target.value)}
+					onChange={(ev) => setField('cc', ev.target.value)}
 				/>
 				<TextField
 					inputProps={{
@@ -169,13 +156,13 @@ const MailComposer: FC<{}> = () => {
 					label={t('mail.composer.subject', 'Subject:')}
 					variant="filled"
 					margin="dense"
-					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('subject', ev.target.value)}
+					onChange={(ev) => setField('subject', ev.target.value)}
 				/>
 				<TextField
 					label={t('mail.composer.textarea.label', 'Write here your message')}
 					defaultValue={message}
 					multiline
-					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('message', ev.target.value)}
+					onChange={(ev) => setField('message', ev.target.value)}
 				/>
 				<Divider />
 			</Paper>
