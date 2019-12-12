@@ -53,16 +53,16 @@ import { MailView } from './MailMessageView';
 import MailServicesContext from '../../context/MailServicesContext';
 import { Link } from 'react-router-dom';
 
-function useObservable<T>(observable: BehaviorSubject<T>): T {
-	const [value, setValue] = useState<T>(observable.value);
+function useObservable(observable) {
+	const [value, setValue] = useState(observable.value);
 	useEffect(() => {
 		const sub = observable.subscribe(setValue);
-		return (): void => sub.unsubscribe();
+		return () => sub.unsubscribe();
 	}, [observable]);
 	return value;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		root: {
 			flexDirection: 'row'
@@ -88,16 +88,11 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-interface IMailViewProps {
-	syncSrvc: IMailSyncService;
-	mailSrvc: IMailService;
-}
-
-const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
+const ConversationView = ({ syncSrvc, mailSrvc }) => {
 	const classes = useStyles();
-	const { id } = useParams<{ id: string }>();
+	const { id } = useParams();
 	const convObs = syncSrvc.getConversationMessages(id);
-	const conversation = useObservable<Array<IMailSchm>>(convObs);
+	const conversation = useObservable(convObs);
 	const location = useLocation();
 	const [readLock, setReadLock] = useState(false);
 
@@ -108,7 +103,7 @@ const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
 		}
 		return map(
 			conversations,
-			(mail: IMailSchm, key: number) => (
+			(mail, key) => (
 				<MailView mail={mail} key={key} first={key === 0} />
 			)
 		);

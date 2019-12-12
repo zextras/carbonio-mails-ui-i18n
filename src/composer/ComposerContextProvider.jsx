@@ -10,7 +10,6 @@
  */
 
 import React, {
-	FC,
 	useState,
 	useEffect,
 	useContext
@@ -24,33 +23,22 @@ import {
 	filter,
 	reduce
 } from 'lodash';
-import { IStoredSessionData } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
-import { BehaviorSubject, Subscription } from 'rxjs';
-
-import ComposerContext from './ComposerContext';
-import { IComposerInputs } from './IComposerContext';
-import {
-	ISaveDraftRequest,
-	ISaveDraftResponse,
-	IMailContact,
-	ISendMailRequest
-} from './IComposerSoap';
-import MailServicesContext from '../context/MailServicesContext';
 import { useHistory } from 'react-router';
-import { IMailContactSchm } from '../idb/IMailSchema';
+import ComposerContext from './ComposerContext';
+import MailServicesContext from '../context/MailServicesContext';
 
-function useObservable<T>(observable: BehaviorSubject<T>): T {
-	const [value, setValue] = useState<T>(observable.value);
+function useObservable(observable) {
+	const [value, setValue] = useState(observable.value);
 	useEffect(() => {
 		const sub = observable.subscribe(setValue);
-		return (): void => sub.unsubscribe();
+		return () => sub.unsubscribe();
 	}, [observable]);
 	return value;
 }
 
-const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) => {
+const ComposerContextProvider = ({ children, convId }) => {
 	const { syncSrvc } = useContext(MailServicesContext);
-	const [contextValues, setContextValues] = useState<IComposerInputs>(
+	const [contextValues, setContextValues] = useState(
 		{
 			to: '',
 			cc: '',
@@ -58,26 +46,26 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 			message: ''
 		}
 	);
-	const [id, setId] = useState<string>();
+	const [id, setId] = useState();
 	const history = useHistory();
 
-	const userData = useObservable<IStoredSessionData>(
-		sessionSrvc.session as unknown as BehaviorSubject<IStoredSessionData>
+	const userData = useObservable(
+		sessionSrvc.session
 	);
 
 
 	useEffect(() => {
-		let draftSub: Subscription;
+		let draftSub;
 		if (syncSrvc && convId) {
 			draftSub = syncSrvc.getConversationMessages(convId).subscribe((messages) => {
 				const draft = find(messages, (m) => m.folder === '6');
 				if (draft) {
-					const toContact: IMailContactSchm | undefined = find(
+					const toContact = find(
 						draft.contacts,
-						(c: IMailContactSchm): boolean => c.type === 'to'
+						(c) => c.type === 'to'
 					);
-					const ccLine: string = reduce(
-						filter(draft.contacts, (contact: IMailContactSchm): boolean => contact.type === 'cc'),
+					const ccLine = reduce(
+						filter(draft.contacts, (contact) => contact.type === 'cc'),
 						(line, contact) => `${line} ${contact.name || contact.address},`, ''
 					);
 					setContextValues({
@@ -97,8 +85,8 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 		};
 	}, [convId]);
 
-	const setField = (field: 'to' | 'cc' | 'subject' | 'message', text: string): void => {
-		const newValues: IComposerInputs = { ...contextValues };
+	const setField = (field, text) => {
+		const newValues = { ...contextValues };
 		switch (field) {
 			case 'to':
 				newValues.to = text;
@@ -118,8 +106,8 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 		setContextValues(newValues);
 	};
 
-	const save = (): void => {
-		const resp = sendSOAPRequest<ISaveDraftRequest, ISaveDraftResponse>('SaveDraft', {
+	const save = () => {
+		const resp = sendSOAPRequest('SaveDraft', {
 			m: {
 				id,
 				su: contextValues.subject,
@@ -134,7 +122,7 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 					},
 					...(map(
 						contextValues.cc.split(' '),
-						(str: string): IMailContact => ({
+						(str) => ({
 							a: str,
 							t: 'c'
 						})
@@ -149,11 +137,11 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 					}
 				]
 			},
-		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => setId(r.m[0].id));
+		}, 'urn:zimbraMail').then((r) => setId(r.m[0].id));
 	};
 
-	const send = (): void => {
-		sendSOAPRequest<ISendMailRequest, ISaveDraftResponse>('SendMsg', {
+	const send = () => {
+		sendSOAPRequest('SendMsg', {
 			m: {
 				did: id,
 				su: contextValues.subject,
@@ -168,7 +156,7 @@ const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) 
 					},
 					...map(
 						{ ...contextValues.cc.split(' ') },
-						(str: string): IMailContact => ({
+						(str) => ({
 							a: str,
 							t: 'c'
 						})

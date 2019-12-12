@@ -8,26 +8,17 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
-import React, { ReactElement } from 'react';
-import {
-	FolderOutlined,
-	InboxOutlined,
-	DeleteOutline,
-	ReportOutlined,
-	SendOutlined,
-	InsertDriveFileOutlined,
-	ChatBubbleOutlined
-} from '@material-ui/icons';
+/* @flow */
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
 import { sendSOAPRequest } from '@zextras/zapp-shell/network';
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
-import { IMailService, IConvActionReq, IConvActionResp } from './IMailService';
+import { IConvActionReq, IConvActionResp } from './IMailService';
 import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
+import { convertFolderToMenuItem } from './MailServiceUtils';
 
-function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFolder|undefined {
+function _findFolderByPath(path: string, folders: Array<IMailFolder>): ?IMailFolder {
 	for (let i = 0; i < folders.length; i += 1) {
 		if (folders[i].path === path) return folders[i];
 		if (folders[i].children) {
@@ -38,7 +29,7 @@ function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFold
 	return undefined;
 }
 
-function _findFolderById(id: string, folders: Array<IMailFolder>): IMailFolder|undefined {
+function _findFolderById(id: string, folders: Array<IMailFolder>): ?IMailFolder {
 	for (let i = 0; i < folders.length; i += 1) {
 		if (folders[i].id === id) return folders[i];
 		if (folders[i].children) {
@@ -49,51 +40,21 @@ function _findFolderById(id: string, folders: Array<IMailFolder>): IMailFolder|u
 	return undefined;
 }
 
-function _getFolderIcon(f: IMailFolder): ReactElement {
-	switch (f.id) {
-		case '2':
-			return (<InboxOutlined />);
-		case '3':
-			return (<DeleteOutline />);
-		case '4':
-			return (<ReportOutlined />);
-		case '5':
-			return (<SendOutlined />);
-		case '6':
-			return (<InsertDriveFileOutlined />);
-		case '14':
-			return (<ChatBubbleOutlined />);
-		default:
-			return (<FolderOutlined />);
-	}
-}
+export class MailService {
+	mainMenuChildren = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
 
+	_syncSrvc: IMailSyncService;
 
-function _convertFolderToMenuItem(f: IMailFolder): IMainSubMenuItemData {
-	return {
-		icon: _getFolderIcon(f),
-		label: f.name,
-		to: encodeURI(`/mail/folder${f.path}`),
-		id: `folder-${f.id}`,
-		children: map(
-			f.children || [],
-			_convertFolderToMenuItem
-		)
-	};
-}
+	_locks: {[path: string]: boolean};
 
-export class MailService implements IMailService {
-	public mainMenuChildren = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
-
-	private _locks: {[path: string]: boolean};
-
-	constructor(private _syncSrvc: IMailSyncService) {
-		_syncSrvc.folders.subscribe(
+	constructor(syncSrvc: IMailSyncService) {
+		this._syncSrvc = syncSrvc;
+		this._syncSrvc.folders.subscribe(
 			(folders) => {
 				this.mainMenuChildren.next(
 					map(
 						folders,
-						_convertFolderToMenuItem
+						convertFolderToMenuItem
 					)
 				);
 			}
@@ -101,7 +62,7 @@ export class MailService implements IMailService {
 		this._locks = {};
 	}
 
-	public setMessageRead(mail: IMailSchm, click: boolean): void {
+	setMessageRead(mail: IMailSchm, click: boolean): void {
 		if (!this._locks[mail.conversationId] || click) {
 			this._locks[mail.conversationId] = false;
 			sendSOAPRequest<IConvActionReq, IConvActionResp>(
@@ -117,7 +78,7 @@ export class MailService implements IMailService {
 		}
 	}
 
-	public setConversationRead(id: string, read: boolean): void {
+	setConversationRead(id: string, read: boolean): void {
 		this._locks[id] = true;
 		sendSOAPRequest<IConvActionReq, IConvActionResp>(
 			'ConvAction',
@@ -131,16 +92,16 @@ export class MailService implements IMailService {
 		);
 	}
 
-	public getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>] {
+	getFolderBreadcrumbs(path: string): [?IMailFolder, Array<IMailFolder>] {
 		const folders = this._syncSrvc.folders.getValue();
 
 		const currFolder = _findFolderByPath(path, folders);
 		if (!currFolder) return [undefined, []];
 
 		const crumbs = [];
-		let parentId: string | undefined = currFolder.parent;
+		let parentId: ?string = currFolder.parent;
 		while (parentId) {
-			const parent: IMailFolder|undefined = _findFolderById(parentId, folders);
+			const parent: ?IMailFolder = _findFolderById(parentId, folders);
 			if (parent) {
 				crumbs.unshift(parent);
 				parentId = parent.parent;
@@ -152,7 +113,7 @@ export class MailService implements IMailService {
 		return [currFolder, crumbs];
 	}
 
-	public folderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
+	folderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
 		return this._syncSrvc.getFolderContent(path);
 	}
 }

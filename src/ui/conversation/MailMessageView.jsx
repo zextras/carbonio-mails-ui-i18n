@@ -10,7 +10,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	Typography,
 	Paper,
@@ -18,47 +18,35 @@ import {
 	Avatar,
 	makeStyles,
 	createStyles,
-	Theme,
-	Divider,
 	Collapse
 } from '@material-ui/core';
 import {
 	RadioButtonUnchecked,
 	RadioButtonChecked,
 	ArrowUpward,
-	Create,
-	Close,
 	ChevronLeft,
 	ExpandMore
 } from '@material-ui/icons';
-import { useParams, useLocation } from 'react-router';
 import {
-	map,
 	find,
 	truncate,
-	sortBy,
 	reduce,
 	filter,
 	get
 } from 'lodash';
-import { BehaviorSubject } from 'rxjs';
-import { IConvSchm, IMailSchm, IMailContactSchm } from '../../idb/IMailSchema';
-import { IMailSyncService } from '../../sync/IMailSyncService';
 import hueFromString from '../../util/hueFromString';
-import MailFolderListView from '../folder/MailFolderListView';
-import { IMailService } from '../../mail/IMailService';
 import MailServicesContext from '../../context/MailServicesContext';
 
-function useObservable<T>(observable: BehaviorSubject<T>): T {
-	const [value, setValue] = useState<T>(observable.value);
+function useObservable(observable) {
+	const [value, setValue] = useState(observable.value);
 	useEffect(() => {
 		const sub = observable.subscribe(setValue);
-		return (): void => sub.unsubscribe();
+		return () => sub.unsubscribe();
 	}, [observable]);
 	return value;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		messageItemRoot: {
 			borderRadius: 0,
@@ -90,36 +78,36 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first }) => {
+export const MailView = ({ mail, first }) => {
 	const classes = useStyles();
 	const { mailSrvc } = useContext(MailServicesContext);
 
-	const fromContact: IMailContactSchm | undefined = find(
+	const fromContact = find(
 		mail.contacts,
-		(c: IMailContactSchm): boolean => c.type === 'from'
+		(c) => c.type === 'from'
 	);
-	const toContact: IMailContactSchm | undefined = find(
+	const toContact = find(
 		mail.contacts,
-		(c: IMailContactSchm): boolean => c.type === 'to'
+		(c) => c.type === 'to'
 	);
-	const ccContacts: Array<IMailContactSchm> = filter(
+	const ccContacts = filter(
 		mail.contacts,
-		(contact: IMailContactSchm): boolean => contact.type === 'cc'
+		(contact) => contact.type === 'cc'
 	);
-	const ccLine: string = reduce(
+	const ccLine = reduce(
 		ccContacts,
 		(line, contact) => `${line} ${contact.name || contact.address},`, ''
 	);
 
-	const [open, setOpen] = useState<boolean>(first);
-	const [readLock, setReadLock] = useState<boolean>(false);
+	const [open, setOpen] = useState(first);
+	const [readLock, setReadLock] = useState(false);
 	useEffect(() => {
 		if (mailSrvc && open && !readLock && !mail.read) {
 			mailSrvc.setMessageRead(mail, false);
 		}
 	}, [open, readLock, mail, mailSrvc]);
 
-	const toggleRead = (ev: React.MouseEvent): void => {
+	const toggleRead = (ev) => {
 		ev.stopPropagation();
 		ev.preventDefault();
 		setReadLock(true);

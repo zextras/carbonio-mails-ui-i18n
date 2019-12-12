@@ -9,24 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Grid, Hidden } from '@material-ui/core';
-import { IMailService } from '../mail/IMailService';
 import MailFolderListView from './folder/MailFolderListView';
-import { IMailSyncService } from '../sync/IMailSyncService';
 import MailServicesContextProvider from '../context/MailServicesContextProvider';
 import EmptyPanel from './folder/EmptyPanel';
 
 export const ROUTE = '/mail/folder/:path*';
 
-interface IMailListViewProps {
-	mailSrvc: IMailService;
-	syncSrvc: IMailSyncService;
-}
-
-const MailMainView: FC<IMailListViewProps> = ({ mailSrvc, syncSrvc }) => {
-	const { path } = useParams<{ path: string }>();
+const MailMainView = ({ mailSrvc, syncSrvc }) => {
+	const { path } = useParams();
 
 	if (path) {
 		return (

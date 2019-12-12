@@ -10,8 +10,6 @@
  */
 
 import React, {
-	FC,
-	ReactElement,
 	useContext,
 	useEffect,
 	useRef,
@@ -22,21 +20,16 @@ import {
 	createStyles,
 	Grid,
 	makeStyles,
-	Theme,
 	Typography,
 	Paper,
 	Divider
 } from '@material-ui/core';
 import { Link as LinkRouter } from 'react-router-dom';
 import { reduce } from 'lodash';
-import { Subscription } from 'rxjs';
-import { IMailFolder } from '../../sync/IMailSyncService';
 import MailListViewItem from './MailListViewItem';
-import { IConvSchm } from '../../idb/IMailSchema';
-import { IMailServicesContext } from '../../context/IMailServicesContext';
 import MailServicesContext from '../../context/MailServicesContext';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		breadcrumbsContainer: {
 			borderRadius: 0,
@@ -52,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm>; path: string }> = ({ conversations, path }) => {
+const InternalMailFolderListView = ({ conversations, path }) => {
 	const classes = useStyles();
 	return (
 		<Grid>
@@ -73,15 +66,11 @@ const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm>; path: st
 	);
 };
 
-interface IMailFolderListViewProps {
-	path: string;
-}
-
-const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
-	const [[currentFolder, breadcrumbs], setBreadCrumbsAndCurrentFolder] = useState<[IMailFolder|undefined, Array<IMailFolder>]>([undefined, []]);
-	const [conversations, setConversations] = useState<Array<IConvSchm>>([]);
-	const ref = useRef<Subscription>();
-	const { syncSrvc, mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
+const MailFolderListView = ({ path }) => {
+	const [[currentFolder, breadcrumbs], setBreadCrumbsAndCurrentFolder] = useState([undefined, []]);
+	const [conversations, setConversations] = useState([]);
+	const ref = useRef();
+	const { syncSrvc, mailSrvc } = useContext(MailServicesContext);
 	const classes = useStyles();
 	useEffect(() => {
 		if (currentFolder && syncSrvc) {
@@ -89,7 +78,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 				(c) => setConversations(c)
 			);
 		}
-		return (): void => {
+		return () => {
 			if (ref.current) ref.current.unsubscribe();
 		};
 	}, [currentFolder, syncSrvc]);
@@ -104,7 +93,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 		}, [path, mailSrvc]
 	);
 
-	const breadCrumbs = reduce<IMailFolder, Array<ReactElement>>(
+	const breadCrumbs = reduce(
 		breadcrumbs,
 		(tmpBreadCrumbs, f) => [...tmpBreadCrumbs, (
 			<LinkRouter color="inherit" to={`/mail/folder${f.path}`} key={`folder-${f.id}`}>

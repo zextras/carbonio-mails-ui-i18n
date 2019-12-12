@@ -9,17 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC } from 'react';
-import { IMailService } from '../mail/IMailService';
-import { IMailSyncService } from '../sync/IMailSyncService';
+import React from 'react';
 import MailServicesContext from './MailServicesContext';
 
-interface IMailServicesContextProviderProps {
-	mailSrvc: IMailService;
-	syncSrvc: IMailSyncService;
-}
-
-const MailServicesContextProvider: FC<IMailServicesContextProviderProps> = ({ mailSrvc, syncSrvc, children }) => {
+const MailServicesContextProvider = ({ mailSrvc, syncSrvc, children }) => {
 	return (
 		<MailServicesContext.Provider
 			value={{

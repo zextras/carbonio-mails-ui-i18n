@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Grid, makeStyles, createStyles, Theme, Typography } from '@material-ui/core';
 import { MailOutline } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		emptyContainer: {
 			height: '90vh',
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-const EmptyPanel: FC<{ path: string }> = ({ path }) => {
+const EmptyPanel = ({ path }) => {
 	const classes = useStyles();
 	return (
 		<Grid item md={6} className={classes.emptyContainer}>
@@ -29,6 +29,5 @@ const EmptyPanel: FC<{ path: string }> = ({ path }) => {
 			</Typography>
 		</Grid>
 	);
-}
-
+};
 export default EmptyPanel;

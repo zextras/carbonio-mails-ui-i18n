@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, ReactElement } from 'react';
+import React from 'react';
 import { fc } from '@zextras/zapp-shell/fc';
 
 import { setUpgradeFcn } from '@zextras/zapp-shell/idb';
@@ -21,15 +21,13 @@ import MailComposeView from './ui/compose/MailComposeView';
 import ConversationView from './ui/conversation/MailConversationView';
 import { schemaVersion, upgradeFn } from './idb/MailIdb';
 import MailMainView, { ROUTE as MainRoute } from './ui/MailMainView';
-import ComposerContextProvider from './composer/ComposerContextProvider';
-import { IMailSyncService } from './sync/IMailSyncService';
 import { registerTranslations } from './i18n/i18n';
 
-export default function app(): void {
+export default function app() {
 	registerTranslations();
 	setUpgradeFcn(schemaVersion, upgradeFn);
 	fc.subscribe(console.debug);
-	const syncSrvc: IMailSyncService = new MailSyncService();
+	const syncSrvc = new MailSyncService();
 	const mailSrvc = new MailService(syncSrvc);
 
 	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });

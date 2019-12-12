@@ -9,28 +9,27 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useContext } from 'react';
+import React, { useContext } from 'react';
 import { find, truncate } from 'lodash';
 import moment from 'moment';
-import { Link as RouterLink, LinkProps as RouterLinkProps, useLocation } from 'react-router-dom';
 import {
 	Avatar,
 	Paper,
 	createStyles,
 	Grid,
-	GridListTile, ListItem,
 	makeStyles,
-	Theme,
 	Typography,
-	Divider
 } from '@material-ui/core';
-import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward, Attachment } from '@material-ui/icons';
-import { IConvSchm, IMailContactSchm } from '../../idb/IMailSchema';
+import {
+	RadioButtonUnchecked,
+	RadioButtonChecked,
+	ArrowUpward,
+	Attachment
+} from '@material-ui/icons';
 import hueFromString from '../../util/hueFromString';
 import MailServicesContext from '../../context/MailServicesContext';
-import { IMailServicesContext } from '../../context/IMailServicesContext';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		listItemRoot: {
 			borderRadius: 0,
@@ -77,16 +76,12 @@ const useStyles = makeStyles((theme: Theme) =>
 		}
 	}));
 
-interface IMailListViewItemProps {
-	conversation: IConvSchm;
-}
-
-const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
+const MailListViewItem = ({ conversation }) => {
 	const classes = useStyles();
-	const { mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
-	const fromContact: IMailContactSchm | undefined = find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from');
+	const { mailSrvc } = useContext(MailServicesContext);
+	const fromContact = find(conversation.contacts, (c) => c.type === 'from');
 
-	const toggleRead = (ev: React.MouseEvent): void => {
+	const toggleRead = (ev) => {
 		ev.stopPropagation();
 		ev.preventDefault();
 		if (mailSrvc) {
