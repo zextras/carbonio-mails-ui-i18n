@@ -59,7 +59,7 @@ const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm>; path: st
 				<LinkRouter
 					key={conv.id}
 					to={{
-						pathname: `/mail/view/${conv.id}`,
+						pathname: `/mail/${path === 'Drafts' ? 'compose' : 'view'}/${conv.id}`,
 						state: { conv, from: path }
 					}}
 					className={classes.routerLink}
@@ -87,7 +87,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 				(c) => setConversations(c)
 			);
 		}
-		return () => {
+		return (): void => {
 			if (ref.current) ref.current.unsubscribe();
 		};
 	}, [currentFolder, syncSrvc]);
@@ -99,8 +99,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 					mailSrvc.getFolderBreadcrumbs(`/${path}`)
 				);
 			}
-		},
-		[path, mailSrvc]
+		}, [path, mailSrvc]
 	);
 
 	const breadCrumbs = reduce<IMailFolder, Array<ReactElement>>(

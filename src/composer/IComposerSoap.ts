@@ -41,7 +41,5 @@ export interface IMailMP {
 }
 
 export interface ISaveDraftResponse {
-	m: {
-		id: string;
-	};
+	m: Array<{ id: string	}>;
 }

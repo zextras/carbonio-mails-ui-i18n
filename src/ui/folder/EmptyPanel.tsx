@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Grid, makeStyles, createStyles, Theme, Typography } from "@material-ui/core";
+import { Grid, makeStyles, createStyles, Theme, Typography } from '@material-ui/core';
 import { MailOutline } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,7 +25,7 @@ const EmptyPanel: FC<{ path: string }> = ({ path }) => {
 		<Grid item md={6} className={classes.emptyContainer}>
 			<MailOutline className={classes.centralIcon} />
 			<Typography variant="subtitle1" color="textSecondary" style={{ whiteSpace: 'pre-line' }}>
-				{`Select an email to read it\nor click "Create" button to write a new email.`}
+				{'Select an email to read it\nor click the "Create" button to write a new email.'}
 			</Typography>
 		</Grid>
 	);

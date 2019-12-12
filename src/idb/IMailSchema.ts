@@ -69,6 +69,7 @@ export interface IConvSchm {
 	unreadMsgCount: number;
 	read: boolean;
 	flagged: boolean;
+	attachment: boolean;
 	urgent: boolean;
 }
 

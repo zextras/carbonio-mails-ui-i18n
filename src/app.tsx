@@ -33,7 +33,7 @@ export default function app(): void {
 	const mailSrvc = new MailService(syncSrvc);
 
 	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });
-	registerRoute('/mail/compose', MailComposeView, { mailSrvc, syncSrvc });
+	registerRoute('/mail/compose/:id?', MailComposeView, { mailSrvc, syncSrvc });
 	registerRoute('/mail/view/:id', ConversationView, { syncSrvc, mailSrvc });
 
 	addMainMenuItem(

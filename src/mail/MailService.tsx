@@ -21,6 +21,7 @@ import {
 } from '@material-ui/icons';
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
+import { sendSOAPRequest } from '@zextras/zapp-shell/network';
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
 import { IMailService } from './IMailService';
@@ -97,6 +98,20 @@ export class MailService implements IMailService {
 		);
 	}
 
+	public setRead(type: 'conversation' | 'mail', id: string, read: boolean): void {
+		console.log('tadaaan');
+		sendSOAPRequest<IConvActionReq, IConvActionResp>(
+			type === 'conversation' ? 'ConvAction' : 'MsgAction',
+			{
+				action: {
+					id: id,
+					op: `${read ? '' : '!'}read`
+				}
+			},
+			'urn:zimbraMail'
+		);
+	}
+
 	public getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>] {
 		const folders = this._syncSrvc.folders.getValue();
 
@@ -107,7 +122,7 @@ export class MailService implements IMailService {
 		let parentId: string | undefined = currFolder.parent;
 		while (parentId) {
 			const parent: IMailFolder|undefined = _findFolderById(parentId, folders);
-			if (parent)	{
+			if (parent) {
 				crumbs.unshift(parent);
 				parentId = parent.parent;
 			}

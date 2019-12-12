@@ -219,6 +219,7 @@ export const normalizeConversation = (c: IConvObj): IConvSchm => ({
 	id: c.id,
 	msgCount: c.n,
 	unreadMsgCount: c.u,
+	attachment: /a/.test(c.f || ''),
 	folder: uniq(map(c.m, (m) => m.l)),
 	messages: map(
 		c.m,

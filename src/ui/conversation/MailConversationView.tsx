@@ -39,7 +39,8 @@ import {
 	sortBy,
 	reduce,
 	filter,
-	get
+	get,
+	debounce
 } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { IConvSchm, IMailSchm, IMailContactSchm } from '../../idb/IMailSchema';
@@ -49,6 +50,8 @@ import MailFolderListView from '../folder/MailFolderListView';
 import { IMailService } from '../../mail/IMailService';
 import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import { MailView } from './MailMessageView';
+import MailServicesContext from '../../context/MailServicesContext';
+import { Link } from 'react-router-dom';
 
 function useObservable<T>(observable: BehaviorSubject<T>): T {
 	const [value, setValue] = useState<T>(observable.value);
@@ -96,6 +99,22 @@ const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
 	const convObs = syncSrvc.getConversationMessages(id);
 	const conversation = useObservable<Array<IMailSchm>>(convObs);
 	const location = useLocation();
+	const [readLock, setReadLock] = useState(false);
+
+	const mapMails = () => {
+		let conversations = sortBy(conversation, ['date']).reverse();
+		if (location.state.from === 'Trash') {
+			conversations = filter(conversations, (c) => c.folder === '3');
+		}
+		return map(
+			conversations,
+			(mail: IMailSchm, key: number) => (
+				<MailView mail={mail} key={key} first={key === 0} />
+			)
+		)
+	};
+
+	console.log(location);
 	return (
 		<MailServicesContextProvider
 			mailSrvc={mailSrvc}
@@ -112,15 +131,12 @@ const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
 						<Typography>
 							{location.state.conv && location.state.conv.subject}
 						</Typography>
-						<Close />
+						<Link to={`/mail/folder/${location.state.from || 'Inbox'}`}>
+							<Close />
+						</Link>
 					</Paper>
 					{conversation.length > 0
-					&& map(
-						sortBy(conversation, ['date']).reverse(),
-						(mail: IMailSchm, key: number) => (
-							<MailView mail={mail} key={key} first={key === 0} />
-						)
-					)}
+						&& mapMails()}
 				</Grid>
 			</Grid>
 		</MailServicesContextProvider>

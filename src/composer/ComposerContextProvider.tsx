@@ -9,16 +9,33 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, {
+	FC,
+	useState,
+	useEffect,
+	useContext
+} from 'react';
 import { sendSOAPRequest } from '@zextras/zapp-shell/network';
 import { sessionSrvc } from '@zextras/zapp-shell/service';
-import { map } from 'lodash';
+import {
+	map,
+	find,
+	get,
+	filter,
+	reduce
+} from 'lodash';
 import { IStoredSessionData } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
 import { BehaviorSubject } from 'rxjs';
 
 import ComposerContext from './ComposerContext';
 import { IComposerInputs } from './IComposerContext';
-import { ISaveDraftRequest, ISaveDraftResponse, IMailContact, ISendMailRequest } from './IComposerSoap';
+import {
+	ISaveDraftRequest,
+	ISaveDraftResponse,
+	IMailContact,
+	ISendMailRequest
+} from './IComposerSoap';
+import MailServicesContext from '../context/MailServicesContext';
 
 function useObservable<T>(observable: BehaviorSubject<T>): T {
 	const [value, setValue] = useState<T>(observable.value);
@@ -29,7 +46,8 @@ function useObservable<T>(observable: BehaviorSubject<T>): T {
 	return value;
 }
 
-const ComposerContextProvider: FC<{}> = ({ children }) => {
+const ComposerContextProvider: FC<{ convId: string }> = ({ children, convId }) => {
+	const { syncSrvc } = useContext(MailServicesContext);
 	const [contextValues, setContextValues] = useState<IComposerInputs>(
 		{
 			to: '',
@@ -40,7 +58,34 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 	);
 	const [id, setId] = useState<string>();
 
-	const userData = useObservable<IStoredSessionData>(sessionSrvc.session as unknown as BehaviorSubject<IStoredSessionData>);
+	const userData = useObservable<IStoredSessionData>(
+		sessionSrvc.session as unknown as BehaviorSubject<IStoredSessionData>
+	);
+
+	useEffect(() => {
+		const draftSub = syncSrvc.getConversationMessages(convId).subscribe((messages) => {
+			const draft = find(messages, (m) => m.folder === '6');
+			if (draft) {
+				const toContact: IMailContactSchm | undefined = find(
+					draft.contacts,
+					(c: IMailContactSchm): boolean => c.type === 'to'
+				);
+				const ccLine: string = reduce(
+					filter(draft.contacts, (contact: IMailContactSchm): boolean => contact.type === 'cc'),
+					(line, contact) => `${line} ${contact.name || contact.address},`, ''
+				);
+				setContextValues({
+					to: toContact.address || '',
+					cc: ccLine || '',
+					subject: draft.subject || '',
+					message: get(draft, draft.bodyPath).content || ''
+				});
+			}
+			return () => {
+				draftSub.unsubscribe();
+			};
+		});
+	}, [convId]);
 
 	const setField = (field: 'to' | 'cc' | 'subject' | 'message', text: string): void => {
 		const newValues: IComposerInputs = { ...contextValues };
@@ -139,10 +184,10 @@ const ComposerContextProvider: FC<{}> = ({ children }) => {
 				...contextValues,
 				setField,
 				save,
-				send
+				send,
 			}}
 		>
-			{ children }
+			{children}
 		</ComposerContext.Provider>
 	);
 };

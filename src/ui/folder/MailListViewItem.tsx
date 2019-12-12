@@ -9,8 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { find, truncate } from 'lodash';
+import moment from 'moment';
 import { Link as RouterLink, LinkProps as RouterLinkProps, useLocation } from 'react-router-dom';
 import {
 	Avatar,
@@ -22,9 +23,11 @@ import {
 	Theme,
 	Typography
 } from '@material-ui/core';
-import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward } from '@material-ui/icons';
+import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward, Attachment } from '@material-ui/icons';
 import { IConvSchm, IMailContactSchm } from '../../idb/IMailSchema';
 import hueFromString from '../../util/hueFromString';
+import MailServicesContext from '../../context/MailServicesContext';
+import { IMailServicesContext } from '../../context/IMailServicesContext';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -46,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: '#ffffff',
 		},
 		textColumn: {
+			flexGrow: 1
 		},
 		iconsColumn: {
 			height: '100%',
@@ -55,17 +59,36 @@ const useStyles = makeStyles((theme: Theme) =>
 			flexDirection: 'column',
 			alignItems: 'center',
 			justifyContent: 'flex-start'
+		},
+		endColumn: {
+			padding: theme.spacing(0.5),
+			height: '100%',
+			display: 'flex',
+			alignItems: 'flex-end',
+			justifyContent: 'space-between',
+			flexDirection: 'column'
+		},
+		dateText: {
+		},
+		attachmentIcon: {
+			color: theme.palette.text.secondary
 		}
 	}));
 
 interface IMailListViewItemProps {
 	conversation: IConvSchm;
+	onReadIconClick: () => void;
 }
 
 const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 	const classes = useStyles();
+	const { mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
 	const fromContact: IMailContactSchm | undefined = find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from');
-	const location = useLocation();
+	const toggleRead = (ev: React.MouseEvent): void => {
+		ev.stopPropagation();
+		ev.preventDefault();
+		mailSrvc.setRead('conversation', conversation.id, !conversation.read);
+	};
 	return (
 		<Paper
 			className={classes.listItemRoot}
@@ -78,8 +101,8 @@ const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 			</Avatar>
 			<Grid className={classes.iconsColumn}>
 				{ conversation.read
-					? <RadioButtonUnchecked color="primary" />
-					: <RadioButtonChecked color="primary" />}
+					? <RadioButtonUnchecked color="primary" onClickCapture={toggleRead} />
+					: <RadioButtonChecked color="primary" onClickCapture={toggleRead} />}
 				{ conversation.urgent && <ArrowUpward color="error" /> }
 			</Grid>
 			<Grid className={classes.textColumn}>
@@ -93,42 +116,14 @@ const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 					{truncate(conversation.fragment, { length: 30, omission: '...' })}
 				</Typography>
 			</Grid>
+			<Grid className={classes.endColumn}>
+				<Typography className={classes.dateText} variant="body2" color="textSecondary">
+					{moment(conversation.date).format()}
+				</Typography>
+				{conversation.attachment
+				&& <Attachment className={classes.attachmentIcon} />}
+			</Grid>
 		</Paper>
 	);
-
-	// {/*<Grid container spacing={2} direction="row">*/}
-	// {/*	<Grid item>*/}
-	// {/*		<Avatar>H</Avatar>*/}
-	// {/*	</Grid>*/}
-	// {/*	<Grid item container direction="column">*/}
-	// {/*		<Grid item>*/}
-	// {/*			<RadioButtonUnchecked />*/}
-	// {/*		</Grid>*/}
-	// {/*	</Grid>*/}
-	// {/*	<Grid item container direction="column">*/}
-	// {/*		<Grid item>*/}
-	// {/*			<Typography gutterBottom variant="subtitle1">*/}
-	// {/*				user@example.com*/}
-	// {/*			</Typography>*/}
-	// {/*		</Grid>*/}
-	// {/*		<Grid item>*/}
-	// {/*			<Typography gutterBottom variant="subtitle1">*/}
-	// {/*				Subject of the email*/}
-	// {/*			</Typography>*/}
-	// {/*		</Grid>*/}
-	// {/*		<Grid item>*/}
-	// {/*			<Typography gutterBottom variant="body2">*/}
-	// {/*				This is the fragment of the mail. The fragment should be trimmed by the view as is really really long.*/}
-	// {/*			</Typography>*/}
-	// {/*		</Grid>*/}
-	// {/*	</Grid>*/}
-	// {/*	<Grid item container direction="column">*/}
-	// {/*		<Grid item>*/}
-	// {/*			<Typography gutterBottom variant="subtitle1">*/}
-	// {/*				user@example.com*/}
-	// {/*			</Typography>*/}
-	// {/*		</Grid>*/}
-	// {/*	</Grid>*/}
-	// {/*</Grid>*/}
 };
 export default MailListViewItem;

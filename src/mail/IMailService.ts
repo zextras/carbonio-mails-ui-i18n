@@ -18,4 +18,5 @@ export interface IMailService {
 	mainMenuChildren: BehaviorSubject<Array<IMainSubMenuItemData>>;
 	getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>];
 	folderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
+	setRead(type: 'conversation' | 'mail', convId: string, read: boolean): void;
 }

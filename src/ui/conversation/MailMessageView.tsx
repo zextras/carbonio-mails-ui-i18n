@@ -10,7 +10,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useContext } from 'react';
 import {
 	Typography,
 	Paper,
@@ -47,7 +47,7 @@ import { IMailSyncService } from '../../sync/IMailSyncService';
 import hueFromString from '../../util/hueFromString';
 import MailFolderListView from '../folder/MailFolderListView';
 import { IMailService } from '../../mail/IMailService';
-import MailServicesContextProvider from '../../context/MailServicesContextProvider';
+import MailServicesContext from '../../context/MailServicesContext';
 
 function useObservable<T>(observable: BehaviorSubject<T>): T {
 	const [value, setValue] = useState<T>(observable.value);
@@ -92,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first }) => {
 	const classes = useStyles();
+	const { mailSrvc } = useContext(MailServicesContext);
 
 	const fromContact: IMailContactSchm | undefined = find(
 		mail.contacts,
@@ -111,12 +112,30 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 	);
 
 	const [open, setOpen] = useState<boolean>(first);
+	const [readLock, setReadLock] = useState<boolean>(false);
+	useEffect(() => {
+		if (open && !readLock && !mail.read) {
+			mailSrvc.setRead('mail', mail.id, !mail.read);
+		}
+	}, [open, readLock, mail, mailSrvc]);
+
+	const toggleRead = (ev: React.MouseEvent): void => {
+		ev.stopPropagation();
+		ev.preventDefault();
+		setReadLock(true);
+		mailSrvc.setRead('mail', mail.id, !mail.read);
+	};
+
+	const toggleCollapse = () => {
+		setOpen(!open);
+		setReadLock(false);
+	};
 
 	return (
 		<>
 			<Paper
 				className={classes.messageItemRoot}
-				onClick={(): void => setOpen(!open)}
+				onClick={toggleCollapse}
 			>
 				<Avatar
 					className={classes.avatar}
@@ -129,8 +148,8 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 				</Avatar>
 				<Grid className={classes.iconsColumn}>
 					{ mail.read
-						? <RadioButtonUnchecked color="primary" />
-						: <RadioButtonChecked color="primary" />}
+						? <RadioButtonUnchecked color="primary" onClickCapture={toggleRead} />
+						: <RadioButtonChecked color="primary" onClickCapture={toggleRead} />}
 					{ mail.urgent && <ArrowUpward color="error" /> }
 				</Grid>
 				<Grid className={classes.textColumn}>

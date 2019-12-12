@@ -9,7 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useContext, ChangeEvent } from 'react';
+import React, {
+	FC,
+	useContext,
+	ChangeEvent,
+	useEffect
+} from 'react';
 import {
 	Hidden,
 	Paper,
@@ -26,9 +31,9 @@ import {
 	Create,
 	Close,
 	Send,
-	Save
+	Save,
 } from '@material-ui/icons';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import clsx from 'clsx';
 import { truncate, startsWith, replace } from 'lodash';
 import { I18nCtxt } from '@zextras/zapp-shell/context';
@@ -52,16 +57,17 @@ const getPath = (location: { state: any }): string => {
 		return replace(location.state.fromPathname, '/mail/folder/', '');
 	}
 	return 'Drafts';
-}
+};
 
 const MailComposeView: FC<IMailComposeViewProps> = ({ mailSrvc, syncSrvc }) => {
 	const location = useLocation();
+	const { id } = useParams<{ id: string }>();
 	return (
 		<MailServicesContextProvider
 			mailSrvc={mailSrvc}
 			syncSrvc={syncSrvc}
 		>
-			<ComposerContextProvider>
+			<ComposerContextProvider id={id}>
 				<Grid container>
 					<Hidden smDown>
 						<MailFolderListView path={getPath(location)} />
@@ -120,7 +126,7 @@ const MailComposer: FC<{}> = () => {
 		message,
 		send,
 		save,
-		setField
+		setField,
 	} = useContext(ComposerContext);
 
 	return (
@@ -138,6 +144,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
+					defaultValue={to}
 					label={t('mail.composer.to', 'To:')}
 					type="email"
 					variant="filled"
@@ -148,6 +155,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
+					defaultValue={cc}
 					label={t('mail.composer.cc', 'Cc:')}
 					variant="filled"
 					margin="dense"
@@ -157,6 +165,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
+					defaultValue={subject}
 					label={t('mail.composer.subject', 'Subject:')}
 					variant="filled"
 					margin="dense"
@@ -164,6 +173,7 @@ const MailComposer: FC<{}> = () => {
 				/>
 				<TextField
 					label={t('mail.composer.textarea.label', 'Write here your message')}
+					defaultValue={message}
 					multiline
 					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('message', ev.target.value)}
 				/>

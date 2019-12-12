@@ -25,7 +25,7 @@ import {
 	filter as loFilter,
 	reduce,
 	forOwn,
-	sortBy,
+	orderBy,
 } from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
@@ -75,6 +75,17 @@ export class MailSyncService implements IMailSyncService {
 			filter<IFCEvent<string>>((e) => e.event === 'notification:item:deleted')
 		)
 			.subscribe((ev) => this._onItemDeleted(ev).then(() => undefined));
+
+		fc.pipe(
+			filter<IFCEvent<IMailItemUpdatedEv>>((e) => e.event === 'mail:item:updated')
+		)
+			.subscribe((ev) => this._onItemUpdated(ev).then(() => undefined));
+
+		fc.pipe(
+			filter<IFCEvent<IMailFolderUpdatedEv>>((e) => e.event === 'mail:folder:updated')
+		)
+			.subscribe((ev) => this._onFolderUpdated(ev).then(() => undefined));
+
 		fc.pipe(
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
@@ -114,6 +125,25 @@ export class MailSyncService implements IMailSyncService {
 			(f) => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id })
 		);
 	};
+
+	private async _onItemUpdated({ data }: IFCEvent<IMailItemUpdatedEv>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const mail = await db.get('mails', data.id);
+		if (mail && this._conversationCache[mail.conversationId]) {
+			const convMails = await db.transaction('mails', 'readonly').store.index('conversation').getAll(mail.conversationId);
+			this._conversationCache[mail.conversationId].next(convMails);
+		}
+	}
+
+	private async _onFolderUpdated({ data }: IFCEvent<IMailFolderUpdatedEv>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const folder = await db.get('folders', data.id);
+		if (folder && this._folderContentCache[folder.path]) {
+			this._fetchFolderConversationsFromIdb(folder.path).then(
+				(r) => this._folderContentCache[folder.path].next(r)
+			);
+		}
+	}
 
 	private async _onItemDeleted({ data: id }: IFCEvent<string>): Promise<void> {
 		const db = await openDb<IMailIdbSchema>();
@@ -180,7 +210,10 @@ export class MailSyncService implements IMailSyncService {
 		await this._buildAndEmitFolderTree();
 		forEach(
 			folders,
-			(f) => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id })
+			(f) => {
+				this._updateFolderContent(f.path);
+				fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id });
+			}
 		);
 		return '';
 	}
@@ -244,9 +277,8 @@ export class MailSyncService implements IMailSyncService {
 		);
 	}
 
-	public getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
-		if (!this._folderContentCache[path]) {
-			this._folderContentCache[path] = new BehaviorSubject<Array<IConvSchm>>([]);
+	private _updateFolderContent(path: string): void {
+		if (this._folderContentCache[path]) {
 			this._fetchFolderConversationsFromServer(path).then(
 				(convs) => this._storeConversationsIntoIdb(convs).then(
 					() => this._fetchFolderConversationsFromIdb(path).then(
@@ -254,6 +286,13 @@ export class MailSyncService implements IMailSyncService {
 					)
 				)
 			);
+		}
+	}
+
+	public getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
+		if (!this._folderContentCache[path]) {
+			this._folderContentCache[path] = new BehaviorSubject<Array<IConvSchm>>([]);
+			this._updateFolderContent(path);
 		}
 		return this._folderContentCache[path];
 	}
@@ -280,9 +319,10 @@ export class MailSyncService implements IMailSyncService {
 		const folder = await db.getFromIndex('folders', 'path', path);
 		if (folder) {
 			const conversations = await db.transaction('conversations', 'readonly').store.index('folder').getAll(folder.id);
-			return sortBy(
+			return orderBy(
 				conversations,
-				['date']
+				['date'],
+				['desc']
 			);
 		}
 		return [];
@@ -321,6 +361,6 @@ export class MailSyncService implements IMailSyncService {
 			}
 		);
 		this._conversationCache[convId] = subject;
-		return subject;
+		return this._conversationCache[convId];
 	}
 }
