@@ -24,7 +24,7 @@ import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterServ
 import { sendSOAPRequest } from '@zextras/zapp-shell/network';
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
-import { IMailService } from './IMailService';
+import { IMailService, IConvActionReq, IConvActionResp } from './IMailService';
 import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 
 function _findFolderByPath(path: string, folders: Array<IMailFolder>): IMailFolder|undefined {
@@ -85,6 +85,8 @@ function _convertFolderToMenuItem(f: IMailFolder): IMainSubMenuItemData {
 export class MailService implements IMailService {
 	public mainMenuChildren = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
 
+	private _locks: {[path: string]: boolean};
+
 	constructor(private _syncSrvc: IMailSyncService) {
 		_syncSrvc.folders.subscribe(
 			(folders) => {
@@ -96,15 +98,32 @@ export class MailService implements IMailService {
 				);
 			}
 		);
+		this._locks = {};
 	}
 
-	public setRead(type: 'conversation' | 'mail', id: string, read: boolean): void {
-		console.log('tadaaan');
+	public setMessageRead(mail: IMailSchm, click: boolean): void {
+		if (!this._locks[mail.conversationId] || click) {
+			this._locks[mail.conversationId] = false;
+			sendSOAPRequest<IConvActionReq, IConvActionResp>(
+				'MsgAction',
+				{
+					action: {
+						id: mail.id,
+						op: `${mail.read ? '!' : ''}read`
+					}
+				},
+				'urn:zimbraMail'
+			);
+		}
+	}
+
+	public setConversationRead(id: string, read: boolean): void {
+		this._locks[id] = true;
 		sendSOAPRequest<IConvActionReq, IConvActionResp>(
-			type === 'conversation' ? 'ConvAction' : 'MsgAction',
+			'ConvAction',
 			{
 				action: {
-					id: id,
+					id,
 					op: `${read ? '' : '!'}read`
 				}
 			},

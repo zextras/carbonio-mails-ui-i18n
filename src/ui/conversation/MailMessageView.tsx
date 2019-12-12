@@ -114,8 +114,8 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 	const [open, setOpen] = useState<boolean>(first);
 	const [readLock, setReadLock] = useState<boolean>(false);
 	useEffect(() => {
-		if (open && !readLock && !mail.read) {
-			mailSrvc.setRead('mail', mail.id, !mail.read);
+		if (mailSrvc && open && !readLock && !mail.read) {
+			mailSrvc.setMessageRead(mail, false);
 		}
 	}, [open, readLock, mail, mailSrvc]);
 
@@ -123,7 +123,9 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 		ev.stopPropagation();
 		ev.preventDefault();
 		setReadLock(true);
-		mailSrvc.setRead('mail', mail.id, !mail.read);
+		if (mailSrvc) {
+			mailSrvc.setMessageRead(mail, true);
+		}
 	};
 
 	const toggleCollapse = () => {
@@ -143,8 +145,7 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 				>
 					{fromContact
 						? truncate(fromContact.name || fromContact.address, { length: 2, omission: '' })
-						: '?'
-					}
+						: '?'}
 				</Avatar>
 				<Grid className={classes.iconsColumn}>
 					{ mail.read
@@ -153,16 +154,16 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 					{ mail.urgent && <ArrowUpward color="error" /> }
 				</Grid>
 				<Grid className={classes.textColumn}>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'}>
+					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
 						{`From: ${fromContact && (fromContact.name || fromContact.address)}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'}>
+					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
 						{`To: ${toContact && (toContact.name || toContact.address)}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'}>
+					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
 						{`Cc: ${ccLine}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'}>
+					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
 						{`Subject: ${mail.subject}`}
 					</Typography>
 				</Grid>
@@ -170,7 +171,7 @@ export const MailView: FC<{ mail: IMailSchm; first: boolean }> = ({ mail, first 
 			</Paper>
 			<Collapse in={open}>
 				<Paper className={classes.mailBody}>
-					<Typography variant="body1" display="block" style={{ whiteSpace: 'pre-line' }}>
+					<Typography variant="body1" display="block" style={{ whiteSpace: 'pre-line' }} noWrap>
 						{get(mail, mail.bodyPath).content}
 					</Typography>
 				</Paper>

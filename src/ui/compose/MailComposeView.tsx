@@ -50,11 +50,13 @@ interface IMailComposeViewProps {
 }
 
 const getPath = (location: { state: any }): string => {
-	if (location.state.from) {
-		return location.state.from;
-	}
-	if (location.state.fromPathname && startsWith(location.state.fromPathname, '/mail/folder/')) {
-		return replace(location.state.fromPathname, '/mail/folder/', '');
+	if (location.state) {
+		if (location.state.from) {
+			return location.state.from;
+		}
+		if (location.state.fromPathname && startsWith(location.state.fromPathname, '/mail/folder/')) {
+			return replace(location.state.fromPathname, '/mail/folder/', '');
+		}
 	}
 	return 'Drafts';
 };
@@ -67,7 +69,7 @@ const MailComposeView: FC<IMailComposeViewProps> = ({ mailSrvc, syncSrvc }) => {
 			mailSrvc={mailSrvc}
 			syncSrvc={syncSrvc}
 		>
-			<ComposerContextProvider id={id}>
+			<ComposerContextProvider convId={id}>
 				<Grid container>
 					<Hidden smDown>
 						<MailFolderListView path={getPath(location)} />
@@ -144,7 +146,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
-					defaultValue={to}
+					value={to}
 					label={t('mail.composer.to', 'To:')}
 					type="email"
 					variant="filled"
@@ -155,7 +157,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
-					defaultValue={cc}
+					value={cc}
 					label={t('mail.composer.cc', 'Cc:')}
 					variant="filled"
 					margin="dense"
@@ -165,7 +167,7 @@ const MailComposer: FC<{}> = () => {
 					inputProps={{
 						className: classes.noRoundCorners
 					}}
-					defaultValue={subject}
+					value={subject}
 					label={t('mail.composer.subject', 'Subject:')}
 					variant="filled"
 					margin="dense"
@@ -173,7 +175,7 @@ const MailComposer: FC<{}> = () => {
 				/>
 				<TextField
 					label={t('mail.composer.textarea.label', 'Write here your message')}
-					defaultValue={message}
+					value={message}
 					multiline
 					onChange={(ev: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => setField('message', ev.target.value)}
 				/>

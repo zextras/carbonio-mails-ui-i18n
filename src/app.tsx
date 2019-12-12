@@ -28,7 +28,7 @@ import { registerTranslations } from './i18n/i18n';
 export default function app(): void {
 	registerTranslations();
 	setUpgradeFcn(schemaVersion, upgradeFn);
-	fc.subscribe(console.log);
+	fc.subscribe(console.debug);
 	const syncSrvc: IMailSyncService = new MailSyncService();
 	const mailSrvc = new MailService(syncSrvc);
 

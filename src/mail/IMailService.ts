@@ -12,11 +12,26 @@
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
 import { IMailFolder } from '../sync/IMailSyncService';
-import { IConvSchm } from '../idb/IMailSchema';
+import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 
 export interface IMailService {
 	mainMenuChildren: BehaviorSubject<Array<IMainSubMenuItemData>>;
 	getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>];
 	folderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
-	setRead(type: 'conversation' | 'mail', convId: string, read: boolean): void;
+	setConversationRead(convId: string, read: boolean): void;
+	setMessageRead(mail: IMailSchm, click: boolean): void;
+}
+
+export interface IConvActionReq {
+	action: {
+		id: string;
+		op: string;
+	};
+}
+
+export interface IConvActionResp {
+	action: {
+		id: string;
+		op: string;
+	};
 }

@@ -21,7 +21,8 @@ import {
 	GridListTile, ListItem,
 	makeStyles,
 	Theme,
-	Typography
+	Typography,
+	Divider
 } from '@material-ui/core';
 import { RadioButtonUnchecked, RadioButtonChecked, ArrowUpward, Attachment } from '@material-ui/icons';
 import { IConvSchm, IMailContactSchm } from '../../idb/IMailSchema';
@@ -49,7 +50,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			color: '#ffffff',
 		},
 		textColumn: {
-			flexGrow: 1
+			flexGrow: 1,
+			display: 'grid'
 		},
 		iconsColumn: {
 			height: '100%',
@@ -77,18 +79,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IMailListViewItemProps {
 	conversation: IConvSchm;
-	onReadIconClick: () => void;
 }
 
 const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 	const classes = useStyles();
 	const { mailSrvc } = useContext<IMailServicesContext>(MailServicesContext);
 	const fromContact: IMailContactSchm | undefined = find(conversation.contacts, (c: IMailContactSchm): boolean => c.type === 'from');
+
 	const toggleRead = (ev: React.MouseEvent): void => {
 		ev.stopPropagation();
 		ev.preventDefault();
-		mailSrvc.setRead('conversation', conversation.id, !conversation.read);
+		if (mailSrvc) {
+			mailSrvc.setConversationRead(conversation.id, !conversation.read);
+		}
 	};
+	const mDate = moment(conversation.date);
 	return (
 		<Paper
 			className={classes.listItemRoot}
@@ -106,19 +111,19 @@ const MailListViewItem: FC<IMailListViewItemProps> = ({ conversation }) => {
 				{ conversation.urgent && <ArrowUpward color="error" /> }
 			</Grid>
 			<Grid className={classes.textColumn}>
-				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
+				<Typography variant={conversation.read ? 'body2' : 'subtitle2'} noWrap>
 					{fromContact && (fromContact.name || fromContact.address)}
 				</Typography>
-				<Typography variant={conversation.read ? 'body2' : 'subtitle2'}>
+				<Typography variant={conversation.read ? 'body2' : 'subtitle2'} noWrap>
 					{conversation.subject}
 				</Typography>
-				<Typography variant="subtitle2">
-					{truncate(conversation.fragment, { length: 30, omission: '...' })}
+				<Typography variant="subtitle2" noWrap>
+					{conversation.fragment}
 				</Typography>
 			</Grid>
 			<Grid className={classes.endColumn}>
-				<Typography className={classes.dateText} variant="body2" color="textSecondary">
-					{moment(conversation.date).format()}
+				<Typography className={classes.dateText} variant="body2" color="textSecondary" noWrap>
+					{mDate.format('DD/MM/YYYY HH:MM')}
 				</Typography>
 				{conversation.attachment
 				&& <Attachment className={classes.attachmentIcon} />}

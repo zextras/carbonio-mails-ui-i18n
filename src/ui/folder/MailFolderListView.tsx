@@ -24,7 +24,8 @@ import {
 	makeStyles,
 	Theme,
 	Typography,
-	Paper
+	Paper,
+	Divider
 } from '@material-ui/core';
 import { Link as LinkRouter } from 'react-router-dom';
 import { reduce } from 'lodash';
@@ -65,6 +66,7 @@ const InternalMailFolderListView: FC<{ conversations: Array<IConvSchm>; path: st
 					className={classes.routerLink}
 				>
 					<MailListViewItem conversation={conv} />
+					<Divider />
 				</LinkRouter>
 			))}
 		</Grid>
@@ -127,6 +129,7 @@ const MailFolderListView: FC<IMailFolderListViewProps> = ({ path }) => {
 					{ breadCrumbs }
 				</Breadcrumbs>
 			</Paper>
+			<Divider />
 			<InternalMailFolderListView
 				conversations={conversations}
 				path={path}

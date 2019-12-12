@@ -111,10 +111,9 @@ const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
 			(mail: IMailSchm, key: number) => (
 				<MailView mail={mail} key={key} first={key === 0} />
 			)
-		)
+		);
 	};
 
-	console.log(location);
 	return (
 		<MailServicesContextProvider
 			mailSrvc={mailSrvc}
@@ -128,13 +127,14 @@ const ConversationView: FC<IMailViewProps> = ({ syncSrvc, mailSrvc }) => {
 					<Paper
 						className={classes.headerContainer}
 					>
-						<Typography>
+						<Typography noWrap>
 							{location.state.conv && location.state.conv.subject}
 						</Typography>
 						<Link to={`/mail/folder/${location.state.from || 'Inbox'}`}>
 							<Close />
 						</Link>
 					</Paper>
+					<Divider />
 					{conversation.length > 0
 						&& mapMails()}
 				</Grid>

@@ -25,7 +25,7 @@ import {
 	reduce
 } from 'lodash';
 import { IStoredSessionData } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import ComposerContext from './ComposerContext';
 import { IComposerInputs } from './IComposerContext';
@@ -36,6 +36,8 @@ import {
 	ISendMailRequest
 } from './IComposerSoap';
 import MailServicesContext from '../context/MailServicesContext';
+import { useHistory } from 'react-router';
+import { IMailContactSchm } from '../idb/IMailSchema';
 
 function useObservable<T>(observable: BehaviorSubject<T>): T {
 	const [value, setValue] = useState<T>(observable.value);
@@ -46,7 +48,7 @@ function useObservable<T>(observable: BehaviorSubject<T>): T {
 	return value;
 }
 
-const ComposerContextProvider: FC<{ convId: string }> = ({ children, convId }) => {
+const ComposerContextProvider: FC<{ convId?: string }> = ({ children, convId }) => {
 	const { syncSrvc } = useContext(MailServicesContext);
 	const [contextValues, setContextValues] = useState<IComposerInputs>(
 		{
@@ -57,34 +59,42 @@ const ComposerContextProvider: FC<{ convId: string }> = ({ children, convId }) =
 		}
 	);
 	const [id, setId] = useState<string>();
+	const history = useHistory();
 
 	const userData = useObservable<IStoredSessionData>(
 		sessionSrvc.session as unknown as BehaviorSubject<IStoredSessionData>
 	);
 
+
 	useEffect(() => {
-		const draftSub = syncSrvc.getConversationMessages(convId).subscribe((messages) => {
-			const draft = find(messages, (m) => m.folder === '6');
-			if (draft) {
-				const toContact: IMailContactSchm | undefined = find(
-					draft.contacts,
-					(c: IMailContactSchm): boolean => c.type === 'to'
-				);
-				const ccLine: string = reduce(
-					filter(draft.contacts, (contact: IMailContactSchm): boolean => contact.type === 'cc'),
-					(line, contact) => `${line} ${contact.name || contact.address},`, ''
-				);
-				setContextValues({
-					to: toContact.address || '',
-					cc: ccLine || '',
-					subject: draft.subject || '',
-					message: get(draft, draft.bodyPath).content || ''
-				});
-			}
-			return () => {
+		let draftSub: Subscription;
+		if (syncSrvc && convId) {
+			draftSub = syncSrvc.getConversationMessages(convId).subscribe((messages) => {
+				const draft = find(messages, (m) => m.folder === '6');
+				if (draft) {
+					const toContact: IMailContactSchm | undefined = find(
+						draft.contacts,
+						(c: IMailContactSchm): boolean => c.type === 'to'
+					);
+					const ccLine: string = reduce(
+						filter(draft.contacts, (contact: IMailContactSchm): boolean => contact.type === 'cc'),
+						(line, contact) => `${line} ${contact.name || contact.address},`, ''
+					);
+					setContextValues({
+						to: (toContact && toContact.address) || '',
+						cc: ccLine || '',
+						subject: draft.subject || '',
+						message: get(draft, draft.bodyPath).content || ''
+					});
+					setId(draft.id);
+				}
+			});
+		}
+		return () => {
+			if (draftSub) {
 				draftSub.unsubscribe();
-			};
-		});
+			}
+		};
 	}, [convId]);
 
 	const setField = (field: 'to' | 'cc' | 'subject' | 'message', text: string): void => {
@@ -139,14 +149,11 @@ const ComposerContextProvider: FC<{ convId: string }> = ({ children, convId }) =
 					}
 				]
 			},
-		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => {
-			console.log(r);
-			setId(r.m[0].id);
-		});
+		}, 'urn:zimbraMail').then((r: ISaveDraftResponse): void => setId(r.m[0].id));
 	};
 
 	const send = (): void => {
-		const resp = sendSOAPRequest<ISendMailRequest, ISaveDraftResponse>('SendMsg', {
+		sendSOAPRequest<ISendMailRequest, ISaveDraftResponse>('SendMsg', {
 			m: {
 				did: id,
 				su: contextValues.subject,
@@ -176,7 +183,10 @@ const ComposerContextProvider: FC<{ convId: string }> = ({ children, convId }) =
 					}
 				]
 			},
-		}, 'urn:zimbraMail').then();
+		}, 'urn:zimbraMail').then(() => {
+			history.push('/mail/folder/Sent');
+		//	syncSrvc.deleteConversation
+		});
 	};
 	return (
 		<ComposerContext.Provider

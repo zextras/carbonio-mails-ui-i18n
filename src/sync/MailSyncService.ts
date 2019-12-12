@@ -149,6 +149,7 @@ export class MailSyncService implements IMailSyncService {
 		const db = await openDb<IMailIdbSchema>();
 		const msg = await db.get('mails', id);
 		const folder = await db.get('folders', id);
+		const conv = await db.get('conversations', id);
 		if (msg) {
 			await db.delete('mails', id);
 			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
@@ -157,6 +158,11 @@ export class MailSyncService implements IMailSyncService {
 		else if (folder) {
 			await db.delete('folders', id);
 			fcSink<IMailFolderDeletedEv>('mail:folder:deleted', { id });
+		}
+		else if (conv) {
+			await db.delete('conversations', id);
+			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
+			forEach(conv.folder, (f: string): void => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f }));
 		}
 	}
 
