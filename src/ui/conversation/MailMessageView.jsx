@@ -34,6 +34,7 @@ import {
 	filter,
 	get
 } from 'lodash';
+import { DownloadFileButton, Padding } from '@zextras/zapp-ui';
 import hueFromString from '../../util/hueFromString';
 import MailServicesContext from '../../context/MailServicesContext';
 
@@ -123,6 +124,33 @@ export const MailView = ({ mail, first }) => {
 		setReadLock(false);
 	};
 
+	const attachments = reduce(
+		mail.parts[0].parts || [],
+		(r, p) => {
+			if (p.filename) {
+				return [
+					...r,
+					(
+						<Padding
+							key={`${p.name}-${p.filename}`}
+							vertical={1}
+						>
+							<DownloadFileButton
+								fileName={p.filename}
+								onClick={() => window.open(
+									`/service/home/~/?auth=co&id=${mail.id}&part=${p.name}`,
+									'_blank'
+								)}
+							/>
+						</Padding>
+					)
+				];
+			}
+			return r;
+		},
+		[]
+	);
+
 	return (
 		<>
 			<Paper
@@ -164,6 +192,7 @@ export const MailView = ({ mail, first }) => {
 					<Typography variant="body1" display="block" style={{ whiteSpace: 'pre-line' }} noWrap>
 						{get(mail, mail.bodyPath).content}
 					</Typography>
+					{ attachments }
 				</Paper>
 			</Collapse>
 		</>
