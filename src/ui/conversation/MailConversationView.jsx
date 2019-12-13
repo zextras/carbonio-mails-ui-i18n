@@ -67,8 +67,6 @@ const useStyles = makeStyles((theme) =>
 			flexDirection: 'row'
 		},
 		conversationContainer: {
-			maxHeight: '90%',
-			overflowY: 'auto',
 			padding: `0 ${theme.spacing(1)}px`
 		},
 		headerContainer: {
@@ -83,6 +81,10 @@ const useStyles = makeStyles((theme) =>
 			},
 			'& > :last-child': {
 				margin: `0 ${theme.spacing(1.5)}px 0 auto`
+			},
+			messageList: {
+				maxHeight: 'calc(100vh - 112px)',
+				overflowY: 'auto'
 			}
 		}
 	}));
@@ -127,8 +129,10 @@ const ConversationView = ({ syncSrvc, mailSrvc }) => {
 							<Close />
 						</Link>
 					</Paper>
-					{conversation.length > 0
+					<Grid style={{ maxHeight: 'calc(100vh - 112px)', overflowY: 'auto' }} className={classes.messageList}>
+						{conversation.length > 0
 						&& mapMails()}
+					</Grid>
 				</Grid>
 			</Grid>
 		</MailServicesContextProvider>

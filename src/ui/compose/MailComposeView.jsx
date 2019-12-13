@@ -102,6 +102,8 @@ const useStyles = makeStyles((theme) =>
 			justifyContent: 'flex-end'
 		},
 		textField: {
+			maxHeight: 'calc(100vh - 400px)',
+			overflowY: 'auto',
 			'& *': {
 				color: `${theme.palette.text.primary}!important`
 			}

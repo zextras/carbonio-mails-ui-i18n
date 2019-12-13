@@ -41,13 +41,19 @@ const useStyles = makeStyles((theme) =>
 		},
 		routerLink: {
 			textDecoration: 'none'
+		},
+		listContainer: {
+		},
+		innerListContainer: {
+			height: 'calc(100vh - 112px)',
+			overflowY: 'auto',
 		}
 	}));
 
 const InternalMailFolderListView = ({ conversations, path }) => {
 	const classes = useStyles();
 	return (
-		<Grid>
+		<Grid className={classes.innerListContainer}>
 			{conversations.map((conv) => (
 				<LinkRouter
 					key={conv.id}
@@ -110,7 +116,7 @@ const MailFolderListView = ({ path }) => {
 	);
 
 	return (
-		<Grid item xs={12} md={6}>
+		<Grid item xs={12} md={6} className={classes.listContainer}>
 			<Paper className={classes.breadcrumbsContainer}>
 				<Breadcrumbs aria-label="breadcrumb">
 					{ breadCrumbs }
