@@ -13,7 +13,6 @@ import React, { useContext } from 'react';
 import {
 	Hidden,
 	Paper,
-	Divider,
 	makeStyles,
 	createStyles,
 	TextField,
@@ -23,9 +22,7 @@ import {
 } from '@material-ui/core';
 import {
 	Create,
-	Close,
-	Send,
-	Save,
+	Close
 } from '@material-ui/icons';
 import { useLocation, useParams } from 'react-router';
 import clsx from 'clsx';
@@ -72,10 +69,8 @@ const MailComposeView = ({ mailSrvc, syncSrvc }) => {
 const useStyles = makeStyles((theme) =>
 	createStyles({
 		composerContainer: {
-			height: 'calc(100% - 64px)'
-		},
-		noRoundCorners: {
-			borderRadius: 0
+			height: 'calc(100% - 64px)',
+			padding: `0 ${theme.spacing(1)}px`
 		},
 		headerContainer: {
 			display: 'flex',
@@ -97,12 +92,19 @@ const useStyles = makeStyles((theme) =>
 			}
 		},
 		button: {
+			width: 160,
+			borderRadius: 4,
 			margin: theme.spacing(1.5),
 			marginLeft: 0
 		},
 		footerContainer: {
 			display: 'flex',
 			justifyContent: 'flex-end'
+		},
+		textField: {
+			'& *': {
+				color: `${theme.palette.text.primary}!important`
+			}
 		}
 	}));
 
@@ -129,11 +131,8 @@ const MailComposer = () => {
 				<Close />
 			</Paper>
 			<Paper className={clsx([classes.inputContainer, classes.noRoundCorners])}>
-				<Divider />
 				<TextField
-					inputProps={{
-						className: classes.noRoundCorners
-					}}
+					className={classes.textField}
 					value={to}
 					label={t('mail.composer.to', 'To:')}
 					type="email"
@@ -142,9 +141,8 @@ const MailComposer = () => {
 					onChange={(ev) => setField('to', ev.target.value)}
 				/>
 				<TextField
-					inputProps={{
-						className: classes.noRoundCorners
-					}}
+					className={classes.textField}
+					type="email"
 					value={cc}
 					label={t('mail.composer.cc', 'Cc:')}
 					variant="filled"
@@ -152,9 +150,7 @@ const MailComposer = () => {
 					onChange={(ev) => setField('cc', ev.target.value)}
 				/>
 				<TextField
-					inputProps={{
-						className: classes.noRoundCorners
-					}}
+					className={classes.textField}
 					value={subject}
 					label={t('mail.composer.subject', 'Subject:')}
 					variant="filled"
@@ -162,31 +158,29 @@ const MailComposer = () => {
 					onChange={(ev) => setField('subject', ev.target.value)}
 				/>
 				<TextField
+					className={classes.textField}
 					label={t('mail.composer.textarea.label', 'Write here your message')}
 					value={message}
 					multiline
 					onChange={(ev) => setField('message', ev.target.value)}
 				/>
-				<Divider />
 			</Paper>
 			<Paper
 				className={clsx([classes.noRoundCorners, classes.footerContainer])}
 			>
 				<Button
 					variant="contained"
-					color="secondary"
+					color="primary"
 					className={classes.button}
 					onClick={save}
-					endIcon={<Save />}
 				>
 					{t('mail.composer.draft', 'Draft')}
 				</Button>
 				<Button
 					variant="contained"
-					color="primary"
+					color="secondary"
 					className={classes.button}
 					onClick={send}
-					endIcon={<Send />}
 				>
 					{t('mail.composer.send', 'Send')}
 				</Button>

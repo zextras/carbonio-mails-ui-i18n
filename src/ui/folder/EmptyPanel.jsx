@@ -24,8 +24,8 @@ const EmptyPanel = ({ path }) => {
 	return (
 		<Grid item md={6} className={classes.emptyContainer}>
 			<MailOutline className={classes.centralIcon} />
-			<Typography variant="subtitle1" color="textSecondary" style={{ whiteSpace: 'pre-line' }}>
-				{'Select an email to read it\nor click the "Create" button to write a new email.'}
+			<Typography variant="subtitle1" style={{ whiteSpace: 'pre-line' }}>
+				{'Select an email to read it\nor click the "Create" button\nto write a new email.'}
 			</Typography>
 		</Grid>
 	);

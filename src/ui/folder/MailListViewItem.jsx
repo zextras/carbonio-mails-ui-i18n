@@ -32,6 +32,7 @@ import MailServicesContext from '../../context/MailServicesContext';
 const useStyles = makeStyles((theme) =>
 	createStyles({
 		listItemRoot: {
+			borderTop: '1px solid rgba(67,74,84,0.1)',
 			borderRadius: 0,
 			width: '100%',
 			backgroundColor: theme.palette.background.paper,
@@ -68,11 +69,6 @@ const useStyles = makeStyles((theme) =>
 			alignItems: 'flex-end',
 			justifyContent: 'space-between',
 			flexDirection: 'column'
-		},
-		dateText: {
-		},
-		attachmentIcon: {
-			color: theme.palette.text.secondary
 		}
 	}));
 
@@ -101,8 +97,8 @@ const MailListViewItem = ({ conversation }) => {
 			</Avatar>
 			<Grid className={classes.iconsColumn}>
 				{ conversation.read
-					? <RadioButtonUnchecked color="primary" onClickCapture={toggleRead} />
-					: <RadioButtonChecked color="primary" onClickCapture={toggleRead} />}
+					? <RadioButtonUnchecked color="secondary" onClickCapture={toggleRead} />
+					: <RadioButtonChecked color="secondary" onClickCapture={toggleRead} />}
 				{ conversation.urgent && <ArrowUpward color="error" /> }
 			</Grid>
 			<Grid className={classes.textColumn}>
@@ -117,11 +113,11 @@ const MailListViewItem = ({ conversation }) => {
 				</Typography>
 			</Grid>
 			<Grid className={classes.endColumn}>
-				<Typography className={classes.dateText} variant="body2" color="textSecondary" noWrap>
+				<Typography variant="body2" noWrap>
 					{mDate.format('DD/MM/YYYY HH:MM')}
 				</Typography>
 				{conversation.attachment
-				&& <Attachment className={classes.attachmentIcon} />}
+				&& <Attachment />}
 			</Grid>
 		</Paper>
 	);

@@ -18,7 +18,6 @@ import {
 	makeStyles,
 	createStyles,
 	Theme,
-	Divider,
 	Collapse,
 	Hidden
 } from '@material-ui/core';
@@ -68,9 +67,9 @@ const useStyles = makeStyles((theme) =>
 			flexDirection: 'row'
 		},
 		conversationContainer: {
-		//	margin: theme.spacing(1),
 			maxHeight: '90%',
-			overflowY: 'auto'
+			overflowY: 'auto',
+			padding: `0 ${theme.spacing(1)}px`
 		},
 		headerContainer: {
 			borderRadius: 0,
@@ -94,7 +93,6 @@ const ConversationView = ({ syncSrvc, mailSrvc }) => {
 	const convObs = syncSrvc.getConversationMessages(id);
 	const conversation = useObservable(convObs);
 	const location = useLocation();
-	const [readLock, setReadLock] = useState(false);
 
 	const mapMails = () => {
 		let conversations = sortBy(conversation, ['date']).reverse();
@@ -129,7 +127,6 @@ const ConversationView = ({ syncSrvc, mailSrvc }) => {
 							<Close />
 						</Link>
 					</Paper>
-					<Divider />
 					{conversation.length > 0
 						&& mapMails()}
 				</Grid>

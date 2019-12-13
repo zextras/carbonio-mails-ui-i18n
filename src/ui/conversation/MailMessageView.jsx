@@ -49,6 +49,7 @@ function useObservable(observable) {
 const useStyles = makeStyles((theme) =>
 	createStyles({
 		messageItemRoot: {
+			borderTop: '1px solid rgba(67,74,84,0.1)',
 			borderRadius: 0,
 			width: '100%',
 			backgroundColor: theme.palette.background.paper,
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) =>
 			width: '100%'
 		},
 		mailBody: {
+			borderTop: '1px solid rgba(67,74,84,0.1)',
 			padding: theme.spacing(1.5),
 			borderRadius: 0
 		},
@@ -137,8 +139,8 @@ export const MailView = ({ mail, first }) => {
 				</Avatar>
 				<Grid className={classes.iconsColumn}>
 					{ mail.read
-						? <RadioButtonUnchecked color="primary" onClickCapture={toggleRead} />
-						: <RadioButtonChecked color="primary" onClickCapture={toggleRead} />}
+						? <RadioButtonUnchecked color="secondary" onClickCapture={toggleRead} />
+						: <RadioButtonChecked color="secondary" onClickCapture={toggleRead} />}
 					{ mail.urgent && <ArrowUpward color="error" /> }
 				</Grid>
 				<Grid className={classes.textColumn}>
