@@ -11,10 +11,9 @@
 /* @flow */
 import { BehaviorSubject } from 'rxjs';
 import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
-import { sendSOAPRequest } from '@zextras/zapp-shell/network';
+import { fcSink } from '@zextras/zapp-shell/fc';
 import { map } from 'lodash';
 import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
-import { IConvActionReq, IConvActionResp } from './IMailService';
 import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 import { convertFolderToMenuItem } from './MailServiceUtils';
 
@@ -65,31 +64,41 @@ export class MailService {
 	setMessageRead(mail: IMailSchm, click: boolean): void {
 		if (!this._locks[mail.conversationId] || click) {
 			this._locks[mail.conversationId] = false;
-			sendSOAPRequest<IConvActionReq, IConvActionResp>(
-				'MsgAction',
-				{
-					action: {
-						id: mail.id,
-						op: `${mail.read ? '!' : ''}read`
+			fcSink('sync:operation:push', {
+				opType: 'soap',
+				opData: {},
+				description: `Mark as Read (${mail.subject})`,
+				request: {
+					command: 'MsgAction',
+					urn: 'urn:zimbraMail',
+					data: {
+						action: {
+							id: mail.id,
+							op: `${mail.read ? '!' : ''}read`
+						}
 					}
-				},
-				'urn:zimbraMail'
-			);
+				}
+			});
 		}
 	}
 
 	setConversationRead(id: string, read: boolean): void {
 		this._locks[id] = true;
-		sendSOAPRequest<IConvActionReq, IConvActionResp>(
-			'ConvAction',
-			{
-				action: {
-					id,
-					op: `${read ? '' : '!'}read`
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: {},
+			description: 'Mark conversation as Read',
+			request: {
+				command: 'ConvAction',
+				urn: 'urn:zimbraMail',
+				data: {
+					action: {
+						id,
+						op: `${read ? '' : '!'}read`
+					}
 				}
-			},
-			'urn:zimbraMail'
-		);
+			}
+		});
 	}
 
 	getFolderBreadcrumbs(path: string): [?IMailFolder, Array<IMailFolder>] {
