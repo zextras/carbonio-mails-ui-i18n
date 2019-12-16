@@ -63,7 +63,7 @@ const InternalMailFolderListView = ({ conversations, path }) => {
 					}}
 					className={classes.routerLink}
 				>
-					<MailListViewItem conversation={conv} />
+					<MailListViewItem conversation={conv} useToContact={path === 'Sent' || path === 'Drafts'} />
 				</LinkRouter>
 			))}
 		</Grid>

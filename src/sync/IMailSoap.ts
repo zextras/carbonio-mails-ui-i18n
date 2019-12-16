@@ -20,6 +20,7 @@ export type IMsgActionReqObj = {
 
 export type ISearchReq = {
 	query: string;
+	recip?: 0|1|2;
 	fullConversation?: 1|0;
 	fetch?: 'all';
 	neuter?: 1|0;

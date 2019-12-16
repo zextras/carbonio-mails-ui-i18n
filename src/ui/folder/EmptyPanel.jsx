@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, makeStyles, createStyles, Theme, Typography } from '@material-ui/core';
 import { MailOutline } from '@material-ui/icons';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -14,7 +15,9 @@ const useStyles = makeStyles((theme) =>
 		},
 		centralIcon: {
 			width: theme.spacing(12),
-			height: theme.spacing(12),
+			height: theme.spacing(12)
+		},
+		grey: {
 			color: theme.palette.grey[500]
 		}
 	}));
@@ -23,8 +26,8 @@ const EmptyPanel = ({ path }) => {
 	const classes = useStyles();
 	return (
 		<Grid item md={6} className={classes.emptyContainer}>
-			<MailOutline className={classes.centralIcon} />
-			<Typography variant="subtitle1" style={{ whiteSpace: 'pre-line' }}>
+			<MailOutline className={clsx(classes.centralIcon, classes.grey)} />
+			<Typography className={classes.grey} variant="body1" style={{ whiteSpace: 'pre-line' }}>
 				{'Select an email to read it\nor click the "Create" button\nto write a new email.'}
 			</Typography>
 		</Grid>

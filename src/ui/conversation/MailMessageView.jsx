@@ -78,6 +78,10 @@ const useStyles = makeStyles((theme) =>
 			flexDirection: 'column',
 			alignItems: 'center',
 			justifyContent: 'flex-start'
+		},
+		miniIcon: {
+			width: theme.spacing(2),
+			height: theme.spacing(2)
 		}
 	}));
 
@@ -167,21 +171,21 @@ export const MailView = ({ mail, first }) => {
 				</Avatar>
 				<Grid className={classes.iconsColumn}>
 					{ mail.read
-						? <RadioButtonUnchecked color="secondary" onClickCapture={toggleRead} />
-						: <RadioButtonChecked color="secondary" onClickCapture={toggleRead} />}
-					{ mail.urgent && <ArrowUpward color="error" /> }
+						? <RadioButtonUnchecked className={classes.miniIcon} color="secondary" onClickCapture={toggleRead} />
+						: <RadioButtonChecked className={classes.miniIcon} color="secondary" onClickCapture={toggleRead} />}
+					{ mail.urgent && <ArrowUpward className={classes.miniIcon} color="error" /> }
 				</Grid>
 				<Grid className={classes.textColumn}>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
+					<Typography variant={mail.read ? 'subtitle2' : 'subtitle1'} noWrap>
 						{`From: ${fromContact && (fromContact.name || fromContact.address)}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
+					<Typography variant={mail.read ? 'subtitle2' : 'subtitle1'} noWrap>
 						{`To: ${toContact && (toContact.name || toContact.address)}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
+					<Typography variant={mail.read ? 'subtitle2' : 'subtitle1'} noWrap>
 						{`Cc: ${ccLine}`}
 					</Typography>
-					<Typography variant={mail.read ? 'body2' : 'subtitle2'} noWrap>
+					<Typography variant={mail.read ? 'subtitle2' : 'subtitle1'} noWrap>
 						{`Subject: ${mail.subject}`}
 					</Typography>
 				</Grid>

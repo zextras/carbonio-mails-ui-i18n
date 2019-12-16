@@ -308,6 +308,7 @@ export class MailSyncService implements IMailSyncService {
 			query: `in:"${path}"`,
 			limit: 100,
 			fullConversation: 1,
+			recip: 2,
 			types: 'conversation'
 		}, 'urn:zimbraMail');
 		return reduce<IConvObj, Array<IConvSchm>>(
