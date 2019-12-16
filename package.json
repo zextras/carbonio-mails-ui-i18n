@@ -32,8 +32,8 @@
     "@types/react-virtualized": "9.21.5",
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
-    "@zextras/zapp-cli": "0.0.15",
-    "@zextras/zapp-shell": "0.0.27",
+    "@zextras/zapp-cli": "0.0.16",
+    "@zextras/zapp-shell": "0.0.32",
     "@zextras/zapp-ui": "0.0.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",
@@ -52,6 +52,7 @@
     "eslint-plugin-standard": "4.0.1",
     "flow-bin": "0.109.0",
     "moment": "2.24.0",
+    "postcss-loader": "3.0.0",
     "react-test-renderer": "16.10.2",
     "typescript": "3.6.4"
   },
