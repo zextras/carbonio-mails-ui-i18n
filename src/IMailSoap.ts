@@ -27,17 +27,17 @@ import {
 
 export type FolderView = 'document'|'appointment'|'message'|'contact'|'task';
 
-export interface IGetMsgReq {
+export type IGetMsgReq = {
 	m: {
 		id: string;
 	};
-}
+};
 
-export interface IGetMsgResp extends ISoapResponseContent {
+export type IGetMsgResp = ISoapResponseContent & {
 	m: Array<IMsgItemObj>;
-}
+};
 
-export interface IMsgItemObj {
+export type IMsgItemObj = {
 	id: string;
 	/** Conversation id */ cid: string;
 	/** Folder id */ l: string;
@@ -51,9 +51,9 @@ export interface IMsgItemObj {
 	/** Size */ s: number;
 	/** Subject */ su: string;
 	/** Date */ sd: number;
-}
+};
 
-export interface IMsgContactObj {
+export type IMsgContactObj = {
 	/** address */ a: string;
 	/** display name */ d: string;
 	/** type */ t:
@@ -66,9 +66,9 @@ export interface IMsgContactObj {
 		/**	read-receipt-notification	*/ 'n' |
 		/**	resent from	*/ 'rf'
 	;
-}
+};
 
-export interface IMsgPartObj {
+export type IMsgPartObj = {
 	part: string;
 	/**	Content Type	*/ ct: string;
 	/**	Size	*/ s: number;
@@ -77,17 +77,17 @@ export interface IMsgPartObj {
 	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;
-}
+};
 
-export interface IBaseMsgItemObj {
+export type IBaseMsgItemObj = {
 	d: string; // contains a number
 	f: string;
 	id: string;
 	l: string;
 	s: string; // contains a number
-}
+};
 
-export interface IConvObj {
+export type IConvObj = {
 	d: number;
 	l: string;
 	e: Array<IMsgContactObj>;
@@ -99,7 +99,7 @@ export interface IConvObj {
 	sf: string; // contains a number
 	su: string;
 	u: number;
-}
+};
 
 function contactTypeToEnum(t: 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf'): MailContactType {
 	switch (t) {

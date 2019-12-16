@@ -22,7 +22,7 @@ export enum MailContactType {
 	resentFrom = 'resent-from'
 }
 
-export interface IMailIdbSchema extends IIDBFolderSchmV1 {
+export type IMailIdbSchema = IIDBFolderSchmV1 & {
 	mails: {
 		key: string;
 		value: IMailSchm;
@@ -38,9 +38,9 @@ export interface IMailIdbSchema extends IIDBFolderSchmV1 {
 			folder: string;
 		};
 	};
-}
+};
 
-export interface IMailSchm {
+export type IMailSchm = {
 	id: string;
 	conversationId: string;
 	folder: string;
@@ -55,9 +55,9 @@ export interface IMailSchm {
 	flagged: boolean;
 	urgent: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
-}
+};
 
-export interface IConvSchm {
+export type IConvSchm = {
 	id: string;
 	contacts: Array<IMailContactSchm>;
 	messages: Array<string>;
@@ -71,19 +71,19 @@ export interface IConvSchm {
 	flagged: boolean;
 	attachment: boolean;
 	urgent: boolean;
-}
+};
 
-export interface IMailPartSchm {
+export type IMailPartSchm = {
 	contentType: string;
 	size: number;
 	content?: string;
 	name: string;
 	filename?: string;
 	parts?: Array<IMailPartSchm>;
-}
+};
 
-export interface IMailContactSchm {
+export type IMailContactSchm = {
 	name?: string;
 	address: string;
 	type: MailContactType;
-}
+};

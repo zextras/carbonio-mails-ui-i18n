@@ -14,24 +14,24 @@ import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterServ
 import { IMailFolder } from '../sync/IMailSyncService';
 import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 
-export interface IMailService {
+export type IMailService = {
 	mainMenuChildren: BehaviorSubject<Array<IMainSubMenuItemData>>;
 	getFolderBreadcrumbs(path: string): [IMailFolder|undefined, Array<IMailFolder>];
 	folderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
 	setConversationRead(convId: string, read: boolean): void;
 	setMessageRead(mail: IMailSchm, click: boolean): void;
-}
+};
 
-export interface IConvActionReq {
+export type IConvActionReq = {
 	action: {
 		id: string;
 		op: string;
 	};
-}
+};
 
-export interface IConvActionResp {
+export type IConvActionResp = {
 	action: {
 		id: string;
 		op: string;
 	};
-}
+};

@@ -12,7 +12,7 @@
 import { IMailService } from '../mail/IMailService';
 import { IMailSyncService } from '../sync/IMailSyncService';
 
-export interface IMailServicesContext {
+export type IMailServicesContext = {
 	mailSrvc?: IMailService;
 	syncSrvc?: IMailSyncService;
-}
+};

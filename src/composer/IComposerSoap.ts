@@ -8,38 +8,38 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-export interface ISaveDraftRequest {
+export type ISaveDraftRequest = {
 	m: {
 		e: Array<IMailContact>;
 		mp: Array<IMailMP>;
 		id?: string;
 		su: string;
 	};
-}
+};
 
-export interface ISendMailRequest {
+export type ISendMailRequest = {
 	m: {
 		e: Array<IMailContact>;
 		mp: Array<IMailMP>;
 		did?: string;
 		su: string;
 	};
-}
+};
 
-export interface IMailContact {
+export type IMailContact = {
 	t: 't' // to
 	| 'c' // cc
 	| 'f';// from
 	a: string;
-}
+};
 
-export interface IMailMP {
+export type IMailMP = {
 	ct: 'text/plain';
 	content: {
 		_content: string;
 	};
-}
+};
 
-export interface ISaveDraftResponse {
+export type ISaveDraftResponse = {
 	m: Array<{ id: string	}>;
-}
+};

@@ -19,16 +19,16 @@ export interface IMailSyncService {
 	getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>>;
 }
 
-export interface IMailFolder extends IFolderSchmV1 {
+export type IMailFolder = IFolderSchmV1 & {
 	children: Array<IMailFolder>;
-}
+};
 
-export interface ISyncMailItemData {
+export type ISyncMailItemData = {
 	f: string;
 	l?: string;
 	id: string;
-}
+};
 
-export interface ISyncMailFolderData {
+export type ISyncMailFolderData = {
 	ids: string;
-}
+};
