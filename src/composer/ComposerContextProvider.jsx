@@ -14,8 +14,9 @@ import React, {
 	useEffect,
 	useContext
 } from 'react';
-import { sendSOAPRequest } from '@zextras/zapp-shell/network';
 import { sessionSrvc } from '@zextras/zapp-shell/service';
+import { fcSink, fc } from '@zextras/zapp-shell/fc';
+import { filter as rxFilter } from 'rxjs/operators';
 import {
 	map,
 	find,
@@ -31,12 +32,12 @@ function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
 	useEffect(() => {
 		const sub = observable.subscribe(setValue);
-		return () => sub.unsubscribe();
+		return (): void => sub.unsubscribe();
 	}, [observable]);
 	return value;
 }
 
-const ComposerContextProvider = ({ children, convId }) => {
+const ComposerContextProvider = ({ children, convId }): void => {
 	const { syncSrvc } = useContext(MailServicesContext);
 	const [contextValues, setContextValues] = useState(
 		{
@@ -78,14 +79,14 @@ const ComposerContextProvider = ({ children, convId }) => {
 				}
 			});
 		}
-		return () => {
+		return (): void => {
 			if (draftSub) {
 				draftSub.unsubscribe();
 			}
 		};
 	}, [convId]);
 
-	const setField = (field, text) => {
+	const setField = (field, text): void => {
 		const newValues = { ...contextValues };
 		switch (field) {
 			case 'to':
@@ -106,76 +107,103 @@ const ComposerContextProvider = ({ children, convId }) => {
 		setContextValues(newValues);
 	};
 
-	const save = () => {
-		const resp = sendSOAPRequest('SaveDraft', {
-			m: {
-				id,
-				su: contextValues.subject,
-				e: [
-					{
-						t: 'f',
-						a: userData.username
-					},
-					{
-						t: 't',
-						a: contextValues.to
-					},
-					...(map(
-						contextValues.cc.split(' '),
-						(str) => ({
-							a: str,
-							t: 'c'
-						})
-					))
-				],
-				mp: [
-					{
-						ct: 'text/plain',
-						content: {
-							_content: contextValues.message,
-						}
+	const save = (): void => {
+		const tempDraftId = id || `draft-${Date.now()}`;
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { tempDraftId },
+			description: `Save Draft (${contextValues.subject})`,
+			request: {
+				command: 'SaveDraft',
+				urn: 'urn:zimbraMail',
+				data: {
+					m: {
+						id,
+						su: contextValues.subject,
+						e: [
+							{
+								t: 'f',
+								a: userData.username
+							},
+							{
+								t: 't',
+								a: contextValues.to
+							},
+							...(map(
+								contextValues.cc.split(' '),
+								(str) => ({
+									a: str,
+									t: 'c'
+								})
+							))
+						],
+						mp: [
+							{
+								ct: 'text/plain',
+								content: {
+									_content: contextValues.message,
+								}
+							}
+						]
 					}
-				]
-			},
-		}, 'urn:zimbraMail').then((r) => setId(r.m[0].id));
+				}
+			}
+		});
+		fc.pipe(
+			rxFilter(
+				(ev) => (
+					ev.event === 'sync:operation:completed'
+					&& ev.data.operation.opData
+					&& ev.data.operation.opData.tempDraftId === tempDraftId
+				)
+			)
+		).subscribe((ev) => setId(ev.data.result.m[0].id));
 	};
 
-	const send = () => {
-		sendSOAPRequest('SendMsg', {
-			m: {
-				did: id,
-				su: contextValues.subject,
-				e: [
-					{
-						t: 'f',
-						a: userData.username
+	const send = (): void => {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: {},
+			description: `Send Mail (${contextValues.subject})`,
+			request: {
+				command: 'SendMsg',
+				urn: 'urn:zimbraMail',
+				data: {
+					m: {
+						did: id,
+						su: contextValues.subject,
+						e: [
+							{
+								t: 'f',
+								a: userData.username
+							},
+							{
+								t: 't',
+								a: contextValues.to
+							},
+							...map(
+								{ ...contextValues.cc.split(' ') },
+								(str) => ({
+									a: str,
+									t: 'c'
+								})
+							)
+						],
+						mp: [
+							{
+								ct: 'text/plain',
+								content: {
+									_content: contextValues.message,
+								}
+							}
+						]
 					},
-					{
-						t: 't',
-						a: contextValues.to
-					},
-					...map(
-						{ ...contextValues.cc.split(' ') },
-						(str) => ({
-							a: str,
-							t: 'c'
-						})
-					)
-				],
-				mp: [
-					{
-						ct: 'text/plain',
-						content: {
-							_content: contextValues.message,
-						}
-					}
-				]
-			},
-		}, 'urn:zimbraMail').then(() => {
-			history.push('/mail/folder/Sent');
-		//	syncSrvc.deleteConversation
+				}
+			}
 		});
+		history.push('/mail/folder/Sent');
 	};
+
 	return (
 		<ComposerContext.Provider
 			value={{
