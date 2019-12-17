@@ -9,11 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 
-export interface IMailEvWithId {
+export type IMailEvWithId = {
 	id: string;
-}
+};
 
-export interface IMailFolderUpdatedEv extends IMailEvWithId {}
-export interface IMailFolderDeletedEv extends IMailEvWithId {}
-export interface IMailItemUpdatedEv extends IMailEvWithId {}
-export interface IMailItemDeletedEv extends IMailEvWithId {}
+export type IMailFolderUpdatedEv = IMailEvWithId & {};
+export type IMailFolderDeletedEv = IMailEvWithId & {};
+export type IMailItemUpdatedEv = IMailEvWithId & {};
+export type IMailItemDeletedEv = IMailEvWithId & {};

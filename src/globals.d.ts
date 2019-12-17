@@ -10,3 +10,4 @@
  */
 
 declare module '*.less';
+declare module '*.properties';

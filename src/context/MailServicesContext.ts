@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-export class MailService {
+import { createContext } from 'react';
+import { IMailServicesContext } from './IMailServicesContext';
 
-}
+export default createContext<IMailServicesContext>({});

@@ -8,15 +8,15 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
-import React, { FC } from 'react';
-
-interface IMailListViewProps {
-}
-
-const MailListView: FC<IMailListViewProps> = () => {
-	return (
-		<div>Hello mail</div>
-	);
+export type IComposerInputs = {
+	to: string;
+	cc: string;
+	subject: string;
+	message: string;
 };
-export default MailListView;
+
+export type IComposerContext = IComposerInputs & {
+	setField: (field: 'to' | 'cc' | 'subject' | 'message', text: string) => void;
+	send: () => void;
+	save: () => void;
+};

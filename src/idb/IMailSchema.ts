@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { DBSchema } from 'idb/lib/entry';
+import { IIDBFolderSchmV1 } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
 
 export enum MailContactType {
 	from = 'from',
@@ -22,14 +22,7 @@ export enum MailContactType {
 	resentFrom = 'resent-from'
 }
 
-export interface IMailIdbSchema extends DBSchema {
-	folders: {
-		key: string;
-		value: IFolderSchm;
-		indexes: {
-			parent: string;
-		};
-	};
+export type IMailIdbSchema = IIDBFolderSchmV1 & {
 	mails: {
 		key: string;
 		value: IMailSchm;
@@ -38,16 +31,16 @@ export interface IMailIdbSchema extends DBSchema {
 			conversation: string;
 		};
 	};
-}
+	conversations: {
+		key: string;
+		value: IConvSchm;
+		indexes: {
+			folder: string;
+		};
+	};
+};
 
-interface IFolderSchm {
-	id: string;
-	parent: string;
-	name: string;
-	unread: boolean;
-}
-
-export interface IMailSchm {
+export type IMailSchm = {
 	id: string;
 	conversationId: string;
 	folder: string;
@@ -58,20 +51,39 @@ export interface IMailSchm {
 	read: boolean;
 	parts: Array<IMailPartSchm>;
 	size: number;
+	attachment: boolean;
+	flagged: boolean;
+	urgent: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
-}
+};
 
-export interface IMailPartSchm {
+export type IConvSchm = {
+	id: string;
+	contacts: Array<IMailContactSchm>;
+	messages: Array<string>;
+	date: number;
+	folder: Array<string>;
+	subject: string;
+	fragment: string;
+	msgCount: number;
+	unreadMsgCount: number;
+	read: boolean;
+	flagged: boolean;
+	attachment: boolean;
+	urgent: boolean;
+};
+
+export type IMailPartSchm = {
 	contentType: string;
 	size: number;
 	content?: string;
 	name: string;
 	filename?: string;
 	parts?: Array<IMailPartSchm>;
-}
+};
 
-export interface IMailContactSchm {
+export type IMailContactSchm = {
 	name?: string;
 	address: string;
 	type: MailContactType;
-}
+};

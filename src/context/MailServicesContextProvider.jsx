@@ -9,14 +9,19 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC } from 'react';
+import React from 'react';
+import MailServicesContext from './MailServicesContext';
 
-interface IMailComposeViewProps {
-}
-
-const MailComposeView: FC<IMailComposeViewProps> = () => {
+const MailServicesContextProvider = ({ mailSrvc, syncSrvc, children }) => {
 	return (
-		<div>Hello mail</div>
+		<MailServicesContext.Provider
+			value={{
+				mailSrvc,
+				syncSrvc
+			}}
+		>
+			{children}
+		</MailServicesContext.Provider>
 	);
 };
-export default MailComposeView;
+export default MailServicesContextProvider;

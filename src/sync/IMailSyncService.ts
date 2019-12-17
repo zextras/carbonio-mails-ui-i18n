@@ -9,15 +9,26 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { BehaviorSubject } from 'rxjs';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
+
 export interface IMailSyncService {
+	folders: BehaviorSubject<Array<IMailFolder>>;
+	getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
+	getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>>;
 }
 
-export interface ISyncMailItemData {
+export type IMailFolder = IFolderSchmV1 & {
+	children: Array<IMailFolder>;
+};
+
+export type ISyncMailItemData = {
 	f: string;
 	l?: string;
 	id: string;
-}
+};
 
-export interface ISyncMailFolderData {
+export type ISyncMailFolderData = {
 	ids: string;
-}
+};

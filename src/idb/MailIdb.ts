@@ -10,16 +10,18 @@
  */
 
 import { IDBPDatabase, IDBPTransaction } from 'idb';
+import { createFolderIdb } from '@zextras/zapp-shell/utils';
 import { IMailIdbSchema } from './IMailSchema';
 
 export const schemaVersion = 1;
 
 function createDb(db: IDBPDatabase<IMailIdbSchema>): void {
-	const foldersStore = db.createObjectStore('folders', { keyPath: 'id' });
-	foldersStore.createIndex('parent', 'parent', { unique: false });
 	const mailsStore = db.createObjectStore('mails', { keyPath: 'id' });
 	mailsStore.createIndex('folder', 'folder', { unique: false });
 	mailsStore.createIndex('conversation', 'conversationId', { unique: false });
+	const conversationsStore = db.createObjectStore('conversations', { keyPath: 'id' });
+	conversationsStore.createIndex('folder', 'folder', { unique: false, multiEntry: true });
+	createFolderIdb(1, db);
 }
 
 export function upgradeFn(

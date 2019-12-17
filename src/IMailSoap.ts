@@ -10,52 +10,34 @@
  */
 
 import { ISoapResponseContent } from '@zextras/zapp-shell/lib/network/ISoap';
-import { map } from 'lodash';
 import {
+	map,
+	flattenDeep,
+	trim,
+	reduce,
+	uniq
+} from 'lodash';
+import {
+	IConvSchm,
 	IMailContactSchm,
 	IMailPartSchm,
 	IMailSchm,
 	MailContactType
 } from './idb/IMailSchema';
 
-export interface IGetFolderRequestData {
-	folder: {
-		l: string;
-		depth?: number;
-	};
-}
-
-export interface IGetFolderResponseData extends ISoapResponseContent {
-	folder: Array<{
-		folder: Array<ISoapFolderObj>;
-	}>;
-}
-
 export type FolderView = 'document'|'appointment'|'message'|'contact'|'task';
 
-export interface IGetMsgReq {
+export type IGetMsgReq = {
 	m: {
 		id: string;
 	};
-}
+};
 
-export interface IGetMsgResp extends ISoapResponseContent {
+export type IGetMsgResp = ISoapResponseContent & {
 	m: Array<IMsgItemObj>;
-}
+};
 
-export interface ISoapFolderObj {
-	id: string;
-	/** Parent ID */ l: string;
-	name: string;
-	view: FolderView;
-	absFolderPath: string;
-	/** Size */ s: number;
-	/** Count of unread messages */ u: number;
-	/** Count of non-folder items */ n: number;
-	deletable: boolean;
-}
-
-export interface IMsgItemObj {
+export type IMsgItemObj = {
 	id: string;
 	/** Conversation id */ cid: string;
 	/** Folder id */ l: string;
@@ -69,9 +51,9 @@ export interface IMsgItemObj {
 	/** Size */ s: number;
 	/** Subject */ su: string;
 	/** Date */ sd: number;
-}
+};
 
-export interface IMsgContactObj {
+export type IMsgContactObj = {
 	/** address */ a: string;
 	/** display name */ d: string;
 	/** type */ t:
@@ -84,18 +66,40 @@ export interface IMsgContactObj {
 		/**	read-receipt-notification	*/ 'n' |
 		/**	resent from	*/ 'rf'
 	;
-}
+};
 
-export interface IMsgPartObj {
+export type IMsgPartObj = {
 	part: string;
 	/**	Content Type	*/ ct: string;
 	/**	Size	*/ s: number;
 	/**	Content id (for inline images)	*/ ci: string;
 	/**	Parts	*/ mp: Array<IMsgPartObj>;
-	/**	Set if is the body of the message	*/ body?: 1;
+	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;
-}
+};
+
+export type IBaseMsgItemObj = {
+	d: string; // contains a number
+	f: string;
+	id: string;
+	l: string;
+	s: string; // contains a number
+};
+
+export type IConvObj = {
+	d: number;
+	l: string;
+	e: Array<IMsgContactObj>;
+	f: string;
+	fr: string;
+	id: string;
+	m: Array<IBaseMsgItemObj>;
+	n: number;
+	sf: string; // contains a number
+	su: string;
+	u: number;
+};
 
 function contactTypeToEnum(t: 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf'): MailContactType {
 	switch (t) {
@@ -136,7 +140,7 @@ function normalizeMailPartMapFn(v: IMsgPartObj): IMailPartSchm {
 		name: v.part,
 	};
 	if (v.filename) ret.filename = v.filename;
-	if (v.content) ret.filename = v.content;
+	if (v.content) ret.content = v.content;
 	return ret;
 }
 
@@ -151,9 +155,41 @@ function normalizeMailContacts(e: Array<IMsgContactObj>): Array<IMailContactSchm
 	);
 }
 
+function recursiveBodyPath(mp: Array<IMsgPartObj>): Array<number> {
+	// eslint-disable-next-line @typescript-eslint/no-use-before-define
+	const result = flattenDeep(map(mp, bodyPathMapFn));
+	return result;
+}
+
+function generateBodyPath(mp: Array<IMsgPartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
+}
+
+
+function bodyPathMapFn(v: IMsgPartObj, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	if (v.mp) {
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
+		}
+	}
+	return [];
+}
+
 export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 	const contacts: Array<IMailContactSchm> = normalizeMailContacts(m.e || []);
 	const parts: Array<IMailPartSchm> = normalizeMailParts(m.mp || []);
+	const bodyPath: string = generateBodyPath(m.mp || []);
 	return {
 		conversationId: m.cid,
 		id: m.id,
@@ -162,9 +198,31 @@ export const normalizeMessage = (m: IMsgItemObj): IMailSchm => {
 		folder: m.l,
 		parts,
 		fragment: m.fr,
-		bodyPath: '',
+		bodyPath,
 		subject: m.su,
 		contacts,
-		read: /u/.test(m.f) // TODO: Fix here, sometimes is undefined and return true!
+		read: !(/u/.test(m.f || '')),
+		attachment: /a/.test(m.f || ''),
+		flagged: /f/.test(m.f || ''),
+		urgent: /!/.test(m.f || ''),
 	};
 };
+
+export const normalizeConversation = (c: IConvObj): IConvSchm => ({
+	contacts: normalizeMailContacts(c.e || []),
+	date: c.d,
+	fragment: c.fr,
+	subject: c.su,
+	read: !(/u/.test(c.f || '')),
+	flagged: /f/.test(c.f || ''),
+	urgent: /!/.test(c.f || ''),
+	id: c.id,
+	msgCount: c.n,
+	unreadMsgCount: c.u,
+	attachment: /a/.test(c.f || ''),
+	folder: uniq(map(c.m, (m) => m.l)),
+	messages: map(
+		c.m,
+		(m) => m.id
+	)
+});

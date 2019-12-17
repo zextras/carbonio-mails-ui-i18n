@@ -9,17 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC } from 'react';
-import { useRouteMatch } from 'react-router';
+import { IMailService } from '../mail/IMailService';
+import { IMailSyncService } from '../sync/IMailSyncService';
 
-interface IMailViewProps {
-}
-
-const MailView: FC<IMailViewProps> = () => {
-	// let { id } = useRouteMatch<{id: string}>();
-
-	return (
-		<div>Hello mail</div>
-	);
+export type IMailServicesContext = {
+	mailSrvc?: IMailService;
+	syncSrvc?: IMailSyncService;
 };
-export default MailView;

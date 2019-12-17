@@ -11,7 +11,7 @@
 
 import { FolderView } from '../IMailSoap';
 
-export interface IFolder {
+export type IFolder = {
 	id: string;
 	name: string;
 	parent: string;

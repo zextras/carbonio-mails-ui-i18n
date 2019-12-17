@@ -67,6 +67,6 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'import/no-extraneous-dependencies': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service)'] }]
+    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service|sync|utils)'] }]
   }
 };

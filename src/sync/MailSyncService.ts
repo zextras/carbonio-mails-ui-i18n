@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2019 ZeXtras
@@ -9,36 +10,85 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { registerSyncItemParser, registerSyncFolderParser, syncFolderById } from '@zextras/zapp-shell/sync';
+import {
+	registerSyncItemParser,
+} from '@zextras/zapp-shell/sync';
 import { registerNotificationParser, sendSOAPRequest } from '@zextras/zapp-shell/network';
-import { ISyncFolderParser, ISyncItemParser } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import {
+	ISyncItemParser
+} from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
-import { map, uniq } from 'lodash';
+import {
+	map,
+	forEach,
+	flattenDeep,
+	filter as loFilter,
+	reduce,
+	forOwn,
+	orderBy,
+} from 'lodash';
 import { openDb } from '@zextras/zapp-shell/idb';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
 import { filter } from 'rxjs/operators';
 import { IFCEvent } from '@zextras/zapp-shell/lib/fc/IFiberChannel';
-import { IGetMsgReq, IGetMsgResp, normalizeMessage } from '../IMailSoap';
-import { IMailIdbSchema } from '../idb/IMailSchema';
-import { IMailSyncService, ISyncMailFolderData, ISyncMailItemData } from './IMailSyncService';
+import {
+	IGetFolderReq,
+	IGetFolderRes,
+	ISoapFolderCreatedNotificationObj,
+	ISoapFolderModifiedNotificationObj,
+	ISoapFolderObj
+} from '@zextras/zapp-shell/lib/network/ISoap';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { normalizeFolder } from '@zextras/zapp-shell/utils';
+import { BehaviorSubject } from 'rxjs';
+import {
+	IConvObj,
+	IGetMsgReq,
+	IGetMsgResp,
+	normalizeConversation,
+	normalizeMessage
+} from '../IMailSoap';
+import { IConvSchm, IMailIdbSchema, IMailSchm } from '../idb/IMailSchema';
+import { IMailFolder, IMailSyncService, ISyncMailItemData } from './IMailSyncService';
 import {
 	IMailFolderDeletedEv,
 	IMailFolderUpdatedEv,
 	IMailItemDeletedEv,
 	IMailItemUpdatedEv
 } from '../IMailFCevents';
+import { ISearchConvResp, ISearchReq } from './IMailSoap';
 
 export class MailSyncService implements IMailSyncService {
+
+	public folders: BehaviorSubject<Array<IMailFolder>> = new BehaviorSubject<Array<IMailFolder>>([]);
+
+	private _conversationCache: {[path: string]: BehaviorSubject<Array<IMailSchm>>} = {};
+
+	private _folderContentCache: {[path: string]: BehaviorSubject<Array<IConvSchm>>} = {};
+
 	constructor() {
 		registerNotificationParser('m', this._notificationParser);
+		registerNotificationParser('folder', this._folderNotificationParser);
 		registerSyncItemParser('m', this._syncItemParser);
-		registerSyncFolderParser('m', this._syncFolderParser);
+		registerSyncItemParser('folder', this._syncFolderParser);
 		fc.pipe(
-			filter<IFCEvent<string>>((e) => e.event === 'notification:item-deleted')
+			filter<IFCEvent<string>>((e) => e.event === 'notification:item:deleted')
 		)
-			.subscribe(this._onItemDeleted);
+			.subscribe((ev) => this._onItemDeleted(ev).then(() => undefined));
 
-		syncFolderById('2'); // Always sync the inbox folder
+		fc.pipe(
+			filter<IFCEvent<IMailItemUpdatedEv>>((e) => e.event === 'mail:item:updated')
+		)
+			.subscribe((ev) => this._onItemUpdated(ev).then(() => undefined));
+
+		fc.pipe(
+			filter<IFCEvent<IMailFolderUpdatedEv>>((e) => e.event === 'mail:folder:updated')
+		)
+			.subscribe((ev) => this._onFolderUpdated(ev).then(() => undefined));
+
+		fc.pipe(
+			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
+		).subscribe(() => this._startup().then(() => undefined));
 	}
 
 	private _notificationParser: INotificationParser<ISyncMailItemData> = async (type, mod) => {
@@ -56,32 +106,123 @@ export class MailSyncService implements IMailSyncService {
 		);
 	};
 
-	private _syncFolderParser: ISyncFolderParser<ISyncMailFolderData> = async (e) => {
-		const folders = await Promise.all(map(
-			e[0].ids.split(','),
-			this._fetchMsg
-		));
-		map(
-			uniq(folders),
-			(id) => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id })
+	private _syncFolderParser: ISyncItemParser<ISoapFolderObj> = async (fmod) => {
+		const folders = flattenDeep(
+			map(
+				loFilter(fmod, (f) => f.view === 'message'),
+				(f) => normalizeFolder<IFolderSchmV1>(1, f)
+			)
+		);
+		const db = await openDb<IMailIdbSchema>();
+		const tx = db.transaction('folders', 'readwrite');
+		forEach(
+			folders,
+			(f) => tx.store.put(f)
+		);
+		await tx.done;
+		forEach(
+			folders,
+			(f) => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id })
 		);
 	};
 
-	private _onItemDeleted: (ev: IFCEvent<string>) => void = (ev) => {
-		(async (id: string): Promise<void> => {
-			const db = await openDb<IMailIdbSchema>();
-			const msg = await db.get('mails', id);
-			if (msg) {
-				await db.delete('mails', id);
-				fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
-				fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: msg.folder });
+	private async _onItemUpdated({ data }: IFCEvent<IMailItemUpdatedEv>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const mail = await db.get('mails', data.id);
+		if (mail && this._conversationCache[mail.conversationId]) {
+			const convMails = await db.transaction('mails', 'readonly').store.index('conversation').getAll(mail.conversationId);
+			this._conversationCache[mail.conversationId].next(convMails);
+		}
+	}
+
+	private async _onFolderUpdated({ data }: IFCEvent<IMailFolderUpdatedEv>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const folder = await db.get('folders', data.id);
+		if (folder && this._folderContentCache[folder.path]) {
+			this._fetchFolderConversationsFromIdb(folder.path).then(
+				(r) => this._folderContentCache[folder.path].next(r)
+			);
+		}
+	}
+
+	private async _onItemDeleted({ data: id }: IFCEvent<string>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const msg = await db.get('mails', id);
+		const folder = await db.get('folders', id);
+		const conv = await db.get('conversations', id);
+		if (msg) {
+			await db.delete('mails', id);
+			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
+			fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: msg.folder });
+		}
+		else if (folder) {
+			await db.delete('folders', id);
+			fcSink<IMailFolderDeletedEv>('mail:folder:deleted', { id });
+		}
+		else if (conv) {
+			await db.delete('conversations', id);
+			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
+			forEach(conv.folder, (f: string): void => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f }));
+		}
+	}
+
+	private async _startup(): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const folders = await db.getAll('folders');
+		if (folders.length < 1) {
+			await this._getAllMailRoots();
+		}
+		else {
+			await this._buildAndEmitFolderTree();
+		}
+	}
+
+	private async _getAllMailRoots(): Promise<Array<IFolderSchmV1>> {
+		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
+			// depth: 2,
+			view: 'message',
+			folder: {
+				l: '1'
+			},
+		}, 'urn:zimbraMail');
+		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
+		const db = await openDb<IMailIdbSchema>();
+		const tx = db.transaction<'folders'>('folders', 'readwrite');
+		forEach(
+			folders,
+			(f) => tx.store.put(f)
+		);
+		await tx.done;
+		await this._buildAndEmitFolderTree();
+		return folders;
+	}
+
+	private async _fetchFolder(id: string): Promise<string> {
+		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
+			// depth: 2,
+			view: 'message',
+			folder: {
+				l: id
+			},
+		}, 'urn:zimbraMail');
+		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
+		const db = await openDb<IMailIdbSchema>();
+		const tx = db.transaction('folders', 'readwrite');
+		forEach(
+			folders,
+			(f) => tx.store.put(f)
+		);
+		await tx.done;
+		await this._buildAndEmitFolderTree();
+		forEach(
+			folders,
+			(f) => {
+				this._updateFolderContent(f.path);
+				fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id });
 			}
-			else if (await db.get('folders', id)) {
-				await db.delete('folders', id);
-				fcSink<IMailFolderDeletedEv>('mail:folder:deleted', { id });
-			}
-		})(ev.data).then((r) => undefined);
-	};
+		);
+		return '';
+	}
 
 	private _fetchMsg: (id: string) => Promise<string> = async (id) => {
 		const resp = await sendSOAPRequest<IGetMsgReq, IGetMsgResp>('GetMsg', {
@@ -95,4 +236,138 @@ export class MailSyncService implements IMailSyncService {
 		fcSink<IMailItemUpdatedEv>('mail:item:updated', { id: msg.id });
 		return msg.folder;
 	};
+
+	private _folderNotificationParser: INotificationParser<ISoapFolderCreatedNotificationObj | ISoapFolderModifiedNotificationObj> = async (e, evData) => {
+		// eslint-disable-next-line default-case
+		switch (e) {
+			case 'created': {
+				if ((evData as ISoapFolderCreatedNotificationObj).view === 'message') {
+					await this._handleMailFolderCreated(evData as ISoapFolderCreatedNotificationObj);
+				}
+				break;
+			}
+			case 'modified': {
+				const db = await openDb<IMailIdbSchema>();
+				if (await db.get('folders', evData.id)) {
+					await this._handleMailFolderModified(evData as ISoapFolderModifiedNotificationObj);
+				}
+				break;
+			}
+		}
+	};
+
+	private async _handleMailFolderCreated(evData: ISoapFolderCreatedNotificationObj): Promise<void> {
+		await this._fetchFolder(evData.id);
+	}
+
+	private async _handleMailFolderModified(evData: ISoapFolderModifiedNotificationObj): Promise<void> {
+		await this._fetchFolder(evData.id);
+	}
+
+	private async _buildAndEmitFolderTree(): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const folders = await db.getAll('folders');
+		const fMap: {[id: string]: IMailFolder} = reduce(
+			folders,
+			(tmpMap, f) => ({ ...tmpMap, [f.id]: { ...f, children: [] } }),
+			{}
+		);
+		forOwn(fMap, (f, id) => {
+			if (fMap[f.parent]) fMap[f.parent].children.push(f);
+		});
+		this.folders.next(
+			loFilter(
+				map(fMap),
+				(f) => f.parent === '1'
+			)
+		);
+	}
+
+	private _updateFolderContent(path: string): void {
+		if (this._folderContentCache[path]) {
+			this._fetchFolderConversationsFromServer(path).then(
+				(convs) => this._storeConversationsIntoIdb(convs).then(
+					() => this._fetchFolderConversationsFromIdb(path).then(
+						(r2) => this._folderContentCache[path].next(r2)
+					)
+				)
+			);
+		}
+	}
+
+	public getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>> {
+		if (!this._folderContentCache[path]) {
+			this._folderContentCache[path] = new BehaviorSubject<Array<IConvSchm>>([]);
+			this._updateFolderContent(path);
+		}
+		return this._folderContentCache[path];
+	}
+
+	private async _fetchFolderConversationsFromServer(path: string): Promise<Array<IConvSchm>> {
+		const resp = await sendSOAPRequest<ISearchReq, ISearchConvResp>('Search', {
+			query: `in:"${path}"`,
+			limit: 100,
+			fullConversation: 1,
+			recip: 2,
+			types: 'conversation'
+		}, 'urn:zimbraMail');
+		return reduce<IConvObj, Array<IConvSchm>>(
+			resp.c,
+			(res, conv) => {
+				const normConv = normalizeConversation(conv);
+				return [...res, normConv];
+			},
+			[]
+		);
+	}
+
+	private async _fetchFolderConversationsFromIdb(path: string): Promise<Array<IConvSchm>> {
+		const db = await openDb<IMailIdbSchema>();
+		const folder = await db.getFromIndex('folders', 'path', path);
+		if (folder) {
+			const conversations = await db.transaction('conversations', 'readonly').store.index('folder').getAll(folder.id);
+			return orderBy(
+				conversations,
+				['date'],
+				['desc']
+			);
+		}
+		return [];
+	}
+
+	private async _storeConversationsIntoIdb(convs: Array<IConvSchm>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const tx = db.transaction('conversations', 'readwrite');
+		forEach(
+			convs,
+			(c) => tx.store.put(c)
+		);
+		await tx.done;
+	}
+
+	public getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>> {
+		if (this._conversationCache[convId]) {
+			return this._conversationCache[convId];
+		}
+		const subject = new BehaviorSubject<Array<IMailSchm>>([]);
+		openDb<IMailIdbSchema>().then(
+			async (db) => {
+				const msgs = await db.getAllFromIndex('mails', 'conversation', convId);
+				subject.next(msgs);
+				const conv = await db.get('conversations', convId);
+				if (conv) {
+					await Promise.all(
+						forEach(
+							conv.messages,
+							(mid) => this._fetchMsg(mid)
+						)
+					);
+					const msgs2 = await db.getAllFromIndex('mails', 'conversation', convId);
+					subject.next(msgs2);
+				}
+			}
+		);
+		this._conversationCache[convId] = subject;
+		return this._conversationCache[convId];
+	}
 }
