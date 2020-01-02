@@ -107,7 +107,7 @@ const ComposerContextProvider = ({ children, convId }): void => {
 		setContextValues(newValues);
 	};
 
-	const save = (): void => {
+	const save = () => {
 		const tempDraftId = id || `draft-${Date.now()}`;
 		fcSink('sync:operation:push', {
 			opType: 'soap',
@@ -160,7 +160,7 @@ const ComposerContextProvider = ({ children, convId }): void => {
 		).subscribe((ev) => setId(ev.data.result.m[0].id));
 	};
 
-	const send = (): void => {
+	const send = () => {
 		fcSink('sync:operation:push', {
 			opType: 'soap',
 			opData: {},

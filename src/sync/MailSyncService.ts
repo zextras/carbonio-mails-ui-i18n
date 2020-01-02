@@ -89,6 +89,48 @@ export class MailSyncService implements IMailSyncService {
 		fc.pipe(
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
+		fc.pipe(
+			filter<IFCEvent<{}>>(
+				(e) => (
+					e.event === 'sync:operation:completed'
+					&& e.data.operation.opData
+					&& (e.data.operation.opData.opName === 'getMailRoots' || e.data.operation.opData.opName === 'fetchFolder')
+				)
+			)
+		).subscribe(async (e) => {
+			const folders = normalizeFolder<IFolderSchmV1>(1, e.data.result.folder[0]);
+			const db = await openDb<IMailIdbSchema>();
+			const tx = db.transaction<'folders'>('folders', 'readwrite');
+			forEach(
+				folders,
+				(f) => tx.store.put(f)
+			);
+			await tx.done;
+			await this._buildAndEmitFolderTree();
+			if (e.data.operation.opData.opName === 'fetchFolder') {
+				forEach(
+					folders,
+					(f) => {
+						this._updateFolderContent(f.path);
+						fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id });
+					}
+				);
+			}
+		});
+		fc.pipe(
+			filter<IFCEvent<{}>>(
+				(e) => (
+					e.event === 'sync:operation:completed'
+					&& e.data.operation.opData
+					&& e.data.operation.opData.opName === 'getMsg'
+				)
+			)
+		).subscribe(async (e) => {
+			const msg = normalizeMessage(e.data.result.m[0]);
+			const db = await openDb<IMailIdbSchema>();
+			await db.put('mails', msg);
+			fcSink<IMailItemUpdatedEv>('mail:item:updated', { id: msg.id });
+		});
 	}
 
 	private _notificationParser: INotificationParser<ISyncMailItemData> = async (type, mod) => {
@@ -177,64 +219,59 @@ export class MailSyncService implements IMailSyncService {
 		}
 	}
 
-	private async _getAllMailRoots(): Promise<Array<IFolderSchmV1>> {
-		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
-			// depth: 2,
-			view: 'message',
-			folder: {
-				l: '1'
+	private async _getAllMailRoots(): Promise<void> {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: {
+				opName: 'getMailRoots'
 			},
-		}, 'urn:zimbraMail');
-		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
-		const db = await openDb<IMailIdbSchema>();
-		const tx = db.transaction<'folders'>('folders', 'readwrite');
-		forEach(
-			folders,
-			(f) => tx.store.put(f)
-		);
-		await tx.done;
-		await this._buildAndEmitFolderTree();
-		return folders;
-	}
-
-	private async _fetchFolder(id: string): Promise<string> {
-		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
-			// depth: 2,
-			view: 'message',
-			folder: {
-				l: id
-			},
-		}, 'urn:zimbraMail');
-		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
-		const db = await openDb<IMailIdbSchema>();
-		const tx = db.transaction('folders', 'readwrite');
-		forEach(
-			folders,
-			(f) => tx.store.put(f)
-		);
-		await tx.done;
-		await this._buildAndEmitFolderTree();
-		forEach(
-			folders,
-			(f) => {
-				this._updateFolderContent(f.path);
-				fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id });
+			description: 'Get Folders',
+			request: {
+				command: 'GetFolder',
+				urn: 'urn:zimbraMail',
+				data: {
+					view: 'message',
+					folder: {
+						l: '1'
+					}
+				}
 			}
-		);
-		return '';
+		});
 	}
 
-	private _fetchMsg: (id: string) => Promise<string> = async (id) => {
-		const resp = await sendSOAPRequest<IGetMsgReq, IGetMsgResp>('GetMsg', {
-			m: {
-				id
-			},
-		}, 'urn:zimbraMail');
-		const msg = normalizeMessage(resp.m[0]);
-		const db = await openDb<IMailIdbSchema>();
-		await db.put('mails', msg);
-		fcSink<IMailItemUpdatedEv>('mail:item:updated', { id: msg.id });
-		return msg.folder;
+	private async _fetchFolder(id: string): Promise<void> {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { opName: 'fetchFolder', folderId: id },
+			description: `Fetch Folder (${id})`,
+			request: {
+				command: 'GetFolder',
+				urn: 'urn:zimbraMail',
+				data: {
+					view: 'message',
+					folder: {
+						l: id
+					},
+				}
+			}
+		});
+	}
+
+	private _fetchMsg: (id: string) => Promise<void> = async (id) => {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { opName: 'getMsg', msgId: id },
+			description: `Get Message Folder (${id})`,
+			request: {
+				command: 'GetMsg',
+				urn: 'urn:zimbraMail',
+				data: {
+					m: {
+						id
+					}
+				}
+			}
+		});
 	};
 
 	private _folderNotificationParser: INotificationParser<ISoapFolderCreatedNotificationObj | ISoapFolderModifiedNotificationObj> = async (e, evData) => {
