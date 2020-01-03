@@ -9,49 +9,24 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	Typography,
 	Paper,
 	Grid,
-	Avatar,
 	makeStyles,
-	createStyles,
-	Theme,
-	Collapse,
-	Hidden
+	createStyles
 } from '@material-ui/core';
-import {
-	RadioButtonUnchecked,
-	RadioButtonChecked,
-	ArrowUpward,
-	Create,
-	Close,
-	ChevronLeft,
-	ExpandMore
-} from '@material-ui/icons';
-import { useParams, useLocation } from 'react-router';
+import { Close } from '@material-ui/icons';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
 	map,
-	find,
-	truncate,
 	sortBy,
-	reduce,
 	filter,
-	get,
-	debounce
 } from 'lodash';
-import { BehaviorSubject } from 'rxjs';
-import { IConvSchm, IMailSchm, IMailContactSchm } from '../../idb/IMailSchema';
-import { IMailSyncService } from '../../sync/IMailSyncService';
-import hueFromString from '../../util/hueFromString';
-import MailFolderListView from '../folder/MailFolderListView';
-import { IMailService } from '../../mail/IMailService';
-import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import { MailView } from './MailMessageView';
 import MailServicesContext from '../../context/MailServicesContext';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
 
 function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
@@ -120,7 +95,7 @@ const ConversationView = ({ id }) => {
 				<Typography noWrap>
 					{convData && convData.subject}
 				</Typography>
-				<Link to="/mail/folder/Inbox">
+				<Link to={location.pathname}>
 					<Close />
 				</Link>
 			</Paper>

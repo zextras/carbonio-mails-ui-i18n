@@ -377,11 +377,11 @@ export class MailSyncService implements IMailSyncService {
 		if (this._convDataCache[convId]) {
 			return this._convDataCache[convId];
 		}
-		const subject = new BehaviorSubject<IConvSchm>([]);
+		const subject = new BehaviorSubject<IConvSchm>({} as IConvSchm);
 		openDb<IMailIdbSchema>().then(
 			async (db) => {
 				const conv = await db.get('conversations', convId);
-				subject.next(conv);
+				subject.next(conv as IConvSchm);
 			}
 		);
 		this._convDataCache[convId] = subject;

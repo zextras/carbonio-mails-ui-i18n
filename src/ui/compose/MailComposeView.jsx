@@ -24,15 +24,11 @@ import {
 	Create,
 	Close
 } from '@material-ui/icons';
-import { useLocation, useParams } from 'react-router';
 import clsx from 'clsx';
-import { truncate, startsWith, replace } from 'lodash';
+import { truncate } from 'lodash';
 import { I18nCtxt } from '@zextras/zapp-shell/context';
 import ComposerContext from '../../composer/ComposerContext';
-import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import ComposerContextProvider from '../../composer/ComposerContextProvider';
-import MailFolderListView from '../folder/MailFolderListView';
-import MailServicesContext from '../../context/MailServicesContext';
 
 const MailComposeView = ({ id }) => (
 	<ComposerContextProvider convId={id}>

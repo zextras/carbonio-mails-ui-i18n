@@ -17,7 +17,7 @@ import { IMailFolder, IMailSyncService } from '../sync/IMailSyncService';
 import { IConvSchm, IMailSchm } from '../idb/IMailSchema';
 import { convertFolderToMenuItem } from './MailServiceUtils';
 
-function _findFolderByPath(path: string, folders: Array<IMailFolder>): ?IMailFolder {
+function _findFolderByPath(path, folders) {
 	for (let i = 0; i < folders.length; i += 1) {
 		if (folders[i].path === path) return folders[i];
 		if (folders[i].children) {
