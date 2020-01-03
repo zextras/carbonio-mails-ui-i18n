@@ -10,17 +10,40 @@
  */
 
 import React from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useLocation } from 'react-router-dom';
 import { Grid, Hidden } from '@material-ui/core';
 import MailFolderListView from './folder/MailFolderListView';
 import MailServicesContextProvider from '../context/MailServicesContextProvider';
 import EmptyPanel from './folder/EmptyPanel';
+import ConversationView from './conversation/MailConversationView';
+import MailComposeView from './compose/MailComposeView';
 
 export const ROUTE = '/mail/folder/:path*';
 
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+	return new URLSearchParams(useLocation().search);
+}
+
 const MailMainView = ({ mailSrvc, syncSrvc }) => {
 	const { path } = useParams();
-
+	const query = useQuery();
+	const conv = query.get('conv');
+	const comp = query.get('comp');
+	const getSideView = () => {
+		if (conv) {
+			return (
+				<ConversationView id={conv.split(',')[0]} />
+			);
+		}
+		if (comp) {
+			return (
+				<MailComposeView id={comp.split(',')[0]} />
+			);
+		}
+		return (<EmptyPanel path={path} />);
+	};
 	if (path) {
 		return (
 			<MailServicesContextProvider
@@ -32,7 +55,7 @@ const MailMainView = ({ mailSrvc, syncSrvc }) => {
 						path={path}
 					/>
 					<Hidden smDown>
-						<EmptyPanel path={path} />
+						{getSideView()}
 					</Hidden>
 				</Grid>
 			</MailServicesContextProvider>

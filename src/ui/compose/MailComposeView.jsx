@@ -32,39 +32,13 @@ import ComposerContext from '../../composer/ComposerContext';
 import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import ComposerContextProvider from '../../composer/ComposerContextProvider';
 import MailFolderListView from '../folder/MailFolderListView';
+import MailServicesContext from '../../context/MailServicesContext';
 
-
-const getPath = (location) => {
-	if (location.state) {
-		if (location.state.from) {
-			return location.state.from;
-		}
-		if (location.state.fromPathname && startsWith(location.state.fromPathname, '/mail/folder/')) {
-			return replace(location.state.fromPathname, '/mail/folder/', '');
-		}
-	}
-	return 'Drafts';
-};
-
-const MailComposeView = ({ mailSrvc, syncSrvc }) => {
-	const location = useLocation();
-	const { id } = useParams();
-	return (
-		<MailServicesContextProvider
-			mailSrvc={mailSrvc}
-			syncSrvc={syncSrvc}
-		>
-			<ComposerContextProvider convId={id}>
-				<Grid container>
-					<Hidden smDown>
-						<MailFolderListView path={getPath(location)} />
-					</Hidden>
-					<MailComposer />
-				</Grid>
-			</ComposerContextProvider>
-		</MailServicesContextProvider>
-	);
-};
+const MailComposeView = ({ id }) => (
+	<ComposerContextProvider convId={id}>
+		<MailComposer />
+	</ComposerContextProvider>
+);
 
 const useStyles = makeStyles((theme) =>
 	createStyles({

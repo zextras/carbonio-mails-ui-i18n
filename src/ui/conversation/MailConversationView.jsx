@@ -51,6 +51,7 @@ import MailServicesContextProvider from '../../context/MailServicesContextProvid
 import { MailView } from './MailMessageView';
 import MailServicesContext from '../../context/MailServicesContext';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
@@ -89,20 +90,22 @@ const useStyles = makeStyles((theme) =>
 		}
 	}));
 
-const ConversationView = ({ syncSrvc, mailSrvc }) => {
+const ConversationView = ({ id }) => {
 	const classes = useStyles();
-	const { id } = useParams();
-	const convObs = syncSrvc.getConversationMessages(id);
-	const conversation = useObservable(convObs);
+	const { syncSrvc } = useContext(MailServicesContext);
+	const convMessagesObs = syncSrvc.getConversationMessages(id);
+	const convMessages = useObservable(convMessagesObs);
+	const convDataObs = syncSrvc.getConversationData(id);
+	const convData = useObservable(convDataObs);
 	const location = useLocation();
 
 	const mapMails = () => {
-		let conversations = sortBy(conversation, ['date']).reverse();
-		if (location.state.from === 'Trash') {
-			conversations = filter(conversations, (c) => c.folder === '3');
+		let messages = sortBy(convMessages, ['date']).reverse();
+		if (location.pathname === '/mail/folder/Trash') {
+			messages = filter(messages, (c) => c.folder === '3');
 		}
 		return map(
-			conversations,
+			messages,
 			(mail, key) => (
 				<MailView mail={mail} key={key} first={key === 0} />
 			)
@@ -110,32 +113,22 @@ const ConversationView = ({ syncSrvc, mailSrvc }) => {
 	};
 
 	return (
-		<MailServicesContextProvider
-			mailSrvc={mailSrvc}
-			syncSrvc={syncSrvc}
-		>
-			<Grid container className={classes.root}>
-				<Hidden smDown>
-					<MailFolderListView path={location.state.from || 'Inbox'} />
-				</Hidden>
-				<Grid item xs={12} md={6} className={classes.conversationContainer}>
-					<Paper
-						className={classes.headerContainer}
-					>
-						<Typography noWrap>
-							{location.state.conv && location.state.conv.subject}
-						</Typography>
-						<Link to={`/mail/folder/${location.state.from || 'Inbox'}`}>
-							<Close />
-						</Link>
-					</Paper>
-					<Grid style={{ maxHeight: 'calc(100vh - 112px)', overflowY: 'auto' }} className={classes.messageList}>
-						{conversation.length > 0
-						&& mapMails()}
-					</Grid>
-				</Grid>
+		<Grid item xs={12} md={6} className={classes.conversationContainer}>
+			<Paper
+				className={classes.headerContainer}
+			>
+				<Typography noWrap>
+					{convData && convData.subject}
+				</Typography>
+				<Link to="/mail/folder/Inbox">
+					<Close />
+				</Link>
+			</Paper>
+			<Grid style={{ maxHeight: 'calc(100vh - 112px)', overflowY: 'auto' }} className={classes.messageList}>
+				{convMessages.length > 0
+				&& mapMails()}
 			</Grid>
-		</MailServicesContextProvider>
+		</Grid>
 	);
 };
 export default ConversationView;
