@@ -15,7 +15,7 @@ import {
 } from '@zextras/zapp-shell/sync';
 import { registerNotificationParser, sendSOAPRequest } from '@zextras/zapp-shell/network';
 import {
-	ISyncItemParser
+	ISyncItemParser, ISyncOpCompletedEv
 } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
 import {
@@ -46,7 +46,8 @@ import {
 	IGetMsgReq,
 	IGetMsgResp,
 	normalizeConversation,
-	normalizeMessage
+	normalizeMessage,
+	IMsgItemObj
 } from '../IMailSoap';
 import { IConvSchm, IMailIdbSchema, IMailSchm } from '../idb/IMailSchema';
 import { IMailFolder, IMailSyncService, ISyncMailItemData } from './IMailSyncService';
@@ -92,11 +93,11 @@ export class MailSyncService implements IMailSyncService {
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
 		fc.pipe(
-			filter<IFCEvent<{}>>(
+			filter<IFCEvent<ISyncOpCompletedEv<{ folder: Array<ISoapFolderObj> }>>>(
 				(e) => (
 					e.event === 'sync:operation:completed'
 					&& e.data.operation.opData
-					&& (e.data.operation.opData.opName === 'getMailRoots' || e.data.operation.opData.opName === 'fetchFolder')
+					&& ((e.data.operation.opData as { opName?: string }).opName === 'getMailRoots' || (e.data.operation.opData as { opName?: string }).opName === 'fetchFolder')
 				)
 			)
 		).subscribe(async (e) => {
@@ -109,7 +110,7 @@ export class MailSyncService implements IMailSyncService {
 			);
 			await tx.done;
 			await this._buildAndEmitFolderTree();
-			if (e.data.operation.opData.opName === 'fetchFolder') {
+			if ((e.data.operation.opData as { opName?: string }).opName === 'fetchFolder') {
 				forEach(
 					folders,
 					(f) => {
@@ -120,11 +121,11 @@ export class MailSyncService implements IMailSyncService {
 			}
 		});
 		fc.pipe(
-			filter<IFCEvent<{}>>(
+			filter<IFCEvent<ISyncOpCompletedEv<{ m: Array<IMsgItemObj> }>>>(
 				(e) => (
 					e.event === 'sync:operation:completed'
 					&& e.data.operation.opData
-					&& e.data.operation.opData.opName === 'getMsg'
+					&& (e.data.operation.opData as { opName?: string }).opName === 'getMsg'
 				)
 			)
 		).subscribe(async (e) => {
