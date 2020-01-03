@@ -89,6 +89,11 @@ export class MailSyncService implements IMailSyncService {
 			.subscribe((ev) => this._onFolderUpdated(ev).then(() => undefined));
 
 		fc.pipe(
+			filter<IFCEvent<IMailFolderUpdatedEv>>((e) => e.event === 'mail:conversation:updated')
+		)
+			.subscribe((ev) => this._onConversationUpdated(ev).then(() => undefined));
+
+		fc.pipe(
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
 		fc.pipe(filter<IFCEvent<ISyncOpCompletedEv<any>>>(
@@ -165,6 +170,14 @@ export class MailSyncService implements IMailSyncService {
 		}
 	}
 
+	private async _onConversationUpdated({ data }: IFCEvent<{ id: string }>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const convData = await db.get('conversations', data.id);
+		if (convData && this._convDataCache[convData.id]) {
+			this._convDataCache[convData.id].next(convData);
+		}
+	}
+
 	private async _onFolderUpdated({ data }: IFCEvent<IMailFolderUpdatedEv>): Promise<void> {
 		const db = await openDb<IMailIdbSchema>();
 		const folder = await db.get('folders', data.id);
@@ -191,6 +204,7 @@ export class MailSyncService implements IMailSyncService {
 		}
 		else if (conv) {
 			await db.delete('conversations', id);
+			fcSink('mail:conversation:updated', { id });
 			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
 			forEach(conv.folder, (f: string): void => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f }));
 		}
@@ -417,7 +431,10 @@ export class MailSyncService implements IMailSyncService {
 		const tx = db.transaction('conversations', 'readwrite');
 		forEach(
 			convs,
-			(c) => tx.store.put(c)
+			(c) => {
+				tx.store.put(c);
+				fcSink('mail:conversation:updated', { id: c.id });
+			}
 		);
 		await tx.done;
 	}
