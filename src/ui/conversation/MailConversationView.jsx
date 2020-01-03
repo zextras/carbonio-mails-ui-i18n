@@ -9,48 +9,24 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	Typography,
 	Paper,
 	Grid,
-	Avatar,
 	makeStyles,
-	createStyles,
-	Theme,
-	Collapse,
-	Hidden
+	createStyles
 } from '@material-ui/core';
-import {
-	RadioButtonUnchecked,
-	RadioButtonChecked,
-	ArrowUpward,
-	Create,
-	Close,
-	ChevronLeft,
-	ExpandMore
-} from '@material-ui/icons';
-import { useParams, useLocation } from 'react-router';
+import { Close } from '@material-ui/icons';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
 	map,
-	find,
-	truncate,
 	sortBy,
-	reduce,
 	filter,
-	get,
-	debounce
 } from 'lodash';
-import { BehaviorSubject } from 'rxjs';
-import { IConvSchm, IMailSchm, IMailContactSchm } from '../../idb/IMailSchema';
-import { IMailSyncService } from '../../sync/IMailSyncService';
-import hueFromString from '../../util/hueFromString';
-import MailFolderListView from '../folder/MailFolderListView';
-import { IMailService } from '../../mail/IMailService';
-import MailServicesContextProvider from '../../context/MailServicesContextProvider';
 import { MailView } from './MailMessageView';
 import MailServicesContext from '../../context/MailServicesContext';
-import { Link } from 'react-router-dom';
 
 function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
@@ -89,20 +65,22 @@ const useStyles = makeStyles((theme) =>
 		}
 	}));
 
-const ConversationView = ({ syncSrvc, mailSrvc }) => {
+const ConversationView = ({ id }) => {
 	const classes = useStyles();
-	const { id } = useParams();
-	const convObs = syncSrvc.getConversationMessages(id);
-	const conversation = useObservable(convObs);
+	const { syncSrvc } = useContext(MailServicesContext);
+	const convMessagesObs = syncSrvc.getConversationMessages(id);
+	const convMessages = useObservable(convMessagesObs);
+	const convDataObs = syncSrvc.getConversationData(id);
+	const convData = useObservable(convDataObs);
 	const location = useLocation();
 
 	const mapMails = () => {
-		let conversations = sortBy(conversation, ['date']).reverse();
-		if (location.state.from === 'Trash') {
-			conversations = filter(conversations, (c) => c.folder === '3');
+		let messages = sortBy(convMessages, ['date']).reverse();
+		if (location.pathname === '/mail/folder/Trash') {
+			messages = filter(messages, (c) => c.folder === '3');
 		}
 		return map(
-			conversations,
+			messages,
 			(mail, key) => (
 				<MailView mail={mail} key={key} first={key === 0} />
 			)
@@ -110,32 +88,22 @@ const ConversationView = ({ syncSrvc, mailSrvc }) => {
 	};
 
 	return (
-		<MailServicesContextProvider
-			mailSrvc={mailSrvc}
-			syncSrvc={syncSrvc}
-		>
-			<Grid container className={classes.root}>
-				<Hidden smDown>
-					<MailFolderListView path={location.state.from || 'Inbox'} />
-				</Hidden>
-				<Grid item xs={12} md={6} className={classes.conversationContainer}>
-					<Paper
-						className={classes.headerContainer}
-					>
-						<Typography noWrap>
-							{location.state.conv && location.state.conv.subject}
-						</Typography>
-						<Link to={`/mail/folder/${location.state.from || 'Inbox'}`}>
-							<Close />
-						</Link>
-					</Paper>
-					<Grid style={{ maxHeight: 'calc(100vh - 112px)', overflowY: 'auto' }} className={classes.messageList}>
-						{conversation.length > 0
-						&& mapMails()}
-					</Grid>
-				</Grid>
+		<Grid item xs={12} md={6} className={classes.conversationContainer}>
+			<Paper
+				className={classes.headerContainer}
+			>
+				<Typography noWrap>
+					{convData && convData.subject}
+				</Typography>
+				<Link to={location.pathname}>
+					<Close />
+				</Link>
+			</Paper>
+			<Grid style={{ maxHeight: 'calc(100vh - 112px)', overflowY: 'auto' }} className={classes.messageList}>
+				{convMessages.length > 0
+				&& mapMails()}
 			</Grid>
-		</MailServicesContextProvider>
+		</Grid>
 	);
 };
 export default ConversationView;

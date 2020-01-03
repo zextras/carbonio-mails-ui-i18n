@@ -17,6 +17,7 @@ export interface IMailSyncService {
 	folders: BehaviorSubject<Array<IMailFolder>>;
 	getFolderContent(path: string): BehaviorSubject<Array<IConvSchm>>;
 	getConversationMessages(convId: string): BehaviorSubject<Array<IMailSchm>>;
+	getConversationData(convId: string): BehaviorSubject<IConvSchm>;
 }
 
 export type IMailFolder = IFolderSchmV1 & {

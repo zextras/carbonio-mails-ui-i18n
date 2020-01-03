@@ -64,6 +64,8 @@ export class MailSyncService implements IMailSyncService {
 
 	private _conversationCache: {[path: string]: BehaviorSubject<Array<IMailSchm>>} = {};
 
+	private _convDataCache: {[path: string]: BehaviorSubject<IConvSchm>} = {};
+
 	private _folderContentCache: {[path: string]: BehaviorSubject<Array<IConvSchm>>} = {};
 
 	constructor() {
@@ -406,5 +408,20 @@ export class MailSyncService implements IMailSyncService {
 		);
 		this._conversationCache[convId] = subject;
 		return this._conversationCache[convId];
+	}
+
+	public getConversationData(convId: string): BehaviorSubject<IConvSchm> {
+		if (this._convDataCache[convId]) {
+			return this._convDataCache[convId];
+		}
+		const subject = new BehaviorSubject<IConvSchm>({} as IConvSchm);
+		openDb<IMailIdbSchema>().then(
+			async (db) => {
+				const conv = await db.get('conversations', convId);
+				subject.next(conv as IConvSchm);
+			}
+		);
+		this._convDataCache[convId] = subject;
+		return this._convDataCache[convId];
 	}
 }
