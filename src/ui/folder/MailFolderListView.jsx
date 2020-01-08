@@ -58,8 +58,9 @@ const InternalMailFolderListView = ({ conversations, path }) => {
 				<LinkRouter
 					key={conv.id}
 					to={{
-						pathname: `/mail/${path === 'Drafts' ? 'compose' : 'view'}/${conv.id}`,
-						state: { conv, from: path }
+					//	pathname: `/mail/${path === 'Drafts' ? 'compose' : 'view'}/${conv.id}`,
+						pathname: `/mail/folder/${path}`,
+						search: `?${path === 'Drafts' ? 'comp' : 'conv'}=${conv.id}`,
 					}}
 					className={classes.routerLink}
 				>
@@ -76,6 +77,7 @@ const MailFolderListView = ({ path }) => {
 	const ref = useRef();
 	const { syncSrvc, mailSrvc } = useContext(MailServicesContext);
 	const classes = useStyles();
+
 	useEffect(() => {
 		if (currentFolder && syncSrvc) {
 			ref.current = syncSrvc.getFolderContent(currentFolder.path).subscribe(

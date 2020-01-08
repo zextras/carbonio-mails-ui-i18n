@@ -17,8 +17,6 @@ import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp
 import { MailOutlined } from '@material-ui/icons';
 import { MailSyncService } from './sync/MailSyncService';
 import { MailService } from './mail/MailService';
-import MailComposeView from './ui/compose/MailComposeView';
-import ConversationView from './ui/conversation/MailConversationView';
 import { schemaVersion, upgradeFn } from './idb/MailIdb';
 import MailMainView, { ROUTE as MainRoute } from './ui/MailMainView';
 import { registerTranslations } from './i18n/i18n';
@@ -31,8 +29,6 @@ export default function app() {
 	const mailSrvc = new MailService(syncSrvc);
 
 	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });
-	registerRoute('/mail/compose/:id?', MailComposeView, { mailSrvc, syncSrvc });
-	registerRoute('/mail/view/:id', ConversationView, { syncSrvc, mailSrvc });
 
 	addMainMenuItem(
 		<MailOutlined />,
@@ -44,6 +40,6 @@ export default function app() {
 	addCreateMenuItem(
 		<MailOutlined />,
 		'New Mail',
-		'/mail/compose'
+		'/mail/folder/Drafts?comp=new'
 	);
 }

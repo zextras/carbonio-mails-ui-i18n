@@ -54,6 +54,18 @@ const ComposerContextProvider = ({ children, convId }): void => {
 		sessionSrvc.session
 	);
 
+	fc.pipe(
+		rxFilter(
+			(ev) => (
+				ev.event === 'sync:operation:completed'
+				&& ev.data.operation.opData.opName
+				&& ev.data.operation.opData.opName === 'saveDraft'
+			)
+		)
+	).subscribe((ev) => {
+		setId(ev.data.result.m[0].id);
+		history.push(`/mail/folder/Drafts?comp=${ev.data.result.m[0].id}`);
+	});
 
 	useEffect(() => {
 		let draftSub;
@@ -107,11 +119,12 @@ const ComposerContextProvider = ({ children, convId }): void => {
 		setContextValues(newValues);
 	};
 
-	const save = (): void => {
+	const save = () => {
 		const tempDraftId = id || `draft-${Date.now()}`;
+		setId(tempDraftId);
 		fcSink('sync:operation:push', {
 			opType: 'soap',
-			opData: { tempDraftId },
+			opData: { opName: 'saveDraft', tempDraftId },
 			description: `Save Draft (${contextValues.subject})`,
 			request: {
 				command: 'SaveDraft',
@@ -149,18 +162,9 @@ const ComposerContextProvider = ({ children, convId }): void => {
 				}
 			}
 		});
-		fc.pipe(
-			rxFilter(
-				(ev) => (
-					ev.event === 'sync:operation:completed'
-					&& ev.data.operation.opData
-					&& ev.data.operation.opData.tempDraftId === tempDraftId
-				)
-			)
-		).subscribe((ev) => setId(ev.data.result.m[0].id));
 	};
 
-	const send = (): void => {
+	const send = () => {
 		fcSink('sync:operation:push', {
 			opType: 'soap',
 			opData: {},

@@ -15,7 +15,7 @@ import {
 } from '@zextras/zapp-shell/sync';
 import { registerNotificationParser, sendSOAPRequest } from '@zextras/zapp-shell/network';
 import {
-	ISyncItemParser
+	ISyncItemParser, ISyncOpCompletedEv
 } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { INotificationParser } from '@zextras/zapp-shell/lib/network/INetworkService';
 import {
@@ -46,7 +46,8 @@ import {
 	IGetMsgReq,
 	IGetMsgResp,
 	normalizeConversation,
-	normalizeMessage
+	normalizeMessage,
+	IMsgItemObj
 } from '../IMailSoap';
 import { IConvSchm, IMailIdbSchema, IMailSchm } from '../idb/IMailSchema';
 import { IMailFolder, IMailSyncService, ISyncMailItemData } from './IMailSyncService';
@@ -59,10 +60,11 @@ import {
 import { ISearchConvResp, ISearchReq } from './IMailSoap';
 
 export class MailSyncService implements IMailSyncService {
-
 	public folders: BehaviorSubject<Array<IMailFolder>> = new BehaviorSubject<Array<IMailFolder>>([]);
 
 	private _conversationCache: {[path: string]: BehaviorSubject<Array<IMailSchm>>} = {};
+
+	private _convDataCache: {[path: string]: BehaviorSubject<IConvSchm>} = {};
 
 	private _folderContentCache: {[path: string]: BehaviorSubject<Array<IConvSchm>>} = {};
 
@@ -87,8 +89,41 @@ export class MailSyncService implements IMailSyncService {
 			.subscribe((ev) => this._onFolderUpdated(ev).then(() => undefined));
 
 		fc.pipe(
+			filter<IFCEvent<IMailFolderUpdatedEv>>((e) => e.event === 'mail:conversation:updated')
+		)
+			.subscribe((ev) => this._onConversationUpdated(ev).then(() => undefined));
+
+		fc.pipe(
 			filter<IFCEvent<{}>>((e) => e.event === 'app:all-loaded')
 		).subscribe(() => this._startup().then(() => undefined));
+		fc.pipe(filter<IFCEvent<ISyncOpCompletedEv<any>>>(
+			(e) => (
+				e.event === 'sync:operation:completed'
+				&& e.data.operation.opData
+				&& !!(e.data.operation.opData as { opName?: string }).opName
+			)
+		)).subscribe(
+			async (e) => {
+				switch ((e.data.operation.opData as { opName?: string }).opName) {
+					case 'getMailRoots':
+						await this._handleGetAllMailRootsCompleted(e.data.result.folder[0]);
+						break;
+					case 'fetchFolder':
+						await this._handleFetchFolderCompleted(e.data.result.folder[0]);
+						break;
+					case 'fetchMsg':
+						await this._handleFetchMsgCompleted(e.data.result.m[0]);
+						break;
+					case 'fetchConvs':
+						await this._handleFetchFolderConversationsCompleted(
+							e.data.result.c,
+							(e.data.operation.opData as { path: string }).path
+						);
+						break;
+					default: break;
+				}
+			}
+		);
 	}
 
 	private _notificationParser: INotificationParser<ISyncMailItemData> = async (type, mod) => {
@@ -135,6 +170,14 @@ export class MailSyncService implements IMailSyncService {
 		}
 	}
 
+	private async _onConversationUpdated({ data }: IFCEvent<{ id: string }>): Promise<void> {
+		const db = await openDb<IMailIdbSchema>();
+		const convData = await db.get('conversations', data.id);
+		if (convData && this._convDataCache[convData.id]) {
+			this._convDataCache[convData.id].next(convData);
+		}
+	}
+
 	private async _onFolderUpdated({ data }: IFCEvent<IMailFolderUpdatedEv>): Promise<void> {
 		const db = await openDb<IMailIdbSchema>();
 		const folder = await db.get('folders', data.id);
@@ -161,6 +204,7 @@ export class MailSyncService implements IMailSyncService {
 		}
 		else if (conv) {
 			await db.delete('conversations', id);
+			fcSink('mail:conversation:updated', { id });
 			fcSink<IMailItemDeletedEv>('mail:item:deleted', { id });
 			forEach(conv.folder, (f: string): void => fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f }));
 		}
@@ -177,15 +221,28 @@ export class MailSyncService implements IMailSyncService {
 		}
 	}
 
-	private async _getAllMailRoots(): Promise<Array<IFolderSchmV1>> {
-		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
-			// depth: 2,
-			view: 'message',
-			folder: {
-				l: '1'
+	private async _getAllMailRoots(): Promise<void> {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: {
+				opName: 'getMailRoots'
 			},
-		}, 'urn:zimbraMail');
-		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
+			description: 'Get Folders',
+			request: {
+				command: 'GetFolder',
+				urn: 'urn:zimbraMail',
+				data: {
+					view: 'message',
+					folder: {
+						l: '1'
+					}
+				}
+			}
+		});
+	}
+
+	private _handleGetAllMailRootsCompleted = async (folder: ISoapFolderObj) => {
+		const folders = normalizeFolder<IFolderSchmV1>(1, folder);
 		const db = await openDb<IMailIdbSchema>();
 		const tx = db.transaction<'folders'>('folders', 'readwrite');
 		forEach(
@@ -194,18 +251,28 @@ export class MailSyncService implements IMailSyncService {
 		);
 		await tx.done;
 		await this._buildAndEmitFolderTree();
-		return folders;
 	}
 
-	private async _fetchFolder(id: string): Promise<string> {
-		const resp = await sendSOAPRequest<IGetFolderReq, IGetFolderRes>('GetFolder', {
-			// depth: 2,
-			view: 'message',
-			folder: {
-				l: id
-			},
-		}, 'urn:zimbraMail');
-		const folders = normalizeFolder<IFolderSchmV1>(1, resp.folder[0]);
+	private async _fetchFolder(id: string): Promise<void> {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { opName: 'fetchFolder', folderId: id },
+			description: `Fetch Folder (${id})`,
+			request: {
+				command: 'GetFolder',
+				urn: 'urn:zimbraMail',
+				data: {
+					view: 'message',
+					folder: {
+						l: id
+					},
+				}
+			}
+		});
+	}
+
+	private _handleFetchFolderCompleted = async (soapFolder: ISoapFolderObj) => {
+		const folders = normalizeFolder<IFolderSchmV1>(1, soapFolder);
 		const db = await openDb<IMailIdbSchema>();
 		const tx = db.transaction('folders', 'readwrite');
 		forEach(
@@ -221,21 +288,31 @@ export class MailSyncService implements IMailSyncService {
 				fcSink<IMailFolderUpdatedEv>('mail:folder:updated', { id: f.id });
 			}
 		);
-		return '';
 	}
 
-	private _fetchMsg: (id: string) => Promise<string> = async (id) => {
-		const resp = await sendSOAPRequest<IGetMsgReq, IGetMsgResp>('GetMsg', {
-			m: {
-				id
-			},
-		}, 'urn:zimbraMail');
-		const msg = normalizeMessage(resp.m[0]);
+	private _fetchMsg: (id: string) => Promise<void> = async (id) => {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { opName: 'fetchMsg', msgId: id },
+			description: `Get Message Folder (${id})`,
+			request: {
+				command: 'GetMsg',
+				urn: 'urn:zimbraMail',
+				data: {
+					m: {
+						id
+					}
+				}
+			}
+		});
+	};
+
+	private _handleFetchMsgCompleted = async (soapMessage: IMsgItemObj) => {
+		const msg = normalizeMessage(soapMessage);
 		const db = await openDb<IMailIdbSchema>();
 		await db.put('mails', msg);
 		fcSink<IMailItemUpdatedEv>('mail:item:updated', { id: msg.id });
-		return msg.folder;
-	};
+	}
 
 	private _folderNotificationParser: INotificationParser<ISoapFolderCreatedNotificationObj | ISoapFolderModifiedNotificationObj> = async (e, evData) => {
 		// eslint-disable-next-line default-case
@@ -285,13 +362,7 @@ export class MailSyncService implements IMailSyncService {
 
 	private _updateFolderContent(path: string): void {
 		if (this._folderContentCache[path]) {
-			this._fetchFolderConversationsFromServer(path).then(
-				(convs) => this._storeConversationsIntoIdb(convs).then(
-					() => this._fetchFolderConversationsFromIdb(path).then(
-						(r2) => this._folderContentCache[path].next(r2)
-					)
-				)
-			);
+			this._fetchFolderConversationsFromServer(path);
 		}
 	}
 
@@ -303,21 +374,41 @@ export class MailSyncService implements IMailSyncService {
 		return this._folderContentCache[path];
 	}
 
-	private async _fetchFolderConversationsFromServer(path: string): Promise<Array<IConvSchm>> {
-		const resp = await sendSOAPRequest<ISearchReq, ISearchConvResp>('Search', {
-			query: `in:"${path}"`,
-			limit: 100,
-			fullConversation: 1,
-			recip: 2,
-			types: 'conversation'
-		}, 'urn:zimbraMail');
-		return reduce<IConvObj, Array<IConvSchm>>(
-			resp.c,
+	private async _fetchFolderConversationsFromServer(path: string): Promise<void> {
+		fcSink('sync:operation:push', {
+			opType: 'soap',
+			opData: { opName: 'fetchConvs', path },
+			description: `Fetch Folder Conversations (${path})`,
+			request: {
+				command: 'Search',
+				urn: 'urn:zimbraMail',
+				data: {
+					query: `in:"${path}"`,
+					limit: 100,
+					fullConversation: 1,
+					recip: 2,
+					types: 'conversation'
+				}
+			}
+		});
+	}
+
+	private _handleFetchFolderConversationsCompleted = async (
+		soapConv: Array<IConvObj>,
+		path: string
+	) => {
+		const convs = reduce<IConvObj, Array<IConvSchm>>(
+			soapConv,
 			(res, conv) => {
 				const normConv = normalizeConversation(conv);
 				return [...res, normConv];
 			},
 			[]
+		);
+		this._storeConversationsIntoIdb(convs).then(
+			() => this._fetchFolderConversationsFromIdb(path).then(
+				(r2) => this._folderContentCache[path].next(r2)
+			)
 		);
 	}
 
@@ -340,7 +431,10 @@ export class MailSyncService implements IMailSyncService {
 		const tx = db.transaction('conversations', 'readwrite');
 		forEach(
 			convs,
-			(c) => tx.store.put(c)
+			(c) => {
+				tx.store.put(c);
+				fcSink('mail:conversation:updated', { id: c.id });
+			}
 		);
 		await tx.done;
 	}
@@ -369,5 +463,20 @@ export class MailSyncService implements IMailSyncService {
 		);
 		this._conversationCache[convId] = subject;
 		return this._conversationCache[convId];
+	}
+
+	public getConversationData(convId: string): BehaviorSubject<IConvSchm> {
+		if (this._convDataCache[convId]) {
+			return this._convDataCache[convId];
+		}
+		const subject = new BehaviorSubject<IConvSchm>({} as IConvSchm);
+		openDb<IMailIdbSchema>().then(
+			async (db) => {
+				const conv = await db.get('conversations', convId);
+				subject.next(conv as IConvSchm);
+			}
+		);
+		this._convDataCache[convId] = subject;
+		return this._convDataCache[convId];
 	}
 }
