@@ -10,36 +10,26 @@
  */
 
 import React from 'react';
-import { fc } from '@zextras/zapp-shell/fc';
+import { serviceWorkerSrvc } from '@zextras/zapp-shell/service';
+import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
 
-import { setUpgradeFcn } from '@zextras/zapp-shell/idb';
-import { addCreateMenuItem, addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
-import { MailOutlined } from '@material-ui/icons';
-import { MailSyncService } from './sync/MailSyncService';
-import { MailService } from './mail/MailService';
-import { schemaVersion, upgradeFn } from './idb/MailIdb';
-import MailMainView, { ROUTE as MainRoute } from './ui/MailMainView';
-import { registerTranslations } from './i18n/i18n';
+import App, { ROUTE as mainRoute } from './components/App';
+import MailsIdbService from './idb/MailsIdbService';
+import MailsService from './MailsService';
 
 export default function app() {
-	registerTranslations();
-	setUpgradeFcn(schemaVersion, upgradeFn);
-	fc.subscribe(console.debug);
-	const syncSrvc = new MailSyncService();
-	const mailSrvc = new MailService(syncSrvc);
-
-	registerRoute(MainRoute, MailMainView, { mailSrvc, syncSrvc });
-
-	addMainMenuItem(
-		<MailOutlined />,
-		'Mail',
-		'/mail/folder/Inbox',
-		mailSrvc.mainMenuChildren
+	const idbSrvc = new MailsIdbService();
+	const mailsSrvc = new MailsService(
+		idbSrvc
 	);
-
-	addCreateMenuItem(
-		<MailOutlined />,
-		'New Mail',
-		'/mail/folder/Drafts?comp=new'
+	addMainMenuItem(
+		'EmailOutline',
+		'Mails',
+		'/mails/folder/Inbox',
+		mailsSrvc.menuFolders
+	);
+	registerRoute(mainRoute, App, { mailsSrvc });
+	serviceWorkerSrvc.registerAppServiceWorker(
+		'mails-sw.js'
 	);
 }

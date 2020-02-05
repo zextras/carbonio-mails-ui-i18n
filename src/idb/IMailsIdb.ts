@@ -22,22 +22,22 @@ export enum MailContactType {
 	resentFrom = 'resent-from'
 }
 
-export type IMailIdbSchema = IIDBFolderSchmV1 & {
-	mails: {
-		key: string;
-		value: IMailSchm;
-		indexes: {
-			folder: string;
-			conversation: string;
-		};
-	};
-	conversations: {
-		key: string;
-		value: IConvSchm;
-		indexes: {
-			folder: string;
-		};
-	};
+export type IMailsIdb = IIDBFolderSchmV1 & {
+	// mails: {
+	// 	key: string;
+	// 	value: IMailSchm;
+	// 	indexes: {
+	// 		folder: string;
+	// 		conversation: string;
+	// 	};
+	// };
+	// conversations: {
+	// 	key: string;
+	// 	value: IConvSchm;
+	// 	indexes: {
+	// 		folder: string;
+	// 	};
+	// };
 };
 
 export type IMailSchm = {

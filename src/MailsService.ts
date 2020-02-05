@@ -1,0 +1,328 @@
+/*
+ * *** BEGIN LICENSE BLOCK *****
+ * Copyright (C) 2011-2020 ZeXtras
+ *
+ * The contents of this file are subject to the ZeXtras EULA;
+ * you may not use this file except in compliance with the EULA.
+ * You may obtain a copy of the EULA at
+ * http://www.zextras.com/zextras-eula.html
+ * *** END LICENSE BLOCK *****
+ */
+
+import { ISyncOperation, ISyncOpRequest, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import { fcSink, fc } from '@zextras/zapp-shell/fc';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
+import { syncOperations } from '@zextras/zapp-shell/sync';
+import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { reduce, filter as loFilter, cloneDeep } from 'lodash';
+import {
+	CreateMailFolderOp,
+	DeleteMailFolderOp,
+	EmptyMailFolderOp,
+	IMailsService,
+	MailFolderOp,
+	MoveMailFolderOp,
+	RenameMailFolderOp
+} from './IMailsService';
+import { IMailsIdbService } from './idb/IMailsIdbService';
+import {
+	calculateAbsPath,
+	CreateMailFolderOpReq,
+	DeleteMailFolderActionOpReq,
+	EmptyMailFolderActionOpReq,
+	MoveMailFolderActionOpReq,
+	RenameMailFolderActionOpReq
+} from './ISoap';
+
+const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
+const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
+
+const subfolders: (
+	folders: {[id: string]: IFolderSchmV1},
+	parentId: string
+) => Array<IMainSubMenuItemData> = (folders, parentId) =>
+	reduce<IFolderSchmV1, Array<IMainSubMenuItemData>>(
+		loFilter(
+			folders,
+			(folder: IFolderSchmV1): boolean => folder.parent === parentId
+		),
+		(acc: Array<IMainSubMenuItemData>, folder: IFolderSchmV1) => {
+			acc.push(
+				{
+					id: folder.id,
+					label: folder.name,
+					to: `/mails/folder${folder.path}`,
+					children: subfolders(folders, folder.id)
+				}
+			);
+			return acc;
+		},
+		[]
+	);
+
+export default class MailsService implements IMailsService {
+	public folders = new BehaviorSubject<{[id: string]: IFolderSchmV1}>({});
+
+	private _folders = new BehaviorSubject<{[id: string]: IFolderSchmV1}>({});
+
+	public menuFolders = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
+
+	private _menuFoldersSub: Subscription;
+
+	private _createId = 0;
+
+	constructor(
+		private _idbSrvc: IMailsIdbService
+	) {
+		fc
+			.pipe(
+				filter((e) => e.event === 'app:all-loaded')
+			)
+			.subscribe(() => this._loadAllMailFolders());
+		fc
+			.pipe(filter((e) => _FOLDER_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => this._updateFolder(data.id));
+		fc
+			.pipe(filter((e) => _FOLDER_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => this._deleteFolder(data.id));
+
+		this._menuFoldersSub = this.folders.subscribe(
+			(folders: {[id: string]: IFolderSchmV1}): void => {
+				this.menuFolders.next(
+					reduce<IFolderSchmV1, Array<IMainSubMenuItemData>>(
+						loFilter(folders, (folder: IFolderSchmV1): boolean => folder.parent === '1'),
+						(acc: Array<IMainSubMenuItemData>, folder: IFolderSchmV1) => {
+							acc.push(
+								{
+									icon: 'EmailOutline',
+									id: folder.id,
+									label: folder.name,
+									to: `/mails/folder${folder.path}`,
+									children: subfolders(folders, folder.id)
+								}
+							);
+							return acc;
+						},
+						[]
+					)
+				);
+			}
+		);
+
+		combineLatest([
+			syncOperations as BehaviorSubject<Array<ISyncOperation<MailFolderOp, ISyncOpRequest<unknown>>>>,
+			this._folders
+		]).subscribe(this._mergeFoldersAndOperations);
+
+		this.menuFolders.subscribe((v) => console.log(v));
+	}
+
+	public createFolder(name: string, parent = '7'): void {
+		fcSink<ISyncOperation<CreateMailFolderOp, ISyncOpSoapRequest<CreateMailFolderOpReq>>>(
+			'sync:operation:push',
+			{
+				description: 'Creating a mail folder',
+				opData: {
+					operation: 'create-mail-folder',
+					id: `${this._createId -= 1}`,
+					name,
+					parent
+				},
+				opType: 'soap',
+				request: {
+					command: 'CreateFolder',
+					urn: 'urn:zimbraMail',
+					data: {
+						folder: {
+							l: parent,
+							name,
+							view: 'message'
+						}
+					}
+				}
+			}
+		);
+	}
+
+	public moveFolder(id: string, newParent: string): void {
+		fcSink<ISyncOperation<MoveMailFolderOp, ISyncOpSoapRequest<MoveMailFolderActionOpReq>>>(
+			'sync:operation:push',
+			{
+				description: 'Moving mail folder',
+				opData: {
+					operation: 'move-mail-folder',
+					parent: newParent,
+					id
+				},
+				opType: 'soap',
+				request: {
+					command: 'FolderAction',
+					urn: 'urn:zimbraMail',
+					data: {
+						action: {
+							op: 'move',
+							id,
+							l: newParent
+						}
+					}
+				}
+			}
+		);
+	}
+
+	public renameFolder(id: string, name: string): void {
+		fcSink<ISyncOperation<RenameMailFolderOp, ISyncOpSoapRequest<RenameMailFolderActionOpReq>>>(
+			'sync:operation:push',
+			{
+				description: 'Renaming a mail folder',
+				opData: {
+					operation: 'rename-mail-folder',
+					name,
+					id
+				},
+				opType: 'soap',
+				request: {
+					command: 'FolderAction',
+					urn: 'urn:zimbraMail',
+					data: {
+						action: {
+							op: 'rename',
+							id,
+							name
+						}
+					}
+				}
+			}
+		);
+	}
+
+	public deleteFolder(id: string): void {
+		fcSink<ISyncOperation<DeleteMailFolderOp, ISyncOpSoapRequest<DeleteMailFolderActionOpReq>>>(
+			'sync:operation:push',
+			{
+				description: 'Deleting a mail folder',
+				opData: {
+					operation: 'delete-mail-folder',
+					id
+				},
+				opType: 'soap',
+				request: {
+					command: 'FolderAction',
+					urn: 'urn:zimbraMail',
+					data: {
+						action: {
+							op: 'delete',
+							id
+						}
+					}
+				}
+			}
+		);
+	}
+
+	public emptyFolder(id: string): void {
+		fcSink<ISyncOperation<EmptyMailFolderOp, ISyncOpSoapRequest<EmptyMailFolderActionOpReq>>>(
+			'sync:operation:push',
+			{
+				description: 'Cleaning a mail folder',
+				opData: {
+					operation: 'empty-mail-folder',
+					id
+				},
+				opType: 'soap',
+				request: {
+					command: 'FolderAction',
+					urn: 'urn:zimbraMail',
+					data: {
+						action: {
+							op: 'empty',
+							id,
+							recursive: true
+						}
+					}
+				}
+			}
+		);
+	}
+
+	private _loadAllMailFolders(): void {
+		this._idbSrvc.getAllFolders()
+			.then((folders) => this._folders.next(folders));
+	}
+
+	private _updateFolder(id: string): void {
+		this._idbSrvc.getFolder(id)
+			.then((f) => {
+				if (f) this._folders.next({ ...this._folders.getValue(), [id]: f });
+			});
+	}
+
+	private _deleteFolder(id: string): void {
+		const newVal = { ...this._folders.getValue() };
+		try {
+			delete newVal[id];
+		}
+		catch (e) {}
+		this._folders.next(newVal);
+	}
+
+	private _mergeFoldersAndOperations: ([
+		_syncOperations,
+		folders
+	]: [
+		Array<ISyncOperation<MailFolderOp, ISyncOpRequest<unknown>>>,
+		{[id: string]: IFolderSchmV1}
+	]) => void =
+		([
+			_syncOperations,
+			folders
+		]) => {
+			this.folders.next(
+				reduce(
+					_syncOperations,
+					(r, v, k) => {
+						switch (v.opData.operation) {
+							case 'create-mail-folder':
+								// eslint-disable-next-line no-param-reassign
+								r[v.opData.id] = {
+									_revision: 0,
+									id: v.opData.id,
+									name: v.opData.name,
+									parent: v.opData.parent,
+									itemsCount: 0,
+									unreadCount: 0,
+									size: 0,
+									path: calculateAbsPath(
+										v.opData.id,
+										v.opData.name,
+										r,
+										v.opData.parent,
+									)
+								};
+								return r;
+							case 'delete-mail-folder':
+								// eslint-disable-next-line no-param-reassign
+								delete r[v.opData.id];
+								// TODO: Remove the children
+								return r;
+							case 'move-mail-folder':
+								// eslint-disable-next-line no-param-reassign
+								r[v.opData.id] = { ...r[v.opData.id], parent: v.opData.parent };
+								// TODO: Update the path and the children paths
+								return r;
+							case 'rename-mail-folder':
+								// eslint-disable-next-line no-param-reassign
+								r[v.opData.id] = { ...r[v.opData.id], name: v.opData.name };
+								// TODO: Update the path and the children paths
+								return r;
+							default:
+								return r;
+						}
+					},
+					cloneDeep(folders)
+				)
+			);
+		};
+}

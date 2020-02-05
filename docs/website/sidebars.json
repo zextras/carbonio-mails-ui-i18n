@@ -1,5 +1,13 @@
 {
   "docs": {
-    "Docs": ["main", "data", "api"]
+    "Architecture": [
+      "architecture/architecture",
+      "architecture/synchronization",
+      "architecture/api",
+      "architecture/data"
+    ],
+    "Main": [
+      "main"
+    ]
   }
 }
