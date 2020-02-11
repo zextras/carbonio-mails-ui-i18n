@@ -10,9 +10,9 @@
  */
 
 import { ISoapFolderObj } from '@zextras/zapp-shell/lib/network/ISoap';
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { IMailFolderSchmV1 } from './IMailsIdb';
 
-export function normalizeFolder(soapFolderObj: ISoapFolderObj): IFolderSchmV1 {
+export function normalizeFolder(soapFolderObj: ISoapFolderObj): IMailFolderSchmV1 {
 	return {
 		_revision: soapFolderObj.rev,
 		itemsCount: soapFolderObj.n,
@@ -21,6 +21,7 @@ export function normalizeFolder(soapFolderObj: ISoapFolderObj): IFolderSchmV1 {
 		path: soapFolderObj.absFolderPath,
 		unreadCount: soapFolderObj.u || 0,
 		size: soapFolderObj.s,
-		parent: soapFolderObj.l
+		parent: soapFolderObj.l,
+		synced: false
 	};
 }

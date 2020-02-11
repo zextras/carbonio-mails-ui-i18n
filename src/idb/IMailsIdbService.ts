@@ -9,13 +9,18 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { Conversation, IMailFolderSchmV1, MailMessage } from './IMailsIdb';
 
 export interface IMailsIdbService {
-	getFolder(id: string): Promise<IFolderSchmV1|void>;
-	getAllFolders(): Promise<{[id: string]: IFolderSchmV1}>;
-	saveFolderData(f: IFolderSchmV1): Promise<IFolderSchmV1>;
+	getFolder(id: string): Promise<IMailFolderSchmV1|undefined>;
+	getAllFolders(): Promise<{[id: string]: IMailFolderSchmV1}>;
+	saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1>;
 	deleteFolders(ids: string[]): Promise<string[]>;
 	moveFolder(id: string, parent: string): Promise<void>;
 	renameFolder(id: string, name: string): Promise<void>;
+	saveConversation(conv: Conversation): Promise<Conversation>;
+	saveConversations(convs: Conversation[]): Promise<Conversation[]>;
+	fetchConversationsFromFolder(id: string): Promise<Conversation[]>;
+	saveMailMessage(mail: MailMessage): Promise<MailMessage>;
+	saveMailMessages(mails: MailMessage[]): Promise<MailMessage[]>;
 }

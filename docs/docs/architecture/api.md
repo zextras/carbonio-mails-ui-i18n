@@ -6,6 +6,8 @@ title: API
 |---|------------|------|-------|
 || `mails:updated:folder` | `id`: string ||
 || `mails:deleted:folder` | `id`: string ||
+|| `mails:updated:message` | `id`: string ||
+|| `mails:updated:conversation` | `id`: string ||
 
 ## Operations
 ## SOAP
@@ -25,6 +27,10 @@ Alongside the synchronization, other calls used are
 ### Sync
 For the `Sync` management please refer to the Shell project.
 The `Sync` is not performed directly by the Mails App.
+
+### Search
+#### Fetch conversations of a folder
+The fetch will retrieve the conversations inside a folder.
 
 ### CreateFolder
 Request performed to create a mail folder.

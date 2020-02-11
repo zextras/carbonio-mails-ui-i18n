@@ -15,74 +15,25 @@
 
 import { forEach, map } from 'lodash';
 import MailsIdbService from '../idb/MailsIdbService';
+import MailsNetworkService from '../network/MailsNetworkService';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
 
 const _sharedBC = new BroadcastChannel('com_zextras_zapp_shell_sw');
+const fcSink = (event, data) => {
+	_sharedBC.postMessage({
+		action: 'app:fiberchannel',
+		data: {
+			event,
+			data
+		}
+	});
+};
 const _idbSrvc = new MailsIdbService();
-
-// function _fetchSoapContactsByFolder(f) {
-// 	if (f.n === 0) return Promise.resolve([false, []]);
-// 	return new Promise((resolve, reject) => {
-// 		// console.log(`fetch Contacts`, ids);
-// 		const searchReq = {
-// 			Body: {
-// 				SearchRequest: {
-// 					_jsns: 'urn:zimbraMail',
-// 					types: 'contact',
-// 					query: `in:"${f.absFolderPath}"`,
-// 					needExp: 1,
-// 					fetch: 1,
-// 					limit: 1000,
-// 					offset: 0
-// 				}
-// 			}
-// 		};
-// 		fetch(
-// 			'/service/soap/SearchRequest',
-// 			{
-// 				method: 'POST',
-// 				body: JSON.stringify(searchReq)
-// 			}
-// 		)
-// 			.then(r => r.json())
-// 			.then(r => {
-// 				if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-// 				const srcResp = r.Body.SearchResponse;
-// 				resolve([srcResp.more, map(srcResp.cn, c => normalizeContact(c))]);
-// 			})
-// 			.catch(e => reject(e));
-// 	});
-// }
-
-// function _fetchSoapContacts(ids) {
-// 	return new Promise((resolve, reject) => {
-// 		const searchReq = {
-// 			Body: {
-// 				GetContactsRequest: {
-// 					_jsns: 'urn:zimbraMail',
-// 					sync: 1,
-// 					cn: map(ids, (id) => ({ id }))
-// 				}
-// 			}
-// 		};
-// 		fetch(
-// 			'/service/soap/GetContactsRequest',
-// 			{
-// 				method: 'POST',
-// 				body: JSON.stringify(searchReq)
-// 			}
-// 		)
-// 			.then((r) => r.json())
-// 			.then((r) => {
-// 				if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-// 				resolve(map(r.Body.GetContactsResponse.cn, (c) => normalizeContact(c)));
-// 			})
-// 			.catch((e) => reject(e));
-// 	});
-// }
+const _networkSrvc = new MailsNetworkService(
+	_idbSrvc
+);
 
 function _walkSOAPMailsFolder(folders) {
-	console.log('_walkSOAPMailsFolder', folders);
 	return Promise.all(
 		map(
 			folders,
@@ -97,43 +48,59 @@ function _walkSOAPMailsFolder(folders) {
 					// console.log('Processing folder', f);
 					// Store the folder data
 					promises.push(
-						_idbSrvc.saveFolderData(
-							normalizeFolder(f)
-						)
-							.then((_) => new Promise((resolve, reject) => {
-								resolve([]);
-								// if (!f.cn) resolve([]);
-								// _fetchSoapContacts(f.cn[0].ids.split(','))
-								// 	.then((contacts) => resolve(contacts))
-								// 	.catch((e) => reject(e));
-							}))
-							.then((r) => new Promise((resolve, reject) => {
-								resolve();
-								// _idbSrvc.saveContactsData(r)
-								// 	.then(() => {
-								// 		forEach(r, (c) => _sharedBC.postMessage({
-								// 			action: 'app:fiberchannel',
-								// 			data: {
-								// 				event: 'mails:updated:mail',
-								// 				data: {
-								// 					id: c.id
-								// 				}
-								// 			}
-								// 		}));
-								// 	})
-								// 	.then((_) => resolve())
-								// 	.catch((e) => reject(e));
-							}))
-							.then((_) => {
-								_sharedBC.postMessage({
-									action: 'app:fiberchannel',
-									data: {
-										event: 'mails:updated:folder',
-										data: {
-											id: f.id
-										}
+						_idbSrvc.getFolder(f.id)
+							.then((folder) => {
+								let newF;
+								if (!folder) {
+									newF = {
+										...normalizeFolder(f),
+										synced: f.id === '2'
+									};
+								}
+								else {
+									newF = {
+										...folder,
+										...normalizeFolder(f),
+										synced: folder.synced
+									};
+								}
+								return _idbSrvc.saveFolderData(newF);
+							})
+							.then((folder) => {
+								fcSink(
+									'mails:updated:folder',
+									{
+										id: folder.id
 									}
+								);
+								if (!folder.synced) return Promise.resolve([[], folder]);
+								return Promise.all([
+									_networkSrvc.fetchConversationsInFolder(folder.id),
+									Promise.resolve(folder)
+								]);
+							})
+							.then(([conversations, folder]) => _idbSrvc.saveConversations(conversations)
+								.then(() => [conversations, folder]))
+							.then(([conversations, folder]) => _networkSrvc.fetchConversationsMessages(conversations)
+								.then((messages) => [conversations, messages, folder]))
+							.then(([conversations, messages, folder]) => _idbSrvc.saveMailMessages(messages)
+								.then((msgs) => [conversations, msgs, folder]))
+							.then(([conversations, messages, folder]) => {
+								forEach(messages, (m) => {
+									fcSink(
+										'mails:updated:message',
+										{
+											id: m.id
+										}
+									);
 								});
+								forEach(conversations, (c) =>
+									fcSink(
+										'mails:updated:conversation',
+										{
+											id: c.id
+										}
+									));
 							})
 					);
 				}
@@ -192,17 +159,14 @@ function _deleteMails(ids) {
 
 function _deleteFolders(ids) {
 	return _idbSrvc.deleteFolders(ids)
-		.then((ids1) => {
-			forEach(ids1, (id) => _sharedBC.postMessage({
-				action: 'app:fiberchannel',
-				data: {
-					event: 'contacts:deleted:folder',
-					data: {
+		.then((ids1) =>
+			forEach(ids1, (id) =>
+				fcSink(
+					'contacts:deleted:folder',
+					{
 						id
 					}
-				}
-			}));
-		});
+				)));
 }
 
 function _processSOAPNotifications(syncResponse) {
@@ -298,18 +262,6 @@ function _processSOAPNotifications(syncResponse) {
 // 		}));
 // }
 
-function _sendFolderUpdatedOnBC(id) {
-	_sharedBC.postMessage({
-		action: 'app:fiberchannel',
-		data: {
-			event: 'mails:updated:folder',
-			data: {
-				id: id
-			}
-		}
-	});
-}
-
 function _processOperationCompleted(data) {
 	// console.log(data.action, data.data);
 	return new Promise(((resolve, reject) => {
@@ -336,7 +288,11 @@ function _processOperationCompleted(data) {
 						_idbSrvc.saveFolderData(
 							normalizeFolder(result.Body.CreateFolderResponse.folder[0])
 						)
-							.then(() => _sendFolderUpdatedOnBC(result.Body.CreateFolderResponse.folder[0].id))
+							.then(() => fcSink(
+								'mails:updated:folder', {
+									id: result.Body.CreateFolderResponse.folder[0].id
+								}
+							))
 					);
 					break;
 				case 'delete-mail-folder':
@@ -348,7 +304,12 @@ function _processOperationCompleted(data) {
 							data.data.data.operation.opData.id,
 							data.data.data.operation.opData.parent
 						)
-							.then(() => _sendFolderUpdatedOnBC(data.data.data.operation.opData.id))
+							.then(() => fcSink(
+								'mails:updated:folder',
+								{
+									id: data.data.data.operation.opData.id
+								}
+							))
 					);
 					break;
 				case 'rename-mail-folder':
@@ -357,7 +318,12 @@ function _processOperationCompleted(data) {
 							data.data.data.operation.opData.id,
 							data.data.data.operation.opData.name
 						)
-							.then(() => _sendFolderUpdatedOnBC(data.data.data.operation.opData.id))
+							.then(() => fcSink(
+								'mails:updated:folder',
+								{
+									id: data.data.data.operation.opData.id
+								}
+							))
 					);
 					break;
 				default:

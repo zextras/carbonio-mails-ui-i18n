@@ -15,6 +15,7 @@ export interface IMailsService {
 	renameFolder(id: string, name: string): void;
 	deleteFolder(id: string): void;
 	emptyFolder(id: string): void;
+	loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 }
 
 export type MailFolderOp = CreateMailFolderOp

@@ -21,12 +21,11 @@ function createDb(database: IDBPDatabase<IMailsIdb>): void {
 	foldersStore.createIndex('parent', 'parent');
 	foldersStore.createIndex('path', 'path');
 
-	// const mailsStore = db.createObjectStore('mails', { keyPath: 'id' });
-	// mailsStore.createIndex('folder', 'folder', { unique: false });
-	// mailsStore.createIndex('conversation', 'conversationId', { unique: false });
-	// const conversationsStore = db.createObjectStore('conversations', { keyPath: 'id' });
-	// conversationsStore.createIndex('folder', 'folder', { unique: false, multiEntry: true });
-	// createFolderIdb(1, db);
+	const mailsStore = database.createObjectStore('messages', { keyPath: 'id' });
+	mailsStore.createIndex('parent', 'parent', { unique: false });
+	mailsStore.createIndex('conversation', 'conversation', { unique: false });
+	const conversationsStore = database.createObjectStore('conversations', { keyPath: 'id' });
+	conversationsStore.createIndex('parent', 'parent', { unique: false, multiEntry: true });
 }
 
 export function upgradeFn(

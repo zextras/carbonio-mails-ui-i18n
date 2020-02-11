@@ -10,14 +10,24 @@
  */
 
 import { IDBPDatabase, openDB } from 'idb';
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
+import { IFCSink } from '@zextras/zapp-shell/lib/fc/IFiberChannel';
+
 import { map, reduce } from 'lodash';
 import { IMailsIdbService } from './IMailsIdbService';
-import { IMailsIdb } from './IMailsIdb';
+import {
+	Conversation,
+	IMailFolderSchmV1,
+	IMailsIdb,
+	MailMessage
+} from './IMailsIdb';
 import { schemaVersion, upgradeFn } from './MailsIdb';
 
 export default class MailsIdbService implements IMailsIdbService {
 	private static _IDB_NAME = 'com_zextras_zapp_mails';
+
+	constructor(
+		private _fcSink: IFCSink
+	) {}
 
 	private static _openDb(): Promise<IDBPDatabase<IMailsIdb>> {
 		return openDB<IMailsIdb>(
@@ -29,17 +39,17 @@ export default class MailsIdbService implements IMailsIdbService {
 		);
 	}
 
-	public getFolder(id: string): Promise<IFolderSchmV1|void> {
+	public getFolder(id: string): Promise<IMailFolderSchmV1|undefined> {
 		return MailsIdbService._openDb()
 			.then((idb) => idb.get<'folders'>('folders', id));
 	}
 
-	public getAllFolders(): Promise<{[id: string]: IFolderSchmV1}> {
+	public getAllFolders(): Promise<{[id: string]: IMailFolderSchmV1}> {
 		return new Promise((resolve, reject) => {
 			MailsIdbService._openDb()
 				.then(
 					(idb) => idb.getAll<'folders'>('folders')
-						.then((folders) => reduce<IFolderSchmV1, {[id: string]: IFolderSchmV1}>(
+						.then((folders) => reduce<IMailFolderSchmV1, {[id: string]: IMailFolderSchmV1}>(
 							folders,
 							(r, v, k) => {
 								// eslint-disable-next-line no-param-reassign
@@ -54,11 +64,13 @@ export default class MailsIdbService implements IMailsIdbService {
 		});
 	}
 
-	public saveFolderData(f: IFolderSchmV1): Promise<IFolderSchmV1> {
+	public saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1> {
 		return new Promise((resolve, reject) => {
 			MailsIdbService._openDb()
 				.then((idb) => idb.put<'folders'>('folders', f))
-				.then((_) => resolve(f))
+				.then((_) => {
+					resolve(f);
+				})
 				.catch((e) => reject(e));
 		});
 	}
@@ -115,7 +127,7 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public renameFolder(id: string, name: string): Promise<void> {
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			MailsIdbService._openDb()
 				.then((idb) => new Promise((resolve1, reject1) => {
 					idb.get<'folders'>('folders', id)
@@ -130,5 +142,62 @@ export default class MailsIdbService implements IMailsIdbService {
 				.then(() => resolve())
 				.catch((e) => reject(e));
 		});
+	}
+
+	public saveConversation(conv: Conversation): Promise<Conversation> {
+		return new Promise(((resolve, reject) => {
+			MailsIdbService._openDb()
+				.then((idb) => idb.put<'conversations'>('conversations', conv))
+				.then((_) => resolve(conv))
+				.catch((e) => reject(e));
+		}));
+	}
+
+	public saveConversations(convs: Conversation[]): Promise<Conversation[]> {
+		if (convs.length < 1) return Promise.resolve([]);
+		const cCopy = [...convs];
+		const conv = cCopy.shift();
+		return this.saveConversation(conv!)
+			.then((c1) => new Promise((resolve, reject) => {
+				if (cCopy.length === 0) resolve([c1]);
+				else {
+					this.saveConversations(cCopy)
+						.then((r) => resolve([c1].concat(r)))
+						.catch((e) => reject(e));
+				}
+			}));
+	}
+
+	public fetchConversationsFromFolder(id: string): Promise<Conversation[]> {
+		return new Promise<Conversation[]>((resolve, reject) => {
+			MailsIdbService._openDb()
+				.then((idb) => idb.getAllFromIndex<'conversations', 'parent'>('conversations', 'parent', id))
+				.then((conversations) => resolve(conversations))
+				.catch((e) => reject(e));
+		});
+	}
+
+	public saveMailMessage(mail: MailMessage): Promise<MailMessage> {
+		return new Promise(((resolve, reject) => {
+			MailsIdbService._openDb()
+				.then((idb) => idb.put<'messages'>('messages', mail))
+				.then((_) => resolve(mail))
+				.catch((e) => reject(e));
+		}));
+	}
+
+	public saveMailMessages(mails: MailMessage[]): Promise<MailMessage[]> {
+		if (mails.length < 1) return Promise.resolve([]);
+		const cCopy = [...mails];
+		const mail = cCopy.shift();
+		return this.saveMailMessage(mail!)
+			.then((c1) => new Promise((resolve, reject) => {
+				if (cCopy.length === 0) resolve([c1]);
+				else {
+					this.saveMailMessages(cCopy)
+						.then((r) => resolve([c1].concat(r)))
+						.catch((e) => reject(e));
+				}
+			}));
 	}
 }

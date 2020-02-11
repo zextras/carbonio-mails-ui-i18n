@@ -10,80 +10,92 @@
  */
 
 import { IIDBFolderSchmV1 } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 
-export enum MailContactType {
-	from = 'from',
-	to = 'to',
-	cc = 'cc',
-	bcc = 'bcc',
-	replyTo = 'reply-to',
-	sender = 'sender',
-	readReceiptNotification = 'read-receipt-notification',
-	resentFrom = 'resent-from'
-}
-
-export type IMailsIdb = IIDBFolderSchmV1 & {
-	// mails: {
-	// 	key: string;
-	// 	value: IMailSchm;
-	// 	indexes: {
-	// 		folder: string;
-	// 		conversation: string;
-	// 	};
-	// };
-	// conversations: {
-	// 	key: string;
-	// 	value: IConvSchm;
-	// 	indexes: {
-	// 		folder: string;
-	// 	};
-	// };
+export type IMailFolderSchmV1 = IFolderSchmV1 & {
+	synced: boolean;
 };
 
-export type IMailSchm = {
-	id: string;
-	conversationId: string;
-	folder: string;
-	contacts: Array<IMailContactSchm>;
-	date: number;
-	subject: string;
-	fragment: string;
-	read: boolean;
-	parts: Array<IMailPartSchm>;
-	size: number;
-	attachment: boolean;
-	flagged: boolean;
-	urgent: boolean;
-	/** Defines the path inside the parts of the mail */ bodyPath: string;
+type IIDBMailFolderSchmV1 = IIDBFolderSchmV1 & {
+	folders: {
+		value: IMailFolderSchmV1;
+	};
 };
 
-export type IConvSchm = {
+export type IMailsIdb = IIDBMailFolderSchmV1 & {
+	messages: {
+		key: string;
+		value: MailMessage;
+		indexes: {
+			parent: string;
+			conversation: string;
+		};
+	};
+	conversations: {
+		key: string;
+		value: Conversation;
+		indexes: {
+			parent: string;
+		};
+	};
+};
+
+export type MailMinimalData = {
 	id: string;
-	contacts: Array<IMailContactSchm>;
-	messages: Array<string>;
-	date: number;
-	folder: Array<string>;
-	subject: string;
-	fragment: string;
+	parent: string;
+};
+
+export type Conversation = {
+	id: string;
+	parent: string[];
+	date: number; // Date of the most recent message
 	msgCount: number;
 	unreadMsgCount: number;
-	read: boolean;
-	flagged: boolean;
-	attachment: boolean;
-	urgent: boolean;
+	messages: ConversationMailMessage[];
+	participants: Participant[];
+	subject: string;
+	fragment: string;
 };
 
-export type IMailPartSchm = {
+export type ConversationMailMessage = MailMinimalData & {};
+
+export enum ParticipantType {
+	FROM = 'f',
+	TO = 't',
+	CARBON_COPY = 'c',
+	BLIND_CARBON_COPY = 'b',
+	REPLY_TO = 'r',
+	SENDER = 's',
+	READ_RECEIPT_NOTIFICATION = 'n',
+	RESENT_FROM = 'rf'
+}
+
+export type Participant = {
+	type: ParticipantType;
+	address: string;
+	displayName: string;
+};
+
+export type MailMessagePart = {
 	contentType: string;
 	size: number;
 	content?: string;
 	name: string;
 	filename?: string;
-	parts?: Array<IMailPartSchm>;
+	parts?: Array<MailMessagePart>;
 };
 
-export type IMailContactSchm = {
-	name?: string;
-	address: string;
-	type: MailContactType;
+export type MailMessage = MailMinimalData & {
+	conversation: string;
+	contacts: Array<Participant>;
+	date: number;
+	subject: string;
+	fragment: string;
+	read: boolean;
+	parts: Array<MailMessagePart>;
+	size: number;
+	attachment: boolean;
+	flagged: boolean;
+	urgent: boolean;
+	/** Defines the path inside the parts of the mail */ bodyPath: string;
 };

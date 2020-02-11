@@ -1,6 +1,16 @@
+/*
+ * *** BEGIN LICENSE BLOCK *****
+ * Copyright (C) 2011-2020 ZeXtras
+ *
+ * The contents of this file are subject to the ZeXtras EULA;
+ * you may not use this file except in compliance with the EULA.
+ * You may obtain a copy of the EULA at
+ * http://www.zextras.com/zextras-eula.html
+ * *** END LICENSE BLOCK *****
+ */
+
 import { forEach } from 'lodash';
-import { normalizeMessage, IMsgItemObj } from '../../src/IMailSoap';
-import { IMailSchm } from '../../src/idb/IMailSchema';
+import { normalizeMailMessageFromSoap } from './ISoap';
 
 const tests = [
 	{
@@ -51,22 +61,22 @@ const tests = [
 			su: "Hello user",
 		},
 		result: {
-			bodyPath: "part[0].part[0]",
+			bodyPath: "parts[0].parts[0]",
 			contacts: [
 				{
 					address: "admin@70c49c70.testarea.zextras.com",
-					name: "admin",
-					type: "from"
+					displayName: "admin",
+					type: "f"
 				},
 				{
 					address: "user@70c49c70.testarea.zextras.com",
-					name: "User",
-					type: "to"
+					displayName: "User",
+					type: "t"
 				}
 			],
-			conversationId: "1130",
+			conversation: "1130",
 			date: 1574335965000,
-			folder: "2",
+			parent: "2",
 			fragment: "Hello user!",
 			id: "1128",
 			parts: [
@@ -76,7 +86,6 @@ const tests = [
 					parts: [
 						{
 							contentType: "text/plain",
-							filename: "Hello user!",
 							name: "1",
 							parts: [],
 							size: 14
@@ -104,8 +113,8 @@ describe('normalizeMessage', () => {
 		forEach(
 			tests,
 			(testCase): void => {
-				expect(normalizeMessage(testCase.input)).toMatchObject(testCase.result);
+				expect(normalizeMailMessageFromSoap(testCase.input)).toMatchObject(testCase.result);
 			}
 		)
 	})
-})
+});
