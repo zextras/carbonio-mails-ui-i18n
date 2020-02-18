@@ -9,8 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { forEach } from 'lodash';
-import { normalizeMailMessageFromSoap } from './ISoap';
+import { normalizeMailMessageFromSoap, _getParentPath, getBodyToRender } from './ISoap';
 
 const tests = [
 	{
@@ -87,13 +86,11 @@ const tests = [
 						{
 							contentType: "text/plain",
 							name: "1",
-							parts: [],
 							size: 14
 						},
 						{
 							contentType: "text/html",
 							name: "2",
-							parts: [],
 							size: 142
 						}
 					]
@@ -109,12 +106,101 @@ const tests = [
 ];
 
 describe('normalizeMessage', () => {
-	test('Produces the correct message', async () => {
-		forEach(
-			tests,
-			(testCase): void => {
-				expect(normalizeMailMessageFromSoap(testCase.input)).toMatchObject(testCase.result);
-			}
-		)
-	})
+	test('Produces the correct message', () => {
+		expect(normalizeMailMessageFromSoap(tests[0].input)).toMatchObject(tests[0].result);
+	});
+});
+
+describe('SOAP Utils', () => {
+	test('_getParentPath', () => {
+		expect(_getParentPath('parts[0].parts[0].parts[1].parts[0]')).toBe('parts[0].parts[0].parts[1]');
+	});
+
+	test('getBodyToRender', () => {
+		expect(getBodyToRender({
+			"conversation": "265",
+			"id": "264",
+			"date": 1581951719000,
+			"size": 159165,
+			"parent": "2",
+			"parts": [
+				{
+					"contentType": "multipart/mixed",
+					"size": 0,
+					"name": "TEXT",
+					"parts": [
+						{
+							"contentType": "multipart/alternative",
+							"size": 0,
+							"name": "1",
+							"parts": [
+								{
+									"contentType": "text/plain",
+									"size": 0,
+									"name": "1.1"
+								},
+								{
+									"contentType": "multipart/related",
+									"size": 0,
+									"name": "1.2",
+									"parts": [
+										{
+											"contentType": "text/html",
+											"size": 261,
+											"name": "1.2.1",
+											"content": "<html><body><div style=\"font-family:&#39;arial&#39; , &#39;helvetica&#39; , sans-serif;font-size:12pt;color:#000000\"><div><img src=\"cid:a14524d10cdf8e078a54509a2f4ff4c33d88fdf1&#64;zimbra\" data-mce-src=\"cid:a14524d10cdf8e078a54509a2f4ff4c33d88fdf1&#64;zimbra\" /></div></div></body></html>"
+										},
+										{
+											"contentType": "image/jpeg",
+											"size": 67321,
+											"name": "1.2.2",
+											"filename": "La Monna Patrick.jpg",
+											"cd": "inline",
+											"ci": "<a14524d10cdf8e078a54509a2f4ff4c33d88fdf1@zimbra>"
+										}
+									]
+								}
+							]
+						},
+						{
+							"contentType": "image/jpeg",
+							"size": 47281,
+							"name": "2",
+							"filename": "Culo.jpeg"
+						}
+					]
+				}
+			],
+			"bodyPath": "parts[0].parts[0].parts[1].parts[0]",
+			"subject": "Hello, world!",
+			"contacts": [
+				{
+					"type": "f",
+					"address": "admin@cc6ce14e.testarea.zextras.com",
+					"displayName": "admin"
+				},
+				{
+					"type": "t",
+					"address": "admin@cc6ce14e.testarea.zextras.com",
+					"displayName": "admin"
+				}
+			],
+			"read": true,
+			"attachment": true,
+			"flagged": false,
+			"urgent": false
+		})).toStrictEqual(
+			[
+				{
+					"content": "<html><body><div style=\"font-family:&#39;arial&#39; , &#39;helvetica&#39; , sans-serif;font-size:12pt;color:#000000\"><div><img src=\"cid:a14524d10cdf8e078a54509a2f4ff4c33d88fdf1&#64;zimbra\" data-mce-src=\"cid:a14524d10cdf8e078a54509a2f4ff4c33d88fdf1&#64;zimbra\" /></div></div></body></html>",
+					"contentType": "text/html",
+					"name": "1.2.1",
+					"size": 261,
+				},
+				[
+					{"ci": "<a14524d10cdf8e078a54509a2f4ff4c33d88fdf1@zimbra>", "contentType": "image/jpeg", "filename": "La Monna Patrick.jpg", "name": "1.2.2", "size": 67321, cd: 'inline'}
+				]
+			]
+		);
+	});
 });

@@ -15,7 +15,7 @@ import { Container, Text } from '@zextras/zapp-ui';
 
 export const ROUTE = '/mails/folder/:path*';
 
-export default function App() {
+export default function App({ mailsSrvc }) {
 	const { path } = useParams();
 	return (
 		<Container width="fill" height="fill" background="bg_9" mainAlignment="flex-start" crossAlignment="flex-start">
@@ -24,4 +24,4 @@ export default function App() {
 			</Container>
 		</Container>
 	);
-};
+}

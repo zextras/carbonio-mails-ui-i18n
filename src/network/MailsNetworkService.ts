@@ -99,51 +99,10 @@ export default class MailsNetworkService implements IMailsNetworkService {
 		);
 
 		return this.fetchMailMessages(mailIds);
-		/** This slice of code is an example of a batch request
-		const requests = reduce(
-			convs,
-			(r, v, k) => r.concat({
-				_jsns: 'urn:zimbraMail',
-				requestId: k,
-				offset: 0,
-				limit: 250,
-				query: `in:"${folder.path}"`,
-				cid: v.id,
-				fetch: 'u!',
-				html: 1,
-				needExp: 1,
-				max: 250000,
-				recip: '2'
-			}),
-			[]
-		);
-		const batch = {
-			Body: {
-				BatchRequest: {
-					_jsns: 'urn:zimbra',
-					onerror: 'continue',
-					SearchConvRequest: requests
-				}
-			}
-		};
-		return fetch(
-			'/service/soap/BatchRequest',
-			{
-				method: 'POST',
-				body: JSON.stringify(batch)
-			}
-		)
-			.then((r) => r.json())
-			.then((resp) => {
-				if (resp.Body.BatchResponse.SearchConvResponse) {
-					console.log('SearchConvResponse', resp.Body.BatchResponse.SearchConvResponse);
-				}
-			})
-			.then(() => []);
-	 */
 	}
 
 	public fetchMailMessages(mailIds: string[]): Promise<MailMessage[]> {
+		if (mailIds.length < 1) return Promise.resolve([]);
 		const request = {
 			Body: {
 				SearchRequest: {
@@ -153,7 +112,7 @@ export default class MailsNetworkService implements IMailsNetworkService {
 					recip: '2',
 					html: 1,
 					limit: mailIds.length,
-					query: `is:anywhere item:${mailIds.join(',')}`,
+					query: `is:anywhere item:"${mailIds.join(',')}"`,
 					fetch: 'all'
 				}
 			}
@@ -171,6 +130,39 @@ export default class MailsNetworkService implements IMailsNetworkService {
 				return reduce(
 					resp.Body.SearchResponse.m,
 					(r: MailMessage[], v: SoapEmailMessageObj, k) => r.concat(normalizeMailMessageFromSoap(v)),
+					[]
+				);
+			});
+	}
+
+	public fetchConversations(convIds: string[]): Promise<Conversation[]> {
+		const request = {
+			Body: {
+				SearchRequest: {
+					_jsns: 'urn:zimbraMail',
+					types: 'conversation',
+					sortBy: 'dateDesc',
+					recip: '2',
+					html: 1,
+					limit: convIds.length,
+					query: `is:anywhere item:"${convIds.join(',')}"`,
+					fetch: 'all'
+				}
+			}
+		};
+		return fetch(
+			'/service/soap/SearchRequest',
+			{
+				method: 'POST',
+				body: JSON.stringify(request)
+			}
+		)
+			.then((resp) => resp.json())
+			.then((response) => {
+				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
+				return reduce<SoapConvObj, Conversation[]>(
+					response.Body.SearchResponse.c || [],
+					(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
 					[]
 				);
 			});

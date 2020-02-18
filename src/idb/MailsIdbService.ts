@@ -145,12 +145,9 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public saveConversation(conv: Conversation): Promise<Conversation> {
-		return new Promise(((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => idb.put<'conversations'>('conversations', conv))
-				.then((_) => resolve(conv))
-				.catch((e) => reject(e));
-		}));
+		return MailsIdbService._openDb()
+			.then((idb) => idb.put<'conversations'>('conversations', conv))
+			.then((_) => conv);
 	}
 
 	public saveConversations(convs: Conversation[]): Promise<Conversation[]> {
@@ -178,12 +175,9 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public saveMailMessage(mail: MailMessage): Promise<MailMessage> {
-		return new Promise(((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => idb.put<'messages'>('messages', mail))
-				.then((_) => resolve(mail))
-				.catch((e) => reject(e));
-		}));
+		return MailsIdbService._openDb()
+			.then((idb) => idb.put<'messages'>('messages', mail))
+			.then((_) => mail);
 	}
 
 	public saveMailMessages(mails: MailMessage[]): Promise<MailMessage[]> {
@@ -199,5 +193,33 @@ export default class MailsIdbService implements IMailsIdbService {
 						.catch((e) => reject(e));
 				}
 			}));
+	}
+
+	public getConversation(id: string): Promise<Conversation|undefined> {
+		return MailsIdbService._openDb()
+			.then((idb) => idb.get<'conversations'>('conversations', id));
+	}
+
+	public getMessages(msgIds: string[]): Promise<{[p: string]: MailMessage}> {
+		return MailsIdbService._openDb()
+			.then((db) => Promise.all(
+				reduce<string, Promise<MailMessage|undefined>[]>(
+					msgIds,
+					(r, v, k) => {
+						r.push(db.get<'messages'>('messages', v));
+						return r;
+					},
+					[]
+				)
+			))
+			.then((msgs) => reduce<MailMessage|undefined, {[id: string]: MailMessage}>(
+				msgs,
+				(r, v, k) => {
+					if (!v) return r;
+					r[v.id] = v;
+					return r;
+				},
+				{}
+			));
 	}
 }

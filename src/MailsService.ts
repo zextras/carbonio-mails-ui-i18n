@@ -15,7 +15,14 @@ import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterServ
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { reduce, filter as loFilter, cloneDeep, forEach } from 'lodash';
+import {
+	reduce,
+	filter as loFilter,
+	cloneDeep,
+	forEach,
+	without,
+	merge
+} from 'lodash';
 import {
 	CreateMailFolderOp,
 	DeleteMailFolderOp,
@@ -117,8 +124,6 @@ export default class MailsService implements IMailsService {
 			syncOperations as BehaviorSubject<Array<ISyncOperation<MailFolderOp, ISyncOpRequest<unknown>>>>,
 			this._folders
 		]).subscribe(this._mergeFoldersAndOperations);
-
-		this.menuFolders.subscribe((v) => console.log(v));
 	}
 
 	public createFolder(name: string, parent = '7'): void {
@@ -364,5 +369,52 @@ export default class MailsService implements IMailsService {
 					)
 				);
 			});
+	}
+
+	public getConversation(id: string): Promise<Conversation> {
+		return this._idbSrvc.getConversation(id)
+			.then((conv) => {
+				if (conv) return conv;
+				return this._networkSrvc.fetchConversations([id])
+					.then(([conv1]: Conversation[]) => {
+						if (!conv1) throw new Error(`Conversation '${id}' not found`);
+						return this._idbSrvc.saveConversation(conv1);
+					});
+			});
+	}
+
+	public getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}> {
+		return this._idbSrvc.getMessages(msgIds)
+			.then(
+				(msgs: {[id: string]: MailMessage}) =>
+					this._networkSrvc.fetchMailMessages(
+						without(
+							msgIds,
+							...reduce<{[v: string]: MailMessage}, string[]>(
+								msgs,
+								(r, v, k) => {
+									r.push(v.id);
+									return r;
+								},
+								[]
+							)
+						)
+					)
+						.then(
+							(messages) => this._idbSrvc.saveMailMessages(messages)
+								.then((savedMsgs) => [msgs, reduce<MailMessage, {[id: string]: MailMessage}>(
+									savedMsgs,
+									(r, v, k) => {
+										r[v.id] = v;
+										return r;
+									},
+									{}
+								)])
+						)
+						.then(([fromIdb, fromNetwork]) => merge(
+							fromIdb,
+							fromNetwork
+						))
+			);
 	}
 }

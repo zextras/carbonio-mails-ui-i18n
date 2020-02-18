@@ -13,7 +13,9 @@ import {
 	flattenDeep,
 	map,
 	reduce,
-	trim
+	trim,
+	get,
+	filter
 } from 'lodash';
 import {
 	Conversation,
@@ -63,6 +65,7 @@ export type SoapEmailMessagePartObj = {
 	/**	Content Type	*/ ct: string;
 	/**	Size	*/ s: number;
 	/**	Content id (for inline images)	*/ ci: string;
+	/** Content disposition */ cd?: 'inline'|'attachment';
 	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
 	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
@@ -264,16 +267,20 @@ export function normalizeConversationFromSoap(c: SoapConvObj): Conversation {
 function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
 	const ret: MailMessagePart = {
 		contentType: v.ct,
-		size: v.s,
-		parts: map(
+		size: v.s || 0,
+		name: v.part,
+	};
+	if (v.mp) {
+		ret.parts = map(
 			v.mp || [],
 			// eslint-disable-next-line @typescript-eslint/no-use-before-define
 			normalizeMailPartMapFn
-		),
-		name: v.part,
-	};
+		);
+	}
 	if (v.filename) ret.filename = v.filename;
 	if (v.content) ret.content = v.content;
+	if (v.ci) ret.ci = v.ci;
+	if (v.cd) ret.disposition = v.cd;
 	return ret;
 }
 
@@ -306,4 +313,24 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 		}
 	}
 	return [];
+}
+
+export function _getParentPath(path: string): string {
+	const p = path.split('.');
+	p.pop();
+	return p.join('.');
+}
+
+export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessagePart[]] {
+	const body: MailMessagePart = get(
+		msg,
+		msg.bodyPath
+	);
+
+	const parent: MailMessagePart = get(
+		msg,
+		_getParentPath(msg.bodyPath)
+	);
+
+	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
 }

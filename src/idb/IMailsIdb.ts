@@ -83,6 +83,8 @@ export type MailMessagePart = {
 	name: string;
 	filename?: string;
 	parts?: Array<MailMessagePart>;
+	ci?: string;
+	disposition?: 'inline'|'attachment';
 };
 
 export type MailMessage = MailMinimalData & {

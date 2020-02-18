@@ -23,4 +23,6 @@ export interface IMailsIdbService {
 	fetchConversationsFromFolder(id: string): Promise<Conversation[]>;
 	saveMailMessage(mail: MailMessage): Promise<MailMessage>;
 	saveMailMessages(mails: MailMessage[]): Promise<MailMessage[]>;
+	getConversation(id: string): Promise<Conversation|undefined>;
+	getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}>;
 }

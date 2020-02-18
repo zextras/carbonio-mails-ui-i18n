@@ -15,4 +15,5 @@ export interface IMailsNetworkService {
 	fetchConversationsInFolder(id: string, limit?: number): Promise<Conversation[]>;
 	fetchConversationsMessages(convs: Conversation[]): Promise<MailMessage[]>;
 	fetchMailMessages(mailIds: string[]): Promise<MailMessage[]>;
+	fetchConversations(convIds: string[]): Promise<Conversation[]>;
 }

@@ -12,7 +12,6 @@
 import React from 'react';
 import { serviceWorkerSrvc } from '@zextras/zapp-shell/service';
 import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
-import { fc } from '@zextras/zapp-shell/fc';
 
 import App, { ROUTE as mainRoute } from './components/App';
 import MailsIdbService from './idb/MailsIdbService';
@@ -28,8 +27,7 @@ export default function app() {
 		idbSrvc,
 		networkSrvc
 	);
-	console.log('HI!');
-	fc.subscribe(console.log);
+
 	addMainMenuItem(
 		'EmailOutline',
 		'Mails',

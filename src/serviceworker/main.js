@@ -264,7 +264,7 @@ function _processSOAPNotifications(syncResponse) {
 
 function _processOperationCompleted(data) {
 	// console.log(data.action, data.data);
-	return new Promise(((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		const promises = [];
 		if (data.action === 'sync:operation:completed') {
 			// Fetch the updated information for edited objects
@@ -341,7 +341,7 @@ function _processOperationCompleted(data) {
 			});
 			resolve();
 		});
-	}));
+	});
 }
 
 _sharedBC.addEventListener('message', (e) => {

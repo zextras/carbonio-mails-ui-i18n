@@ -9,6 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { Conversation, MailMessage } from './idb/IMailsIdb';
+
 export interface IMailsService {
 	createFolder(name: string, parent: string): void;
 	moveFolder(id: string, newParent: string): void;
@@ -16,6 +18,8 @@ export interface IMailsService {
 	deleteFolder(id: string): void;
 	emptyFolder(id: string): void;
 	loadMoreConversationsFromFolder(folderId: string): Promise<void>;
+	getConversation(id: string): Promise<Conversation>;
+	getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}>;
 }
 
 export type MailFolderOp = CreateMailFolderOp
