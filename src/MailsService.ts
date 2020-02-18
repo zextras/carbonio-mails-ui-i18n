@@ -25,21 +25,25 @@ import {
 } from 'lodash';
 import {
 	CreateMailFolderOp,
+	DeleteConversationOp,
 	DeleteMailFolderOp,
 	EmptyMailFolderOp,
 	IMailsService,
 	MailFolderOp,
+	MarkConversationAsReadOp,
+	MarkConversationAsSpamOp,
 	MoveMailFolderOp,
-	RenameMailFolderOp
+	RenameMailFolderOp,
+	TrashConversationOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	calculateAbsPath,
-	CreateMailFolderOpReq,
+	CreateMailFolderOpReq, DeleteConversationOpReq,
 	DeleteMailFolderActionOpReq,
-	EmptyMailFolderActionOpReq,
+	EmptyMailFolderActionOpReq, MarkConversationAsReadOpReq, MarkConversationAsSpamOpReq,
 	MoveMailFolderActionOpReq,
-	RenameMailFolderActionOpReq
+	RenameMailFolderActionOpReq, TrashConversationOpReq
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
@@ -126,132 +130,271 @@ export default class MailsService implements IMailsService {
 		]).subscribe(this._mergeFoldersAndOperations);
 	}
 
-	public createFolder(name: string, parent = '7'): void {
-		fcSink<ISyncOperation<CreateMailFolderOp, ISyncOpSoapRequest<CreateMailFolderOpReq>>>(
-			'sync:operation:push',
-			{
-				description: 'Creating a mail folder',
-				opData: {
-					operation: 'create-mail-folder',
-					id: `${this._createId -= 1}`,
-					name,
-					parent
-				},
-				opType: 'soap',
-				request: {
-					command: 'CreateFolder',
-					urn: 'urn:zimbraMail',
-					data: {
-						folder: {
-							l: parent,
-							name,
-							view: 'message'
+	public createFolder(name: string, parent = '7'): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<CreateMailFolderOp, ISyncOpSoapRequest<CreateMailFolderOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Creating a mail folder',
+					opData: {
+						operation: 'create-mail-folder',
+						id: `${this._createId -= 1}`,
+						name,
+						parent
+					},
+					opType: 'soap',
+					request: {
+						command: 'CreateFolder',
+						urn: 'urn:zimbraMail',
+						data: {
+							folder: {
+								l: parent,
+								name,
+								view: 'message'
+							}
 						}
 					}
 				}
-			}
-		);
+			);
+			resolve();
+		});
 	}
 
-	public moveFolder(id: string, newParent: string): void {
-		fcSink<ISyncOperation<MoveMailFolderOp, ISyncOpSoapRequest<MoveMailFolderActionOpReq>>>(
-			'sync:operation:push',
-			{
-				description: 'Moving mail folder',
-				opData: {
-					operation: 'move-mail-folder',
-					parent: newParent,
-					id
-				},
-				opType: 'soap',
-				request: {
-					command: 'FolderAction',
-					urn: 'urn:zimbraMail',
-					data: {
-						action: {
-							op: 'move',
-							id,
-							l: newParent
+	public moveFolder(id: string, newParent: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MoveMailFolderOp, ISyncOpSoapRequest<MoveMailFolderActionOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving mail folder',
+					opData: {
+						operation: 'move-mail-folder',
+						parent: newParent,
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'FolderAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'move',
+								id,
+								l: newParent
+							}
 						}
 					}
 				}
-			}
-		);
+			);
+			resolve();
+		});
 	}
 
-	public renameFolder(id: string, name: string): void {
-		fcSink<ISyncOperation<RenameMailFolderOp, ISyncOpSoapRequest<RenameMailFolderActionOpReq>>>(
-			'sync:operation:push',
-			{
-				description: 'Renaming a mail folder',
-				opData: {
-					operation: 'rename-mail-folder',
-					name,
-					id
-				},
-				opType: 'soap',
-				request: {
-					command: 'FolderAction',
-					urn: 'urn:zimbraMail',
-					data: {
-						action: {
-							op: 'rename',
-							id,
-							name
+	public renameFolder(id: string, name: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<RenameMailFolderOp, ISyncOpSoapRequest<RenameMailFolderActionOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Renaming a mail folder',
+					opData: {
+						operation: 'rename-mail-folder',
+						name,
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'FolderAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'rename',
+								id,
+								name
+							}
 						}
 					}
 				}
-			}
-		);
+			);
+			resolve();
+		});
 	}
 
-	public deleteFolder(id: string): void {
-		fcSink<ISyncOperation<DeleteMailFolderOp, ISyncOpSoapRequest<DeleteMailFolderActionOpReq>>>(
-			'sync:operation:push',
-			{
-				description: 'Deleting a mail folder',
-				opData: {
-					operation: 'delete-mail-folder',
-					id
-				},
-				opType: 'soap',
-				request: {
-					command: 'FolderAction',
-					urn: 'urn:zimbraMail',
-					data: {
-						action: {
-							op: 'delete',
-							id
+	public deleteFolder(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<DeleteMailFolderOp, ISyncOpSoapRequest<DeleteMailFolderActionOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Deleting a mail folder',
+					opData: {
+						operation: 'delete-mail-folder',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'FolderAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'delete',
+								id
+							}
 						}
 					}
 				}
-			}
-		);
+			);
+			resolve();
+		});
 	}
 
-	public emptyFolder(id: string): void {
-		fcSink<ISyncOperation<EmptyMailFolderOp, ISyncOpSoapRequest<EmptyMailFolderActionOpReq>>>(
-			'sync:operation:push',
-			{
-				description: 'Cleaning a mail folder',
-				opData: {
-					operation: 'empty-mail-folder',
-					id
-				},
-				opType: 'soap',
-				request: {
-					command: 'FolderAction',
-					urn: 'urn:zimbraMail',
-					data: {
-						action: {
-							op: 'empty',
-							id,
-							recursive: true
+	public emptyFolder(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<EmptyMailFolderOp, ISyncOpSoapRequest<EmptyMailFolderActionOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Cleaning a mail folder',
+					opData: {
+						operation: 'empty-mail-folder',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'FolderAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'empty',
+								id,
+								recursive: true
+							}
 						}
 					}
 				}
-			}
-		);
+			);
+			resolve();
+		});
+	}
+
+	public moveConversationToTrash(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<TrashConversationOp, ISyncOpSoapRequest<TrashConversationOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a conversation to trash',
+					opData: {
+						operation: 'trash-conversation',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'ConvAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'trash',
+								tcon: '-dtjs',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markConversationAsRead(id: string, read: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkConversationAsReadOp, ISyncOpSoapRequest<MarkConversationAsReadOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a conversation as ${read ? '' : 'un'}read`,
+					opData: {
+						operation: 'mark-conversation-as-read',
+						id,
+						read
+					},
+					opType: 'soap',
+					request: {
+						command: 'ConvAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: read ? 'read' : '!read',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public deleteConversation(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<DeleteConversationOp, ISyncOpSoapRequest<DeleteConversationOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Deleting a conversation',
+					opData: {
+						operation: 'delete-conversation',
+						id,
+					},
+					opType: 'soap',
+					request: {
+						command: 'ConvAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'delete',
+								tcon: '-t',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markConversationAsSpam(id: string, spam: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkConversationAsSpamOp, ISyncOpSoapRequest<MarkConversationAsSpamOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Marking conversation as spam',
+					opData: {
+						operation: 'mark-conversation-as-spam',
+						id,
+					},
+					opType: 'soap',
+					request: {
+						command: 'ConvAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: spam ? 'spam' : '!spam',
+								tcon: '-dtjs',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public saveDraft(msg: MailMessage): Promise<MailMessage> {
+		return Promise.reject(new Error('Method not implemented'));
+	}
+
+	public addAttachment(msg: MailMessage, file: File): Promise<MailMessage> {
+		return Promise.reject(new Error('Method not implemented'));
+	}
+
+	public sendMessage(msg: MailMessage): Promise<MailMessage> {
+		return Promise.reject(new Error('Method not implemented'));
 	}
 
 	private _loadAllMailFolders(): void {

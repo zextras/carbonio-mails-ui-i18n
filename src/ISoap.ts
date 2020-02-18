@@ -139,6 +139,37 @@ export type EmptyMailFolderActionOpReq = {
 	};
 };
 
+export type TrashConversationOpReq = {
+	action: {
+		id: string;
+		op: 'trash';
+		tcon: '-dtjs';
+	};
+};
+
+export type MarkConversationAsReadOpReq = {
+	action: {
+		id: string;
+		op: 'read'|'!read';
+	};
+};
+
+export type DeleteConversationOpReq = {
+	action: {
+		id: string;
+		op: 'delete';
+		tcon: '-t';
+	};
+};
+
+export type MarkConversationAsSpamOpReq = {
+	action: {
+		id: string;
+		op: 'spam'|'!spam';
+		tcon: '-dtjs';
+	};
+};
+
 export type BatchSoapReqData = {
 	requestId: number;
 };

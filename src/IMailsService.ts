@@ -12,14 +12,24 @@
 import { Conversation, MailMessage } from './idb/IMailsIdb';
 
 export interface IMailsService {
-	createFolder(name: string, parent: string): void;
-	moveFolder(id: string, newParent: string): void;
-	renameFolder(id: string, name: string): void;
-	deleteFolder(id: string): void;
-	emptyFolder(id: string): void;
+	createFolder(name: string, parent: string): Promise<void>;
+	moveFolder(id: string, newParent: string): Promise<void>;
+	renameFolder(id: string, name: string): Promise<void>;
+	deleteFolder(id: string): Promise<void>;
+	emptyFolder(id: string): Promise<void>;
 	loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 	getConversation(id: string): Promise<Conversation>;
 	getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}>;
+
+	// moveConversation(id: string, fid: string): Promise<void>;
+	moveConversationToTrash(id: string): Promise<void>;
+	deleteConversation(id: string): Promise<void>;
+	markConversationAsRead(id: string, read: boolean): Promise<void>;
+	markConversationAsSpam(id: string, spam: boolean): Promise<void>;
+
+	saveDraft(msg: MailMessage): Promise<MailMessage>;
+	addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
+	sendMessage(msg: MailMessage): Promise<MailMessage>;
 }
 
 export type MailFolderOp = CreateMailFolderOp
@@ -54,5 +64,26 @@ export type DeleteMailFolderOp = {
 
 export type EmptyMailFolderOp = {
 	operation: 'empty-mail-folder';
+	id: string;
+};
+
+export type TrashConversationOp = {
+	operation: 'trash-conversation';
+	id: string;
+};
+
+export type MarkConversationAsReadOp = {
+	operation: 'mark-conversation-as-read';
+	id: string;
+	read: boolean;
+};
+
+export type DeleteConversationOp = {
+	operation: 'delete-conversation';
+	id: string;
+};
+
+export type MarkConversationAsSpamOp = {
+	operation: 'mark-conversation-as-spam';
 	id: string;
 };
