@@ -16,6 +16,7 @@ import { syncOperations } from '@zextras/zapp-shell/sync';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
+	findKey,
 	reduce,
 	filter as loFilter,
 	cloneDeep,
@@ -84,6 +85,8 @@ export default class MailsService implements IMailsService {
 	private _menuFoldersSub: Subscription;
 
 	private _createId = 0;
+
+	public conversations: {[id: string]: BehaviorSubject<Conversation[]>} = {};
 
 	constructor(
 		private _idbSrvc: IMailsIdbService,
@@ -512,6 +515,16 @@ export default class MailsService implements IMailsService {
 					)
 				);
 			});
+	}
+
+	public getFolderConversations(path: string): BehaviorSubject<Conversation[]> {
+		const id = findKey(this.folders.value, ['path', `/${path}`]);
+		if (!this.conversations[id]) {
+			this.conversations[id] = new BehaviorSubject<Conversation[]>([]);
+			this._idbSrvc.fetchConversationsFromFolder(id)
+				.then((convs) => this.conversations[id].next(convs));
+		}
+		return this.conversations[id];
 	}
 
 	public getConversation(id: string): Promise<Conversation> {

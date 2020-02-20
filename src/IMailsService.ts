@@ -10,6 +10,7 @@
  */
 
 import { Conversation, MailMessage } from './idb/IMailsIdb';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IMailsService {
 	createFolder(name: string, parent: string): Promise<void>;
@@ -17,6 +18,7 @@ export interface IMailsService {
 	renameFolder(id: string, name: string): Promise<void>;
 	deleteFolder(id: string): Promise<void>;
 	emptyFolder(id: string): Promise<void>;
+	getFolderConversations(folderId: string): BehaviorSubject<Conversation[]>;
 	loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 	getConversation(id: string): Promise<Conversation>;
 	getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}>;
