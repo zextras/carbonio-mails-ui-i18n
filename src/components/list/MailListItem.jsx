@@ -8,59 +8,21 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { find } from 'lodash';
-import styled from 'styled-components';
 import {
 	Text,
 	Container,
-	Avatar,
 	Divider,
 	Icon,
 	Padding
 } from '@zextras/zapp-ui';
+import { HoverContainer, SelectableAvatar } from './Components';
+import activityContext from '../../activity/ActivityContext';
 
-const AvatarContainer = styled.div``;
-
-const HoverAvatar = styled.div`
-	background: ${({theme, selected}) => theme.colors.background[selected ? 'bg_1' : 'bg_7']};
-	box-sizing: border-box;
-	border: ${({theme, selecting}) => selecting ? `2px solid ${theme.colors.border.bd_2}` : 'none'};
-	width: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	min-width: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	height: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	min-height: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	${({theme, selected, selecting, selectable}) => selectable ?
-	`&:hover {
-		background: ${selected
-		? theme.colors.hover.hv_1
-		: (selecting
-			? theme.colors.hover.hv_7
-			: theme.colors.background.bg_5
-		)
-	};
-	> ${AvatarContainer} {
-		display: none;
-	}
-}` : ''}
-`;
-const PaddedText = styled(Container)`
-	max-width: 100%;
-`;
-
-const HoverContainer = styled(Container)`
-	background: ${({theme, selected}) => theme.colors.background[selected ? 'bg_11' : 'bg_7']};
-	& :hover {
-		background: ${({theme}) => theme.colors.hover.hv_7}
-	}
-`;
-
-const EmailListItem = ({
+const MailListItem = ({
 	email,
 	selected,
 	selecting,
@@ -72,6 +34,7 @@ const EmailListItem = ({
 	const mainContact = useMemo(() => {
 		return find(email.contacts, ['type', (folder === 'Sent' || folder === 'Drafts')? 't' : 'f'])
 	}, email.contacts);
+	const { set } = useContext(activityContext);
 	return (
 		<HoverContainer
 			orientation="vertical"
@@ -80,6 +43,7 @@ const EmailListItem = ({
 			style={{
 				cursor: 'pointer'
 			}}
+			onClick={() => set('mailView', email.conversation)}
 		>
 			<Container
 				orientation="horizontal"
@@ -88,29 +52,15 @@ const EmailListItem = ({
 				mainAlignment="flex-start"
 				style={{ position: 'relative' }}
 			>
-				<Padding all="small">
-					<HoverAvatar
-						selectable={selectable}
-						selected={selected}
-						selecting={selecting}
-						onClick={() => selected
-							? onDeselect && onDeselect()
-							: onSelect && onSelect()
-						}
-					>
-						{ !selecting &&
-						<AvatarContainer>
-							<Avatar
-								label={mainContact.displayName || mainContact.address}
-								colorLabel={mainContact.address}
-								size="medium"
-							/>
-						</AvatarContainer>
-						}
-						{ (selected || !selecting)
-						&& <Icon size="large" icon="Checkmark" color={selected ? 'txt_3' : 'txt_1'}/> }
-					</HoverAvatar>
-				</Padding>
+				<SelectableAvatar
+					label={mainContact.displayName || mainContact.address}
+					colorLabel={mainContact.address}
+					selectable={selectable}
+					selected={selected}
+					selecting={selecting}
+					onSelect={onSelect}
+					onDeselect={onDeselect}
+				/>
 				<Container
 					orientation="vertical"
 					width="calc(100% - 48px)"
@@ -120,9 +70,10 @@ const EmailListItem = ({
 				>
 					<Container
 						orientation="horizontal"
+						height="24px"
 						mainAlignment="space-between"
 						width="fill"
-						padding={{bottom: 'extrasmall'}}
+						padding={{ bottom: 'extrasmall' }}
 					>
 						<Text
 							color={email.read ? 'txt_1' : 'txt_2'}
@@ -138,23 +89,26 @@ const EmailListItem = ({
 							&& <Padding horizontal="extrasmall"><Icon icon="Attach"/></Padding>}
 							{email.flagged
 							&& <Padding horizontal="extrasmall"><Icon color="txt_5" icon="Flag"/></Padding>}
-							<Text size="small" color="txt_4">{email.date}</Text>
+							<Text size="small" color="txt_4">{moment(email.date).fromNow(true)}</Text>
 						</Container>
 					</Container>
 					<Container
 						orientation="horizontal"
 						mainAlignment="space-between"
+						crossAlignment="flex-end"
+						height="24px"
 					>
 						<Container
 							orientation="horizontal"
 							mainAlignment="flex-start"
-							crossAlignment="flex-end"
+							crossAlignment="baseline"
 							width="fill"
 							style={{ minWidth: '0' }}
 						>
-							<PaddedText
+							<Container
 								padding={{ right: 'extrasmall' }}
 								width="fit"
+								style={{ maxWidth: '100%' }}
 							>
 								<Text
 									weight={email.read ? 'regular' : 'bold'}
@@ -162,7 +116,7 @@ const EmailListItem = ({
 								>
 									{email.subject}
 								</Text>
-							</PaddedText>
+							</Container>
 							<Text
 								color="txt_4"
 							>
@@ -207,7 +161,7 @@ const EmailListItem = ({
 	);
 };
 
-EmailListItem.propTypes = {
+MailListItem.propTypes = {
 	folder: PropTypes.string,
 	email: PropTypes.shape(
 		{
@@ -219,7 +173,7 @@ EmailListItem.propTypes = {
 					displayName: PropTypes.string
 				})
 			),
-			date: PropTypes.string,
+			date: PropTypes.number,
 			subject: PropTypes.string,
 			fragment: PropTypes.string,
 			size: PropTypes.number,
@@ -237,10 +191,10 @@ EmailListItem.propTypes = {
 	onDeselect: PropTypes.func,
 };
 
-EmailListItem.defaultProps = {
+MailListItem.defaultProps = {
 	selectable: true,
 	selected: false,
 	selecting: false
 };
 
-export default EmailListItem;
+export default MailListItem;

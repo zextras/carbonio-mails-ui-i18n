@@ -10,11 +10,13 @@
  */
 
 import { createContext } from 'react';
-import IMailContext from './IMailContext';
+import IActivityContext from './IActivityContext';
 
-const mailContext = createContext<IMailContext>({
-	conversations: [],
-	mails: {},
+const activityContext = createContext<IActivityContext>({
+	get: (name) => '',
+	set: (name, id) => console.log(`set ${name} to ${id}`),
+	push: (name, id) => console.log(`push ${id} to ${name}`),
+	pull: (name, id) => console.log(`pull ${id} from ${name}`),
 });
 
-export default mailContext;
+export default activityContext;

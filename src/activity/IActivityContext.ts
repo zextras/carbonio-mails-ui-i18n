@@ -9,11 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { Conversation, MailMessage } from '../idb/IMailsIdb';
-
-interface IMailContext {
-	conversations: Array<Conversation>;
-	mails: {[id: string]: MailMessage};
+interface IActivityContext {
+	get: (name: string) => string;
+	set: (name: string, id: string) => void;
+	push: (name: string, id: string) => void;
+	pull: (name: string, id: string) => void;
 }
 
-export default IMailContext;
+export default IActivityContext;

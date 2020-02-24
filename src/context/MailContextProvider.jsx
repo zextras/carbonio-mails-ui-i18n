@@ -10,7 +10,7 @@
  */
 
 import mailContext from './MailContext';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { reduce, forEach, keyBy } from 'lodash';
 
 function useObservable(observable) {
@@ -24,45 +24,47 @@ function useObservable(observable) {
 
 const MailContextProvider = ({ path, mailsSrvc, children }) => {
 
-	const conversations = useObservable(mailsSrvc.getFolderConversations(path));
+	const conversations = mailsSrvc.getFolderConversations(path);
 
 	const [mails, setMails] = useState({});
 
 	useEffect(() => {
-		const ids = reduce(
-				conversations,
+		let cancelled = false;
+		conversations.subscribe((c) => {
+			const ids = reduce(
+				c,
 				(acc, conv) => {
 					forEach(
 						conv.messages,
-						mailInfo => {
+						(mailInfo) => {
 							if (!mails[mailInfo.id]) acc.push(mailInfo.id);
 						}
 					);
 					return acc;
 				},
-			[]
+				[]
 			);
-		mailsSrvc.getMessages(ids).then(newMails => setMails({...mails, ...keyBy(newMails, 'id')}));
-		}, [conversations]);
+			mailsSrvc.getMessages(ids).then((newMails) => {
+				if (!cancelled) {
+					setMails({ ...mails, ...keyBy(newMails, 'id') });
+				}
+			});
+		});
+		return () => {
+			cancelled = true;
+		};
+	}, [conversations]);
 
-	const view = [];
-	const edit = [];
 	return (
 		<mailContext.Provider
-		value={{
-			conversations,
-			mails,
-			view,
-			edit,
-			openView: (id) => console.log(`Open view for ${id}`),
-			openEdit: (id) => console.log(`Open editor for ${id}`),
-			closeView: (id) => console.log(`Close view for ${id}`),
-			closeEdit: (id) => console.log(`Close editor for ${id}`)
-		}}
+			value={{
+				conversations,
+				mails
+			}}
 		>
 			{children}
 		</mailContext.Provider>
-	)
+	);
 };
 
 export default MailContextProvider;

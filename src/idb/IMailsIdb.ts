@@ -55,6 +55,10 @@ export type Conversation = {
 	participants: Participant[];
 	subject: string;
 	fragment: string;
+	read: boolean;
+	attachment: boolean;
+	flagged: boolean;
+	urgent: boolean;
 };
 
 export type ConversationMailMessage = MailMinimalData & {};

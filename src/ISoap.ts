@@ -291,7 +291,11 @@ export function normalizeConversationFromSoap(c: SoapConvObj): Conversation {
 		),
 		parent,
 		subject: c.su,
-		fragment: c.fr
+		fragment: c.fr,
+		read: !(/u/.test(c.f || '')),
+		attachment: /a/.test(c.f || ''),
+		flagged: /f/.test(c.f || ''),
+		urgent: /!/.test(c.f || ''),
 	};
 }
 

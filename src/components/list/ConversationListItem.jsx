@@ -8,103 +8,72 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useMemo, useState } from 'react';
+import React, {
+	useContext,
+	useMemo,
+	useState,
+	Fragment
+} from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { find, map } from 'lodash';
-import styled from 'styled-components';
 import {
 	Text,
 	Container,
-	Avatar,
 	Divider,
 	Icon,
 	Padding,
 	IconButton,
-	Collapse,
-	EmailListItem
+	Collapse
 } from '@zextras/zapp-ui';
+import mailContext from '../../context/MailContext';
+import MailListItem from './MailListItem';
+import { HoverContainer, SelectableAvatar } from './Components';
+import activityContext from '../../activity/ActivityContext';
 
-const AvatarContainer = styled.div``;
-
-const HoverAvatar = styled.div`
-	background: ${({theme, selected}) => theme.colors.background[selected ? 'bg_1' : 'bg_7']};
-	box-sizing: border-box;
-	border: ${({theme, selecting}) => selecting ? `2px solid ${theme.colors.border.bd_2}` : 'none'};
-	width: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	min-width: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	height: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	min-height: ${({theme}) => theme.sizes.avatar.medium.diameter};
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	&:hover {
-		background: ${({theme, selected, selecting}) => selected
-	? theme.colors.hover.hv_1
-	: (selecting
-			? theme.colors.hover.hv_7
-			: theme.colors.background.bg_5
-	)
-};
-	> ${AvatarContainer} {
-		display: none;
-	}
-}
-`;
-const PaddedText = styled(Container)`
-	max-width: 100%;
-`;
-
-const HoverContainer = styled(Container)`
-	background: ${({theme, selected}) => theme.colors.background[selected ? 'bg_11' : 'bg_7']};
-	& :hover {
-		background: ${({theme}) => theme.colors.hover.hv_7}
-	}
-`;
-
-const ConversationListItem = ({ conversation, emails, selected, selecting, onSelect, onDeselect }) => {
-	const [open, setOpen] = useState(false);
-	const mainContact = useMemo(() => find(
+const ConversationListItem = ({
+	conversation,
+	selected,
+	selecting,
+	selectable,
+	open,
+	onExpand,
+	onCollapse,
+	onSelect,
+	onDeselect
+}) => {
+	const mainContact = useMemo(
+		() => find(
 			conversation.participants,
-			['type', (conversation.folder === 'Sent' || conversation.folder === 'Drafts')? 't' : 'f']
+			['type', (conversation.folder === 'Sent' || conversation.folder === 'Drafts') ? 't' : 'f']
 		),
 		conversation.contacts
 	);
+	const { mails } = useContext(mailContext);
+	const { set } = useContext(activityContext);
 	return (
 		<Container
 			orientation="vertical"
 			width="fill"
 			height="fit"
-			style={{
-				cursor: 'pointer'
-			}}
 		>
 			<HoverContainer
 				orientation="horizontal"
 				width="100%"
 				height="fit"
 				mainAlignment="flex-start"
-				style={{ position: 'relative' }}
+				style={{ position: 'relative', cursor: 'pointer' }}
+				onClick={() => set('mailView', conversation.id)}
 			>
-				<Padding all="small">
-					<HoverAvatar
-						selected={selected}
-						selecting={selecting}
-						onClick={() => selected? onDeselect() : onSelect()}
-					>
-						{ !selecting &&
-						<AvatarContainer>
-							<Avatar
-								label={mainContact.displayName || mainContact.address}
-								colorLabel={mainContact.address}
-								size="medium"
-							/>
-						</AvatarContainer>
-						}
-						{ (selected || !selecting)
-						&& <Icon size="large" icon="Checkmark" color={selected ? 'txt_3' : 'txt_1'}/> }
-					</HoverAvatar>
-				</Padding>
+				<SelectableAvatar
+					label={mainContact.displayName || mainContact.address}
+					colorLabel={mainContact.address}
+					selectable={selectable}
+					selected={selected}
+					selecting={selecting}
+					onSelect={onSelect}
+					onDeselect={onDeselect}
+				/>
 				<Container
 					orientation="vertical"
 					width="calc(100% - 48px)"
@@ -114,6 +83,7 @@ const ConversationListItem = ({ conversation, emails, selected, selecting, onSel
 				>
 					<Container
 						orientation="horizontal"
+						height="24px"
 						mainAlignment="space-between"
 						width="fill"
 						padding={{bottom: 'extrasmall'}}
@@ -132,12 +102,14 @@ const ConversationListItem = ({ conversation, emails, selected, selecting, onSel
 							&& <Padding horizontal="extrasmall"><Icon icon="Attach"/></Padding>}
 							{conversation.flagged
 							&& <Padding horizontal="extrasmall"><Icon color="txt_5" icon="Flag"/></Padding>}
-							<Text size="small" color="txt_4">{conversation.date}</Text>
+							<Text size="small" color="txt_4">{moment(conversation.date).fromNow(true)}</Text>
 						</Container>
 					</Container>
 					<Container
 						orientation="horizontal"
 						mainAlignment="space-between"
+						crossAlignment="flex-end"
+						height="24px"
 					>
 						<Padding right="extrasmall">
 							<Container
@@ -160,13 +132,15 @@ const ConversationListItem = ({ conversation, emails, selected, selecting, onSel
 						<Container
 							orientation="horizontal"
 							mainAlignment="flex-start"
-							crossAlignment="flex-end"
+							crossAlignment="baseline"
 							width="fill"
 							style={{ minWidth: '0' }}
 						>
-							<PaddedText
+							<Container
 								padding={{ right: 'extrasmall' }}
 								width="fit"
+								mainAlignment="flex-end"
+								style={{ maxWidth: '100%' }}
 							>
 								<Text
 									weight={conversation.read ? 'regular' : 'bold'}
@@ -174,7 +148,7 @@ const ConversationListItem = ({ conversation, emails, selected, selecting, onSel
 								>
 									{conversation.subject}
 								</Text>
-							</PaddedText>
+							</Container>
 							<Text
 								color="txt_4"
 							>
@@ -186,30 +160,42 @@ const ConversationListItem = ({ conversation, emails, selected, selecting, onSel
 							width="fit"
 						>
 							{conversation.urgent
-							&&
+							&& (
 								<Padding horizontal="extrasmall">
-									<Icon color="txt_5" icon="ArrowUpward"/>
+									<Icon color="txt_5" icon="ArrowUpward" />
 								</Padding>
-							}
+							)}
 							<IconButton
 								size="small"
 								icon={open ? 'ChevronUp' : 'ChevronDown'}
-								onClick={() => setOpen(!open)}
+								onClick={(ev) => {
+									ev.stopPropagation();
+									if (open) {
+										onCollapse();
+									}
+									else {
+										onExpand();
+									}
+								}}
 							/>
 						</Container>
 					</Container>
 				</Container>
 			</HoverContainer>
-			<Divider/>
+			<Divider />
 			<Collapse open={open} orientation="vertical" crossSize="100%">
 				<Container
 					height="fit"
 					width="fill"
-					padding={{left: 'medium'}}
+					padding={{ left: 'medium' }}
 				>
-					{map(
-						emails,
-						(email, index) => <EmailListItem key={index} email={email} selectable={false}/>
+					{ mails
+						&& map(
+							map(conversation.messages, (mInfo) => mails[mInfo.id]),
+							(email, index) => (email
+								? (<MailListItem key={index} email={email} selectable={false} />)
+								: <Fragment key={index} />
+							)
 						)
 					}
 				</Container>
@@ -229,12 +215,14 @@ ConversationListItem.propTypes = {
 					displayName: PropTypes.string
 				})
 			),
-			date:	PropTypes.string,
 			flagged:	PropTypes.bool,
 			folder:	PropTypes.string,
 			fragment:	PropTypes.string,
 			id:	PropTypes.string,
-			messages:	PropTypes.arrayOf(PropTypes.string),
+			messages:	PropTypes.arrayOf(PropTypes.shape({
+				id: PropTypes.string,
+				parent: PropTypes.string
+			})),
 			msgCount:	PropTypes.number,
 			read:	PropTypes.bool,
 			size:	PropTypes.number,

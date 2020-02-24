@@ -9,15 +9,108 @@
  * *** END LICENSE BLOCK *****
  */
 
-
-import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react';
-import { Container, ListHeader, List, Text } from '@zextras/zapp-ui';
+import React, { useReducer, useContext, useEffect, useCallback, useState } from 'react';
+import { Container, ListHeader, Text } from '@zextras/zapp-ui';
+import List from './List';
 import { findIndex, map, reduce, filter, forEach } from 'lodash';
+import { useParams, useHistory } from 'react-router-dom';
 import ConversationListItem from './ConversationListItem';
 import mailContext from '../../context/MailContext';
 
+const useBreadCrumbs = () => {
+	const { path } = useParams();
+	const history = useHistory();
+	const splitPath = path.split('/')
+	return reduce(splitPath, (acc, crumb, index) => {
+		acc.push({
+			label: crumb,
+			click: () => history.push(`/contacts/folder${
+				reduce(
+					splitPath,
+					(to, part, index2) => `${to}${(index2 <= index) ? `/${part}` : ''}`,
+					''
+				)}`)
+		});
+		return acc;
+	}, []);
+};
+
 export default function MailList() {
-	const { conversations, mails } = useContext(mailContext);
+	const { conversations: convObs } = useContext(mailContext);
+	const [amountSelected, setAmountSelected] = useState(0);
+	const breadcrumbs = useBreadCrumbs();
+
+	const cReducer = (state, action) => {
+		const newState = [...state];
+		switch (action.type) {
+			case 'update':
+				return action.contacts;
+			case 'selectAll':
+				forEach(newState, c => {
+					c.selected = true;
+				});
+				setAmountSelected(newState.length);
+				return newState;
+			case 'deselectAll':
+				forEach(newState, c => {
+					c.selected = false;
+				});
+				setAmountSelected(0);
+				return newState;
+			default: break;
+		}
+		const cIndex = findIndex(state, [['data', 'id'], action.id]);
+		switch (action.type) {
+			case 'select':
+				if (!(newState[cIndex].selected)) {
+					newState[cIndex].selected = true;
+					setAmountSelected(amountSelected + 1);
+				}
+				return newState;
+			case 'toggleOpen':
+				newState[cIndex].open = action.value;
+				return newState;
+			case 'deselect':
+				if (newState[cIndex].selected) {
+					newState[cIndex].selected = false;
+					setAmountSelected(amountSelected - 1);
+				}
+				return newState;
+			default: return state;
+		}
+	};
+	const [conversations, dispatch] = useReducer(cReducer, []);
+	const extendList = useCallback((baseConvs) => map(baseConvs, (baseConv) => {
+		const index = findIndex(conversations, ['id', baseConv.id]);
+		if (index >= 0) {
+			return {
+				...conversations[index],
+				data: {
+					...conversations[index].data,
+					...baseConv,
+				}
+			};
+		}
+		return {
+			data: { ...baseConv },
+			selected: false,
+			open: false,
+			onExpand: () => dispatch({ type: 'toggleOpen', value: true, id: baseConv.id }),
+			onCollapse: () => dispatch({ type: 'toggleOpen', value: false, id: baseConv.id }),
+			actions: [],
+			onSelect: () => dispatch({ type: 'select', id: baseConv.id }),
+			onDeselect: () => dispatch({ type: 'deselect', id: baseConv.id }),
+		};
+	}), [conversations]);
+
+	useEffect(() => {
+		const sub = convObs.subscribe((newConvs) => {
+			dispatch({ type: 'update', contacts: extendList(newConvs) });
+		});
+		return () => {
+			sub.unsubscribe();
+		};
+	}, [convObs]);
 	return (
 		<Container
 			orientation="vertical"
@@ -25,34 +118,40 @@ export default function MailList() {
 			height="fill"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
+			background="bg_9"
 		>
 			<Container
-				orientation="vertical"
-				width="fill"
-				background="bg_9"
-				style={{
-					minHeight: '40px'
-				}}
+				height="48px"
 			>
-				{conversations && conversations.length > 0
-				&&
+				<ListHeader
+					breadCrumbs={breadcrumbs}
+					actionStack={[]}
+					selecting={amountSelected > 0}
+					onSelectAll={() => dispatch({type: 'selectAll'})}
+					onDeselectAll={() => dispatch({type: 'deselectAll'})}
+					onBackClick={() => history.goBack()}
+					allSelected={amountSelected === conversations.length}
+				/>
+			</Container>
+			{conversations.length > 0
+				&& (
 					<List
-						Factory={conversationsFactory(conversations, mails)}
+						Factory={({ index }) => (
+							<ConversationListItem
+								selecting={amountSelected > 0}
+								selectable
+								open={conversations[index].open}
+								onExpand={conversations[index].onExpand}
+								onCollapse={conversations[index].onCollapse}
+								conversation={conversations[index].data}
+								selected={conversations[index].selected}
+								onSelect={conversations[index].onSelect}
+								onDeselect={conversations[index].onDeselect}
+							/>
+						)}
 						amount={conversations.length}
 					/>
-				}
-			</Container>
+				)}
 		</Container>
 	);
-};
-
-const conversationsFactory = (conversations, mails) => ({ index }) => (
-	<ConversationListItem
-		conversation={conversations[index]}
-		mails={map(conversations[index].messages, mailInfo => mails[mailInfo.id])}
-		selected={false}
-		selectable={false}
-		onSelect={console.log}
-		onDeselect={console.log}
-	/>
-);
+}
