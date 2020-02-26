@@ -9,8 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IDBPDatabase, openDB } from 'idb';
-import { IFCSink } from '@zextras/zapp-shell/lib/fc/IFiberChannel';
+import idbSrvc from '@zextras/zapp-shell/idb';
+import { fcSink } from '@zextras/zapp-shell/fc';
 
 import { map, reduce } from 'lodash';
 import { IMailsIdbService } from './IMailsIdbService';
@@ -23,63 +23,45 @@ import {
 import { schemaVersion, upgradeFn } from './MailsIdb';
 
 export default class MailsIdbService implements IMailsIdbService {
-	private static _IDB_NAME = 'com_zextras_zapp_mails';
 
-	constructor(
-		private _fcSink: IFCSink
-	) {}
-
-	private static _openDb(): Promise<IDBPDatabase<IMailsIdb>> {
-		return openDB<IMailsIdb>(
-			MailsIdbService._IDB_NAME,
+	constructor() {
+		idbSrvc.setUpgradeFcn(
 			schemaVersion,
-			{
-				upgrade: upgradeFn
-			}
+			upgradeFn
 		);
 	}
 
 	public getFolder(id: string): Promise<IMailFolderSchmV1|undefined> {
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.get<'folders'>('folders', id));
 	}
 
 	public getAllFolders(): Promise<{[id: string]: IMailFolderSchmV1}> {
-		return new Promise((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then(
-					(idb) => idb.getAll<'folders'>('folders')
-						.then((folders) => reduce<IMailFolderSchmV1, {[id: string]: IMailFolderSchmV1}>(
-							folders,
-							(r, v, k) => {
-								// eslint-disable-next-line no-param-reassign
-								r[v.id] = v;
-								return r;
-							},
-							{}
-						))
-				)
-				.then((folders) => resolve(folders))
-				.catch((e) => reject(e));
-		});
+		return idbSrvc.openDb<IMailsIdb>()
+			.then(
+				(idb) => idb.getAll<'folders'>('folders')
+					.then((folders) => reduce<IMailFolderSchmV1, {[id: string]: IMailFolderSchmV1}>(
+						folders,
+						(r, v, k) => {
+							// eslint-disable-next-line no-param-reassign
+							r[v.id] = v;
+							return r;
+						},
+						{}
+					))
+			);
 	}
 
 	public saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1> {
-		return new Promise((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => idb.put<'folders'>('folders', f))
-				.then((_) => {
-					resolve(f);
-				})
-				.catch((e) => reject(e));
-		});
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => idb.put<'folders'>('folders', f));
 	}
 
 	public deleteFolders(ids: string[]): Promise<string[]> {
 		if (ids.length < 1) return Promise.resolve([]);
 		const cCopy = [...ids];
 		const id = cCopy.shift();
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.delete<'folders'>('folders', id!))
 			.then((_) => new Promise((resolve, reject) => {
 				// TODO: Remove the children
@@ -93,59 +75,51 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public moveFolder(id: string, parent: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => new Promise((resolve1, reject1) => {
-					idb.get<'folders'>('folders', id)
-						.then((f) => {
-							if (!f) resolve1();
-							idb.put<'folders'>('folders', { ...f!, parent })
-								// TODO: Update the path and the children paths
-								.then(
-									() => idb.getAllFromIndex<'folders', 'parent'>(
-										'folders',
-										'parent',
-										id
-									)
-										.then((folders) => Promise.all(
-											map(
-												folders,
-												(f1) => idb.put<'folders'>(
-													'folders',
-													{ ...f1 }
-												)
-											)
-										))
-										.then(() => resolve1())
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => new Promise((resolve1, reject1) => {
+				idb.get<'folders'>('folders', id)
+					.then((f) => {
+						if (!f) resolve1();
+						idb.put<'folders'>('folders', { ...f!, parent })
+							// TODO: Update the path and the children paths
+							.then(
+								() => idb.getAllFromIndex<'folders', 'parent'>(
+									'folders',
+									'parent',
+									id
 								)
-								.catch((e) => reject1(e));
-						});
-				}))
-				.then(() => resolve())
-				.catch((e) => reject(e));
-		});
+									.then((folders) => Promise.all(
+										map(
+											folders,
+											(f1) => idb.put<'folders'>(
+												'folders',
+												{ ...f1 }
+											)
+										)
+									))
+									.then(() => resolve1())
+							)
+							.catch((e) => reject1(e));
+					});
+			}));
 	}
 
 	public renameFolder(id: string, name: string): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => new Promise((resolve1, reject1) => {
-					idb.get<'folders'>('folders', id)
-						.then((f) => {
-							if (!f) resolve1();
-							idb.put<'folders'>('folders', { ...f!, name })
-								// TODO: Update the path and the children paths
-								.then(() => resolve1())
-								.catch((e) => reject1(e));
-						});
-				}))
-				.then(() => resolve())
-				.catch((e) => reject(e));
-		});
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => new Promise((resolve1, reject1) => {
+				idb.get<'folders'>('folders', id)
+					.then((f) => {
+						if (!f) resolve1();
+						idb.put<'folders'>('folders', { ...f!, name })
+							// TODO: Update the path and the children paths
+							.then(() => resolve1())
+							.catch((e) => reject1(e));
+					});
+			}));
 	}
 
 	public saveConversation(conv: Conversation): Promise<Conversation> {
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.put<'conversations'>('conversations', conv))
 			.then((_) => conv);
 	}
@@ -166,16 +140,12 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public fetchConversationsFromFolder(id: string): Promise<Conversation[]> {
-		return new Promise<Conversation[]>((resolve, reject) => {
-			MailsIdbService._openDb()
-				.then((idb) => idb.getAllFromIndex<'conversations', 'parent'>('conversations', 'parent', id))
-				.then((conversations) => resolve(conversations))
-				.catch((e) => reject(e));
-		});
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => idb.getAllFromIndex<'conversations', 'parent'>('conversations', 'parent', id));
 	}
 
 	public saveMailMessage(mail: MailMessage): Promise<MailMessage> {
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.put<'messages'>('messages', mail))
 			.then((_) => mail);
 	}
@@ -196,12 +166,12 @@ export default class MailsIdbService implements IMailsIdbService {
 	}
 
 	public getConversation(id: string): Promise<Conversation|undefined> {
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.get<'conversations'>('conversations', id));
 	}
 
 	public getMessages(msgIds: string[]): Promise<{[p: string]: MailMessage}> {
-		return MailsIdbService._openDb()
+		return idbSrvc.openDb<IMailsIdb>()
 			.then((db) => Promise.all(
 				reduce<string, Promise<MailMessage|undefined>[]>(
 					msgIds,

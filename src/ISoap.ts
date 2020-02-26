@@ -17,6 +17,7 @@ import {
 	get,
 	filter
 } from 'lodash';
+import { ISoapSyncDeletedMap, ISoapSyncFolderObj, ISoapSyncResponse } from '@zextras/zapp-shell/lib/network/ISoap';
 import {
 	Conversation,
 	ConversationMailMessage,
@@ -25,6 +26,15 @@ import {
 	Participant,
 	ParticipantType
 } from './idb/IMailsIdb';
+
+export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
+	folder: Array<ISoapSyncMailFolderObj>;
+};
+
+export type ISoapSyncMailResponse = ISoapSyncResponse<ISoapSyncDeletedMap, ISoapSyncMailFolderObj> & {
+	/** Messages */ m: any;
+	/** Conversation */ c: any;
+};
 
 export type SoapConvObj = {
 	id: string;
