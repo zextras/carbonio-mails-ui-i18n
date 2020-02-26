@@ -581,12 +581,15 @@ export default class MailsService implements IMailsService {
 
 	public getFolderConversations(path: string): BehaviorSubject<Conversation[]> {
 		const id = findKey(this.folders.value, ['path', `/${path}`]);
-		if (!this.conversations[id!]) {
-			this.conversations[id!] = new BehaviorSubject<Conversation[]>([]);
-			this._idbSrvc.fetchConversationsFromFolder(id)
-				.then((convs) => this.conversations[id].next(convs));
+		if (id) {
+			if (!this.conversations[id]) {
+				this.conversations[id] = new BehaviorSubject<Conversation[]>([]);
+				this._idbSrvc.fetchConversationsFromFolder(id)
+					.then((convs) => this.conversations[id].next(convs));
+			}
+			return this.conversations[id];
 		}
-		return this.conversations[id];
+		throw new Error('Unknown folder id');
 	}
 
 	public getConversation(id: string): Promise<Conversation> {
