@@ -8,3 +8,32 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+import React, { useContext } from 'react';
+import {
+	Container,
+	Text,
+	IconButton
+} from '@zextras/zapp-ui';
+import activityContext from '../../activity/ActivityContext';
+
+const PreviewPanelHeader = ({conversation}) => {
+	const { pull } = useContext(activityContext);
+	return (
+		<Container
+			orientation="horizontal"
+			height="48px"
+			background="bg_9"
+			mainAlignment="flex-start"
+			style={{minHeight: '48px'}}
+		>
+			<IconButton icon="Close" onClick={() => pull('mailView', conversation.id)} />
+			<Text
+				size="large"
+			>
+				{conversation.subject}
+			</Text>
+		</Container>
+	);
+};
+
+export default PreviewPanelHeader;

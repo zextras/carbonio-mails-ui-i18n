@@ -55,6 +55,9 @@ export default function App({ mailsSrvc }) {
 							<SecondaryView mailsSrvc={mailsSrvc} />
 						</Container>
 					</Responsive>
+					<Responsive mode="mobile">
+						<SecondaryView mailsSrvc={mailsSrvc} />
+					</Responsive>
 				</Container>
 			</MailContextProvider>
 		</ActivityContextProvider>
@@ -75,9 +78,15 @@ const SecondaryView = ({ mailsSrvc }) => {
 			);
 		}
 		if (screenMode === 'mobile') {
-			return <Text>List!</Text>;
+			return <MailList />;
 		}
-		return <Text>Hello</Text>;
+		return (
+			<Container
+				width="fill"
+				height="fill"
+				background="bg_9"
+			/>
+		);
 	}, [screenMode, get, mailsSrvc]);
 	return <>{ panel }</>;
 };

@@ -9,8 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 import React, { useEffect, useRef } from 'react';
-import { getBodyToRender } from '../ISoap';
 import { forEach, reduce } from 'lodash';
+import { getBodyToRender } from '../ISoap';
 
 const _CI_REGEX = /^<(.*@zimbra)>$/;
 const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;
@@ -23,7 +23,7 @@ const _TextMessageRenderer = ({ body }) => {
 	}, [containerRef.current, body]);
 
 	return (
-		<div ref={containerRef} />
+		<div style={{ fontFamily: 'monospace' }} ref={containerRef} />
 	);
 };
 
@@ -62,13 +62,29 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 	}, [iframeRef.current, body, parts, msgId]);
 
 	return (
-		<iframe ref={iframeRef} />
+		<iframe
+			title={msgId}
+			ref={iframeRef}
+			onLoad={(ev) => {
+				ev.persist();
+				ev.currentTarget.style.height = ev.currentTarget.contentWindow.document.body.scrollHeight + 'px';
+			}}
+			style={{
+				border: 'none',
+				width: '100%'
+			}}
+		/>
 	);
 };
 
-const MailMessageRenderer = ({ mailMsg }) => {
+const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 	const [body, parts] = getBodyToRender(mailMsg);
-	console.log(body);
+	useEffect(() => {
+		if (!mailMsg.read) {
+		//	onUnreadLoaded();
+		}
+	},
+	[]);
 	if (body.contentType === 'text/html') {
 		return (<_HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
 	}

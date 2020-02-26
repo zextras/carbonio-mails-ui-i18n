@@ -27,6 +27,7 @@ export interface IMailsService {
 	moveConversationToTrash(id: string): Promise<void>;
 	deleteConversation(id: string): Promise<void>;
 	markConversationAsRead(id: string, read: boolean): Promise<void>;
+	markMessageAsRead(id: string, read: boolean): Promise<void>;
 	markConversationAsSpam(id: string, spam: boolean): Promise<void>;
 
 	saveDraft(msg: MailMessage): Promise<MailMessage>;
@@ -76,6 +77,12 @@ export type TrashConversationOp = {
 
 export type MarkConversationAsReadOp = {
 	operation: 'mark-conversation-as-read';
+	id: string;
+	read: boolean;
+};
+
+export type MarkMessageAsReadOp = {
+	operation: 'mark-message-as-read';
 	id: string;
 	read: boolean;
 };

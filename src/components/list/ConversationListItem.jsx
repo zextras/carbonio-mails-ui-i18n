@@ -16,7 +16,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { find, map } from 'lodash';
+import { find, map, orderBy } from 'lodash';
 import {
 	Text,
 	Container,
@@ -50,6 +50,10 @@ const ConversationListItem = ({
 		conversation.contacts
 	);
 	const { mails } = useContext(mailContext);
+	const conversationMails = useMemo(
+		() => orderBy(map(conversation.messages, (mInfo) => mails[mInfo.id]), ['data.date'], ['desc']),
+		[mails, conversation]
+	);
 	const { set } = useContext(activityContext);
 	return (
 		<Container
@@ -165,41 +169,45 @@ const ConversationListItem = ({
 									<Icon color="txt_5" icon="ArrowUpward" />
 								</Padding>
 							)}
-							<IconButton
-								size="small"
-								icon={open ? 'ChevronUp' : 'ChevronDown'}
-								onClick={(ev) => {
-									ev.stopPropagation();
-									if (open) {
-										onCollapse();
-									}
-									else {
-										onExpand();
-									}
-								}}
-							/>
+							{conversationMails && conversationMails.length > 1
+							&& (
+								<IconButton
+									size="small"
+									icon={open ? 'ChevronUp' : 'ChevronDown'}
+									onClick={(ev) => {
+										ev.stopPropagation();
+										if (open) {
+											onCollapse();
+										}
+										else {
+											onExpand();
+										}
+									}}
+								/>
+							)}
 						</Container>
 					</Container>
 				</Container>
 			</HoverContainer>
 			<Divider />
-			<Collapse open={open} orientation="vertical" crossSize="100%">
-				<Container
-					height="fit"
-					width="fill"
-					padding={{ left: 'medium' }}
-				>
-					{ mails
-						&& map(
-							map(conversation.messages, (mInfo) => mails[mInfo.id]),
+			{conversationMails && conversationMails.length > 1
+			&& (
+				<Collapse open={open} orientation="vertical" crossSize="100%">
+					<Container
+						height="fit"
+						width="fill"
+						padding={{ left: 'medium' }}
+					>
+						{map(
+							conversationMails,
 							(email, index) => (email
 								? (<MailListItem key={index} email={email} selectable={false} />)
 								: <Fragment key={index} />
 							)
-						)
-					}
-				</Container>
-			</Collapse>
+						)}
+					</Container>
+				</Collapse>
+			)}
 		</Container>
 	);
 };

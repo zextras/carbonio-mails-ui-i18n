@@ -154,6 +154,13 @@ export type MarkConversationAsReadOpReq = {
 	};
 };
 
+export type MarkMessageAsReadOpReq = {
+	action: {
+		id: string;
+		op: 'read'|'!read';
+	};
+};
+
 export type DeleteConversationOpReq = {
 	action: {
 		id: string;

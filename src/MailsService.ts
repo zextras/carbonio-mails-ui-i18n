@@ -32,6 +32,7 @@ import {
 	IMailsService,
 	MailFolderOp,
 	MarkConversationAsReadOp,
+	MarkMessageAsReadOp,
 	MarkConversationAsSpamOp,
 	MoveMailFolderOp,
 	RenameMailFolderOp,
@@ -40,17 +41,24 @@ import {
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	calculateAbsPath,
-	CreateMailFolderOpReq, DeleteConversationOpReq,
+	CreateMailFolderOpReq,
+	DeleteConversationOpReq,
 	DeleteMailFolderActionOpReq,
-	EmptyMailFolderActionOpReq, MarkConversationAsReadOpReq, MarkConversationAsSpamOpReq,
+	EmptyMailFolderActionOpReq,
+	MarkConversationAsReadOpReq,
+	MarkMessageAsReadOpReq,
+	MarkConversationAsSpamOpReq,
 	MoveMailFolderActionOpReq,
-	RenameMailFolderActionOpReq, TrashConversationOpReq
+	RenameMailFolderActionOpReq,
+	TrashConversationOpReq
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 
 const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
 const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
+const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
+const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
 
 const subfolders: (
 	folders: {[id: string]: IMailFolderSchmV1},
@@ -103,6 +111,13 @@ export default class MailsService implements IMailsService {
 		fc
 			.pipe(filter((e) => _FOLDER_DELETED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => this._deleteFolder(data.id));
+
+		fc
+			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => this._updateConversation(data.id));
+		fc
+			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => console.log('HAHA!', data));
 
 		this._menuFoldersSub = this.folders.subscribe(
 			(folders: {[id: string]: IMailFolderSchmV1}): void => {
@@ -306,7 +321,10 @@ export default class MailsService implements IMailsService {
 
 	public markConversationAsRead(id: string, read: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
-			fcSink<ISyncOperation<MarkConversationAsReadOp, ISyncOpSoapRequest<MarkConversationAsReadOpReq>>>(
+			fcSink<ISyncOperation<
+				MarkConversationAsReadOp,
+				ISyncOpSoapRequest<MarkConversationAsReadOpReq>
+			>>(
 				'sync:operation:push',
 				{
 					description: `Marking a conversation as ${read ? '' : 'un'}read`,
@@ -318,6 +336,34 @@ export default class MailsService implements IMailsService {
 					opType: 'soap',
 					request: {
 						command: 'ConvAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: read ? 'read' : '!read',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markMessageAsRead(id: string, read: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkMessageAsReadOp, ISyncOpSoapRequest<MarkMessageAsReadOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a message as ${read ? '' : 'un'}read`,
+					opData: {
+						operation: 'mark-message-as-read',
+						id,
+						read
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
 						urn: 'urn:zimbraMail',
 						data: {
 							action: {
@@ -409,6 +455,22 @@ export default class MailsService implements IMailsService {
 		this._idbSrvc.getFolder(id)
 			.then((f) => {
 				if (f) this._folders.next({ ...this._folders.getValue(), [id]: f });
+			});
+	}
+
+	private _updateConversation(id: string): void {
+		this.getConversation(id)
+			.then((c) => {
+				forEach(
+					c.parent,
+					(fId: string) => {
+						if (!this.conversations[fId]) {
+							this.conversations[fId] = new BehaviorSubject<Conversation[]>([]);
+						}
+						this._idbSrvc.fetchConversationsFromFolder(id)
+							.then((convs) => this.conversations[id].next(convs));
+					}
+				);
 			});
 	}
 
@@ -519,8 +581,8 @@ export default class MailsService implements IMailsService {
 
 	public getFolderConversations(path: string): BehaviorSubject<Conversation[]> {
 		const id = findKey(this.folders.value, ['path', `/${path}`]);
-		if (!this.conversations[id]) {
-			this.conversations[id] = new BehaviorSubject<Conversation[]>([]);
+		if (!this.conversations[id!]) {
+			this.conversations[id!] = new BehaviorSubject<Conversation[]>([]);
 			this._idbSrvc.fetchConversationsFromFolder(id)
 				.then((convs) => this.conversations[id].next(convs));
 		}
