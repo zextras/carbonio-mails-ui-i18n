@@ -8,37 +8,28 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-/* eslint-env serviceworker */
-
-// import { precacheAndRoute } from 'workbox-precaching/precacheAndRoute';
-// precacheAndRoute(self.__WB_MANIFEST);
 
 import { forEach, map } from 'lodash';
-import MailsIdbService from '../idb/MailsIdbService';
+import { fc, fcSink } from '@zextras/zapp-shell/fc';
+import { filter } from 'rxjs/operators';
+
 import MailsNetworkService from '../network/MailsNetworkService';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
+import MailsIdbService from '../idb/MailsIdbService';
+import { ISoapSyncMailFolderObj, ISoapSyncMailResponse } from '../ISoap';
+import { Conversation, IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
 
-const _sharedBC = new BroadcastChannel('com_zextras_zapp_shell_sw');
-const fcSink = (event, data) => {
-	_sharedBC.postMessage({
-		action: 'app:fiberchannel',
-		data: {
-			event,
-			data
-		}
-	});
-};
 const _idbSrvc = new MailsIdbService();
 const _networkSrvc = new MailsNetworkService(
 	_idbSrvc
 );
 
-function _walkSOAPMailsFolder(folders) {
+function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> {
 	return Promise.all(
 		map(
 			folders,
 			(f) => {
-				const promises = [];
+				const promises: Array<Promise<void>> = [];
 				if (f.folder) {
 					promises.push(
 						_walkSOAPMailsFolder(f.folder)
@@ -66,7 +57,7 @@ function _walkSOAPMailsFolder(folders) {
 								}
 								return _idbSrvc.saveFolderData(newF);
 							})
-							.then((folder) => {
+							.then((folder: IMailFolderSchmV1): Promise<[Conversation[], IMailFolderSchmV1]> => {
 								fcSink(
 									'mails:updated:folder',
 									{
@@ -79,38 +70,57 @@ function _walkSOAPMailsFolder(folders) {
 									Promise.resolve(folder)
 								]);
 							})
-							.then(([conversations, folder]) => _idbSrvc.saveConversations(conversations)
-								.then(() => [conversations, folder]))
-							.then(([conversations, folder]) => _networkSrvc.fetchConversationsMessages(conversations)
-								.then((messages) => [conversations, messages, folder]))
-							.then(([conversations, messages, folder]) => _idbSrvc.saveMailMessages(messages)
-								.then((msgs) => [conversations, msgs, folder]))
-							.then(([conversations, messages, folder]) => {
-								forEach(messages, (m) => {
-									fcSink(
-										'mails:updated:message',
-										{
-											id: m.id
-										}
-									);
-								});
-								forEach(conversations, (c) =>
-									fcSink(
-										'mails:updated:conversation',
-										{
-											id: c.id
-										}
-									));
-							})
+							.then(
+								([conversations, folder]: [Conversation[], IMailFolderSchmV1]):
+									Promise<[Conversation[], IMailFolderSchmV1]> =>
+									_idbSrvc.saveConversations(conversations)
+										.then(() => [conversations, folder])
+							)
+							.then(
+								([conversations, folder]: [Conversation[], IMailFolderSchmV1]):
+									Promise<[Conversation[], MailMessage[], IMailFolderSchmV1]> =>
+									_networkSrvc.fetchConversationsMessages(conversations)
+										.then((messages) => [conversations, messages, folder])
+							)
+							.then(
+								(
+									[conversations, messages, folder]:
+										[Conversation[], MailMessage[], IMailFolderSchmV1]
+								): Promise<[Conversation[], MailMessage[], IMailFolderSchmV1]> =>
+									_idbSrvc.saveMailMessages(messages)
+										.then(() => [conversations, messages, folder])
+							)
+							.then(
+								(
+									[conversations, messages, folder]:
+										[Conversation[], MailMessage[], IMailFolderSchmV1]
+								): void => {
+									forEach(messages, (m) => {
+										fcSink(
+											'mails:updated:message',
+											{
+												id: m.id
+											}
+										);
+									});
+									forEach(conversations, (c) =>
+										fcSink(
+											'mails:updated:conversation',
+											{
+												id: c.id
+											}
+										));
+								}
+							)
 					);
 				}
-				return Promise.all(promises);
+				return Promise.all(promises).then();
 			}
 		)
-	);
+	).then();
 }
 
-function _handleSOAPChanges(changes) {
+function _handleSOAPChanges(changes: ISoapSyncMailResponse): Promise<void> {
 	return new Promise((resolve, reject) => {
 		console.log('Changes', changes);
 		resolve();
@@ -141,7 +151,7 @@ function _handleSOAPChanges(changes) {
 	});
 }
 
-function _deleteMails(ids) {
+function _deleteMails(ids: string[]) {
 	return Promise.resolve();
 	// return _idbSrvc.deleteContacts(ids)
 	// 	.then((ids1) => {
@@ -157,7 +167,7 @@ function _deleteMails(ids) {
 	// 	});
 }
 
-function _deleteFolders(ids) {
+function _deleteFolders(ids: string[]): Promise<void> {
 	return _idbSrvc.deleteFolders(ids)
 		.then((ids1) =>
 			forEach(ids1, (id) =>
@@ -166,11 +176,12 @@ function _deleteFolders(ids) {
 					{
 						id
 					}
-				)));
+				)))
+		.then();
 }
 
-function _processSOAPNotifications(syncResponse) {
-	const promises = [];
+function _processSOAPNotifications(syncResponse: ISoapSyncMailResponse): Promise<void> {
+	const promises: Array<Promise<void>> = [];
 	// First sync will have the folders
 	if (syncResponse.folder) {
 		promises.push(
@@ -178,16 +189,16 @@ function _processSOAPNotifications(syncResponse) {
 		);
 	}
 	// Other syncs will have the 'cn' field populated.
-	// if (syncResponse.cn) {
-	// 	promises.push(
-	// 		_handleSOAPChanges(syncResponse.cn)
-	// 	);
-	// }
+	if (syncResponse) {
+		promises.push(
+			_handleSOAPChanges(syncResponse)
+		);
+	}
 	// Handle the deleted items
-	if (syncResponse.deleted && syncResponse.deleted[0].cn) {
-		// promises.push(
-		// 	_deleteMails(syncResponse.deleted[0].cn[0].ids.split(','))
-		// );
+	if (syncResponse.deleted && syncResponse.deleted[0].m) {
+		promises.push(
+			_deleteMails(syncResponse.deleted[0].m[0].ids.split(','))
+		);
 	}
 	// Handle the deleted folders
 	if (syncResponse.deleted && syncResponse.deleted[0].folder) {
@@ -195,7 +206,7 @@ function _processSOAPNotifications(syncResponse) {
 			_deleteFolders(syncResponse.deleted[0].folder[0].ids.split(','))
 		);
 	}
-	return Promise.all(promises);
+	return Promise.all(promises).then();
 }
 
 // function _processContactCreated(operation, response) {
@@ -262,102 +273,76 @@ function _processSOAPNotifications(syncResponse) {
 // 		}));
 // }
 
-function _processOperationCompleted(data) {
+function _processOperationCompleted(data: any): Promise<void> {
 	// console.log(data.action, data.data);
-	return new Promise((resolve, reject) => {
-		const promises = [];
-		if (data.action === 'sync:operation:completed') {
-			// Fetch the updated information for edited objects
-			const operation = data.data.data.operation;
-			const result = data.data.data.result;
-			switch (data.data.data.operation.opData.operation) {
-				// case 'create-contact':
-				// 	promises.push(_processContactCreated(operation, result.Body));
-				// 	break;
-				// case 'delete-contact':
-				// 	promises.push(_processContactDeleted(operation, result.Body));
-				// 	break;
-				// case 'modify-contact':
-				// 	promises.push(_processContactModified(operation, result.Body));
-				// 	break;
-				// case 'move-contact':
-				// 	promises.push(_processContactMoved(operation, result.Body));
-				// 	break;
-				case 'create-mail-folder':
-					promises.push(
-						_idbSrvc.saveFolderData(
-							normalizeFolder(result.Body.CreateFolderResponse.folder[0])
-						)
-							.then(() => fcSink(
-								'mails:updated:folder', {
-									id: result.Body.CreateFolderResponse.folder[0].id
-								}
-							))
-					);
-					break;
-				case 'delete-mail-folder':
-					promises.push(_deleteFolders([data.data.data.operation.opData.id]));
-					break;
-				case 'move-mail-folder':
-					promises.push(
-						_idbSrvc.moveFolder(
-							data.data.data.operation.opData.id,
-							data.data.data.operation.opData.parent
-						)
-							.then(() => fcSink(
-								'mails:updated:folder',
-								{
-									id: data.data.data.operation.opData.id
-								}
-							))
-					);
-					break;
-				case 'rename-mail-folder':
-					promises.push(
-						_idbSrvc.renameFolder(
-							data.data.data.operation.opData.id,
-							data.data.data.operation.opData.name
-						)
-							.then(() => fcSink(
-								'mails:updated:folder',
-								{
-									id: data.data.data.operation.opData.id
-								}
-							))
-					);
-					break;
-				default:
-			}
+	const promises: Array<Promise<void>> = [];
+	if (data.action === 'sync:operation:completed') {
+		// Fetch the updated information for edited objects
+		const { operation, result } = data.data.data;
+		switch (operation.opData.operation) {
+			// case 'create-contact':
+			// 	promises.push(_processContactCreated(operation, result.Body));
+			// 	break;
+			// case 'delete-contact':
+			// 	promises.push(_processContactDeleted(operation, result.Body));
+			// 	break;
+			// case 'modify-contact':
+			// 	promises.push(_processContactModified(operation, result.Body));
+			// 	break;
+			// case 'move-contact':
+			// 	promises.push(_processContactMoved(operation, result.Body));
+			// 	break;
+			case 'create-mail-folder':
+				promises.push(
+					_idbSrvc.saveFolderData(
+						normalizeFolder(result.Body.CreateFolderResponse.folder[0])
+					)
+						.then(() => fcSink(
+							'mails:updated:folder', {
+								id: result.Body.CreateFolderResponse.folder[0].id
+							}
+						))
+				);
+				break;
+			case 'delete-mail-folder':
+				promises.push(_deleteFolders([operation.opData.id]).then());
+				break;
+			case 'move-mail-folder':
+				promises.push(
+					_idbSrvc.moveFolder(
+						operation.opData.id,
+						operation.opData.parent
+					)
+						.then(() => fcSink(
+							'mails:updated:folder',
+							{
+								id: operation.opData.id
+							}
+						))
+				);
+				break;
+			case 'rename-mail-folder':
+				promises.push(
+					_idbSrvc.renameFolder(
+						operation.opData.id,
+						operation.opData.name
+					)
+						.then(() => fcSink(
+							'mails:updated:folder',
+							{
+								id: operation.opData.id
+							}
+						))
+				);
+				break;
+			default:
 		}
-		// Proxy te information to the shell to update the Operation queue.
-		Promise.all(promises).then(() => {
-			_sharedBC.postMessage({
-				action: 'app:fiberchannel',
-				data: {
-					to: 'com_zextras_zapp_shell',
-					event: data.action,
-					data: data.data
-				}
-			});
-			resolve();
-		});
-	});
+	}
+	// Proxy te information to the shell to update the Operation queue.
+	return Promise.all(promises).then();
 }
 
-_sharedBC.addEventListener('message', (e) => {
-	if (!e.data || !e.data.action) return;
-	switch (e.data.action) {
-		case 'SOAP:notification:handle':
-			_processSOAPNotifications(e.data.data)
-				.catch((e1) => console.error(e1));
-			break;
-		case 'sync:operation:completed':
-		case 'sync:operation:error':
-			_processOperationCompleted(e.data)
-				.catch((e1) => console.error(e1));
-			break;
-		default:
-	}
-});
-
-console.log(`Hello from mails-sw.js`);
+fc.pipe(filter(({ event }) => event === 'SOAP:notification:handle'))
+	.subscribe((e) => _processSOAPNotifications(e.data).then().catch((e1) => console.error(e1)));
+fc.pipe(filter(({ event }) => event === 'sync:operation:completed' || event === 'sync:operation:error'))
+	.subscribe((e) => _processOperationCompleted(e.data).then().catch((e1) => console.error(e1)));
