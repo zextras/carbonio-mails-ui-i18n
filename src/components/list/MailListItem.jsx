@@ -43,7 +43,7 @@ const MailListItem = ({
 			style={{
 				cursor: 'pointer'
 			}}
-			onClick={() => set('mailView', email.conversation)}
+			onClick={() => set('mailView', email.conversation, email.id)}
 		>
 			<Container
 				orientation="horizontal"

@@ -24,7 +24,8 @@ import {
 	Icon,
 	Padding,
 	IconButton,
-	Collapse
+	Collapse,
+	Catcher
 } from '@zextras/zapp-ui';
 import mailContext from '../../context/MailContext';
 import MailListItem from './MailListItem';
@@ -67,7 +68,7 @@ const ConversationListItem = ({
 				height="fit"
 				mainAlignment="flex-start"
 				style={{ position: 'relative', cursor: 'pointer' }}
-				onClick={() => set('mailView', conversation.id)}
+				onClick={() => set('mailView', conversation.id, conversationMails[0].id)}
 			>
 				<SelectableAvatar
 					label={mainContact.displayName || mainContact.address}

@@ -15,7 +15,8 @@ import {
 	Container,
 	Text,
 	Responsive,
-	useScreenMode
+	useScreenMode,
+	Catcher
 } from '@zextras/zapp-ui';
 import MailList from './list/MailList';
 import MailContextProvider from '../context/MailContextProvider';
@@ -44,7 +45,7 @@ export default function App({ mailsSrvc }) {
 							height="fill"
 							mainAlignment="flex-start"
 						>
-							<MailList />
+							<Catcher><MailList /></Catcher>
 						</Container>
 						<Container
 							orientation="vertical"
@@ -52,11 +53,13 @@ export default function App({ mailsSrvc }) {
 							height="fill"
 							mainAlignment="flex-start"
 						>
-							<SecondaryView mailsSrvc={mailsSrvc} />
+							<Catcher><SecondaryView mailsSrvc={mailsSrvc} /></Catcher>
 						</Container>
 					</Responsive>
 					<Responsive mode="mobile">
-						<SecondaryView mailsSrvc={mailsSrvc} />
+						<Catcher>
+							<SecondaryView mailsSrvc={mailsSrvc} />
+						</Catcher>
 					</Responsive>
 				</Container>
 			</MailContextProvider>
@@ -69,12 +72,12 @@ const SecondaryView = ({ mailsSrvc }) => {
 	const { get } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
-		if (get('mailEditor')) {
+		if (get('mailEditor').value) {
 			return <Text>Hello</Text>;
 		}
-		if (get('mailView')) {
+		if (get('mailView').value) {
 			return (
-				<ConversationPreviewPanel key="preview" id={get('mailView')} mailsSrvc={mailsSrvc} />
+				<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} />
 			);
 		}
 		if (screenMode === 'mobile') {

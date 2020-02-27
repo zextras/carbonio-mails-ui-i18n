@@ -10,10 +10,11 @@
  */
 
 interface IActivityContext {
-	get: (name: string) => string;
-	set: (name: string, id: string) => void;
-	push: (name: string, id: string) => void;
-	pull: (name: string, id: string) => void;
+	get: (name: string) => { value: string; hash: string };
+	set: (name: string, id: string, hash: string) => void;
+	reset: (name: string) => void;
+	push: (name: string, id: string, hash: string) => void;
+	pull: (name: string, id: string, hash: string) => void;
 }
 
 export default IActivityContext;

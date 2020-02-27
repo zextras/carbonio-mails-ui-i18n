@@ -117,7 +117,7 @@ export default class MailsService implements IMailsService {
 			.subscribe(({ data }) => this._updateConversation(data.id));
 		fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => console.log('HAHA!', data));
+			.subscribe(({ data }) => console.log('Message updated:', data));
 
 		this._menuFoldersSub = this.folders.subscribe(
 			(folders: {[id: string]: IMailFolderSchmV1}): void => {

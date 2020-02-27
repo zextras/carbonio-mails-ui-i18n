@@ -10,24 +10,33 @@
  */
 
 import activityContext from './ActivityContext';
-import React, { useReducer, useEffect, useState, useMemo } from 'react';
+import React from 'react';
 import { reduce, trim, split } from 'lodash';
 import { useHistory } from 'react-router-dom';
 
 const get = (name, history) => {
 	const params = new URLSearchParams(history.location.search);
-	return params.get(name);
+	return { value: params.get(name), hash: history.location.hash };
 };
 
-const set = (name, id, history) => {
+const set = (name, id, hash, history) => {
 	const params = new URLSearchParams(history.location.search);
 	params.set(name, id);
 	history.push({
-		search: params.toString()
+		search: params.toString(),
+		hash
 	});
 };
 
-const push = (name, id, history) => {
+const reset = (name, history) => {
+	const params = new URLSearchParams(history.location.search);
+	params.delete(name);
+	history.push({
+		search: params.toString(),
+	});
+};
+
+const push = (name, id, hash, history) => {
 	const params = new URLSearchParams(history.location.search);
 	if (params.has(name)) {
 		params.set(name, `${params.get(name)}.${id}`);
@@ -36,7 +45,8 @@ const push = (name, id, history) => {
 		params.append(name, id);
 	}
 	history.push({
-		search: params.toString()
+		search: params.toString(),
+		hash
 	});
 };
 
@@ -68,9 +78,10 @@ const ActivityContextProvider = ({ children }) => {
 		<activityContext.Provider
 			value={{
 				get: (name) => get(name, history),
-				set: (name, id) => set(name, id, history),
-				push: (name, id) => push(name, id, history),
-				pull: (name, id) => pull(name, id, history)
+				set: (name, id, hash) => set(name, id, hash, history),
+				reset: (name) => reset(name, history),
+				push: (name, id, hash) => push(name, id, hash, history),
+				pull: (name, id) => pull(name, id, history),
 			}}
 		>
 			{children}

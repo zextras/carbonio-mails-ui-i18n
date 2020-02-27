@@ -17,7 +17,7 @@ import {
 import activityContext from '../../activity/ActivityContext';
 
 const PreviewPanelHeader = ({conversation}) => {
-	const { pull } = useContext(activityContext);
+	const { reset } = useContext(activityContext);
 	return (
 		<Container
 			orientation="horizontal"
@@ -26,7 +26,7 @@ const PreviewPanelHeader = ({conversation}) => {
 			mainAlignment="flex-start"
 			style={{minHeight: '48px'}}
 		>
-			<IconButton icon="Close" onClick={() => pull('mailView', conversation.id)} />
+			<IconButton icon="Close" onClick={() => reset('mailView')} />
 			<Text
 				size="large"
 			>
