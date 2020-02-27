@@ -11,7 +11,12 @@
 
 import mailContext from './MailContext';
 import React, { useState, useEffect } from 'react';
-import { reduce, forEach, keyBy } from 'lodash';
+import {
+	reduce,
+	forEach,
+	keyBy,
+	sortBy
+} from 'lodash';
 
 function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);

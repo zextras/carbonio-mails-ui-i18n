@@ -65,20 +65,23 @@ export const SelectableAvatar = ({
 			selected={selected}
 			selecting={selecting}
 			selectable={selectable}
-			onClick={() => selected
-				? onDeselect && onDeselect()
-				: onSelect && onSelect()
-			}
+			onClick={(ev) => {
+				ev.stopPropagation();
+				selected
+					? onDeselect && onDeselect()
+					: onSelect && onSelect();
+			}}
 		>
-			{ !selecting &&
-			<AvatarContainer selecting={selecting}>
-				<Avatar
-					label={label}
-					colorLabel={colorLabel}
-					size="medium"
-				/>
-			</AvatarContainer>
-			}
+			{ !selecting
+			&& (
+				<AvatarContainer selecting={selecting}>
+					<Avatar
+						label={label}
+						colorLabel={colorLabel}
+						size="medium"
+					/>
+				</AvatarContainer>
+			)}
 			{ (selected || !selecting)
 			&& <Icon size="large" icon="Checkmark" color={selected ? 'txt_3' : 'txt_1'}/> }
 		</HoverAvatar>

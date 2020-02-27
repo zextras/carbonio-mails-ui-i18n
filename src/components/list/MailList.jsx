@@ -12,7 +12,13 @@
 import React, { useReducer, useContext, useEffect, useCallback, useState } from 'react';
 import { Container, ListHeader, Text } from '@zextras/zapp-ui';
 import List from './List';
-import { findIndex, map, reduce, filter, forEach } from 'lodash';
+import {
+	findIndex,
+	map,
+	reduce,
+	orderBy,
+	forEach
+} from 'lodash';
 import { useParams, useHistory } from 'react-router-dom';
 import ConversationListItem from './ConversationListItem';
 import mailContext from '../../context/MailContext';
@@ -24,7 +30,7 @@ const useBreadCrumbs = () => {
 	return reduce(splitPath, (acc, crumb, index) => {
 		acc.push({
 			label: crumb,
-			click: () => history.push(`/contacts/folder${
+			click: () => history.push(`/mails/folder${
 				reduce(
 					splitPath,
 					(to, part, index2) => `${to}${(index2 <= index) ? `/${part}` : ''}`,
@@ -38,13 +44,14 @@ const useBreadCrumbs = () => {
 export default function MailList() {
 	const { conversations: convObs } = useContext(mailContext);
 	const [amountSelected, setAmountSelected] = useState(0);
+	const history = useHistory();
 	const breadcrumbs = useBreadCrumbs();
 
 	const cReducer = (state, action) => {
 		const newState = [...state];
 		switch (action.type) {
 			case 'update':
-				return action.contacts;
+				return action.convs;
 			case 'selectAll':
 				forEach(newState, c => {
 					c.selected = true;
@@ -105,7 +112,7 @@ export default function MailList() {
 
 	useEffect(() => {
 		const sub = convObs.subscribe((newConvs) => {
-			dispatch({ type: 'update', contacts: extendList(newConvs) });
+			dispatch({ type: 'update', convs: orderBy(extendList(newConvs), ['data.date'], ['desc']) });
 		});
 		return () => {
 			sub.unsubscribe();
@@ -122,6 +129,7 @@ export default function MailList() {
 		>
 			<Container
 				height="48px"
+				style={{ minHeight: '48px' }}
 			>
 				<ListHeader
 					breadCrumbs={breadcrumbs}

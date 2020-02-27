@@ -11,34 +11,68 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-	Container,
-	Text
+	Container
 } from '@zextras/zapp-ui';
-import { map } from 'lodash';
+import { map, orderBy } from 'lodash';
+import PreviewPanelHeader from './PreviewPanelHeader';
+import MailPreview from './MailPreview';
 
 const ConversationPreviewPanel = ({ id, mailsSrvc }) => {
 	const [conversation, setConversation] = useState({});
-	const [mails, setMails] = useState({});
+	const [mails, setMails] = useState([]);
+	const [current, setCurrent] = useState('');
 	useEffect(() => {
 		mailsSrvc.getConversation(id).then(
-			conv => {
-				mailsSrvc.getMessages(map(conv.messages, message => message.id)).then(
-					messages => {
-						setMails(messages);
+			(conv) => {
+				mailsSrvc.getMessages(map(conv.messages, (message) => message.id)).then(
+					(messages) => {
+						setMails(orderBy(Object.values(messages), ['date'], ['desc']));
 						setConversation(conv);
 					}
 				);
 			}
-		)
-	}, [id, mailsSrvc]);
-	console.log(mails);
+		);
+	}, [id]);
+	useEffect(() => current === '' && mails[0] && setCurrent(mails[0].id), [mails]);
+
 	return (
 		<Container
 			orientation="vertical"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 		>
-			<Text>hell</Text>
+			<PreviewPanelHeader conversation={conversation} />
+			<Container
+				style={{ overflowY: 'auto' }}
+				height="fill"
+				background="bg_9"
+				padding={{ horizontal: 'medium', bottom: 'small' }}
+				mainAlignment="flex-start"
+			>
+				<Container
+					height="fit"
+					mainAlignment="flex-start"
+					background="bg_7"
+				>
+					{
+						map(
+							mails,
+							(mail) => (
+								<MailPreview
+									key={mail.id}
+									open={mail.id === current}
+									setCurrent={setCurrent}
+									message={mail}
+									onUnreadLoaded={() => mailsSrvc.markMessageAsRead(
+										mail.id,
+										!mail.read
+									).then(() => {})}
+								/>
+							)
+						)
+					}
+				</Container>
+			</Container>
 		</Container>
 	);
 };
