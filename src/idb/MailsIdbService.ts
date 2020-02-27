@@ -54,7 +54,8 @@ export default class MailsIdbService implements IMailsIdbService {
 
 	public saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1> {
 		return idbSrvc.openDb<IMailsIdb>()
-			.then((idb) => idb.put<'folders'>('folders', f));
+			.then((idb) => idb.put<'folders'>('folders', f))
+			.then((_) => f);
 	}
 
 	public deleteFolders(ids: string[]): Promise<string[]> {
