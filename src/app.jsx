@@ -10,8 +10,8 @@
  */
 
 import React from 'react';
-import { serviceWorkerSrvc } from '@zextras/zapp-shell/service';
 import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
+import { fc } from '@zextras/zapp-shell/fc';
 
 import App, { ROUTE as mainRoute } from './components/App';
 import MailsIdbService from './idb/MailsIdbService';
@@ -19,6 +19,7 @@ import MailsService from './MailsService';
 import MailsNetworkService from './network/MailsNetworkService';
 
 export default function app() {
+	fc.subscribe(console.log);
 	const idbSrvc = new MailsIdbService();
 	const networkSrvc = new MailsNetworkService(
 		idbSrvc
@@ -35,7 +36,4 @@ export default function app() {
 		mailsSrvc.menuFolders
 	);
 	registerRoute(mainRoute, App, { mailsSrvc });
-	serviceWorkerSrvc.registerAppServiceWorker(
-		'mails-sw.js'
-	);
 }
