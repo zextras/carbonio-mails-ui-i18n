@@ -18,8 +18,14 @@ export type IMailFolderSchmV1 = IFolderSchmV1 & {
 
 type IIDBMailFolderSchmV1 = IIDBFolderSchmV1 & {
 	folders: {
-		value: IMailFolderSchmV1;
-	};
+        key: string;
+        value: IMailFolderSchmV1;
+        indexes: {
+            id: string;
+            parent: string;
+            path: string;
+        };
+    };
 };
 
 export type IMailsIdb = IIDBMailFolderSchmV1 & {
