@@ -23,11 +23,13 @@ import MailContextProvider from '../context/MailContextProvider';
 import activityContext from '../activity/ActivityContext';
 import ActivityContextProvider from '../activity/ActivityContextProvider';
 import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
+import ConversationFolderCtxtProvider from '../context/ConversationCtxtProvider';
 
 export const ROUTE = '/mails/folder/:path*';
 
 export default function App({ mailsSrvc }) {
 	const { path } = useParams();
+
 	return (
 		<ActivityContextProvider>
 			<MailContextProvider mailsSrvc={mailsSrvc} path={path}>
@@ -45,7 +47,11 @@ export default function App({ mailsSrvc }) {
 							height="fill"
 							mainAlignment="flex-start"
 						>
-							<Catcher><MailList /></Catcher>
+							<ConversationFolderCtxtProvider
+								folderPath={path}
+							>
+								{ /* <Catcher><MailList /></Catcher> */ }
+							</ConversationFolderCtxtProvider>
 						</Container>
 						<Container
 							orientation="vertical"
@@ -53,12 +59,12 @@ export default function App({ mailsSrvc }) {
 							height="fill"
 							mainAlignment="flex-start"
 						>
-							<Catcher><SecondaryView mailsSrvc={mailsSrvc} /></Catcher>
+							<Catcher><SecondaryView mailsSrvc={mailsSrvc} path={path} /></Catcher>
 						</Container>
 					</Responsive>
 					<Responsive mode="mobile">
 						<Catcher>
-							<SecondaryView mailsSrvc={mailsSrvc} />
+							<SecondaryView mailsSrvc={mailsSrvc} path={path} />
 						</Catcher>
 					</Responsive>
 				</Container>
@@ -68,7 +74,7 @@ export default function App({ mailsSrvc }) {
 }
 
 
-const SecondaryView = ({ mailsSrvc }) => {
+const SecondaryView = ({ mailsSrvc, path }) => {
 	const { get } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
@@ -81,7 +87,13 @@ const SecondaryView = ({ mailsSrvc }) => {
 			);
 		}
 		if (screenMode === 'mobile') {
-			return <MailList />;
+			return (
+				<ConversationFolderCtxtProvider
+					folderPath={path}
+				>
+					{ /* <MailList /> */ }
+				</ConversationFolderCtxtProvider>
+			);
 		}
 		return (
 			<Container
