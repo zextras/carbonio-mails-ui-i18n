@@ -99,7 +99,7 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 		}
 		if (get('mailView').value) {
 			return (
-				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailService={mailsSrvc}>
+				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailsSrvc={mailsSrvc}>
 					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} />
 				</ConversationPreviewCtxtProvider>
 			);
