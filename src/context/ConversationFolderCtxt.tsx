@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Conversation, IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
 
 export type MailMessageWithFolder = MailMessage & {
-	parent: IMailFolderSchmV1;
+	folder: IMailFolderSchmV1;
 };
 
 export type ConversationWithMessages = Conversation & {

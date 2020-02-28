@@ -12,7 +12,9 @@
 import { Conversation, IMailFolderSchmV1, MailMessage } from './IMailsIdb';
 
 export interface IMailsIdbService {
-	getFolder(id: string): Promise<IMailFolderSchmV1|undefined>;
+	getFolderByPath(path: string): Promise<IMailFolderSchmV1>;
+	getFolderById(id: string): Promise<IMailFolderSchmV1>;
+
 	getAllFolders(): Promise<{[id: string]: IMailFolderSchmV1}>;
 	saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1>;
 	deleteFolders(ids: string[]): Promise<string[]>;

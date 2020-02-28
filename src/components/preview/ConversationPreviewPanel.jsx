@@ -24,7 +24,7 @@ const ConversationPreviewPanel = ({ id, mailsSrvc }) => {
 	useEffect(() => {
 		mailsSrvc.getConversation(id).then(
 			(conv) => {
-				mailsSrvc.getMessages(map(conv.messages, (message) => message.id)).then(
+				mailsSrvc.getMessages(map(conv.messages, 'id'), false).then(
 					(messages) => {
 						setMails(orderBy(Object.values(messages), ['date'], ['desc']));
 						setConversation(conv);

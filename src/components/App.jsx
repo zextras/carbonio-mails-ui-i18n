@@ -18,12 +18,11 @@ import {
 	useScreenMode,
 	Catcher
 } from '@zextras/zapp-ui';
-import MailList from './list/MailList';
-import MailContextProvider from '../context/MailContextProvider';
+import { map } from 'lodash';
 import activityContext from '../activity/ActivityContext';
-import ActivityContextProvider from '../activity/ActivityContextProvider';
 import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
-import ConversationFolderCtxtProvider from '../context/ConversationCtxtProvider';
+import ConversationFolderCtxtProvider from '../context/ConversationFolderCtxtProvider';
+import ConversationFolderCtxt from '../context/ConversationFolderCtxt';
 
 export const ROUTE = '/mails/folder/:path*';
 
@@ -31,47 +30,58 @@ export default function App({ mailsSrvc }) {
 	const { path } = useParams();
 
 	return (
-		<ActivityContextProvider>
-			<MailContextProvider mailsSrvc={mailsSrvc} path={path}>
+		<Container
+			orientation="horizontal"
+			width="fill"
+			height="fill"
+			mainAlignment="flex-start"
+			crossAlignment="flex-start"
+		>
+			<Responsive mode="desktop">
 				<Container
-					orientation="horizontal"
-					width="fill"
+					orientation="vertical"
+					width="50%"
 					height="fill"
 					mainAlignment="flex-start"
-					crossAlignment="flex-start"
 				>
-					<Responsive mode="desktop">
-						<Container
-							orientation="vertical"
-							width="50%"
-							height="fill"
-							mainAlignment="flex-start"
-						>
-							<ConversationFolderCtxtProvider
-								folderPath={path}
-							>
-								{ /* <Catcher><MailList /></Catcher> */ }
-							</ConversationFolderCtxtProvider>
-						</Container>
-						<Container
-							orientation="vertical"
-							width="50%"
-							height="fill"
-							mainAlignment="flex-start"
-						>
-							<Catcher><SecondaryView mailsSrvc={mailsSrvc} path={path} /></Catcher>
-						</Container>
-					</Responsive>
-					<Responsive mode="mobile">
-						<Catcher>
-							<SecondaryView mailsSrvc={mailsSrvc} path={path} />
-						</Catcher>
-					</Responsive>
+					<ConversationFolderCtxtProvider
+						mailsSrvc={mailsSrvc}
+						folderPath={`/${path}`}
+					>
+						<Test />
+					</ConversationFolderCtxtProvider>
 				</Container>
-			</MailContextProvider>
-		</ActivityContextProvider>
+				<Container
+					orientation="vertical"
+					width="50%"
+					height="fill"
+					mainAlignment="flex-start"
+				>
+					<Catcher><SecondaryView mailsSrvc={mailsSrvc} path={path} /></Catcher>
+				</Container>
+			</Responsive>
+			<Responsive mode="mobile">
+				<Catcher>
+					<SecondaryView mailsSrvc={mailsSrvc} path={path} />
+				</Catcher>
+			</Responsive>
+		</Container>
 	);
 }
+
+const Test = () => {
+	const { convList } = useContext(ConversationFolderCtxt);
+	return (
+		<div>
+			<ol>
+				{ map(
+					convList,
+					(v, k) => (<li key={v}>{v}</li>)
+				) }
+			</ol>
+		</div>
+	);
+};
 
 
 const SecondaryView = ({ mailsSrvc, path }) => {

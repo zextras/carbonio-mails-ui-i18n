@@ -11,18 +11,16 @@
 
 import { ISyncOperation, ISyncOpRequest, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
-import { IMainSubMenuItemData } from '@zextras/zapp-shell/lib/router/IRouterService';
-import { syncOperations } from '@zextras/zapp-shell/sync';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import {
-	findKey,
 	reduce,
 	filter as loFilter,
 	cloneDeep,
 	forEach,
 	without,
-	merge
+	merge,
+	map,
+	orderBy,
+    uniqBy
 } from 'lodash';
 import {
 	CreateMailFolderOp,
@@ -54,100 +52,38 @@ import {
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
+import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
+import { filter } from 'rxjs/operators';
 
-const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
-const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
 const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
 
-const subfolders: (
-	folders: {[id: string]: IMailFolderSchmV1},
-	parentId: string
-) => Array<IMainSubMenuItemData> = (folders, parentId) =>
-	reduce<IMailFolderSchmV1, Array<IMainSubMenuItemData>>(
-		loFilter(
-			folders,
-			(folder: IMailFolderSchmV1): boolean => folder.parent === parentId
-		),
-		(acc: Array<IMainSubMenuItemData>, folder: IMailFolderSchmV1) => {
-			acc.push(
-				{
-					id: folder.id,
-					label: folder.name,
-					to: `/mails/folder${folder.path}`,
-					children: subfolders(folders, folder.id)
-				}
-			);
-			return acc;
-		},
-		[]
-	);
-
 export default class MailsService implements IMailsService {
-	public folders = new BehaviorSubject<{[id: string]: IMailFolderSchmV1}>({});
-
-	private _folders = new BehaviorSubject<{[id: string]: IMailFolderSchmV1}>({});
-
-	public menuFolders = new BehaviorSubject<Array<IMainSubMenuItemData>>([]);
-
-	private _menuFoldersSub: Subscription;
-
 	private _createId = 0;
 
-	public conversations: {[id: string]: BehaviorSubject<Conversation[]>} = {};
+	// public conversations: {[id: string]: BehaviorSubject<Conversation[]>} = {};
 
 	constructor(
 		private _idbSrvc: IMailsIdbService,
 		private _networkSrvc: IMailsNetworkService
 	) {
-		fc
-			.pipe(
-				filter((e) => e.event === 'app:all-loaded')
-			)
-			.subscribe(() => this._loadAllMailFolders());
-		fc
-			.pipe(filter((e) => _FOLDER_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => this._updateFolder(data.id));
-		fc
-			.pipe(filter((e) => _FOLDER_DELETED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => this._deleteFolder(data.id));
-
-		fc
-			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => this._updateConversation(data.id));
-		fc
-			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => console.log('Message updated:', data));
-
-		this._menuFoldersSub = this.folders.subscribe(
-			(folders: {[id: string]: IMailFolderSchmV1}): void => {
-				this.menuFolders.next(
-					reduce<IMailFolderSchmV1, Array<IMainSubMenuItemData>>(
-						loFilter(folders, (folder: IMailFolderSchmV1): boolean => folder.parent === '1'),
-						(acc: Array<IMainSubMenuItemData>, folder: IMailFolderSchmV1) => {
-							acc.push(
-								{
-									icon: 'EmailOutline',
-									id: folder.id,
-									label: folder.name,
-									to: `/mails/folder${folder.path}`,
-									children: subfolders(folders, folder.id)
-								}
-							);
-							return acc;
-						},
-						[]
-					)
-				);
-			}
-		);
-
-		combineLatest([
-			syncOperations as BehaviorSubject<Array<ISyncOperation<MailFolderOp, ISyncOpRequest<unknown>>>>,
-			this._folders
-		]).subscribe(this._mergeFoldersAndOperations);
+		// fc
+		// 	.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
+		// 	.subscribe(({ data }) => this._updateConversation(data.id));
+		// fc
+		// 	.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
+		// 	.subscribe(({ data }) => console.log('Message updated:', data));
 	}
 
+	public getFolderById(id: string): Promise<IMailFolderSchmV1> {
+		return this._idbSrvc.getFolderById(id)
+			.catch(
+				(e) => this._networkSrvc.fetchFolderById(id)
+					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
+			);
+	}
+
+	/*
 	public createFolder(name: string, parent = '7'): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			fcSink<ISyncOperation<CreateMailFolderOp, ISyncOpSoapRequest<CreateMailFolderOpReq>>>(
@@ -349,6 +285,7 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
+	*/
 
 	public markMessageAsRead(id: string, read: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -378,6 +315,7 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
+	/*
 	public deleteConversation(id: string): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			fcSink<ISyncOperation<DeleteConversationOp, ISyncOpSoapRequest<DeleteConversationOpReq>>>(
@@ -445,19 +383,9 @@ export default class MailsService implements IMailsService {
 	public sendMessage(msg: MailMessage): Promise<MailMessage> {
 		return Promise.reject(new Error('Method not implemented'));
 	}
+	*/
 
-	private _loadAllMailFolders(): void {
-		this._idbSrvc.getAllFolders()
-			.then((folders) => this._folders.next(folders));
-	}
-
-	private _updateFolder(id: string): void {
-		this._idbSrvc.getFolder(id)
-			.then((f) => {
-				if (f) this._folders.next({ ...this._folders.getValue(), [id]: f });
-			});
-	}
-
+	/*
 	private _updateConversation(id: string): void {
 		this.getConversation(id)
 			.then((c) => {
@@ -473,79 +401,12 @@ export default class MailsService implements IMailsService {
 				);
 			});
 	}
-
-	private _deleteFolder(id: string): void {
-		const newVal = { ...this._folders.getValue() };
-		try {
-			delete newVal[id];
-		}
-		catch (e) {}
-		this._folders.next(newVal);
-	}
-
-	private _mergeFoldersAndOperations: ([
-		_syncOperations,
-		folders
-	]: [
-		Array<ISyncOperation<MailFolderOp, ISyncOpRequest<unknown>>>,
-		{[id: string]: IMailFolderSchmV1}
-	]) => void =
-		([
-			_syncOperations,
-			folders
-		]) => {
-			this.folders.next(
-				reduce(
-					_syncOperations,
-					(r: {[id: string]: IMailFolderSchmV1}, v, k) => {
-						switch (v.opData.operation) {
-							case 'create-mail-folder':
-								// eslint-disable-next-line no-param-reassign
-								r[v.opData.id] = {
-									_revision: 0,
-									synced: true,
-									id: v.opData.id,
-									name: v.opData.name,
-									parent: v.opData.parent,
-									itemsCount: 0,
-									unreadCount: 0,
-									size: 0,
-									path: calculateAbsPath(
-										v.opData.id,
-										v.opData.name,
-										r,
-										v.opData.parent,
-									)
-								};
-								return r;
-							case 'delete-mail-folder':
-								// eslint-disable-next-line no-param-reassign
-								delete r[v.opData.id];
-								// TODO: Remove the children
-								return r;
-							case 'move-mail-folder':
-								// eslint-disable-next-line no-param-reassign
-								r[v.opData.id] = { ...r[v.opData.id], parent: v.opData.parent };
-								// TODO: Update the path and the children paths
-								return r;
-							case 'rename-mail-folder':
-								// eslint-disable-next-line no-param-reassign
-								r[v.opData.id] = { ...r[v.opData.id], name: v.opData.name };
-								// TODO: Update the path and the children paths
-								return r;
-							default:
-								return r;
-						}
-					},
-					cloneDeep(folders)
-				)
-			);
-		};
-
+	*/
+	/*
 	public loadMoreConversationsFromFolder(folderId: string): Promise<void> {
 		return Promise.all([
 			this._networkSrvc.fetchConversationsInFolder(folderId),
-			this._idbSrvc.getFolder(folderId)
+			this._idbSrvc.getFolderById(folderId)
 		]).then(([conversations, folder]) => this._idbSrvc.saveFolderData({ ...folder!, synced: true })
 				.then((savedFolder): [Conversation[], IMailFolderSchmV1] => [conversations, savedFolder]))
 			.then(([conversations, folder]) => this._idbSrvc.saveConversations(conversations)
@@ -578,18 +439,74 @@ export default class MailsService implements IMailsService {
 				);
 			});
 	}
+	*/
 
-	public getFolderConversations(path: string): BehaviorSubject<Conversation[]> {
-		const id = findKey(this.folders.value, ['path', `/${path}`]);
-		if (id) {
-			if (!this.conversations[id]) {
-				this.conversations[id] = new BehaviorSubject<Conversation[]>([]);
-				this._idbSrvc.fetchConversationsFromFolder(id)
-					.then((convs) => this.conversations[id].next(convs));
-			}
-			return this.conversations[id];
+	public getFolderConversations(path: string, resolveMails: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
+		return this._idbSrvc.getFolderByPath(path)
+			.catch(
+				(e) => this._networkSrvc.fetchFolderByPath(path)
+					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
+			)
+			.then((f): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
+			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
+				if (convs.length < 50) return this._networkSrvc.fetchConversationsInFolder(f.id)
+					.then((c) => Promise.all(
+						map(
+							convs,
+							(v, k) => this._idbSrvc.saveConversation(v)
+						)
+					).then(() => uniqBy([...c, ...convs], 'id')));
+				return convs;
+			})
+			.then((convs): Conversation[]|Promise<ConversationWithMessages[]> => {
+				if (resolveMails && convs.length > 0) return this._resolveConversationsMails(convs);
+				return convs;
+			})
+			.then((convs) => orderBy<Conversation|ConversationWithMessages>(convs, ['date'], ['desc']))
+			.then((convs) => reduce<Conversation|ConversationWithMessages, [string[], { [id: string]: Conversation|ConversationWithMessages }]>(
+				convs,
+				([ids, collector], v, k) => [
+					[
+						...ids,
+						v.id
+					],
+					{
+						...collector,
+						[v.id]: v
+					}
+				],
+				[[], {}]
+			));
+	}
+
+	private _resolveConversationsMails(convs: Conversation[]): Promise<ConversationWithMessages[]> {
+		if (convs.length === 1) {
+			return this._resolveConversationMails(convs[0])
+				.then((c) => ([c]));
 		}
-		throw new Error('Unknown folder id');
+		if (convs.length > 1) {
+			const clonedConvs = [...convs];
+			const conv = clonedConvs.pop();
+			return Promise.all([
+				this._resolveConversationMails(conv!),
+				this._resolveConversationsMails(clonedConvs)
+			]).then(
+				([c1, c2]) => ([c1, ...c2])
+			);
+		}
+		throw new Error('Wrong parameters');
+	}
+
+	private _resolveConversationMails(conv: Conversation): Promise<ConversationWithMessages> {
+		return (this.getMessages(map(conv.messages, 'id'), true) as Promise<{[p: string]: MailMessageWithFolder}>)
+			.then((messages: {[p: string]: MailMessageWithFolder}) => ({
+				...conv,
+				messages: orderBy<MailMessageWithFolder>(
+					map(messages),
+					['date'],
+					['desc']
+				)
+			}));
 	}
 
 	public getConversation(id: string): Promise<Conversation> {
@@ -604,7 +521,7 @@ export default class MailsService implements IMailsService {
 			});
 	}
 
-	public getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}> {
+	public getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}> {
 		return this._idbSrvc.getMessages(msgIds)
 			.then(
 				(msgs: {[id: string]: MailMessage}) =>
@@ -625,10 +542,7 @@ export default class MailsService implements IMailsService {
 							(messages) => this._idbSrvc.saveMailMessages(messages)
 								.then((savedMsgs) => [msgs, reduce<MailMessage, {[id: string]: MailMessage}>(
 									savedMsgs,
-									(r, v, k) => {
-										r[v.id] = v;
-										return r;
-									},
+									(r, v, k) => ({ ...r,	[v.id]: v	}),
 									{}
 								)])
 						)
@@ -636,6 +550,29 @@ export default class MailsService implements IMailsService {
 							fromIdb,
 							fromNetwork
 						))
+						.then((msgsMap) => (resolveFolders ? this._resolveMailsFolders(msgsMap) : msgsMap))
 			);
+	}
+
+	private _resolveMailsFolders(msgs: {[id: string]: MailMessage}): Promise<{[id: string]: MailMessageWithFolder}> {
+		return Promise.all(
+			map(
+				msgs,
+				(v, k) => this._resolveMailFolder(v)
+			)
+		)
+			.then((res) => reduce<MailMessageWithFolder, {[id: string]: MailMessageWithFolder}>(
+				res,
+				(r, v, k) => ({ ...r,	[v.id]: v	}),
+				{}
+			));
+	}
+
+	private _resolveMailFolder(msg: MailMessage): Promise<MailMessageWithFolder> {
+		return this.getFolderById(msg.parent)
+			.then((f): MailMessageWithFolder => ({
+				...msg,
+				folder: f
+			}));
 	}
 }

@@ -10,6 +10,7 @@
  */
 
 import { reduce } from 'lodash';
+import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { IMailsNetworkService } from './IMailsNetworkService';
 import { IMailsIdbService } from '../idb/IMailsIdbService';
 import {
@@ -20,18 +21,70 @@ import {
 import {
 	Conversation,
 	ConversationMailMessage,
+	IMailFolderSchmV1,
 	MailMessage
 } from '../idb/IMailsIdb';
+import { normalizeFolder } from '../idb/IdbMailsUtils';
 
 export default class MailsNetworkService implements IMailsNetworkService {
 	constructor(
 		private _idbSrvc: IMailsIdbService
 	) {}
 
+	public fetchFolderByPath(path: string): Promise<IFolderSchmV1> {
+		const getFolderReq = {
+			Body: {
+				GetFolderRequest: {
+					_jsns: 'urn:zimbraMail',
+					folder: [{
+						path
+					}]
+				}
+			}
+		};
+		return fetch(
+			'/service/soap/GetFolderRequest',
+			{
+				method: 'POST',
+				body: JSON.stringify(getFolderReq)
+			}
+		)
+			.then((response) => response.json())
+			.then((response) => {
+				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
+				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+			});
+	}
+
+	public fetchFolderById(id: string): Promise<IFolderSchmV1> {
+		const getFolderReq = {
+			Body: {
+				GetFolderRequest: {
+					_jsns: 'urn:zimbraMail',
+					folder: [{
+						l: id
+					}]
+				}
+			}
+		};
+		return fetch(
+			'/service/soap/GetFolderRequest',
+			{
+				method: 'POST',
+				body: JSON.stringify(getFolderReq)
+			}
+		)
+			.then((response) => response.json())
+			.then((response) => {
+				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
+				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+			});
+	}
+
 	public fetchConversationsInFolder(id: string, limit = 50): Promise<Conversation[]> {
 		return new Promise<Conversation[]>((resolve, reject) => {
 			Promise.all([
-				this._idbSrvc.getFolder(id),
+				this._idbSrvc.getFolderById(id),
 				this._idbSrvc.fetchConversationsFromFolder(id)
 			])
 				.then(([f, convs]) => {

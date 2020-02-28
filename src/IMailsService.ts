@@ -9,30 +9,30 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { Conversation, MailMessage } from './idb/IMailsIdb';
-import { BehaviorSubject } from 'rxjs';
+import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
+import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 
 export interface IMailsService {
-	createFolder(name: string, parent: string): Promise<void>;
-	moveFolder(id: string, newParent: string): Promise<void>;
-	renameFolder(id: string, name: string): Promise<void>;
-	deleteFolder(id: string): Promise<void>;
-	emptyFolder(id: string): Promise<void>;
-	getFolderConversations(folderId: string): BehaviorSubject<Conversation[]>;
-	loadMoreConversationsFromFolder(folderId: string): Promise<void>;
+	getFolderById(id: string): Promise<IMailFolderSchmV1>;
+	getFolderConversations(path: string, resolveMails: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
 	getConversation(id: string): Promise<Conversation>;
-	getMessages(msgIds: string[]): Promise<{[id: string]: MailMessage}>;
-
-	// moveConversation(id: string, fid: string): Promise<void>;
-	moveConversationToTrash(id: string): Promise<void>;
-	deleteConversation(id: string): Promise<void>;
-	markConversationAsRead(id: string, read: boolean): Promise<void>;
+	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;
-	markConversationAsSpam(id: string, spam: boolean): Promise<void>;
 
-	saveDraft(msg: MailMessage): Promise<MailMessage>;
-	addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
-	sendMessage(msg: MailMessage): Promise<MailMessage>;
+	// createFolder(name: string, parent: string): Promise<void>;
+	// moveFolder(id: string, newParent: string): Promise<void>;
+	// renameFolder(id: string, name: string): Promise<void>;
+	// deleteFolder(id: string): Promise<void>;
+	// emptyFolder(id: string): Promise<void>;
+	// loadMoreConversationsFromFolder(folderId: string): Promise<void>;
+	// moveConversation(id: string, fid: string): Promise<void>;
+	// moveConversationToTrash(id: string): Promise<void>;
+	// deleteConversation(id: string): Promise<void>;
+	// markConversationAsRead(id: string, read: boolean): Promise<void>;
+	// markConversationAsSpam(id: string, spam: boolean): Promise<void>;
+	// saveDraft(msg: MailMessage): Promise<MailMessage>;
+	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
+	// sendMessage(msg: MailMessage): Promise<MailMessage>;
 }
 
 export type MailFolderOp = CreateMailFolderOp

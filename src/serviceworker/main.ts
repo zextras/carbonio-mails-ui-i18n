@@ -17,11 +17,17 @@ import MailsNetworkService from '../network/MailsNetworkService';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
 import MailsIdbService from '../idb/MailsIdbService';
 import { ISoapSyncMailFolderObj, ISoapSyncMailResponse } from '../ISoap';
-import { Conversation, IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
+import { IMailFolderSchmV1 } from '../idb/IMailsIdb';
+import MailsService from '../MailsService';
 
 const _idbSrvc = new MailsIdbService();
 const _networkSrvc = new MailsNetworkService(
 	_idbSrvc
+);
+
+const _mailsSrvc = new MailsService(
+	_idbSrvc,
+	_networkSrvc
 );
 
 function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> {
@@ -39,79 +45,11 @@ function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> 
 					// console.log('Processing folder', f);
 					// Store the folder data
 					promises.push(
-						_idbSrvc.getFolder(f.id)
-							.then((folder) => {
-								let newF;
-								if (!folder) {
-									newF = {
-										...normalizeFolder(f),
-										synced: f.id === '2'
-									};
-								}
-								else {
-									newF = {
-										...folder,
-										...normalizeFolder(f),
-										synced: folder.synced
-									};
-								}
-								return _idbSrvc.saveFolderData(newF);
+						_mailsSrvc.getFolderById(f.id)
+							.then((folder: IMailFolderSchmV1) => {
+								// TODO: Replace the sync method to a real sync
+								if (folder.synced) return _mailsSrvc.getFolderConversations(folder.path, true).then();
 							})
-							.then((folder: IMailFolderSchmV1): Promise<[Conversation[], IMailFolderSchmV1]> => {
-								fcSink(
-									'mails:updated:folder',
-									{
-										id: folder.id
-									}
-								);
-								if (!folder.synced) return Promise.resolve([[], folder]);
-								return Promise.all([
-									_networkSrvc.fetchConversationsInFolder(folder.id),
-									Promise.resolve(folder)
-								]);
-							})
-							.then(
-								([conversations, folder]: [Conversation[], IMailFolderSchmV1]):
-									Promise<[Conversation[], IMailFolderSchmV1]> =>
-									_idbSrvc.saveConversations(conversations)
-										.then(() => [conversations, folder])
-							)
-							.then(
-								([conversations, folder]: [Conversation[], IMailFolderSchmV1]):
-									Promise<[Conversation[], MailMessage[], IMailFolderSchmV1]> =>
-									_networkSrvc.fetchConversationsMessages(conversations)
-										.then((messages) => [conversations, messages, folder])
-							)
-							.then(
-								(
-									[conversations, messages, folder]:
-										[Conversation[], MailMessage[], IMailFolderSchmV1]
-								): Promise<[Conversation[], MailMessage[], IMailFolderSchmV1]> =>
-									_idbSrvc.saveMailMessages(messages)
-										.then(() => [conversations, messages, folder])
-							)
-							.then(
-								(
-									[conversations, messages, folder]:
-										[Conversation[], MailMessage[], IMailFolderSchmV1]
-								): void => {
-									forEach(messages, (m) => {
-										fcSink(
-											'mails:updated:message',
-											{
-												id: m.id
-											}
-										);
-									});
-									forEach(conversations, (c) =>
-										fcSink(
-											'mails:updated:conversation',
-											{
-												id: c.id
-											}
-										));
-								}
-							)
 					);
 				}
 				return Promise.all(promises).then();
@@ -296,12 +234,7 @@ function _processOperationCompleted(data: any): Promise<void> {
 				promises.push(
 					_idbSrvc.saveFolderData(
 						normalizeFolder(result.Body.CreateFolderResponse.folder[0])
-					)
-						.then(() => fcSink(
-							'mails:updated:folder', {
-								id: result.Body.CreateFolderResponse.folder[0].id
-							}
-						))
+					).then()
 				);
 				break;
 			case 'delete-mail-folder':
@@ -313,12 +246,7 @@ function _processOperationCompleted(data: any): Promise<void> {
 						operation.opData.id,
 						operation.opData.parent
 					)
-						.then(() => fcSink(
-							'mails:updated:folder',
-							{
-								id: operation.opData.id
-							}
-						))
+						.then()
 				);
 				break;
 			case 'rename-mail-folder':
@@ -327,12 +255,7 @@ function _processOperationCompleted(data: any): Promise<void> {
 						operation.opData.id,
 						operation.opData.name
 					)
-						.then(() => fcSink(
-							'mails:updated:folder',
-							{
-								id: operation.opData.id
-							}
-						))
+						.then()
 				);
 				break;
 			default:
