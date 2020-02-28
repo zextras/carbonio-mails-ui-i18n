@@ -9,7 +9,6 @@
  * *** END LICENSE BLOCK *****
  */
 
-import mailContext from './MailContext';
 import React, { useState, useEffect } from 'react';
 import {
 	reduce,
@@ -17,6 +16,7 @@ import {
 	keyBy,
 	sortBy
 } from 'lodash';
+import mailContext from './MailContext';
 
 function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
@@ -29,7 +29,7 @@ function useObservable(observable) {
 
 const MailContextProvider = ({ path, mailsSrvc, children }) => {
 
-	const conversations = mailsSrvc.getFolderConversations(path);
+	const conversations = mailsSrvc.getFolderConversations(path, false);
 
 	const [mails, setMails] = useState({});
 
@@ -49,7 +49,7 @@ const MailContextProvider = ({ path, mailsSrvc, children }) => {
 				},
 				[]
 			);
-			mailsSrvc.getMessages(ids).then((newMails) => {
+			mailsSrvc.getMessages(ids, false).then((newMails) => {
 				if (!cancelled) {
 					setMails({ ...mails, ...keyBy(newMails, 'id') });
 				}

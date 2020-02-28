@@ -31,9 +31,22 @@ export default class MailsIdbService implements IMailsIdbService {
 		);
 	}
 
-	public getFolder(id: string): Promise<IMailFolderSchmV1|undefined> {
+	public getFolderByPath(path: string): Promise<IMailFolderSchmV1> {
 		return idbSrvc.openDb<IMailsIdb>()
-			.then((idb) => idb.get<'folders'>('folders', id));
+			.then((idb) => idb.getFromIndex<'folders', 'path'>('folders', 'path', path))
+			.then((folder) => {
+				if (folder) return folder;
+				throw new Error(`Folder not found: '${path}'`);
+			});
+	}
+
+	public getFolderById(id: string): Promise<IMailFolderSchmV1> {
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => idb.get<'folders'>('folders', id))
+			.then((folder) => {
+				if (folder) return folder;
+				throw new Error(`Folder not found: '${id}'`);
+			});
 	}
 
 	public getAllFolders(): Promise<{[id: string]: IMailFolderSchmV1}> {
@@ -55,7 +68,15 @@ export default class MailsIdbService implements IMailsIdbService {
 	public saveFolderData(f: IMailFolderSchmV1): Promise<IMailFolderSchmV1> {
 		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.put<'folders'>('folders', f))
-			.then((_) => f);
+			.then((_) => {
+				fcSink(
+					'mails:updated:folder',
+					{
+						id: f.id
+					}
+				);
+				return f;
+			});
 	}
 
 	public deleteFolders(ids: string[]): Promise<string[]> {
@@ -122,7 +143,15 @@ export default class MailsIdbService implements IMailsIdbService {
 	public saveConversation(conv: Conversation): Promise<Conversation> {
 		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.put<'conversations'>('conversations', conv))
-			.then((_) => conv);
+			.then((_) => {
+				fcSink(
+					'mails:updated:conversation',
+					{
+						id: conv.id
+					}
+				);
+				return conv;
+			});
 	}
 
 	public saveConversations(convs: Conversation[]): Promise<Conversation[]> {
@@ -148,7 +177,15 @@ export default class MailsIdbService implements IMailsIdbService {
 	public saveMailMessage(mail: MailMessage): Promise<MailMessage> {
 		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.put<'messages'>('messages', mail))
-			.then((_) => mail);
+			.then((_) => {
+				fcSink(
+					'mails:updated:message',
+					{
+						id: mail.id
+					}
+				);
+				return mail;
+			});
 	}
 
 	public saveMailMessages(mails: MailMessage[]): Promise<MailMessage[]> {
