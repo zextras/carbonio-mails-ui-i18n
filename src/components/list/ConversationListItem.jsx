@@ -11,12 +11,10 @@
 import React, {
 	useContext,
 	useMemo,
-	useState,
-	Fragment
+	Fragment, useState, useEffect
 } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
-import { find, map, orderBy } from 'lodash';
+import { find, map } from 'lodash';
 import {
 	Text,
 	Container,
@@ -24,25 +22,32 @@ import {
 	Icon,
 	Padding,
 	IconButton,
-	Collapse,
-	Catcher
+	Collapse
 } from '@zextras/zapp-ui';
-import mailContext from '../../context/MailContext';
 import MailListItem from './MailListItem';
 import { HoverContainer, SelectableAvatar } from './Components';
 import activityContext from '../../activity/ActivityContext';
 
+function useObservable(observable) {
+	const [value, setValue] = useState(observable.value);
+	useEffect(() => {
+		const sub = observable.subscribe(setValue);
+		return () => sub.unsubscribe();
+	}, [observable]);
+	return value;
+}
+
 const ConversationListItem = ({
-	conversation,
+	conversationObs,
 	selected,
 	selecting,
 	selectable,
-	open,
-	onExpand,
-	onCollapse,
 	onSelect,
 	onDeselect
 }) => {
+
+	const conversation = useObservable(conversationObs);
+	console.log(conversation, selected);
 	const mainContact = useMemo(
 		() => find(
 			conversation.participants,
@@ -50,11 +55,8 @@ const ConversationListItem = ({
 		),
 		conversation.contacts
 	);
-	const { mails } = useContext(mailContext);
-	const conversationMails = useMemo(
-		() => orderBy(map(conversation.messages, (mInfo) => mails[mInfo.id]), ['data.date'], ['desc']),
-		[mails, conversation]
-	);
+
+	const [open, setOpen] = useState(false);
 	const { set } = useContext(activityContext);
 	return (
 		<Container
@@ -173,19 +175,14 @@ const ConversationListItem = ({
 									<Icon color="txt_5" icon="ArrowUpward" />
 								</Padding>
 							)}
-							{conversationMails && conversationMails.length > 1
+							{conversation.messages && conversation.messages.length > 1
 							&& (
 								<IconButton
 									size="small"
 									icon={open ? 'ChevronUp' : 'ChevronDown'}
 									onClick={(ev) => {
 										ev.stopPropagation();
-										if (open) {
-											onCollapse();
-										}
-										else {
-											onExpand();
-										}
+										setOpen(!open);
 									}}
 								/>
 							)}
@@ -194,7 +191,7 @@ const ConversationListItem = ({
 				</Container>
 			</HoverContainer>
 			<Divider />
-			{conversationMails && conversationMails.length > 1
+			{conversation.messages && conversation.messages.length > 1
 			&& (
 				<Collapse open={open} orientation="vertical" crossSize="100%">
 					<Container
@@ -203,9 +200,9 @@ const ConversationListItem = ({
 						padding={{ left: 'medium' }}
 					>
 						{map(
-							conversationMails,
+							conversation.messages,
 							(email, index) => (email
-								? (<MailListItem key={index} email={email} selectable={false} />)
+								? (<MailListItem key={email.id} email={email} selectable={false} />)
 								: <Fragment key={index} />
 							)
 						)}
@@ -214,39 +211,6 @@ const ConversationListItem = ({
 			)}
 		</Container>
 	);
-};
-
-ConversationListItem.propTypes = {
-	conversation: PropTypes.shape(
-		{
-			attachment:	PropTypes.bool,
-			contacts:	PropTypes.arrayOf(
-				PropTypes.shape({
-					type: PropTypes.oneOf(['f', 't', 'c', 'b', 'r', 's', 'n', 'rf']),
-					address: PropTypes.string,
-					displayName: PropTypes.string
-				})
-			),
-			flagged:	PropTypes.bool,
-			folder:	PropTypes.string,
-			fragment:	PropTypes.string,
-			id:	PropTypes.string,
-			messages:	PropTypes.arrayOf(PropTypes.shape({
-				id: PropTypes.string,
-				parent: PropTypes.string
-			})),
-			msgCount:	PropTypes.number,
-			read:	PropTypes.bool,
-			size:	PropTypes.number,
-			subject:	PropTypes.string,
-			unreadMsgCount:	PropTypes.number,
-			urgent:	PropTypes.bool,
-		}
-	).isRequired,
-	selecting: PropTypes.bool,
-	selected: PropTypes.bool,
-	onSelect: PropTypes.func,
-	onDeselect: PropTypes.func,
 };
 
 ConversationListItem.defaultProps = {

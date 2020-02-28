@@ -17,8 +17,6 @@ import { map, find, filter, concat } from 'lodash';
 import PreviewPanelHeader from './PreviewPanelHeader';
 import MailPreview from './MailPreview';
 import ConversationPreviewCtxt from '../../context/ConversationPreviewCtxt';
-import activityContext from '../../activity/ActivityContext';
-import { syncOperations } from '@zextras/zapp-shell/sync';
 
 const reducer = (state, { type, id }) => {
 	switch (type) {
@@ -30,8 +28,6 @@ const reducer = (state, { type, id }) => {
 };
 
 const ConversationPreviewPanel = ({ mailsSrvc, openMsg }) => {
-	const { get } = useContext(activityContext);
-	const expandedMsgs = (get('mailView').hash).replace('#', '').split('.');
 	const { conversation } = useContext(ConversationPreviewCtxt);
 	const [ expandedMsgs, dispatch ] = useReducer(reducer, [openMsg]);
 	const isOpen = (id) => !!find(expandedMsgs, (messageId) => id === messageId);

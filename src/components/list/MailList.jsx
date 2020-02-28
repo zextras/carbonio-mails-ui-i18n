@@ -9,19 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useReducer, useContext, useEffect, useCallback, useState } from 'react';
-import { Container, ListHeader, Text } from '@zextras/zapp-ui';
+import React, { useState, useContext, useReducer, useEffect } from 'react';
+import { Container, ListHeader } from '@zextras/zapp-ui';
 import List from './List';
 import {
-	findIndex,
-	map,
 	reduce,
-	orderBy,
+	findIndex,
 	forEach
 } from 'lodash';
 import { useParams, useHistory } from 'react-router-dom';
 import ConversationListItem from './ConversationListItem';
-import mailContext from '../../context/MailContext';
+import ConversationFolderCtxt from '../../context/ConversationFolderCtxt';
 
 const useBreadCrumbs = () => {
 	const { path } = useParams();
@@ -42,16 +40,30 @@ const useBreadCrumbs = () => {
 };
 
 export default function MailList() {
-	const { conversations: convObs } = useContext(mailContext);
 	const [amountSelected, setAmountSelected] = useState(0);
 	const history = useHistory();
 	const breadcrumbs = useBreadCrumbs();
 
+	const { convList, convMap } = useContext(ConversationFolderCtxt);
+
+	const init = (initial) => reduce(
+		convList,
+		(acc, id) => {
+			acc[id] = acc[id] || {
+				selected: false,
+				open: false,
+				actions: [],
+			};
+			return acc;
+		},
+		initial || {}
+	);
+
 	const cReducer = (state, action) => {
-		const newState = [...state];
+		const newState = { ...state };
 		switch (action.type) {
 			case 'update':
-				return action.convs;
+				return init(state);
 			case 'selectAll':
 				forEach(newState, c => {
 					c.selected = true;
@@ -86,38 +98,11 @@ export default function MailList() {
 			default: return state;
 		}
 	};
-	const [conversations, dispatch] = useReducer(cReducer, []);
-	const extendList = useCallback((baseConvs) => map(baseConvs, (baseConv) => {
-		const index = findIndex(conversations, ['id', baseConv.id]);
-		if (index >= 0) {
-			return {
-				...conversations[index],
-				data: {
-					...conversations[index].data,
-					...baseConv,
-				}
-			};
-		}
-		return {
-			data: { ...baseConv },
-			selected: false,
-			open: false,
-			onExpand: () => dispatch({ type: 'toggleOpen', value: true, id: baseConv.id }),
-			onCollapse: () => dispatch({ type: 'toggleOpen', value: false, id: baseConv.id }),
-			actions: [],
-			onSelect: () => dispatch({ type: 'select', id: baseConv.id }),
-			onDeselect: () => dispatch({ type: 'deselect', id: baseConv.id }),
-		};
-	}), [conversations]);
 
-	useEffect(() => {
-		const sub = convObs.subscribe((newConvs) => {
-			dispatch({ type: 'update', convs: orderBy(extendList(newConvs), ['data.date'], ['desc']) });
-		});
-		return () => {
-			sub.unsubscribe();
-		};
-	}, [convObs]);
+	const [convData, dispatch] = useReducer(cReducer, {}, init);
+	useEffect(() => dispatch({ type: 'update' }), [convList]);
+
+	console.log(convList, convData, convMap);
 	return (
 		<Container
 			orientation="vertical"
@@ -138,28 +123,99 @@ export default function MailList() {
 					onSelectAll={() => dispatch({type: 'selectAll'})}
 					onDeselectAll={() => dispatch({type: 'deselectAll'})}
 					onBackClick={() => history.goBack()}
-					allSelected={amountSelected === conversations.length}
+					allSelected={amountSelected === convList.length}
 				/>
 			</Container>
-			{conversations.length > 0
+			{convList.length > 0
 				&& (
 					<List
 						Factory={({ index }) => (
 							<ConversationListItem
 								selecting={amountSelected > 0}
 								selectable
-								open={conversations[index].open}
-								onExpand={conversations[index].onExpand}
-								onCollapse={conversations[index].onCollapse}
-								conversation={conversations[index].data}
-								selected={conversations[index].selected}
-								onSelect={conversations[index].onSelect}
-								onDeselect={conversations[index].onDeselect}
+								open={convData[convList[index]].open}
+								conversationObs={convMap[convList[index]]}
+								selected={convData[convList[index]].selected}
+								onSelect={() => dispatch({ type: 'select', id: convList[index] })}
+								onDeselect={() => dispatch({ type: 'deselect', id: convList[index] })}
 							/>
 						)}
-						amount={conversations.length}
+						amount={convList.length}
 					/>
 				)}
 		</Container>
 	);
 }
+
+
+/* const cReducer = (state, action) => {
+	const newState = [...state];
+	switch (action.type) {
+		case 'update':
+			return action.convs;
+		case 'selectAll':
+			forEach(newState, c => {
+				c.selected = true;
+			});
+			setAmountSelected(newState.length);
+			return newState;
+		case 'deselectAll':
+			forEach(newState, c => {
+				c.selected = false;
+			});
+			setAmountSelected(0);
+			return newState;
+		default: break;
+	}
+	const cIndex = findIndex(state, [['data', 'id'], action.id]);
+	switch (action.type) {
+		case 'select':
+			if (!(newState[cIndex].selected)) {
+				newState[cIndex].selected = true;
+				setAmountSelected(amountSelected + 1);
+			}
+			return newState;
+		case 'toggleOpen':
+			newState[cIndex].open = action.value;
+			return newState;
+		case 'deselect':
+			if (newState[cIndex].selected) {
+				newState[cIndex].selected = false;
+				setAmountSelected(amountSelected - 1);
+			}
+			return newState;
+		default: return state;
+	}
+};
+const [conversations, dispatch] = useReducer(cReducer, []);
+const extendList = useCallback((baseConvs) => map(baseConvs, (baseConv) => {
+	const index = findIndex(conversations, ['id', baseConv.id]);
+	if (index >= 0) {
+		return {
+			...conversations[index],
+			data: {
+				...conversations[index].data,
+				...baseConv,
+			}
+		};
+	}
+	return {
+		data: { ...baseConv },
+		selected: false,
+		open: false,
+		onExpand: () => dispatch({ type: 'toggleOpen', value: true, id: baseConv.id }),
+		onCollapse: () => dispatch({ type: 'toggleOpen', value: false, id: baseConv.id }),
+		actions: [],
+		onSelect: () => dispatch({ type: 'select', id: baseConv.id }),
+		onDeselect: () => dispatch({ type: 'deselect', id: baseConv.id }),
+	};
+}), [conversations]);
+
+useEffect(() => {
+	const sub = convObs.subscribe((newConvs) => {
+		dispatch({ type: 'update', convs: orderBy(extendList(newConvs), ['data.date'], ['desc']) });
+	});
+	return () => {
+		sub.unsubscribe();
+	};
+}, [convObs]); */

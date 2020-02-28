@@ -46,6 +46,7 @@ export const AvatarContainer = styled.div`
 
 export const HoverContainer = styled(Container)`
 	background: ${({theme, selected}) => theme.colors.background[selected ? 'bg_11' : 'bg_7']};
+	transition: background 0.2s ease-out;
 	& :hover {
 		background: ${({theme}) => theme.colors.hover.hv_7}
 	}

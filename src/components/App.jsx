@@ -10,7 +10,7 @@
  */
 
 import React, { useContext, useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
 	Container,
 	Text,
@@ -18,10 +18,9 @@ import {
 	useScreenMode,
 	Catcher
 } from '@zextras/zapp-ui';
-import { map } from 'lodash';
 import activityContext from '../activity/ActivityContext';
+import MailList from './list/MailList';
 import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
-import ConversationFolderCtxt from '../context/ConversationFolderCtxt';
 import ConversationPreviewCtxtProvider from '../context/ConversationPreviewCtxtProvider';
 import ConversationFolderCtxtProvider from '../context/ConversationFolderCtxtProvider';
 import ActivityContextProvider from '../activity/ActivityContextProvider';

@@ -11,7 +11,7 @@
 
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { syncOperations } from '@zextras/zapp-shell/sync';
-import { map, find, orderBy, forEach, cloneDeep } from 'lodash';
+import { find, forEach, cloneDeep } from 'lodash';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
 import { fc } from '@zextras/zapp-shell/fc';
