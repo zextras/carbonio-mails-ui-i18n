@@ -26,7 +26,7 @@ import mailContext from '../../context/MailContext';
 const useBreadCrumbs = () => {
 	const { path } = useParams();
 	const history = useHistory();
-	const splitPath = path.split('/')
+	const splitPath = path.split('/');
 	return reduce(splitPath, (acc, crumb, index) => {
 		acc.push({
 			label: crumb,

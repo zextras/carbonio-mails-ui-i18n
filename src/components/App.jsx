@@ -71,17 +71,17 @@ export default function App({ mailsSrvc }) {
 }
 
 
-const SecondaryView = ({ mailsSrvc, path }) => {
-	const { get } = useContext(activityContext);
+const SecondaryView = ({ mailsSrvc }) => {
+	const { activities } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
-		if (get('mailEditor').value) {
+		if (activities.mailEdit) {
 			return <Text>Hello</Text>;
 		}
-		if (get('mailView').value) {
+		if (activities.mailView) {
 			return (
-				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailService={mailsSrvc}>
-					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} expandedMsgs={(get('mailView').hash).replace('#', '').split('.')} />
+				<ConversationPreviewCtxtProvider key="preview-provider" convId={activities.mailView} mailService={mailsSrvc}>
+					<ConversationPreviewPanel openMsg={activities.mailViewMsgId} mailsSrvc={mailsSrvc} />
 				</ConversationPreviewCtxtProvider>
 			);
 		}
@@ -97,6 +97,6 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 				background="bg_9"
 			/>
 		);
-	}, [screenMode, get, mailsSrvc]);
+	}, [screenMode, activities, mailsSrvc]);
 	return <>{ panel }</>;
 };

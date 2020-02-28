@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { map, find, orderBy } from 'lodash';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
@@ -25,12 +25,10 @@ type ConversationPreviewCtxtProviderProps = {
 
 const ConversationPreviewCtxtProvider = ({
 	convId,
-	expandedMsg,
 	mailService,
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
 	const [conversation, setConversation] = useState(undefined);
-
 	useEffect(() => {
 		const updateConversation = () => {
 			mailService.getConversation(convId)
@@ -56,7 +54,11 @@ const ConversationPreviewCtxtProvider = ({
 			.subscribe(({ data }) => data.id === convId && updateConversation());
 		const messageSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => conversation && find(conversation.messages, ['id', data.id]) && updateConversation());
+			.subscribe(({ data }) => {
+				if (conversation) {
+					find(conversation.messages, ['id', data.id]) && updateConversation();
+				}
+			});
 
 		updateConversation();
 

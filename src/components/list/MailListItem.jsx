@@ -32,7 +32,7 @@ const MailListItem = ({
 	selectable
 }) => {
 	const mainContact = useMemo(() => {
-		return find(email.contacts, ['type', (folder === 'Sent' || folder === 'Drafts')? 't' : 'f'])
+		return find(email.contacts, ['type', (folder === 'Sent' || folder === 'Drafts')? 't' : 'f']);
 	}, email.contacts);
 	const { set } = useContext(activityContext);
 	return (
@@ -43,7 +43,12 @@ const MailListItem = ({
 			style={{
 				cursor: 'pointer'
 			}}
-			onClick={() => set('mailView', email.conversation, email.id)}
+			onClick={
+				() => {
+					set('mailView', email.conversation);
+					set('mailViewMsgId', email.id);
+				}
+			}
 		>
 			<Container
 				orientation="horizontal"

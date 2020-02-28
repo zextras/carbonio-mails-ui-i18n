@@ -68,7 +68,10 @@ const ConversationListItem = ({
 				height="fit"
 				mainAlignment="flex-start"
 				style={{ position: 'relative', cursor: 'pointer' }}
-				onClick={() => set('mailView', conversation.id, conversationMails[0].id)}
+				onClick={() => {
+					set('mailView', conversation.id);
+					set('mailViewMsgId', conversation.messages[0].id);
+				}}
 			>
 				<SelectableAvatar
 					label={mainContact.displayName || mainContact.address}

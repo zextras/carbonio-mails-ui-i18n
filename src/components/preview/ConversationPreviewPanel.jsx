@@ -9,32 +9,31 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useReducer, useContext, useEffect } from 'react';
 import {
 	Container
 } from '@zextras/zapp-ui';
-import { map, find, filter } from 'lodash';
-import { useHistory } from 'react-router';
+import { map, find, filter, concat } from 'lodash';
 import PreviewPanelHeader from './PreviewPanelHeader';
 import MailPreview from './MailPreview';
 import ConversationPreviewCtxt from '../../context/ConversationPreviewCtxt';
 
-const toggleOpen = (id, open, history) => {
-	const hash = history.location.hash.replace('#', '');
-	history.replace({
-		search: history.location.search,
-		hash: open
-			? filter(hash.split('.'), (hashId) => id !== hashId).join('.')
-			: `${hash}${hash === '' ? '' : '.'}${id}`
-	});
+const reducer = (state, { type, id }) => {
+	switch (type) {
+		case 'set': return [id];
+		case 'open': return concat(state, id);
+		case 'close': return filter(state, (item) => item !== id) || [];
+		default: return state;
+	}
 };
 
-const ConversationPreviewPanel = ({ mailsSrvc, expandedMsgs }) => {
+const ConversationPreviewPanel = ({ mailsSrvc, openMsg }) => {
 	const { conversation } = useContext(ConversationPreviewCtxt);
-	const history = useHistory();
-
+	const [ expandedMsgs, dispatch ] = useReducer(reducer, [openMsg]);
 	const isOpen = (id) => !!find(expandedMsgs, (messageId) => id === messageId);
-
+	useEffect(() => {
+		dispatch({ type: 'set', id: openMsg });
+	}, [openMsg]);
 	return (
 		<Container
 			orientation="vertical"
@@ -63,7 +62,12 @@ const ConversationPreviewPanel = ({ mailsSrvc, expandedMsgs }) => {
 										<MailPreview
 											key={mail.id}
 											open={isOpen(mail.id)}
-											toggleOpen={() => toggleOpen(mail.id, isOpen(mail.id), history)}
+											toggleOpen={
+												() => dispatch({
+													type: isOpen(mail.id) ? 'close' : 'open',
+													id: mail.id
+												})
+											}
 											message={mail}
 											onUnreadLoaded={() => mailsSrvc.markMessageAsRead(
 												mail.id,
