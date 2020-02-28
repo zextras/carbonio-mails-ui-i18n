@@ -10,78 +10,37 @@
  */
 
 import activityContext from './ActivityContext';
-import React from 'react';
-import { reduce, trim, split } from 'lodash';
-import { useHistory } from 'react-router-dom';
+import React, { useReducer } from 'react';
+import { omit, without } from 'lodash';
 
-const get = (name, history) => {
-	const params = new URLSearchParams(history.location.search);
-	return { value: params.get(name), hash: history.location.hash };
+const pull = (state, name, value) => {
+	const newValue = without(state[name], value);
+	if (newValue.length === 0) return omit(state, [name]);
+	return { ...state, [name]: newValue };
 };
 
-const set = (name, id, hash, history) => {
-	const params = new URLSearchParams(history.location.search);
-	params.set(name, id);
-	history.push({
-		search: params.toString(),
-		hash
-	});
-};
-
-const reset = (name, history) => {
-	const params = new URLSearchParams(history.location.search);
-	params.delete(name);
-	history.push({
-		search: params.toString(),
-	});
-};
-
-const push = (name, id, hash, history) => {
-	const params = new URLSearchParams(history.location.search);
-	if (params.has(name)) {
-		params.set(name, `${params.get(name)}.${id}`);
-	}
-	else {
-		params.append(name, id);
-	}
-	history.push({
-		search: params.toString(),
-		hash
-	});
-};
-
-const pull = (name, id, history) => {
-	const params = new URLSearchParams(history.location.search);
-	if (params.has(name)) {
-		params.set(
-			name,
-			trim(
-				reduce(
-					split(params.get(name), '.'),
-					(acc, value) => (value === id ? '' : `${value}.`),
-					''
-				),
-				['.']
-			)
-		);
-		if (params.get(name) === '') params.delete(name);
-		history.push({
-			search: params.toString()
-		});
+const reducer = (state, { type, name, value }) => {
+	switch (type) {
+		case 'set': return { ...state, [name]: value };
+		case 'reset': return omit(state, [name]);
+		case 'push': return { ...state, [name]: state[name] ? state[name].push(value) : [value] };
+		case 'pull':
+			return pull(state, name, value);
+		default: return state;
 	}
 };
 
 const ActivityContextProvider = ({ children }) => {
-	const history = useHistory();
-
+	const [activities, dispatch] = useReducer(reducer, {});
 	return (
 		<activityContext.Provider
 			value={{
-				get: (name) => get(name, history),
-				set: (name, id, hash) => set(name, id, hash, history),
-				reset: (name) => reset(name, history),
-				push: (name, id, hash) => push(name, id, hash, history),
-				pull: (name, id) => pull(name, id, history),
+				activities,
+				get: (name) => activities[name],
+				set: (name, value) => dispatch({ type: 'set', name, value }),
+				reset: (name) => dispatch({ type: 'reset', name }),
+				push: (name, value) => dispatch({ type: 'push', name, value }),
+				pull: (name, value) => dispatch({ type: 'pull', name, value }),
 			}}
 		>
 			{children}

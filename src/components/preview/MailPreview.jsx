@@ -20,6 +20,7 @@ import {
 import moment from 'moment';
 import { find } from 'lodash';
 import MailMessageRenderer from '../MailMessageRenderer';
+import { HoverContainer } from '../list/Components';
 
 const MailPreview = ({
 	message,
@@ -73,12 +74,13 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 		|| find(message.contacts, ['type', 'cc'])
 	);
 	return (
-		<Container
+		<HoverContainer
 			onClick={onClick}
 			orientation="horizontal"
 			height="fit"
 			mainAlignment="flex-start"
 			crossAlignment={open ? 'flex-start' : 'center'}
+			style={{ cursor: 'pointer' }}
 		>
 			<Container
 				orientation="vertical"
@@ -175,6 +177,6 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 					</Container>
 				</Container>
 			</Container>
-		</Container>
+		</HoverContainer>
 	);
 };

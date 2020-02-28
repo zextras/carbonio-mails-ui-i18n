@@ -51,7 +51,7 @@ export default function App({ mailsSrvc }) {
 							mailsSrvc={mailsSrvc}
 							folderPath={`/${path}`}
 						>
-							<Test />
+							<MailList/>
 						</ConversationFolderCtxtProvider>
 					</Container>
 					<Container
@@ -75,32 +75,17 @@ export default function App({ mailsSrvc }) {
 	);
 }
 
-const Test = () => {
-	const { convList } = useContext(ConversationFolderCtxt);
-	return (
-		<div>
-			<ol>
-				{ map(
-					convList,
-					(v, k) => (<li key={v}><Link to="/mails/folder/Inbox?mailView=260#262">{v}</Link></li>)
-				) }
-			</ol>
-		</div>
-	);
-};
-
-
-const SecondaryView = ({ mailsSrvc, path }) => {
-	const { get } = useContext(activityContext);
+const SecondaryView = ({ mailsSrvc }) => {
+	const { activities } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
-		if (get('mailEditor').value) {
+		if (activities.mailEdit) {
 			return <Text>Hello</Text>;
 		}
-		if (get('mailView').value) {
+		if (activities.mailView) {
 			return (
-				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailService={mailsSrvc}>
-					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} />
+				<ConversationPreviewCtxtProvider key="preview-provider" convId={activities.mailView} mailService={mailsSrvc}>
+					<ConversationPreviewPanel openMsg={activities.mailViewMsgId} mailsSrvc={mailsSrvc} />
 				</ConversationPreviewCtxtProvider>
 			);
 		}
@@ -110,7 +95,7 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 					mailsSrvc={mailsSrvc}
 					folderPath={`/${path}`}
 				>
-					<Test />
+					<MailList/>
 				</ConversationFolderCtxtProvider>
 			);
 		}
@@ -121,6 +106,6 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 				background="bg_9"
 			/>
 		);
-	}, [screenMode, get, mailsSrvc]);
+	}, [screenMode, activities, mailsSrvc]);
 	return <>{ panel }</>;
 };

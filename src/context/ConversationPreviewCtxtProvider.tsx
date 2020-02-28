@@ -47,7 +47,6 @@ function processOperations(
 
 const ConversationPreviewCtxtProvider = ({
 	convId,
-	expandedMsg,
 	mailService,
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
@@ -67,7 +66,11 @@ const ConversationPreviewCtxtProvider = ({
 
 		const messageSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
-			.subscribe(({ data }) => conversation && find(conversation.messages, ['id', data.id]) && updateConversation());
+			.subscribe(({ data }) => {
+				if (conversation) {
+					find(conversation.messages, ['id', data.id]) && updateConversation();
+				}
+			});
 
 		const operationSubscription = syncOperations.subscribe((operations) => {
 			if (conversation) {
