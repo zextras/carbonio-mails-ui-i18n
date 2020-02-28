@@ -24,6 +24,7 @@ import activityContext from '../activity/ActivityContext';
 import ActivityContextProvider from '../activity/ActivityContextProvider';
 import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
 import ConversationFolderCtxtProvider from '../context/ConversationCtxtProvider';
+import ConversationPreviewCtxtProvider from '../context/ConversationPreviewCtxtProvider';
 
 export const ROUTE = '/mails/folder/:path*';
 
@@ -47,11 +48,7 @@ export default function App({ mailsSrvc }) {
 							height="fill"
 							mainAlignment="flex-start"
 						>
-							<ConversationFolderCtxtProvider
-								folderPath={path}
-							>
-								{ /* <Catcher><MailList /></Catcher> */ }
-							</ConversationFolderCtxtProvider>
+							<Catcher><MailList /></Catcher>
 						</Container>
 						<Container
 							orientation="vertical"
@@ -83,16 +80,14 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 		}
 		if (get('mailView').value) {
 			return (
-				<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} />
+				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailService={mailsSrvc}>
+					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} expandedMsgs={(get('mailView').hash).replace('#', '').split('.')} />
+				</ConversationPreviewCtxtProvider>
 			);
 		}
 		if (screenMode === 'mobile') {
 			return (
-				<ConversationFolderCtxtProvider
-					folderPath={path}
-				>
-					{ /* <MailList /> */ }
-				</ConversationFolderCtxtProvider>
+				<MailList />
 			);
 		}
 		return (

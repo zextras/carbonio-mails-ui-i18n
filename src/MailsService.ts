@@ -55,10 +55,10 @@ import {
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 
-const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
-const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
-const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
-const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
+export const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
+export const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
+export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
+export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
 
 const subfolders: (
 	folders: {[id: string]: IMailFolderSchmV1},

@@ -24,7 +24,7 @@ import MailMessageRenderer from '../MailMessageRenderer';
 const MailPreview = ({
 	message,
 	open,
-	setCurrent,
+	toggleOpen,
 	onUnreadLoaded
 }) => {
 	const msgRender = useMemo(
@@ -38,7 +38,7 @@ const MailPreview = ({
 			height="fit"
 		>
 			<MailPreviewBlock
-				onClick={() => setCurrent(message.id)}
+				onClick={toggleOpen}
 				message={message}
 				open={open}
 			/>

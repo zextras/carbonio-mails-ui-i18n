@@ -9,31 +9,31 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	Container
 } from '@zextras/zapp-ui';
-import { map, orderBy } from 'lodash';
+import { map, find, filter } from 'lodash';
+import { useHistory } from 'react-router';
 import PreviewPanelHeader from './PreviewPanelHeader';
 import MailPreview from './MailPreview';
+import ConversationPreviewCtxt from '../../context/ConversationPreviewCtxt';
 
-const ConversationPreviewPanel = ({ id, mailsSrvc }) => {
-	const [conversation, setConversation] = useState({});
-	const [mails, setMails] = useState([]);
-	const [current, setCurrent] = useState('');
-	useEffect(() => {
-		mailsSrvc.getConversation(id).then(
-			(conv) => {
-				mailsSrvc.getMessages(map(conv.messages, (message) => message.id)).then(
-					(messages) => {
-						setMails(orderBy(Object.values(messages), ['date'], ['desc']));
-						setConversation(conv);
-					}
-				);
-			}
-		);
-	}, [id]);
-	useEffect(() => current === '' && mails[0] && setCurrent(mails[0].id), [mails]);
+const toggleOpen = (id, open, history) => {
+	const hash = history.location.hash.replace('#', '');
+	history.replace({
+		search: history.location.search,
+		hash: open
+			? filter(hash.split('.'), (hashId) => id !== hashId).join('.')
+			: `${hash}${hash === '' ? '' : '.'}${id}`
+	});
+};
+
+const ConversationPreviewPanel = ({ mailsSrvc, expandedMsgs }) => {
+	const { conversation } = useContext(ConversationPreviewCtxt);
+	const history = useHistory();
+
+	const isOpen = (id) => !!find(expandedMsgs, (messageId) => id === messageId);
 
 	return (
 		<Container
@@ -41,38 +41,42 @@ const ConversationPreviewPanel = ({ id, mailsSrvc }) => {
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 		>
-			<PreviewPanelHeader conversation={conversation} />
-			<Container
-				style={{ overflowY: 'auto' }}
-				height="fill"
-				background="bg_9"
-				padding={{ horizontal: 'medium', bottom: 'small' }}
-				mainAlignment="flex-start"
-			>
-				<Container
-					height="fit"
-					mainAlignment="flex-start"
-					background="bg_7"
-				>
-					{
-						map(
-							mails,
-							(mail) => (
-								<MailPreview
-									key={mail.id}
-									open={mail.id === current}
-									setCurrent={setCurrent}
-									message={mail}
-									onUnreadLoaded={() => mailsSrvc.markMessageAsRead(
-										mail.id,
-										!mail.read
-									).then(() => {})}
-								/>
-							)
-						)
-					}
-				</Container>
-			</Container>
+			{ conversation && (
+				<>
+					<PreviewPanelHeader conversation={conversation} />
+					<Container
+						style={{ overflowY: 'auto' }}
+						height="fill"
+						background="bg_9"
+						padding={{ horizontal: 'medium', bottom: 'small' }}
+						mainAlignment="flex-start"
+					>
+						<Container
+							height="fit"
+							mainAlignment="flex-start"
+							background="bg_7"
+						>
+							{
+								map(
+									conversation.messages,
+									(mail) => (
+										<MailPreview
+											key={mail.id}
+											open={isOpen(mail.id)}
+											toggleOpen={() => toggleOpen(mail.id, isOpen(mail.id), history)}
+											message={mail}
+											onUnreadLoaded={() => mailsSrvc.markMessageAsRead(
+												mail.id,
+												!mail.read
+											).then(() => {})}
+										/>
+									)
+								)
+							}
+						</Container>
+					</Container>
+				</>
+			)}
 		</Container>
 	);
 };
