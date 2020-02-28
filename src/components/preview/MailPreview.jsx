@@ -15,7 +15,10 @@ import {
 	Text,
 	Avatar,
 	Divider,
-	Collapse, Icon, Padding
+	Collapse,
+	Icon,
+	Padding,
+	Badge
 } from '@zextras/zapp-ui';
 import moment from 'moment';
 import { find } from 'lodash';
@@ -158,21 +161,10 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 						)}
 						{message.folder
 						&& (
-							<Container
-								background="bg_10"
-								height="20px"
-								width="fit"
-								padding={{vertical: 'extrasmall', horizontal: 'small'}}
-								style={{
-									borderRadius: '6px'
-								}}
-							>
-								<Text
-									size="small"
-								>
-									{message.folder.name}
-								</Text>
-							</Container>
+							<Badge
+								value={message.folder.name}
+								type="read"
+							/>
 						)}
 					</Container>
 				</Container>

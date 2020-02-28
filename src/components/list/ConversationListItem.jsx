@@ -22,7 +22,8 @@ import {
 	Icon,
 	Padding,
 	IconButton,
-	Collapse
+	Collapse,
+	Badge
 } from '@zextras/zapp-ui';
 import MailListItem from './MailListItem';
 import { HoverContainer, SelectableAvatar } from './Components';
@@ -122,22 +123,10 @@ const ConversationListItem = ({
 						height="24px"
 					>
 						<Padding right="extrasmall">
-							<Container
-								background={conversation.read ? 'bg_10' : 'bg_1'}
-								height="20px"
-								width="fit"
-								padding={{vertical: 'extrasmall', horizontal: 'small'}}
-								style={{
-									borderRadius: '8px'
-								}}
-							>
-								<Text
-									size="small"
-									color={conversation.read ? 'txt_1' : 'txt_3'}
-								>
-									{conversation.msgCount}
-								</Text>
-							</Container>
+							<Badge
+								value={conversation.msgCount}
+								type={conversation.read ? 'read' : 'unread'}
+							/>
 						</Padding>
 						<Container
 							orientation="horizontal"
