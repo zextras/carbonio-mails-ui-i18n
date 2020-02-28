@@ -23,40 +23,42 @@ import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISy
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
 	expandedMsg: Array<string>;
-	mailService: IMailsService;
+	mailsSrvc: IMailsService;
 };
 
-function processOperations(
+export function processOperations(
 	operations: Array<ISyncOperation<any, ISyncOpRequest<any>>>,
 	conv: ConversationWithMessages
-): ConversationWithMessages {
+): [ConversationWithMessages, boolean] {
 	const conversation = cloneDeep(conv);
+	let modified = false;
 	forEach(operations, (operation) => {
 		switch (operation.opData.operation) {
 			case 'mark-conversation-as-read':
 				if (operation.opData.id === conv.id) {
 					conversation.read = operation.opData.read;
+					modified = true;
 				}
 				break;
 			default:
 				break;
 		}
 	});
-	return conversation;
+	return [conversation, modified];
 }
 
 const ConversationPreviewCtxtProvider = ({
 	convId,
-	mailService,
+	mailsSrvc,
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
 	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
 
 	useEffect(() => {
 		const updateConversation = () => {
-			(mailService.getConversation(convId, true) as Promise<ConversationWithMessages>)
+			(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
 				.then((conv: ConversationWithMessages) => setConversation(
-					processOperations(syncOperations.getValue(), conv)
+					processOperations(syncOperations.getValue(), conv)[0]
 				));
 		};
 
@@ -74,8 +76,10 @@ const ConversationPreviewCtxtProvider = ({
 
 		const operationSubscription = syncOperations.subscribe((operations) => {
 			if (conversation) {
-				const c = processOperations(operations, conversation);
-				setConversation(c);
+				const [convModified, modified] = processOperations(operations, conversation);
+				if (modified) {
+					setConversation(convModified);
+				}
 			}
 		});
 

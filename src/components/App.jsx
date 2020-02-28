@@ -83,7 +83,7 @@ const SecondaryView = ({ mailsSrvc }) => {
 		}
 		if (activities.mailView) {
 			return (
-				<ConversationPreviewCtxtProvider key="preview-provider" convId={activities.mailView} mailService={mailsSrvc}>
+				<ConversationPreviewCtxtProvider key="preview-provider" convId={activities.mailView} mailsSrvc={mailsSrvc}>
 					<ConversationPreviewPanel openMsg={activities.mailViewMsgId} mailsSrvc={mailsSrvc} />
 				</ConversationPreviewCtxtProvider>
 			);

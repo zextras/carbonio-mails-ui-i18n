@@ -16,9 +16,11 @@ import React, {
 	useState
 } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { reduce } from 'lodash';
+import { reduce, forEach } from 'lodash';
 import ConversationFolderCtxt, { ConversationWithMessages } from './ConversationFolderCtxt';
 import { IMailsService } from '../IMailsService';
+import { syncOperations } from '@zextras/zapp-shell/sync';
+import { processOperations } from './ConversationPreviewCtxtProvider';
 
 type ConversationFolderCtxtProviderProps = {
 	folderPath: string;
@@ -38,9 +40,9 @@ const ConversationFolderCtxtProvider:
 					setConvMap(
 						reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
 							cache,
-						(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
+							(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
 								...r,
-								[k]: new BehaviorSubject(v)
+								[k]: new BehaviorSubject(processOperations(syncOperations.getValue(), v)[0])
 							}),
 							{}
 						)
@@ -48,8 +50,21 @@ const ConversationFolderCtxtProvider:
 					setConvList(ids);
 				});
 
+			const operationSubscription = syncOperations.subscribe((operations) => {
+				forEach(
+					convMap,
+					(v) => {
+						const [convModified, modified] = processOperations(operations, v.getValue());
+						if (modified) {
+							v.next(convModified);
+						}
+					}
+				);
+			});
+
 			return () => {
 				semaphore = false;
+				operationSubscription.unsubscribe();
 			};
 		}, [folderPath]);
 
