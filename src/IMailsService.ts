@@ -15,7 +15,7 @@ import { ConversationWithMessages, MailMessageWithFolder } from './context/Conve
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
 	getFolderConversations(path: string, resolveMails: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
-	getConversation(id: string): Promise<Conversation>;
+	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;
 	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;
 

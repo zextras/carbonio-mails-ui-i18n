@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { reduce } from 'lodash';
+import { reduce, map } from 'lodash';
 import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { IMailsNetworkService } from './IMailsNetworkService';
 import { IMailsIdbService } from '../idb/IMailsIdbService';
@@ -191,20 +191,17 @@ export default class MailsNetworkService implements IMailsNetworkService {
 	public fetchConversations(convIds: string[]): Promise<Conversation[]> {
 		const request = {
 			Body: {
-				SearchRequest: {
+				GetConvRequest: {
 					_jsns: 'urn:zimbraMail',
-					types: 'conversation',
-					sortBy: 'dateDesc',
-					recip: '2',
-					html: 1,
-					limit: convIds.length,
-					query: `is:anywhere item:"${convIds.join(',')}"`,
-					fetch: 'all'
+					c: map(
+						convIds,
+						(id) => ({ id, fetch: 'all', html: '1' })
+					)
 				}
 			}
 		};
 		return fetch(
-			'/service/soap/SearchRequest',
+			'/service/soap/GetConvRequest',
 			{
 				method: 'POST',
 				body: JSON.stringify(request)
@@ -214,7 +211,7 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
 				return reduce<SoapConvObj, Conversation[]>(
-					response.Body.SearchResponse.c || [],
+					response.Body.GetConvResponse.c || [],
 					(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
 					[]
 				);

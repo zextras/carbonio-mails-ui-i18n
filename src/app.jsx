@@ -175,6 +175,26 @@ export default function app() {
 		_folders
 	]).subscribe(_mergeFoldersAndOperations);
 
+	syncOperations.next([{
+		description: 'Marking a conversation as read',
+		opData: {
+			operation: 'mark-conversation-as-read',
+			id: '260',
+			read: false
+		},
+		opType: 'soap',
+		request: {
+			command: 'ConvAction',
+			urn: 'urn:zimbraMail',
+			data: {
+				action: {
+					op: '!read',
+					id: '260'
+				}
+			}
+		}
+	}]);
+
 	addMainMenuItem(
 		'EmailOutline',
 		'Mails',

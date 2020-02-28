@@ -18,6 +18,8 @@ import { useHistory } from 'react-router';
 import PreviewPanelHeader from './PreviewPanelHeader';
 import MailPreview from './MailPreview';
 import ConversationPreviewCtxt from '../../context/ConversationPreviewCtxt';
+import activityContext from '../../activity/ActivityContext';
+import { syncOperations } from '@zextras/zapp-shell/sync';
 
 const toggleOpen = (id, open, history) => {
 	const hash = history.location.hash.replace('#', '');
@@ -29,7 +31,9 @@ const toggleOpen = (id, open, history) => {
 	});
 };
 
-const ConversationPreviewPanel = ({ mailsSrvc, expandedMsgs }) => {
+const ConversationPreviewPanel = ({ mailsSrvc }) => {
+	const { get } = useContext(activityContext);
+	const expandedMsgs = (get('mailView').hash).replace('#', '').split('.');
 	const { conversation } = useContext(ConversationPreviewCtxt);
 	const history = useHistory();
 

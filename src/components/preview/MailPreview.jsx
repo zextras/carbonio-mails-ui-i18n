@@ -72,7 +72,6 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 	const secondaryContact = (find(message.contacts, ['type', 't'])
 		|| find(message.contacts, ['type', 'cc'])
 	);
-	const folder = 'Sent';
 	return (
 		<Container
 			onClick={onClick}
@@ -155,7 +154,7 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 						&& (
 							<Icon color="txt_5" icon="ArrowUpward"/>
 						)}
-						{folder
+						{message.folder
 						&& (
 							<Container
 								background="bg_10"
@@ -169,7 +168,7 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 								<Text
 									size="small"
 								>
-									{folder}
+									{message.folder.name}
 								</Text>
 							</Container>
 						)}

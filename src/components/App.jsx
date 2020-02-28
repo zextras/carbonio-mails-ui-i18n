@@ -10,7 +10,7 @@
  */
 
 import React, { useContext, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
 	Container,
 	Text,
@@ -24,6 +24,7 @@ import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
 import ConversationFolderCtxt from '../context/ConversationFolderCtxt';
 import ConversationPreviewCtxtProvider from '../context/ConversationPreviewCtxtProvider';
 import ConversationFolderCtxtProvider from '../context/ConversationFolderCtxtProvider';
+import ActivityContextProvider from '../activity/ActivityContextProvider';
 
 export const ROUTE = '/mails/folder/:path*';
 
@@ -31,44 +32,46 @@ export default function App({ mailsSrvc }) {
 	const { path } = useParams();
 
 	return (
-		<Container
-			orientation="horizontal"
-			width="fill"
-			height="fill"
-			mainAlignment="flex-start"
-			crossAlignment="flex-start"
-		>
-			<Responsive mode="desktop">
-				<Container
-					orientation="vertical"
-					width="50%"
-					height="fill"
-					mainAlignment="flex-start"
-				>
-					<ConversationFolderCtxtProvider
-						mailsSrvc={mailsSrvc}
-						folderPath={`/${path}`}
+		<ActivityContextProvider>
+			<Container
+				orientation="horizontal"
+				width="fill"
+				height="fill"
+				mainAlignment="flex-start"
+				crossAlignment="flex-start"
+			>
+				<Responsive mode="desktop">
+					<Container
+						orientation="vertical"
+						width="50%"
+						height="fill"
+						mainAlignment="flex-start"
 					>
-						<Test />
-					</ConversationFolderCtxtProvider>
-				</Container>
-				<Container
-					orientation="vertical"
-					width="50%"
-					height="fill"
-					mainAlignment="flex-start"
-				>
+						<ConversationFolderCtxtProvider
+							mailsSrvc={mailsSrvc}
+							folderPath={`/${path}`}
+						>
+							<Test />
+						</ConversationFolderCtxtProvider>
+					</Container>
+					<Container
+						orientation="vertical"
+						width="50%"
+						height="fill"
+						mainAlignment="flex-start"
+					>
+						<Catcher>
+							<SecondaryView mailsSrvc={mailsSrvc} path={path} />
+						</Catcher>
+					</Container>
+				</Responsive>
+				<Responsive mode="mobile">
 					<Catcher>
 						<SecondaryView mailsSrvc={mailsSrvc} path={path} />
 					</Catcher>
-				</Container>
-			</Responsive>
-			<Responsive mode="mobile">
-				<Catcher>
-					<SecondaryView mailsSrvc={mailsSrvc} path={path} />
-				</Catcher>
-			</Responsive>
-		</Container>
+				</Responsive>
+			</Container>
+		</ActivityContextProvider>
 	);
 }
 
@@ -79,7 +82,7 @@ const Test = () => {
 			<ol>
 				{ map(
 					convList,
-					(v, k) => (<li key={v}>{v}</li>)
+					(v, k) => (<li key={v}><Link to="/mails/folder/Inbox?mailView=260#262">{v}</Link></li>)
 				) }
 			</ol>
 		</div>
@@ -97,7 +100,7 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 		if (get('mailView').value) {
 			return (
 				<ConversationPreviewCtxtProvider key="preview-provider" convId={get('mailView').value} mailService={mailsSrvc}>
-					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} expandedMsgs={(get('mailView').hash).replace('#', '').split('.')} />
+					<ConversationPreviewPanel key="preview" id={get('mailView').value} mailsSrvc={mailsSrvc} />
 				</ConversationPreviewCtxtProvider>
 			);
 		}

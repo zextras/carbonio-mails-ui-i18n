@@ -510,7 +510,7 @@ export default class MailsService implements IMailsService {
 			}));
 	}
 
-	public getConversation(id: string): Promise<Conversation> {
+	public getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages> {
 		return this._idbSrvc.getConversation(id)
 			.then((conv) => {
 				if (conv) return conv;
@@ -519,6 +519,10 @@ export default class MailsService implements IMailsService {
 						if (!conv1) throw new Error(`Conversation '${id}' not found`);
 						return this._idbSrvc.saveConversation(conv1);
 					});
+			})
+			.then((conv): Conversation|Promise<ConversationWithMessages> => {
+				if (resolveMails)	return this._resolveConversationsMails([conv]).then(([c]) => c);
+				return conv;
 			});
 	}
 

@@ -10,12 +10,15 @@
  */
 
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { map, find, orderBy } from 'lodash';
+import { syncOperations } from '@zextras/zapp-shell/sync';
+import { map, find, orderBy, forEach, cloneDeep } from 'lodash';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
 import { fc } from '@zextras/zapp-shell/fc';
 import { filter } from 'rxjs/operators';
 import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
+import { ConversationWithMessages } from './ConversationFolderCtxt';
+import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
@@ -23,46 +26,62 @@ type ConversationPreviewCtxtProviderProps = {
 	mailService: IMailsService;
 };
 
+function processOperations(
+	operations: Array<ISyncOperation<any, ISyncOpRequest<any>>>,
+	conv: ConversationWithMessages
+): ConversationWithMessages {
+	const conversation = cloneDeep(conv);
+	forEach(operations, (operation) => {
+		switch (operation.opData.operation) {
+			case 'mark-conversation-as-read':
+				if (operation.opData.id === conv.id) {
+					conversation.read = operation.opData.read;
+				}
+				break;
+			default:
+				break;
+		}
+	});
+	return conversation;
+}
+
 const ConversationPreviewCtxtProvider = ({
 	convId,
 	expandedMsg,
 	mailService,
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
-	const [conversation, setConversation] = useState(undefined);
+	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
 
 	useEffect(() => {
 		const updateConversation = () => {
-			mailService.getConversation(convId)
-				.then((conv) => {
-					mailService.getMessages(map(conv.messages, (message) => message.id))
-						.then((messagesMap) => {
-							setConversation({
-								...conv,
-								messages: orderBy(
-									map(
-										messagesMap,
-										(singleMessage) => ({...singleMessage, folder: "ciao"})
-									),
-									['date'],
-									['desc'])
-							});
-						});
-				});
+			(mailService.getConversation(convId, true) as Promise<ConversationWithMessages>)
+				.then((conv: ConversationWithMessages) => setConversation(
+					processOperations(syncOperations.getValue(), conv)
+				));
 		};
 
 		const conversationSubscription = fc
 			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => data.id === convId && updateConversation());
+
 		const messageSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => conversation && find(conversation.messages, ['id', data.id]) && updateConversation());
+
+		const operationSubscription = syncOperations.subscribe((operations) => {
+			if (conversation) {
+				const c = processOperations(operations, conversation);
+				setConversation(c);
+			}
+		});
 
 		updateConversation();
 
 		return () => {
 			conversationSubscription.unsubscribe();
 			messageSubscription.unsubscribe();
+			operationSubscription.unsubscribe();
 		};
 	}, [convId]);
 
