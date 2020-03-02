@@ -450,10 +450,10 @@ export default class MailsService implements IMailsService {
 			)
 			.then((f): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
-				if (convs.length < 50) return this._networkSrvc.fetchConversationsInFolder(f.id)
+				if (convs.length < 50) return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
 					.then((c) => Promise.all(
 						map(
-							convs,
+							c,
 							(v, k) => this._idbSrvc.saveConversation(v)
 						)
 					).then(() => uniqBy([...c, ...convs], 'id')));

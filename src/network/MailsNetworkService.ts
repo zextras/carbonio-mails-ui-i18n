@@ -21,7 +21,6 @@ import {
 import {
 	Conversation,
 	ConversationMailMessage,
-	IMailFolderSchmV1,
 	MailMessage
 } from '../idb/IMailsIdb';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
@@ -82,58 +81,53 @@ export default class MailsNetworkService implements IMailsNetworkService {
 	}
 
 	public fetchConversationsInFolder(id: string, limit = 50): Promise<Conversation[]> {
-		return new Promise<Conversation[]>((resolve, reject) => {
-			Promise.all([
-				this._idbSrvc.getFolderById(id),
-				this._idbSrvc.fetchConversationsFromFolder(id)
-			])
-				.then(([f, convs]) => {
-					if (!f) resolve([]);
-					const before = reduce(
-						convs,
-						(r, v, k) => ((v.date < r || r === 0) ? v.date : r),
-						0
-					);
-					const queryPart = [
-						`in:"${f!.path}"`
-					];
-					if (before > -1) queryPart.push(`before:${before}`);
-					const searchReq = {
-						Body: {
-							SearchRequest: {
-								_jsns: 'urn:zimbraMail',
-								sortBy: 'dateDesc',
-								types: 'conversation',
-								fullConversation: 1,
-								needExp: 1,
-								recip: 0,
-								limit,
-								query: queryPart.join(' '),
-								fetch: 'all'
-							}
+		return Promise.all([
+			this._idbSrvc.getFolderById(id),
+			this._idbSrvc.fetchConversationsFromFolder(id)
+		])
+			.then(([f, convs]) => {
+				if (!f) return [];
+				const before = reduce(
+					convs,
+					(r, v, k) => ((v.date < r || r === 0) ? v.date : r),
+					0
+				);
+				const queryPart = [
+					`in:"${f!.path}"`
+				];
+				if (before > -1) queryPart.push(`before:${before}`);
+				const searchReq = {
+					Body: {
+						SearchRequest: {
+							_jsns: 'urn:zimbraMail',
+							sortBy: 'dateDesc',
+							types: 'conversation',
+							fullConversation: 1,
+							needExp: 1,
+							recip: 0,
+							limit,
+							query: queryPart.join(' '),
+							fetch: 'all'
 						}
-					};
-					fetch(
-						'/service/soap/SearchRequest',
-						{
-							method: 'POST',
-							body: JSON.stringify(searchReq)
-						}
-					)
-						.then((response) => response.json())
-						.then((response) => {
-							if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-							resolve(
-								reduce<SoapConvObj, Conversation[]>(
-									response.Body.SearchResponse.c || [],
-									(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
-									[]
-								)
-							);
-						})
-						.catch((e) => reject(e));
-				});
-		});
+					}
+				};
+				return fetch(
+					'/service/soap/SearchRequest',
+					{
+						method: 'POST',
+						body: JSON.stringify(searchReq)
+					}
+				)
+					.then((response) => response.json())
+					.then((response) => {
+						if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
+						return reduce<SoapConvObj, Conversation[]>(
+							response.Body.SearchResponse.c || [],
+							(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
+							[]
+						);
+					});
+			});
 	}
 
 	public fetchConversationsMessages(convs: Conversation[]): Promise<MailMessage[]> {
