@@ -81,7 +81,7 @@ const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 	const [body, parts] = getBodyToRender(mailMsg);
 	useEffect(() => {
 		if (!mailMsg.read) {
-		//	onUnreadLoaded();
+			// onUnreadLoaded();
 		}
 	},
 	[]);

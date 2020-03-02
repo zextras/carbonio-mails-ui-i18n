@@ -12,27 +12,47 @@ import React, { useContext } from 'react';
 import {
 	Container,
 	Text,
-	IconButton
+	IconButton,
+	Icon,
+	Padding,
+	Divider
 } from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
 const PreviewPanelHeader = ({conversation}) => {
 	const { reset } = useContext(activityContext);
 	return (
-		<Container
-			orientation="horizontal"
-			height="48px"
-			background="bg_9"
-			mainAlignment="flex-start"
-			style={{minHeight: '48px'}}
-		>
-			<IconButton icon="Close" onClick={() => reset('mailView')} />
-			<Text
-				size="large"
+		<>
+			<Container
+				orientation="horizontal"
+				height="48px"
+				background="bg_9"
+				mainAlignment="space-between"
+				crossAlignment="center"
+				style={{minHeight: '48px'}}
 			>
-				{conversation.subject}
-			</Text>
-		</Container>
+				<Container
+					orientation="horizontal"
+					mainAlignment="flex-start"
+					padding={{ left: 'large' }}
+					style={{ minWidth: '0'}}
+				>
+					<Icon
+						size="large"
+						icon="EmailOutline"
+					/>
+					<Padding left="medium">
+						<Text
+							size="large"
+						>
+							{conversation.subject}
+						</Text>
+					</Padding>
+				</Container>
+				<IconButton icon="Close" onClick={() => reset('mailView')} />
+			</Container>
+			<Divider />
+		</>
 	);
 };
 

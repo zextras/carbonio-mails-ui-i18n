@@ -27,7 +27,7 @@ const reducer = (state, { type, id }) => {
 	}
 };
 
-const ConversationPreviewPanel = ({ mailsSrvc, openMsg }) => {
+const ConversationPreviewPanel = ({ mailsSrvc, openMsg, path }) => {
 	const { conversation } = useContext(ConversationPreviewCtxt);
 	const [ expandedMsgs, dispatch ] = useReducer(reducer, [openMsg]);
 	const isOpen = (id) => !!find(expandedMsgs, (messageId) => id === messageId);
@@ -60,6 +60,7 @@ const ConversationPreviewPanel = ({ mailsSrvc, openMsg }) => {
 									conversation.messages,
 									(mail) => (
 										<MailPreview
+											path={path}
 											key={mail.id}
 											open={isOpen(mail.id)}
 											toggleOpen={

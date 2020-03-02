@@ -50,7 +50,7 @@ export default function App({ mailsSrvc }) {
 							mailsSrvc={mailsSrvc}
 							folderPath={`/${path}`}
 						>
-							<MailList/>
+							<MailList />
 						</ConversationFolderCtxtProvider>
 					</Container>
 					<Container
@@ -74,7 +74,7 @@ export default function App({ mailsSrvc }) {
 	);
 }
 
-const SecondaryView = ({ mailsSrvc }) => {
+const SecondaryView = ({ mailsSrvc, path }) => {
 	const { activities } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
@@ -83,8 +83,16 @@ const SecondaryView = ({ mailsSrvc }) => {
 		}
 		if (activities.mailView) {
 			return (
-				<ConversationPreviewCtxtProvider key="preview-provider" convId={activities.mailView} mailsSrvc={mailsSrvc}>
-					<ConversationPreviewPanel openMsg={activities.mailViewMsgId} mailsSrvc={mailsSrvc} />
+				<ConversationPreviewCtxtProvider
+					key="preview-provider"
+					convId={activities.mailView}
+					mailsSrvc={mailsSrvc}
+				>
+					<ConversationPreviewPanel
+						openMsg={activities.mailViewMsgId}
+						mailsSrvc={mailsSrvc}
+						path={path}
+					/>
 				</ConversationPreviewCtxtProvider>
 			);
 		}
@@ -94,7 +102,7 @@ const SecondaryView = ({ mailsSrvc }) => {
 					mailsSrvc={mailsSrvc}
 					folderPath={`/${path}`}
 				>
-					<MailList/>
+					<MailList />
 				</ConversationFolderCtxtProvider>
 			);
 		}
@@ -105,6 +113,6 @@ const SecondaryView = ({ mailsSrvc }) => {
 				background="bg_9"
 			/>
 		);
-	}, [screenMode, activities, mailsSrvc]);
+	}, [screenMode, activities, mailsSrvc, path]);
 	return <>{ panel }</>;
 };

@@ -23,7 +23,8 @@ import {
 	Padding,
 	IconButton,
 	Collapse,
-	Badge
+	Badge,
+	Catcher
 } from '@zextras/zapp-ui';
 import MailListItem from './MailListItem';
 import { HoverContainer, SelectableAvatar } from './Components';
@@ -46,9 +47,7 @@ const ConversationListItem = ({
 	onSelect,
 	onDeselect
 }) => {
-
 	const conversation = useObservable(conversationObs);
-	console.log(conversation, selected);
 	const mainContact = useMemo(
 		() => find(
 			conversation.participants,
@@ -56,7 +55,7 @@ const ConversationListItem = ({
 		),
 		conversation.contacts
 	);
-
+	Badge.propTypes = {};
 	const [open, setOpen] = useState(false);
 	const { set } = useContext(activityContext);
 	return (
@@ -123,10 +122,13 @@ const ConversationListItem = ({
 						height="24px"
 					>
 						<Padding right="extrasmall">
-							<Badge
-								value={conversation.msgCount}
-								type={conversation.read ? 'read' : 'unread'}
-							/>
+							{conversation.msgCount > 1
+							&& (
+								<Badge
+									value={`${conversation.msgCount}`}
+									type={conversation.read ? 'read' : 'unread'}
+								/>
+							)}
 						</Padding>
 						<Container
 							orientation="horizontal"

@@ -22,7 +22,6 @@ import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISy
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
-	expandedMsg: Array<string>;
 	mailsSrvc: IMailsService;
 };
 

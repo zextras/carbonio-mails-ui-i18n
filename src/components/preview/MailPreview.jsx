@@ -18,18 +18,32 @@ import {
 	Collapse,
 	Icon,
 	Padding,
-	Badge
+	Badge,
+	DownloadFileButton
 } from '@zextras/zapp-ui';
 import moment from 'moment';
-import { find } from 'lodash';
+import { find, reduce, map } from 'lodash';
+import { Link } from 'react-router-dom';
 import MailMessageRenderer from '../MailMessageRenderer';
 import { HoverContainer } from '../list/Components';
+
+const findAttachments = (parts, acc) => reduce(
+	parts,
+	(found, part) => {
+		if (part.disposition === 'attachment') {
+			found.push(part);
+		}
+		return findAttachments(part.parts, found);
+	},
+	acc
+);
 
 const MailPreview = ({
 	message,
 	open,
 	toggleOpen,
-	onUnreadLoaded
+	onUnreadLoaded,
+	path
 }) => {
 	const msgRender = useMemo(
 		() => (
@@ -37,6 +51,7 @@ const MailPreview = ({
 		),
 		[message]
 	);
+	const attachments = findAttachments(message.parts, []);
 	return (
 		<Container
 			height="fit"
@@ -45,6 +60,7 @@ const MailPreview = ({
 				onClick={toggleOpen}
 				message={message}
 				open={open}
+				path={path}
 			/>
 			<Container
 				width="fill"
@@ -58,8 +74,30 @@ const MailPreview = ({
 						width="100%"
 						height="fit"
 						crossAlignment="stretch"
-						padding={{ horizontal: 'medium', bottom: 'small' }}
+						padding={{ horizontal: 'medium', vertical: 'small' }}
 					>
+						{attachments.length > 0
+						&& map(
+							attachments,
+							(att, index) => (
+								<Container
+									key={`att-${att.filename}-${index}`}
+									padding={{ vertical: 'extrasmall' }}
+									width="fill"
+								>
+									<Link
+										to={`/service/home/~/?auth=co&id=${message.id}&part=${att.name}&disp=a`}
+										target="_blank"
+										download
+										style={{ width: '100%'}}
+									>
+										<DownloadFileButton
+											fileName={att.filename}
+										/>
+									</Link>
+								</Container>
+							)
+						)}
 						{msgRender}
 					</Container>
 				</Collapse>
@@ -71,7 +109,7 @@ const MailPreview = ({
 
 export default MailPreview;
 
-const MailPreviewBlock = ({ message, open, onClick }) => {
+const MailPreviewBlock = ({ message, open, onClick, path }) => {
 	const mainContact = find(message.contacts, ['type', 'f']);
 	const secondaryContact = (find(message.contacts, ['type', 't'])
 		|| find(message.contacts, ['type', 'cc'])
@@ -82,7 +120,7 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 			orientation="horizontal"
 			height="fit"
 			mainAlignment="flex-start"
-			crossAlignment={open ? 'flex-start' : 'center'}
+			crossAlignment="flex-start"
 			style={{ cursor: 'pointer' }}
 		>
 			<Container
@@ -105,7 +143,6 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 			>
 				<Container
 					orientation="horizontal"
-					height="20px"
 					mainAlignment="space-between"
 					width="fill"
 					padding={{ bottom: 'extrasmall' }}
@@ -127,7 +164,6 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 					mainAlignment="flex-start"
 					crossAlignment="center"
 					padding={{ bottom: 'extrasmall' }}
-					height="20px"
 				>
 					<Text color="txt_4">
 						{`To: ${secondaryContact.displayName || secondaryContact.address}`}
@@ -137,17 +173,17 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 					orientation="horizontal"
 					mainAlignment="space-between"
 					crossAlignment="flex-end"
-					height="20px"
 				>
 					<Container
 						orientation="horizontal"
 						mainAlignment="flex-start"
 						crossAlignment="center"
 						width="fill"
+						height="20px"
 						style={{ minWidth: '0' }}
 					>
 						<Text>
-							{message.fragment}
+							{!open && message.fragment}
 						</Text>
 					</Container>
 					<Container
@@ -157,9 +193,9 @@ const MailPreviewBlock = ({ message, open, onClick }) => {
 					>
 						{message.urgent
 						&& (
-							<Icon color="txt_5" icon="ArrowUpward"/>
+							<Icon color="txt_5" icon="ArrowUpward" />
 						)}
-						{message.folder
+						{message.folder && message.folder.name !== path
 						&& (
 							<Badge
 								value={message.folder.name}

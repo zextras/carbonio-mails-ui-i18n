@@ -10,11 +10,10 @@
  */
 
 import React, { useState, useContext, useReducer, useEffect } from 'react';
-import { Container, ListHeader } from '@zextras/zapp-ui';
-import List from './List';
+import { Container, Divider, ListHeader, List } from '@zextras/zapp-ui';
 import {
 	reduce,
-	findIndex,
+	omit,
 	forEach
 } from 'lodash';
 import { useParams, useHistory } from 'react-router-dom';
@@ -39,70 +38,52 @@ const useBreadCrumbs = () => {
 	}, []);
 };
 
+const useSelection = () => {
+	const [selected, dispatch] = useReducer(
+		(state, { type, ids, id }) => {
+			switch (type) {
+				case 'select':
+					return {
+						...state,
+						...reduce(
+							ids,
+							(acc, i) => ({ ...acc, [i]: true }),
+							{}
+						)
+					};
+				case 'deselect':
+					return omit(state, id);
+				case 'reset':
+					return {};
+				default:
+					return state;
+			}
+		},
+		{}
+	);
+	return {
+		selected,
+		select: (id) => dispatch({ type: 'select', ids: [id] }),
+		selectMany: (ids) => dispatch({ type: 'select', ids }),
+		deselect: (id) => dispatch({ type: 'deselect', id }),
+		deselectAll: () => dispatch({ type: 'reset' }),
+		amountSelected: Object.keys(selected).length
+	};
+};
+
 export default function MailList() {
-	const [amountSelected, setAmountSelected] = useState(0);
 	const history = useHistory();
 	const breadcrumbs = useBreadCrumbs();
-
 	const { convList, convMap } = useContext(ConversationFolderCtxt);
+	const {
+		selected,
+		select,
+		selectMany,
+		deselect,
+		deselectAll,
+		amountSelected
+	} = useSelection();
 
-	const init = (initial) => reduce(
-		convList,
-		(acc, id) => {
-			acc[id] = acc[id] || {
-				selected: false,
-				open: false,
-				actions: [],
-			};
-			return acc;
-		},
-		initial || {}
-	);
-
-	const cReducer = (state, action) => {
-		const newState = { ...state };
-		switch (action.type) {
-			case 'update':
-				return init(state);
-			case 'selectAll':
-				forEach(newState, c => {
-					c.selected = true;
-				});
-				setAmountSelected(newState.length);
-				return newState;
-			case 'deselectAll':
-				forEach(newState, c => {
-					c.selected = false;
-				});
-				setAmountSelected(0);
-				return newState;
-			default: break;
-		}
-		const cIndex = findIndex(state, [['data', 'id'], action.id]);
-		switch (action.type) {
-			case 'select':
-				if (!(newState[cIndex].selected)) {
-					newState[cIndex].selected = true;
-					setAmountSelected(amountSelected + 1);
-				}
-				return newState;
-			case 'toggleOpen':
-				newState[cIndex].open = action.value;
-				return newState;
-			case 'deselect':
-				if (newState[cIndex].selected) {
-					newState[cIndex].selected = false;
-					setAmountSelected(amountSelected - 1);
-				}
-				return newState;
-			default: return state;
-		}
-	};
-
-	const [convData, dispatch] = useReducer(cReducer, {}, init);
-	useEffect(() => dispatch({ type: 'update' }), [convList]);
-
-	console.log(convList, convData, convMap);
 	return (
 		<Container
 			orientation="vertical"
@@ -110,22 +91,24 @@ export default function MailList() {
 			height="fill"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
-			background="bg_9"
+			background="bg_7"
 		>
 			<Container
 				height="48px"
 				style={{ minHeight: '48px' }}
+				background="bg_9"
 			>
 				<ListHeader
 					breadCrumbs={breadcrumbs}
 					actionStack={[]}
 					selecting={amountSelected > 0}
-					onSelectAll={() => dispatch({type: 'selectAll'})}
-					onDeselectAll={() => dispatch({type: 'deselectAll'})}
+					onSelectAll={() => selectMany(convList)}
+					onDeselectAll={deselectAll}
 					onBackClick={() => history.goBack()}
 					allSelected={amountSelected === convList.length}
 				/>
 			</Container>
+			<Divider />
 			{convList.length > 0
 				&& (
 					<List
@@ -133,11 +116,10 @@ export default function MailList() {
 							<ConversationListItem
 								selecting={amountSelected > 0}
 								selectable
-								open={convData[convList[index]].open}
 								conversationObs={convMap[convList[index]]}
-								selected={convData[convList[index]].selected}
-								onSelect={() => dispatch({ type: 'select', id: convList[index] })}
-								onDeselect={() => dispatch({ type: 'deselect', id: convList[index] })}
+								selected={!!selected[convList[index]]}
+								onSelect={() => select(convList[index])}
+								onDeselect={() => deselect(convList[index])}
 							/>
 						)}
 						amount={convList.length}
@@ -146,76 +128,3 @@ export default function MailList() {
 		</Container>
 	);
 }
-
-
-/* const cReducer = (state, action) => {
-	const newState = [...state];
-	switch (action.type) {
-		case 'update':
-			return action.convs;
-		case 'selectAll':
-			forEach(newState, c => {
-				c.selected = true;
-			});
-			setAmountSelected(newState.length);
-			return newState;
-		case 'deselectAll':
-			forEach(newState, c => {
-				c.selected = false;
-			});
-			setAmountSelected(0);
-			return newState;
-		default: break;
-	}
-	const cIndex = findIndex(state, [['data', 'id'], action.id]);
-	switch (action.type) {
-		case 'select':
-			if (!(newState[cIndex].selected)) {
-				newState[cIndex].selected = true;
-				setAmountSelected(amountSelected + 1);
-			}
-			return newState;
-		case 'toggleOpen':
-			newState[cIndex].open = action.value;
-			return newState;
-		case 'deselect':
-			if (newState[cIndex].selected) {
-				newState[cIndex].selected = false;
-				setAmountSelected(amountSelected - 1);
-			}
-			return newState;
-		default: return state;
-	}
-};
-const [conversations, dispatch] = useReducer(cReducer, []);
-const extendList = useCallback((baseConvs) => map(baseConvs, (baseConv) => {
-	const index = findIndex(conversations, ['id', baseConv.id]);
-	if (index >= 0) {
-		return {
-			...conversations[index],
-			data: {
-				...conversations[index].data,
-				...baseConv,
-			}
-		};
-	}
-	return {
-		data: { ...baseConv },
-		selected: false,
-		open: false,
-		onExpand: () => dispatch({ type: 'toggleOpen', value: true, id: baseConv.id }),
-		onCollapse: () => dispatch({ type: 'toggleOpen', value: false, id: baseConv.id }),
-		actions: [],
-		onSelect: () => dispatch({ type: 'select', id: baseConv.id }),
-		onDeselect: () => dispatch({ type: 'deselect', id: baseConv.id }),
-	};
-}), [conversations]);
-
-useEffect(() => {
-	const sub = convObs.subscribe((newConvs) => {
-		dispatch({ type: 'update', convs: orderBy(extendList(newConvs), ['data.date'], ['desc']) });
-	});
-	return () => {
-		sub.unsubscribe();
-	};
-}, [convObs]); */
