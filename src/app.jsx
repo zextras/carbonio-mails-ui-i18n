@@ -175,12 +175,11 @@ export default function app() {
 		_folders
 	]).subscribe(_mergeFoldersAndOperations);
 
-	syncOperations.next([{
-		description: 'Marking a conversation as read',
+	/* syncOperations.next([{
+		description: 'Deleting a conversation',
 		opData: {
-			operation: 'mark-conversation-as-read',
-			id: '260',
-			read: false
+			operation: 'delete-conversation',
+			id: '-258',
 		},
 		opType: 'soap',
 		request: {
@@ -188,12 +187,33 @@ export default function app() {
 			urn: 'urn:zimbraMail',
 			data: {
 				action: {
-					op: '!read',
-					id: '260'
+					op: 'delete',
+					tcon: '-t',
+					id: '-258'
 				}
 			}
 		}
-	}]);
+	}]); */
+
+	/* syncOperations.next([{
+		description: 'Marking conversation as spam',
+		opData: {
+			operation: 'mark-conversation-as-spam',
+			id: '-258',
+		},
+		opType: 'soap',
+		request: {
+			command: 'ConvAction',
+			urn: 'urn:zimbraMail',
+			data: {
+				action: {
+					op: 'spam',
+					tcon: '-dtjs',
+					id: '-258',
+				}
+			}
+		}
+	}]); */
 
 	addMainMenuItem(
 		'EmailOutline',
