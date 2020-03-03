@@ -9,5 +9,4 @@
  * *** END LICENSE BLOCK *****
  */
 
-declare module '*.less';
 declare module '*.properties';
