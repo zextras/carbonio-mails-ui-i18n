@@ -24,7 +24,7 @@ import {
 	filter,
 	reduce
 } from 'lodash';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import ComposerContext from './ComposerContext';
 import MailServicesContext from '../context/MailServicesContext';
 
