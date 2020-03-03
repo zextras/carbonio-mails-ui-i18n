@@ -1,6 +1,6 @@
 /*
  * *** BEGIN LICENSE BLOCK *****
- * Copyright (C) 2011-2019 ZeXtras
+ * Copyright (C) 2011-2020 ZeXtras
  *
  * The contents of this file are subject to the ZeXtras EULA;
  * you may not use this file except in compliance with the EULA.
@@ -9,15 +9,5 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { FolderView } from '../IMailSoap';
-
-export type IFolder = {
-	id: string;
-	name: string;
-	parent: string;
-	path: string;
-	folder?: Array<IFolder>;
-	view: FolderView | 'root';
-	itemCount: number;
-	unreadCount: number;
-}
+declare const PACKAGE_VERSION: string;
+declare const PACKAGE_NAME: string;
