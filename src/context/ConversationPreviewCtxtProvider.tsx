@@ -11,13 +11,13 @@
 
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { syncOperations } from '@zextras/zapp-shell/sync';
-import { find, forEach, cloneDeep } from 'lodash';
+import { find, forEach, cloneDeep, map } from 'lodash';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
 import { fc } from '@zextras/zapp-shell/fc';
 import { filter } from 'rxjs/operators';
 import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
-import { ConversationWithMessages } from './ConversationFolderCtxt';
+import { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
 import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 
 type ConversationPreviewCtxtProviderProps = {
@@ -30,12 +30,20 @@ export function processOperations(
 	conv: ConversationWithMessages
 ): [ConversationWithMessages, boolean] {
 	const conversation = cloneDeep(conv);
+	const messageIds = map(conversation.messages, (message: MailMessageWithFolder) => message.id);
 	let modified = false;
 	forEach(operations, (operation) => {
 		switch (operation.opData.operation) {
 			case 'mark-conversation-as-read':
 				if (operation.opData.id === conv.id) {
 					conversation.read = operation.opData.read;
+					modified = true;
+				}
+				break;
+			case 'mark-message-as-read':
+				const index = messageIds.indexOf(operation.opData.id);
+				if (index > -1) {
+					conversation.messages[index].read = operation.opData.read;
 					modified = true;
 				}
 				break;

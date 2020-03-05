@@ -29,7 +29,6 @@ export const ROUTE = '/mails/folder/:path*';
 
 export default function App({ mailsSrvc }) {
 	const { path } = useParams();
-
 	return (
 		<ActivityContextProvider>
 			<Container
@@ -50,7 +49,7 @@ export default function App({ mailsSrvc }) {
 							mailsSrvc={mailsSrvc}
 							folderPath={`/${path}`}
 						>
-							<MailList />
+							<MailList mailsSrvc={mailsSrvc} path={`/${path}`} />
 						</ConversationFolderCtxtProvider>
 					</Container>
 					<Container
@@ -102,7 +101,7 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 					mailsSrvc={mailsSrvc}
 					folderPath={`/${path}`}
 				>
-					<MailList />
+					<MailList mailsSrvc={mailsSrvc} path={`/${path}`} />
 				</ConversationFolderCtxtProvider>
 			);
 		}

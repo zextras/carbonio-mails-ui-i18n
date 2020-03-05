@@ -30,8 +30,8 @@ export const HoverAvatar = styled.div`
 		background: ${selected
 		? theme.colors.hover.hv_1
 		: (selecting
-				? theme.colors.hover.hv_7
-				: theme.colors.background.bg_5
+			? theme.colors.hover.hv_7
+			: theme.colors.background.bg_5
 		)
 		};
 		> ${AvatarContainer} {

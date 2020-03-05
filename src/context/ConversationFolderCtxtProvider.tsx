@@ -29,30 +29,35 @@ type ConversationFolderCtxtProviderProps = {
 
 const ConversationFolderCtxtProvider:
 	(props: PropsWithChildren<ConversationFolderCtxtProviderProps>) => ReactElement =	({ folderPath, mailsSrvc, children }) => {
-		const [convList, setConvList] = useState<string[]>([]);
-		const [convMap, setConvMap] = useState<{ [id: string]: BehaviorSubject<ConversationWithMessages> }>({});
-
+		const [ convData, setConvData ] = useState<
+			{
+				list: string[];
+				map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
+			}
+		>({ list: [], map: {} });
 		useEffect(() => {
 			let semaphore = true;
-			(mailsSrvc.getFolderConversations(folderPath, true) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
+			(mailsSrvc.getFolderConversations(folderPath, true, false) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
 				.then(([ids, cache]) => {
 					if (!semaphore) return;
-					setConvMap(
-						reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
-							cache,
-							(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
-								...r,
-								[k]: new BehaviorSubject(processOperations(syncOperations.getValue(), v)[0])
-							}),
-							{}
-						)
+					setConvData(
+						{
+							list: ids,
+							map: reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
+								cache,
+								(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
+									...r,
+									[k]: new BehaviorSubject(processOperations(syncOperations.getValue(), v)[0])
+								}),
+								{}
+							)
+						}
 					);
-					setConvList(ids);
 				});
 
 			const operationSubscription = syncOperations.subscribe((operations) => {
 				forEach(
-					convMap,
+					convData.map,
 					(v) => {
 						const [convModified, modified] = processOperations(operations, v.getValue());
 						if (modified) {
@@ -71,8 +76,8 @@ const ConversationFolderCtxtProvider:
 		return (
 			<ConversationFolderCtxt.Provider
 				value={{
-					convList,
-					convMap
+					convList: convData.list,
+					convMap: convData.map
 				}}
 			>
 				{ children }

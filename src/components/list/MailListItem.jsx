@@ -45,8 +45,8 @@ const MailListItem = ({
 			}}
 			onClick={
 				() => {
-					set('mailView', email.conversation);
 					set('mailViewMsgId', email.id);
+					set('mailView', email.conversation);
 				}
 			}
 		>

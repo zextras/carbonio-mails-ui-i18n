@@ -71,8 +71,8 @@ const ConversationListItem = ({
 				mainAlignment="flex-start"
 				style={{ position: 'relative', cursor: 'pointer' }}
 				onClick={() => {
-					set('mailView', conversation.id);
 					set('mailViewMsgId', conversation.messages[0].id);
+					set('mailView', conversation.id);
 				}}
 			>
 				<SelectableAvatar

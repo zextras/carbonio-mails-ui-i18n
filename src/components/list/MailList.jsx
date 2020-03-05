@@ -9,12 +9,14 @@
  * *** END LICENSE BLOCK *****
  */
 
+import React, { useState, useContext, useReducer, useEffect, useMemo } from 'react';
+import { Container, Divider, ListHeader, List, LoadMore } from '@zextras/zapp-ui';
 import React, { useState, useContext, useReducer, useEffect } from 'react';
 import { Container, Divider, ListHeader, List } from '@zextras/zapp-ui';
 import {
 	reduce,
 	omit,
-	forEach
+	map
 } from 'lodash';
 import { useParams, useHistory } from 'react-router-dom';
 import ConversationListItem from './ConversationListItem';
@@ -26,6 +28,7 @@ const useBreadCrumbs = () => {
 	const splitPath = path.split('/');
 	return reduce(splitPath, (acc, crumb, index) => {
 		acc.push({
+			id: `${index}-${crumb}`,
 			label: crumb,
 			click: () => history.push(`/mails/folder${
 				reduce(
@@ -71,7 +74,7 @@ const useSelection = () => {
 	};
 };
 
-export default function MailList() {
+export default function MailList({ mailsSrvc, path }) {
 	const history = useHistory();
 	const breadcrumbs = useBreadCrumbs();
 	const { convList, convMap } = useContext(ConversationFolderCtxt);
@@ -84,6 +87,10 @@ export default function MailList() {
 		amountSelected
 	} = useSelection();
 
+	const loadMore = useMemo(
+		() => () => mailsSrvc.getFolderConversations(path, true, true),
+		[path, mailsSrvc]
+	);
 	return (
 		<Container
 			orientation="vertical"
@@ -100,7 +107,7 @@ export default function MailList() {
 			>
 				<ListHeader
 					breadCrumbs={breadcrumbs}
-					actionStack={[]}
+					actionStack={actions}
 					selecting={amountSelected > 0}
 					onSelectAll={() => selectMany(convList)}
 					onDeselectAll={deselectAll}
@@ -112,7 +119,7 @@ export default function MailList() {
 			{convList.length > 0
 				&& (
 					<List
-						Factory={({ index }) => (
+						Factory={({ index }) => convList[index] ? (
 							<ConversationListItem
 								selecting={amountSelected > 0}
 								selectable
@@ -121,8 +128,13 @@ export default function MailList() {
 								onSelect={() => select(convList[index])}
 								onDeselect={() => deselect(convList[index])}
 							/>
-						)}
+						)
+							: <></>}
 						amount={convList.length}
+						endReached={loadMore}
+						footer={() => (
+							<LoadMore label="Loading" />
+						)}
 					/>
 				)}
 		</Container>
