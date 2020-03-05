@@ -11,8 +11,6 @@
 
 import React, { useState, useContext, useReducer, useEffect, useMemo } from 'react';
 import { Container, Divider, ListHeader, List, LoadMore } from '@zextras/zapp-ui';
-import React, { useState, useContext, useReducer, useEffect } from 'react';
-import { Container, Divider, ListHeader, List } from '@zextras/zapp-ui';
 import {
 	reduce,
 	omit,
@@ -107,7 +105,7 @@ export default function MailList({ mailsSrvc, path }) {
 			>
 				<ListHeader
 					breadCrumbs={breadcrumbs}
-					actionStack={actions}
+					actionStack={[]}
 					selecting={amountSelected > 0}
 					onSelectAll={() => selectMany(convList)}
 					onDeselectAll={deselectAll}
@@ -116,27 +114,24 @@ export default function MailList({ mailsSrvc, path }) {
 				/>
 			</Container>
 			<Divider />
-			{convList.length > 0
-				&& (
-					<List
-						Factory={({ index }) => convList[index] ? (
-							<ConversationListItem
-								selecting={amountSelected > 0}
-								selectable
-								conversationObs={convMap[convList[index]]}
-								selected={!!selected[convList[index]]}
-								onSelect={() => select(convList[index])}
-								onDeselect={() => deselect(convList[index])}
-							/>
-						)
-							: <></>}
-						amount={convList.length}
-						endReached={loadMore}
-						footer={() => (
-							<LoadMore label="Loading" />
-						)}
+			<List
+				Factory={({ index }) => convList[index] ? (
+					<ConversationListItem
+						selecting={amountSelected > 0}
+						selectable
+						conversationObs={convMap[convList[index]]}
+						selected={!!selected[convList[index]]}
+						onSelect={() => select(convList[index])}
+						onDeselect={() => deselect(convList[index])}
 					/>
+				)
+					: <></>}
+				amount={convList.length}
+				endReached={loadMore}
+				footer={() => (
+					<LoadMore label="Loading" />
 				)}
+			/>
 		</Container>
 	);
 }
