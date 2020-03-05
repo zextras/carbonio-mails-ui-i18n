@@ -35,8 +35,13 @@ type ConversationFolderCtxtProviderProps = {
 
 const ConversationFolderCtxtProvider:
 	(props: PropsWithChildren<ConversationFolderCtxtProviderProps>) => ReactElement =	({ folderPath, mailsSrvc, children }) => {
-		const [convList, setConvList] = useState<string[]>([]);
-		const [convMap, setConvMap] = useState<{ [id: string]: BehaviorSubject<ConversationWithMessages> }>({});
+
+		const [ convData, setConvData ] = useState<
+			{
+				list: string[];
+				map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
+			}
+		>({ list: [], map: {} });
 
 		const mapCleanUp = (
 			currentList: Array<string>,
@@ -46,7 +51,7 @@ const ConversationFolderCtxtProvider:
 			const addedConvs = filter(newList, (convId) => !includes(currentList, convId));
 			const removedConvs = filter(currentList, (convId) => !includes(newList, convId));
 			const cache = cloneDeep(conversations);
-
+			const convMap = { ...convData.map };
 			const promises: Array<Promise<void>> = [];
 			forEach(addedConvs, (convId) => {
 				promises.push(
@@ -69,16 +74,16 @@ const ConversationFolderCtxtProvider:
 
 		useEffect(() => {
 			let semaphore = true;
-			(mailsSrvc.getFolderConversations(folderPath, true) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
+			(mailsSrvc.getFolderConversations(folderPath, true, false) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
 				.then(([ids, cache]) => {
 					if (!semaphore) return;
 					const [modifiedIds] = processOperationsList(syncOperations.getValue(), ids, folderPath);
 					mapCleanUp(ids, modifiedIds, cache)
 						.then(([newConvMap, newCache]) => {
 							if (!semaphore) return;
-							setConvList(modifiedIds);
-							setConvMap(
-								reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
+							setConvData({
+								list: modifiedIds,
+								map: reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
 									newCache,
 									(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
 										...r,
@@ -86,22 +91,24 @@ const ConversationFolderCtxtProvider:
 									}),
 									{}
 								)
-							);
+							})
 						});
 				});
 
 			const operationSubscription = syncOperations.subscribe((operations) => {
 				const [modifiedIds, isListModified] = processOperationsList(
 					syncOperations.getValue(),
-					convList,
+					convData.list,
 					folderPath
 				);
-				mapCleanUp(convList, modifiedIds, {})
+				mapCleanUp(convData.list, modifiedIds, {})
 					.then(([newConvMap]) => {
 						if (!semaphore) return;
 						if (isListModified) {
-							setConvList(modifiedIds);
-							setConvMap(newConvMap);
+							setConvData({
+								map: newConvMap,
+								list: modifiedIds
+							})
 						}
 						forEach(
 							newConvMap,
@@ -127,8 +134,8 @@ const ConversationFolderCtxtProvider:
 		return (
 			<ConversationFolderCtxt.Provider
 				value={{
-					convList,
-					convMap
+					convList: convData.list,
+					convMap: convData.map
 				}}
 			>
 				{ children }

@@ -403,46 +403,7 @@ export default class MailsService implements IMailsService {
 	}
 	*/
 
-	/*
-	public loadMoreConversationsFromFolder(folderId: string): Promise<void> {
-		return Promise.all([
-			this._networkSrvc.fetchConversationsInFolder(folderId),
-			this._idbSrvc.getFolderById(folderId)
-		]).then(([conversations, folder]) => this._idbSrvc.saveFolderData({ ...folder!, synced: true })
-				.then((savedFolder): [Conversation[], IMailFolderSchmV1] => [conversations, savedFolder]))
-			.then(([conversations, folder]) => this._idbSrvc.saveConversations(conversations)
-				.then((): [Conversation[], IMailFolderSchmV1] => [conversations, folder]))
-			.then(([conversations, folder]) => this._networkSrvc.fetchConversationsMessages(conversations)
-				.then((messages): [Conversation[], MailMessage[], IMailFolderSchmV1] => [conversations, messages, folder]))
-			.then(([conversations, messages, folder]) => this._idbSrvc.saveMailMessages(messages)
-				.then((msgs): [Conversation[], MailMessage[], IMailFolderSchmV1] => [conversations, msgs, folder]))
-			.then(([conversations, messages, folder]) => {
-				forEach(
-					messages,
-					(m) => fcSink(
-						'mails:updated:message',
-						{
-							id: m.id
-						}
-					)
-				);
-				forEach(
-					conversations,
-					(c) => fcSink(
-						'app:fiberchannel',
-						{
-							event: 'mails:updated:conversation',
-							data: {
-								id: c.id
-							}
-						}
-					)
-				);
-			});
-	}
-	*/
-
-	public getFolderConversations(path: string, resolveMails: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
+	public getFolderConversations(path: string, resolveMails: boolean, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
 		return this._idbSrvc.getFolderByPath(path)
 			.catch(
 				(e) => this._networkSrvc.fetchFolderByPath(path)
@@ -450,7 +411,7 @@ export default class MailsService implements IMailsService {
 			)
 			.then((f): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
-				if (convs.length < 50) return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
+				if (loadMore) return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
 					.then((c) => Promise.all(
 						map(
 							c,

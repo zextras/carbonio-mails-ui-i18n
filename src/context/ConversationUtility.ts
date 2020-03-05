@@ -22,7 +22,7 @@ export function processOperationsConversation(
 	let modified = false;
 	forEach(operations, (operation) => {
 		switch (operation.opData.operation) {
-			case 'mark-conversation-as-read':
+			case 'mark-conversation-as-read': {
 				if (operation.opData.id === conversation.id) {
 					conversation.read = operation.opData.read;
 					conversation.messages = map(
@@ -33,13 +33,27 @@ export function processOperationsConversation(
 					modified = true;
 				}
 				break;
-			case 'mark-message-as-read':
+			}
+			case 'mark-message-as-read': {
 				const index = messageIds.indexOf(operation.opData.id);
 				if (index > -1) {
 					conversation.messages[index].read = operation.opData.read;
+					let convRead = true;
+					forEach(
+						conversation.messages,
+						(message) => {
+							if (!message.read) {
+								convRead = false;
+								return false;
+							}
+							return true;
+						}
+					);
+					conversation.read = convRead;
 					modified = true;
 				}
 				break;
+			}
 			default:
 				break;
 		}

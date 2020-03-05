@@ -10,12 +10,12 @@
  */
 
 import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { find } from 'lodash';
+import { filter } from 'rxjs/operators';
+import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
-import { find, forEach, cloneDeep } from 'lodash';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
-import { fc } from '@zextras/zapp-shell/fc';
-import { filter } from 'rxjs/operators';
 import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
 import { ConversationWithMessages } from './ConversationFolderCtxt';
 import { processOperationsConversation } from './ConversationUtility';
