@@ -17,42 +17,13 @@ import { IMailsService } from '../IMailsService';
 import { fc } from '@zextras/zapp-shell/fc';
 import { filter } from 'rxjs/operators';
 import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
-import { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
-import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import { ConversationWithMessages } from './ConversationFolderCtxt';
+import { processOperationsConversation } from './ConversationUtility';
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
 	mailsSrvc: IMailsService;
 };
-
-export function processOperations(
-	operations: Array<ISyncOperation<any, ISyncOpRequest<any>>>,
-	conv: ConversationWithMessages
-): [ConversationWithMessages, boolean] {
-	const conversation = cloneDeep(conv);
-	const messageIds = map(conversation.messages, (message: MailMessageWithFolder) => message.id);
-	let modified = false;
-	forEach(operations, (operation) => {
-		switch (operation.opData.operation) {
-			case 'mark-conversation-as-read':
-				if (operation.opData.id === conv.id) {
-					conversation.read = operation.opData.read;
-					modified = true;
-				}
-				break;
-			case 'mark-message-as-read':
-				const index = messageIds.indexOf(operation.opData.id);
-				if (index > -1) {
-					conversation.messages[index].read = operation.opData.read;
-					modified = true;
-				}
-				break;
-			default:
-				break;
-		}
-	});
-	return [conversation, modified];
-}
 
 const ConversationPreviewCtxtProvider = ({
 	convId,
@@ -65,7 +36,7 @@ const ConversationPreviewCtxtProvider = ({
 		const updateConversation = () => {
 			(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
 				.then((conv: ConversationWithMessages) => setConversation(
-					processOperations(syncOperations.getValue(), conv)[0]
+					processOperationsConversation(syncOperations.getValue(), conv)[0]
 				));
 		};
 
@@ -83,7 +54,7 @@ const ConversationPreviewCtxtProvider = ({
 
 		const operationSubscription = syncOperations.subscribe((operations) => {
 			if (conversation) {
-				const [convModified, modified] = processOperations(operations, conversation);
+				const [convModified, modified] = processOperationsConversation(operations, conversation);
 				if (modified) {
 					setConversation(convModified);
 				}
