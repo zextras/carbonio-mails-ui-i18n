@@ -17,6 +17,7 @@ import { map, find, filter, concat } from 'lodash';
 import PreviewPanelHeader from './PreviewPanelHeader';
 import MailPreview from './MailPreview';
 import ConversationPreviewCtxt from '../../context/ConversationPreviewCtxt';
+import activityContext from '../../activity/ActivityContext';
 
 const reducer = (state, { type, id }) => {
 	switch (type) {
