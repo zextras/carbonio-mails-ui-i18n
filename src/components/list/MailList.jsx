@@ -9,8 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useState, useContext, useReducer, useEffect, useMemo } from 'react';
+import React, { useContext, useReducer, useEffect, useMemo, useCallback } from 'react';
 import { Container, Divider, ListHeader, List, LoadMore } from '@zextras/zapp-ui';
+import { useItemActionContext } from '@zextras/zapp-shell/hooks';
 import {
 	reduce,
 	omit,
@@ -84,11 +85,14 @@ export default function MailList({ mailsSrvc, path }) {
 		deselectAll,
 		amountSelected
 	} = useSelection();
-
-	const loadMore = useMemo(
-		() => () => mailsSrvc.getFolderConversations(path, true, true),
+	const aaa = useMemo(() => map(selected, (_, key) => convMap[key]), [selected]);
+	const { actions, loading } = useItemActionContext('conversation-list', aaa);
+	const loadMore = useCallback(
+		() => mailsSrvc.getFolderConversations(path, true, true),
 		[path, mailsSrvc]
 	);
+	useEffect(deselectAll, [path]);
+	console.log(actions);
 	return (
 		<Container
 			orientation="vertical"
@@ -105,12 +109,13 @@ export default function MailList({ mailsSrvc, path }) {
 			>
 				<ListHeader
 					breadCrumbs={breadcrumbs}
-					actionStack={[]}
+					actionStack={loading ? [] : actions}
 					selecting={amountSelected > 0}
 					onSelectAll={() => selectMany(convList)}
 					onDeselectAll={deselectAll}
 					onBackClick={() => history.goBack()}
 					allSelected={amountSelected === convList.length}
+					itemsCount={convList.length}
 				/>
 			</Container>
 			<Divider />
