@@ -226,6 +226,7 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
+*/
 
 	public moveConversationToTrash(id: string): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -285,7 +286,6 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
-	*/
 
 	public markMessageAsRead(id: string, read: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -343,6 +343,7 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
+*/
 
 	public markConversationAsSpam(id: string, spam: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -372,6 +373,7 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
+/*
 	public saveDraft(msg: MailMessage): Promise<MailMessage> {
 		return Promise.reject(new Error('Method not implemented'));
 	}
