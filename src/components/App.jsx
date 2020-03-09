@@ -24,6 +24,7 @@ import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
 import ConversationPreviewCtxtProvider from '../context/ConversationPreviewCtxtProvider';
 import ConversationFolderCtxtProvider from '../context/ConversationFolderCtxtProvider';
 import ActivityContextProvider from '../activity/ActivityContextProvider';
+import MailComposePanel from './compose/MailComposePanel';
 
 export const ROUTE = '/mails/folder/:path*';
 
@@ -77,18 +78,18 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 	const { activities } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
-		if (activities.mailEdit) {
-			return <Text>Hello</Text>;
+		if (activities['mailEdit']) {
+			return <MailComposePanel />;
 		}
-		if (activities.mailView) {
+		if (activities['mailView']) {
 			return (
 				<ConversationPreviewCtxtProvider
 					key="preview-provider"
-					convId={activities.mailView}
+					convId={activities['mailView']}
 					mailsSrvc={mailsSrvc}
 				>
 					<ConversationPreviewPanel
-						openMsg={activities.mailViewMsgId}
+						openMsg={activities['mailViewMsgId']}
 						mailsSrvc={mailsSrvc}
 						path={path}
 					/>

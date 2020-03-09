@@ -19,6 +19,7 @@ import {
 import { useParams, useHistory } from 'react-router-dom';
 import ConversationListItem from './ConversationListItem';
 import ConversationFolderCtxt from '../../context/ConversationFolderCtxt';
+import activityContext from '../../activity/ActivityContext';
 
 const useBreadCrumbs = () => {
 	const { path } = useParams();
