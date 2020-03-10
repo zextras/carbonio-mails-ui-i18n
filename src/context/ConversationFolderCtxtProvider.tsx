@@ -36,7 +36,7 @@ type ConversationFolderCtxtProviderProps = {
 const ConversationFolderCtxtProvider:
 	(props: PropsWithChildren<ConversationFolderCtxtProviderProps>) => ReactElement =	({ folderPath, mailsSrvc, children }) => {
 
-		const [ convData, setConvData ] = useState<
+		const [convData, setConvData] = useState<
 			{
 				list: string[];
 				map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
@@ -91,45 +91,53 @@ const ConversationFolderCtxtProvider:
 									}),
 									{}
 								)
-							})
+							});
 						});
 				});
 
+			return () => {
+				semaphore = false;
+			};
+		}, [folderPath]);
+
+		useEffect(() => {
+			let semaphore = true;
 			const operationSubscription = syncOperations.subscribe((operations) => {
 				const [modifiedIds, isListModified] = processOperationsList(
 					syncOperations.getValue(),
 					convData.list,
 					folderPath
 				);
-				mapCleanUp(convData.list, modifiedIds, {})
-					.then(([newConvMap]) => {
-						if (!semaphore) return;
-						if (isListModified) {
-							setConvData({
-								map: newConvMap,
-								list: modifiedIds
-							})
-						}
-						forEach(
-							newConvMap,
-							(v) => {
-								const [convModified, modified] = processOperationsConversation(
-									operations,
-									v.getValue()
-								);
-								if (modified) {
-									v.next(convModified);
-								}
+				if (modifiedIds.length) {
+					mapCleanUp(convData.list, modifiedIds, {})
+						.then(([newConvMap]) => {
+							if (!semaphore) return;
+							if (isListModified) {
+								setConvData({
+									map: newConvMap,
+									list: modifiedIds
+								});
 							}
-						);
-					});
+							forEach(
+								newConvMap,
+								(v) => {
+									const [convModified, modified] = processOperationsConversation(
+										operations,
+										v.getValue()
+									);
+									if (modified) {
+										v.next(convModified);
+									}
+								}
+							);
+						});
+				}
 			});
-
 			return () => {
 				semaphore = false;
 				operationSubscription.unsubscribe();
 			};
-		}, [folderPath]);
+		}, [convData.list]);
 
 		return (
 			<ConversationFolderCtxt.Provider
