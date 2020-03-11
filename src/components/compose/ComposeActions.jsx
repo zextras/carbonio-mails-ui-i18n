@@ -18,7 +18,7 @@ const StyledButton = styled(Button)`
 		transform: rotate(90deg);
 	}
 `;
-const ComposeActions = () => {
+function ComposeActions() {
 	return (
 		<Container
 			orientation="horizontal"
@@ -38,6 +38,6 @@ const ComposeActions = () => {
 			</Container>
 		</Container>
 	);
-};
+}
 
 export default ComposeActions;

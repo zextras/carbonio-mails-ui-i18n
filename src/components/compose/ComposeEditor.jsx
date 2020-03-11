@@ -24,10 +24,10 @@ const StyledDiv = styled.div`
 	font-family: ${(props) => props.theme.fonts.default};
 `;
 
-const ComposeEditor = ({}) => {
+function ComposeEditor({}) {
 	return (
 		<StyledDiv>Editor</StyledDiv>
 	);
-};
+}
 
 export default ComposeEditor;

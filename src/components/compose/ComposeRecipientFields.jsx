@@ -17,7 +17,7 @@ import {
 	IconButton
 } from '@zextras/zapp-ui';
 
-const RecipientRow = ({ ...props }) => {
+function RecipientRow({ ...props }) {
 	const [hasFocus, setHasFocus] = useState(false);
 
 	return (
@@ -30,9 +30,9 @@ const RecipientRow = ({ ...props }) => {
 			/>
 		</Container>
 	);
-};
+}
 
-const ComposeRecipientFields = () => {
+function ComposeRecipientFields() {
 	const [expandInputs, setExpandInputs] = useState(false);
 
 	return (
@@ -57,6 +57,6 @@ const ComposeRecipientFields = () => {
 			</div>
 		</Container>
 	);
-};
+}
 
 export default ComposeRecipientFields;

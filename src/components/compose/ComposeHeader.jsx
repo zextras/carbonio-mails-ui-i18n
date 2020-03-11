@@ -13,7 +13,7 @@ import React, { useContext } from 'react';
 import { Container, Icon, IconButton, Text, Padding, Divider } from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
-const ComposeHeader = ({}) => {
+function ComposeHeader({}) {
 	const { reset } = useContext(activityContext);
 	return (
 		<Container
@@ -50,6 +50,6 @@ const ComposeHeader = ({}) => {
 			</Container>
 		</Container>
 	);
-};
+}
 
 export default ComposeHeader;

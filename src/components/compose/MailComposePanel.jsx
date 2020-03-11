@@ -15,7 +15,7 @@ import ComposeHeader from './ComposeHeader';
 import ComposeInputs from './ComposeInputs';
 import ComposeEditor from './ComposeEditor';
 
-const MailComposePanel = () => {
+function MailComposePanel() {
 	const screenMode = useScreenMode();
 	return (
 		<Container
@@ -34,6 +34,6 @@ const MailComposePanel = () => {
 			</Container>
 		</Container>
 	);
-};
+}
 
 export default MailComposePanel;
