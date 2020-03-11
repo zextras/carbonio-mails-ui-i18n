@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
+import { addMainMenuItem, registerRoute, addCreateMenuItem } from '@zextras/zapp-shell/router';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -175,6 +175,11 @@ export default function app() {
 		_folders
 	]).subscribe(_mergeFoldersAndOperations);
 
+	addCreateMenuItem(
+		'EmailOutline',
+		'Email',
+		'/mails/folder/Drafts/new'
+	);
 	addMainMenuItem(
 		'EmailOutline',
 		'Mails',

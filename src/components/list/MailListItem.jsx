@@ -45,8 +45,13 @@ const MailListItem = ({
 			}}
 			onClick={
 				() => {
-					set('mailViewMsgId', email.id);
-					set('mailView', email.conversation);
+					if (email.parent === '6') {
+						set('mailEdit', email.id);
+					}
+					else {
+						set('mailViewMsgId', email.id);
+						set('mailView', email.conversation);
+					}
 				}
 			}
 		>

@@ -211,4 +211,14 @@ export default class MailsNetworkService implements IMailsNetworkService {
 				);
 			});
 	}
+
+	public uploadAttachment(file: File): Promise<void> {
+		return fetch(
+			'/service/upload?fmt=extended,raw',
+			{
+				method: 'POST',
+				body: JSON.stringify(file)
+			}
+		).then(console.debug).catch(console.warn).finally(console.log);
+	}
 }

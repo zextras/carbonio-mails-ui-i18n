@@ -31,15 +31,32 @@ const ComposeSubjectStyled = styled(ComposeSubject)`
 const ContainerEl = styled(Container)`
 	border-top: 1px solid ${(props) => props.theme.colors.border.bd_1};
 `;
-function ComposeInputs({}) {
+function ComposeInputs({
+	onFileLoad,
+	onModeChange,
+	onPriorityChange,
+	onParticipantChange,
+	onSend,
+	to,
+	cc,
+	bcc,
+	subject,
+	priority
+}) {
 	return (
 		<ContainerEl
 			height="fit"
 			background="bg_7"
 		>
-			<ComposeActions />
-			<ComposeRecipientFields />
-			<ComposeSubjectStyled />
+			<ComposeActions
+				onFileLoad={onFileLoad}
+				onModeChange={onModeChange}
+				onPriorityChange={onPriorityChange}
+				onSend={onSend}
+				priority={priority}
+			/>
+			<ComposeRecipientFields onParticipantChange={onParticipantChange} to={to} cc={cc} bcc={bcc} />
+			<ComposeSubjectStyled value={[{ value: `${subject}a` }]} />
 		</ContainerEl>
 	);
 }

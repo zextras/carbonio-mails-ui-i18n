@@ -33,6 +33,7 @@ export interface IMailsService {
 	// saveDraft(msg: MailMessage): Promise<MailMessage>;
 	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
 	// sendMessage(msg: MailMessage): Promise<MailMessage>;
+	uploadAttachment(file: File): Promise<void>;
 }
 
 export type MailFolderOp = CreateMailFolderOp

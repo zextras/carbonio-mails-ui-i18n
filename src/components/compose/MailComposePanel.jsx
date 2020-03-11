@@ -11,12 +11,14 @@
 
 import React from 'react';
 import { Container, Divider, useScreenMode } from '@zextras/zapp-ui';
+import useCompositionData from './useCompositionData';
 import ComposeHeader from './ComposeHeader';
 import ComposeInputs from './ComposeInputs';
 import ComposeEditor from './ComposeEditor';
 
-function MailComposePanel() {
+const MailComposePanel = ({ id, mailsSrvc }) => {
 	const screenMode = useScreenMode();
+	const data = useCompositionData(id, mailsSrvc);
 	return (
 		<Container
 			background="bg_9"
@@ -29,7 +31,18 @@ function MailComposePanel() {
 				padding={screenMode === 'desktop' ? { horizontal: 'small', bottom: 'small'} : {}}
 				style={{ overflowY: 'auto' }}
 			>
-				<ComposeInputs />
+				<ComposeInputs
+					onFileLoad={data.onFileLoad}
+					onSend={data.onSend}
+					onParticipantChange={data.onParticipantChange}
+					onModeChange={data.onModeChange}
+					onPriorityChange={data.onPriorityChange}
+					to={data.to}
+					cc={data.cc}
+					bcc={data.bcc}
+					subject={data.subject}
+					priority={data.priority}
+				/>
 				<ComposeEditor />
 			</Container>
 		</Container>

@@ -541,4 +541,8 @@ export default class MailsService implements IMailsService {
 				folder: f
 			}));
 	}
+
+	public uploadAttachment(file: File): Promise<void> {
+		return this._networkSrvc.uploadAttachment(file);
+	}
 }

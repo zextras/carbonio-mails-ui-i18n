@@ -11,14 +11,20 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Button, IconCheckbox } from '@zextras/zapp-ui';
+import { Container, Button, IconCheckbox, FileLoader } from '@zextras/zapp-ui';
 
 const StyledButton = styled(Button)`
 	svg {
 		transform: rotate(90deg);
 	}
 `;
-function ComposeActions() {
+function ComposeActions({
+	onFileLoad,
+	onModeChange,
+	onPriorityChange,
+	onSend,
+	priority
+}) {
 	return (
 		<Container
 			orientation="horizontal"
@@ -27,14 +33,14 @@ function ComposeActions() {
 			padding={{ vertical: 'small', horizontal: 'large' }}
 		>
 			<Container orientation="horizontal" width="auto">
-				<IconCheckbox icon="Text" />
-				<IconCheckbox icon="ArrowUpward" />
+				<IconCheckbox onChange={onModeChange} icon="Text" />
+				<IconCheckbox onChange={onPriorityChange} defaultChecked={priority} icon="ArrowUpward" />
 				<IconCheckbox icon="CheckmarkSquareOutline" />
 				<IconCheckbox icon="Edit2Outline" />
-				<IconCheckbox icon="Attach" />
+				<FileLoader onChange={onFileLoad} />
 			</Container>
 			<Container padding={{ left: 'extralarge' }} orientation="horizontal" width="auto">
-				<StyledButton label="Send" icon="Navigation" />
+				<StyledButton label="Send" icon="Navigation" onClick={onSend} />
 			</Container>
 		</Container>
 	);

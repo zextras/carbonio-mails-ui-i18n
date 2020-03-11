@@ -20,4 +20,6 @@ export interface IMailsNetworkService {
 	fetchConversationsMessages(convs: Conversation[]): Promise<MailMessage[]>;
 	fetchMailMessages(mailIds: string[]): Promise<MailMessage[]>;
 	fetchConversations(convIds: string[]): Promise<Conversation[]>;
+
+	uploadAttachment(file: File): Promise<void>;
 }

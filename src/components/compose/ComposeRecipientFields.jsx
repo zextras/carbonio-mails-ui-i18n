@@ -32,7 +32,7 @@ function RecipientRow({ ...props }) {
 	);
 }
 
-function ComposeRecipientFields() {
+function ComposeRecipientFields({ onParticipantChange }) {
 	const [expandInputs, setExpandInputs] = useState(false);
 
 	return (
@@ -47,12 +47,12 @@ function ComposeRecipientFields() {
 				onClick={() => setExpandInputs(!expandInputs)}
 			/>
 			<div style={{ width: '100%', minWidth: '1px' }}>
-				<RecipientRow placeholder="To:" />
+				<RecipientRow placeholder="To:" onChange={onParticipantChange} />
 				<div style={{ display: expandInputs ? 'block' : 'none' }}>
 					<Divider color="bd_5" />
-					<RecipientRow placeholder="Cc:" />
+					<RecipientRow placeholder="Cc:" onChange={onParticipantChange} />
 					<Divider color="bd_5" />
-					<RecipientRow placeholder="Bcc:" />
+					<RecipientRow placeholder="Bcc:" onChange={onParticipantChange} />
 				</div>
 			</div>
 		</Container>
