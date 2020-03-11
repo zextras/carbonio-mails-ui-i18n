@@ -10,29 +10,30 @@
  */
 
 import React from 'react';
-import { Container, useScreenMode } from '@zextras/zapp-ui';
+import { Container, Divider, useScreenMode } from '@zextras/zapp-ui';
 import ComposeHeader from './ComposeHeader';
 import ComposeInputs from './ComposeInputs';
 import ComposeEditor from './ComposeEditor';
 
-const MailComposePanel = () => {
+function MailComposePanel() {
 	const screenMode = useScreenMode();
 	return (
 		<Container
 			background="bg_9"
 			mainAlignment="flex-start"
 		>
-			<ComposeHeader/>
+			<ComposeHeader />
 			<Container
-				background="bg_7"
+				background="bg_9"
 				mainAlignment="flex-start"
-				padding={screenMode === 'desktop' ? { horizontal: 'small'} : {}}
+				padding={screenMode === 'desktop' ? { horizontal: 'small', bottom: 'small'} : {}}
+				style={{ overflowY: 'auto' }}
 			>
-				<ComposeInputs/>
-				<ComposeEditor/>
+				<ComposeInputs />
+				<ComposeEditor />
 			</Container>
 		</Container>
 	);
-};
+}
 
 export default MailComposePanel;

@@ -10,18 +10,38 @@
  */
 
 import React from 'react';
-import { Container, Text } from '@zextras/zapp-ui';
+import styled from 'styled-components';
+import { Container, ChipInput, Icon } from '@zextras/zapp-ui';
+import ComposeActions from './ComposeActions';
+import ComposeRecipientFields from './ComposeRecipientFields';
 
-const ComposeInputs = ({}) => {
+function ComposeSubject({...rest}) {
 	return (
-		<Container
-			height="fit"
-			background="bg_4"
-			style={{ minHeight: '300px' }}
-		>
-			<Text>Inputs</Text>
+		<Container {...rest} orientation="horizontal">
+			<ChipInput placeholder="Object:" style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
+			<Icon size="large" icon="ArrowUpward" color="txt_5" />
 		</Container>
-	)
-};
+	);
+}
+const ComposeSubjectStyled = styled(ComposeSubject)`
+	padding: ${(props) => `${props.theme.sizes.padding.extrasmall} ${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.extrasmall} calc(${props.theme.sizes.padding.large} + ${props.theme.sizes.padding.medium} * 2 + ${props.theme.sizes.icon.large})`};
+	border: 1px solid ${(props) => props.theme.colors.border.bd_5};
+	border-width: 1px 0;
+`;
+const ContainerEl = styled(Container)`
+	border-top: 1px solid ${(props) => props.theme.colors.border.bd_1};
+`;
+function ComposeInputs({}) {
+	return (
+		<ContainerEl
+			height="fit"
+			background="bg_7"
+		>
+			<ComposeActions />
+			<ComposeRecipientFields />
+			<ComposeSubjectStyled />
+		</ContainerEl>
+	);
+}
 
 export default ComposeInputs;

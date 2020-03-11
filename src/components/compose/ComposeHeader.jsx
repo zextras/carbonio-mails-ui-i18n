@@ -13,18 +13,20 @@ import React, { useContext } from 'react';
 import { Container, Icon, IconButton, Text, Padding, Divider } from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
-const ComposeHeader = ({}) => {
+function ComposeHeader({}) {
 	const { reset } = useContext(activityContext);
 	return (
 		<Container
 			height="fit"
+			background="bg_9"
+			padding={{ horizontal: 'small' }}
 		>
 			<Container
 				orientation="horizontal"
 				height="48px"
 				style={{ minHeight: '48px' }}
-				background="bg_9"
 				mainAlignment="space-between"
+				padding={{ horizontal: 'large' }}
 			>
 				<Container
 					orientation="horizontal"
@@ -32,9 +34,9 @@ const ComposeHeader = ({}) => {
 					style={{ minWidth: '0' }}
 					mainAlignment="flex-start"
 				>
-					<Padding horizontal="medium">
+					<Padding right="medium">
 						<Icon
-							icon="Edit2Outline"
+							icon="EditOutline"
 							label="Edit"
 							size="large"
 						/>
@@ -46,9 +48,8 @@ const ComposeHeader = ({}) => {
 					onClick={() => reset('mailEdit')}
 				/>
 			</Container>
-			<Divider />
 		</Container>
 	);
-};
+}
 
 export default ComposeHeader;

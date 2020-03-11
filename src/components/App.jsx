@@ -78,9 +78,9 @@ const SecondaryView = ({ mailsSrvc, path }) => {
 	const { activities } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	const panel = useMemo(() => {
-		if (activities['mailEdit']) {
+		// if (activities['mailEdit']) {
 			return <MailComposePanel />;
-		}
+		// }
 		if (activities['mailView']) {
 			return (
 				<ConversationPreviewCtxtProvider
