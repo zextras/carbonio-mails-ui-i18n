@@ -10,18 +10,23 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
 import { Container, Text } from '@zextras/zapp-ui';
+
+const StyledDiv = styled.div`
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	padding: 24px;
+	background-color: #fff;
+	overflow-y: auto;
+	box-sizing: border-box;
+	font-family: ${(props) => props.theme.fonts.default};
+`;
 
 const ComposeEditor = ({}) => {
 	return (
-		<Container
-			width="fill"
-			height="fit"
-			background="bg_3"
-			style={{ minHeight: '300px' }}
-		>
-			<Text>Editor</Text>
-		</Container>
+		<StyledDiv>Editor</StyledDiv>
 	);
 };
 
