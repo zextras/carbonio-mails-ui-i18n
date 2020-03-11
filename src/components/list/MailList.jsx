@@ -85,8 +85,8 @@ export default function MailList({ mailsSrvc, path }) {
 		deselectAll,
 		amountSelected
 	} = useSelection();
-	const aaa = useMemo(() => map(selected, (_, key) => convMap[key]), [selected]);
-	const { actions, loading } = useItemActionContext('conversation-list', aaa);
+	const memoizedSelectionArray = useMemo(() => map(selected, (_, key) => convMap[key]), [selected]);
+	const { actions, loading } = useItemActionContext('conversation-list', memoizedSelectionArray);
 	const loadMore = useCallback(
 		() => mailsSrvc.getFolderConversations(path, true, true),
 		[path, mailsSrvc]
