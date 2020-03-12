@@ -1,3 +1,5 @@
+@Library("zextras-library@0.5.0") _
+
 def nodeCmd(String cmd) {
 	sh '. load_nvm && nvm install && nvm use && ' + cmd
 }
@@ -203,6 +205,27 @@ pipeline {
 					sh './sign-zextras-zip pkg/com_zextras_zapp_mails.zip'
 					stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package'
 					archiveArtifacts artifacts: 'pkg/com_zextras_zapp_mails.zip', fingerprint: true
+				}
+			}
+		}
+
+		stage('Deploy Beta') {
+			when {
+				beforeAgent true
+				allOf {
+					expression { BRANCH_NAME ==~ /(beta)/ }
+					environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+				}
+			}
+			parallel {
+				stage('Deploy on demo server') {
+					steps {
+						script {
+							unstash 'zimlet_package'
+							sh 'unzip pkg/com_zextras_zapp_mails.zip -d deploy'
+							iris.upload file: 'deploy/', destination: 'com_zextras_zapp_mails/'
+						}
+					}
 				}
 			}
 		}
