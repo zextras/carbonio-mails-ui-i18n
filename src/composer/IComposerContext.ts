@@ -8,13 +8,15 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-/* eslint-disable */
-import app from './app';
+export type IComposerInputs = {
+	to: string;
+	cc: string;
+	subject: string;
+	message: string;
+};
 
-window.__ZAPP_EXPORT__(app);
-
-if (module.hot) {
-	module.hot.accept('./app.jsx', () => {
-		window.__ZAPP_HMR_EXPORT__(app);
-	});
-}
+export type IComposerContext = IComposerInputs & {
+	setField: (field: 'to' | 'cc' | 'subject' | 'message', text: string) => void;
+	send: () => void;
+	save: () => void;
+};

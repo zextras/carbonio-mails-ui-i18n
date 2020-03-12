@@ -1,2 +1,1 @@
-module.exports = function (wpConf, zappConfig) {
-};
+module.exports = function (wpConf, zappConfig, options) {};
