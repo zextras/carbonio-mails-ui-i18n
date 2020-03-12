@@ -159,7 +159,7 @@ pipeline {
 
 //============================================ Build ===================================================================
 
-		stage('Build Zimlet Package') {
+		stage('Build') {
 			when {
 				beforeAgent true
 				not {
@@ -170,7 +170,16 @@ pipeline {
 				}
 			}
 			parallel {
-				stage('Build Zimbra Zimlet') {
+				stage('Build package') {
+					when {
+						beforeAgent true
+						not {
+							allOf {
+								expression { BRANCH_NAME ==~ /(release|beta)/ }
+								environment name: 'COMMIT_PARENTS_COUNT', value: '2'
+							}
+						}
+					}
 					agent {
 						node {
 							label 'nodejs-agent-v1'
@@ -178,9 +187,30 @@ pipeline {
 					}
 					steps {
 						executeNpmLogin()
-						nodeCmd 'npm install'
-						nodeCmd 'NODE_ENV="production" npx zapp package'
+						cmd sh: "nvm use && npm install"
+						cmd sh: "nvm use && NODE_ENV='production' npx zapp package"
 						stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package_unsigned'
+					}
+				}
+				stage('Build documentation') {
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(release|beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					steps {
+						script {
+							cmd sh: "nvm use && cd docs/website && npm install"
+							cmd sh: "nvm use && cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build"
+							stash includes: 'docs/website/build/com_zextras_zapp_mails/', name: 'doc'
+						}
 					}
 				}
 			}
@@ -205,6 +235,24 @@ pipeline {
 					sh './sign-zextras-zip pkg/com_zextras_zapp_mails.zip'
 					stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package'
 					archiveArtifacts artifacts: 'pkg/com_zextras_zapp_mails.zip', fingerprint: true
+				}
+			}
+		}
+
+		stage('Deploy documentation') {
+			when {
+				beforeAgent true
+				allOf {
+					expression { BRANCH_NAME ==~ /(release|beta)/ }
+					environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+				}
+			}
+			steps {
+				script {
+					unstash 'doc'
+					doc.rm file: "iris/zapp-mails/${BRANCH_NAME}"
+					doc.mkdir folder: "iris/zapp-mails/${BRANCH_NAME}"
+					doc.upload file: "docs/website/build/com_zextras_zapp_mails/**", destination: "iris/zapp-mails/${BRANCH_NAME}"
 				}
 			}
 		}
