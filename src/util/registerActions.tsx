@@ -37,7 +37,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		},
 		onCheck: (items: any) => Promise.resolve(
 			items.length > 0
-			&& reduce(items, (acc, c) => acc || !c.value.read, false)
+			&& reduce<any, boolean>(items, (acc, c) => acc || !c.value.read, false)
 		),
 	});
 	registerItemAction('conversation-list', {
@@ -52,7 +52,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		},
 		onCheck: (items: any) => Promise.resolve(
 			items.length > 0
-			&& !reduce(items, (acc, c) => acc || !c.value.read, false)
+			&& !reduce<any, boolean>(items, (acc, c) => acc || !c.value.read, false)
 		),
 	});
 	registerItemAction('conversation-list', {
@@ -66,7 +66,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 			);
 		},
 		onCheck: (items: any) => Promise.resolve(items.length > 0
-		&& reduce(items, (acc, c) => acc || !find(c.value.parent, '4'), false)),
+		&& reduce<any, boolean>(items, (acc, c) => acc || !find(c.value.parent, '4'), false)),
 	});
 	registerItemAction('conversation-list', {
 		id: 'unmark-as-spam',
@@ -79,9 +79,8 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 			);
 		},
 		onCheck: (items: any) => {
-			console.log('aaaaaaaa', map(items, i => i.value));
 			return Promise.resolve(items.length > 0
-				&& reduce(
+				&& reduce<any, boolean>(
 					items,
 					(acc, c) => acc && filter(
 						c.value.parent,

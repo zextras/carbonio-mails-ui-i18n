@@ -92,7 +92,6 @@ export default function MailList({ mailsSrvc, path }) {
 		[path, mailsSrvc]
 	);
 	useEffect(deselectAll, [path]);
-	console.log(actions);
 	return (
 		<Container
 			orientation="vertical"
