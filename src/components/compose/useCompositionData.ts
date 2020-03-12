@@ -11,46 +11,17 @@
 
 import { ChangeEvent, useCallback, useEffect, useReducer, useState } from 'react';
 import { IMailsService } from '../../IMailsService';
-import { map, reduce } from 'lodash';
+import { map, reduce, startsWith, debounce } from 'lodash';
 import { MailMessage, Participant } from '../../idb/IMailsIdb';
-
-export type CompositionData = {
-	to: CompositionParticipants;
-	cc: CompositionParticipants;
-	bcc: CompositionParticipants;
-	subject: string;
-	body: string;
-	priority: boolean;
-}
-
-export type CompositionParticipants = Array<{ value: string }>;
-
-export type CompositionDataWithFn = CompositionData & {
-	onFileLoad: (ev: ChangeEvent, files: FileList) => void;
-	html: boolean;
-	onSend: () => void;
-	onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants) => void;
-	onModeChange: (mode: boolean) => void;
-	onPriorityChange: (priority: boolean) => void;
-}
-
-export type DispatchAction = ResetDispatch | UpdateDispatch | InitDispatch
-
-export type ResetDispatch = {
-	type: 'reset';
-	newState?: CompositionData;
-}
-
-export type UpdateDispatch = {
-	type: 'update';
-	field: 'to' | 'cc' | 'bcc' | 'subject' | 'body' | 'priority';
-	value: string | CompositionParticipants | boolean;
-}
-
-export type InitDispatch = {
-	type: 'init';
-	data: CompositionData;
-}
+import {
+	AddAttachmentsDispatch, CompositionAttachment,
+	CompositionData,
+	CompositionDataWithFn, CompositionParticipants,
+	DispatchAction,
+	InitDispatch,
+	PriorityDispatch, UpdateDispatch
+} from './IuseCompositionData';
+import { Subscription } from 'rxjs';
 
 const emptyMail: CompositionData = {
 	priority: false,
@@ -59,10 +30,23 @@ const emptyMail: CompositionData = {
 	bcc: [],
 	subject: '',
 	body: '',
+	attachments: []
 };
 
 function reducer(state: CompositionData, action: DispatchAction) {
 	switch (action.type) {
+		case 'addAttachments': {
+			if ((action as AddAttachmentsDispatch).attachments) {
+				return {
+					...state,
+					attachments: [
+						...state.attachments,
+						...action.attachments
+					]
+				};
+			}
+			break;
+		}
 		case 'init': {
 			if ((action as InitDispatch).data) {
 				return {
@@ -70,7 +54,13 @@ function reducer(state: CompositionData, action: DispatchAction) {
 					...action.data
 				};
 			}
-			return state;
+			break;
+		}
+		case 'priority': {
+			if (typeof (action as PriorityDispatch).priority !== 'undefined') {
+				return { ...state, priority: action.priority };
+			}
+			break;
 		}
 		case 'update': {
 			if ((action as UpdateDispatch).field
@@ -79,14 +69,18 @@ function reducer(state: CompositionData, action: DispatchAction) {
 					...state, [action.field]: action.value
 				};
 			}
-			console.warn('Invalid action dispatch');
-			return state;
+			break;
 		}
 		case 'reset': return {
 			...emptyMail
 		};
-		default: return state;
+		default: {
+			console.warn('Invalid action dispatch: ', action);
+			return state;
+		}
 	}
+	console.warn('Invalid action dispatch: ', action);
+	return state;
 }
 
 function normalizeParticipants(type: string, participants: Array<Participant>): CompositionParticipants {
@@ -106,30 +100,59 @@ export default function useCompositionData(
 	id: string,
 	mailsSrvc: IMailsService
 ): CompositionDataWithFn {
+	const [draftId, setDraftId] = useState<string>(id);
 	const [data, dispatch] = useReducer(reducer, { ...emptyMail });
 	const [richText, setRichText] = useState(false);
+	const debouncedSave = useCallback(
+		debounce(
+			mailsSrvc.saveDraft,
+			1000,
+			{ maxWait: 10000 }
+		),
+		[]
+	);
 	useEffect(
 		() => {
-			if (id === 'new') {
-				console.log('create-draft');
+			if (!(draftId === 'new' || startsWith(draftId, 'offline'))) {
+				debouncedSave(data, draftId);
 			}
-			else {
-				mailsSrvc.getMessages([id], false)
+		},
+		[data, draftId]
+	);
+
+	useEffect(
+		() => {
+			let idSub: Subscription | undefined;
+			if (draftId === 'new') {
+				idSub = mailsSrvc.createDraft().subscribe(
+					{
+						next: setDraftId,
+						complete: () => {
+							idSub && idSub.unsubscribe();
+						}
+					}
+				);
+			}
+			else if (!startsWith(draftId, 'offline')) {
+				mailsSrvc.getMessages([draftId], false)
 					.then(
 						(result: { [id: string]: MailMessage }) => {
-							if (result[id]) {
-								const to = normalizeParticipants('t', result[id].contacts);
-								const cc = normalizeParticipants('c', result[id].contacts);
-								const bcc = normalizeParticipants('b', result[id].contacts);
+							if (result[draftId]) {
+								const draft = result[draftId];
+								const to = normalizeParticipants('t', draft.contacts);
+								const cc = normalizeParticipants('c', draft.contacts);
+								const bcc = normalizeParticipants('b', draft.contacts);
+								const att: Array<CompositionAttachment> = [];
 								dispatch(
 									{
 										type: 'init',
 										data: {
-											priority: result[id].urgent,
+											attachments: att,
+											priority: draft.urgent,
 											to,
 											cc,
 											bcc,
-											subject: result[id].subject,
+											subject: draft.subject,
 											body: '',
 										}
 									}
@@ -139,19 +162,28 @@ export default function useCompositionData(
 					);
 			}
 		},
-		[id, mailsSrvc]
+		[draftId, mailsSrvc]
 	);
 	const onFileLoad = useCallback((ev, files) => {
-		console.debug(files);
 		Promise.all(
 			map(
 				files,
 				(file) => mailsSrvc.uploadAttachment(file)
+					.then((aid: string): CompositionAttachment => ({ aid, file }))
 			)
-		);
-	}, []);
-	console.log(data);
+		)
+			.then((attachments) => {
+				dispatch(
+					{
+						type: 'addAttachments',
+						attachments
+					}
+				);
+			});
+	}, [data, dispatch]);
+
 	return {
+		attachments: data.attachments,
 		html: richText,
 		to: data.to,
 		cc: data.cc,
@@ -160,10 +192,10 @@ export default function useCompositionData(
 		body: data.body,
 		priority: data.priority,
 		onFileLoad,
-		onSend: console.log,
+		onSend: () => console.log(data),
 		onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants): void => dispatch({ type: 'update', field, value }),
 		onModeChange: setRichText,
-		onPriorityChange: (value: boolean): void => dispatch({ type: 'update', field: 'priority', value })
+		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value })
 	};
 }
 /**

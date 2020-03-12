@@ -15,11 +15,11 @@ import { Container, ChipInput, Icon } from '@zextras/zapp-ui';
 import ComposeActions from './ComposeActions';
 import ComposeRecipientFields from './ComposeRecipientFields';
 
-function ComposeSubject({...rest}) {
+function ComposeSubject({ priority, value, ...rest }) {
 	return (
 		<Container {...rest} orientation="horizontal">
-			<ChipInput placeholder="Object:" style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
-			<Icon size="large" icon="ArrowUpward" color="txt_5" />
+			<ChipInput value={value} placeholder="Object:" style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
+			{priority && <Icon size="large" icon="ArrowUpward" color="txt_5" />}
 		</Container>
 	);
 }
@@ -53,10 +53,17 @@ function ComposeInputs({
 				onModeChange={onModeChange}
 				onPriorityChange={onPriorityChange}
 				onSend={onSend}
+			/>
+			<ComposeRecipientFields
+				onParticipantChange={onParticipantChange}
+				to={to}
+				cc={cc}
+				bcc={bcc}
+			/>
+			<ComposeSubjectStyled
+				value={[{ value: `${subject}a` }]}
 				priority={priority}
 			/>
-			<ComposeRecipientFields onParticipantChange={onParticipantChange} to={to} cc={cc} bcc={bcc} />
-			<ComposeSubjectStyled value={[{ value: `${subject}a` }]} />
 		</ContainerEl>
 	);
 }

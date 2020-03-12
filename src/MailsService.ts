@@ -11,6 +11,7 @@
 
 import { ISyncOperation, ISyncOpRequest, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
+import { IStoredSessionData } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
 import {
 	reduce,
 	filter as loFilter,
@@ -20,8 +21,10 @@ import {
 	merge,
 	map,
 	orderBy,
-    uniqBy
+	uniqBy
 } from 'lodash';
+import { filter } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import {
 	CreateMailFolderOp,
 	DeleteConversationOp,
@@ -53,7 +56,7 @@ import {
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
-import { filter } from 'rxjs/operators';
+import { CompositionData } from './components/compose/IuseCompositionData';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
@@ -61,6 +64,9 @@ export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
 export default class MailsService implements IMailsService {
 	private _createId = 0;
 
+	private _pendingDraftIds: { [opID: string]: BehaviorSubject<string> } = {};
+
+	private _sessionData: IStoredSessionData | undefined = undefined;
 	// public conversations: {[id: string]: BehaviorSubject<Conversation[]>} = {};
 
 	constructor(
@@ -372,10 +378,6 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
-	public saveDraft(msg: MailMessage): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-
 	public addAttachment(msg: MailMessage, file: File): Promise<MailMessage> {
 		return Promise.reject(new Error('Method not implemented'));
 	}
@@ -542,7 +544,127 @@ export default class MailsService implements IMailsService {
 			}));
 	}
 
-	public uploadAttachment(file: File): Promise<void> {
-		return this._networkSrvc.uploadAttachment(file);
+	public uploadAttachment(file: File): Promise<string> {
+		return fetch(
+			'/service/upload?fmt=extended,raw',
+			{
+				headers: {
+					'Cache-Control': 'no-cache',
+					'X-Requested-With': 'XMLHttpRequest',
+					'Content-Type': `${file.type || 'application/octet-stream'};`,
+					'Content-Disposition': `attachment; filename="${file.name}"`
+				},
+				method: 'POST',
+				body: JSON.stringify(file)
+			}
+		)
+			.then((res) => res.text())
+			.then((txt) => eval(`[${txt}]`))
+			.then((val) => val[2].aid);
+	}
+
+	public createDraft(): BehaviorSubject<string> {
+		const opId = `offline${Object.keys(this._pendingDraftIds).length}-${Date.now()}`;
+		this._pendingDraftIds[opId] = new BehaviorSubject<string>(opId);
+		const req = {
+			Body: {
+				SaveDraftRequest: {
+					_jsns: 'urn:zimbraMail',
+					m: {
+						su: '',
+						e: [
+							{
+								t: 'f',
+								// a: this._sessionData && this._sessionData.username
+								a: 'admin@example.com'
+							}
+						],
+						mp: [
+							{
+								ct: 'text/plain',
+								content: {
+									_content: '',
+								}
+							}
+						]
+					}
+				}
+			}
+		};
+		fetch(
+			'service/soap/SaveDraft',
+			{
+				method: 'POST',
+				body: JSON.stringify(req)
+			}
+		)
+			.then((response) => response.json())
+			.then(
+				(res) => {
+					this._pendingDraftIds[opId].next(res.Body.SaveDraftResponse.m[0].id);
+					this._pendingDraftIds[opId].complete();
+				}
+			);
+		return this._pendingDraftIds[opId];
+	}
+
+	public saveDraft(data: CompositionData, draftId: string): Promise<void> {
+		console.log('saving!', data.attachments);
+		const req = {
+			Body: {
+				SaveDraftRequest: {
+					_jsns: 'urn:zimbraMail',
+					m: {
+						id: draftId,
+						su: data.subject,
+						e: [
+							{
+								t: 'f',
+								// a: this._sessionData && this._sessionData.username
+								a: 'admin@example.com'
+							},
+							...map(data.to, (c) => ({
+								t: 't',
+								a: c.value
+							})),
+							...map(data.cc, (c) => ({
+								t: 'c',
+								a: c.value
+							})),
+							...map(data.bcc, (c) => ({
+								t: 'b',
+								a: c.value
+							}))
+						],
+						mp: [
+							{
+								ct: 'text/plain',
+								content: {
+									_content: '',
+								}
+							}
+						],
+						attach: {
+							aid: data.attachments.length > 0
+								? reduce(
+									data.attachments,
+									(acc, att, i) => `${acc}${att.aid}${i === data.attachments.length ? '' : ','}`,
+									''
+								)
+								: null
+						}
+					}
+				}
+			}
+		};
+		return fetch(
+			'service/soap/SaveDraft',
+			{
+				method: 'POST',
+				body: JSON.stringify(req)
+			}
+		)
+			.then((response) => response.json())
+			.then(console.log);
 	}
 }
