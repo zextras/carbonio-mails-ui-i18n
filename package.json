@@ -1,6 +1,6 @@
 {
   "name": "com_zextras_zapp_mails",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Mails app for Zextras",
   "main": "src/index.js",
   "scripts": {
@@ -28,8 +28,8 @@
     "@types/react-router-dom": "5.1.0",
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
-    "@zextras/zapp-cli": "0.0.33",
-    "@zextras/zapp-shell": "0.0.45",
+    "@zextras/zapp-cli": "0.0.35",
+    "@zextras/zapp-shell": "0.0.48",
     "@zextras/zapp-ui": "0.0.13",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
