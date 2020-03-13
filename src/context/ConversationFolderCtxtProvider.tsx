@@ -42,6 +42,7 @@ const ConversationFolderCtxtProvider:
 				map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
 			}
 		>({ list: [], map: {} });
+		const [hasMore, setHasMore] = useState(false);
 
 		const mapCleanUp = (
 			currentList: Array<string>,
@@ -74,7 +75,7 @@ const ConversationFolderCtxtProvider:
 
 		useEffect(() => {
 			let semaphore = true;
-			(mailsSrvc.getFolderConversations(folderPath, true, false) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
+			(mailsSrvc.getFolderConversations(folderPath) as Promise<[string[], { [id: string]: ConversationWithMessages }]>)
 				.then(([ids, cache]) => {
 					if (!semaphore) return;
 					const [modifiedIds] = processOperationsList(syncOperations.getValue(), ids, folderPath);
@@ -99,6 +100,12 @@ const ConversationFolderCtxtProvider:
 				semaphore = false;
 			};
 		}, [folderPath]);
+
+		useEffect(() => {
+			const s = mailsSrvc.getFolderObservableByPath(folderPath)
+				.subscribe((f) => f && f.hasMore !== hasMore && setHasMore(f.hasMore));
+			return () => s.unsubscribe();
+		}, [folderPath, hasMore, setHasMore]);
 
 		useEffect(() => {
 			let semaphore = true;
@@ -142,6 +149,7 @@ const ConversationFolderCtxtProvider:
 		return (
 			<ConversationFolderCtxt.Provider
 				value={{
+					hasMore,
 					convList: convData.list,
 					convMap: convData.map
 				}}

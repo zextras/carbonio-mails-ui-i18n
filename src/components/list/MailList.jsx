@@ -76,7 +76,7 @@ const useSelection = () => {
 export default function MailList({ mailsSrvc, path }) {
 	const history = useHistory();
 	const breadcrumbs = useBreadCrumbs();
-	const { convList, convMap } = useContext(ConversationFolderCtxt);
+	const { convList, convMap, hasMore } = useContext(ConversationFolderCtxt);
 	const {
 		selected,
 		select,
@@ -88,7 +88,7 @@ export default function MailList({ mailsSrvc, path }) {
 	const memoizedSelectionArray = useMemo(() => map(selected, (_, key) => convMap[key]), [selected]);
 	const { actions, loading } = useItemActionContext('conversation-list', memoizedSelectionArray);
 	const loadMore = useCallback(
-		() => mailsSrvc.getFolderConversations(path, true, true),
+		() => mailsSrvc.getFolderConversations(path),
 		[path, mailsSrvc]
 	);
 	useEffect(deselectAll, [path]);
@@ -131,10 +131,10 @@ export default function MailList({ mailsSrvc, path }) {
 				)
 					: <></>}
 				amount={convList.length}
-				endReached={loadMore}
-				footer={() => (
+				endReached={hasMore ? loadMore : undefined}
+				footer={hasMore ? () => (
 					<LoadMore label="Loading" />
-				)}
+				) : undefined}
 			/>
 		</Container>
 	);

@@ -22,11 +22,13 @@ export type ConversationWithMessages = Conversation & {
 };
 
 export type ConversationFolderCtxtValue = {
+	hasMore: boolean;
 	convList: string[];
 	convMap: { [id: string]: BehaviorSubject<ConversationWithMessages> };
 };
 
 const ConversationFolderCtxt = createContext<ConversationFolderCtxtValue>({
+	hasMore: false,
 	convList: [],
 	convMap: {},
 });

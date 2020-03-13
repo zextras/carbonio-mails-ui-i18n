@@ -47,10 +47,10 @@ function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> 
 					promises.push(
 						_mailsSrvc.getFolderById(f.id)
 							.then((folder: IMailFolderSchmV1) => {
-								// TODO: Replace the sync method to a real sync
-								if (folder.synced) {
-									return _mailsSrvc.getFolderConversations(folder.path, true, true).then();
+								if (folder.id === '2') {
+									return _mailsSrvc.getFolderConversations(folder.path).then();
 								}
+								return undefined;
 							})
 					);
 				}
@@ -235,7 +235,10 @@ function _processOperationCompleted(data: any): Promise<void> {
 			case 'create-mail-folder':
 				promises.push(
 					_idbSrvc.saveFolderData(
-						normalizeFolder(result.Body.CreateFolderResponse.folder[0])
+						normalizeFolder(
+							result.Body.CreateFolderResponse.folder[0],
+							true,
+						)
 					).then()
 				);
 				break;

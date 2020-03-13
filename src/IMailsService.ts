@@ -9,12 +9,15 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { BehaviorSubject } from 'rxjs';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
-	getFolderConversations(path: string, resolveMails: boolean, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
+	getFolderByPath(path: string): Promise<IMailFolderSchmV1>;
+	getFolderObservableByPath(path: string): BehaviorSubject<undefined|IMailFolderSchmV1>;
+	getFolderConversations(path: string): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
 	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;
 	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;
