@@ -26,10 +26,10 @@ export interface IMailsService {
 	// emptyFolder(id: string): Promise<void>;
 	// loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 	// moveConversation(id: string, fid: string): Promise<void>;
-	// moveConversationToTrash(id: string): Promise<void>;
+	moveConversationToTrash(id: string): Promise<void>;
 	// deleteConversation(id: string): Promise<void>;
-	// markConversationAsRead(id: string, read: boolean): Promise<void>;
-	// markConversationAsSpam(id: string, spam: boolean): Promise<void>;
+	markConversationAsRead(id: string, read: boolean): Promise<void>;
+	markConversationAsSpam(id: string, spam: boolean): Promise<void>;
 	// saveDraft(msg: MailMessage): Promise<MailMessage>;
 	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
 	// sendMessage(msg: MailMessage): Promise<MailMessage>;
