@@ -10,17 +10,18 @@
  */
 
 import { reduce, map } from 'lodash';
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { IMailsNetworkService } from './IMailsNetworkService';
 import { IMailsIdbService } from '../idb/IMailsIdbService';
 import {
 	normalizeConversationFromSoap,
 	normalizeMailMessageFromSoap,
-	SoapConvObj, SoapEmailMessageObj
+	SoapConvObj,
+	SoapEmailMessageObj
 } from '../ISoap';
 import {
 	Conversation,
 	ConversationMailMessage,
+	IMailFolderSchmV1,
 	MailMessage
 } from '../idb/IMailsIdb';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
@@ -30,7 +31,7 @@ export default class MailsNetworkService implements IMailsNetworkService {
 		private _idbSrvc: IMailsIdbService
 	) {}
 
-	public fetchFolderByPath(path: string): Promise<IFolderSchmV1> {
+	public fetchFolderByPath(path: string): Promise<IMailFolderSchmV1> {
 		const getFolderReq = {
 			Body: {
 				GetFolderRequest: {
@@ -51,11 +52,14 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((response) => response.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+				return normalizeFolder(
+					response.Body.GetFolderResponse.folder[0],
+					typeof response.Body.GetFolderResponse.folder[0].n !== 'undefined' && response.Body.GetFolderResponse.folder[0].n > 0
+				);
 			});
 	}
 
-	public fetchFolderById(id: string): Promise<IFolderSchmV1> {
+	public fetchFolderById(id: string): Promise<IMailFolderSchmV1> {
 		const getFolderReq = {
 			Body: {
 				GetFolderRequest: {
@@ -76,7 +80,10 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((response) => response.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+				return normalizeFolder(
+					response.Body.GetFolderResponse.folder[0],
+					typeof response.Body.GetFolderResponse.folder[0].n !== 'undefined' && response.Body.GetFolderResponse.folder[0].n > 0
+				);
 			});
 	}
 
@@ -126,7 +133,19 @@ export default class MailsNetworkService implements IMailsNetworkService {
 							(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
 							[]
 						);
-					});
+					})
+					.then(
+						(c: Conversation[]) => {
+							if ((c.length >= limit) !== f.hasMore) {
+								return this._idbSrvc.saveFolderData({
+									...f,
+									hasMore: c.length >= limit
+								})
+									.then(() => c);
+							}
+							return c;
+						}
+					);
 			});
 	}
 
