@@ -92,7 +92,7 @@ function MailPreview({
 										to={`/service/home/~/?auth=co&id=${message.id}&part=${att.name}&disp=a`}
 										target="_blank"
 										download
-										style={{ width: '100%'}}
+										style={{ width: '100%' }}
 									>
 										<DownloadFileButton
 											fileName={att.filename}
@@ -237,12 +237,15 @@ function MailPreviewBlock({
 					right="0"
 					items={map(
 						actions,
-						(action) => ({
-							id: action.id,
-							icon: action.icon,
-							label: action.label,
-							click: action.onActivate
-						})
+						(action) => {
+							console.log('Action ID', action.id);
+							return ({
+								id: action.id,
+								icon: action.icon,
+								label: action.label,
+								click: action.onActivate
+							});
+						}
 					)}
 					open={openActionMenu}
 					closeFunction={onActionBtnClick}
