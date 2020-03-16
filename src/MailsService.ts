@@ -57,6 +57,8 @@ import { filter } from 'rxjs/operators';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
+export const _CONVERSATION_DELETED_EV_REG = /mails:deleted:conversation/;
+export const _MESSAGE_DELETED_EV_REG = /mails:deleted:message/;
 
 export default class MailsService implements IMailsService {
 	private _createId = 0;
@@ -73,6 +75,14 @@ export default class MailsService implements IMailsService {
 		// fc
 		// 	.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 		// 	.subscribe(({ data }) => console.log('Message updated:', data));
+	}
+
+	public getFolderByPath(path: string): Promise<IMailFolderSchmV1> {
+		return this._idbSrvc.getFolderByPath(path)
+			.catch(
+				(e) => this._networkSrvc.fetchFolderByPath(path)
+					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
+			);
 	}
 
 	public getFolderById(id: string): Promise<IMailFolderSchmV1> {

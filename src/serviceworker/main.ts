@@ -9,15 +9,15 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { forEach, map } from 'lodash';
-import { fc, fcSink } from '@zextras/zapp-shell/fc';
+import { forEach, map, xor } from 'lodash';
 import { filter } from 'rxjs/operators';
+import { fc, fcSink } from '@zextras/zapp-shell/fc';
 
 import MailsNetworkService from '../network/MailsNetworkService';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
 import MailsIdbService from '../idb/MailsIdbService';
 import { ISoapSyncMailFolderObj, ISoapSyncMailResponse } from '../ISoap';
-import { IMailFolderSchmV1 } from '../idb/IMailsIdb';
+import { IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
 import MailsService from '../MailsService';
 
 const _idbSrvc = new MailsIdbService();
@@ -60,51 +60,78 @@ function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> 
 	).then();
 }
 
-function _handleSOAPChanges(changes: ISoapSyncMailResponse): Promise<void> {
-	return new Promise((resolve, reject) => {
-		console.log('Changes', changes);
-		resolve();
-		// _fetchSoapContacts(
-		// 	map(
-		// 		changes,
-		// 		(c) => c.id
-		// 	)
-		// )
-		// 	.then((r) => new Promise((resolve1, reject1) => {
-		// 		_idbSrvc.saveContactsData(r)
-		// 			.then(() => {
-		// 				forEach(r, (c) => _sharedBC.postMessage({
-		// 					action: 'app:fiberchannel',
-		// 					data: {
-		// 						event: 'mails:updated:mail',
-		// 						data: {
-		// 							id: c.id
-		// 						}
-		// 					}
-		// 				}));
-		// 			})
-		// 			.then((_) => resolve1())
-		// 			.catch((e) => reject1(e));
-		// 	}))
-		// 	.then((_) => resolve())
-		// 	.catch((e) => reject(e));
-	});
+function _handleSOAPChanges(syncResponse: ISoapSyncMailResponse): Promise<void> {
+	const promises: Array<Promise<void>> = [];
+
+	if (syncResponse.c) {
+		promises.push(
+			new Promise((resolve, reject): Promise<void> => _networkSrvc.fetchConversations(
+				map(
+					syncResponse.c,
+					(c) => c.id
+				)
+			)
+				.then((r) => _idbSrvc.saveConversations(r))
+				.then((_) => resolve())
+				.catch((e) => reject(e)))
+		);
+	}
+
+	if (syncResponse.m) {
+		promises.push(
+			new Promise((resolve, reject): void => {
+				_networkSrvc.fetchConversations(
+					map(syncResponse.m, (m) => m.cid)
+				)
+					.then((conversations) => _idbSrvc.saveConversations(conversations))
+					.then((_) => resolve())
+					.catch((e) => reject(e));
+			})
+		);
+		promises.push(
+			new Promise((resolve, reject) => {
+				_networkSrvc.fetchMailMessages(
+					map(syncResponse.m, (m) => m.id)
+				)
+					.then((mailMessages) => _idbSrvc.saveMailMessages(mailMessages))
+					.then((_) => resolve())
+					.catch((e) => reject(e));
+			})
+		);
+	}
+
+	return Promise.all(promises).then();
 }
 
-function _deleteMails(ids: string[]) {
-	return Promise.resolve();
-	// return _idbSrvc.deleteContacts(ids)
-	// 	.then((ids1) => {
-	// 		forEach(ids1, (id) => _sharedBC.postMessage({
-	// 			action: 'app:fiberchannel',
-	// 			data: {
-	// 				event: 'contacts:deleted:contact',
-	// 				data: {
-	// 					id
-	// 				}
-	// 			}
-	// 		}));
-	// 	});
+function _deleteConversations(ids: string[]) {
+	return _idbSrvc.deleteConversations(ids);
+}
+
+function _deleteMessages(ids: string[], conversationsDeleted: string[]) {
+	return _idbSrvc.getMessages(ids)
+		.then((messages: {[p: string]: MailMessage}): Promise<void> => {
+			const promises: Array<Promise<void>> = [];
+			const conversationsToUpdate = xor(
+				conversationsDeleted,
+				map(messages, (message) => message.conversation)
+			);
+			forEach(conversationsToUpdate, (convId) => {
+				promises.push(
+					new Promise(
+						(resolve, reject): Promise<void> => _networkSrvc.fetchConversations([convId])
+							.then((r) => _idbSrvc.saveConversations(r))
+							.then((_) => resolve())
+							.catch((e) => {
+								if (e.message.includes('no such message')) {
+									resolve(_idbSrvc.deleteConversations([convId]).then());
+								}
+							})
+					)
+				);
+			});
+			promises.push(_idbSrvc.deleteMessages(ids).then());
+			return Promise.all(promises).then();
+		});
 }
 
 function _deleteFolders(ids: string[]): Promise<void> {
@@ -128,16 +155,22 @@ function _processSOAPNotifications(syncResponse: ISoapSyncMailResponse): Promise
 			_walkSOAPMailsFolder(syncResponse.folder)
 		);
 	}
-	// Other syncs will have the 'cn' field populated.
 	if (syncResponse) {
 		promises.push(
 			_handleSOAPChanges(syncResponse)
 		);
 	}
 	// Handle the deleted items
+	const conversationsToDelete = [];
+	if (syncResponse.deleted && syncResponse.deleted[0].c) {
+		conversationsToDelete.push(...syncResponse.deleted[0].c[0].ids.split(','));
+		promises.push(
+			_deleteConversations(conversationsToDelete).then()
+		);
+	}
 	if (syncResponse.deleted && syncResponse.deleted[0].m) {
 		promises.push(
-			_deleteMails(syncResponse.deleted[0].m[0].ids.split(','))
+			_deleteMessages(syncResponse.deleted[0].m[0].ids.split(','), conversationsToDelete)
 		);
 	}
 	// Handle the deleted folders

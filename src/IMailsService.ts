@@ -13,6 +13,7 @@ import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 
 export interface IMailsService {
+	getFolderByPath(id: string): Promise<IMailFolderSchmV1>;
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
 	getFolderConversations(path: string, resolveMails: boolean, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
 	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;

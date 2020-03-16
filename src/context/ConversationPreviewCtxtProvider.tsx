@@ -9,16 +9,21 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { find } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
-import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
+import {
+	_CONVERSATION_UPDATED_EV_REG,
+	_CONVERSATION_DELETED_EV_REG,
+	_MESSAGE_UPDATED_EV_REG
+} from '../MailsService';
 import { ConversationWithMessages } from './ConversationFolderCtxt';
 import { processOperationsConversation } from './ConversationUtility';
+import activityContext from '../activity/ActivityContext';
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
@@ -31,20 +36,25 @@ const ConversationPreviewCtxtProvider = ({
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
 	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
+	const { reset } = useContext(activityContext);
+
+	const updateConversation = () => {
+		(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
+			.then((conv: ConversationWithMessages) => {
+				setConversation(processOperationsConversation(syncOperations.getValue(), conv)[0]);
+			});
+	};
 
 	useEffect(() => {
-		const updateConversation = () => {
-			(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
-				.then((conv: ConversationWithMessages) => setConversation(
-					processOperationsConversation(syncOperations.getValue(), conv)[0]
-				));
-		};
-
-		const conversationSubscription = fc
+		const conversationUpdatedSubscription = fc
 			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => data.id === convId && updateConversation());
 
-		const messageSubscription = fc
+		const conversationDeletedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => data.id === convId && reset('mailView'));
+
+		const messageUpdatedSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => {
 				if (conversation) {
@@ -61,14 +71,15 @@ const ConversationPreviewCtxtProvider = ({
 			}
 		});
 
-		updateConversation();
-
 		return () => {
-			conversationSubscription.unsubscribe();
-			messageSubscription.unsubscribe();
+			conversationUpdatedSubscription.unsubscribe();
+			conversationDeletedSubscription.unsubscribe();
+			messageUpdatedSubscription.unsubscribe();
 			operationSubscription.unsubscribe();
 		};
-	}, [convId]);
+	}, [conversation]);
+
+	useEffect(() => updateConversation(), [convId]);
 
 	return (
 		<ConversationPreviewCtxt.Provider
