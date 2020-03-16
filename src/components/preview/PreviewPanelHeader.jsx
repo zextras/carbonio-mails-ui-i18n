@@ -19,7 +19,7 @@ import {
 } from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
-const PreviewPanelHeader = ({conversation}) => {
+function PreviewPanelHeader({ conversation }) {
 	const { reset } = useContext(activityContext);
 	return (
 		<>
@@ -29,13 +29,13 @@ const PreviewPanelHeader = ({conversation}) => {
 				background="bg_9"
 				mainAlignment="space-between"
 				crossAlignment="center"
-				style={{minHeight: '48px'}}
+				style={{ minHeight: '48px' }}
 			>
 				<Container
 					orientation="horizontal"
 					mainAlignment="flex-start"
 					padding={{ left: 'large' }}
-					style={{ minWidth: '0'}}
+					style={{ minWidth: '0' }}
 				>
 					<Icon
 						size="large"
@@ -54,6 +54,6 @@ const PreviewPanelHeader = ({conversation}) => {
 			<Divider />
 		</>
 	);
-};
+}
 
 export default PreviewPanelHeader;

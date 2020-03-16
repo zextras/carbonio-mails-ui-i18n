@@ -157,6 +157,13 @@ export type TrashConversationOpReq = {
 	};
 };
 
+export type TrashMessageOpReq = {
+	action: {
+		id: string;
+		op: 'trash';
+	};
+};
+
 export type MarkConversationAsReadOpReq = {
 	action: {
 		id: string;
@@ -168,6 +175,13 @@ export type MarkMessageAsReadOpReq = {
 	action: {
 		id: string;
 		op: 'read'|'!read';
+	};
+};
+
+export type MarkMessageAsSpamOpReq = {
+	action: {
+		id: string;
+		op: 'spam'|'!spam';
 	};
 };
 

@@ -9,51 +9,33 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { ISyncOperation, ISyncOpRequest, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import { ISyncOperation, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
 import {
 	reduce,
-	filter as loFilter,
-	cloneDeep,
-	forEach,
 	without,
 	merge,
 	map,
 	orderBy,
-    uniqBy
+	uniqBy
 } from 'lodash';
 import {
-	CreateMailFolderOp,
-	DeleteConversationOp,
-	DeleteMailFolderOp,
-	EmptyMailFolderOp,
 	IMailsService,
-	MailFolderOp,
 	MarkConversationAsReadOp,
 	MarkMessageAsReadOp,
 	MarkConversationAsSpamOp,
-	MoveMailFolderOp,
-	RenameMailFolderOp,
-	TrashConversationOp
+	TrashConversationOp, MarkMessageAsSpamOp, TrashMessageOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
-	calculateAbsPath,
-	CreateMailFolderOpReq,
-	DeleteConversationOpReq,
-	DeleteMailFolderActionOpReq,
-	EmptyMailFolderActionOpReq,
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
 	MarkConversationAsSpamOpReq,
-	MoveMailFolderActionOpReq,
-	RenameMailFolderActionOpReq,
-	TrashConversationOpReq
+	TrashConversationOpReq, MarkMessageAsSpamOpReq, TrashMessageOpReq
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
-import { filter } from 'rxjs/operators';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
@@ -305,6 +287,61 @@ export default class MailsService implements IMailsService {
 						data: {
 							action: {
 								op: read ? 'read' : '!read',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markMessageAsSpam(id: string, spam: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkMessageAsSpamOp, ISyncOpSoapRequest<MarkMessageAsSpamOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a message as ${spam ? '' : 'not '}spam`,
+					opData: {
+						operation: 'mark-message-as-spam',
+						id,
+						spam
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: spam ? 'spam' : '!spam',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public moveMessageToTrash(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<TrashMessageOp, ISyncOpSoapRequest<TrashMessageOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a message to trash',
+					opData: {
+						operation: 'trash-message',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'trash',
 								id
 							}
 						}
