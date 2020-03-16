@@ -17,7 +17,7 @@ export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
 	getFolderByPath(path: string): Promise<IMailFolderSchmV1>;
 	getFolderObservableByPath(path: string): BehaviorSubject<undefined|IMailFolderSchmV1>;
-	getFolderConversations(path: string): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
+	getFolderConversations(path: string, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
 	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;
 	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;

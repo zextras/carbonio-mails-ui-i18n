@@ -420,7 +420,7 @@ export default class MailsService implements IMailsService {
 	}
 	*/
 
-	public getFolderConversations(path: string): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
+	public getFolderConversations(path: string, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
 		return this.getFolderByPath(path)
 			.then((f: IMailFolderSchmV1) => {
 				if (!f.synced) {
@@ -434,7 +434,7 @@ export default class MailsService implements IMailsService {
 			})
 			.then((f: IMailFolderSchmV1): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
-				if (f.hasMore) {
+				if (loadMore && f.hasMore) {
 					return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
 						.then((c) => Promise.all(
 							map(

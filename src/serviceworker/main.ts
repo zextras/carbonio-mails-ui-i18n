@@ -48,7 +48,7 @@ function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> 
 						_mailsSrvc.getFolderById(f.id)
 							.then((folder: IMailFolderSchmV1) => {
 								if (folder.id === '2') {
-									return _mailsSrvc.getFolderConversations(folder.path).then();
+									return _mailsSrvc.getFolderConversations(folder.path, true).then();
 								}
 								return undefined;
 							})
