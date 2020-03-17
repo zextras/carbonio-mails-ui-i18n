@@ -21,13 +21,13 @@ export interface IMailsService {
 	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;
 	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;
-
+	markMessageAsSpam(id: string, spam: boolean): Promise<void>;
+	moveMessageToTrash(id: string): Promise<void>;
 	// createFolder(name: string, parent: string): Promise<void>;
 	// moveFolder(id: string, newParent: string): Promise<void>;
 	// renameFolder(id: string, name: string): Promise<void>;
 	// deleteFolder(id: string): Promise<void>;
 	// emptyFolder(id: string): Promise<void>;
-	// loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 	// moveConversation(id: string, fid: string): Promise<void>;
 	moveConversationToTrash(id: string): Promise<void>;
 	// deleteConversation(id: string): Promise<void>;
@@ -78,6 +78,11 @@ export type TrashConversationOp = {
 	id: string;
 };
 
+export type TrashMessageOp = {
+	operation: 'trash-message';
+	id: string;
+};
+
 export type MarkConversationAsReadOp = {
 	operation: 'mark-conversation-as-read';
 	id: string;
@@ -88,6 +93,12 @@ export type MarkMessageAsReadOp = {
 	operation: 'mark-message-as-read';
 	id: string;
 	read: boolean;
+};
+
+export type MarkMessageAsSpamOp = {
+	operation: 'mark-message-as-spam';
+	id: string;
+	spam: boolean;
 };
 
 export type DeleteConversationOp = {

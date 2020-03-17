@@ -26,14 +26,15 @@ import {
 	MarkConversationAsReadOp,
 	MarkMessageAsReadOp,
 	MarkConversationAsSpamOp,
-	TrashConversationOp
+	TrashConversationOp,
+	MarkMessageAsSpamOp,
+	TrashMessageOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
-	MarkConversationAsSpamOpReq,
-	TrashConversationOpReq
+	MarkConversationAsSpamOpReq, TrashConversationOpReq, MarkMessageAsSpamOpReq, TrashMessageOpReq
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
@@ -320,6 +321,61 @@ export default class MailsService implements IMailsService {
 						data: {
 							action: {
 								op: read ? 'read' : '!read',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markMessageAsSpam(id: string, spam: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkMessageAsSpamOp, ISyncOpSoapRequest<MarkMessageAsSpamOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a message as ${spam ? '' : 'not '}spam`,
+					opData: {
+						operation: 'mark-message-as-spam',
+						id,
+						spam
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: spam ? 'spam' : '!spam',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public moveMessageToTrash(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<TrashMessageOp, ISyncOpSoapRequest<TrashMessageOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a message to trash',
+					opData: {
+						operation: 'trash-message',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'trash',
 								id
 							}
 						}
