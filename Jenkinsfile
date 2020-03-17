@@ -147,12 +147,12 @@ pipeline {
 				}
 			}
 			parallel {
-				agent {
-					node {
-						label 'nodejs-agent-v2'
-					}
-				}
 				stage('Type Checking') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
 					steps {
 						executeNpmLogin()
 						nodeCmd 'npm install'
