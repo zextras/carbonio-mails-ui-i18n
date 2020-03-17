@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { BehaviorSubject } from 'rxjs';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 import { BehaviorSubject } from 'rxjs';
@@ -16,22 +17,24 @@ import { CompositionAttachment, CompositionData } from './components/compose/Ius
 
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
-	getFolderConversations(path: string, resolveMails: boolean, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
+	getFolderByPath(path: string): Promise<IMailFolderSchmV1>;
+	getFolderObservableByPath(path: string): BehaviorSubject<undefined|IMailFolderSchmV1>;
+	getFolderConversations(path: string, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]>;
 	getConversation(id: string, resolveMails: boolean): Promise<Conversation|ConversationWithMessages>;
 	getMessages(msgIds: string[], resolveFolders: boolean): Promise<{[id: string]: MailMessage|MailMessageWithFolder}>;
 	markMessageAsRead(id: string, read: boolean): Promise<void>;
-
+	markMessageAsSpam(id: string, spam: boolean): Promise<void>;
+	moveMessageToTrash(id: string): Promise<void>;
 	// createFolder(name: string, parent: string): Promise<void>;
 	// moveFolder(id: string, newParent: string): Promise<void>;
 	// renameFolder(id: string, name: string): Promise<void>;
 	// deleteFolder(id: string): Promise<void>;
 	// emptyFolder(id: string): Promise<void>;
-	// loadMoreConversationsFromFolder(folderId: string): Promise<void>;
 	// moveConversation(id: string, fid: string): Promise<void>;
-	// moveConversationToTrash(id: string): Promise<void>;
+	moveConversationToTrash(id: string): Promise<void>;
 	// deleteConversation(id: string): Promise<void>;
-	// markConversationAsRead(id: string, read: boolean): Promise<void>;
-	// markConversationAsSpam(id: string, spam: boolean): Promise<void>;
+	markConversationAsRead(id: string, read: boolean): Promise<void>;
+	markConversationAsSpam(id: string, spam: boolean): Promise<void>;
 	// saveDraft(msg: MailMessage): Promise<MailMessage>;
 	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
 	// sendMessage(msg: MailMessage): Promise<MailMessage>;
@@ -89,6 +92,11 @@ export type TrashConversationOp = {
 	id: string;
 };
 
+export type TrashMessageOp = {
+	operation: 'trash-message';
+	id: string;
+};
+
 export type MarkConversationAsReadOp = {
 	operation: 'mark-conversation-as-read';
 	id: string;
@@ -99,6 +107,12 @@ export type MarkMessageAsReadOp = {
 	operation: 'mark-message-as-read';
 	id: string;
 	read: boolean;
+};
+
+export type MarkMessageAsSpamOp = {
+	operation: 'mark-message-as-spam';
+	id: string;
+	spam: boolean;
 };
 
 export type DeleteConversationOp = {

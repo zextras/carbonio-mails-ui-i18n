@@ -22,6 +22,7 @@ import MailsIdbService from './idb/MailsIdbService';
 import MailsService from './MailsService';
 import MailsNetworkService from './network/MailsNetworkService';
 import { calculateAbsPath } from './ISoap';
+import registerActions from './util/registerActions';
 
 const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;
 const _FOLDER_DELETED_EV_REG = /mails:deleted:folder/;
@@ -47,8 +48,7 @@ const subfolders = (folders, parentId) =>
 	);
 
 export default function app() {
-	// fc.subscribe(console.log);
-
+	fc.subscribe(console.log);
 	const idbSrvc = new MailsIdbService();
 	const networkSrvc = new MailsNetworkService(
 		idbSrvc
@@ -57,6 +57,7 @@ export default function app() {
 		idbSrvc,
 		networkSrvc
 	);
+	registerActions(mailsSrvc);
 
 	const folders = new BehaviorSubject({});
 	const _folders = new BehaviorSubject({});
