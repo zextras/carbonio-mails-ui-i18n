@@ -12,7 +12,7 @@
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 import { BehaviorSubject } from 'rxjs';
-import { CompositionData } from './components/compose/IuseCompositionData';
+import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
 
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
@@ -35,10 +35,18 @@ export interface IMailsService {
 	// saveDraft(msg: MailMessage): Promise<MailMessage>;
 	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
 	// sendMessage(msg: MailMessage): Promise<MailMessage>;
-	uploadAttachment(file: File): Promise<string>;
+	uploadAttachments(files: Array<File>): Promise<Array<CompositionAttachment>>;
 	createDraft(): BehaviorSubject<string>;
 
-	saveDraft(data: CompositionData, draftId: string): Promise<void>;
+	saveDraft(
+		data: CompositionData,
+		draftId: string,
+		newAttachments?: Array<CompositionAttachment>
+	): Promise<CompositionData>;
+	sendDraft(
+		data: CompositionData,
+		draftId: string
+	): Promise<void>;
 }
 
 export type MailFolderOp = CreateMailFolderOp

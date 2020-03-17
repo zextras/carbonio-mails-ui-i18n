@@ -11,6 +11,7 @@
 
 
 import { ChangeEvent } from 'react';
+import { MailMessagePart } from '../../idb/IMailsIdb';
 
 export type CompositionData = {
 	to: CompositionParticipants;
@@ -18,35 +19,43 @@ export type CompositionData = {
 	bcc: CompositionParticipants;
 	subject: string;
 	body: string;
+	html: boolean;
 	priority: boolean;
-	attachments: Array<CompositionAttachment>
+	attachments: Array<MailMessagePart>;
 }
 
 export type CompositionAttachment = {
-	aid: string,
-	file: File
+	aid: string;
 }
 
 export type CompositionParticipants = Array<{ value: string }>;
 
 export type CompositionDataWithFn = CompositionData & {
 	onFileLoad: (ev: ChangeEvent, files: FileList) => void;
-	html: boolean;
 	onSend: () => void;
 	onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants) => void;
 	onModeChange: (mode: boolean) => void;
 	onPriorityChange: (priority: boolean) => void;
+	onEditorChange: (value: string) => void;
+	onSubjectChange: (value: string) => void;
 }
 
 export type DispatchAction = ResetDispatch
 	| UpdateDispatch
 	| InitDispatch
 	| PriorityDispatch
-	| AddAttachmentsDispatch
+	| EditorDispatch
+	| ModeDispatch
+	| AttachmentDispatch
 
-export type AddAttachmentsDispatch = {
-	type: 'addAttachments';
-	attachments: Array<CompositionAttachment>;
+export type AttachmentDispatch = {
+	type: 'attachments-saved';
+	attachments: Array<MailMessagePart>;
+}
+
+export type EditorDispatch = {
+	type: 'editor-change';
+	body: string;
 }
 
 export type ResetDispatch = {
@@ -56,7 +65,7 @@ export type ResetDispatch = {
 
 export type UpdateDispatch = {
 	type: 'update';
-	field: 'to' | 'cc' | 'bcc' | 'subject' | 'body';
+	field: 'to' | 'cc' | 'bcc' | 'subject';
 	value: string | CompositionParticipants | boolean;
 }
 
@@ -68,4 +77,9 @@ export type InitDispatch = {
 export type PriorityDispatch = {
 	type: 'priority';
 	priority: boolean;
+}
+
+export type ModeDispatch = {
+	type: 'switch-mode';
+	htmlMode: boolean;
 }

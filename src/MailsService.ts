@@ -51,12 +51,13 @@ import {
 	MarkConversationAsSpamOpReq,
 	MoveMailFolderActionOpReq,
 	RenameMailFolderActionOpReq,
-	TrashConversationOpReq
+	TrashConversationOpReq, SoapEmailMessageObj, normalizeMailMessageFromSoap
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
-import { CompositionData } from './components/compose/IuseCompositionData';
+import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
+import { mailToCompositionData } from './ISoap';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
@@ -544,23 +545,28 @@ export default class MailsService implements IMailsService {
 			}));
 	}
 
-	public uploadAttachment(file: File): Promise<string> {
-		return fetch(
-			'/service/upload?fmt=extended,raw',
-			{
-				headers: {
-					'Cache-Control': 'no-cache',
-					'X-Requested-With': 'XMLHttpRequest',
-					'Content-Type': `${file.type || 'application/octet-stream'};`,
-					'Content-Disposition': `attachment; filename="${file.name}"`
-				},
-				method: 'POST',
-				body: JSON.stringify(file)
-			}
-		)
-			.then((res) => res.text())
-			.then((txt) => eval(`[${txt}]`))
-			.then((val) => val[2].aid);
+	public uploadAttachments(files: Array<File>): Promise<Array<CompositionAttachment>> {
+		return Promise.all(
+			map(
+				files,
+				(file) => fetch(
+					'/service/upload?fmt=extended,raw',
+					{
+						headers: {
+							'Cache-Control': 'no-cache',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Content-Type': `${file.type || 'application/octet-stream'};`,
+							'Content-Disposition': `attachment; filename="${file.name}"`
+						},
+						method: 'POST',
+						body: JSON.stringify(file)
+					}
+				)
+					.then((res) => res.text())
+					.then((txt) => eval(`[${txt}]`))
+					.then((val) => ({ aid: val[2][0].aid }))
+			)
+		);
 	}
 
 	public createDraft(): BehaviorSubject<string> {
@@ -608,8 +614,12 @@ export default class MailsService implements IMailsService {
 		return this._pendingDraftIds[opId];
 	}
 
-	public saveDraft(data: CompositionData, draftId: string): Promise<void> {
-		console.log('saving!', data.attachments);
+	public saveDraft(
+		data: CompositionData,
+		draftId: string,
+		newAttachments?: Array<CompositionAttachment>
+	): Promise<CompositionData> {
+		const partOffset = data.html ? 2 : 1;
 		const req = {
 			Body: {
 				SaveDraftRequest: {
@@ -638,27 +648,115 @@ export default class MailsService implements IMailsService {
 						],
 						mp: [
 							{
-								ct: 'text/plain',
-								content: {
-									_content: '',
-								}
+								ct: 'multipart/alternative',
+								mp: [
+									{
+										ct: 'text/plain',
+										_content: data.body,
+									},
+									data.html && {
+										ct: 'text/html',
+										_content: data.body,
+									},
+								]
 							}
 						],
 						attach: {
-							aid: data.attachments.length > 0
+							aid: newAttachments && newAttachments.length > 0
 								? reduce(
-									data.attachments,
+									newAttachments,
 									(acc, att, i) => `${acc}${att.aid}${i === data.attachments.length ? '' : ','}`,
 									''
 								)
-								: null
-						}
+								: null,
+							mp: map(
+								data.attachments,
+								(att, index) => ({
+									mid: draftId,
+									part: index + partOffset
+								})
+							)
+						},
 					}
 				}
 			}
 		};
 		return fetch(
 			'service/soap/SaveDraft',
+			{
+				method: 'POST',
+				body: JSON.stringify(req)
+			}
+		)
+			.then((response) => response.json())
+			.then(
+				(res) =>
+					mailToCompositionData(
+						normalizeMailMessageFromSoap(
+							res.Body.SaveDraftResponse.m[0]
+						)
+					)
+			);
+	}
+
+	public sendDraft(data: CompositionData, draftId: string): Promise<void> {
+		const partOffset = data.html ? 2 : 1;
+		const req = {
+			Body: {
+				SendMsgRequest: {
+					_jsns: 'urn:zimbraMail',
+					m: {
+						id: draftId,
+						su: data.subject,
+						e: [
+							{
+								t: 'f',
+								// a: this._sessionData && this._sessionData.username
+								a: 'admin@example.com'
+							},
+							...map(data.to, (c) => ({
+								t: 't',
+								a: c.value
+							})),
+							...map(data.cc, (c) => ({
+								t: 'c',
+								a: c.value
+							})),
+							...map(data.bcc, (c) => ({
+								t: 'b',
+								a: c.value
+							}))
+						],
+						mp: [
+							{
+								ct: 'multipart/alternative',
+								mp: [
+									{
+										ct: 'text/plain',
+										_content: data.body,
+									},
+									data.html && {
+										ct: 'text/html',
+										_content: data.body,
+									},
+								]
+							}
+						],
+						attach: {
+							mp: map(
+								data.attachments,
+								(att, index) => ({
+									mid: draftId,
+									part: index + partOffset
+								})
+							)
+						},
+					}
+				}
+			}
+		};
+		return fetch(
+			'service/soap/SendMsg',
 			{
 				method: 'POST',
 				body: JSON.stringify(req)

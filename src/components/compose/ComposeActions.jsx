@@ -23,7 +23,8 @@ function ComposeActions({
 	onModeChange,
 	onPriorityChange,
 	onSend,
-	priority
+	priority,
+	html
 }) {
 	return (
 		<Container
@@ -33,10 +34,8 @@ function ComposeActions({
 			padding={{ vertical: 'small', horizontal: 'large' }}
 		>
 			<Container orientation="horizontal" width="auto">
-				<IconCheckbox onChange={onModeChange} icon="Text" />
+				<IconCheckbox onChange={onModeChange} defaultChecked={html} icon="Text" />
 				<IconCheckbox onChange={onPriorityChange} defaultChecked={priority} icon="ArrowUpward" />
-				<IconCheckbox icon="CheckmarkSquareOutline" />
-				<IconCheckbox icon="Edit2Outline" />
 				<FileLoader onChange={onFileLoad} />
 			</Container>
 			<Container padding={{ left: 'extralarge' }} orientation="horizontal" width="auto">

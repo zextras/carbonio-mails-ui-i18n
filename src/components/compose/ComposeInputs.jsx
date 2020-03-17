@@ -11,14 +11,23 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, ChipInput, Icon } from '@zextras/zapp-ui';
+import { Container, Icon, EmailComposerInput } from '@zextras/zapp-ui';
 import ComposeActions from './ComposeActions';
 import ComposeRecipientFields from './ComposeRecipientFields';
 
-function ComposeSubject({ priority, value, ...rest }) {
+function ComposeSubject({
+	priority,
+	onChange,
+	value,
+	...rest
+}) {
 	return (
 		<Container {...rest} orientation="horizontal">
-			<ChipInput value={value} placeholder="Object:" style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
+			<EmailComposerInput
+				placeholder="Subject:"
+				value={value}
+				onChange={(ev) => onChange(ev.target.value)}
+			/>
 			{priority && <Icon size="large" icon="ArrowUpward" color="txt_5" />}
 		</Container>
 	);
@@ -36,12 +45,14 @@ function ComposeInputs({
 	onModeChange,
 	onPriorityChange,
 	onParticipantChange,
+	onSubjectChange,
 	onSend,
 	to,
 	cc,
 	bcc,
 	subject,
-	priority
+	priority,
+	html,
 }) {
 	return (
 		<ContainerEl
@@ -53,6 +64,8 @@ function ComposeInputs({
 				onModeChange={onModeChange}
 				onPriorityChange={onPriorityChange}
 				onSend={onSend}
+				html={html}
+				priority={priority}
 			/>
 			<ComposeRecipientFields
 				onParticipantChange={onParticipantChange}
@@ -61,7 +74,8 @@ function ComposeInputs({
 				bcc={bcc}
 			/>
 			<ComposeSubjectStyled
-				value={[{ value: `${subject}a` }]}
+				value={subject}
+				onChange={onSubjectChange}
 				priority={priority}
 			/>
 		</ContainerEl>

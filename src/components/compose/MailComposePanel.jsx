@@ -37,13 +37,19 @@ const MailComposePanel = ({ id, mailsSrvc }) => {
 					onParticipantChange={data.onParticipantChange}
 					onModeChange={data.onModeChange}
 					onPriorityChange={data.onPriorityChange}
+					onSubjectChange={data.onSubjectChange}
 					to={data.to}
 					cc={data.cc}
 					bcc={data.bcc}
 					subject={data.subject}
 					priority={data.priority}
+					html={data.html}
 				/>
-				<ComposeEditor />
+				<ComposeEditor
+					onEditorChange={data.onEditorChange}
+					html={data.html}
+					body={data.body}
+				/>
 			</Container>
 		</Container>
 	);

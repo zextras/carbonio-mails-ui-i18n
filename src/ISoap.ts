@@ -26,6 +26,8 @@ import {
 	Participant,
 	ParticipantType
 } from './idb/IMailsIdb';
+import { CompositionData, CompositionParticipants } from './components/compose/IuseCompositionData';
+import React from 'react';
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;
@@ -385,4 +387,61 @@ export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessage
 	);
 
 	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
+}
+
+export function findAttachments(
+	parts: Array<MailMessagePart>,
+	acc: Array<MailMessagePart>
+): Array<MailMessagePart> {
+	return reduce(
+		parts,
+		(found, part) => {
+			if (part.disposition === 'attachment') {
+				found.push(part);
+			}
+			return findAttachments(part.parts || [], found);
+		},
+		acc
+	);
+}
+
+export function normalizeParticipants(
+	type: string,
+	participants: Array<Participant>
+): CompositionParticipants {
+	return reduce(
+		participants,
+		(acc: CompositionParticipants, c: Participant) => {
+			if (c.type === type) {
+				return [...acc, { value: c.address }];
+			}
+			return acc;
+		},
+		[]
+	);
+}
+
+export function getBodyStrings(mail: MailMessage): [string, boolean] {
+	const [body] = getBodyToRender(mail);
+	if (body.contentType === 'text/html') {
+		return [body.content || '', true];
+	}
+	if (body.contentType === 'text/plain') {
+		return [body.content || '', false];
+	}
+	return ['', false];
+}
+
+export function mailToCompositionData(mail: MailMessage): CompositionData {
+	const [body, html] = getBodyStrings(mail);
+	return {
+		subject: mail.subject,
+		attachments: findAttachments(mail.parts, []),
+		to: normalizeParticipants('t', mail.contacts),
+		cc: normalizeParticipants('c', mail.contacts),
+		bcc: normalizeParticipants('bcc', mail.contacts),
+		html,
+		body,
+		priority: mail.urgent
+	};
 }

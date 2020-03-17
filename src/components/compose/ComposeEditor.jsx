@@ -11,22 +11,55 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Text } from '@zextras/zapp-ui';
-
-const StyledDiv = styled.div`
-	width: 100%;
+import { Container, Text, RichTextEditor, Input, DownloadFileButton } from '@zextras/zapp-ui';
+import { map } from 'lodash';
+const Editor = styled(RichTextEditor)`
+& > * {
 	height: 100%;
-	min-height: 200px;
-	padding: 24px;
-	background-color: #fff;
-	overflow-y: auto;
-	box-sizing: border-box;
-	font-family: ${(props) => props.theme.fonts.default};
+	width: 100%;
+	border: none;
+}
 `;
 
-function ComposeEditor({}) {
+function ComposeEditor({
+	onEditorChange,
+	html,
+	body,
+	attachments
+}) {
 	return (
-		<StyledDiv>Editor</StyledDiv>
+		<>
+			{
+				map(
+					attachments,
+					(att, index) => (
+						<Container
+							key={`att-${att.filename}-${index}`}
+							padding={{ vertical: 'extrasmall' }}
+							width="fill"
+						>
+							<DownloadFileButton
+								fileName={att.filename}
+							/>
+						</Container>
+					)
+				)
+			}
+			{ html
+				? (
+					<Editor
+						initialValue={body}
+						onEditorChange={([text, htmlContent]) => onEditorChange(html ? htmlContent : text)}
+					/>
+				)
+				: (
+					<Input
+						label=""
+						value={body}
+						onChange={(ev) => onEditorChange(ev.target.value)}
+					/>
+				)}
+		</>
 	);
 }
 

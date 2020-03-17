@@ -9,22 +9,30 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { ChangeEvent, useCallback, useEffect, useReducer, useState } from 'react';
-import { IMailsService } from '../../IMailsService';
+import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { map, reduce, startsWith, debounce } from 'lodash';
+import { useHistory } from 'react-router-dom';
+import { Subscription } from 'rxjs';
+import { IMailsService } from '../../IMailsService';
 import { MailMessage, Participant } from '../../idb/IMailsIdb';
 import {
-	AddAttachmentsDispatch, CompositionAttachment,
+	AttachmentDispatch,
+	CompositionAttachment,
 	CompositionData,
-	CompositionDataWithFn, CompositionParticipants,
+	CompositionDataWithFn,
+	CompositionParticipants,
 	DispatchAction,
-	InitDispatch,
-	PriorityDispatch, UpdateDispatch
+	EditorDispatch,
+	InitDispatch, ModeDispatch,
+	PriorityDispatch,
+	UpdateDispatch
 } from './IuseCompositionData';
-import { Subscription } from 'rxjs';
+import activityContext from '../../activity/ActivityContext';
+import { mailToCompositionData } from '../../ISoap';
 
 const emptyMail: CompositionData = {
 	priority: false,
+	html: false,
 	to: [],
 	cc: [],
 	bcc: [],
@@ -35,14 +43,28 @@ const emptyMail: CompositionData = {
 
 function reducer(state: CompositionData, action: DispatchAction) {
 	switch (action.type) {
-		case 'addAttachments': {
-			if ((action as AddAttachmentsDispatch).attachments) {
+		case 'switch-mode': {
+			if (typeof (action as ModeDispatch).htmlMode !== 'undefined') {
 				return {
 					...state,
-					attachments: [
-						...state.attachments,
-						...action.attachments
-					]
+					html: action.htmlMode
+				};
+			}
+			break;
+		}
+		case 'attachments-saved': {
+			if ((action as AttachmentDispatch).attachments) {
+				return {
+					...state, attachments: action.attachments
+				};
+			}
+			break;
+		}
+		case 'editor-change': {
+			if ((action as EditorDispatch).body) {
+				return {
+					...state,
+					body: action.body
 				};
 			}
 			break;
@@ -63,8 +85,7 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			break;
 		}
 		case 'update': {
-			if ((action as UpdateDispatch).field
-				&& (action as UpdateDispatch).value) {
+			if ((action as UpdateDispatch).field) {
 				return {
 					...state, [action.field]: action.value
 				};
@@ -83,38 +104,26 @@ function reducer(state: CompositionData, action: DispatchAction) {
 	return state;
 }
 
-function normalizeParticipants(type: string, participants: Array<Participant>): CompositionParticipants {
-	return reduce(
-		participants,
-		(acc: CompositionParticipants, c: Participant) => {
-			if (c.type === type) {
-				return [...acc, { value: c.address }];
-			}
-			return acc;
-		},
-		[]
-	);
-}
-
 export default function useCompositionData(
 	id: string,
 	mailsSrvc: IMailsService
 ): CompositionDataWithFn {
 	const [draftId, setDraftId] = useState<string>(id);
 	const [data, dispatch] = useReducer(reducer, { ...emptyMail });
-	const [richText, setRichText] = useState(false);
+	const { set, reset } = useContext(activityContext);
+	const history = useHistory();
 	const debouncedSave = useCallback(
 		debounce(
 			mailsSrvc.saveDraft,
-			1000,
-			{ maxWait: 10000 }
+			5000,
+			{ maxWait: 15000 }
 		),
 		[]
 	);
 	useEffect(
 		() => {
 			if (!(draftId === 'new' || startsWith(draftId, 'offline'))) {
-				debouncedSave(data, draftId);
+				debouncedSave(data, draftId, []);// .then(console.log);
 			}
 		},
 		[data, draftId]
@@ -129,6 +138,8 @@ export default function useCompositionData(
 						next: setDraftId,
 						complete: () => {
 							idSub && idSub.unsubscribe();
+							set('mailEdit', draftId);
+							history.push('/mails/folder/Drafts');
 						}
 					}
 				);
@@ -138,23 +149,10 @@ export default function useCompositionData(
 					.then(
 						(result: { [id: string]: MailMessage }) => {
 							if (result[draftId]) {
-								const draft = result[draftId];
-								const to = normalizeParticipants('t', draft.contacts);
-								const cc = normalizeParticipants('c', draft.contacts);
-								const bcc = normalizeParticipants('b', draft.contacts);
-								const att: Array<CompositionAttachment> = [];
 								dispatch(
 									{
 										type: 'init',
-										data: {
-											attachments: att,
-											priority: draft.urgent,
-											to,
-											cc,
-											bcc,
-											subject: draft.subject,
-											body: '',
-										}
+										data: mailToCompositionData(result[draftId])
 									}
 								);
 							}
@@ -165,42 +163,23 @@ export default function useCompositionData(
 		[draftId, mailsSrvc]
 	);
 	const onFileLoad = useCallback((ev, files) => {
-		Promise.all(
-			map(
-				files,
-				(file) => mailsSrvc.uploadAttachment(file)
-					.then((aid: string): CompositionAttachment => ({ aid, file }))
-			)
-		)
-			.then((attachments) => {
-				dispatch(
-					{
-						type: 'addAttachments',
-						attachments
-					}
-				);
-			});
-	}, [data, dispatch]);
-
+		mailsSrvc.uploadAttachments(files)
+			.then((newAtts: Array<CompositionAttachment>) => mailsSrvc.saveDraft(data, draftId, newAtts))
+			.then((draft: CompositionData) => dispatch(
+				{
+					type: 'attachments-saved',
+					attachments: draft.attachments
+				}
+			));
+	}, [data, dispatch, draftId]);
 	return {
-		attachments: data.attachments,
-		html: richText,
-		to: data.to,
-		cc: data.cc,
-		bcc: data.bcc,
-		subject: data.subject,
-		body: data.body,
-		priority: data.priority,
+		...data,
 		onFileLoad,
-		onSend: () => console.log(data),
+		onSend: () => mailsSrvc.sendDraft(data, draftId).then(() => reset('mailEdit')),
 		onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants): void => dispatch({ type: 'update', field, value }),
-		onModeChange: setRichText,
-		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value })
+		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value }),
+		onEditorChange: (body: string): void => dispatch({ type: 'editor-change', body }),
+		onModeChange: (html: boolean): void => dispatch({ type: 'switch-mode', htmlMode: html }),
+		onSubjectChange: (value: string): void => dispatch({ type: 'update', field: 'subject', value })
 	};
 }
-/**
- * start:
- * getDraft //DONE
- * -> yep -> set data //DONE
- * -> nop -> init data
- */

@@ -47,7 +47,7 @@ const subfolders = (folders, parentId) =>
 	);
 
 export default function app() {
-	fc.subscribe(console.log);
+	// fc.subscribe(console.log);
 
 	const idbSrvc = new MailsIdbService();
 	const networkSrvc = new MailsNetworkService(
