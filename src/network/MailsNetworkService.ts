@@ -204,17 +204,26 @@ export default class MailsNetworkService implements IMailsNetworkService {
 	public fetchConversations(convIds: string[]): Promise<Conversation[]> {
 		const request = {
 			Body: {
-				GetConvRequest: {
-					_jsns: 'urn:zimbraMail',
-					c: map(
+				BatchRequest: {
+					_jsns: 'urn:zimbra',
+					onerror: 'continue',
+					GetConvRequest: map(
 						convIds,
-						(id) => ({ id, fetch: 'all', html: '1' })
+						(id) => ({
+							_jsns: 'urn:zimbraMail',
+							requestId: id,
+							c: {
+								id,
+								fetch: 'all',
+								html: '1'
+							}
+						})
 					)
 				}
 			}
 		};
 		return fetch(
-			'/service/soap/GetConvRequest',
+			'/service/soap/BatchRequest',
 			{
 				method: 'POST',
 				body: JSON.stringify(request)
@@ -223,9 +232,17 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((resp) => resp.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return reduce<SoapConvObj, Conversation[]>(
-					response.Body.GetConvResponse.c || [],
-					(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
+				if (response.Body.BatchResponse.Fault) {
+					const ids = reduce<any, string[]>(
+						response.Body.BatchResponse.Fault,
+						(r, f) => ([...r, f.requestId]),
+						[]
+					).join(', ');
+					throw new Error(`Error while fetching some Conversations with ids: ${ids}`);
+				}
+				return reduce<{c: [SoapConvObj]}, Conversation[]>(
+					response.Body.BatchResponse.GetConvResponse,
+					(r, v, k) => r.concat(normalizeConversationFromSoap(v.c[0])),
 					[]
 				);
 			});
