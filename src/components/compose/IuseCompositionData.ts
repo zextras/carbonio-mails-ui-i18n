@@ -18,7 +18,10 @@ export type CompositionData = {
 	cc: CompositionParticipants;
 	bcc: CompositionParticipants;
 	subject: string;
-	body: string;
+	body: {
+		text: string;
+		html: string;
+	};
 	html: boolean;
 	priority: boolean;
 	attachments: Array<MailMessagePart>;
@@ -36,11 +39,12 @@ export type CompositionDataWithFn = CompositionData & {
 	onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants) => void;
 	onModeChange: (mode: boolean) => void;
 	onPriorityChange: (priority: boolean) => void;
-	onEditorChange: (value: string) => void;
+	onEditorChange: (text: string, html: string) => void;
 	onSubjectChange: (value: string) => void;
 }
 
-export type DispatchAction = ResetDispatch
+export type DispatchAction =
+	ResetDispatch
 	| UpdateDispatch
 	| InitDispatch
 	| PriorityDispatch
@@ -55,7 +59,8 @@ export type AttachmentDispatch = {
 
 export type EditorDispatch = {
 	type: 'editor-change';
-	body: string;
+	text: string;
+	html: string;
 }
 
 export type ResetDispatch = {

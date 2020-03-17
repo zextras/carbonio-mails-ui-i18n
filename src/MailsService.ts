@@ -39,7 +39,7 @@ import {
 	MoveMailFolderActionOpReq,
 	RenameMailFolderActionOpReq,
 	SoapEmailMessageObj,
-	normalizeMailMessageFromSoap
+	normalizeMailMessageFromSoap,
 	TrashConversationOpReq,
 	MarkMessageAsSpamOpReq,
 	TrashMessageOpReq
@@ -457,15 +457,6 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
-	public addAttachment(msg: MailMessage, file: File): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-
-	public sendMessage(msg: MailMessage): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-	*/
-
 	/*
 	private _updateConversation(id: string): void {
 		this.getConversation(id)
@@ -706,6 +697,7 @@ export default class MailsService implements IMailsService {
 		newAttachments?: Array<CompositionAttachment>
 	): Promise<CompositionData> {
 		const partOffset = data.html ? 2 : 1;
+		console.log(data);
 		const req = {
 			Body: {
 				SaveDraftRequest: {
@@ -733,19 +725,30 @@ export default class MailsService implements IMailsService {
 							}))
 						],
 						mp: [
-							{
-								ct: 'multipart/alternative',
-								mp: [
-									{
-										ct: 'text/plain',
-										_content: data.body,
-									},
-									data.html && {
-										ct: 'text/html',
-										_content: data.body,
-									},
-								]
-							}
+							data.html
+								? {
+									ct: 'multipart/alternative',
+									mp: [
+										{
+											ct: 'text/plain',
+											content: {
+												_content: data.body.text
+											},
+										},
+										{
+											ct: 'text/html',
+											content: {
+												_content: data.body.html
+											},
+										},
+									]
+								}
+								: {
+									ct: 'text/plain',
+									content: {
+										_content: data.body.text
+									}
+								}
 						],
 						attach: {
 							aid: newAttachments && newAttachments.length > 0
@@ -814,19 +817,30 @@ export default class MailsService implements IMailsService {
 							}))
 						],
 						mp: [
-							{
-								ct: 'multipart/alternative',
-								mp: [
-									{
-										ct: 'text/plain',
-										_content: data.body,
-									},
-									data.html && {
-										ct: 'text/html',
-										_content: data.body,
-									},
-								]
-							}
+							data.html
+								? {
+									ct: 'multipart/alternative',
+									mp: [
+										{
+											ct: 'text/plain',
+											content: {
+												_content: data.body.text
+											},
+										},
+										{
+											ct: 'text/html',
+											content: {
+												_content: data.body.html
+											},
+										},
+									]
+								}
+								: {
+									ct: 'text/plain',
+									content: {
+										_content: data.body.text
+									}
+								}
 						],
 						attach: {
 							mp: map(

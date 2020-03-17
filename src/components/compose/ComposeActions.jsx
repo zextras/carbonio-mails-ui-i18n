@@ -34,8 +34,8 @@ function ComposeActions({
 			padding={{ vertical: 'small', horizontal: 'large' }}
 		>
 			<Container orientation="horizontal" width="auto">
-				<IconCheckbox onChange={onModeChange} defaultChecked={html} icon="Text" />
-				<IconCheckbox onChange={onPriorityChange} defaultChecked={priority} icon="ArrowUpward" />
+				<IconCheckbox onChange={onModeChange} value={html} icon="Text" />
+				<IconCheckbox onChange={onPriorityChange} value={priority} icon="ArrowUpward" />
 				<FileLoader onChange={onFileLoad} />
 			</Container>
 			<Container padding={{ left: 'extralarge' }} orientation="horizontal" width="auto">

@@ -435,19 +435,20 @@ export function normalizeParticipants(
 	);
 }
 
-export function getBodyStrings(mail: MailMessage): [string, boolean] {
+export function getBodyStrings(mail: MailMessage): [{ html: string; text: string }, boolean] {
 	const [body] = getBodyToRender(mail);
 	if (body.contentType === 'text/html') {
-		return [body.content || '', true];
+		return [{ html: body.content || '', text: '' }, true];
 	}
 	if (body.contentType === 'text/plain') {
-		return [body.content || '', false];
+		return [{ text: body.content || '', html: `<p>${body.content}</p>` }, false];
 	}
-	return ['', false];
+	return [{ html: '', text: '' }, false];
 }
 
 export function mailToCompositionData(mail: MailMessage): CompositionData {
 	const [body, html] = getBodyStrings(mail);
+	console.log(body);
 	return {
 		subject: mail.subject,
 		attachments: findAttachments(mail.parts, []),

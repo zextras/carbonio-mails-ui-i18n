@@ -37,7 +37,7 @@ const emptyMail: CompositionData = {
 	cc: [],
 	bcc: [],
 	subject: '',
-	body: '',
+	body: { text: '', html: '' },
 	attachments: []
 };
 
@@ -61,10 +61,14 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			break;
 		}
 		case 'editor-change': {
-			if ((action as EditorDispatch).body) {
+			if ((action as EditorDispatch).text
+				&& (action as EditorDispatch).html) {
 				return {
 					...state,
-					body: action.body
+					body: {
+						text: action.text,
+						html: action.html
+					}
 				};
 			}
 			break;
@@ -175,10 +179,13 @@ export default function useCompositionData(
 	return {
 		...data,
 		onFileLoad,
-		onSend: () => mailsSrvc.sendDraft(data, draftId).then(() => reset('mailEdit')),
+		onSend: () => {
+			debouncedSave.cancel();
+			mailsSrvc.sendDraft(data, draftId).then(() => reset('mailEdit'));
+		},
 		onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants): void => dispatch({ type: 'update', field, value }),
 		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value }),
-		onEditorChange: (body: string): void => dispatch({ type: 'editor-change', body }),
+		onEditorChange: (text: string, htmlContent: string) => dispatch({ type: 'editor-change', text, html: htmlContent }),
 		onModeChange: (html: boolean): void => dispatch({ type: 'switch-mode', htmlMode: html }),
 		onSubjectChange: (value: string): void => dispatch({ type: 'update', field: 'subject', value })
 	};

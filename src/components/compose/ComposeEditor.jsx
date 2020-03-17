@@ -48,15 +48,15 @@ function ComposeEditor({
 			{ html
 				? (
 					<Editor
-						initialValue={body}
-						onEditorChange={([text, htmlContent]) => onEditorChange(html ? htmlContent : text)}
+						initialValue={body.html}
+						onEditorChange={([text, htmlContent]) => onEditorChange(text, htmlContent)}
 					/>
 				)
 				: (
 					<Input
 						label=""
-						value={body}
-						onChange={(ev) => onEditorChange(ev.target.value)}
+						value={body.text}
+						onChange={(ev) => onEditorChange(ev.target.value, ev.target.value)}
 					/>
 				)}
 		</>
