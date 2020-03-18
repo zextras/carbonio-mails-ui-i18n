@@ -62,14 +62,6 @@ export default class MailsService implements IMailsService {
 		// 	.subscribe(({ data }) => console.log('Message updated:', data));
 	}
 
-	public getFolderByPath(path: string): Promise<IMailFolderSchmV1> {
-		return this._idbSrvc.getFolderByPath(path)
-			.catch(
-				(e) => this._networkSrvc.fetchFolderByPath(path)
-					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
-			);
-	}
-
 	public getFolderById(id: string): Promise<IMailFolderSchmV1> {
 		return this._idbSrvc.getFolderById(id)
 			.catch(

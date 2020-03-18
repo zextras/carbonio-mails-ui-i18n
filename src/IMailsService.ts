@@ -14,7 +14,6 @@ import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 
 export interface IMailsService {
-	getFolderByPath(id: string): Promise<IMailFolderSchmV1>;
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
 	getFolderByPath(path: string): Promise<IMailFolderSchmV1>;
 	getFolderObservableByPath(path: string): BehaviorSubject<undefined|IMailFolderSchmV1>;
