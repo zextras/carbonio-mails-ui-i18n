@@ -14,6 +14,7 @@ import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 
 export type IMailFolderSchmV1 = IFolderSchmV1 & {
 	synced: boolean;
+	hasMore: boolean;
 };
 
 type IIDBMailFolderSchmV1 = IIDBFolderSchmV1 & {

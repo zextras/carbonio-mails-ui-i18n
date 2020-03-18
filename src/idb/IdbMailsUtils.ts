@@ -12,7 +12,7 @@
 import { ISoapFolderObj } from '@zextras/zapp-shell/lib/network/ISoap';
 import { IMailFolderSchmV1 } from './IMailsIdb';
 
-export function normalizeFolder(soapFolderObj: ISoapFolderObj): IMailFolderSchmV1 {
+export function normalizeFolder(soapFolderObj: ISoapFolderObj, hasMore: boolean): IMailFolderSchmV1 {
 	return {
 		_revision: soapFolderObj.rev,
 		itemsCount: soapFolderObj.n,
@@ -22,6 +22,7 @@ export function normalizeFolder(soapFolderObj: ISoapFolderObj): IMailFolderSchmV
 		unreadCount: soapFolderObj.u || 0,
 		size: soapFolderObj.s,
 		parent: soapFolderObj.l,
-		synced: false
+		synced: false,
+		hasMore
 	};
 }

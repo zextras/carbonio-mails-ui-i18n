@@ -10,17 +10,18 @@
  */
 
 import { reduce, map } from 'lodash';
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
 import { IMailsNetworkService } from './IMailsNetworkService';
 import { IMailsIdbService } from '../idb/IMailsIdbService';
 import {
 	normalizeConversationFromSoap,
 	normalizeMailMessageFromSoap,
-	SoapConvObj, SoapEmailMessageObj
+	SoapConvObj,
+	SoapEmailMessageObj
 } from '../ISoap';
 import {
 	Conversation,
 	ConversationMailMessage,
+	IMailFolderSchmV1,
 	MailMessage
 } from '../idb/IMailsIdb';
 import { normalizeFolder } from '../idb/IdbMailsUtils';
@@ -30,7 +31,7 @@ export default class MailsNetworkService implements IMailsNetworkService {
 		private _idbSrvc: IMailsIdbService
 	) {}
 
-	public fetchFolderByPath(path: string): Promise<IFolderSchmV1> {
+	public fetchFolderByPath(path: string): Promise<IMailFolderSchmV1> {
 		const getFolderReq = {
 			Body: {
 				GetFolderRequest: {
@@ -51,11 +52,14 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((response) => response.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+				return normalizeFolder(
+					response.Body.GetFolderResponse.folder[0],
+					typeof response.Body.GetFolderResponse.folder[0].n !== 'undefined' && response.Body.GetFolderResponse.folder[0].n > 0
+				);
 			});
 	}
 
-	public fetchFolderById(id: string): Promise<IFolderSchmV1> {
+	public fetchFolderById(id: string): Promise<IMailFolderSchmV1> {
 		const getFolderReq = {
 			Body: {
 				GetFolderRequest: {
@@ -76,7 +80,10 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((response) => response.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return normalizeFolder(response.Body.GetFolderResponse.folder[0]);
+				return normalizeFolder(
+					response.Body.GetFolderResponse.folder[0],
+					typeof response.Body.GetFolderResponse.folder[0].n !== 'undefined' && response.Body.GetFolderResponse.folder[0].n > 0
+				);
 			});
 	}
 
@@ -126,7 +133,19 @@ export default class MailsNetworkService implements IMailsNetworkService {
 							(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
 							[]
 						);
-					});
+					})
+					.then(
+						(c: Conversation[]) => {
+							if ((c.length >= limit) !== f.hasMore) {
+								return this._idbSrvc.saveFolderData({
+									...f,
+									hasMore: c.length >= limit
+								})
+									.then(() => c);
+							}
+							return c;
+						}
+					);
 			});
 	}
 
@@ -185,17 +204,26 @@ export default class MailsNetworkService implements IMailsNetworkService {
 	public fetchConversations(convIds: string[]): Promise<Conversation[]> {
 		const request = {
 			Body: {
-				GetConvRequest: {
-					_jsns: 'urn:zimbraMail',
-					c: map(
+				BatchRequest: {
+					_jsns: 'urn:zimbra',
+					onerror: 'continue',
+					GetConvRequest: map(
 						convIds,
-						(id) => ({ id, fetch: 'all', html: '1' })
+						(id) => ({
+							_jsns: 'urn:zimbraMail',
+							requestId: id,
+							c: {
+								id,
+								fetch: 'all',
+								html: '1'
+							}
+						})
 					)
 				}
 			}
 		};
 		return fetch(
-			'/service/soap/GetConvRequest',
+			'/service/soap/BatchRequest',
 			{
 				method: 'POST',
 				body: JSON.stringify(request)
@@ -204,9 +232,17 @@ export default class MailsNetworkService implements IMailsNetworkService {
 			.then((resp) => resp.json())
 			.then((response) => {
 				if (response.Body.Fault) throw new Error(response.Body.Fault.Reason.Text);
-				return reduce<SoapConvObj, Conversation[]>(
-					response.Body.GetConvResponse.c || [],
-					(r, v, k) => r.concat(normalizeConversationFromSoap(v)),
+				if (response.Body.BatchResponse.Fault) {
+					const ids = reduce<any, string[]>(
+						response.Body.BatchResponse.Fault,
+						(r, f) => ([...r, f.requestId]),
+						[]
+					).join(', ');
+					throw new Error(`Error while fetching some Conversations with ids: ${ids}`);
+				}
+				return reduce<{c: [SoapConvObj]}, Conversation[]>(
+					response.Body.BatchResponse.GetConvResponse,
+					(r, v, k) => r.concat(normalizeConversationFromSoap(v.c[0])),
 					[]
 				);
 			});

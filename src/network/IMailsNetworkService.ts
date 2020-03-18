@@ -9,12 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
-import { Conversation, MailMessage } from '../idb/IMailsIdb';
+import { Conversation, IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
 
 export interface IMailsNetworkService {
-	fetchFolderByPath(path: string): Promise<IFolderSchmV1>;
-	fetchFolderById(path: string): Promise<IFolderSchmV1>;
+	fetchFolderByPath(path: string): Promise<IMailFolderSchmV1>;
+	fetchFolderById(path: string): Promise<IMailFolderSchmV1>;
 
 	fetchConversationsInFolder(id: string, limit?: number): Promise<Conversation[]>;
 	fetchConversationsMessages(convs: Conversation[]): Promise<MailMessage[]>;

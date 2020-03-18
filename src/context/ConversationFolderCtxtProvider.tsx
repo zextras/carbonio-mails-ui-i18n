@@ -84,7 +84,7 @@ function ConversationFolderCtxtProvider({
 			list: string[];
 			map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
 		}
-		>({ list: [], map: {} });
+	>({ list: [], map: {} });
 	const [folderId, setFolderId] = useState<string>('');
 	const [hasMore, setHasMore] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);

@@ -1,3 +1,5 @@
+@Library("zextras-library@0.5.0") _
+
 def nodeCmd(String cmd) {
 	sh '. load_nvm && nvm install && nvm use && ' + cmd
 }
@@ -66,7 +68,7 @@ def calculateNextVersion() {
 pipeline {
 	agent {
 		node {
-			label 'nodejs-agent-v1'
+			label 'nodejs-agent-v2'
 		}
 	}
 	options {
@@ -146,6 +148,11 @@ pipeline {
 			}
 			parallel {
 				stage('Type Checking') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
 					steps {
 						executeNpmLogin()
 						nodeCmd 'npm install'
@@ -157,34 +164,60 @@ pipeline {
 
 //============================================ Build ===================================================================
 
-		stage('Build Zimlet Package') {
-			when {
-				beforeAgent true
-				not {
-					allOf {
-						expression { BRANCH_NAME ==~ /(release|beta)/ }
-						environment name: 'COMMIT_PARENTS_COUNT', value: '2'
-					}
-				}
-			}
+		stage('Build') {
 			parallel {
-				stage('Build Zimbra Zimlet') {
+				stage('Build package') {
 					agent {
 						node {
-							label 'nodejs-agent-v1'
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						not {
+							allOf {
+								expression { BRANCH_NAME ==~ /(release|beta)/ }
+								environment name: 'COMMIT_PARENTS_COUNT', value: '2'
+							}
 						}
 					}
 					steps {
 						executeNpmLogin()
-						nodeCmd 'npm install'
-						nodeCmd 'NODE_ENV="production" npx zapp package'
+						cmd sh: "nvm use && npm install"
+						cmd sh: "nvm use && NODE_ENV='production' npx zapp package"
 						stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package_unsigned'
+					}
+				}
+				stage('Build documentation') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(release|beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					steps {
+						script {
+							cmd sh: "nvm use && cd docs/website && npm install"
+							cmd sh: "nvm use && cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build"
+							stash includes: 'docs/website/build/com_zextras_zapp_mails/', name: 'doc'
+						}
 					}
 				}
 			}
 		}
 
 		stage('Sign Zimlet Package') {
+			agent {
+				node {
+					label 'nodejs-agent-v2'
+				}
+			}
 			when {
 				beforeAgent true
 				not {
@@ -203,6 +236,56 @@ pipeline {
 					sh './sign-zextras-zip pkg/com_zextras_zapp_mails.zip'
 					stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package'
 					archiveArtifacts artifacts: 'pkg/com_zextras_zapp_mails.zip', fingerprint: true
+				}
+			}
+		}
+
+		stage('Deploy') {
+			parallel {
+				stage('Deploy documentation') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(release|beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					steps {
+						script {
+							unstash 'doc'
+							doc.rm file: "iris/zapp-mails/${BRANCH_NAME}"
+							doc.mkdir folder: "iris/zapp-mails/${BRANCH_NAME}"
+							doc.upload file: "docs/website/build/com_zextras_zapp_mails/**", destination: "iris/zapp-mails/${BRANCH_NAME}"
+						}
+					}
+				}
+				stage('Deploy Beta on demo server') {
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					when {
+						beforeAgent true
+						allOf {
+							expression { BRANCH_NAME ==~ /(beta)/ }
+							environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+						}
+					}
+					steps {
+						script {
+							unstash 'zimlet_package'
+							sh 'unzip pkg/com_zextras_zapp_mails.zip -d deploy'
+							iris.rm file: 'com_zextras_zapp_mails/*'
+							// iris.mkdir folder: 'com_zextras_zapp_mails'
+							iris.upload file: 'deploy/*', destination: 'com_zextras_zapp_mails/'
+						}
+					}
 				}
 			}
 		}

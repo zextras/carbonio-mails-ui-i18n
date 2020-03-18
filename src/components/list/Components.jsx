@@ -67,7 +67,6 @@ export const SelectableAvatar = ({
 			selecting={selecting}
 			selectable={selectable}
 			onClick={(ev) => {
-				ev.stopPropagation();
 				selected
 					? onDeselect && onDeselect()
 					: onSelect && onSelect();

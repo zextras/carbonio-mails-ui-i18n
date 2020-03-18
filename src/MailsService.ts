@@ -9,51 +9,36 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { ISyncOperation, ISyncOpRequest, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
+import { ISyncOperation, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
 import {
 	reduce,
-	filter as loFilter,
-	cloneDeep,
-	forEach,
 	without,
 	merge,
 	map,
 	orderBy,
-    uniqBy
+	uniqBy
 } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import {
-	CreateMailFolderOp,
-	DeleteConversationOp,
-	DeleteMailFolderOp,
-	EmptyMailFolderOp,
 	IMailsService,
-	MailFolderOp,
 	MarkConversationAsReadOp,
 	MarkMessageAsReadOp,
 	MarkConversationAsSpamOp,
-	MoveMailFolderOp,
-	RenameMailFolderOp,
-	TrashConversationOp
+	TrashConversationOp,
+	MarkMessageAsSpamOp,
+	TrashMessageOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
-	calculateAbsPath,
-	CreateMailFolderOpReq,
-	DeleteConversationOpReq,
-	DeleteMailFolderActionOpReq,
-	EmptyMailFolderActionOpReq,
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
-	MarkConversationAsSpamOpReq,
-	MoveMailFolderActionOpReq,
-	RenameMailFolderActionOpReq,
-	TrashConversationOpReq
+	MarkConversationAsSpamOpReq, TrashConversationOpReq, MarkMessageAsSpamOpReq, TrashMessageOpReq
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
-import { filter } from 'rxjs/operators';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
@@ -89,8 +74,39 @@ export default class MailsService implements IMailsService {
 		return this._idbSrvc.getFolderById(id)
 			.catch(
 				(e) => this._networkSrvc.fetchFolderById(id)
-					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
+					.then((f) => this._idbSrvc.saveFolderData({
+						...f,
+						synced: false,
+						hasMore: f.itemsCount > 0
+					}))
 			);
+	}
+
+	public getFolderByPath(path: string): Promise<IMailFolderSchmV1> {
+		return this._idbSrvc.getFolderByPath(path)
+			.catch(
+				(e) => this._networkSrvc.fetchFolderByPath(path)
+					.then((f) => this._idbSrvc.saveFolderData({
+						...f,
+						synced: false,
+						hasMore: f.itemsCount > 0
+					}))
+			);
+	}
+
+	public getFolderObservableByPath(path: string): BehaviorSubject<undefined|IMailFolderSchmV1> {
+		const s = new BehaviorSubject<undefined|IMailFolderSchmV1>(undefined);
+		this.getFolderByPath(path)
+			.then((f1) => {
+				s.next(f1);
+				fc.pipe(
+					filter((e) => e.event === 'mails:updated:folder' && e.data.id === f1.id)
+				).subscribe((e) => {
+					this.getFolderById(f1.id)
+						.then((f2) => s.next(f2));
+				});
+			});
+		return s;
 	}
 
 	/*
@@ -236,6 +252,7 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
+*/
 
 	public moveConversationToTrash(id: string): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -295,7 +312,6 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
-	*/
 
 	public markMessageAsRead(id: string, read: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -315,6 +331,61 @@ export default class MailsService implements IMailsService {
 						data: {
 							action: {
 								op: read ? 'read' : '!read',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public markMessageAsSpam(id: string, spam: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkMessageAsSpamOp, ISyncOpSoapRequest<MarkMessageAsSpamOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a message as ${spam ? '' : 'not '}spam`,
+					opData: {
+						operation: 'mark-message-as-spam',
+						id,
+						spam
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: spam ? 'spam' : '!spam',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public moveMessageToTrash(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<TrashMessageOp, ISyncOpSoapRequest<TrashMessageOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a message to trash',
+					opData: {
+						operation: 'trash-message',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'trash',
 								id
 							}
 						}
@@ -353,6 +424,7 @@ export default class MailsService implements IMailsService {
 			resolve();
 		});
 	}
+*/
 
 	public markConversationAsSpam(id: string, spam: boolean): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -382,7 +454,8 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
-	public saveDraft(msg: MailMessage): Promise<MailMessage> {
+	/*
+ 	public saveDraft(msg: MailMessage): Promise<MailMessage> {
 		return Promise.reject(new Error('Method not implemented'));
 	}
 
@@ -413,25 +486,33 @@ export default class MailsService implements IMailsService {
 	}
 	*/
 
-	public getFolderConversations(path: string, resolveMails: boolean, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
-		return this._idbSrvc.getFolderByPath(path)
-			.catch(
-				(e) => this._networkSrvc.fetchFolderByPath(path)
-					.then((f) => this._idbSrvc.saveFolderData({ ...f, synced: f.id === '2' }))
-			)
-			.then((f): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
+	public getFolderConversations(path: string, loadMore: boolean): Promise<[string[], { [id: string]: Conversation|ConversationWithMessages }]> {
+		return this.getFolderByPath(path)
+			.then((f: IMailFolderSchmV1) => {
+				if (!f.synced) {
+					return this._idbSrvc.saveFolderData({
+						...f,
+						synced: true,
+						hasMore: f.itemsCount > 0
+					});
+				}
+				return f;
+			})
+			.then((f: IMailFolderSchmV1): Promise<[Conversation[], IMailFolderSchmV1]> => this._idbSrvc.fetchConversationsFromFolder(f.id).then((convs) => ([convs, f])))
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
-				if (loadMore) return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
-					.then((c) => Promise.all(
-						map(
-							c,
-							(v, k) => this._idbSrvc.saveConversation(v)
-						)
-					).then(() => uniqBy([...c, ...convs], 'id')));
+				if (loadMore && f.hasMore) {
+					return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
+						.then((c) => Promise.all(
+							map(
+								c,
+								(v, k) => this._idbSrvc.saveConversation(v)
+							)
+						).then(() => uniqBy([...c, ...convs], 'id')));
+				}
 				return convs;
 			})
 			.then((convs): Conversation[]|Promise<ConversationWithMessages[]> => {
-				if (resolveMails && convs.length > 0) return this._resolveConversationsMails(convs);
+				if (convs.length > 0) return this._resolveConversationsMails(convs);
 				return convs;
 			})
 			.then((convs) => orderBy<Conversation|ConversationWithMessages>(convs, ['date'], ['desc']))
