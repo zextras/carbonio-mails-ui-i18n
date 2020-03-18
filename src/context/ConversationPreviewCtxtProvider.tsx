@@ -95,7 +95,7 @@ const ConversationPreviewCtxtProvider = ({
 			messageUpdatedSubscription.unsubscribe();
 			operationSubscription.unsubscribe();
 		};
-	}, [conversation]);
+	}, [convId]);
 
 	useEffect(() => updateConversation(), [convId]);
 

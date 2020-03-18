@@ -27,10 +27,18 @@ import {
 	keys
 } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { syncOperations } from '@zextras/zapp-shell/sync';
+import { fc } from '@zextras/zapp-shell/fc';
 import { IMailsService } from '../IMailsService';
 import ConversationFolderCtxt, { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
 import { processOperationsConversation, processOperationsList } from './ConversationUtility';
+import {
+	_CONVERSATION_UPDATED_EV_REG,
+	_MESSAGE_UPDATED_EV_REG,
+	_CONVERSATION_DELETED_EV_REG,
+	_MESSAGE_DELETED_EV_REG
+} from '../MailsService';
 
 type ConversationFolderCtxtProviderProps = {
 	folderPath: string;
@@ -230,6 +238,87 @@ function ConversationFolderCtxtProvider({
 			semaphore = false;
 		};
 	}, [folderPath, _loadConversations]);
+
+	useEffect(() => {
+		let semaphore = true;
+
+		const messageIds: Array<{[id: string]: string[]}> = [];
+		forEach(convData.map, (convBS, convId) => {
+			messageIds.push({ [convId]: convBS.getValue().messages.map((message) => message.id) });
+		});
+
+		const conversationUpdatedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				if (includes(convData.list, data.id)) {
+					if (includes(data.parent, folderId)) {
+						(mailsSrvc.getConversation(data.id, true) as Promise<ConversationWithMessages>)
+							.then((conv) => {
+								if (semaphore) {
+									convData.map[data.id].next(conv);
+								}
+							});
+					}
+					else {
+						const newConvMap = { ...convData.map };
+						delete newConvMap[data.id];
+						setConvData({
+							list: loFilter(convData.list, (convId) => convId !== data.id),
+							map: newConvMap
+						});
+					}
+				}
+				else if (includes(data.parent, folderId)) {
+					(mailsSrvc.getConversation(data.id, true) as Promise<ConversationWithMessages>)
+						.then((conv) => {
+							if (semaphore) {
+								setConvData({
+									list: [data.id, ...convData.list],
+									map: { ...convData.map, [data.id]: new BehaviorSubject(conv) }
+								});
+							}
+						});
+				}
+			});
+		const messageUpdatedSubscription = fc
+			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				const messagesInList = loFilter(
+					messageIds,
+					(v) => includes(Object.values(v), data.id.toString())
+				);
+				if (messagesInList.length > 0) {
+					forEach(messagesInList, (messageObj) => {
+						const convId = Object.keys(messageObj)[0];
+						(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
+							.then((conv) => {
+								if (semaphore) {
+									convData.map[convId].next(conv);
+								}
+							});
+					});
+				}
+			});
+		const conversationDeletedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				if (includes(convData.list, data.id)) {
+					const newConvMap = { ...convData.map };
+					delete newConvMap[data.id];
+					setConvData({
+						list: loFilter(convData.list, (convId) => convId !== data.id),
+						map: newConvMap
+					});
+				}
+			});
+
+		return () => {
+			semaphore = false;
+			conversationUpdatedSubscription.unsubscribe();
+			messageUpdatedSubscription.unsubscribe();
+			conversationDeletedSubscription.unsubscribe();
+		};
+	}, [folderPath, convData.list]);
 
 	return (
 		<ConversationFolderCtxt.Provider
