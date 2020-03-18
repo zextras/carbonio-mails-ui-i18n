@@ -238,7 +238,7 @@ function MailPreviewBlock({
 					items={map(
 						actions,
 						(action) => {
-							console.log('Action ID', action.id);
+							// console.log('Action ID', action.id);
 							return ({
 								id: action.id,
 								icon: action.icon,

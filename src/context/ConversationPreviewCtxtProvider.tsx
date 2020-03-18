@@ -9,7 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, {
+	ReactElement,
+	PropsWithChildren,
+	useEffect,
+	useState,
+	useRef
+} from 'react';
 import { find } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { fc } from '@zextras/zapp-shell/fc';
@@ -29,17 +35,25 @@ const ConversationPreviewCtxtProvider = ({
 	convId,
 	mailsSrvc,
 	children
-}: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
+}: PropsWithChildren<ConversationPreviewCtxtProviderProps>): ReactElement => {
 	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
+	const convRef = useRef<ConversationWithMessages|undefined>();
+
+	function updateConversation(): void {
+		(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
+			.then((conv: ConversationWithMessages) =>
+				processOperationsConversation(syncOperations.getValue(), conv, mailsSrvc)
+					.then(([convModified]) => setConversation(convModified)));
+	}
 
 	useEffect(() => {
-		const updateConversation = () => {
-			(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
-				.then((conv: ConversationWithMessages) => setConversation(
-					processOperationsConversation(syncOperations.getValue(), conv)[0]
-				));
-		};
+		convRef.current = conversation;
+	}, [conversation]);
 
+	useEffect(() => updateConversation(), [convId]);
+
+	useEffect(() => {
+		let semaphore = true;
 		const conversationSubscription = fc
 			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => data.id === convId && updateConversation());
@@ -47,23 +61,24 @@ const ConversationPreviewCtxtProvider = ({
 		const messageSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => {
-				if (conversation) {
-					find(conversation.messages, ['id', data.id]) && updateConversation();
+				if (convRef.current && find(convRef.current.messages, ['id', data.id])) {
+					updateConversation();
 				}
 			});
 
 		const operationSubscription = syncOperations.subscribe((operations) => {
-			if (conversation) {
-				const [convModified, modified] = processOperationsConversation(operations, conversation);
-				if (modified) {
-					setConversation(convModified);
-				}
+			if (convRef.current) {
+				processOperationsConversation(operations, convRef.current, mailsSrvc)
+					.then(([convModified, modified]) => {
+						if (semaphore && modified) {
+							setConversation(convModified);
+						}
+					});
 			}
 		});
 
-		updateConversation();
-
-		return () => {
+		return (): void => {
+			semaphore = false;
 			conversationSubscription.unsubscribe();
 			messageSubscription.unsubscribe();
 			operationSubscription.unsubscribe();
