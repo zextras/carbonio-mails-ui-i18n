@@ -124,3 +124,9 @@ export type MarkConversationAsSpamOp = {
 	operation: 'mark-conversation-as-spam';
 	id: string;
 };
+
+
+export type SendMsgOp = {
+	operation: 'send-mail';
+	id: string;
+};

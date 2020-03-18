@@ -29,26 +29,24 @@ import {
 	MarkConversationAsSpamOp,
 	TrashConversationOp,
 	MarkMessageAsSpamOp,
-	TrashMessageOp
+	TrashMessageOp, SendMsgOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
 	MarkConversationAsSpamOpReq,
-	MoveMailFolderActionOpReq,
-	RenameMailFolderActionOpReq,
-	SoapEmailMessageObj,
 	normalizeMailMessageFromSoap,
 	TrashConversationOpReq,
 	MarkMessageAsSpamOpReq,
-	TrashMessageOpReq
+	TrashMessageOpReq,
+	mailToCompositionData, SendMsgOpReq, ISoapContact
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
-import { mailToCompositionData } from './ISoap';
+import { sessionSrvc } from '@zextras/zapp-shell/service';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
@@ -63,8 +61,11 @@ export default class MailsService implements IMailsService {
 
 	constructor(
 		private _idbSrvc: IMailsIdbService,
-		private _networkSrvc: IMailsNetworkService
+		private _networkSrvc: IMailsNetworkService,
 	) {
+		sessionSrvc.session.subscribe((data) => {
+			this._sessionData = data;
+		});
 		// fc
 		// 	.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 		// 	.subscribe(({ data }) => this._updateConversation(data.id));
@@ -658,8 +659,7 @@ export default class MailsService implements IMailsService {
 						e: [
 							{
 								t: 'f',
-								// a: this._sessionData && this._sessionData.username
-								a: 'admin@example.com'
+								a: this._sessionData ? this._sessionData.username : ''
 							}
 						],
 						mp: [
@@ -697,7 +697,6 @@ export default class MailsService implements IMailsService {
 		newAttachments?: Array<CompositionAttachment>
 	): Promise<CompositionData> {
 		const partOffset = data.html ? 2 : 1;
-		console.log(data);
 		const req = {
 			Body: {
 				SaveDraftRequest: {
@@ -708,8 +707,7 @@ export default class MailsService implements IMailsService {
 						e: [
 							{
 								t: 'f',
-								// a: this._sessionData && this._sessionData.username
-								a: 'admin@example.com'
+								a: this._sessionData ? this._sessionData.username : ''
 							},
 							...map(data.to, (c) => ({
 								t: 't',
@@ -790,79 +788,82 @@ export default class MailsService implements IMailsService {
 
 	public sendDraft(data: CompositionData, draftId: string): Promise<void> {
 		const partOffset = data.html ? 2 : 1;
-		const req = {
-			Body: {
-				SendMsgRequest: {
-					_jsns: 'urn:zimbraMail',
-					m: {
-						id: draftId,
-						su: data.subject,
-						e: [
-							{
-								t: 'f',
-								// a: this._sessionData && this._sessionData.username
-								a: 'admin@example.com'
-							},
-							...map(data.to, (c) => ({
-								t: 't',
-								a: c.value
-							})),
-							...map(data.cc, (c) => ({
-								t: 'c',
-								a: c.value
-							})),
-							...map(data.bcc, (c) => ({
-								t: 'b',
-								a: c.value
-							}))
-						],
-						mp: [
-							data.html
-								? {
-									ct: 'multipart/alternative',
-									mp: [
-										{
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<SendMsgOp, ISyncOpSoapRequest<SendMsgOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a conversation to trash',
+					opData: {
+						operation: 'send-mail',
+						id: draftId
+					},
+					opType: 'soap',
+					request: {
+						command: 'SendMsg',
+						urn: 'urn:zimbraMail',
+						data: {
+							m: {
+								did: draftId,
+								su: data.subject,
+								e: [
+									{
+										t: 'f',
+										a: this._sessionData ? this._sessionData.username : ''
+									},
+									...map(data.to, (c): ISoapContact => ({
+										t: 't',
+										a: c.value
+									})),
+									...map(data.cc, (c): ISoapContact => ({
+										t: 'c',
+										a: c.value
+									})),
+									...map(data.bcc, (c): ISoapContact => ({
+										t: 'b',
+										a: c.value
+									}))
+								],
+								mp: [
+									data.html
+										? {
+											ct: 'multipart/alternative',
+											mp: [
+												{
+													ct: 'text/plain',
+													content: {
+														_content: data.body.text
+													},
+												},
+												{
+													ct: 'text/html',
+													content: {
+														_content: data.body.html
+													},
+												},
+											]
+										}
+										: {
 											ct: 'text/plain',
 											content: {
 												_content: data.body.text
-											},
-										},
-										{
-											ct: 'text/html',
-											content: {
-												_content: data.body.html
-											},
-										},
-									]
-								}
-								: {
-									ct: 'text/plain',
-									content: {
-										_content: data.body.text
-									}
-								}
-						],
-						attach: {
-							mp: map(
-								data.attachments,
-								(att, index) => ({
-									mid: draftId,
-									part: index + partOffset
-								})
-							)
-						},
+											}
+										}
+								],
+								attach: {
+									mp: map(
+										data.attachments,
+										(att, index) => ({
+											mid: draftId,
+											part: index + partOffset
+										})
+									)
+								},
+							}
+						}
 					}
 				}
-			}
-		};
-		return fetch(
-			'service/soap/SendMsg',
-			{
-				method: 'POST',
-				body: JSON.stringify(req)
-			}
-		)
-			.then((response) => response.json())
-			.then(console.log);
+			);
+			resolve();
+		});
 	}
 }

@@ -11,6 +11,7 @@
 
 import React from 'react';
 import { addMainMenuItem, registerRoute, addCreateMenuItem } from '@zextras/zapp-shell/router';
+import { sessionSrvc } from '@zextras/zapp-shell/service';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -55,7 +56,8 @@ export default function app() {
 	);
 	const mailsSrvc = new MailsService(
 		idbSrvc,
-		networkSrvc
+		networkSrvc,
+		sessionSrvc,
 	);
 	registerActions(mailsSrvc);
 

@@ -28,6 +28,7 @@ import {
 } from './idb/IMailsIdb';
 import { CompositionData, CompositionParticipants } from './components/compose/IuseCompositionData';
 import React from 'react';
+import { IMailContact } from './composer/IComposerSoap';
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;
@@ -200,6 +201,35 @@ export type MarkConversationAsSpamOpReq = {
 		id: string;
 		op: 'spam'|'!spam';
 		tcon: '-dtjs';
+	};
+};
+export type ISoapPart = {
+	ct: 'text/plain' | 'text/html';
+	content: { _content: string };
+};
+
+export type ISoapMultiPart = {
+	ct: 'multipart/alternative';
+	mp: Array<ISoapPart>;
+};
+
+export type ISoapContact = {
+	t: 'f'|'t'|'c'|'b';
+	a: string;
+};
+
+export type SendMsgOpReq = {
+	m: {
+		did: string;
+		su: string;
+		e: Array<ISoapContact>;
+		mp: Array<ISoapMultiPart | ISoapPart>;
+		attach: {
+			mp: Array<{
+				mid: string;
+				part: number;
+			}>;
+		};
 	};
 };
 
@@ -448,7 +478,6 @@ export function getBodyStrings(mail: MailMessage): [{ html: string; text: string
 
 export function mailToCompositionData(mail: MailMessage): CompositionData {
 	const [body, html] = getBodyStrings(mail);
-	console.log(body);
 	return {
 		subject: mail.subject,
 		attachments: findAttachments(mail.parts, []),
