@@ -494,6 +494,7 @@ export default class MailsService implements IMailsService {
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
 				if (loadMore && f.hasMore) {
 					return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
+						.catch((e) => ([]))
 						.then((c) => Promise.all(
 							map(
 								c,
@@ -559,6 +560,7 @@ export default class MailsService implements IMailsService {
 			.then((conv) => {
 				if (conv) return conv;
 				return this._networkSrvc.fetchConversations([id])
+					.catch((e) => ([]))
 					.then(([conv1]: Conversation[]) => {
 						if (!conv1) throw new Error(`Conversation '${id}' not found`);
 						return this._idbSrvc.saveConversation(conv1);
@@ -587,6 +589,7 @@ export default class MailsService implements IMailsService {
 							)
 						)
 					)
+						.catch((e) => ([]))
 						.then(
 							(messages) => this._idbSrvc.saveMailMessages(messages)
 								.then((savedMsgs) => [msgs, reduce<MailMessage, {[id: string]: MailMessage}>(
