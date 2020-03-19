@@ -163,6 +163,11 @@ function MailPreviewBlock({
 				height="fit"
 				width="calc(100% - 48px)"
 				padding={{ top: 'small', right: 'medium', bottom: 'small' }}
+				style={{
+					flexGrow: 1,
+					flexBasis: 1,
+					minWidth: '1px'
+				}}
 			>
 				<Container
 					orientation="horizontal"
@@ -230,6 +235,9 @@ function MailPreviewBlock({
 			</Container>
 			<Container
 				width="fit"
+				style={{
+					alignSelf: 'center'
+				}}
 			>
 				<IconButton
 					icon="MoreVertical"
