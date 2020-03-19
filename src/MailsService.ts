@@ -18,7 +18,8 @@ import {
 	merge,
 	map,
 	orderBy,
-	uniqBy
+	uniqBy,
+	trim
 } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
@@ -680,7 +681,7 @@ export default class MailsService implements IMailsService {
 			}
 		};
 		fetch(
-			'service/soap/SaveDraft',
+			'/service/soap/SaveDraft',
 			{
 				method: 'POST',
 				body: JSON.stringify(req)
@@ -701,7 +702,6 @@ export default class MailsService implements IMailsService {
 		draftId: string,
 		newAttachments?: Array<CompositionAttachment>
 	): Promise<CompositionData> {
-		const partOffset = data.html ? 2 : 1;
 		const req = {
 			Body: {
 				SaveDraftRequest: {
@@ -756,17 +756,17 @@ export default class MailsService implements IMailsService {
 						],
 						attach: {
 							aid: newAttachments && newAttachments.length > 0
-								? reduce(
+								? trim(reduce(
 									newAttachments,
-									(acc, att, i) => `${acc}${att.aid}${i === data.attachments.length ? '' : ','}`,
+									(acc, att) => `${acc}${att.aid},`,
 									''
-								)
+								), ',')
 								: null,
 							mp: map(
 								data.attachments,
-								(att, index) => ({
+								(att) => ({
 									mid: draftId,
-									part: index + partOffset
+									part: att.name
 								})
 							)
 						},
@@ -775,7 +775,7 @@ export default class MailsService implements IMailsService {
 			}
 		};
 		return fetch(
-			'service/soap/SaveDraft',
+			'/service/soap/SaveDraft',
 			{
 				method: 'POST',
 				body: JSON.stringify(req)
@@ -793,7 +793,6 @@ export default class MailsService implements IMailsService {
 	}
 
 	public sendDraft(data: CompositionData, draftId: string): Promise<void> {
-		const partOffset = data.html ? 2 : 1;
 		return new Promise<void>((resolve, reject) => {
 			fcSink<ISyncOperation<SendMsgOp, ISyncOpSoapRequest<SendMsgOpReq>>>(
 				'sync:operation:push',
@@ -861,7 +860,7 @@ export default class MailsService implements IMailsService {
 										data.attachments,
 										(att, index) => ({
 											mid: draftId,
-											part: index + partOffset
+											part: att.name
 										})
 									)
 								},

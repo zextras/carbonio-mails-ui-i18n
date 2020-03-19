@@ -9,11 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { useCallback, useContext, useEffect, useReducer, useState } from 'react';
-import { map, reduce, startsWith, debounce } from 'lodash';
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useReducer,
+	useState
+} from 'react';
+import { filter, startsWith, debounce } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Subscription } from 'rxjs';
-import { IMailsService } from '../../IMailsService';
+import { IMailsService, RenameMailFolderOp } from '../../IMailsService';
 import { MailMessage, Participant } from '../../idb/IMailsIdb';
 import {
 	AttachmentDispatch,
@@ -24,7 +30,7 @@ import {
 	DispatchAction,
 	EditorDispatch,
 	InitDispatch, ModeDispatch,
-	PriorityDispatch,
+	PriorityDispatch, RemoveAttachmentDispatch,
 	UpdateDispatch
 } from './IuseCompositionData';
 import activityContext from '../../activity/ActivityContext';
@@ -52,8 +58,20 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			}
 			break;
 		}
+		case 'remove-attachment': {
+			if (typeof (action as RemoveAttachmentDispatch).name !== 'undefined') {
+				return {
+					...state,
+					attachments: filter(
+						state.attachments,
+						(att) => att.name !== action.name
+					)
+				};
+			}
+			break;
+		}
 		case 'attachments-saved': {
-			if ((action as AttachmentDispatch).attachments) {
+			if (typeof (action as AttachmentDispatch).attachments !== 'undefined') {
 				return {
 					...state, attachments: action.attachments
 				};
@@ -61,8 +79,8 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			break;
 		}
 		case 'editor-change': {
-			if ((action as EditorDispatch).text
-				&& (action as EditorDispatch).html) {
+			if (typeof (action as EditorDispatch).text !== 'undefined'
+				&& typeof (action as EditorDispatch).html !== 'undefined') {
 				return {
 					...state,
 					body: {
@@ -74,7 +92,7 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			break;
 		}
 		case 'init': {
-			if ((action as InitDispatch).data) {
+			if (typeof (action as InitDispatch).data !== 'undefined') {
 				return {
 					...emptyMail,
 					...action.data
@@ -89,7 +107,7 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			break;
 		}
 		case 'update': {
-			if ((action as UpdateDispatch).field) {
+			if (typeof (action as UpdateDispatch).field !== 'undefined') {
 				return {
 					...state, [action.field]: action.value
 				};
@@ -117,17 +135,17 @@ export default function useCompositionData(
 	const { set, reset } = useContext(activityContext);
 	const history = useHistory();
 	const debouncedSave = useCallback(
-		debounce(
-			mailsSrvc.saveDraft,
-			5000,
-			{ maxWait: 15000 }
-		),
+		debounce<(a1: CompositionData, a2: string, a3: Array<CompositionAttachment>) => Promise<void>>(
+			(a1, a2, a3) => mailsSrvc.saveDraft(a1, a2, a3)
+				.then((resp) => dispatch({ type: 'attachments-saved', attachments: resp.attachments })),
+		5000,
+		{ maxWait: 15000 }),
 		[]
 	);
 	useEffect(
 		() => {
 			if (!(draftId === 'new' || startsWith(draftId, 'offline'))) {
-				debouncedSave(data, draftId, []);// .then(console.log);
+				debouncedSave(data, draftId, []);
 			}
 		},
 		[data, draftId]
@@ -187,6 +205,7 @@ export default function useCompositionData(
 		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value }),
 		onEditorChange: (text: string, htmlContent: string): void => dispatch({ type: 'editor-change', text, html: htmlContent }),
 		onModeChange: (html: boolean): void => dispatch({ type: 'switch-mode', htmlMode: html }),
-		onSubjectChange: (value: string): void => dispatch({ type: 'update', field: 'subject', value })
+		onSubjectChange: (value: string): void => dispatch({ type: 'update', field: 'subject', value }),
+		onRemoveAttachment: (name: string): void => dispatch({ type: 'remove-attachment', name })
 	};
 }

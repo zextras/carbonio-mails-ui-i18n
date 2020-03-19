@@ -11,8 +11,16 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Text, RichTextEditor, Input, DownloadFileButton } from '@zextras/zapp-ui';
+import {
+	Container,
+	Text,
+	RichTextEditor,
+	IconButton,
+	GenericFileIcon,
+	Padding
+} from '@zextras/zapp-ui';
 import { map } from 'lodash';
+
 const Editor = styled(RichTextEditor)`
 & > .tox {
 	height: 100%;
@@ -37,31 +45,55 @@ const TextArea = styled.textarea`
 	}
 `;
 
+const AttRow = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+`;
+
 function ComposeEditor({
 	onEditorChange,
+	onRemoveAttachment,
 	html,
 	body,
 	attachments
 }) {
 	return (
-		<>
-			{
-				map(
-					attachments,
-					(att, index) => (
-						<Container
-							key={`att-${att.filename}-${index}`}
-							padding={{ vertical: 'extrasmall' }}
-							width="fill"
-							height="fit"
-						>
-							<DownloadFileButton
-								fileName={att.filename}
-							/>
-						</Container>
+		<Container height="fill" mainAlignment="flex-start" background="bg_7" padding={{ all: 'small' }}>
+			<AttRow>
+				{
+					map(
+						attachments,
+						(att, index) => (
+							<Container
+								key={`att-${att.filename}-${index}`}
+								width="fit"
+								height="fit"
+								padding={{ all: 'extrasmall' }}
+							>
+								<Container
+									background="bg_10"
+									height="fit"
+									crossAlignment="flex-start"
+									mainAlignment="space-between"
+									orientation="horizontal"
+									style={{ cursor: 'pointer' }}
+								>
+									<Padding all="small">
+										<GenericFileIcon fileName={att.filename || ''} />
+									</Padding>
+									<Padding vertical="small">
+										<Text>{att.filename || att.name}</Text>
+										<Text size="small">{`${att.size || '0'}B`}</Text>
+									</Padding>
+									<IconButton icon="Close" onClick={() => onRemoveAttachment(att.name)} />
+								</Container>
+							</Container>
+						)
 					)
-				)
-			}
+				}
+			</AttRow>
 			{ html
 				? (
 					<Editor
@@ -76,7 +108,7 @@ function ComposeEditor({
 						onChange={(ev) => onEditorChange(ev.target.value, ev.target.value)}
 					/>
 				)}
-		</>
+		</Container>
 	);
 }
 

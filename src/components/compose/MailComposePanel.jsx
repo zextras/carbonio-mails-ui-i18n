@@ -48,6 +48,7 @@ const MailComposePanel = ({ id, mailsSrvc }) => {
 				<ComposeEditor
 					attachments={data.attachments}
 					onEditorChange={data.onEditorChange}
+					onRemoveAttachment={data.onRemoveAttachment}
 					html={data.html}
 					body={data.body}
 				/>
