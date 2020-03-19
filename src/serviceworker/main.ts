@@ -11,7 +11,6 @@
 
 import { forEach, map, xor } from 'lodash';
 import { fc, fcSink } from '@zextras/zapp-shell/fc';
-import { sessionSrvc } from '@zextras/zapp-shell/service';
 import { filter } from 'rxjs/operators';
 
 import MailsNetworkService from '../network/MailsNetworkService';
@@ -28,8 +27,7 @@ const _networkSrvc = new MailsNetworkService(
 
 const _mailsSrvc = new MailsService(
 	_idbSrvc,
-	_networkSrvc,
-	sessionSrvc
+	_networkSrvc
 );
 
 function _walkSOAPMailsFolder(folders: ISoapSyncMailFolderObj[]): Promise<void> {

@@ -46,6 +46,7 @@ const MailComposePanel = ({ id, mailsSrvc }) => {
 					html={data.html}
 				/>
 				<ComposeEditor
+					attachments={data.attachments}
 					onEditorChange={data.onEditorChange}
 					html={data.html}
 					body={data.body}

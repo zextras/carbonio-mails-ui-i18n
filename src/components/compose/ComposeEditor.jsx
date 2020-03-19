@@ -14,11 +14,27 @@ import styled from 'styled-components';
 import { Container, Text, RichTextEditor, Input, DownloadFileButton } from '@zextras/zapp-ui';
 import { map } from 'lodash';
 const Editor = styled(RichTextEditor)`
-& > * {
+& > .tox {
 	height: 100%;
 	width: 100%;
 	border: none;
 }
+`;
+
+const TextArea = styled.textarea`
+	box-sizing: border-box;
+	margin: 0 8px;
+	padding: 8px;
+	height: fit-content;
+	min-height: 100px;
+	width: 100%;
+	border: none;
+	resize: none;
+	& :focus, :active {
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
 `;
 
 function ComposeEditor({
@@ -37,6 +53,7 @@ function ComposeEditor({
 							key={`att-${att.filename}-${index}`}
 							padding={{ vertical: 'extrasmall' }}
 							width="fill"
+							height="fit"
 						>
 							<DownloadFileButton
 								fileName={att.filename}
@@ -53,7 +70,7 @@ function ComposeEditor({
 					/>
 				)
 				: (
-					<Input
+					<TextArea
 						label=""
 						value={body.text}
 						onChange={(ev) => onEditorChange(ev.target.value, ev.target.value)}

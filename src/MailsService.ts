@@ -706,6 +706,7 @@ export default class MailsService implements IMailsService {
 					m: {
 						id: draftId,
 						su: data.subject,
+						f: `${data.priority ? '!' : ''}`,
 						e: [
 							{
 								t: 'f',
@@ -805,6 +806,7 @@ export default class MailsService implements IMailsService {
 						urn: 'urn:zimbraMail',
 						data: {
 							m: {
+								f: `${data.priority ? '!' : ''}`,
 								did: draftId,
 								su: data.subject,
 								e: [

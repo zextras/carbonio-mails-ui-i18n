@@ -9,10 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { BehaviorSubject } from 'rxjs';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
-import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 import { BehaviorSubject } from 'rxjs';
+import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
 import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
 
 export interface IMailsService {

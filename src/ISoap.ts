@@ -220,6 +220,7 @@ export type ISoapContact = {
 
 export type SendMsgOpReq = {
 	m: {
+		f: string;
 		did: string;
 		su: string;
 		e: Array<ISoapContact>;

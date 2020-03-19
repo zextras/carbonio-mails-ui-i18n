@@ -185,7 +185,7 @@ export default function useCompositionData(
 		},
 		onParticipantChange: (field: 'to' | 'cc' | 'bcc', value: CompositionParticipants): void => dispatch({ type: 'update', field, value }),
 		onPriorityChange: (value: boolean): void => dispatch({ type: 'priority', priority: value }),
-		onEditorChange: (text: string, htmlContent: string) => dispatch({ type: 'editor-change', text, html: htmlContent }),
+		onEditorChange: (text: string, htmlContent: string): void => dispatch({ type: 'editor-change', text, html: htmlContent }),
 		onModeChange: (html: boolean): void => dispatch({ type: 'switch-mode', htmlMode: html }),
 		onSubjectChange: (value: string): void => dispatch({ type: 'update', field: 'subject', value })
 	};
