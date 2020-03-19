@@ -52,12 +52,12 @@ const ConversationListItem = ({
 		() => find(
 			conversation.participants,
 			['type', (conversation.folder === 'Sent' || conversation.folder === 'Drafts') ? 't' : 'f']
-		),
+		) || { address: '', displayName: '' },
 		conversation.contacts
 	);
 	Badge.propTypes = {};
 	const [open, setOpen] = useState(false);
-	const { set } = useContext(activityContext);
+	const { reset, set } = useContext(activityContext);
 	return (
 		<Container
 			orientation="vertical"
@@ -71,8 +71,15 @@ const ConversationListItem = ({
 				mainAlignment="flex-start"
 				style={{ position: 'relative', cursor: 'pointer' }}
 				onClick={() => {
-					set('mailViewMsgId', conversation.messages[0].id);
-					set('mailView', conversation.id);
+					if (conversation.messages.length === 1
+						&& conversation.messages[0].folder.name === 'Drafts') {
+						reset('mailEdit');
+						set('mailEdit', conversation.messages[0].id);
+					}
+					else {
+						set('mailViewMsgId', conversation.messages[0].id);
+						set('mailView', conversation.id);
+					}
 				}}
 			>
 				<SelectableAvatar

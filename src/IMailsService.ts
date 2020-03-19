@@ -9,9 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { BehaviorSubject } from 'rxjs';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
+import { BehaviorSubject } from 'rxjs';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
+import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
 
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;
@@ -36,6 +37,18 @@ export interface IMailsService {
 	// saveDraft(msg: MailMessage): Promise<MailMessage>;
 	// addAttachment(msg: MailMessage, file: File): Promise<MailMessage>;
 	// sendMessage(msg: MailMessage): Promise<MailMessage>;
+	uploadAttachments(files: Array<File>): Promise<Array<CompositionAttachment>>;
+	createDraft(): BehaviorSubject<string>;
+
+	saveDraft(
+		data: CompositionData,
+		draftId: string,
+		newAttachments?: Array<CompositionAttachment>
+	): Promise<CompositionData>;
+	sendDraft(
+		data: CompositionData,
+		draftId: string
+	): Promise<void>;
 }
 
 export type MailFolderOp = CreateMailFolderOp
@@ -108,5 +121,11 @@ export type DeleteConversationOp = {
 
 export type MarkConversationAsSpamOp = {
 	operation: 'mark-conversation-as-spam';
+	id: string;
+};
+
+
+export type SendMsgOp = {
+	operation: 'send-mail';
 	id: string;
 };

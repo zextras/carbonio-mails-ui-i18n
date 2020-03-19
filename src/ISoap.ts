@@ -26,6 +26,9 @@ import {
 	Participant,
 	ParticipantType
 } from './idb/IMailsIdb';
+import { CompositionData, CompositionParticipants } from './components/compose/IuseCompositionData';
+import React from 'react';
+import { IMailContact } from './composer/IComposerSoap';
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;
@@ -198,6 +201,36 @@ export type MarkConversationAsSpamOpReq = {
 		id: string;
 		op: 'spam'|'!spam';
 		tcon: '-dtjs';
+	};
+};
+export type ISoapPart = {
+	ct: 'text/plain' | 'text/html';
+	content: { _content: string };
+};
+
+export type ISoapMultiPart = {
+	ct: 'multipart/alternative';
+	mp: Array<ISoapPart>;
+};
+
+export type ISoapContact = {
+	t: 'f'|'t'|'c'|'b';
+	a: string;
+};
+
+export type SendMsgOpReq = {
+	m: {
+		f: string;
+		did: string;
+		su: string;
+		e: Array<ISoapContact>;
+		mp: Array<ISoapMultiPart | ISoapPart>;
+		attach: {
+			mp: Array<{
+				mid: string;
+				part: number;
+			}>;
+		};
 	};
 };
 
@@ -399,4 +432,61 @@ export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessage
 	);
 
 	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
+}
+
+export function findAttachments(
+	parts: Array<MailMessagePart>,
+	acc: Array<MailMessagePart>
+): Array<MailMessagePart> {
+	return reduce(
+		parts,
+		(found, part) => {
+			if (part.disposition === 'attachment') {
+				found.push(part);
+			}
+			return findAttachments(part.parts || [], found);
+		},
+		acc
+	);
+}
+
+export function normalizeParticipants(
+	type: string,
+	participants: Array<Participant>
+): CompositionParticipants {
+	return reduce(
+		participants,
+		(acc: CompositionParticipants, c: Participant) => {
+			if (c.type === type) {
+				return [...acc, { value: c.address }];
+			}
+			return acc;
+		},
+		[]
+	);
+}
+
+export function getBodyStrings(mail: MailMessage): [{ html: string; text: string }, boolean] {
+	const [body] = getBodyToRender(mail);
+	if (body.contentType === 'text/html') {
+		return [{ html: body.content || '', text: '' }, true];
+	}
+	if (body.contentType === 'text/plain') {
+		return [{ text: body.content || '', html: `<p>${body.content}</p>` }, false];
+	}
+	return [{ html: '', text: '' }, false];
+}
+
+export function mailToCompositionData(mail: MailMessage): CompositionData {
+	const [body, html] = getBodyStrings(mail);
+	return {
+		subject: mail.subject,
+		attachments: findAttachments(mail.parts, []),
+		to: normalizeParticipants('t', mail.contacts),
+		cc: normalizeParticipants('c', mail.contacts),
+		bcc: normalizeParticipants('bcc', mail.contacts),
+		html,
+		body,
+		priority: mail.urgent
+	};
 }

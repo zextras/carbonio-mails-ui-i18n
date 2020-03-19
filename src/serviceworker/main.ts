@@ -10,8 +10,8 @@
  */
 
 import { forEach, map, xor } from 'lodash';
-import { filter } from 'rxjs/operators';
 import { fc, fcSink } from '@zextras/zapp-shell/fc';
+import { filter } from 'rxjs/operators';
 
 import MailsNetworkService from '../network/MailsNetworkService';
 import { normalizeFolder } from '../idb/IdbMailsUtils';

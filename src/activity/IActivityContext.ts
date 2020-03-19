@@ -11,7 +11,7 @@
 
 interface IActivityContext {
 	get: (name: string) => { value: string; hash: string };
-	set: (name: string, id: string, hash: string) => void;
+	set: (name: string, id: string) => void;
 	reset: (name: string) => void;
 	push: (name: string, id: string, hash: string) => void;
 	pull: (name: string, id: string, hash: string) => void;

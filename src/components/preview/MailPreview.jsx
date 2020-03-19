@@ -112,6 +112,8 @@ function MailPreview({
 
 export default MailPreview;
 
+const fallbackContact = { address: '', displayName: '' };
+
 function MailPreviewBlock({
 	message,
 	open,
@@ -122,9 +124,9 @@ function MailPreviewBlock({
 
 	const { actions } = useItemActionContext('mail-message', message);
 
-	const mainContact = find(message.contacts, ['type', 'f']);
+	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const secondaryContact = (find(message.contacts, ['type', 't'])
-		|| find(message.contacts, ['type', 'cc'])
+		|| find(message.contacts, ['type', 'cc']) || fallbackContact
 	);
 
 	const onActionBtnClick = useCallback(
@@ -238,7 +240,6 @@ function MailPreviewBlock({
 					items={map(
 						actions,
 						(action) => {
-							// console.log('Action ID', action.id);
 							return ({
 								id: action.id,
 								icon: action.icon,
