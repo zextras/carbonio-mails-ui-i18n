@@ -1,6 +1,6 @@
 {
   "name": "com_zextras_zapp_mails",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Mails app for Zextras",
   "main": "src/index.js",
   "scripts": {
