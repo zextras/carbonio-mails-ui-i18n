@@ -42,7 +42,7 @@ const useBreadCrumbs = () => {
 
 const useSelection = () => {
 	const [selected, dispatch] = useReducer(
-		(state, { type, ids, id }) => {
+		(state, { type, ids }) => {
 			switch (type) {
 				case 'select':
 					return {
@@ -54,7 +54,7 @@ const useSelection = () => {
 						)
 					};
 				case 'deselect':
-					return omit(state, id);
+					return omit(state, ids);
 				case 'reset':
 					return {};
 				default:
@@ -67,7 +67,8 @@ const useSelection = () => {
 		selected,
 		select: (id) => dispatch({ type: 'select', ids: [id] }),
 		selectMany: (ids) => dispatch({ type: 'select', ids }),
-		deselect: (id) => dispatch({ type: 'deselect', id }),
+		deselect: (id) => dispatch({ type: 'deselect', ids: [id] }),
+		deselectMany: (ids) => dispatch({ type: 'deselect', ids }),
 		deselectAll: () => dispatch({ type: 'reset' }),
 		amountSelected: Object.keys(selected).length
 	};
@@ -88,6 +89,7 @@ export default function MailList({ mailsSrvc, path }) {
 		select,
 		selectMany,
 		deselect,
+		deselectMany,
 		deselectAll,
 		amountSelected
 	} = useSelection();
@@ -95,6 +97,12 @@ export default function MailList({ mailsSrvc, path }) {
 	const { actions, loading } = useItemActionContext('conversation-list', memoizedSelectionArray);
 
 	useEffect(deselectAll, [path]);
+	useEffect(() => {
+		const removedIds = Object.keys(omit(selected, convList));
+		if (removedIds.length > -1) {
+			deselectMany(removedIds);
+		}
+	}, [convList]);
 
 	return (
 		<Container
