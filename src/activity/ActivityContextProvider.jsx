@@ -9,17 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import activityContext from './ActivityContext';
 import React, { useReducer } from 'react';
 import { omit, without } from 'lodash';
+import activityContext from './ActivityContext';
 
-const pull = (state, name, value) => {
+function pull(state, name, value) {
 	const newValue = without(state[name], value);
 	if (newValue.length === 0) return omit(state, [name]);
 	return { ...state, [name]: newValue };
-};
+}
 
-const reducer = (state, { type, name, value }) => {
+function reducer(state, { type, name, value }) {
 	switch (type) {
 		case 'set': return { ...state, [name]: value };
 		case 'reset': return omit(state, [name]);
@@ -28,9 +28,9 @@ const reducer = (state, { type, name, value }) => {
 			return pull(state, name, value);
 		default: return state;
 	}
-};
+}
 
-const ActivityContextProvider = ({ children }) => {
+function ActivityContextProvider({ children }) {
 	const [activities, dispatch] = useReducer(reducer, {});
 	return (
 		<activityContext.Provider
@@ -46,6 +46,6 @@ const ActivityContextProvider = ({ children }) => {
 			{children}
 		</activityContext.Provider>
 	);
-};
+}
 
 export default ActivityContextProvider;

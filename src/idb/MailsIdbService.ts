@@ -147,7 +147,8 @@ export default class MailsIdbService implements IMailsIdbService {
 				fcSink(
 					'mails:updated:conversation',
 					{
-						id: conv.id
+						id: conv.id,
+						parent: conv.parent
 					}
 				);
 				return conv;
@@ -206,6 +207,46 @@ export default class MailsIdbService implements IMailsIdbService {
 	public getConversation(id: string): Promise<Conversation|undefined> {
 		return idbSrvc.openDb<IMailsIdb>()
 			.then((idb) => idb.get<'conversations'>('conversations', id));
+	}
+
+	public deleteConversations(ids: string[]): Promise<string[]> {
+		if (ids.length < 1) return Promise.resolve([]);
+		const cCopy = [...ids];
+		const id = cCopy.shift();
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => idb.delete<'conversations'>('conversations', id!))
+			.then((_) => new Promise((resolve, reject) => {
+
+				fcSink('mails:deleted:conversation', { id });
+
+				if (cCopy.length === 0) {
+					resolve([id!]);
+				}
+				else {
+					this.deleteConversations(cCopy)
+						.then((r) => resolve([id!].concat(r)))
+						.catch((e) => reject(e));
+				}
+			}));
+	}
+
+	public deleteMessages(ids: string[]): Promise<string[]> {
+		if (ids.length < 1) return Promise.resolve([]);
+		const cCopy = [...ids];
+		const id = cCopy.shift();
+		return idbSrvc.openDb<IMailsIdb>()
+			.then((idb) => idb.delete<'messages'>('messages', id!))
+			.then((_) => new Promise((resolve, reject) => {
+
+				fcSink('mails:deleted:message', { id });
+
+				if (cCopy.length === 0) resolve([id!]);
+				else {
+					this.deleteMessages(cCopy)
+						.then((r) => resolve([id!].concat(r)))
+						.catch((e) => reject(e));
+				}
+			}));
 	}
 
 	public getMessages(msgIds: string[]): Promise<{[p: string]: MailMessage}> {

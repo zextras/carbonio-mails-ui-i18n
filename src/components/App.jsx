@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
 	Container,
@@ -24,11 +24,12 @@ import ConversationPreviewPanel from './preview/ConversationPreviewPanel';
 import ConversationPreviewCtxtProvider from '../context/ConversationPreviewCtxtProvider';
 import ConversationFolderCtxtProvider from '../context/ConversationFolderCtxtProvider';
 import ActivityContextProvider from '../activity/ActivityContextProvider';
+import MailComposePanel from './compose/MailComposePanel';
 
-export const ROUTE = '/mails/folder/:path*';
+export const ROUTE = '/mails/folder/:path/:edit?';
 
 export default function App({ mailsSrvc }) {
-	const { path } = useParams();
+	const { path, edit } = useParams();
 	return (
 		<ActivityContextProvider>
 			<Container
@@ -49,7 +50,7 @@ export default function App({ mailsSrvc }) {
 							mailsSrvc={mailsSrvc}
 							folderPath={`/${path}`}
 						>
-							<MailList mailsSrvc={mailsSrvc} path={`/${path}`} />
+							<MailList mailsSrvc={mailsSrvc} path={`/${path}`}/>
 						</ConversationFolderCtxtProvider>
 					</Container>
 					<Container
@@ -59,13 +60,13 @@ export default function App({ mailsSrvc }) {
 						mainAlignment="flex-start"
 					>
 						<Catcher>
-							<SecondaryView mailsSrvc={mailsSrvc} path={path} />
+							<SecondaryView mailsSrvc={mailsSrvc} path={path} edit={edit} />
 						</Catcher>
 					</Container>
 				</Responsive>
 				<Responsive mode="mobile">
 					<Catcher>
-						<SecondaryView mailsSrvc={mailsSrvc} path={path} />
+						<SecondaryView mailsSrvc={mailsSrvc} path={path} edit={edit} />
 					</Catcher>
 				</Responsive>
 			</Container>
@@ -73,12 +74,18 @@ export default function App({ mailsSrvc }) {
 	);
 }
 
-const SecondaryView = ({ mailsSrvc, path }) => {
-	const { activities } = useContext(activityContext);
+const SecondaryView = ({ mailsSrvc, path, edit }) => {
+	const { activities, set } = useContext(activityContext);
 	const screenMode = useScreenMode();
+	useEffect(
+		() => {
+			if (edit) set('mailEdit', edit);
+		},
+		[edit]
+	);
 	const panel = useMemo(() => {
 		if (activities.mailEdit) {
-			return <Text>Hello</Text>;
+			return <MailComposePanel mailsSrvc={mailsSrvc} id={activities.mailEdit} />;
 		}
 		if (activities.mailView) {
 			return (

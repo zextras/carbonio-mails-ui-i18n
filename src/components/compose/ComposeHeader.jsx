@@ -8,52 +8,48 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+
 import React, { useContext } from 'react';
-import {
-	Container,
-	Text,
-	IconButton,
-	Icon,
-	Padding,
-	Divider
-} from '@zextras/zapp-ui';
+import { Container, Icon, IconButton, Text, Padding, Divider } from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
-function PreviewPanelHeader({ conversation }) {
+function ComposeHeader({}) {
 	const { reset } = useContext(activityContext);
 	return (
-		<>
+		<Container
+			height="fit"
+			background="bg_9"
+			padding={{ horizontal: 'small' }}
+		>
 			<Container
 				orientation="horizontal"
 				height="48px"
-				background="bg_9"
-				mainAlignment="space-between"
-				crossAlignment="center"
 				style={{ minHeight: '48px' }}
+				mainAlignment="space-between"
+				padding={{ horizontal: 'large' }}
 			>
 				<Container
 					orientation="horizontal"
-					mainAlignment="flex-start"
-					padding={{ left: 'large' }}
+					width="fill"
 					style={{ minWidth: '0' }}
+					mainAlignment="flex-start"
 				>
-					<Icon
-						size="large"
-						icon="EmailOutline"
-					/>
-					<Padding left="medium">
-						<Text
+					<Padding right="medium">
+						<Icon
+							icon="EditOutline"
+							label="Edit"
 							size="large"
-						>
-							{conversation.subject}
-						</Text>
+						/>
 					</Padding>
+					<Text size="large">Compose</Text>
 				</Container>
-				<IconButton icon="Close" onClick={() => reset('mailView')} />
+				<IconButton
+					icon="Close"
+					onClick={() => reset('mailEdit')}
+				/>
 			</Container>
-			<Divider />
-		</>
+		</Container>
 	);
 }
 
-export default PreviewPanelHeader;
+export default ComposeHeader;

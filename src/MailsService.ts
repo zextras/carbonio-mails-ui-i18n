@@ -11,6 +11,7 @@
 
 import { ISyncOperation, ISyncOpSoapRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { fcSink, fc } from '@zextras/zapp-shell/fc';
+import { IStoredSessionData } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
 import {
 	reduce,
 	without,
@@ -19,38 +20,54 @@ import {
 	orderBy,
 	uniqBy
 } from 'lodash';
-import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import {
 	IMailsService,
 	MarkConversationAsReadOp,
 	MarkMessageAsReadOp,
 	MarkConversationAsSpamOp,
-	TrashConversationOp
+	TrashConversationOp,
+	MarkMessageAsSpamOp,
+	TrashMessageOp, SendMsgOp
 } from './IMailsService';
 import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
 	MarkConversationAsSpamOpReq,
-	TrashConversationOpReq
+	normalizeMailMessageFromSoap,
+	TrashConversationOpReq,
+	MarkMessageAsSpamOpReq,
+	TrashMessageOpReq,
+	mailToCompositionData, SendMsgOpReq, ISoapContact
 } from './ISoap';
 import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
 import { IMailsNetworkService } from './network/IMailsNetworkService';
 import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
+import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
+import { sessionSrvc } from '@zextras/zapp-shell/service';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
+export const _CONVERSATION_DELETED_EV_REG = /mails:deleted:conversation/;
+export const _MESSAGE_DELETED_EV_REG = /mails:deleted:message/;
 
 export default class MailsService implements IMailsService {
 	private _createId = 0;
 
+	private _pendingDraftIds: { [opID: string]: BehaviorSubject<string> } = {};
+
+	private _sessionData: IStoredSessionData | undefined = undefined;
 	// public conversations: {[id: string]: BehaviorSubject<Conversation[]>} = {};
 
 	constructor(
 		private _idbSrvc: IMailsIdbService,
-		private _networkSrvc: IMailsNetworkService
+		private _networkSrvc: IMailsNetworkService,
 	) {
+		sessionSrvc.session.subscribe((data) => {
+			this._sessionData = data;
+		});
 		// fc
 		// 	.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 		// 	.subscribe(({ data }) => this._updateConversation(data.id));
@@ -330,6 +347,61 @@ export default class MailsService implements IMailsService {
 		});
 	}
 
+	public markMessageAsSpam(id: string, spam: boolean): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<MarkMessageAsSpamOp, ISyncOpSoapRequest<MarkMessageAsSpamOpReq>>>(
+				'sync:operation:push',
+				{
+					description: `Marking a message as ${spam ? '' : 'not '}spam`,
+					opData: {
+						operation: 'mark-message-as-spam',
+						id,
+						spam
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: spam ? 'spam' : '!spam',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
+	public moveMessageToTrash(id: string): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<TrashMessageOp, ISyncOpSoapRequest<TrashMessageOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a message to trash',
+					opData: {
+						operation: 'trash-message',
+						id
+					},
+					opType: 'soap',
+					request: {
+						command: 'MsgAction',
+						urn: 'urn:zimbraMail',
+						data: {
+							action: {
+								op: 'trash',
+								id
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
+	}
+
 	/*
 	public deleteConversation(id: string): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -389,20 +461,6 @@ export default class MailsService implements IMailsService {
 	}
 
 	/*
- 	public saveDraft(msg: MailMessage): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-
-	public addAttachment(msg: MailMessage, file: File): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-
-	public sendMessage(msg: MailMessage): Promise<MailMessage> {
-		return Promise.reject(new Error('Method not implemented'));
-	}
-	*/
-
-	/*
 	private _updateConversation(id: string): void {
 		this.getConversation(id)
 			.then((c) => {
@@ -436,6 +494,7 @@ export default class MailsService implements IMailsService {
 			.then(([convs, f]: [Conversation[], IMailFolderSchmV1]): Conversation[]|Promise<Conversation[]> => {
 				if (loadMore && f.hasMore) {
 					return this._networkSrvc.fetchConversationsInFolder(f.id, 50)
+						.catch((e) => ([]))
 						.then((c) => Promise.all(
 							map(
 								c,
@@ -501,6 +560,7 @@ export default class MailsService implements IMailsService {
 			.then((conv) => {
 				if (conv) return conv;
 				return this._networkSrvc.fetchConversations([id])
+					.catch((e) => ([]))
 					.then(([conv1]: Conversation[]) => {
 						if (!conv1) throw new Error(`Conversation '${id}' not found`);
 						return this._idbSrvc.saveConversation(conv1);
@@ -529,6 +589,7 @@ export default class MailsService implements IMailsService {
 							)
 						)
 					)
+						.catch((e) => ([]))
 						.then(
 							(messages) => this._idbSrvc.saveMailMessages(messages)
 								.then((savedMsgs) => [msgs, reduce<MailMessage, {[id: string]: MailMessage}>(
@@ -565,5 +626,251 @@ export default class MailsService implements IMailsService {
 				...msg,
 				folder: f
 			}));
+	}
+
+	public uploadAttachments(files: Array<File>): Promise<Array<CompositionAttachment>> {
+		return Promise.all(
+			map(
+				files,
+				(file) => fetch(
+					'/service/upload?fmt=extended,raw',
+					{
+						headers: {
+							'Cache-Control': 'no-cache',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Content-Type': `${file.type || 'application/octet-stream'};`,
+							'Content-Disposition': `attachment; filename="${file.name}"`
+						},
+						method: 'POST',
+						body: JSON.stringify(file)
+					}
+				)
+					.then((res) => res.text())
+					.then((txt) => eval(`[${txt}]`))
+					.then((val) => ({ aid: val[2][0].aid }))
+			)
+		);
+	}
+
+	public createDraft(): BehaviorSubject<string> {
+		const opId = `offline${Object.keys(this._pendingDraftIds).length}-${Date.now()}`;
+		this._pendingDraftIds[opId] = new BehaviorSubject<string>(opId);
+		const req = {
+			Body: {
+				SaveDraftRequest: {
+					_jsns: 'urn:zimbraMail',
+					m: {
+						su: '',
+						e: [
+							{
+								t: 'f',
+								a: this._sessionData ? this._sessionData.username : ''
+							}
+						],
+						mp: [
+							{
+								ct: 'text/plain',
+								content: {
+									_content: '',
+								}
+							}
+						]
+					}
+				}
+			}
+		};
+		fetch(
+			'service/soap/SaveDraft',
+			{
+				method: 'POST',
+				body: JSON.stringify(req)
+			}
+		)
+			.then((response) => response.json())
+			.then(
+				(res) => {
+					this._pendingDraftIds[opId].next(res.Body.SaveDraftResponse.m[0].id);
+					this._pendingDraftIds[opId].complete();
+				}
+			);
+		return this._pendingDraftIds[opId];
+	}
+
+	public saveDraft(
+		data: CompositionData,
+		draftId: string,
+		newAttachments?: Array<CompositionAttachment>
+	): Promise<CompositionData> {
+		const partOffset = data.html ? 2 : 1;
+		const req = {
+			Body: {
+				SaveDraftRequest: {
+					_jsns: 'urn:zimbraMail',
+					m: {
+						id: draftId,
+						su: data.subject,
+						f: `${data.priority ? '!' : ''}`,
+						e: [
+							{
+								t: 'f',
+								a: this._sessionData ? this._sessionData.username : ''
+							},
+							...map(data.to, (c) => ({
+								t: 't',
+								a: c.value
+							})),
+							...map(data.cc, (c) => ({
+								t: 'c',
+								a: c.value
+							})),
+							...map(data.bcc, (c) => ({
+								t: 'b',
+								a: c.value
+							}))
+						],
+						mp: [
+							data.html
+								? {
+									ct: 'multipart/alternative',
+									mp: [
+										{
+											ct: 'text/plain',
+											content: {
+												_content: data.body.text
+											},
+										},
+										{
+											ct: 'text/html',
+											content: {
+												_content: data.body.html
+											},
+										},
+									]
+								}
+								: {
+									ct: 'text/plain',
+									content: {
+										_content: data.body.text
+									}
+								}
+						],
+						attach: {
+							aid: newAttachments && newAttachments.length > 0
+								? reduce(
+									newAttachments,
+									(acc, att, i) => `${acc}${att.aid}${i === data.attachments.length ? '' : ','}`,
+									''
+								)
+								: null,
+							mp: map(
+								data.attachments,
+								(att, index) => ({
+									mid: draftId,
+									part: index + partOffset
+								})
+							)
+						},
+					}
+				}
+			}
+		};
+		return fetch(
+			'service/soap/SaveDraft',
+			{
+				method: 'POST',
+				body: JSON.stringify(req)
+			}
+		)
+			.then((response) => response.json())
+			.then(
+				(res) =>
+					mailToCompositionData(
+						normalizeMailMessageFromSoap(
+							res.Body.SaveDraftResponse.m[0]
+						)
+					)
+			);
+	}
+
+	public sendDraft(data: CompositionData, draftId: string): Promise<void> {
+		const partOffset = data.html ? 2 : 1;
+		return new Promise<void>((resolve, reject) => {
+			fcSink<ISyncOperation<SendMsgOp, ISyncOpSoapRequest<SendMsgOpReq>>>(
+				'sync:operation:push',
+				{
+					description: 'Moving a conversation to trash',
+					opData: {
+						operation: 'send-mail',
+						id: draftId
+					},
+					opType: 'soap',
+					request: {
+						command: 'SendMsg',
+						urn: 'urn:zimbraMail',
+						data: {
+							m: {
+								f: `${data.priority ? '!' : ''}`,
+								did: draftId,
+								su: data.subject,
+								e: [
+									{
+										t: 'f',
+										a: this._sessionData ? this._sessionData.username : ''
+									},
+									...map(data.to, (c): ISoapContact => ({
+										t: 't',
+										a: c.value
+									})),
+									...map(data.cc, (c): ISoapContact => ({
+										t: 'c',
+										a: c.value
+									})),
+									...map(data.bcc, (c): ISoapContact => ({
+										t: 'b',
+										a: c.value
+									}))
+								],
+								mp: [
+									data.html
+										? {
+											ct: 'multipart/alternative',
+											mp: [
+												{
+													ct: 'text/plain',
+													content: {
+														_content: data.body.text
+													},
+												},
+												{
+													ct: 'text/html',
+													content: {
+														_content: data.body.html
+													},
+												},
+											]
+										}
+										: {
+											ct: 'text/plain',
+											content: {
+												_content: data.body.text
+											}
+										}
+								],
+								attach: {
+									mp: map(
+										data.attachments,
+										(att, index) => ({
+											mid: draftId,
+											part: index + partOffset
+										})
+									)
+								},
+							}
+						}
+					}
+				}
+			);
+			resolve();
+		});
 	}
 }

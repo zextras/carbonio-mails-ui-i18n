@@ -9,12 +9,18 @@
  * *** END LICENSE BLOCK *****
  */
 import { registerItemAction } from '@zextras/zapp-shell/itemActions';
-import { forEach, reduce, find, filter, map } from 'lodash';
+import {
+	forEach,
+	reduce,
+	find,
+	filter
+} from 'lodash';
 import { IMailsService } from '../IMailsService';
+import { MailMessageWithFolder } from '../context/ConversationFolderCtxt';
 
 export default function registerActions(mailsSrvc: IMailsService): void {
 	registerItemAction('conversation-list', {
-		id: 'move-to-trash',
+		id: 'conversation-move-to-trash',
 		icon: 'TrashOutline',
 		label: 'Move to Trash',
 		onActivate: (items: any): void => {
@@ -26,7 +32,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		onCheck: (items: any) => Promise.resolve(items.length > 0)
 	});
 	registerItemAction('conversation-list', {
-		id: 'mark-as-read',
+		id: 'conversation-mark-as-read',
 		icon: 'EyeOutline',
 		label: 'Mark as Read',
 		onActivate: (items: any): void => {
@@ -41,7 +47,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		),
 	});
 	registerItemAction('conversation-list', {
-		id: 'mark-as-unread',
+		id: 'conversation-mark-as-unread',
 		icon: 'EyeOff2Outline',
 		label: 'Mark as Unread',
 		onActivate: (items: any): void => {
@@ -56,7 +62,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		),
 	});
 	registerItemAction('conversation-list', {
-		id: 'mark-as-spam',
+		id: 'conversation-mark-as-spam',
 		icon: 'SlashOutline',
 		label: 'Mark as Spam',
 		onActivate: (items: any) => {
@@ -69,7 +75,7 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 		&& reduce<any, boolean>(items, (acc, c) => acc || !find(c.value.parent, '4'), false)),
 	});
 	registerItemAction('conversation-list', {
-		id: 'unmark-as-spam',
+		id: 'conversation-unmark-as-spam',
 		icon: 'CheckmarkCircle2Outline',
 		label: 'Remove from Spam',
 		onActivate: (items: any) => {
@@ -89,5 +95,50 @@ export default function registerActions(mailsSrvc: IMailsService): void {
 					true
 				));
 		},
+	});
+	registerItemAction('mail-message', {
+		id: 'mail-move-to-trash',
+		icon: 'TrashOutline',
+		label: 'Move to Trash',
+		onActivate: (m: MailMessageWithFolder): void => {
+			mailsSrvc.moveMessageToTrash(m.id);
+		},
+		onCheck: (m: MailMessageWithFolder) => Promise.resolve(m.parent !== '3')
+	});
+	registerItemAction('mail-message', {
+		id: 'mail-mark-as-read',
+		icon: 'EyeOutline',
+		label: 'Mark as Read',
+		onActivate: (m: MailMessageWithFolder): void => {
+			mailsSrvc.markMessageAsRead(m.id, true);
+		},
+		onCheck: (m: MailMessageWithFolder) => Promise.resolve(!m.read)
+	});
+	registerItemAction('mail-message', {
+		id: 'mail-mark-as-unread',
+		icon: 'EyeOff2Outline',
+		label: 'Mark as Unread',
+		onActivate: (m: MailMessageWithFolder): void => {
+			mailsSrvc.markMessageAsRead(m.id, false);
+		},
+		onCheck: (m: MailMessageWithFolder) => Promise.resolve(m.read)
+	});
+	registerItemAction('mail-message', {
+		id: 'mail-mark-as-spam',
+		icon: 'SlashOutline',
+		label: 'Mark as Spam',
+		onActivate: (m: MailMessageWithFolder) => {
+			mailsSrvc.markMessageAsSpam(m.id, true);
+		},
+		onCheck: (m: MailMessageWithFolder) => Promise.resolve(m.parent !== '4')
+	});
+	registerItemAction('mail-message', {
+		id: 'mail-unmark-as-spam',
+		icon: 'CheckmarkCircle2Outline',
+		label: 'Remove from Spam',
+		onActivate: (m: MailMessageWithFolder) => {
+			mailsSrvc.markMessageAsSpam(m.id, false);
+		},
+		onCheck: (m: MailMessageWithFolder) => Promise.resolve(m.parent === '4')
 	});
 }

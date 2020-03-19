@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import {
 	Container,
 	Text,
@@ -19,8 +19,11 @@ import {
 	Icon,
 	Padding,
 	Badge,
-	DownloadFileButton
+	DownloadFileButton,
+	IconButton,
+	Dropdown
 } from '@zextras/zapp-ui';
+import { useItemActionContext } from '@zextras/zapp-shell/hooks';
 import moment from 'moment';
 import { find, reduce, map } from 'lodash';
 import { Link } from 'react-router-dom';
@@ -38,13 +41,13 @@ const findAttachments = (parts, acc) => reduce(
 	acc
 );
 
-const MailPreview = ({
+function MailPreview({
 	message,
 	open,
 	toggleOpen,
 	onUnreadLoaded,
 	path
-}) => {
+}) {
 	const msgRender = useMemo(
 		() => (
 			<MailMessageRenderer key={message.id} onUnreadLoaded={onUnreadLoaded} mailMsg={message} />
@@ -89,7 +92,7 @@ const MailPreview = ({
 										to={`/service/home/~/?auth=co&id=${message.id}&part=${att.name}&disp=a`}
 										target="_blank"
 										download
-										style={{ width: '100%'}}
+										style={{ width: '100%' }}
 									>
 										<DownloadFileButton
 											fileName={att.filename}
@@ -105,15 +108,35 @@ const MailPreview = ({
 			<Divider />
 		</Container>
 	);
-};
+}
 
 export default MailPreview;
 
-const MailPreviewBlock = ({ message, open, onClick, path }) => {
-	const mainContact = find(message.contacts, ['type', 'f']);
+const fallbackContact = { address: '', displayName: '' };
+
+function MailPreviewBlock({
+	message,
+	open,
+	onClick,
+	path
+}) {
+	const [openActionMenu, setActionMenuOpen] = useState(false);
+
+	const { actions } = useItemActionContext('mail-message', message);
+
+	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const secondaryContact = (find(message.contacts, ['type', 't'])
-		|| find(message.contacts, ['type', 'cc'])
+		|| find(message.contacts, ['type', 'cc']) || fallbackContact
 	);
+
+	const onActionBtnClick = useCallback(
+		(ev) => {
+			setActionMenuOpen(!openActionMenu);
+			ev.stopPropagation();
+		},
+		[setActionMenuOpen, openActionMenu]
+	);
+
 	return (
 		<HoverContainer
 			onClick={onClick}
@@ -205,6 +228,30 @@ const MailPreviewBlock = ({ message, open, onClick, path }) => {
 					</Container>
 				</Container>
 			</Container>
+			<Container
+				width="fit"
+			>
+				<IconButton
+					icon="MoreVertical"
+					onClick={onActionBtnClick}
+				/>
+				<Dropdown
+					right="0"
+					items={map(
+						actions,
+						(action) => {
+							return ({
+								id: action.id,
+								icon: action.icon,
+								label: action.label,
+								click: action.onActivate
+							});
+						}
+					)}
+					open={openActionMenu}
+					closeFunction={onActionBtnClick}
+				/>
+			</Container>
 		</HoverContainer>
 	);
-};
+}

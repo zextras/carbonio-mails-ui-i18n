@@ -14,9 +14,9 @@ import IActivityContext from './IActivityContext';
 
 const activityContext = createContext<IActivityContext>({
 	get: (name) => ({ value: '', hash: '' }),
-	set: (name, id, hash) => console.log(`set ${name} to ${id} with hash: ${hash}`),
+	set: (name, id) => console.log(`set ${name} to ${id}`),
 	reset: (name) => console.log(`reset ${name}`),
-	push: (name, id, hash) => console.log(`push ${id} to ${name} with hash: ${hash}`),
+	push: (name, id) => console.log(`push ${id} to ${name}`),
 	pull: (name, id) => console.log(`pull ${id} from ${name}`),
 });
 

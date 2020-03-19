@@ -10,7 +10,8 @@
  */
 
 import React from 'react';
-import { addMainMenuItem, registerRoute } from '@zextras/zapp-shell/router';
+import { addMainMenuItem, registerRoute, addCreateMenuItem } from '@zextras/zapp-shell/router';
+import { sessionSrvc } from '@zextras/zapp-shell/service';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -55,7 +56,8 @@ export default function app() {
 	);
 	const mailsSrvc = new MailsService(
 		idbSrvc,
-		networkSrvc
+		networkSrvc,
+		sessionSrvc,
 	);
 	registerActions(mailsSrvc);
 
@@ -176,6 +178,11 @@ export default function app() {
 		_folders
 	]).subscribe(_mergeFoldersAndOperations);
 
+	addCreateMenuItem(
+		'EmailOutline',
+		'Email',
+		'/mails/folder/Drafts/new'
+	);
 	addMainMenuItem(
 		'EmailOutline',
 		'Mails',

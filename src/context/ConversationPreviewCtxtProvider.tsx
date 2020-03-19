@@ -9,16 +9,28 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, {
+	ReactElement,
+	PropsWithChildren,
+	useEffect,
+	useState,
+	useContext,
+	useRef
+} from 'react';
 import { find } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
-import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
+import {
+	_CONVERSATION_UPDATED_EV_REG,
+	_CONVERSATION_DELETED_EV_REG,
+	_MESSAGE_UPDATED_EV_REG
+} from '../MailsService';
 import { ConversationWithMessages } from './ConversationFolderCtxt';
 import { processOperationsConversation } from './ConversationUtility';
+import activityContext from '../activity/ActivityContext';
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
@@ -29,46 +41,63 @@ const ConversationPreviewCtxtProvider = ({
 	convId,
 	mailsSrvc,
 	children
-}: PropsWithChildren<ConversationPreviewCtxtProviderProps>) => {
+}: PropsWithChildren<ConversationPreviewCtxtProviderProps>): ReactElement => {
 	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
+	const { reset } = useContext(activityContext);
+	const convRef = useRef<ConversationWithMessages|undefined>();
+
+	function updateConversation(): void {
+		(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
+			.then((conv: ConversationWithMessages) =>
+				processOperationsConversation(syncOperations.getValue(), conv, mailsSrvc)
+					.then(([convModified]) => setConversation(convModified)));
+	}
 
 	useEffect(() => {
-		const updateConversation = () => {
-			(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
-				.then((conv: ConversationWithMessages) => setConversation(
-					processOperationsConversation(syncOperations.getValue(), conv)[0]
-				));
-		};
+		convRef.current = conversation;
+	}, [conversation]);
 
-		const conversationSubscription = fc
+	useEffect(() => updateConversation(), [convId]);
+
+	useEffect(() => {
+		let semaphore = true;
+		const conversationUpdatedSubscription = fc
 			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => data.id === convId && updateConversation());
 
-		const messageSubscription = fc
+		const conversationDeletedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => data.id === convId && reset('mailView'));
+
+		const messageUpdatedSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => {
-				if (conversation) {
-					find(conversation.messages, ['id', data.id]) && updateConversation();
+				if (convRef.current && find(convRef.current.messages, ['id', data.id])) {
+					updateConversation();
 				}
 			});
 
 		const operationSubscription = syncOperations.subscribe((operations) => {
-			if (conversation) {
-				const [convModified, modified] = processOperationsConversation(operations, conversation);
-				if (modified) {
-					setConversation(convModified);
-				}
+			if (convRef.current) {
+				processOperationsConversation(operations, convRef.current, mailsSrvc)
+					.then(([convModified, modified]) => {
+						if (semaphore && modified) {
+							setConversation(convModified);
+						}
+					});
 			}
 		});
 
-		updateConversation();
-
-		return () => {
-			conversationSubscription.unsubscribe();
-			messageSubscription.unsubscribe();
+		return (): void => {
+			semaphore = false;
+			conversationUpdatedSubscription.unsubscribe();
+			conversationDeletedSubscription.unsubscribe();
+			messageUpdatedSubscription.unsubscribe();
 			operationSubscription.unsubscribe();
 		};
 	}, [convId]);
+
+	useEffect(() => updateConversation(), [convId]);
 
 	return (
 		<ConversationPreviewCtxt.Provider

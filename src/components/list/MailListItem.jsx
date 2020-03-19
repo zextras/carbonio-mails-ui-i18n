@@ -31,10 +31,14 @@ const MailListItem = ({
 	folder,
 	selectable
 }) => {
-	const mainContact = useMemo(() => {
-		return find(email.contacts, ['type', (folder === 'Sent' || folder === 'Drafts')? 't' : 'f']);
-	}, email.contacts);
-	const { set } = useContext(activityContext);
+	const mainContact = useMemo(
+		() => find(
+			email.contacts,
+			['type', (folder === 'Sent' || folder === 'Drafts') ? 't' : 'f']
+		),
+		email.contacts
+	) || { address: '', displayName: '' };
+	const { set, reset } = useContext(activityContext);
 	return (
 		<HoverContainer
 			orientation="vertical"
@@ -45,8 +49,14 @@ const MailListItem = ({
 			}}
 			onClick={
 				() => {
-					set('mailViewMsgId', email.id);
-					set('mailView', email.conversation);
+					if (email.parent === '6') {
+						reset('mailEdit');
+						set('mailEdit', email.id);
+					}
+					else {
+						set('mailViewMsgId', email.id);
+						set('mailView', email.conversation);
+					}
 				}
 			}
 		>

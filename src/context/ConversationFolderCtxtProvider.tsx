@@ -17,17 +17,28 @@ import React, {
 	useState
 } from 'react';
 import {
+	map,
 	reduce,
 	forEach,
 	filter as loFilter,
 	includes,
-	cloneDeep
+	cloneDeep,
+	zipObject,
+	keys
 } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { syncOperations } from '@zextras/zapp-shell/sync';
+import { fc } from '@zextras/zapp-shell/fc';
 import { IMailsService } from '../IMailsService';
-import ConversationFolderCtxt, { ConversationWithMessages } from './ConversationFolderCtxt';
+import ConversationFolderCtxt, { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
 import { processOperationsConversation, processOperationsList } from './ConversationUtility';
+import {
+	_CONVERSATION_UPDATED_EV_REG,
+	_MESSAGE_UPDATED_EV_REG,
+	_CONVERSATION_DELETED_EV_REG,
+	_MESSAGE_DELETED_EV_REG
+} from '../MailsService';
 
 type ConversationFolderCtxtProviderProps = {
 	folderPath: string;
@@ -43,7 +54,10 @@ function mapCleanUp(
 	currentList: Array<string>,
 	newList: Array<string>,
 	conversations: { [id: string]: ConversationWithMessages }
-): Promise<[{ [id: string]: BehaviorSubject<ConversationWithMessages> }, { [id: string]: ConversationWithMessages }]> {
+): Promise<[
+	{ [id: string]: BehaviorSubject<ConversationWithMessages> },
+	{ [id: string]: ConversationWithMessages }
+]> {
 	const addedConvs = loFilter(newList, (convId) => !includes(currentList, convId));
 	const removedConvs = loFilter(currentList, (convId) => !includes(newList, convId));
 	const cache = cloneDeep(conversations);
@@ -68,19 +82,55 @@ function mapCleanUp(
 		.then(() => [convMap, cache]);
 }
 
-function ConversationFolderCtxtProvider({ folderPath, mailsSrvc, children }: PropsWithChildren<ConversationFolderCtxtProviderProps>): ReactElement {
+function ConversationFolderCtxtProvider({
+	folderPath,
+	mailsSrvc,
+	children
+}: PropsWithChildren<ConversationFolderCtxtProviderProps>): ReactElement {
 	const [convData, setConvData] = useState<
 		{
 			list: string[];
 			map: { [id: string]: BehaviorSubject<ConversationWithMessages> };
 		}
 	>({ list: [], map: {} });
+	const [folderId, setFolderId] = useState<string>('');
 	const [hasMore, setHasMore] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+
+	function applyProcessOperationToConvs(
+		newCache: {[id: string]: ConversationWithMessages},
+		modifiedIds: Array<string>
+	): void {
+		Promise.all(
+			map(
+				newCache,
+				(v) => processOperationsConversation(syncOperations.getValue(), v, mailsSrvc)
+					.then(([conv]) => conv)
+			)
+		)
+			.then((convArray) => {
+				setConvData({
+					list: modifiedIds,
+					map: reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
+						zipObject(keys(newCache), convArray),
+						(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
+							...r,
+							[k]: new BehaviorSubject(v)
+						}),
+						{}
+					)
+				});
+			});
+	}
 
 	const _loadConversations = useCallback<(more: boolean) => Promise<[string[], { [id: string]: ConversationWithMessages }]>>((more) => {
 		return (mailsSrvc.getFolderConversations(folderPath, more) as Promise<[string[], { [id: string]: ConversationWithMessages }]>);
 	}, [mailsSrvc, folderPath]);
+
+	useEffect(() => {
+		mailsSrvc.getFolderByPath(folderPath)
+			.then((folder) => setFolderId(folder.id));
+	}, [folderPath]);
 
 	useEffect(() => {
 		let semaphore = true;
@@ -96,31 +146,23 @@ function ConversationFolderCtxtProvider({ folderPath, mailsSrvc, children }: Pro
 					})
 					.then(([ids, cache]) => {
 						if (!semaphore) return;
-						const [modifiedIds] = processOperationsList(syncOperations.getValue(), ids as string[], folderPath);
-						return mapCleanUp(mailsSrvc, convData, ids as string[], modifiedIds, cache as {[id: string]: ConversationWithMessages})
-							.then(
-								(
-									[
-										newConvMap,
-										newCache
-									]: [
-										{ [id: string]: BehaviorSubject<ConversationWithMessages> },
-										{ [id: string]: ConversationWithMessages }
-									]
-								) => {
-									if (!semaphore) return;
-									setConvData({
-										list: modifiedIds,
-										map: reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
-											newCache,
-											(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
-												...r,
-												[k]: new BehaviorSubject(processOperationsConversation(syncOperations.getValue(), v)[0])
-											}),
-											{}
-										)
-									});
-								});
+						const [modifiedIds] = processOperationsList(
+							syncOperations.getValue(),
+							ids as string[],
+							cache as {[id: string]: ConversationWithMessages},
+							folderId
+						);
+						mapCleanUp(
+							mailsSrvc,
+							convData,
+							ids as string[],
+							modifiedIds,
+							cache as {[id: string]: ConversationWithMessages}
+						)
+							.then(([, newCache]) => {
+								if (!semaphore) return;
+								applyProcessOperationToConvs(newCache, modifiedIds);
+							});
 					})
 			)
 			.then(() => {
@@ -141,36 +183,35 @@ function ConversationFolderCtxtProvider({ folderPath, mailsSrvc, children }: Pro
 
 	useEffect(() => {
 		let semaphore = true;
+		const cache = reduce(convData.map, (r,v,k) => ({ ...r, [k]: v.getValue() }), {});
 		const operationSubscription = syncOperations.subscribe((operations) => {
 			const [modifiedIds, isListModified] = processOperationsList(
 				syncOperations.getValue(),
 				convData.list,
-				folderPath
+				cache,
+				folderId
 			);
-			if (modifiedIds.length) {
-				mapCleanUp(mailsSrvc, convData, convData.list, modifiedIds, {})
-					.then(([newConvMap]) => {
-						if (!semaphore) return;
-						if (isListModified) {
-							setConvData({
-								map: newConvMap,
-								list: modifiedIds
-							});
+			mapCleanUp(mailsSrvc, convData, convData.list, modifiedIds, cache)
+				.then(([newConvMap]) => {
+					if (!semaphore) return;
+					if (isListModified) {
+						setConvData({
+							map: newConvMap,
+							list: modifiedIds
+						});
+					}
+					forEach(
+						newConvMap,
+						(v) => {
+							processOperationsConversation(operations, v.getValue(), mailsSrvc)
+								.then(([convModified, modified]) => {
+									if (modified) {
+										v.next(convModified);
+									}
+								});
 						}
-						forEach(
-							newConvMap,
-							(v) => {
-								const [convModified, modified] = processOperationsConversation(
-									operations,
-									v.getValue()
-								);
-								if (modified) {
-									v.next(convModified);
-								}
-							}
-						);
-					});
-			}
+					);
+				});
 		});
 		return () => {
 			semaphore = false;
@@ -184,21 +225,11 @@ function ConversationFolderCtxtProvider({ folderPath, mailsSrvc, children }: Pro
 		_loadConversations(true)
 			.then(([ids, cache]) => {
 				if (!semaphore) return;
-				const [modifiedIds] = processOperationsList(syncOperations.getValue(), ids, folderPath);
+				const [modifiedIds] = processOperationsList(syncOperations.getValue(), ids, cache, folderId);
 				mapCleanUp(mailsSrvc, convData, ids, modifiedIds, cache)
-					.then(([newConvMap, newCache]) => {
+					.then(([, newCache]) => {
 						if (!semaphore) return;
-						setConvData({
-							list: modifiedIds,
-							map: reduce<{ [id: string]: ConversationWithMessages }, { [id: string]: BehaviorSubject<ConversationWithMessages> }>(
-								newCache,
-								(r: { [id: string]: BehaviorSubject<ConversationWithMessages> }, v: ConversationWithMessages, k: string) => ({
-									...r,
-									[k]: new BehaviorSubject(processOperationsConversation(syncOperations.getValue(), v)[0])
-								}),
-								{}
-							)
-						});
+						applyProcessOperationToConvs(newCache, modifiedIds);
 						setIsLoading(false);
 					});
 			});
@@ -207,6 +238,87 @@ function ConversationFolderCtxtProvider({ folderPath, mailsSrvc, children }: Pro
 			semaphore = false;
 		};
 	}, [folderPath, _loadConversations]);
+
+	useEffect(() => {
+		let semaphore = true;
+
+		const messageIds: Array<{[id: string]: string[]}> = [];
+		forEach(convData.map, (convBS, convId) => {
+			messageIds.push({ [convId]: convBS.getValue().messages.map((message) => message.id) });
+		});
+
+		const conversationUpdatedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				if (includes(convData.list, data.id)) {
+					if (includes(data.parent, folderId)) {
+						(mailsSrvc.getConversation(data.id, true) as Promise<ConversationWithMessages>)
+							.then((conv) => {
+								if (semaphore) {
+									convData.map[data.id].next(conv);
+								}
+							});
+					}
+					else {
+						const newConvMap = { ...convData.map };
+						delete newConvMap[data.id];
+						setConvData({
+							list: loFilter(convData.list, (convId) => convId !== data.id),
+							map: newConvMap
+						});
+					}
+				}
+				else if (includes(data.parent, folderId)) {
+					(mailsSrvc.getConversation(data.id, true) as Promise<ConversationWithMessages>)
+						.then((conv) => {
+							if (semaphore) {
+								setConvData({
+									list: [data.id, ...convData.list],
+									map: { ...convData.map, [data.id]: new BehaviorSubject(conv) }
+								});
+							}
+						});
+				}
+			});
+		const messageUpdatedSubscription = fc
+			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				const messagesInList = loFilter(
+					messageIds,
+					(v) => includes(Object.values(v), data.id.toString())
+				);
+				if (messagesInList.length > 0) {
+					forEach(messagesInList, (messageObj) => {
+						const convId = Object.keys(messageObj)[0];
+						(mailsSrvc.getConversation(convId, true) as Promise<ConversationWithMessages>)
+							.then((conv) => {
+								if (semaphore) {
+									convData.map[convId].next(conv);
+								}
+							});
+					});
+				}
+			});
+		const conversationDeletedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => {
+				if (includes(convData.list, data.id)) {
+					const newConvMap = { ...convData.map };
+					delete newConvMap[data.id];
+					setConvData({
+						list: loFilter(convData.list, (convId) => convId !== data.id),
+						map: newConvMap
+					});
+				}
+			});
+
+		return () => {
+			semaphore = false;
+			conversationUpdatedSubscription.unsubscribe();
+			messageUpdatedSubscription.unsubscribe();
+			conversationDeletedSubscription.unsubscribe();
+		};
+	}, [folderPath, convData.list]);
 
 	return (
 		<ConversationFolderCtxt.Provider
