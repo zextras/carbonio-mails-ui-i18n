@@ -53,6 +53,12 @@ function reducer(state: CompositionData, action: DispatchAction) {
 			if (typeof (action as ModeDispatch).htmlMode !== 'undefined') {
 				return {
 					...state,
+					body: {
+						...state.body,
+						html: state.body.html === '<p>undefined</p>'
+							? ''
+							: state.body.html
+					},
 					html: action.htmlMode
 				};
 			}
