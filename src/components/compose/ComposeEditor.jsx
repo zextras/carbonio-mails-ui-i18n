@@ -11,22 +11,44 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Text, RichTextEditor, Input, DownloadFileButton } from '@zextras/zapp-ui';
+import { Container, DownloadFileButton, RichTextEditor } from '@zextras/zapp-ui';
 import { map } from 'lodash';
-const Editor = styled(RichTextEditor)`
-& > .tox {
-	height: 100%;
+
+const EditorWrapper = styled.div`
 	width: 100%;
-	border: none;
-}
+	height: 100% !important;
+
+	> .tox:not(.tox-tinymce-inline) {
+		width: 100%;
+		height: 100% !important;
+		border: none;
+		
+		.tox-editor-header {
+			padding: ${(props) => props.theme.sizes.padding.large};
+			background-color: ${(props) => props.theme.colors.background.bg_7};
+		}
+		.tox-edit-area {
+			min-height: 150px;
+		}
+		.tox-toolbar__primary {
+			background: none;
+			background-color: ${(props) => props.theme.colors.background.bg_9};
+			border-radius: ${(props) => props.theme.borderRadius};
+		}
+	}
+	> .tox {
+		.tox-edit-area {
+			min-height: 150px;
+			margin-left: calc(-1rem + ${(props) => props.theme.sizes.padding.large});
+		}
+	}
 `;
 
 const TextArea = styled.textarea`
 	box-sizing: border-box;
-	margin: 0 8px;
-	padding: 8px;
-	height: fit-content;
-	min-height: 100px;
+	padding: ${(props) => props.theme.sizes.padding.large};
+	height: 100%;
+	min-height: 150px;
 	width: 100%;
 	border: none;
 	resize: none;
@@ -64,10 +86,12 @@ function ComposeEditor({
 			}
 			{ html
 				? (
-					<Editor
-						initialValue={body.html}
-						onEditorChange={([text, htmlContent]) => onEditorChange(text, htmlContent)}
-					/>
+					<EditorWrapper>
+						<RichTextEditor
+							initialValue={body.html}
+							onEditorChange={([text, htmlContent]) => onEditorChange(text, htmlContent)}
+						/>
+					</EditorWrapper>
 				)
 				: (
 					<TextArea
