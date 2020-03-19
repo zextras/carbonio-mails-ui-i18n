@@ -50,6 +50,8 @@ import { sessionSrvc } from '@zextras/zapp-shell/service';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;
 export const _MESSAGE_UPDATED_EV_REG = /mails:updated:message/;
+export const _CONVERSATION_DELETED_EV_REG = /mails:deleted:conversation/;
+export const _MESSAGE_DELETED_EV_REG = /mails:deleted:message/;
 
 export default class MailsService implements IMailsService {
 	private _createId = 0;

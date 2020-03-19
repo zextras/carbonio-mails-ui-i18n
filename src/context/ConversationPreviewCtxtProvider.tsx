@@ -14,6 +14,7 @@ import React, {
 	PropsWithChildren,
 	useEffect,
 	useState,
+	useContext,
 	useRef
 } from 'react';
 import { find } from 'lodash';
@@ -22,9 +23,14 @@ import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
 import { IMailsService } from '../IMailsService';
-import { _CONVERSATION_UPDATED_EV_REG, _MESSAGE_UPDATED_EV_REG } from '../MailsService';
+import {
+	_CONVERSATION_UPDATED_EV_REG,
+	_CONVERSATION_DELETED_EV_REG,
+	_MESSAGE_UPDATED_EV_REG
+} from '../MailsService';
 import { ConversationWithMessages } from './ConversationFolderCtxt';
 import { processOperationsConversation } from './ConversationUtility';
+import activityContext from '../activity/ActivityContext';
 
 type ConversationPreviewCtxtProviderProps = {
 	convId: string;
@@ -37,6 +43,7 @@ const ConversationPreviewCtxtProvider = ({
 	children
 }: PropsWithChildren<ConversationPreviewCtxtProviderProps>): ReactElement => {
 	const [conversation, setConversation] = useState<ConversationWithMessages|undefined>(undefined);
+	const { reset } = useContext(activityContext);
 	const convRef = useRef<ConversationWithMessages|undefined>();
 
 	function updateConversation(): void {
@@ -54,11 +61,15 @@ const ConversationPreviewCtxtProvider = ({
 
 	useEffect(() => {
 		let semaphore = true;
-		const conversationSubscription = fc
+		const conversationUpdatedSubscription = fc
 			.pipe(filter((e) => _CONVERSATION_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => data.id === convId && updateConversation());
 
-		const messageSubscription = fc
+		const conversationDeletedSubscription = fc
+			.pipe(filter((e) => _CONVERSATION_DELETED_EV_REG.test(e.event)))
+			.subscribe(({ data }) => data.id === convId && reset('mailView'));
+
+		const messageUpdatedSubscription = fc
 			.pipe(filter((e) => _MESSAGE_UPDATED_EV_REG.test(e.event)))
 			.subscribe(({ data }) => {
 				if (convRef.current && find(convRef.current.messages, ['id', data.id])) {
@@ -79,11 +90,14 @@ const ConversationPreviewCtxtProvider = ({
 
 		return (): void => {
 			semaphore = false;
-			conversationSubscription.unsubscribe();
-			messageSubscription.unsubscribe();
+			conversationUpdatedSubscription.unsubscribe();
+			conversationDeletedSubscription.unsubscribe();
+			messageUpdatedSubscription.unsubscribe();
 			operationSubscription.unsubscribe();
 		};
 	}, [convId]);
+
+	useEffect(() => updateConversation(), [convId]);
 
 	return (
 		<ConversationPreviewCtxt.Provider
