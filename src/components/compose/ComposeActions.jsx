@@ -11,7 +11,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Button, IconCheckbox, FileLoader } from '@zextras/zapp-ui';
+import {
+	Container,
+	Button,
+	IconCheckbox,
+	FileLoader
+} from '@zextras/zapp-ui';
 
 const StyledButton = styled(Button)`
 	svg {

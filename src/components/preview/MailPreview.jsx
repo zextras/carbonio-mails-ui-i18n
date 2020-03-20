@@ -92,7 +92,7 @@ function MailPreview({
 										to={`/service/home/~/?auth=co&id=${message.id}&part=${att.name}&disp=a`}
 										target="_blank"
 										download
-										style={{ width: '100%' }}
+										style={{ width: '100%', textDecoration: 'none' }}
 									>
 										<DownloadFileButton
 											fileName={att.filename}

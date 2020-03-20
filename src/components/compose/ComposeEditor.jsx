@@ -20,6 +20,7 @@ import {
 	Padding
 } from '@zextras/zapp-ui';
 import { map } from 'lodash';
+import { Link } from 'react-router-dom';
 
 const EditorWrapper = styled.div`
 	width: 100%;
@@ -74,6 +75,7 @@ const AttRow = styled.div`
 `;
 
 function ComposeEditor({
+	draftId,
 	onEditorChange,
 	onRemoveAttachment,
 	html,
@@ -93,23 +95,37 @@ function ComposeEditor({
 								height="fit"
 								padding={{ all: 'extrasmall' }}
 							>
-								<Container
-									background="bg_10"
-									height="fit"
-									crossAlignment="flex-start"
-									mainAlignment="space-between"
-									orientation="horizontal"
-									style={{ cursor: 'pointer' }}
+								<Link
+									to={`/service/home/~/?auth=co&id=${draftId}&part=${att.name}&disp=a`}
+									target="_blank"
+									download
+									style={{ width: '100%', textDecoration: 'none' }}
 								>
-									<Padding all="small">
-										<GenericFileIcon fileName={att.filename || ''} />
-									</Padding>
-									<Padding vertical="small">
-										<Text>{att.filename || att.name}</Text>
-										<Text size="small">{`${att.size || '0'}B`}</Text>
-									</Padding>
-									<IconButton icon="Close" onClick={() => onRemoveAttachment(att.name)} />
-								</Container>
+									<Container
+										background="bg_10"
+										height="fit"
+										crossAlignment="flex-start"
+										mainAlignment="space-between"
+										orientation="horizontal"
+										style={{ cursor: 'pointer' }}
+									>
+										<Padding all="small">
+											<GenericFileIcon fileName={att.filename || ''} />
+										</Padding>
+										<Padding vertical="small">
+											<Text>{att.filename || att.name}</Text>
+											<Text size="small">{`${att.size || '0'}B`}</Text>
+										</Padding>
+										<IconButton
+											icon="Close"
+											onClick={(ev) => {
+												onRemoveAttachment(att.name);
+												ev.stopPropagation();
+												ev.preventDefault();
+											}}
+										/>
+									</Container>
+								</Link>
 							</Container>
 						)
 					)

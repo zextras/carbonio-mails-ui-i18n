@@ -10,13 +10,13 @@
  */
 
 import React from 'react';
-import { Container, Divider, useScreenMode } from '@zextras/zapp-ui';
+import { Container, useScreenMode } from '@zextras/zapp-ui';
 import useCompositionData from './useCompositionData';
 import ComposeHeader from './ComposeHeader';
 import ComposeInputs from './ComposeInputs';
 import ComposeEditor from './ComposeEditor';
 
-const MailComposePanel = ({ id, mailsSrvc }) => {
+function MailComposePanel({ id, mailsSrvc }) {
 	const screenMode = useScreenMode();
 	const data = useCompositionData(id, mailsSrvc);
 	return (
@@ -46,6 +46,7 @@ const MailComposePanel = ({ id, mailsSrvc }) => {
 					html={data.html}
 				/>
 				<ComposeEditor
+					draftId={id}
 					attachments={data.attachments}
 					onEditorChange={data.onEditorChange}
 					onRemoveAttachment={data.onRemoveAttachment}

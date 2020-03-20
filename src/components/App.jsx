@@ -74,7 +74,7 @@ export default function App({ mailsSrvc }) {
 	);
 }
 
-const SecondaryView = ({ mailsSrvc, path, edit }) => {
+function SecondaryView({ mailsSrvc, path, edit }) {
 	const { activities, set } = useContext(activityContext);
 	const screenMode = useScreenMode();
 	useEffect(
@@ -121,4 +121,4 @@ const SecondaryView = ({ mailsSrvc, path, edit }) => {
 		);
 	}, [screenMode, activities, mailsSrvc, path]);
 	return <>{ panel }</>;
-};
+}
