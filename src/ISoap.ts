@@ -228,7 +228,7 @@ export type SendMsgOpReq = {
 		attach: {
 			mp: Array<{
 				mid: string;
-				part: number;
+				part: string;
 			}>;
 		};
 	};

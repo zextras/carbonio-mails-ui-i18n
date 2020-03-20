@@ -41,6 +41,7 @@ export type CompositionDataWithFn = CompositionData & {
 	onPriorityChange: (priority: boolean) => void;
 	onEditorChange: (text: string, html: string) => void;
 	onSubjectChange: (value: string) => void;
+	onRemoveAttachment: (name: string) => void;
 }
 
 export type DispatchAction =
@@ -51,6 +52,12 @@ export type DispatchAction =
 	| EditorDispatch
 	| ModeDispatch
 	| AttachmentDispatch
+	| RemoveAttachmentDispatch
+
+export type RemoveAttachmentDispatch = {
+	type: 'remove-attachment';
+	name: string;
+}
 
 export type AttachmentDispatch = {
 	type: 'attachments-saved';

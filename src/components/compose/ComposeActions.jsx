@@ -11,7 +11,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Button, IconCheckbox, FileLoader } from '@zextras/zapp-ui';
+import {
+	Container,
+	Button,
+	IconCheckbox,
+	FileLoader
+} from '@zextras/zapp-ui';
 
 const StyledButton = styled(Button)`
 	svg {
@@ -36,7 +41,7 @@ function ComposeActions({
 			<Container orientation="horizontal" width="auto">
 				<IconCheckbox onChange={onModeChange} value={html} icon="Text" />
 				<IconCheckbox onChange={onPriorityChange} value={priority} icon="ArrowUpward" />
-				<FileLoader onChange={onFileLoad} />
+				<FileLoader multiple onChange={onFileLoad} />
 			</Container>
 			<Container padding={{ left: 'extralarge' }} orientation="horizontal" width="auto">
 				<StyledButton label="Send" icon="Navigation" onClick={onSend} />

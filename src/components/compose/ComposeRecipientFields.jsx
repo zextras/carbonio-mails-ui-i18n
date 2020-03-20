@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	ChipInput,
 	Container,
@@ -19,10 +19,12 @@ import {
 
 function RecipientRow({ ...props }) {
 	const [hasFocus, setHasFocus] = useState(false);
+	const _onFocus = useMemo(() => () => setHasFocus(true), [setHasFocus]);
+	const _onBlur = useMemo(() => () => setHasFocus(false), [setHasFocus]);
 
 	return (
 		<Container orientation="horizontal" mainAlignment="space-between">
-			<ChipInput {...props} onFocus={() => setHasFocus(true)} onBlur={() => setHasFocus(false)} style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
+			<ChipInput { ...props } onFocus={_onFocus} onBlur={_onBlur} style={{ flexGrow: '1', flexBasis: '0', minWidth: '1px' }} />
 			<IconButton
 				size="large"
 				icon="PeopleOutline"
@@ -39,25 +41,29 @@ function ComposeRecipientFields({
 	onParticipantChange
 }) {
 	const [expandInputs, setExpandInputs] = useState(false);
+	const onExpandInputs = useMemo(() => () => setExpandInputs(!expandInputs), [setExpandInputs, expandInputs]);
+	const onToChange = useMemo(() => (value) => onParticipantChange('to', value), [onParticipantChange]);
+	const onCCChange = useMemo(() => (value) => onParticipantChange('cc', value), [onParticipantChange]);
+	const onBCCChange = useMemo(() => (value) => onParticipantChange('bcc', value), [onParticipantChange]);
 
 	return (
 		<Container
 			orientation="horizontal"
 			crossAlignment="flex-start"
-			padding={{horizontal: 'large'}}
+			padding={{ horizontal: 'large' }}
 		>
 			<IconButton
 				size="large"
 				icon={expandInputs ? 'ChevronUp' : 'ChevronDown'}
-				onClick={() => setExpandInputs(!expandInputs)}
+				onClick={onExpandInputs}
 			/>
 			<div style={{ width: '100%', minWidth: '1px' }}>
-				<RecipientRow value={to} placeholder="To:" onChange={(value) => onParticipantChange('to', value)} />
+				<RecipientRow value={to} placeholder="To:" onChange={onToChange} />
 				<div style={{ display: expandInputs ? 'block' : 'none' }}>
 					<Divider color="bd_5" />
-					<RecipientRow value={cc} placeholder="Cc:" onChange={(value) => onParticipantChange('cc', value)} />
+					<RecipientRow value={cc} placeholder="Cc:" onChange={onCCChange} />
 					<Divider color="bd_5" />
-					<RecipientRow value={bcc} placeholder="Bcc:" onChange={(value) => onParticipantChange('bcc', value)} />
+					<RecipientRow value={bcc} placeholder="Bcc:" onChange={onBCCChange} />
 				</div>
 			</div>
 		</Container>

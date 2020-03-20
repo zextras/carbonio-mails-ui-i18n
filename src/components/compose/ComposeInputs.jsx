@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { Container, Icon, EmailComposerInput } from '@zextras/zapp-ui';
 import ComposeActions from './ComposeActions';
@@ -21,12 +21,13 @@ function ComposeSubject({
 	value,
 	...rest
 }) {
+	const _onChange = useMemo(() => (ev) => onChange(ev.target.value), [onChange])
 	return (
-		<Container {...rest} orientation="horizontal">
+		<Container { ...rest } orientation="horizontal">
 			<EmailComposerInput
 				placeholder="Subject:"
 				value={value}
-				onChange={(ev) => onChange(ev.target.value)}
+				onChange={_onChange}
 			/>
 			{priority && <Icon size="large" icon="ArrowUpward" color="txt_5" />}
 		</Container>

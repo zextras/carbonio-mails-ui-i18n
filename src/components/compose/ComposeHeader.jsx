@@ -10,7 +10,13 @@
  */
 
 import React, { useContext } from 'react';
-import { Container, Icon, IconButton, Text, Padding, Divider } from '@zextras/zapp-ui';
+import {
+	Container,
+	Icon,
+	IconButton,
+	Text,
+	Padding
+} from '@zextras/zapp-ui';
 import activityContext from '../../activity/ActivityContext';
 
 function ComposeHeader({}) {
