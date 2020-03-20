@@ -71,7 +71,21 @@ const AttRow = styled.div`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: -${(props) => props.theme.sizes.padding.small};
+	padding: ${(props) => `${props.theme.sizes.padding.large} ${props.theme.sizes.padding.large} 0`};
+	box-sizing: border-box;
+	z-index: 2;
+	
+	> a {
+		width: calc(50% - ${(props) => props.theme.sizes.padding.extrasmall});
+		text-decoration: none;
+		margin-bottom: ${(props) => props.theme.sizes.padding.small}; 
+	}
+	&:empty{
+		display: none;
+	}
 `;
 
 function ComposeEditor({
@@ -82,54 +96,64 @@ function ComposeEditor({
 	body,
 	attachments
 }) {
+	const attachmentsLength = attachments.length;
 	return (
-		<Container height="fill" mainAlignment="flex-start" background="bg_7" padding={{ all: 'small' }}>
+		<Container height="fill" mainAlignment="flex-start" background="bg_7">
 			<AttRow>
 				{
 					map(
 						attachments,
 						(att, index) => (
-							<Container
+							<Link
 								key={`att-${att.filename}-${index}`}
-								width="fit"
-								height="fit"
-								padding={{ all: 'extrasmall' }}
+								to={`/service/home/~/?auth=co&id=${draftId}&part=${att.name}&disp=a`}
+								target="_blank"
+								download
 							>
-								<Link
-									to={`/service/home/~/?auth=co&id=${draftId}&part=${att.name}&disp=a`}
-									target="_blank"
-									download
-									style={{ width: '100%', textDecoration: 'none' }}
+								<Container
+									background="bg_9"
+									height="fit"
+									crossAlignment="flex-start"
+									mainAlignment="space-between"
+									orientation="horizontal"
+									style={{ cursor: 'pointer' }}
 								>
 									<Container
-										background="bg_10"
-										height="fit"
-										crossAlignment="flex-start"
-										mainAlignment="space-between"
+										mainAlignment="flex-start"
+										crossAlignment="center"
 										orientation="horizontal"
-										style={{ cursor: 'pointer' }}
+										style={{
+											flexGrow: 1,
+											flexBasis: 0,
+											minWidth: '1px'
+										}}
 									>
 										<Padding all="small">
 											<GenericFileIcon fileName={att.filename || ''} />
 										</Padding>
-										<Padding vertical="small">
+										<Padding vertical="small" style={{ overflow: 'hidden' }}>
 											<Text>{att.filename || att.name}</Text>
-											<Text size="small">{`${att.size || '0'}B`}</Text>
+											<Text size="small" color="txt_4">{`${Math.ceil(att.size / 1024) || '0'} KB`}</Text>
 										</Padding>
-										<IconButton
-											icon="Close"
-											onClick={(ev) => {
-												onRemoveAttachment(att.name);
-												ev.stopPropagation();
-												ev.preventDefault();
-											}}
-										/>
 									</Container>
-								</Link>
-							</Container>
+									<IconButton
+										icon="Close"
+										onClick={(ev) => {
+											onRemoveAttachment(att.name);
+											ev.stopPropagation();
+											ev.preventDefault();
+										}}
+									/>
+								</Container>
+							</Link>
 						)
 					)
 				}
+				{ attachmentsLength > 0 && (
+					<Text color="txt_4" style={{ width: '100%' }}>
+						{ attachmentsLength } { attachmentsLength === 1 ? 'attachment' : 'attachments' }
+					</Text>
+				)}
 			</AttRow>
 			{ html
 				? (
