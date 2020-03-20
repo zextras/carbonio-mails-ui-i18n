@@ -10,6 +10,7 @@
  */
 
 import React, { useMemo, useState, useCallback } from 'react';
+import styled from 'styled-components';
 import {
 	Container,
 	Text,
@@ -40,6 +41,10 @@ const findAttachments = (parts, acc) => reduce(
 	},
 	acc
 );
+
+const StyledDownloadFileButton = styled(DownloadFileButton)`
+	background: ${(props) => props.theme.colors.background.bg_9};
+`;
 
 function MailPreview({
 	message,
@@ -94,7 +99,7 @@ function MailPreview({
 										download
 										style={{ width: '100%', textDecoration: 'none' }}
 									>
-										<DownloadFileButton
+										<StyledDownloadFileButton
 											fileName={att.filename}
 										/>
 									</Link>
