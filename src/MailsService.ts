@@ -643,7 +643,7 @@ export default class MailsService implements IMailsService {
 							'Content-Disposition': `attachment; filename="${file.name}"`
 						},
 						method: 'POST',
-						body: JSON.stringify(file)
+						body: file
 					}
 				)
 					.then((res) => res.text())
