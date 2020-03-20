@@ -73,15 +73,15 @@ const AttRow = styled.div`
 	flex-wrap: wrap;
 	justify-content: space-between;
 	width: 100%;
-	margin-bottom: -8px;
+	margin-bottom: -${(props) => props.theme.sizes.padding.small};
 	padding: ${(props) => `${props.theme.sizes.padding.large} ${props.theme.sizes.padding.large} 0`};
 	box-sizing: border-box;
 	z-index: 2;
 	
 	> a {
-		width: calc(50% - 4px);
+		width: calc(50% - ${(props) => props.theme.sizes.padding.extrasmall});
 		text-decoration: none;
-		margin-bottom: 8px; 
+		margin-bottom: ${(props) => props.theme.sizes.padding.small}; 
 	}
 	&:empty{
 		display: none;
