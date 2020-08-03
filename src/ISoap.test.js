@@ -105,13 +105,13 @@ const tests = [
 	}
 ];
 
-describe('normalizeMessage', () => {
+describe.skip('normalizeMessage', () => {
 	test('Produces the correct message', () => {
 		expect(normalizeMailMessageFromSoap(tests[0].input)).toMatchObject(tests[0].result);
 	});
 });
 
-describe('SOAP Utils', () => {
+describe.skip('SOAP Utils', () => {
 	test('_getParentPath', () => {
 		expect(_getParentPath('parts[0].parts[0].parts[1].parts[0]')).toBe('parts[0].parts[0].parts[1]');
 	});

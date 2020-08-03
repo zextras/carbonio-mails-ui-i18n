@@ -32,12 +32,12 @@ function useObservable(observable) {
 	const [value, setValue] = useState(observable.value);
 	useEffect(() => {
 		const sub = observable.subscribe(setValue);
-		return (): void => sub.unsubscribe();
+		return () => sub.unsubscribe();
 	}, [observable]);
 	return value;
 }
 
-const ComposerContextProvider = ({ children, convId }): void => {
+const ComposerContextProvider = ({ children, convId }) => {
 	const { syncSrvc } = useContext(MailServicesContext);
 	const [contextValues, setContextValues] = useState(
 		{
@@ -91,14 +91,14 @@ const ComposerContextProvider = ({ children, convId }): void => {
 				}
 			});
 		}
-		return (): void => {
+		return () => {
 			if (draftSub) {
 				draftSub.unsubscribe();
 			}
 		};
 	}, [convId]);
 
-	const setField = (field, text): void => {
+	const setField = (field, text) => {
 		const newValues = { ...contextValues };
 		switch (field) {
 			case 'to':

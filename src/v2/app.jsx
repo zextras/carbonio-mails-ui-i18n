@@ -16,6 +16,9 @@ import {
 	setCreateOptions,
 	setAppContext
 } from '@zextras/zapp-shell';
+import { MailsDb } from './db/mails-db';
+import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
+import mainMenuItems from './main-menu-items';
 
 export default function app() {
 	console.log('Hello from mails');
@@ -23,12 +26,27 @@ export default function app() {
 	setMainMenuItems([{
 		id: 'mails-main',
 		icon: 'EmailOutline',
-		to: '/',
+		to: '/folder/2', // Default route to `Inbox`
 		label: 'Mails',
 		children: []
 	}]);
 
-	setAppContext({});
+	const db = new MailsDb();
+	const syncProtocol = new MailsDbSoapSyncProtocol(db, fetch.bind(window));
+	db.registerSyncProtocol('soap-mails', syncProtocol);
+	db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
+
+	setAppContext({
+		db
+	});
+
+	db
+		.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
+		.subscribe((folders) => mainMenuItems(folders, db));
+
+	setAppContext({
+		db
+	});
 
 	setRoutes([]);
 
