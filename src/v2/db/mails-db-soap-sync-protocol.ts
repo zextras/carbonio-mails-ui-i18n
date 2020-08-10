@@ -75,7 +75,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 							token,
 							folder,
 							md,
-							cn,
+							m,
 							deleted,
 						}) => new Promise<SyncResponse & { remoteChanges: IDatabaseChange[] }>(
 							(resolve, reject) => {
@@ -94,7 +94,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 									.then((remoteChanges) => resolve({
 										token,
 										md,
-										cn,
+										m,
 										folder,
 										deleted,
 										remoteChanges
@@ -105,7 +105,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					)
 					.then(({
 						token,
-						cn,
+						m,
 						md,
 						folder,
 						deleted,
@@ -128,7 +128,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 								{
 									token,
 									md,
-									cn,
+									m,
 									folder,
 									deleted
 								}

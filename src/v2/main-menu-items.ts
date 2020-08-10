@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import { setMainMenuItems } from '@zextras/zapp-shell';
-import { reduce } from 'lodash';
+import { reduce, find } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailsDb } from './db/mails-db';
 
@@ -23,8 +23,8 @@ type MainMenuItem = {
 function buildMenuItem(folder: MailsFolder, db: MailsDb): Promise<MainMenuItem> {
 	return db.getFolderChildren(folder)
 		.then(
-			(children) => Promise.all(
-				reduce<MailsDb, Promise<MainMenuItem>[]>(
+			(children) => Promise.all<MainMenuItem>(
+				reduce<MailsFolder, Array<Promise<MainMenuItem>>>(
 					children,
 					(r, v, k) => {
 						r.push(buildMenuItem(v, db));
@@ -37,21 +37,23 @@ function buildMenuItem(folder: MailsFolder, db: MailsDb): Promise<MainMenuItem> 
 		.then((children) => {
 			if (children.length > 0) {
 				return {
-					id: `mails-folder-${folder.id}`,
+					id: `mails-folder-${folder._id}`,
 					label: folder.name,
-					to: `/folder/${folder.id}`,
+					to: `/folder/${folder._id}`,
 					children
 				};
 			}
 			return {
-				id: `mails-folder-${folder.id}`,
+				id: `mails-folder-${folder._id}`,
 				label: folder.name,
-				to: `/folder/${folder.id}`
+				to: `/folder/${folder._id}`
 			};
 		});
 }
 
 export default function mainMenuItems(folders: MailsFolder[], db: MailsDb): void {
+	const inbox = find(folders, ['id', '2']);
+	if (!inbox || !inbox._id) return;
 	Promise.all(
 		reduce<MailsFolder, Promise<MainMenuItem>[]>(
 			folders,
@@ -66,7 +68,7 @@ export default function mainMenuItems(folders: MailsFolder[], db: MailsDb): void
 			setMainMenuItems([{
 				id: 'mails-main',
 				icon: 'EmailOutline',
-				to: '/folder/2', // Default route to `Inbox`
+				to: `/folder/${inbox._id}`, // Default route to `Inbox`
 				label: 'Mails',
 				children
 			}]);

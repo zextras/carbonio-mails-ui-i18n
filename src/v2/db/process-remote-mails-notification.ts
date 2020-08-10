@@ -19,7 +19,7 @@ export default function processRemoteMailsNotification(
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
 	localChangesFromRemote: IDatabaseChange[],
-	{ cn, deleted, folder }: SyncResponse
+	{ m, deleted, folder }: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	return Promise.resolve([]);
 }

@@ -12,6 +12,9 @@
 import Dexie, { PromiseExtended } from 'dexie';
 import { db } from '@zextras/zapp-shell';
 import { MailsFolder } from './mails-folder';
+import { MailMessage } from './mail-message';
+import { MailConversation } from './mail-conversation';
+import { fetchConversationsInFolder } from '../soap';
 
 export type DeletionData = {
 	_id: string;
@@ -21,19 +24,34 @@ export type DeletionData = {
 };
 
 export class MailsDb extends db.Database {
+	private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
 	folders: Dexie.Table<MailsFolder, string>; // string = type of the primary key
+
+	messages: Dexie.Table<MailMessage, string>; // string = type of the primary key
+
+	conversations: Dexie.Table<MailConversation, string>; // string = type of the primary key
 
 	deletions: Dexie.Table<DeletionData, string>;
 
-	constructor() {
+	constructor(
+		fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+	) {
 		super('mails');
 		this.version(1).stores({
 			folders: '$$_id, id, parent',
+			messages: '$$_id, id, parent',
+			conversations: '$$_id, id, parent',
 			deletions: '$$rowId, _id, id'
 		});
 		this.folders = this.table('folders');
 		this.folders.mapToClass(MailsFolder);
+		this.messages = this.table('messages');
+		this.messages.mapToClass(MailMessage);
+		this.conversations = this.table('conversations');
+		this.conversations.mapToClass(MailConversation);
 		this.deletions = this.table('deletions');
+		this._fetch = fetch;
 	}
 
 	public open(): PromiseExtended<MailsDb> {
@@ -58,4 +76,11 @@ export class MailsDb extends db.Database {
 		});
 	}
 
+	public getConvInFolder(f: MailsFolder): Promise<[Array<MailConversation>, boolean]> {
+		return fetchConversationsInFolder(
+			this._fetch,
+			f
+		)
+			.then((convs) => [convs, true]);
+	}
 }

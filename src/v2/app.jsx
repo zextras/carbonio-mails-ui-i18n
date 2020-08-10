@@ -20,6 +20,8 @@ import { MailsDb } from './db/mails-db';
 import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
 import mainMenuItems from './main-menu-items';
 
+const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
+
 export default function app() {
 	console.log('Hello from mails');
 
@@ -31,7 +33,7 @@ export default function app() {
 		children: []
 	}]);
 
-	const db = new MailsDb();
+	const db = new MailsDb(fetch.bind(window));
 	const syncProtocol = new MailsDbSoapSyncProtocol(db, fetch.bind(window));
 	db.registerSyncProtocol('soap-mails', syncProtocol);
 	db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
@@ -48,7 +50,16 @@ export default function app() {
 		db
 	});
 
-	setRoutes([]);
+	setRoutes([
+		{
+			route: '/folder/:folderId',
+			view: lazyFolderView
+		},
+		{
+			route: '/',
+			view: lazyFolderView
+		},
+	]);
 
 	setCreateOptions([]);
 }

@@ -12,9 +12,8 @@
 import {
 	forEach
 } from 'lodash';
-import { ISoapFolderObj } from '@zextras/zapp-shell/lib/network/ISoap';
 import { MailsFolder } from './mails-folder';
-import { SyncResponseMailFolder } from '../soap';
+import { SyncResponseMailFolder, ISoapFolderObj } from '../soap';
 
 function normalizeFolder(soapFolderObj: ISoapFolderObj): MailsFolder {
 	return new MailsFolder({
