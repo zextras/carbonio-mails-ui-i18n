@@ -56,17 +56,19 @@ module.exports = {
      * @description rules of eslint-plugin-react-hooks
      */
     "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     'no-tabs': 'off',
     'indent': ['error', 'tab', { 'SwitchCase': 1 }],
     'comma-dangle': 'off',
     'no-underscore-dangle': 'off',
     'brace-style': ['error', 'stroustrup'],
     'react/jsx-indent': ['error', 'tab'],
-		'react/jsx-indent-props': ['error', 'tab'],
+    'react/jsx-indent-props': ['error', 'tab'],
     '@typescript-eslint/interface-name-prefix': 'off',
     'implicit-arrow-linebreak': 'off',
     'import/no-extraneous-dependencies': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service|sync|utils)'] }]
+    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service|sync)'] }],
+    'no-extra-semi': 'off'
   }
 };

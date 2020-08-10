@@ -1,0 +1,15 @@
+{
+  "mail": {
+    "composer": {
+      "cc": "Cc:",
+      "draft": "Draft",
+      "header": "New Mail",
+      "send": "Send",
+      "subject": "Subject:",
+      "textarea": {
+        "label": "Write here your message"
+      },
+      "to": "To:"
+    }
+  }
+}
