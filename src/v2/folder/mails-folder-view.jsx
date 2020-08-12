@@ -159,18 +159,26 @@ const ConversationList = ({ folderId }) => {
 		() => () => db.folders.get(folderId),
 		[db, folderId]
 	);
-	const folderContentObservable = useMemo(
-		() => new BehaviorSubject([]),
-		[folderId]
-	);
+
 	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
-	useEffect(() => {
-		if (!folder) folderContentObservable.next([]);
-	}, [folder, folderContentObservable]);
+
+	const folderContentObservable = useMemo(
+		() => (folder ? db.getConvInFolder(folder) : new BehaviorSubject({
+			conversations: [], hasMore: false, loading: true
+		})),
+		[db, folder]
+	);
+
+	const { conversations, hasMore, loading } = hooks.useBehaviorSubject(folderContentObservable);
 
 	return (
 		<div>
 			{ folderLoaded ? `Loaded: ${folder.path}` : 'NOT LOADED' }
+			Loading:
+			{ JSON.stringify(loading) }
+			Has more:
+			{ JSON.stringify(hasMore) }
+			{ JSON.stringify(conversations, null, 2) }
 		</div>
 	);
 
