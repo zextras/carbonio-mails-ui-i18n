@@ -15,6 +15,7 @@ import { MailsFolder } from './mails-folder';
 import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
+import { map } from 'lodash';
 
 export type DeletionData = {
 	_id: string;
