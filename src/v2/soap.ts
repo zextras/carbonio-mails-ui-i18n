@@ -450,9 +450,5 @@ export function fetchMailMessagesById(
 				return acc;
 			},
 			{}
-		))
-		.then((r) => {
-			console.log(r);
-			return r;
-		});
+		));
 }

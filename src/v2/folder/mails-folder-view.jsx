@@ -18,11 +18,9 @@ import {
 	CellMeasurerCache,
 	List
 } from 'react-virtualized';
-import { Container, Divider, Text, useScreenMode } from '@zextras/zapp-ui';
-import Row from '@zextras/zapp-ui/dist/components/layout/Row';
-import Responsive from '@zextras/zapp-ui/dist/components/utilities/Responsive';
+import { Container, Divider, Text, useScreenMode, Row, Responsive } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
-import { BehaviorSubject } from 'rxjs';
+import { useConversationsInFolder } from '../hooks';
 
 const cache = new CellMeasurerCache({
 	fixedWidth: true,
@@ -153,27 +151,12 @@ const _ConvList = ({ folderContentObservable }) => {
 };
 
 const ConversationList = ({ folderId }) => {
-	const { db } = hooks.useAppContext();
 
-	const folderQuery = useMemo(
-		() => () => db.folders.get(folderId),
-		[db, folderId]
-	);
-
-	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
-
-	const folderContentObservable = useMemo(
-		() => (folder ? db.getConvInFolder(folder) : new BehaviorSubject({
-			conversations: [], hasMore: false, loading: true
-		})),
-		[db, folder]
-	);
-
-	const { conversations, hasMore, loading } = hooks.useBehaviorSubject(folderContentObservable);
+	const { conversations, hasMore, loading, folder } = useConversationsInFolder(folderId);
 
 	return (
 		<div>
-			{ folderLoaded ? `Loaded: ${folder.path}` : 'NOT LOADED' }
+			{ folder ? `Loaded: ${folder.path}` : 'NOT LOADED' }
 			Loading:
 			{ JSON.stringify(loading) }
 			Has more:
