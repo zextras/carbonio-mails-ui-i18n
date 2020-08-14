@@ -11,6 +11,8 @@
 
 import Dexie, { PromiseExtended } from 'dexie';
 import { db } from '@zextras/zapp-shell';
+import { BehaviorSubject } from 'rxjs';
+import { sortBy, last, reverse } from 'lodash';
 import { MailsFolder } from './mails-folder';
 import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
@@ -22,6 +24,12 @@ export type DeletionData = {
 	id: string;
 	table: 'mails'|'folders';
 	rowId?: string;
+};
+
+export type GetConvSubjectData = {
+	conversations: Array<MailConversation>;
+	loading: boolean;
+	hasMore: boolean;
 };
 
 export class MailsDb extends db.Database {
@@ -41,8 +49,8 @@ export class MailsDb extends db.Database {
 		super('mails');
 		this.version(1).stores({
 			folders: '$$_id, id, parent',
-			messages: '$$_id, id, parent',
-			conversations: '$$_id, id, parent',
+			messages: '$$_id, id, parent, conversation',
+			conversations: '$$_id, id, *parent',
 			deletions: '$$rowId, _id, id'
 		});
 		this.folders = this.table('folders');
@@ -77,11 +85,33 @@ export class MailsDb extends db.Database {
 		});
 	}
 
-	public getConvInFolder(f: MailsFolder): Promise<[Array<MailConversation>, boolean]> {
-		return fetchConversationsInFolder(
-			this._fetch,
-			f
-		)
-			.then((convs) => [convs, true]);
+	public getConvInFolder(f: MailsFolder): BehaviorSubject<GetConvSubjectData> {
+		const subject = new BehaviorSubject<GetConvSubjectData>({ conversations: [], loading: true, hasMore: false });
+		this.conversations.where('parent').equals(f.id!).toArray()
+			.then((conversations: MailConversation[]) => {
+				const sorted = reverse(sortBy(conversations, 'date'));
+				const _last = last(conversations);
+				subject.next({
+					...subject.getValue(),
+					conversations: sorted
+				});
+
+				fetchConversationsInFolder(
+					this._fetch,
+					f,
+					1,
+					_last ? new Date(_last.date) : undefined
+				)
+					.then(([convs, hasMore]) => {
+						subject.next({
+							...subject.getValue(),
+							hasMore: convs.length > 0 || hasMore,
+							loading: false
+						});
+						subject.complete();
+					});
+				// TODO: Catch possible errors to complete the subject
+			});
+		return subject;
 	}
 }

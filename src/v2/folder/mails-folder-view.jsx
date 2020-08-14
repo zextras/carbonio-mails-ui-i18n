@@ -19,16 +19,21 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { hooks } from '@zextras/zapp-shell';
 import { VariableSizeList } from 'react-window';
-import { Container, Divider, Text, useScreenMode } from '@zextras/zapp-ui';
-import Row from '@zextras/zapp-ui/dist/components/layout/Row';
-import Responsive from '@zextras/zapp-ui/dist/components/utilities/Responsive';
+import {
+	Container,
+	Divider,
+	Text,
+	useScreenMode,
+	Responsive,
+	Row
+} from '@zextras/zapp-ui';
+import { reduce } from 'lodash';
 import { VerticalDivider } from '../commons/vertical-divider';
-import { BehaviorSubject } from 'rxjs';
 import useQueryParam from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/conversation-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
-import { map, reduce } from 'lodash';
+import { useConversationsInFolder } from '../hooks';
 
 function Breadcrumbs({ folderId }) {
 	const { db } = hooks.useAppContext();
@@ -161,22 +166,19 @@ const useDisplayData = (conversations) => {
 	);
 	useEffect(
 		() => {
-			setDisplayData(
-				reduce(
-					conversations,
-					(acc, c) => acc[c.id]
-						? acc
-						: ({
-							...acc,
-							[c.id]: {
-								open: false
-							}
-						}),
-					displayData
-				)
-			);
+			setDisplayData((oldDisplayData) => reduce(
+				conversations,
+				(acc, c) => (acc[c.id]
+					? acc
+					: ({
+						...acc,
+						[c.id]: {
+							open: false
+						}
+					})),
+				oldDisplayData
+			));
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[conversations]
 	);
 	const updateDisplayData = useCallback(
@@ -200,57 +202,48 @@ const ConversationList = ({ folderId }) => {
 
 	const containerRef = useRef();
 	const listRef = useRef();
+	const {
+		conversations,
+		hasMore,
+		loading,
+		folder
+	} = useConversationsInFolder(folderId);
 
-	const { db } = hooks.useAppContext();
-
-	const folderQuery = useMemo(
-		() => () => db.folders.get(folderId),
-		[db, folderId]
-	);
-	const folderContentObservable = useMemo(
-		() => new BehaviorSubject([]),
-		[folderId]
-	);
-	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
-	useEffect(() => {
-		if (!folder) folderContentObservable.next([]);
-	}, [folder, folderContentObservable]);
-
-	const [conversations, conversationsLoaded] = useMemo(() => {
-		const arr = new Array(150);
-		return [map(arr, () => ({
-			id: Math.random() * 200,
-			_id: '_id',
-			parent: [folderId],
-			date: Math.floor(Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 365),
-			msgCount: Math.floor(Math.random() * 5),
-			unreadMsgCount: Math.floor(Math.random() * 5),
-			messages: [],
-			participants: [
-				{
-					type: 'f',
-					address: 'adderss1@boh.com',
-					displayName: 'participant 0 sender'
-				},
-				{
-					type: 't',
-					address: 'address2@boh.com',
-					displayName: 'recipient'
-				},
-				{
-					type: 'c',
-					address: 'address3@boh.com',
-					displayName: 'participant 1 cc'
-				}
-			],
-			subject: 'subject',
-			fragment: 'fragment',
-			read: Math.random() > 0.5,
-			attachment: Math.random() > 0.5,
-			flagged: Math.random() > 0.5,
-			urgent: Math.random() > 0.5,
-		})), true];
-	}, [folderId]);
+	// const [conversations, conversationsLoaded] = useMemo(() => {
+	// 	const arr = new Array(150);
+	// 	return [map(arr, () => ({
+	// 		id: Math.random() * 200,
+	// 		_id: '_id',
+	// 		parent: [folderId],
+	// 		date: Math.floor(Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 365),
+	// 		msgCount: Math.floor(Math.random() * 5),
+	// 		unreadMsgCount: Math.floor(Math.random() * 5),
+	// 		messages: [],
+	// 		participants: [
+	// 			{
+	// 				type: 'f',
+	// 				address: 'adderss1@boh.com',
+	// 				displayName: 'participant 0 sender'
+	// 			},
+	// 			{
+	// 				type: 't',
+	// 				address: 'address2@boh.com',
+	// 				displayName: 'recipient'
+	// 			},
+	// 			{
+	// 				type: 'c',
+	// 				address: 'address3@boh.com',
+	// 				displayName: 'participant 1 cc'
+	// 			}
+	// 		],
+	// 		subject: 'subject',
+	// 		fragment: 'fragment',
+	// 		read: Math.random() > 0.5,
+	// 		attachment: Math.random() > 0.5,
+	// 		flagged: Math.random() > 0.5,
+	// 		urgent: Math.random() > 0.5,
+	// 	})), true];
+	// }, [folderId]);
 	const [displayData, updateDisplayData] = useDisplayData(conversations, listRef);
 
 	const rowRenderer = useCallback(
@@ -276,13 +269,13 @@ const ConversationList = ({ folderId }) => {
 	const calcItemSize = useCallback(
 		(index) => {
 			const conv = conversations[index];
-			if (displayData[conv.id].open) return (conv.msgCount + 1) * 57;
+			if (displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 57;
 			return 57;
 		},
 		[conversations, displayData]
 	);
 
-	if (conversationsLoaded) {
+	if (conversations && displayData) {
 		return (
 			<>
 				<Breadcrumbs folderId={folderId} />

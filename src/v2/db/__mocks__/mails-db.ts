@@ -19,10 +19,13 @@ const MockedWhereClause = jest.fn().mockImplementation(() => ({
 
 const MockedTable = jest.fn().mockImplementation(() => ({
 	where: MockedWhereClause,
-	bulkGet: jest.fn().mockImplementation(() => Promise.resolve([]))
+	bulkGet: jest.fn().mockImplementation(() => Promise.resolve([])),
+	get: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 export const MailsDb = jest.fn().mockImplementation(() => ({
+	conversations: new MockedTable(),
 	folders: new MockedTable(),
-	deletions: new MockedTable()
+	deletions: new MockedTable(),
+	observe: jest.fn()
 }));
