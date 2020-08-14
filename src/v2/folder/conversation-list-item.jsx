@@ -30,6 +30,7 @@ import {
 	Collapse
 } from '@zextras/zapp-ui';
 import MessageListItem from './message-list-item';
+import { useConversationMessages } from '../hooks';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -43,6 +44,7 @@ const OuterContainer = styled(Container)`
 `;
 
 export default function ConversationListItem({
+	index,
 	conversation,
 	style,
 	displayData,
@@ -53,7 +55,7 @@ export default function ConversationListItem({
 		return sender.displayName || sender.address || '.';
 	});
 	const toggleOpen = useCallback(
-		() => updateDisplayData(conversation.id, { open: !displayData.open }),
+		() => updateDisplayData(index, conversation.id, { open: !displayData.open }),
 		[conversation.id, displayData.open, updateDisplayData]
 	);
 	const date = useMemo(
@@ -67,6 +69,7 @@ export default function ConversationListItem({
 		''
 	),
 	[conversation.participants]);
+	const { messages, loaded } = useConversationMessages(conversation.id);
 	return (
 		<OuterContainer
 			style={style}
@@ -142,12 +145,11 @@ export default function ConversationListItem({
 					height={conversation.msgCount * 57}
 					padding={{ left: 'large' }}
 				>
-					{
-						map(
-							Array(conversation.msgCount),
-							(messageInfo) => <MessageListItem key={Math.random()} messageInfo={messageInfo} />
-						)
-					}
+					{loaded
+						&& map(
+							messages,
+							(message) => <MessageListItem key={message.id} message={message} />
+						)}
 				</Container>
 			</Collapse>
 		</OuterContainer>

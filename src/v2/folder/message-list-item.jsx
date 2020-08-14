@@ -21,6 +21,7 @@ import {
 	Padding,
 	Icon,
 } from '@zextras/zapp-ui';
+import { hooks } from '@zextras/zapp-shell';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -30,111 +31,93 @@ const HoverContainer = styled(Container)`
 `;
 
 export default function MessageListItem({
-	messageInfo,
+	message,
 }) {
-	const message = useMemo(() => ({
-		id: Math.random() * 200,
-		_id: '_id',
-		parent: Math.floor(Math.random() * 10),
-		date: Math.floor(Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 365),
-		participants: [
-			{
-				type: 'f',
-				address: 'adderss1@boh.com',
-				displayName: 'participant 0 sender'
-			},
-			{
-				type: 't',
-				address: 'address2@boh.com',
-				displayName: 'recipient'
-			},
-			{
-				type: 'c',
-				address: 'address3@boh.com',
-				displayName: 'participant 1 cc'
+	const { db } = hooks.useAppContext();
+	const [avatarLabel, date, participantsString] = useMemo(
+		() => {
+			if (message) {
+				const sender = find(message.contacts, ['type', 'f']);
+				return [
+					sender.displayName || sender.address || '.',
+					moment(message.date).format('lll'),
+					reduce(
+						message.contacts,
+						(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
+						''
+					)
+				];
 			}
-		],
-		subject: 'subject',
-		fragment: 'fragment',
-		read: Math.random() > 0.5,
-		attachment: Math.random() > 0.5,
-		flagged: Math.random() > 0.5,
-		urgent: Math.random() > 0.5,
-	}));
-	const avatarLabel = useMemo(() => {
-		const sender = find(message.participants, ['type', 'f']);
-		return sender.displayName || sender.address || '.';
-	});
-	const date = useMemo(
-		() => moment(message.date).format('lll'),
-		[message.date]
+			return [
+				'.',
+				'',
+				''
+			];
+		},
+		[message]
 	);
 
-	const participantsString = useMemo(() => reduce(
-		message.participants,
-		(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
-		''
-		),
-		[message.participants]);
 	return (
 		<HoverContainer
 			background="gray6"
 			mainAlignment="space-between"
 		>
-			<Container
-				height={56}
-				orientation="horizontal"
-				mainAlignment="flex-start"
-				padding={{ all: 'small' }}
-			>
-				<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
+			{ message && (
 				<Container
-					orientation="vertical"
-					padding={{ left: 'small' }}
+					height={56}
+					orientation="horizontal"
+					mainAlignment="flex-start"
+					padding={{ all: 'small' }}
 				>
-					<Container orientation="horizontal" width="fill">
-						<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
-							<Text
-								color={message.read ? 'text' : 'primary'}
-								size="large"
-								weight={message.read ? 'regular' : 'bold'}
+					<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
+					<Container
+						orientation="vertical"
+						padding={{ left: 'small' }}
+					>
+						<Container orientation="horizontal" width="fill">
+							<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
+								<Text
+									color={message.read ? 'text' : 'primary'}
+									size="large"
+									weight={message.read ? 'regular' : 'bold'}
+								>
+									{participantsString}
+								</Text>
+							</Row>
+							<Row>
+								{ message.attachment
+								&& (
+									<Padding right="extrasmall">
+										<Icon icon="AttachOutline" />
+									</Padding>
+								)}
+								{ message.flagged
+								&& (
+									<Padding right="extrasmall">
+										<Icon icon="Flag" color="error" />
+									</Padding>
+								)}
+								<Text>{date}</Text>
+							</Row>
+						</Container>
+						<Container orientation="horizontal" width="fill" crossAlignment="center">
+							<Row
+								wrap="nowrap"
+								takeAvailableSpace
+								mainAlignment="flex-start"
+								crossAlignment="baseline"
 							>
-								{participantsString}
-							</Text>
-						</Row>
-						<Row>
-							{ message.attachment
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="AttachOutline" />
-								</Padding>
-							)}
-							{ message.flagged
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="Flag" color="error" />
-								</Padding>
-							)}
-							<Text>{date}</Text>
-						</Row>
-					</Container>
-					<Container orientation="horizontal" width="fill" crossAlignment="center">
-						<Row
-							wrap="nowrap"
-							takeAvailableSpace
-							mainAlignment="flex-start"
-							crossAlignment="baseline"
-						>
-							<Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
-							<Text>{` - ${message.fragment}`}</Text>
-						</Row>
-						<Row>
-							{ message.urgent
-							&& <Icon icon="ArrowUpward" color="error" />}
-						</Row>
+								<Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
+								<Text>{` - ${message.fragment}`}</Text>
+							</Row>
+							<Row>
+								{ message.urgent
+								&& <Icon icon="ArrowUpward" color="error" />}
+							</Row>
+						</Container>
 					</Container>
 				</Container>
-			</Container>
+			)}
 			<Divider />
 		</HoverContainer>
 	);

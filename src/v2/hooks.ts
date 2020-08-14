@@ -10,8 +10,10 @@
  */
 
 import { hooks } from '@zextras/zapp-shell';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'lodash';
+import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
 
 export function useConversationsInFolder(folderId: string) {
 	const { db } = hooks.useAppContext();
@@ -36,4 +38,16 @@ export function useConversationsInFolder(folderId: string) {
 	const content = hooks.useBehaviorSubject(folderContentObservable);
 
 	return { ...content, folder };
+}
+
+export function useConversationMessages(conversationId: Array<ConversationMailMessage>) {
+	const { db } = hooks.useAppContext();
+
+	const messagesQuery = useCallback(
+		() => db.messages.where('conversation').equals(conversationId).toArray(),
+		[conversationId, db.messages]
+	);
+	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
+
+	return { messages, loaded};
 }
