@@ -166,7 +166,6 @@ const ConversationList = ({ folderId }) => {
 	const rowRenderer = useCallback(
 		({
 			index,
-			key,
 			style
 		}) => {
 			if (!displayData[conversations[index].id]) {
@@ -177,7 +176,6 @@ const ConversationList = ({ folderId }) => {
 			}
 			return (
 				<ConversationListItem
-					key={key}
 					style={style}
 					index={index}
 					conversation={conversations[index]}

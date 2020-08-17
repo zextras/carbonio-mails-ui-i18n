@@ -69,7 +69,6 @@ export default function ConversationListItem({
 		''
 	),
 	[conversation.participants]);
-	const { messages, loaded } = useConversationMessages(conversation.id);
 	return (
 		<OuterContainer
 			style={style}
@@ -145,13 +144,23 @@ export default function ConversationListItem({
 					height={conversation.msgCount * 57}
 					padding={{ left: 'large' }}
 				>
-					{loaded
-						&& map(
-							messages,
-							(message) => <MessageListItem key={message.id} message={message} />
-						)}
+					<ConversationMessagesList conversationId={conversation.id} />
 				</Container>
 			</Collapse>
 		</OuterContainer>
+	);
+};
+
+const ConversationMessagesList = ({ conversationId }) => {
+	const { messages, loaded } = useConversationMessages(conversationId);
+
+	return (
+		<>
+			{loaded
+			&& map(
+				messages,
+				(message) => <MessageListItem key={message.id} message={message} />
+			)}
+		</>
 	);
 };
