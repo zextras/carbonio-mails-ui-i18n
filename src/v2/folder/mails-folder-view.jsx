@@ -11,13 +11,10 @@
 
 import React, {
 	useCallback,
-	useEffect,
 	useMemo, useRef,
 	useState
 } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { hooks } from '@zextras/zapp-shell';
 import { VariableSizeList } from 'react-window';
 import {
 	Container,
@@ -27,7 +24,6 @@ import {
 	Responsive,
 	Row
 } from '@zextras/zapp-ui';
-import { reduce } from 'lodash';
 import { VerticalDivider } from '../commons/vertical-divider';
 import useQueryParam from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/conversation-edit-panel';
