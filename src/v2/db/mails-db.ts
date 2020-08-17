@@ -29,6 +29,7 @@ export type GetConvSubjectData = {
 	conversations: Array<MailConversation>;
 	loading: boolean;
 	hasMore: boolean;
+	loadMore(): void;
 };
 
 export class MailsDb extends db.Database {
@@ -107,10 +108,28 @@ export class MailsDb extends db.Database {
 							hasMore: convs.length > 0 || hasMore,
 							loading: false
 						});
-						subject.complete();
 					});
 				// TODO: Catch possible errors to complete the subject
 			});
 		return subject;
+	}
+
+	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+		if (!f.id) return Promise.resolve(false);
+		return fetchConversationsInFolder(
+			this._fetch,
+			f,
+			1,
+			lastConv ? new Date(lastConv.date) : undefined
+		).then(([convs, hasMore]) => (hasMore || convs.length > 0));
+	}
+
+	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+		return fetchConversationsInFolder(
+			this._fetch,
+			f,
+			50,
+			lastConv ? new Date(lastConv.date) : undefined
+		);
 	}
 }

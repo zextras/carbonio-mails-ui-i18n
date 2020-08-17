@@ -20,7 +20,7 @@ import {
 } from 'react-virtualized';
 import { Container, Divider, Text, useScreenMode, Row, Responsive } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
-import { useConversationsInFolder } from '../hooks';
+import { useConvsInFolder } from '../hooks';
 
 const cache = new CellMeasurerCache({
 	fixedWidth: true,
@@ -152,7 +152,7 @@ const _ConvList = ({ folderContentObservable }) => {
 
 const ConversationList = ({ folderId }) => {
 
-	const { conversations, hasMore, loading, folder } = useConversationsInFolder(folderId);
+	const { conversations, hasMore, loading, folder } = useConvsInFolder(folderId);
 
 	return (
 		<div>
