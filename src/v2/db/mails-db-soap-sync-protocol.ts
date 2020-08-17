@@ -10,13 +10,18 @@
  */
 
 import { IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation } from 'dexie-syncable/api';
+import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
+import { find, reduce } from 'lodash';
 import { MailsDb } from './mails-db';
-import { IDatabaseChange } from 'dexie-observable/api';
 import processLocalFolderChange from './process-local-folder-change';
-import { SyncResponse } from '../soap';
+import { fetchConversationsInFolder, fetchMailMessagesById, SyncResponse } from '../soap';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
+import { MailsFolder } from './mails-folder';
+import { MailMessage } from './mail-message';
+import { MailConversationMessage } from './mail-conversation-message';
+import { MailConversation } from './mail-conversation';
 
 const POLL_INTERVAL = 20000;
 
@@ -91,6 +96,10 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 										deleted
 									}
 								)
+									.then((remoteChanges) => {
+										if (!baseRevision) return this._fetchFirstSyncData(remoteChanges);
+										return remoteChanges;
+									})
 									.then((remoteChanges) => resolve({
 										token,
 										md,
@@ -165,5 +174,69 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 			.catch((e) => {
 				onError(e, POLL_INTERVAL);
 			});
+	}
+
+	private _fetchFirstSyncData(remoteChanges: Array<IDatabaseChange>): Promise<Array<IDatabaseChange>> {
+		const folder = find(
+			remoteChanges,
+			{ obj: { id: '2' } } // Fetch the inbox folder
+		);
+		if (!folder) {
+			return Promise.resolve(remoteChanges);
+		}
+		return fetchConversationsInFolder(
+			this._fetch,
+			(folder as ICreateChange).obj as unknown as MailsFolder,
+			undefined,
+			new Date(0)
+		)
+			.then(
+				([convs]) => fetchMailMessagesById(
+					this._fetch,
+					reduce<MailConversation, string[]>(
+						convs,
+						(acc, v) => {
+							reduce<MailConversationMessage, string[]>(
+								v.messages,
+								(acc2, v2) => {
+									acc2.push(v2.id!);
+									return acc2;
+								},
+								acc
+							);
+							return acc;
+						},
+						[]
+					)
+				).then((msgs: {[k: string]: MailMessage}) => [
+					convs,
+					reduce(
+						msgs,
+						(acc, v, k) => {
+							acc.push({
+								type: 1,
+								table: 'messages',
+								key: undefined,
+								obj: v
+							});
+							return acc;
+						},
+						remoteChanges
+					)
+				])
+			)
+			.then(([convs, mesgs]) => reduce(
+				convs,
+				(acc, v) => {
+					acc.push({
+						type: 1,
+						table: 'conversations',
+						key: undefined,
+						obj: v
+					});
+					return acc;
+				},
+				remoteChanges
+			));
 	}
 }

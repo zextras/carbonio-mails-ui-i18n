@@ -22,12 +22,12 @@ import { filter } from 'rxjs/operators';
 import { fc } from '@zextras/zapp-shell/fc';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import ConversationPreviewCtxt from './ConversationPreviewCtxt';
-import { IMailsService } from '../IMailsService';
+import { IMailsService } from '../../IMailsService';
 import {
 	_CONVERSATION_UPDATED_EV_REG,
 	_CONVERSATION_DELETED_EV_REG,
 	_MESSAGE_UPDATED_EV_REG
-} from '../MailsService';
+} from '../../MailsService';
 import { ConversationWithMessages } from './ConversationFolderCtxt';
 import { processOperationsConversation } from './ConversationUtility';
 import activityContext from '../activity/ActivityContext';
