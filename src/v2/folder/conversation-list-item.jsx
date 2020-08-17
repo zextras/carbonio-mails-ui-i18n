@@ -82,12 +82,17 @@ export default function ConversationListItem({
 				padding={{ all: 'small' }}
 			>
 				<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
-				<Container
+				<Row
+					takeAvailableSpace={true}
 					orientation="vertical"
 					padding={{ left: 'small' }}
 				>
 					<Container orientation="horizontal" width="fill">
-						<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
+						<Row
+							wrap="nowrap"
+							takeAvailableSpace={true}
+							mainAlignment="flex-start"
+						>
 							<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
 						</Row>
 						<Row>
@@ -112,7 +117,12 @@ export default function ConversationListItem({
 								<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
 							</Padding>
 						</Row>
-						<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start" crossAlignment="baseline">
+						<Row
+							wrap="nowrap"
+							takeAvailableSpace={true}
+							mainAlignment="flex-start"
+							crossAlignment="baseline"
+						>
 							<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
 							<Text>{` - ${conversation.fragment}`}</Text>
 						</Row>
@@ -131,7 +141,7 @@ export default function ConversationListItem({
 								)}
 						</Row>
 					</Container>
-				</Container>
+				</Row>
 			</HoverContainer>
 			<Divider style={{ minHeight: '1px' }} />
 			<Collapse
