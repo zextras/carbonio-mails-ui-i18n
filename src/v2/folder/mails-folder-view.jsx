@@ -26,7 +26,7 @@ import {
 } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
 import useQueryParam from '../hooks/useQueryParam';
-import ConversationEditPanel from '../edit/conversation-edit-panel';
+import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import { useConversationsInFolder } from '../hooks';

@@ -452,3 +452,92 @@ export function fetchMailMessagesById(
 			{}
 		));
 }
+//
+// export function saveDraft = () => {
+// 	const tempDraftId = id || `draft-${Date.now()}`;
+// 	setId(tempDraftId);
+// 	fcSink('sync:operation:push', {
+// 		opType: 'soap',
+// 		opData: { opName: 'saveDraft', tempDraftId },
+// 		description: `Save Draft (${contextValues.subject})`,
+// 		request: {
+// 			command: 'SaveDraft',
+// 			urn: 'urn:zimbraMail',
+// 			data: {
+// 				m: {
+// 					id,
+// 					su: contextValues.subject,
+// 					e: [
+// 						{
+// 							t: 'f',
+// 							a: userData.username
+// 						},
+// 						{
+// 							t: 't',
+// 							a: contextValues.to
+// 						},
+// 						...(map(
+// 							contextValues.cc.split(' '),
+// 							(str) => ({
+// 								a: str,
+// 								t: 'c'
+// 							})
+// 						))
+// 					],
+// 					mp: [
+// 						{
+// 							ct: 'text/plain',
+// 							content: {
+// 								_content: contextValues.message,
+// 							}
+// 						}
+// 					]
+// 				}
+// 			}
+// 		}
+// 	});
+// };
+//
+// export function sendDraft = () => {
+// 	fcSink('sync:operation:push', {
+// 		opType: 'soap',
+// 		opData: {},
+// 		description: `Send Mail (${contextValues.subject})`,
+// 		request: {
+// 			command: 'SendMsg',
+// 			urn: 'urn:zimbraMail',
+// 			data: {
+// 				m: {
+// 					did: id,
+// 					su: contextValues.subject,
+// 					e: [
+// 						{
+// 							t: 'f',
+// 							a: userData.username
+// 						},
+// 						{
+// 							t: 't',
+// 							a: contextValues.to
+// 						},
+// 						...map(
+// 							{ ...contextValues.cc.split(' ') },
+// 							(str) => ({
+// 								a: str,
+// 								t: 'c'
+// 							})
+// 						)
+// 					],
+// 					mp: [
+// 						{
+// 							ct: 'text/plain',
+// 							content: {
+// 								_content: contextValues.message,
+// 							}
+// 						}
+// 					]
+// 				},
+// 			}
+// 		}
+// 	});
+// 	history.push('/mail/folder/Sent');
+// };

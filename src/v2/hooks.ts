@@ -12,8 +12,9 @@
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useMemo } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'lodash';
+import { reduce } from 'lodash';
 import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
+import { Participant } from './db/mail-db-types';
 
 export function useConversationsInFolder(folderId: string) {
 	const { db } = hooks.useAppContext();
@@ -49,5 +50,54 @@ export function useConversationMessages(conversationId: Array<ConversationMailMe
 	);
 	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
 
-	return { messages, loaded};
+	return { messages, loaded };
+}
+
+export function useDraft(messageId: string) {
+	const { db } = hooks.useAppContext();
+
+	const messageQuery = useCallback(
+		() => db.messages.get(messageId),
+		[messageId, db.messages]
+	);
+	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
+
+	return {
+		draft: message ? {
+			to: reduce<Participant, Array<{ value: string }>>(
+				message.contacts,
+				(acc: Array<{ value: string }>, contact: Participant) => {
+					if (contact.type === 't') {
+						return [...acc, { value: contact.address }];
+					}
+					return acc;
+				},
+				[]
+			),
+			cc: reduce<Participant, Array<{ value: string }>>(
+				message.contacts,
+				(acc: Array<{ value: string }>, contact: Participant) => {
+					if (contact.type === 'c') {
+						return [...acc, { value: contact.address }];
+					}
+					return acc;
+				},
+				[]
+			),
+			bcc: reduce<Participant, Array<{ value: string }>>(
+				message.contacts,
+				(acc: Array<{ value: string }>, contact: Participant) => {
+					if (contact.type === 'b') {
+						return [...acc, { value: contact.address }];
+					}
+					return acc;
+				},
+				[]
+			),
+			subject: message.subject || '',
+			// TODO: replace with proper mail body
+			text: message.fragment || ''
+		} : {},
+		loaded
+	};
 }

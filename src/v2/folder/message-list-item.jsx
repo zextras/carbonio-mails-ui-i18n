@@ -33,7 +33,6 @@ const HoverContainer = styled(Container)`
 export default function MessageListItem({
 	message,
 }) {
-	const { db } = hooks.useAppContext();
 	const [avatarLabel, date, participantsString] = useMemo(
 		() => {
 			if (message) {
