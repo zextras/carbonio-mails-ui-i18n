@@ -8,12 +8,11 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
-jest.mock('./mails-db');
-
 import { MailsDb } from './mails-db';
 import { MailsFolder } from './mails-folder';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
+
+jest.mock('./mails-db');
 
 describe('Notifications - Folder', () => {
 	test('Initial Sync', (done) => {

@@ -8,11 +8,11 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+// eslint-disable-next-line import/no-unresolved
+import { _MOCKS_ } from '@zextras/zapp-shell';
+import { MailsDb } from './mails-db';
 
 jest.mock('@zextras/zapp-shell');
-import { _MOCKS_ } from '@zextras/zapp-shell';
-
-import { MailsDb } from './mails-db';
 
 describe('Mails DB', () => {
 	test('Moks', () => {
