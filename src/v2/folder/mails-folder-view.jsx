@@ -9,34 +9,29 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, {
+	useCallback,
+	useMemo, useRef,
+	useState
+} from 'react';
 import { useParams } from 'react-router-dom';
-import { hooks } from '@zextras/zapp-shell';
+import { VariableSizeList } from 'react-window';
 import {
-	AutoSizer,
-	CellMeasurerCache,
-	List
-} from 'react-virtualized';
-import { Container, Divider, Text, useScreenMode, Row, Responsive } from '@zextras/zapp-ui';
+	Container,
+	Divider,
+	Text,
+	useScreenMode,
+	Responsive,
+	Row
+} from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
+import useQueryParam from '../hooks/useQueryParam';
+import ConversationEditPanel from '../edit/conversation-edit-panel';
+import ConversationPreviewPanel from '../preview/conversation-preview-panel';
+import ConversationListItem from './conversation-list-item';
 import { useConvsInFolder } from '../hooks';
 
-const cache = new CellMeasurerCache({
-	fixedWidth: true,
-	defaultHeight: 57
-});
-
-function Breadcrumbs({ folderId }) {
-	const { db } = hooks.useAppContext();
-	const query = useMemo(
-		() => () => db.folders.where({ id: folderId }).toArray()
-			.then((folders) => Promise.resolve(folders[0])),
-		[db, folderId]
-	);
-	// TODO: Add the sort by
-	const [folder, folderLoaded] = hooks.useObserveDb(query, db);
-
+function Breadcrumbs({ folder }) {
 	return (
 		<Container
 			background="gray5"
@@ -47,41 +42,38 @@ function Breadcrumbs({ folderId }) {
 				height={48}
 				padding={{ all: 'medium' }}
 			>
-				<Text size="large">{ folderLoaded && folder && folder.path }</Text>
+				<Text size="large">{ folder && folder.path }</Text>
 			</Row>
 			<Divider />
 		</Container>
 	);
 }
-Breadcrumbs.propTypes = {
-	folderId: PropTypes.string.isRequired
-};
 
 export default function FolderView() {
 	const { folderId } = useParams();
 
 	const screen = useScreenMode();
-	// const previewId = useQueryParam('preview');
-
+	const previewId = useQueryParam('preview');
+	const editId = useQueryParam('edit');
 	const MemoPanel = useMemo(() => {
-		// if (editId) {
-		// 	return (
-		// 		<ContactEditPanel
-		// 			key={`contactEdit-${editId}`}
-		// 			editPanelId={editId}
-		// 			folderId={folderId}
-		// 		/>
-		// 	);
-		// }
-		// if (previewId) {
-		// 	return (
-		// 		<ContactPreviewPanel
-		// 			key={`contactPreview-${previewId}`}
-		// 			contactInternalId={previewId}
-		// 			folderId={folderId}
-		// 		/>
-		// 	);
-		// }
+		if (editId) {
+			return (
+				<ConversationEditPanel
+					key={`conversationEdit-${editId}`}
+					editPanelId={editId}
+					folderId={folderId}
+				/>
+			);
+		}
+		if (previewId) {
+			return (
+				<ConversationPreviewPanel
+					key={`conversationPreview-${previewId}`}
+					coversationInternalId={previewId}
+					folderId={folderId}
+				/>
+			);
+		}
 		if (screen === 'mobile') {
 			return (
 				<ConversationList
@@ -91,7 +83,7 @@ export default function FolderView() {
 			);
 		}
 		return <Container />;
-	}, [/* editId, */ folderId, /* previewId, */ screen]);
+	}, [editId, folderId, previewId, screen]);
 
 	return (
 		<Container
@@ -143,76 +135,92 @@ export default function FolderView() {
 	);
 }
 
-const _ConvList = ({ folderContentObservable }) => {
-	const list = hooks.useBehaviorSubject(folderContentObservable);
-	return (
-		<div></div>
-	);
-};
-
 const ConversationList = ({ folderId }) => {
+	const containerRef = useRef();
+	const listRef = useRef();
+	const {
+		conversations,
+		folder,
+		isLoading,
+		hasMore,
+		loadMore
+	} = useConvsInFolder(folderId);
 
-	const { conversations, hasMore, loading, folder } = useConvsInFolder(folderId);
+	const [displayData, setDisplayData] = useState({});
 
-	return (
-		<div>
-			{ folder ? `Loaded: ${folder.path}` : 'NOT LOADED' }
-			Loading:
-			{ JSON.stringify(loading) }
-			Has more:
-			{ JSON.stringify(hasMore) }
-			{ JSON.stringify(conversations, null, 2) }
-		</div>
+	const updateDisplayData = useCallback(
+		(index, id, v) => {
+			listRef.current && listRef.current.resetAfterIndex(index);
+			setDisplayData((oldData) => ({
+				...oldData,
+				[id]: v
+			}));
+		},
+		[]
 	);
-
-/*
-	const query = useMemo(
-		() => () =>
-			db.getConvInFolder(new MailsFolder({  })),
-		[db, folderId]
-	);
-	// TODO: Add the sort by
-	const [contacts, contactsLoaded] = hooks.useObserveDb(query, db);
 
 	const rowRenderer = useCallback(
 		({
-			 index,
-			 key,
-			 style
-		 }) => (
-			<ContactListItem
-				key={key}
-				style={style}
-				contact={contacts[index]}
-			/>
-		),
-		[contacts]
+			index,
+			style
+		}) => {
+			if (!displayData[conversations[index].id]) {
+				setDisplayData((oldData) => ({
+					...oldData,
+					[conversations[index].id]: { open: false }
+				}));
+			}
+			return (
+				<ConversationListItem
+					style={style}
+					index={index}
+					conversation={conversations[index]}
+					displayData={displayData[conversations[index].id] || { open: false }}
+					updateDisplayData={updateDisplayData}
+				/>
+			);
+		},
+		[conversations, displayData, updateDisplayData]
 	);
 
+	const calcItemSize = useCallback(
+		(index) => {
+			const conv = conversations[index];
+			if (displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 57;
+			return 57;
+		},
+		[conversations, displayData]
+	);
+
+	if (isLoading) {
+		return <Text> LOADING </Text>;
+	}
 
 	return (
 		<>
-			<Breadcrumbs folderId={folderId} />
+			{ folder && <Breadcrumbs folder={folder} /> }
 			<Container
 				mainAlignment="flex-start"
 				crossAlignment="flex-start"
 				borderRadius="none"
+				ref={containerRef}
 			>
-				<AutoSizer>
-					{({ height, width }) => (
-						<List
-							height={height}
-							width={width}
-							rowCount={(contacts || []).length}
-							overscanRowCount={10}
-							rowHeight={57}
-							rowRenderer={rowRenderer}
-							style={{ outline: 'none' }}
-						/>
-					)}
-				</AutoSizer>
+				{ conversations && conversations.length > 0 && (
+					<VariableSizeList
+						ref={listRef}
+						height={(containerRef.current && containerRef.current.offsetHeight) || 0}
+						width="100%"
+						itemCount={(conversations || []).length}
+						overscanRowCount={15}
+						rowRenderer={rowRenderer}
+						style={{ outline: 'none' }}
+						itemSize={calcItemSize}
+						estimatedItemSize={57}
+					>
+						{rowRenderer}
+					</VariableSizeList>
+				)}
 			</Container>
 		</>
 	);
-*/
 };

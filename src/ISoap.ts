@@ -25,10 +25,10 @@ import {
 	MailMessage, MailMessagePart,
 	Participant,
 	ParticipantType
-} from './idb/IMailsIdb';
-import { CompositionData, CompositionParticipants } from './components/compose/IuseCompositionData';
+} from './v1/idb/IMailsIdb';
+import { CompositionData, CompositionParticipants } from './v1/components/compose/IuseCompositionData';
 import React from 'react';
-import { IMailContact } from './composer/IComposerSoap';
+import { IMailContact } from './v1/composer/IComposerSoap';
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;

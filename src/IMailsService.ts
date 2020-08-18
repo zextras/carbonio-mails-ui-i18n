@@ -9,10 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
+import { Conversation, IMailFolderSchmV1, MailMessage } from './v1/idb/IMailsIdb';
 import { BehaviorSubject } from 'rxjs';
-import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
-import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
+import { ConversationWithMessages, MailMessageWithFolder } from './v1/context/ConversationFolderCtxt';
+import { CompositionAttachment, CompositionData } from './v1/components/compose/IuseCompositionData';
 
 export interface IMailsService {
 	getFolderById(id: string): Promise<IMailFolderSchmV1>;

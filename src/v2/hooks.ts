@@ -14,6 +14,7 @@ import { useCallback, useEffect, useReducer } from 'react';
 import { last } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
+import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
 
 type ConversationInFolderState = {
 	conversations: Array<MailConversation>;
@@ -155,7 +156,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 							return loadMore(folder);
 						}
 						const lastConv = last(conversations);
-						db.checkHasMoreConv(folder, lastConv)
+						return db.checkHasMoreConv(folder, lastConv)
 							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
 					});
 			});
@@ -168,4 +169,16 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		hasMore: state.hasMore,
 		loadMore: !state.isLoading && state.hasMore ? loadMore : undefined
 	};
+}
+
+export function useConversationMessages(conversationId: Array<ConversationMailMessage>) {
+	const { db } = hooks.useAppContext();
+
+	const messagesQuery = useCallback(
+		() => db.messages.where('conversation').equals(conversationId).toArray(),
+		[conversationId, db.messages]
+	);
+	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
+
+	return { messages, loaded };
 }
