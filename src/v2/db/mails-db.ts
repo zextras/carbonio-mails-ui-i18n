@@ -50,6 +50,7 @@ export class MailsDb extends db.Database {
 		this.version(1).stores({
 			folders: '$$_id, id, parent',
 			messages: '$$_id, id, parent, conversation',
+			drafts: '$$_id, id, parent, conversation',
 			conversations: '$$_id, id, *parent',
 			deletions: '$$rowId, _id, id'
 		});
@@ -113,5 +114,23 @@ export class MailsDb extends db.Database {
 				// TODO: Catch possible errors to complete the subject
 			});
 		return subject;
+	}
+
+	public createEmptyDraft(): Promise<string> {
+		return this.messages.add({
+			parent: '6',
+			conversation: '',
+			contacts: [],
+			date: Date.now(),
+			subject: '',
+			fragment: '',
+			read: false,
+			parts: [],
+			size: 0,
+			attachment: false,
+			flagged: false,
+			urgent: false,
+			bodyPath: ''
+		});
 	}
 }

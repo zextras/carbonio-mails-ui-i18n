@@ -96,7 +96,6 @@ export default function FolderView() {
 			borderRadius="none"
 			style={{
 				maxHeight: '100%',
-				overflowY: 'auto'
 			}}
 		>
 			<Responsive mode="desktop" target={window.top}>
@@ -117,6 +116,7 @@ export default function FolderView() {
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
 					borderRadius="none"
+					style={{ maxHeight: '100%' }}
 				>
 					{MemoPanel}
 				</Container>

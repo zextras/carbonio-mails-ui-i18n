@@ -9,8 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
+import { map, filter } from 'lodash';
 import { useDraft } from '../hooks';
+import { MailMessage } from '../db/mail-message';
+import { Participant } from '../db/mail-db-types';
+import { hooks } from '@zextras/zapp-shell';
 
 export type UpdateSubjectAction = {
 	type: 'UPDATE_SUBJECT';
@@ -87,6 +91,28 @@ const init = (initialArg: Partial<CompositionState>): CompositionState => ({
 	...initialArg
 });
 
+const draftContactsFromState = (state: CompositionState): Array<Participant> => [
+	...map(state.to, (c: { value: string }): Participant => ({
+		type: 't',
+		address: c.value,
+		displayName: ''
+	}) as Participant),
+	...map(state.cc, (c: { value: string }): Participant => ({
+		type: 'c',
+		address: c.value,
+		displayName: ''
+	}) as Participant),
+	...map(state.bcc, (c: { value: string }): Participant => ({
+		type: 'b',
+		address: c.value,
+		displayName: ''
+	}) as Participant)
+];
+
+const compositionToDraft = (cState: CompositionState): MailMessage => ({
+	subject: cState.subject,
+	contacts: draftContactsFromState(cState),
+});
 const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
 		case 'UPDATE_SUBJECT': {
@@ -122,8 +148,41 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 	}
 };
 
-const useCompositionData = (editPanelId: string): CompositionData => {
-	const { draft } = useDraft(editPanelId);
+const stateContactsFromDraft = (draft: MailMessage, type: string): Array<{ value: string }> => map(
+	filter(draft.contacts, (c) => c.type === type),
+	(c: Participant) => ({ value: c.displayName || c.address })
+);
+
+const draftToCompositionData = (draft: MailMessage): CompositionState => ({
+	subject: draft.subject,
+	to: stateContactsFromDraft(draft, 't'),
+	cc: stateContactsFromDraft(draft, 'c'),
+	bcc: stateContactsFromDraft(draft, 'b'),
+	body: {
+		html: '',
+		text: ''
+	},
+	richText: true
+});
+
+const useCompositionData = (draftId: string, panel: boolean, folderId: string): CompositionData => {
+	const { db } = hooks.useAppContext();
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+	if (draftId === 'new') {
+		db.createEmptyDraft().then((newId: string): void => {
+			replaceHistory(panel
+				? `/folder/${folderId}?edit=${newId}`
+				: `/edit/${newId}`);
+		});
+	}
+	const draftQuery = useCallback(
+		() => db.messages.get(draftId).then((res: [MailMessage, boolean]) => {
+			if (res[1]) return draftToCompositionData(res[0]);
+			return init({});
+		}),
+		[draftId, db.messages]
+	);
+	const draft = hooks.useObserveDb(draftQuery, db);
 
 	const [compositionData, dispatch] = useReducer(reducer, draft, init);
 	const updateSubject = useCallback(
@@ -150,6 +209,7 @@ const useCompositionData = (editPanelId: string): CompositionData => {
 		},
 		[]
 	);
+	console.log(compositionData);
 	return {
 		compositionData,
 		actions: {

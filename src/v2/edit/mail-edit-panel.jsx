@@ -16,7 +16,7 @@ export default function MailEditPanel({ editPanelId, folderId }) {
 	return (
 		<>
 			<MailEditHeader editPanelId={editPanelId} folderId={folderId} />
-			<Container height="fit" background="gray6" style={{ maxHeight: '100%', overflowY: 'auto' }}>
+			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)' }} background="gray6">
 				<EditView panel={true} editPanelId={editPanelId} folderId={folderId} />
 			</Container>
 		</>
@@ -46,8 +46,8 @@ const MailEditHeader = ({ editPanelId, folderId }) => {
 					<Icon size="medium" icon="EmailOutline" />
 				</Padding>
 				<Row takeAvailableSpace mainAlignment="flex-start">
-					<Text size="medium">
-						{ t(editPanelId && editPanelId !== 'new' ? 'Edit Contact' : 'New Contact') }
+					<Text size="large">
+						{ t(editPanelId && editPanelId !== 'new' ? 'Edit Draft' : 'New Draft') }
 					</Text>
 				</Row>
 				<IconButton icon="Close" size="small" onClick={onClose} />
