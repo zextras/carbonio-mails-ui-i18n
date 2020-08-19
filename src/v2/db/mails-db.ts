@@ -17,6 +17,7 @@ import { MailsFolder } from './mails-folder';
 import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
+import { CompositionState } from '../edit/use-composition-data';
 
 export type DeletionData = {
 	_id: string;
@@ -130,6 +131,13 @@ export class MailsDb extends db.Database {
 			flagged: false,
 			urgent: false,
 			bodyPath: ''
+		});
+	}
+
+	public saveDraft(draftId: string, cState: CompositionState): void {
+		this.messages.update(draftId, {
+			subject: cState.subject,
+			contacts:
 		});
 	}
 

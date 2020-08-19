@@ -9,12 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { useCallback, useReducer } from 'react';
-import { map, filter } from 'lodash';
-import { useDraft } from '../hooks';
+import { useCallback, useEffect, useReducer } from 'react';
+import { map, filter, throttle } from 'lodash';
+import { hooks } from '@zextras/zapp-shell';
 import { MailMessage } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
-import { hooks } from '@zextras/zapp-shell';
 
 export type UpdateSubjectAction = {
 	type: 'UPDATE_SUBJECT';
@@ -109,10 +108,12 @@ const draftContactsFromState = (state: CompositionState): Array<Participant> => 
 	}) as Participant)
 ];
 
-const compositionToDraft = (cState: CompositionState): MailMessage => ({
+const compositionToDraft = (cState: CompositionState, draft: MailMessage): MailMessage => ({
+	...draft,
 	subject: cState.subject,
 	contacts: draftContactsFromState(cState),
 });
+
 const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
 		case 'UPDATE_SUBJECT': {
@@ -149,12 +150,12 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 };
 
 const stateContactsFromDraft = (draft: MailMessage, type: string): Array<{ value: string }> => map(
-	filter(draft.contacts, (c) => c.type === type),
+	filter(draft ? draft.contacts : [], (c) => c.type === type),
 	(c: Participant) => ({ value: c.displayName || c.address })
 );
 
 const draftToCompositionData = (draft: MailMessage): CompositionState => ({
-	subject: draft.subject,
+	subject: draft ? draft.subject : '',
 	to: stateContactsFromDraft(draft, 't'),
 	cc: stateContactsFromDraft(draft, 'c'),
 	bcc: stateContactsFromDraft(draft, 'b'),
@@ -177,14 +178,34 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	}
 	const draftQuery = useCallback(
 		() => db.messages.get(draftId).then((res: [MailMessage, boolean]) => {
-			if (res[1]) return draftToCompositionData(res[0]);
-			return init({});
+			if (res[1]) return res[0];
+			return {};
 		}),
 		[draftId, db.messages]
 	);
-	const draft = hooks.useObserveDb(draftQuery, db);
+	const [draft, loaded] = hooks.useObserveDb(draftQuery, db);
 
-	const [compositionData, dispatch] = useReducer(reducer, draft, init);
+	const [compositionData, dispatch] = useReducer(
+		reducer,
+		draftToCompositionData(draft)
+	);
+	const timedSaveDraft = useCallback(
+		throttle(
+			(compositionData: CompositionState): void => {
+				console.log('save', compositionData);
+				db.saveDraft(draftId, compositionData);
+			},
+			500,
+			{ leading: false, trailing: true }
+		),
+		[]
+	);
+	useEffect(
+		() => {
+			timedSaveDraft.cancel();
+			timedSaveDraft(compositionData);
+		}, [compositionData, timedSaveDraft]
+	);
 	const updateSubject = useCallback(
 		(value: string): void => {
 			dispatch({ type: 'UPDATE_SUBJECT', payload: { value } });
@@ -209,7 +230,6 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 		},
 		[]
 	);
-	console.log(compositionData);
 	return {
 		compositionData,
 		actions: {
