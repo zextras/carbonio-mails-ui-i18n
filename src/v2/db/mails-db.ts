@@ -137,7 +137,7 @@ export class MailsDb extends db.Database {
 	public saveDraft(draftId: string, cState: CompositionState): void {
 		this.messages.update(draftId, {
 			subject: cState.subject,
-			contacts:
+			contacts: []
 		});
 	}
 

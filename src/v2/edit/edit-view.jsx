@@ -34,6 +34,7 @@ const EditorWrapper = styled.div`
 	width: 100%;
 	max-height: 100%;
 	overflow-y: auto;
+	position: relative;
 	> .tox:not(.tox-tinymce-inline) {
 		width: 100%;
 		border: none;
@@ -41,8 +42,6 @@ const EditorWrapper = styled.div`
 		.tox-editor-header {
 			padding: ${(props) => props.theme.sizes.padding.large};
 			background-color: ${(props) => props.theme.palette.gray6.regular};
-		}
-		.tox-edit-area {
 		}
 		.tox-toolbar__primary {
 			background: none;
