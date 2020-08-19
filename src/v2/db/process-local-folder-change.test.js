@@ -8,11 +8,11 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import { MailsFolder } from './mails-folder';
-import { MailsDb } from './mails-db';
-import processLocalFolderChange from './process-local-folder-change';
-
 jest.mock('./mails-db');
+// eslint-disable-next-line
+import { MailsFolder } from './mails-folder';// eslint-disable-next-line
+import { MailsDb } from './mails-db';// eslint-disable-next-line
+import processLocalFolderChange from './process-local-folder-change';
 
 describe('Local Changes - Folder', () => {
 	test('Create a folder', (done) => {

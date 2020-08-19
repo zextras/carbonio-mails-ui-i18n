@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2020 ZeXtras
@@ -8,11 +9,11 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+
+jest.mock('@zextras/zapp-shell');
 // eslint-disable-next-line import/no-unresolved
 import { _MOCKS_ } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
-
-jest.mock('@zextras/zapp-shell');
 
 describe('Mails DB', () => {
 	test('Moks', () => {
