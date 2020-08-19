@@ -10,37 +10,169 @@
  */
 
 import { hooks } from '@zextras/zapp-shell';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useEffect, useReducer } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { filter, map, reduce } from 'lodash';
+import { filter, map, reduce, last } from 'lodash';
+import { MailsFolder } from './db/mails-folder';
+import { MailConversation } from './db/mail-conversation';
 import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
 import { Participant } from './db/mail-db-types';
 import { MailMessage } from './db/mail-message';
 import { CompositionState } from './edit/use-composition-data';
 
-export function useConversationsInFolder(folderId: string) {
+type ConversationInFolderState = {
+	conversations: Array<MailConversation>;
+	folder: MailsFolder | undefined;
+	hasMore: boolean;
+	isLoading: boolean;
+}
+
+type ResetAction = {
+	type: 'reset';
+}
+
+type SetFolderAction = {
+	type: 'set-folder';
+	folder: MailsFolder;
+}
+
+type SetConversationsAction = {
+	type: 'set-conversations';
+	conversations: Array<MailConversation>;
+}
+
+type SetIsLoadingAction = {
+	type: 'set-is-loading';
+	isLoading: boolean;
+	hasMore: boolean;
+};
+
+type LoadedMoreConversations = {
+	type: 'loaded-more-conversations';
+	conversations: Array<MailConversation>;
+	hasMore: boolean;
+};
+
+type ConvInFolderReducerAction =
+		ResetAction
+	| SetFolderAction
+	| SetConversationsAction
+	| SetIsLoadingAction
+	| LoadedMoreConversations
+	;
+
+function convInFolderInit(): ConversationInFolderState {
+	return {
+		conversations: [],
+		folder: undefined,
+		hasMore: false,
+		isLoading: true
+	};
+}
+
+function convInFolderReducer(state: ConversationInFolderState, action: ConvInFolderReducerAction): ConversationInFolderState {
+	switch (action.type) {
+		case 'set-folder':
+			return ({
+				...state,
+				conversations: [],
+				folder: action.folder
+			});
+		case 'set-conversations':
+			return ({
+				...state,
+				conversations: action.conversations,
+				// isLoading: false
+			});
+		case 'set-is-loading':
+			return ({
+				...state,
+				hasMore: action.hasMore,
+				isLoading: action.isLoading
+			});
+		case 'loaded-more-conversations':
+			return ({
+				...state,
+				conversations: [...state.conversations, ...action.conversations],
+				hasMore: action.hasMore,
+				isLoading: false,
+			});
+		case 'reset':
+			return convInFolderInit();
+		default:
+			throw new Error(`Action '${action.type}' not handled.`);
+	}
+}
+
+type UseConvsInFolderReturnType = {
+	conversations: Array<MailConversation>;
+	folder: MailsFolder | undefined;
+	isLoading: boolean;
+	loadMore?: () => Promise<void>;
+	hasMore: boolean;
+}
+
+export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext();
 
-	const folderQuery = useMemo(
-		() => () => db.folders.get(folderId),
-		[db, folderId]
-	);
-
-	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
-
-	const folderContentObservable = useMemo(
-		() => {
-			if (folder) return db.getConvInFolder(folder);
-			return new BehaviorSubject({
-				conversations: [], hasMore: false, loading: true
+	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
+	const loadMore = useCallback((folder?: MailsFolder) => new Promise<void>((resolve, reject) => {
+		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
+		((folder) ? Promise.resolve(folder) : db.folders.get(folderId))
+			.then((f: MailsFolder) => {
+				if (!f || !f.id) {
+					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
+					resolve();
+				}
+				else {
+					db.conversations
+						.where('parent')
+						.equals(f.id)
+						.reverse()
+						.limit(1)
+						.sortBy('date')
+						.then(([conv]: [MailConversation]) => db.fetchMoreConv(f, conv))
+						.then(([conversations, hasMore]: [Array<MailConversation>, boolean]) => {
+							dispatch({ type: 'loaded-more-conversations', conversations, hasMore });
+							resolve();
+						});
+				}
 			});
-		},
-		[db, folder]
-	);
+	}), [db, folderId, dispatch]);
 
-	const content = hooks.useBehaviorSubject(folderContentObservable);
+	useEffect(() => {
+		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
+		db.folders.get(folderId)
+			.then((folder: MailsFolder) => {
+				dispatch({ type: 'set-folder', folder });
+				if (!folder || !folder.id) {
+					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
+					return;
+				}
+				db.conversations
+					.where('parent')
+					.equals(folder.id)
+					.reverse()
+					.sortBy('date')
+					.then((conversations: MailConversation[]) => {
+						dispatch({ type: 'set-conversations', conversations });
+						if (conversations.length < 50) {
+							return loadMore(folder);
+						}
+						const lastConv = last(conversations);
+						return db.checkHasMoreConv(folder, lastConv)
+							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
+					});
+			});
+	}, [db, folderId, dispatch, loadMore]);
 
-	return { ...content, folder };
+	return {
+		conversations: state.conversations,
+		folder: state.folder,
+		isLoading: state.isLoading,
+		hasMore: state.hasMore,
+		loadMore: !state.isLoading && state.hasMore ? loadMore : undefined
+	};
 }
 
 export function useConversationMessages(conversationId: Array<ConversationMailMessage>) {

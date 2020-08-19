@@ -10,11 +10,14 @@
  */
 
 const MockedCollection = jest.fn().mockImplementation(() => ({
-	toArray: jest.fn().mockImplementation(() => Promise.resolve([]))
+	toArray: jest.fn().mockImplementation(() => Promise.resolve([])),
+	reverse: jest.fn().mockImplementation(() => MockedCollection),
+	sortBy: jest.fn().mockImplementation(() => Promise.resolve([])),
 }));
 
 const MockedWhereClause = jest.fn().mockImplementation(() => ({
-	anyOf: MockedCollection
+	anyOf: MockedCollection,
+	equals: MockedCollection
 }));
 
 const MockedTable = jest.fn().mockImplementation(() => ({
@@ -27,5 +30,7 @@ export const MailsDb = jest.fn().mockImplementation(() => ({
 	conversations: new MockedTable(),
 	folders: new MockedTable(),
 	deletions: new MockedTable(),
-	observe: jest.fn()
+	observe: jest.fn(),
+	checkHasMoreConv: jest.fn().mockImplementation(() => Promise.resolve()),
+	fetchMoreConv: jest.fn().mockImplementation(() => Promise.resolve([]))
 }));
