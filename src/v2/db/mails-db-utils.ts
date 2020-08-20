@@ -12,11 +12,11 @@
 import {
 	forEach
 } from 'lodash';
-import { MailsFolder } from './mails-folder';
-import { SyncResponseMailFolder, ISoapFolderObj } from '../soap';
+import { MailsFolderFromSoap } from './mails-folder';
+import { SyncResponseMailFolder } from '../soap';
 
-function normalizeFolder(soapFolderObj: ISoapFolderObj): MailsFolder {
-	return new MailsFolder({
+function normalizeFolder(soapFolderObj: SyncResponseMailFolder): MailsFolderFromSoap {
+	return new MailsFolderFromSoap({
 		itemsCount: soapFolderObj.n,
 		name: soapFolderObj.name,
 		// _id: soapFolderObj.uuid,
@@ -28,9 +28,9 @@ function normalizeFolder(soapFolderObj: ISoapFolderObj): MailsFolder {
 	});
 }
 
-export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolder[] {
+export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFromSoap[] {
 	if (!f) return [];
-	let children: MailsFolder[] = [];
+	let children: MailsFolderFromSoap[] = [];
 	if (f.folder) {
 		forEach(f.folder, (c: SyncResponseMailFolder) => {
 			const child = normalizeMailsFolders(c);

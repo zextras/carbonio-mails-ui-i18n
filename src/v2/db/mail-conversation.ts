@@ -90,3 +90,21 @@ export class MailConversation implements IMailConversation {
 		this.urgent = urgent;
 	}
 }
+
+export class MailConversationFromSoap extends MailConversation {
+	id: string;
+
+	constructor({ id, ...rest }: IMailConversation & { id: string }) {
+		super({ ...rest, id });
+		this.id = id;
+	}
+}
+
+export class MailConversationFromDb extends MailConversation {
+	_id: string;
+
+	constructor({ _id, ...rest }: IMailConversation & { _id: string }) {
+		super({ ...rest, _id });
+		this._id = _id;
+	}
+}

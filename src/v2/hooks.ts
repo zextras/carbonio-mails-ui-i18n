@@ -14,7 +14,7 @@ import { useCallback, useEffect, useReducer } from 'react';
 import { last } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
-import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
+import { MailConversationMessage } from './db/mail-conversation-message';
 
 type ConversationInFolderState = {
 	conversations: Array<MailConversation>;
@@ -96,7 +96,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 		case 'reset':
 			return convInFolderInit();
 		default:
-			throw new Error(`Action '${action.type}' not handled.`);
+			throw new Error(`Action not handled.`);
 	}
 }
 
@@ -171,7 +171,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	};
 }
 
-export function useConversationMessages(conversationId: Array<ConversationMailMessage>) {
+export function useConversationMessages(conversationId: Array<MailConversationMessage>) {
 	const { db } = hooks.useAppContext();
 
 	const messagesQuery = useCallback(
