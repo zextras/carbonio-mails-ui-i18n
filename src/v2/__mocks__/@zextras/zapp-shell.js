@@ -26,10 +26,11 @@ const MockedDb_table = jest.fn().mockImplementation(() => ({
 	mapToClass: MockedDb_table_mapToClass
 }));
 
-const MockedDb = jest.fn().mockImplementation(() => ({
-	version: MockedDb_version,
-	table: MockedDb_table
-}));
+class MockedDb {
+	version = MockedDb_version;
+
+	table = MockedDb_table;
+}
 
 export const db = {
 	Database: MockedDb

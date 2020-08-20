@@ -12,6 +12,7 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 jest.mock('@zextras/zapp-shell');
 import { hooks } from '@zextras/zapp-shell';
+jest.mock('./db/mails-db-dexie');
 jest.mock('./db/mails-db');
 import { MailsDb } from './db/mails-db';
 import { useConvsInFolder } from './hooks';
