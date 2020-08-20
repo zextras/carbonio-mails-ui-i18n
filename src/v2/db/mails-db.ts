@@ -12,12 +12,13 @@
 import Dexie, { PromiseExtended } from 'dexie';
 import { db } from '@zextras/zapp-shell';
 import { BehaviorSubject } from 'rxjs';
-import { sortBy, last, reverse } from 'lodash';
+import { sortBy, last, reverse, map } from 'lodash';
 import { MailsFolder } from './mails-folder';
 import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';
+import { Participant } from './mail-db-types';
 
 export type DeletionData = {
 	_id: string;
@@ -116,28 +117,65 @@ export class MailsDb extends db.Database {
 		return subject;
 	}
 
-	public createEmptyDraft(): Promise<string> {
-		return this.messages.add({
-			parent: '6',
-			conversation: '',
-			contacts: [],
-			date: Date.now(),
-			subject: '',
-			fragment: '',
-			read: false,
-			parts: [],
-			size: 0,
-			attachment: false,
-			flagged: false,
-			urgent: false,
-			bodyPath: ''
-		});
-	}
-
-	public saveDraft(draftId: string, cState: CompositionState): void {
-		this.messages.update(draftId, {
+	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
+		console.log(cState);
+		if (draftId === 'new') {
+			return this.messages.add({
+				parent: '6',
+				conversation: '',
+				contacts: [],
+				date: Date.now(),
+				subject: '',
+				fragment: '',
+				read: false,
+				parts: [],
+				size: 0,
+				attachment: false,
+				flagged: false,
+				urgent: false,
+				bodyPath: ''
+			});
+		}
+		return this.messages.update(draftId, {
 			subject: cState.subject,
-			contacts: []
+			contacts: [
+				...map(cState.to, (c: { value: string }): Participant => ({
+					type: 't',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.cc, (c: { value: string }): Participant => ({
+					type: 'c',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.bcc, (c: { value: string }): Participant => ({
+					type: 'b',
+					address: c.value,
+					displayName: ''
+				}) as Participant)
+			],
+			parts: [
+				{
+					contentType: 'text/plain',
+					size: cState.body.text.length,
+					content: cState.body.text,
+					name: '1',
+				},
+				{
+					contentType: 'text/html',
+					size: cState.body.html.length,
+					content: cState.body.html,
+					name: '1',
+				}
+			],
+			date: Date.now(),
+			attachment: false,
+			flagged: cState.flagged,
+			urgent: cState.urgent
+		}).then(() => {
+			console.log('saved: ', draftId);
+			return draftId;
 		});
 	}
 

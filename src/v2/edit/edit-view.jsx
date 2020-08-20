@@ -24,17 +24,33 @@ import {
 	ChipInput,
 	Padding,
 	RichTextEditor,
-	Catcher
+	Catcher, IconCheckbox, Tooltip
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import useCompositionData from './use-composition-data';
+
+const TextArea = styled.textarea`
+	box-sizing: border-box;
+	padding: ${(props) => props.theme.sizes.padding.large};
+	height: fit-content;
+	min-height: 150px;
+	width: 100%;
+	border: none;
+	resize: none;
+	& :focus, :active {
+		box-shadow: none;
+		border: none;
+		outline: none;
+	}
+`;
 
 const EditorWrapper = styled.div`
 	width: 100%;
 	max-height: 100%;
 	overflow-y: auto;
 	position: relative;
+
 	> .tox:not(.tox-tinymce-inline) {
 		width: 100%;
 		border: none;
@@ -70,14 +86,12 @@ export default function EditView({ panel, editPanelId, folderId }) {
 		() => setOpen((isOpen) => !isOpen),
 		[]
 	);
-	const containerRef = useRef();
-	const offsetRef = useRef();
+
 	return (
 		<Catcher>
 			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
 				<Container
 					height="fit"
-					ref={offsetRef}
 				>
 					<Row
 						padding={{ all: 'medium' }}
@@ -85,6 +99,27 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						mainAlignment="flex-end"
 						width="100%"
 					>
+						<Tooltip label={t('toggleRichText')}>
+							<IconCheckbox
+								icon="Text"
+								value={compositionData.richText}
+								onChange={actions.toggleRichText}
+							/>
+						</Tooltip>
+						<Tooltip label={t('toggleUrgent')}>
+							<IconCheckbox
+								icon="ArrowUpward"
+								value={compositionData.urgent}
+								onChange={actions.toggleUrgent}
+							/>
+						</Tooltip>
+						<Tooltip label={t('toggleFlagged')}>
+							<IconCheckbox
+								icon="FlagOutline"
+								value={compositionData.flagged}
+								onChange={actions.toggleFlagged}
+							/>
+						</Tooltip>
 						<Button
 							onClick={console.log}
 							label={t('send')}
@@ -124,23 +159,38 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						</Container>
 					</Container>
 					<EmailComposerInput
-						onChange={(ev) => actions.updateSubject('subject', ev.target.value)}
+						onChange={(ev) => actions.updateSubject(ev.target.value)}
 						placeholder={t('subject')}
 						placeholderType="inline"
 						value={compositionData.subject}
 					/>
 					<Divider />
 				</Container>
-				<EditorWrapper
-					ref={containerRef}
-					open={open}
-				>
-					<RichTextEditor
-						initialValue={compositionData.body.html}
-						onEditorChange={actions.updateBody}
-						minHeight={150}
-					/>
-				</EditorWrapper>
+				{ compositionData.richText
+					? (
+						<EditorWrapper>
+							<RichTextEditor
+								value={compositionData.body.html}
+								onEditorChange={actions.updateBody}
+								minHeight={150}
+							/>
+						</EditorWrapper>
+					)
+					: (
+						(
+							<TextArea
+								label=""
+								value={compositionData.body.text}
+								onChange={(ev) => {
+									// eslint-disable-next-line no-param-reassign
+									ev.target.style.height = 'auto';
+									// eslint-disable-next-line no-param-reassign
+									ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
+									actions.updateBody([ev.target.value, ev.target.value]);
+								}}
+							/>
+						)
+					)}
 				<Divider />
 			</Container>
 		</Catcher>

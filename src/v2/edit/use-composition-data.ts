@@ -9,11 +9,28 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { useCallback, useEffect, useReducer } from 'react';
-import { map, filter, throttle } from 'lodash';
+import {
+	useCallback,
+	useEffect,
+	useReducer, useState
+} from 'react';
+import {
+	map,
+	filter,
+	throttle,
+	find
+} from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import { MailMessage } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
+import { MailMessagePart } from '../../v1/idb/IMailsIdb';
+
+export type ResetAction = {
+	type: 'RESET';
+	payload: {
+		state: CompositionState;
+	};
+};
 
 export type UpdateSubjectAction = {
 	type: 'UPDATE_SUBJECT';
@@ -38,17 +55,22 @@ export type UpdateBodyAction = {
 	};
 };
 
-export type ResetAction = {
-	type: 'RESET';
-	payload: {
-		draft: CompositionState;
-	};
-};
-
 export type ToggleRichTextAction = {
 	type: 'TOGGLE_RICH_TEXT';
 	payload: {
 		richText: boolean;
+	};
+};
+export type ToggleFlaggedAction = {
+	type: 'TOGGLE_FLAGGED';
+	payload: {
+		flagged: boolean;
+	};
+};
+export type ToggleUrgentAction = {
+	type: 'TOGGLE_URGENT';
+	payload: {
+		urgent: boolean;
 	};
 };
 
@@ -56,7 +78,9 @@ export type CompositionAction = UpdateSubjectAction
 	| UpdateContactsAction
 	| UpdateBodyAction
 	| ResetAction
-	| ToggleRichTextAction;
+	| ToggleRichTextAction
+	| ToggleFlaggedAction
+	| ToggleUrgentAction;
 
 export type CompositionState = {
 	to: Array<{ value: string}>;
@@ -68,6 +92,8 @@ export type CompositionState = {
 		html: string;
 	};
 	richText: boolean;
+	flagged: boolean;
+	urgent: boolean;
 };
 
 export type CompositionData = {
@@ -77,45 +103,20 @@ export type CompositionData = {
 		updateContacts: (type: 'to' |	'cc' | 'bcc', value: Array<{ value: string }>) => void;
 		updateBody: (value: [string, string]) => void;
 		toggleRichText: (richText: boolean) => void;
+		toggleFlagged: (flagged: boolean) => void;
+		toggleUrgent: (urgent: boolean) => void;
 	};
 }
 
-const init = (initialArg: Partial<CompositionState>): CompositionState => ({
-	to: [],
-	cc: [],
-	bcc: [],
-	subject: '',
-	body: { text: '', html: '' },
-	richText: true,
-	...initialArg
-});
-
-const draftContactsFromState = (state: CompositionState): Array<Participant> => [
-	...map(state.to, (c: { value: string }): Participant => ({
-		type: 't',
-		address: c.value,
-		displayName: ''
-	}) as Participant),
-	...map(state.cc, (c: { value: string }): Participant => ({
-		type: 'c',
-		address: c.value,
-		displayName: ''
-	}) as Participant),
-	...map(state.bcc, (c: { value: string }): Participant => ({
-		type: 'b',
-		address: c.value,
-		displayName: ''
-	}) as Participant)
-];
-
-const compositionToDraft = (cState: CompositionState, draft: MailMessage): MailMessage => ({
-	...draft,
-	subject: cState.subject,
-	contacts: draftContactsFromState(cState),
-});
-
 const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
+		case 'RESET': {
+			console.log('reset', action.payload.state.body);
+			return {
+				...state,
+				...action.payload.state
+			};
+		}
 		case 'UPDATE_SUBJECT': {
 			return {
 				...state,
@@ -132,7 +133,9 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 			return {
 				...state,
 				body: {
-					html: action.payload.html,
+					html: state.richText
+						? action.payload.html
+						: `<p>${state.body.text}<p>`,
 					text: action.payload.text
 				}
 			};
@@ -140,7 +143,19 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 		case 'TOGGLE_RICH_TEXT': {
 			return {
 				...state,
-				richText: action.payload.richText
+				richText: action.payload.richText,
+			};
+		}
+		case 'TOGGLE_FLAGGED': {
+			return {
+				...state,
+				flagged: action.payload.flagged
+			};
+		}
+		case 'TOGGLE_URGENT': {
+			return {
+				...state,
+				urgent: action.payload.urgent
 			};
 		}
 		default:
@@ -154,57 +169,90 @@ const stateContactsFromDraft = (draft: MailMessage, type: string): Array<{ value
 	(c: Participant) => ({ value: c.displayName || c.address })
 );
 
+const extractBody = (draft: MailMessage): { text: string; html: string } => {
+	console.log(draft ? (draft.parts ? draft.parts : 'noparts') : 'nodraft');
+	const text = find(draft.parts, ['contentType', 'text/plain']);
+	const html = find(draft.parts, ['contentType', 'text/html']);
+	console.log(text.content, html.content);
+	return {
+		text: (text && text.content) ? text.content : '',
+		html: (html && html.content) ? html.content : ''
+	};
+};
 const draftToCompositionData = (draft: MailMessage): CompositionState => ({
 	subject: draft ? draft.subject : '',
 	to: stateContactsFromDraft(draft, 't'),
 	cc: stateContactsFromDraft(draft, 'c'),
 	bcc: stateContactsFromDraft(draft, 'b'),
-	body: {
-		html: '',
-		text: ''
-	},
-	richText: true
+	body: { ...extractBody(draft) },
+	richText: draft
+		? filter(
+			draft.parts,
+			(part: MailMessagePart): boolean => part.contentType === 'text/html'
+		).length > 0
+		: true,
+	flagged: draft ? draft.flagged : false,
+	urgent: draft ? draft.urgent : false
 });
+
+const emptyDraft: CompositionState = {
+	richText: true,
+	subject: '',
+	urgent: false,
+	flagged: false,
+	to: [],
+	cc: [],
+	bcc: [],
+	body: {
+		text: '',
+		html: ''
+	}
+};
 
 const useCompositionData = (draftId: string, panel: boolean, folderId: string): CompositionData => {
 	const { db } = hooks.useAppContext();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
-	if (draftId === 'new') {
-		db.createEmptyDraft().then((newId: string): void => {
-			replaceHistory(panel
-				? `/folder/${folderId}?edit=${newId}`
-				: `/edit/${newId}`);
-		});
-	}
+	const [initialized, setInitialized] = useState(false);
+
 	const draftQuery = useCallback(
-		() => db.messages.get(draftId).then((res: [MailMessage, boolean]) => {
-			if (res[1]) return res[0];
-			return {};
-		}),
+		() => db.messages.get(draftId),
 		[draftId, db.messages]
 	);
 	const [draft, loaded] = hooks.useObserveDb(draftQuery, db);
-
 	const [compositionData, dispatch] = useReducer(
 		reducer,
-		draftToCompositionData(draft)
+		(draft && loaded) ? draftToCompositionData(draft) : emptyDraft
 	);
 	const timedSaveDraft = useCallback(
 		throttle(
-			(compositionData: CompositionState): void => {
-				console.log('save', compositionData);
-				db.saveDraft(draftId, compositionData);
-			},
+			(dId: string, cData: CompositionState): void => db.saveDraft(dId, cData)
+				.then((newId: string): void => {
+					console.count(newId);
+					if (newId !== dId) {
+						replaceHistory(panel
+							? `/folder/${folderId}?edit=${newId}`
+							: `/edit/${newId}`);
+					}
+				}),
 			500,
 			{ leading: false, trailing: true }
 		),
-		[]
+		[replaceHistory]
+	);
+	useEffect(
+		() => {
+			if (loaded && draft && !initialized) {
+				dispatch({ type: 'RESET', payload: { state: draftToCompositionData(draft) } });
+				setInitialized(true);
+			}
+		},
+		[draft, initialized, loaded]
 	);
 	useEffect(
 		() => {
 			timedSaveDraft.cancel();
-			timedSaveDraft(compositionData);
-		}, [compositionData, timedSaveDraft]
+			timedSaveDraft(draftId, compositionData);
+		}, [compositionData, draftId, folderId, panel, replaceHistory, timedSaveDraft]
 	);
 	const updateSubject = useCallback(
 		(value: string): void => {
@@ -214,7 +262,7 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	);
 	const updateBody = useCallback(
 		(value: [string, string]): void => {
-			dispatch({ type: 'UPDATE_BODY', payload: { html: value[0], text: value[1] } });
+			dispatch({ type: 'UPDATE_BODY', payload: { text: value[0], html: value[1] } });
 		},
 		[]
 	);
@@ -230,13 +278,27 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 		},
 		[]
 	);
+	const toggleUrgent = useCallback(
+		(urgent: boolean): void => {
+			dispatch({ type: 'TOGGLE_URGENT', payload: { urgent } });
+		},
+		[]
+	);
+	const toggleFlagged = useCallback(
+		(flagged: boolean): void => {
+			dispatch({ type: 'TOGGLE_FLAGGED', payload: { flagged } });
+		},
+		[]
+	);
 	return {
 		compositionData,
 		actions: {
 			updateSubject,
 			updateContacts,
 			updateBody,
-			toggleRichText
+			toggleRichText,
+			toggleUrgent,
+			toggleFlagged
 		}
 	};
 };

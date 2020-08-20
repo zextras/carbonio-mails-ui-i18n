@@ -17,5 +17,10 @@
   "send": "",
   "subject": "",
   "text": "",
-  "to": ""
+  "to": "",
+  "toggleFlagged": "",
+  "toggleRichText": "",
+  "toggleUrgent": "",
+  "toggleflagged": "",
+  "toggleurgent": ""
 }
