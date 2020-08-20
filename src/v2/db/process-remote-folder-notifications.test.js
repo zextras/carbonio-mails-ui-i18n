@@ -9,9 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 jest.mock('./mails-db');
-// eslint-disable-next-line
-import { MailsDb } from './mails-db';// eslint-disable-next-line
-import { MailsFolder } from './mails-folder';// eslint-disable-next-line
+
+import { MailsDb } from './mails-db';
+import { MailsFolder } from './mails-folder';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 
 describe('Notifications - Folder', () => {

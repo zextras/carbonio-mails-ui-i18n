@@ -11,7 +11,7 @@
  */
 
 jest.mock('@zextras/zapp-shell');
-// eslint-disable-next-line import/no-unresolved
+
 import { _MOCKS_ } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 
