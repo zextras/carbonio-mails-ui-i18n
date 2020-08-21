@@ -10,7 +10,7 @@
  */
 
 import React, {
-	useCallback, useMemo, useRef,
+	useCallback,
 	useState
 } from 'react';
 import {
@@ -180,6 +180,7 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						(
 							<TextArea
 								label=""
+								defaultValue={compositionData.body.text}
 								value={compositionData.body.text}
 								onChange={(ev) => {
 									// eslint-disable-next-line no-param-reassign
