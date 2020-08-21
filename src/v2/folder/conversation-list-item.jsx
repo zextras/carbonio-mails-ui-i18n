@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import React, { useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {
 	find,
@@ -42,20 +43,29 @@ const HoverContainer = styled(Container)`
 const OuterContainer = styled(Container)`
 	min-height: 57px;
 `;
+const InvisibleLink = styled(Link)`
+	text-decoration: none;
+	width: 100%;
+`;
 
 export default function ConversationListItem({
 	index,
 	conversation,
+	folderId,
 	style,
 	displayData,
 	updateDisplayData
 }) {
-	const avatarLabel = useMemo(() => {
+	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
-		return sender.displayName || sender.address || '.';
+		return [sender.displayName || sender.address || '.', sender.address || '.'];
 	});
 	const toggleOpen = useCallback(
-		() => updateDisplayData(index, conversation.id, { open: !displayData.open }),
+		(e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			updateDisplayData(index, conversation.id, { open: !displayData.open });
+		},
 		[conversation.id, displayData.open, updateDisplayData]
 	);
 	const date = useMemo(
@@ -75,74 +85,76 @@ export default function ConversationListItem({
 			background="gray6"
 			mainAlignment="flex-start"
 		>
-			<HoverContainer
-				height={56}
-				orientation="horizontal"
-				mainAlignment="flex-start"
-				padding={{ all: 'small' }}
-			>
-				<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
-				<Row
-					takeAvailableSpace={true}
-					orientation="vertical"
-					padding={{ left: 'small' }}
+			<InvisibleLink to={`/folder/${folderId}?conversation=${conversation._id}`}>
+				<HoverContainer
+					height={56}
+					orientation="horizontal"
+					mainAlignment="flex-start"
+					padding={{ all: 'small' }}
 				>
-					<Container orientation="horizontal" width="fill">
-						<Row
-							wrap="nowrap"
-							takeAvailableSpace={true}
-							mainAlignment="flex-start"
-						>
-							<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
-						</Row>
-						<Row>
-							{ conversation.attachment
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="AttachOutline" />
-								</Padding>
-							)}
-							{ conversation.flagged
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="Flag" color="error" />
-								</Padding>
-							)}
-							<Text>{date}</Text>
-						</Row>
-					</Container>
-					<Container orientation="horizontal" width="fill" crossAlignment="center">
-						<Row>
-							<Padding right="extrasmall">
-								<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-							</Padding>
-						</Row>
-						<Row
-							wrap="nowrap"
-							takeAvailableSpace={true}
-							mainAlignment="flex-start"
-							crossAlignment="baseline"
-						>
-							<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
-							<Text>{` - ${conversation.fragment}`}</Text>
-						</Row>
-						<Row>
-							{ conversation.urgent
-								&& <Icon icon="ArrowUpward" color="error" />}
-							{ conversation.msgCount > 0
+					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+					<Row
+						takeAvailableSpace={true}
+						orientation="vertical"
+						padding={{ left: 'small' }}
+					>
+						<Container orientation="horizontal" width="fill">
+							<Row
+								wrap="nowrap"
+								takeAvailableSpace={true}
+								mainAlignment="flex-start"
+							>
+								<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
+							</Row>
+							<Row>
+								{ conversation.attachment
 								&& (
-									<IconButton
-										size="small"
-										icon={displayData.open
-											? 'ArrowIosUpward'
-											: 'ArrowIosDownward'}
-										onClick={toggleOpen}
-									/>
+									<Padding right="extrasmall">
+										<Icon icon="AttachOutline" />
+									</Padding>
 								)}
-						</Row>
-					</Container>
-				</Row>
-			</HoverContainer>
+								{ conversation.flagged
+								&& (
+									<Padding right="extrasmall">
+										<Icon icon="Flag" color="error" />
+									</Padding>
+								)}
+								<Text>{date}</Text>
+							</Row>
+						</Container>
+						<Container orientation="horizontal" width="fill" crossAlignment="center">
+							<Row>
+								<Padding right="extrasmall">
+									<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
+								</Padding>
+							</Row>
+							<Row
+								wrap="nowrap"
+								takeAvailableSpace={true}
+								mainAlignment="flex-start"
+								crossAlignment="baseline"
+							>
+								<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
+								<Text>{` - ${conversation.fragment}`}</Text>
+							</Row>
+							<Row>
+								{ conversation.urgent
+									&& <Icon icon="ArrowUpward" color="error" />}
+								{ conversation.msgCount > 0
+									&& (
+										<IconButton
+											size="small"
+											icon={displayData.open
+												? 'ArrowIosUpward'
+												: 'ArrowIosDownward'}
+											onClick={toggleOpen}
+										/>
+									)}
+							</Row>
+						</Container>
+					</Row>
+				</HoverContainer>
+			</InvisibleLink>
 			<Divider style={{ minHeight: '1px' }} />
 			<Collapse
 				orientation="vertical"
@@ -154,14 +166,14 @@ export default function ConversationListItem({
 					height={conversation.msgCount * 57}
 					padding={{ left: 'large' }}
 				>
-					<ConversationMessagesList conversationId={conversation.id} />
+					<ConversationMessagesList folderId={folderId} conversationId={conversation.id} conversationDexieId={conversation._id} />
 				</Container>
 			</Collapse>
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId }) => {
+const ConversationMessagesList = ({ conversationId, conversationDexieId, folderId }) => {
 	const { messages, loaded } = useConversationMessages(conversationId);
 
 	return (
@@ -169,7 +181,7 @@ const ConversationMessagesList = ({ conversationId }) => {
 			{loaded
 			&& map(
 				messages,
-				(message) => <MessageListItem key={message.id} message={message} />
+				(message) => <MessageListItem key={message.id} message={message} conversationId={conversationDexieId} folderId={folderId} />
 			)}
 		</>
 	);

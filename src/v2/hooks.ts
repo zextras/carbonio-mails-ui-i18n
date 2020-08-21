@@ -51,3 +51,25 @@ export function useConversationMessages(conversationId: Array<ConversationMailMe
 
 	return { messages, loaded};
 }
+
+export function useConversation(conversationId: string) {
+	const { db } = hooks.useAppContext();
+	const conversationQuery = useCallback(
+		() => db.conversations.where('id').equals(conversationId).or('_id').equals(conversationId).first(),
+		[conversationId, db.conversations]
+	);
+	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
+
+	return { conversation, loaded};
+}
+
+export function useMessage(messageId: string) {
+	const { db } = hooks.useAppContext();
+	const messageQuery = useCallback(
+		() => db.messages.where('id').equals(messageId).or('_id').equals(messageId).first(),
+		[messageId, db.messages]
+	);
+	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
+
+	return { message, loaded};
+}
