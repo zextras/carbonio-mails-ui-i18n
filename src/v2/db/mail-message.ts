@@ -10,8 +10,22 @@
  */
 
 import { IMailMinimalData } from './mail-db-types';
+import { MailMessagePart, Participant } from '../../idb/IMailsIdb';
 
-interface IMailMessage extends IMailMinimalData {}
+interface IMailMessage extends IMailMinimalData {
+	conversation: string;
+	contacts: Array<Participant>;
+	date: number;
+	subject: string;
+	fragment: string;
+	read: boolean;
+	parts: Array<MailMessagePart>;
+	size: number;
+	attachment: boolean;
+	flagged: boolean;
+	urgent: boolean;
+	/** Defines the path inside the parts of the mail */ bodyPath: string;
+}
 
 export class MailMessage implements IMailMessage {
 	_id?: string;
@@ -20,13 +34,61 @@ export class MailMessage implements IMailMessage {
 
 	parent: string;
 
+	conversation: string;
+
+	contacts: Array<Participant>;
+
+	date: number;
+
+	subject: string;
+
+	fragment: string;
+
+	read: boolean;
+
+	parts: Array<MailMessagePart>;
+
+	size: number;
+
+	attachment: boolean;
+
+	flagged: boolean;
+
+	urgent: boolean;
+
+	/** Defines the path inside the parts of the mail */ bodyPath: string;
+
 	constructor({
 		_id,
 		id,
 		parent,
+		conversation,
+		contacts,
+		date,
+		subject,
+		fragment,
+		read,
+		parts,
+		size,
+		attachment,
+		flagged,
+		urgent,
+		bodyPath,
 	}: IMailMessage) {
 		this._id = _id;
 		this.id = id;
 		this.parent = parent;
+		this.conversation = conversation;
+		this.contacts = contacts;
+		this.date = date;
+		this.subject = subject;
+		this.fragment = fragment;
+		this.read = read;
+		this.parts = parts;
+		this.size = size;
+		this.attachment = attachment;
+		this.flagged = flagged;
+		this.urgent = urgent;
+		this.bodyPath = bodyPath;
 	}
 }

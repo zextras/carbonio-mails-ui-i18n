@@ -13,6 +13,7 @@ import { map, reduce } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
+import { SoapEmailMessagePartObj } from '../ISoap';
 
 type IFolderView =
 	'search folder'
@@ -27,6 +28,27 @@ type IFolderView =
 	| 'wiki'
 	| 'task'
 	| 'chat';
+
+export type ISoapFolderObj = {
+	absFolderPath: string;
+	activesyncdisabled: boolean;
+	deletable: boolean;
+	folder?: Array<ISoapFolderObj>;
+	i4ms: number;
+	i4next: number;
+	id: string;
+	/** Parent ID */ l: string;
+	luuid: string;
+	ms: number;
+	/** Count of non-folder items */ n: number;
+	name: string;
+	rev: number;
+	/** Size */ s: number;
+	/** Count of unread messages */ u?: number;
+	uuid: string;
+	view: IFolderView;
+	webOfflineSyncDays: number;
+}
 
 type ISoapSyncFolderObj = {
 	absFolderPath: string;
@@ -63,16 +85,7 @@ export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 	folder: Array<SyncResponseMailFolder>;
 };
 
-type SyncResponseDeletedMapRow = {
-	ids: string;
-};
-
-export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
-	folder?: Array<SyncResponseDeletedMapRow>;
-	m?: Array<SyncResponseDeletedMapRow>;
-};
-
-type SyncResponseMail = {
+export type SyncResponseMail = {
 	cid: string;
 	d: number;
 	id: string;
@@ -80,6 +93,15 @@ type SyncResponseMail = {
 	md: number;
 	ms: number;
 	rev: number;
+};
+
+type SyncResponseDeletedMapRow = {
+	ids: string;
+};
+
+export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
+	folder?: Array<SyncResponseDeletedMapRow>;
+	m?: Array<SyncResponseDeletedMapRow>;
 };
 
 export type SyncResponse = {
@@ -131,6 +153,33 @@ export type BatchRequest = {
 	onerror: 'continue';
 	CreateFolderRequest?: Array<BatchedRequest & CreateFolderRequest>;
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
+};
+
+export type GetMsgRequest = {
+	_jsns: 'urn:zimbraMail';
+	m: Array<{
+		id: string;
+	}>;
+};
+
+export type GetMsgResponse = {
+	m: Array<SoapEmailMessageObj>;
+};
+
+export type SoapEmailMessageObj = {
+	id: string;
+	/** Conversation id */ cid: string;
+	/** Folder id */ l: string;
+	/** Contacts */ e: Array<SoapEmailInfoObj>;
+	/** Fragment */ fr: string;
+	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
+	/** Flags */ f: string;
+	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
+	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
+	// urgent (!), low-priority (?), priority (+)
+	/** Size */ s: number;
+	/** Subject */ su: string;
+	/** Date */ d: number;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';

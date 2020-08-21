@@ -22,13 +22,14 @@ import {
 	Conversation,
 	ConversationMailMessage,
 	IMailFolderSchmV1,
-	MailMessage, MailMessagePart,
+	MailMessagePart,
 	Participant,
 	ParticipantType
 } from './idb/IMailsIdb';
 import { CompositionData, CompositionParticipants } from './components/compose/IuseCompositionData';
 import React from 'react';
 import { IMailContact } from './composer/IComposerSoap';
+import { MailMessage } from './v2/db/mail-message';
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;
@@ -273,7 +274,7 @@ export function calculateAbsPath(
 }
 
 export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	return {
+	return new MailMessage({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -297,7 +298,7 @@ export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessag
 		attachment: /a/.test(m.f || ''),
 		flagged: /f/.test(m.f || ''),
 		urgent: /!/.test(m.f || ''),
-	};
+	});
 }
 
 function normalizeConversationMessageFromSoap(

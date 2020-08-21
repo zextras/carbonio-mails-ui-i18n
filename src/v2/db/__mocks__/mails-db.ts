@@ -24,5 +24,6 @@ const MockedTable = jest.fn().mockImplementation(() => ({
 
 export const MailsDb = jest.fn().mockImplementation(() => ({
 	folders: new MockedTable(),
-	deletions: new MockedTable()
+	deletions: new MockedTable(),
+	messages: new MockedTable()
 }));
