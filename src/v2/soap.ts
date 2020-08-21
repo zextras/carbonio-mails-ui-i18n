@@ -394,6 +394,9 @@ export function fetchConversationsInFolder(
 		'/service/soap/SearchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(searchReq)
 		}
 	)
@@ -433,6 +436,9 @@ export function fetchMailMessagesById(
 		'/service/soap/BatchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				Body: {
 					BatchRequest: batchRequest
