@@ -1,9 +1,9 @@
 
-jest.mock('./mails-db');
+jest.mock('./mails-db-dexie');
 
 import { MailMessage } from './mail-message';
 import processRemoteMailsNotification, { fetchMessages } from './process-remote-mails-notification';
-import { MailsDb } from './__mocks__/mails-db';
+import { MailsDb } from './mails-db';
 
 describe('Notifications - Mails', () => {
 	test('Fetch Messages', (done) => {

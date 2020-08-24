@@ -22,8 +22,9 @@ const MockedTable = jest.fn().mockImplementation(() => ({
 	bulkGet: jest.fn().mockImplementation(() => Promise.resolve([]))
 }));
 
-export const MailsDb = jest.fn().mockImplementation(() => ({
-	folders: new MockedTable(),
-	deletions: new MockedTable(),
-	messages: new MockedTable()
-}));
+export class MailsDbDexie {
+	folders = new MockedTable();
+	deletions = new MockedTable();
+	messages = new MockedTable();
+}
+
