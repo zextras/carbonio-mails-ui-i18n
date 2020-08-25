@@ -70,18 +70,16 @@ export function fetchMessages(
 			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
 			else return r.Body.GetMsgResponse;
 		})
-		.then((response: GetMsgResponse) => {
-			return reduce<SoapEmailMessageObj, MailMessage[]>(
-				response.m,
-				(r, m) => {
-					r.push(
-						normalizeMailMessageFromSoap(m)
-					);
-					return r;
-				},
-				[]
-			);
-		});
+		.then((response: GetMsgResponse) => reduce<SoapEmailMessageObj, MailMessage[]>(
+			response.m,
+			(r, m) => {
+				r.push(
+					normalizeMailMessageFromSoap(m)
+				);
+				return r;
+			},
+			[]
+		));
 }
 
 function extractAllMailsForInitialSync(
@@ -134,11 +132,12 @@ export default function processRemoteMailsNotification(
 	{ m, deleted, folder }: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	if (isInitialSync) {
-		// Extract all contacts form all the folders
+		// Extract all mails from all the folders
 		return extractAllMailsForInitialSync(_fetch, folder!);
 	}
 
 	const ids = map<SyncResponseMail>(m || [], 'id');
+
 
 	return fetchMessages(
 		_fetch,

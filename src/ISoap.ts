@@ -93,7 +93,7 @@ export type SoapEmailMessageObj = {
 	/** Contacts */ e: Array<SoapEmailInfoObj>;
 	/** Fragment */ fr: string;
 	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
-	/** Flags */ f: string;
+	/** Flags */ f?: string;
 	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
 	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
 	// urgent (!), low-priority (?), priority (+)

@@ -13,7 +13,7 @@ import { map, reduce } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
-import { SoapEmailMessagePartObj } from '../ISoap';
+
 
 type IFolderView =
 	'search folder'
@@ -93,6 +93,9 @@ export type SyncResponseMail = {
 	md: number;
 	ms: number;
 	rev: number;
+	f?: string;
+	// t?: string; //tag
+	// tn?: string; //tagName
 };
 
 type SyncResponseDeletedMapRow = {
@@ -164,6 +167,18 @@ export type GetMsgRequest = {
 
 export type GetMsgResponse = {
 	m: Array<SoapEmailMessageObj>;
+};
+
+export type SoapEmailMessagePartObj = {
+	part: string;
+	/**	Content Type	*/ ct: string;
+	/**	Size	*/ s: number;
+	/**	Content id (for inline images)	*/ ci: string;
+	/** Content disposition */ cd?: 'inline'|'attachment';
+	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
+	/**	Set if is the body of the message	*/ body?: true;
+	filename?: string;
+	content: string;
 };
 
 export type SoapEmailMessageObj = {
@@ -321,6 +336,7 @@ export function fetchConversationsInFolder(
 			}
 		}
 	};
+
 	return fetch(
 		'/service/soap/SearchRequest',
 		{

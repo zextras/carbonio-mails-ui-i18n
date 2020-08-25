@@ -53,7 +53,7 @@ export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolder[] 
 }
 
 export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	return new MailMessage({
+	const obj = new MailMessage({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -73,11 +73,19 @@ export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessag
 			// eslint-disable-next-line @typescript-eslint/no-use-before-define
 			normalizeParticipantsFromSoap
 		),
-		read: !(/u/.test(m.f || '')),
-		attachment: /a/.test(m.f || ''),
-		flagged: /f/.test(m.f || ''),
-		urgent: /!/.test(m.f || ''),
+		read: false,
+		attachment: false,
+		flagged: false,
+		urgent: false
 	});
+
+	if (m.f) {
+		obj.read = !(/u/.test(m.f));
+		obj.attachment = /a/.test(m.f);
+		obj.flagged = /f/.test(m.f);
+		obj.urgent = /!/.test(m.f);
+	}
+	return obj;
 }
 
 function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
