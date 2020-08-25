@@ -419,6 +419,7 @@ export function fetchMailMessagesById(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
 ): Promise<{[key: string]: MailMessage}> {
+	if (ids.length < 1) return Promise.resolve({});
 	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue',

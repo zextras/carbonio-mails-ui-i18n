@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "zapp watch",
+    "start:e2e": "zapp watch -e",
     "test": "jest",
     "webdriver:start": "webdriver-manager update && webdriver-manager start",
     "test:e2e": "protractor protractor.conf.js",
