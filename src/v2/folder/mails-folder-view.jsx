@@ -30,7 +30,7 @@ import useQueryParam from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/conversation-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
-import { useConversationsInFolder } from '../hooks';
+import { useConvsInFolder } from '../hooks';
 
 function Breadcrumbs({ folder }) {
 	return (
@@ -137,15 +137,15 @@ export default function FolderView() {
 }
 
 const ConversationList = ({ folderId }) => {
-
 	const containerRef = useRef();
 	const listRef = useRef();
 	const {
 		conversations,
+		folder,
+		isLoading,
 		hasMore,
-		loading,
-		folder
-	} = useConversationsInFolder(folderId);
+		loadMore
+	} = useConvsInFolder(folderId);
 
 	const [displayData, setDisplayData] = useState({});
 
@@ -194,7 +194,7 @@ const ConversationList = ({ folderId }) => {
 		[conversations, displayData]
 	);
 
-	if (loading) {
+	if (isLoading) {
 		return <Text> LOADING </Text>;
 	}
 

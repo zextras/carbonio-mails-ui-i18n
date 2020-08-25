@@ -9,15 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 
-import Dexie, { PromiseExtended } from 'dexie';
-import { db } from '@zextras/zapp-shell';
-import { BehaviorSubject } from 'rxjs';
-import { sortBy, last, reverse } from 'lodash';
+import { PromiseExtended } from 'dexie';
 import { MailsFolder } from './mails-folder';
-import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
-import { map } from 'lodash';
+import { MailsDbDexie } from './mails-db-dexie';
 
 export type DeletionData = {
 	_id: string;
@@ -26,40 +22,13 @@ export type DeletionData = {
 	rowId?: string;
 };
 
-export type GetConvSubjectData = {
-	conversations: Array<MailConversation>;
-	loading: boolean;
-	hasMore: boolean;
-};
-
-export class MailsDb extends db.Database {
+export class MailsDb extends MailsDbDexie {
 	private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-
-	folders: Dexie.Table<MailsFolder, string>; // string = type of the primary key
-
-	messages: Dexie.Table<MailMessage, string>; // string = type of the primary key
-
-	conversations: Dexie.Table<MailConversation, string>; // string = type of the primary key
-
-	deletions: Dexie.Table<DeletionData, string>;
 
 	constructor(
 		fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
 	) {
-		super('mails');
-		this.version(1).stores({
-			folders: '$$_id, id, parent',
-			messages: '$$_id, id, parent, conversation',
-			conversations: '$$_id, id, *parent',
-			deletions: '$$rowId, _id, id'
-		});
-		this.folders = this.table('folders');
-		this.folders.mapToClass(MailsFolder);
-		this.messages = this.table('messages');
-		this.messages.mapToClass(MailMessage);
-		this.conversations = this.table('conversations');
-		this.conversations.mapToClass(MailConversation);
-		this.deletions = this.table('deletions');
+		super();
 		this._fetch = fetch;
 	}
 
@@ -85,33 +54,22 @@ export class MailsDb extends db.Database {
 		});
 	}
 
-	public getConvInFolder(f: MailsFolder): BehaviorSubject<GetConvSubjectData> {
-		const subject = new BehaviorSubject<GetConvSubjectData>({ conversations: [], loading: true, hasMore: false });
-		this.conversations.where('parent').equals(f.id!).toArray()
-			.then((conversations: MailConversation[]) => {
-				const sorted = reverse(sortBy(conversations, 'date'));
-				const _last = last(conversations);
-				subject.next({
-					...subject.getValue(),
-					conversations: sorted
-				});
+	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+		if (!f.id) return Promise.resolve(false);
+		return fetchConversationsInFolder(
+			this._fetch,
+			f,
+			1,
+			lastConv ? new Date(lastConv.date) : undefined
+		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
+	}
 
-				fetchConversationsInFolder(
-					this._fetch,
-					f,
-					1,
-					_last ? new Date(_last.date) : undefined
-				)
-					.then(([convs, hasMore]) => {
-						subject.next({
-							...subject.getValue(),
-							hasMore: convs.length > 0 || hasMore,
-							loading: false
-						});
-						subject.complete();
-					});
-				// TODO: Catch possible errors to complete the subject
-			});
-		return subject;
+	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+		return fetchConversationsInFolder(
+			this._fetch,
+			f,
+			50,
+			lastConv ? new Date(lastConv.date) : undefined
+		);
 	}
 }

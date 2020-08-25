@@ -55,7 +55,7 @@ describe('SOAP', () => {
 				path: '/Inbox'
 			})
 		)
-			.then((convs) => {
+			.then(([convs, hasMore]) => {
 				expect(convs.length).toBe(1);
 				const conv = convs[0];
 				expect(conv).toBeInstanceOf(MailConversation);
