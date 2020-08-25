@@ -9,23 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-const MockedCollection = jest.fn().mockImplementation(() => ({
-	toArray: jest.fn().mockImplementation(() => Promise.resolve([]))
-}));
+import { MailsDbDexie } from '../mails-db-dexie';
 
-const MockedWhereClause = jest.fn().mockImplementation(() => ({
-	anyOf: MockedCollection
-}));
+export class MailsDb extends MailsDbDexie {
+	checkHasMoreConv = jest.fn();
 
-const MockedTable = jest.fn().mockImplementation(() => ({
-	where: MockedWhereClause,
-	bulkGet: jest.fn().mockImplementation(() => Promise.resolve([])),
-	get: jest.fn().mockImplementation(() => Promise.resolve())
-}));
-
-export const MailsDb = jest.fn().mockImplementation(() => ({
-	conversations: new MockedTable(),
-	folders: new MockedTable(),
-	deletions: new MockedTable(),
-	observe: jest.fn()
-}));
+	fetchMoreConv = jest.fn();
+}

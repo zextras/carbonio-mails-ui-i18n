@@ -9,24 +9,66 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { renderHook } from '@testing-library/react-hooks';
-import { Subject } from 'rxjs';
+import { renderHook, act } from '@testing-library/react-hooks';
 jest.mock('@zextras/zapp-shell');
-jest.mock('./db/mails-db');
 import { hooks } from '@zextras/zapp-shell';
-import { useConversationsInFolder } from './hooks';
+jest.mock('./db/mails-db-dexie');
+jest.mock('./db/mails-db');
 import { MailsDb } from './db/mails-db';
+import { useConvsInFolder } from './hooks';
+import { MailsFolder } from './db/mails-folder';
+import { MailConversation } from './db/mail-conversation';
 
 describe('Hooks', () => {
-
-	test('useConversationsInFolder', () => {
+	test('useConvsInFolder', async () => {
 		const db = new MailsDb();
-		const subject = new Subject();
-		db.observe.mockImplementation(() => subject);
+		db.folders.get.mockImplementation(() => Promise.resolve(new MailsFolder({
+			_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+			id: '1000'
+		})));
+		const convs = [];
+		for (let i = 0; i < 50; i++) convs.push(new MailConversation({ id: `-10${i < 10 ? `0${i}` : i}` }));
+		const sortBy = jest.fn().mockImplementation(() => Promise.resolve(convs));
+		db.conversations.where.mockImplementation(() => ({
+			equals: () => ({
+				reverse: jest.fn().mockImplementation(() => ({
+					sortBy,
+					limit: jest.fn().mockImplementation(() => ({
+						sortBy
+					}))
+				}))
+			})
+		}));
+
 		hooks.useAppContext.mockImplementation(() => ({ db }));
-		const { result } = renderHook(() => useConversationsInFolder('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'));
+		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
+		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[], false]));
 
+		const { result, waitForNextUpdate } = renderHook(() => useConvsInFolder('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'));
 		expect(result.current.folder).toBeUndefined();
-	});
+		expect(result.current.conversations.length).toBe(0);
+		expect(result.current.loadMore).toBeUndefined();
+		expect(result.current.isLoading).toBe(true);
+		expect(result.current.hasMore).toBe(false);
 
+		await waitForNextUpdate();
+
+		expect(result.current.folder).toBeInstanceOf(MailsFolder);
+		expect(result.current.conversations.length).toBe(50);
+		expect(result.current.loadMore).toBeInstanceOf(Function);
+		expect(result.current.isLoading).toBe(false);
+		expect(result.current.hasMore).toBe(true);
+
+		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
+		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[
+			new MailConversation({ id: '-10051' })
+		], false]));
+		await act(() => result.current.loadMore());
+
+		expect(result.current.folder).toBeInstanceOf(MailsFolder);
+		expect(result.current.conversations.length).toBe(51);
+		expect(result.current.loadMore).toBeUndefined();
+		expect(result.current.isLoading).toBe(false);
+		expect(result.current.hasMore).toBe(false);
+	});
 });

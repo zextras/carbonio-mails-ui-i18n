@@ -15,8 +15,7 @@ import {
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
-import { MailMessage } from './db/mail-message';
-import { MailMessagePart } from '../idb/IMailsIdb';
+import { MailMessage, MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 
 type IFolderView =
 	'search folder'
@@ -216,6 +215,10 @@ export type SoapEmailMessageObj = {
 	/** Date */ d: number;
 };
 
+type GetMsgResponse = {
+	m: Array<SoapEmailMessageObj>;
+}
+
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
 	switch (t) {
 		case 'f': return ParticipantType.FROM;
@@ -309,6 +312,7 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 		return [idx];
 	}
 	if (v.mp) {
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
 		const paths = recursiveBodyPath(v.mp);
 		if (paths.length > 0) {
 			paths.push(idx);
@@ -320,8 +324,7 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 
 function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
 	// eslint-disable-next-line @typescript-eslint/no-use-before-define
-	const result = flattenDeep(map(mp, bodyPathMapFn));
-	return result;
+	return flattenDeep(map(mp, bodyPathMapFn));
 }
 
 function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
@@ -334,8 +337,8 @@ function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
 	return trim(path, '.');
 }
 
-function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	return new MailMessage({
+function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	return new MailMessageFromSoap({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -402,7 +405,7 @@ export function fetchConversationsInFolder(
 		.then(({ c, more }) => [
 			reduce<SoapConvObj, Array<MailConversation>>(
 				c,
-				(acc, v, k) => acc.concat(normalizeConversationFromSoap(v)),
+				(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
 				[]
 			),
 			more,
@@ -413,7 +416,7 @@ export function fetchMailMessagesById(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
 ): Promise<{[key: string]: MailMessage}> {
-	const batchRequest: BatchRequest = {
+	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue',
 		GetMsgRequest: []
@@ -442,11 +445,11 @@ export function fetchMailMessagesById(
 			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
 			else return r.Body.BatchResponse;
 		})
-		.then(({ GetMsgResponse }) => reduce(
-			GetMsgResponse,
+		.then(({ GetMsgResponse: getMsgResponse }) => reduce<GetMsgResponse, {[key: string]: MailMessage}>(
+			getMsgResponse,
 			(acc, { m }) => {
 				const msg = normalizeMailMessageFromSoap(m[0]);
-				acc[msg.id!] = msg;
+				acc[msg.id] = msg;
 				return acc;
 			},
 			{}

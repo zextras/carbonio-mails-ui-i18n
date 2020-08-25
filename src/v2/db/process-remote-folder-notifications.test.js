@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-jest.mock('./mails-db');
+jest.mock('./mails-db-dexie');
 
 import { MailsDb } from './mails-db';
 import { MailsFolder } from './mails-folder';

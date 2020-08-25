@@ -28,7 +28,7 @@ type Participant = {
 	displayName: string;
 };
 
-type MailMessagePart = {
+export type MailMessagePart = {
 	contentType: string;
 	size: number;
 	content?: string;
@@ -117,5 +117,23 @@ export class MailMessage implements IMailMessage {
 		this.flagged = flagged;
 		this.urgent = urgent;
 		this.bodyPath = bodyPath;
+	}
+}
+
+export class MailMessageFromSoap extends MailMessage {
+	id: string;
+
+	constructor({ id, ...rest }: IMailMessage & { id: string }) {
+		super({ ...rest, id });
+		this.id = id;
+	}
+}
+
+export class MailMessageFromDb extends MailMessage {
+	_id: string;
+
+	constructor({ _id, ...rest }: IMailMessage & { _id: string }) {
+		super({ ...rest, _id });
+		this._id = _id;
 	}
 }
