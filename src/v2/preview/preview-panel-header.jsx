@@ -33,7 +33,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 				padding={{ left: 'large', right: 'extrasmall' }}
 				style={{ minHeight: '48px' }}
 			>
-				<Icon size="large" icon="EmailReadOutline" />
+				<Icon size="large" icon={conversation.read ? 'EmailReadOutline' : 'EmailOutline'} />
 				<Row
 					mainAlignment="flex-start"
 					padding={{ left: 'large' }}

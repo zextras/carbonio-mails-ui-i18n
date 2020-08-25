@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { forEach, reduce } from 'lodash';
 import { getBodyToRender } from '../../ISoap';
 
@@ -30,6 +30,22 @@ const _TextMessageRenderer = ({ body }) => {
 
 const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 	const iframeRef = useRef();
+	const onIframeLoad = useCallback((ev) => {
+		ev.persist();
+		const styleTag = document.createElement('style');
+		const styles = `
+			body {
+				margin: 0;
+				overflow-y: hidden;
+			}
+			img {
+				max-width: 100%;
+			}
+		`;
+		styleTag.textContent = styles;
+		iframeRef.current.contentDocument.head.append(styleTag);
+		iframeRef.current.style.height = iframeRef.current.contentDocument.body.querySelector('div').scrollHeight + 'px';
+	}, []);
 
 	useEffect(() => {
 		iframeRef.current.contentDocument.open();
@@ -66,14 +82,8 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		<iframe
 			title={msgId}
 			ref={iframeRef}
-			onLoad={(ev) => {
-				ev.persist();
-				ev.currentTarget.style.height = ev.currentTarget.contentWindow.document.body.scrollHeight + 'px';
-			}}
-			style={{
-				border: 'none',
-				width: '100%'
-			}}
+			onLoad={onIframeLoad}
+			style={{ border: 'none', width: '100%' }}
 		/>
 	);
 };

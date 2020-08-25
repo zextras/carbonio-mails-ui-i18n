@@ -10,9 +10,9 @@
  */
 
 import React, { useLayoutEffect, useMemo, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { find, map, reduce, filter } from 'lodash';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {
 	Container,
@@ -22,8 +22,6 @@ import {
 	Collapse,
 	Icon,
 	Padding,
-	Badge,
-	DownloadFileButton,
 	IconButton,
 	Row,
 	Dropdown
@@ -32,6 +30,7 @@ import {
 import { useMessage } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
+import AttachmentsBlock from './attachments-block';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -51,10 +50,6 @@ const findAttachments = (parts, acc) => reduce(
 	acc
 );
 
-const StyledDownloadFileButton = styled(DownloadFileButton)`
-	background: ${(props) => props.theme.palette.gray4.regular};
-`;
-
 function MailPreview({ message: messageData, firstMail }) {
 	const { message, loaded } = useMessage(messageData.id);
 
@@ -73,12 +68,12 @@ export default MailPreview;
 function MailPreviewLoaded({ message, firstMail }) {
 	const mailContainerRef = useRef(undefined);
 	const urlMessageId = useQueryParam('message');
-	const [open, setOpen] = useState(!!urlMessageId ? false : firstMail);
+	const [open, setOpen] = useState(!urlMessageId ? firstMail : false);
 	const msgRender = useMemo(
 		() => <MailMessageRenderer key={message.id} onUnreadLoaded={() => {}} mailMsg={message} />,
 		[message]
 	);
-	const attachments = findAttachments(message.parts, []);
+	const attachments = useMemo(() => findAttachments(message.parts, []), [message]);
 
 	useLayoutEffect(() => {
 		if (typeof urlMessageId === 'undefined' && firstMail) return;
@@ -110,29 +105,8 @@ function MailPreviewLoaded({ message, firstMail }) {
 						padding={{ horizontal: 'medium', vertical: 'small' }}
 						background="gray6"
 					>
-						{attachments.length > 0
-						&& map(
-							attachments,
-							(att, index) => (
-								<Container
-									key={`att-${att.filename}-${index}`}
-									padding={{ vertical: 'extrasmall' }}
-									width="fill"
-								>
-									<Link
-										to={`/service/home/~/?auth=co&id=${message.id}&part=${att.name}&disp=a`}
-										target="_blank"
-										download
-										style={{ width: '100%', textDecoration: 'none' }}
-									>
-										<StyledDownloadFileButton
-											fileName={att.filename}
-										/>
-									</Link>
-								</Container>
-							)
-						)}
-						{msgRender}
+						<AttachmentsBlock message={message} attachments={attachments} />
+						<Padding style={{ width: '100%' }} vertical="medium">{ msgRender }</Padding>
 					</Container>
 				</Collapse>
 			</Container>
@@ -143,12 +117,24 @@ function MailPreviewLoaded({ message, firstMail }) {
 
 const fallbackContact = { address: '', displayName: '' };
 
+function getTimeLabel(date) {
+	const momentDate = moment(date);
+	if (momentDate.isSame(new Date(), 'day')) {
+		return momentDate.format('LT');
+	}
+	if (momentDate.isSame(new Date(), 'week')) {
+		return momentDate.format('dddd, LT');
+	}
+	if (momentDate.isSame(new Date(), 'month')) {
+		return momentDate.format('DD MMMM');
+	}
+	return momentDate.format('DD/MM/YYYY');
+}
 function MailPreviewBlock({
 	message,
 	open,
 	onClick
 }) {
-
 	const actions = [];
 
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
@@ -187,7 +173,7 @@ function MailPreviewBlock({
 					mainAlignment="space-between"
 					width="fill"
 				>
-					<Text>
+					<Text color={message.read ? 'text' : 'primary'} weight={message.read ? 'normal' : 'bold'}>
 						{mainContact.displayName || mainContact.address}
 					</Text>
 					<Container
@@ -197,7 +183,7 @@ function MailPreviewBlock({
 					>
 						{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
 						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-						<Padding left="small"><Text color="gray1">{moment(message.date).fromNow(true)}</Text></Padding>
+						<Padding left="small"><Text color="gray1">{ getTimeLabel(message.date) }</Text></Padding>
 						{ open && (
 							<Padding left="small">
 								<Dropdown
@@ -225,7 +211,7 @@ function MailPreviewBlock({
 						crossAlignment="center"
 						height="16px"
 					>
-						<MessageContactList message={message} />
+						<MessageContactsList message={message} />
 					</Container>
 				)}
 				<Container
@@ -243,7 +229,7 @@ function MailPreviewBlock({
 						style={{ minWidth: '0' }}
 					>
 						{ open
-							? <MessageContactList message={message} />
+							? <MessageContactsList message={message} />
 							: <Text color="text" size="medium">{ message.fragment }</Text>
 						}
 					</Container>
@@ -281,8 +267,8 @@ const ContactText = styled(Text)`
 		}
 	}
 `;
-
-function MessageContactList({ message }) {
+function MessageContactsList({ message }) {
+	const { t } = useTranslation();
 	const toContacts = filter(message.contacts, ['type', 't']);
 	const ccContacts = filter(message.contacts, ['type', 'c']);
 	const bccContacts = filter(message.contacts, ['type', 'b']);
@@ -290,17 +276,20 @@ function MessageContactList({ message }) {
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
-					To: { map(toContacts, (contact) => contact.displayName || contact.address).join(',') }
+					{ `${t('To')}: ` }
+					{ map(toContacts, (contact) => contact.displayName || contact.address).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
-					Cc: { map(ccContacts, (contact) => contact.displayName || contact.address).join(',') }
+					{ `${t('Cc')}: ` }
+					{ map(ccContacts, (contact) => contact.displayName || contact.address).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
-					Bcc: { map(bccContacts, (contact) => contact.displayName || contact.address).join(',') }
+					{ `${t('Bcc')}: ` }
+					{ map(bccContacts, (contact) => contact.displayName || contact.address).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>
