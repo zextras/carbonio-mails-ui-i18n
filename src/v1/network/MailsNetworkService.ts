@@ -17,7 +17,7 @@ import {
 	normalizeMailMessageFromSoap,
 	SoapConvObj,
 	SoapEmailMessageObj
-} from '../ISoap';
+} from '../../ISoap';
 import {
 	Conversation,
 	ConversationMailMessage,

@@ -10,19 +10,25 @@
  */
 
 const MockedCollection = jest.fn().mockImplementation(() => ({
-	toArray: jest.fn().mockImplementation(() => Promise.resolve([]))
+	toArray: jest.fn().mockImplementation(() => Promise.resolve([])),
+	reverse: jest.fn().mockImplementation(() => MockedCollection),
+	sortBy: jest.fn().mockImplementation(() => Promise.resolve([])),
 }));
 
 const MockedWhereClause = jest.fn().mockImplementation(() => ({
-	anyOf: MockedCollection
+	anyOf: MockedCollection,
+	equals: MockedCollection
 }));
 
-const MockedTable = jest.fn().mockImplementation(() => ({
-	where: MockedWhereClause,
-	bulkGet: jest.fn().mockImplementation(() => Promise.resolve([]))
-}));
+class MockedTable {
+	where = MockedWhereClause;
+	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
+	get = jest.fn().mockImplementation(() => Promise.resolve());
+}
 
 export class MailsDbDexie {
+	conversations = new MockedTable();
 	folders = new MockedTable();
 	deletions = new MockedTable();
+	observe = jest.fn();
 }

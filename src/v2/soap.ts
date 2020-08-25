@@ -9,10 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { map, reduce } from 'lodash';
+import {
+	flattenDeep, map, reduce, trim
+} from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
+import { MailMessage, MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 
 type IFolderView =
 	'search folder'
@@ -131,6 +134,11 @@ export type BatchRequest = {
 	onerror: 'continue';
 	CreateFolderRequest?: Array<BatchedRequest & CreateFolderRequest>;
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
+	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
+};
+
+type GetMsgRequest = {
+	m: { id: string };
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -178,6 +186,38 @@ type SoapConvObj = {
 	/** Fragment */
 	fr: string;
 };
+
+export type SoapEmailMessagePartObj = {
+	part: string;
+	/**	Content Type	*/ ct: string;
+	/**	Size	*/ s: number;
+	/**	Content id (for inline images)	*/ ci: string;
+	/** Content disposition */ cd?: 'inline'|'attachment';
+	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
+	/**	Set if is the body of the message	*/ body?: true;
+	filename?: string;
+	content: string;
+};
+
+export type SoapEmailMessageObj = {
+	id: string;
+	/** Conversation id */ cid: string;
+	/** Folder id */ l: string;
+	/** Contacts */ e: Array<SoapEmailInfoObj>;
+	/** Fragment */ fr: string;
+	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
+	/** Flags */ f: string;
+	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
+	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
+	// urgent (!), low-priority (?), priority (+)
+	/** Size */ s: number;
+	/** Subject */ su: string;
+	/** Date */ d: number;
+};
+
+type GetMsgResponse = {
+	m: Array<SoapEmailMessageObj>;
+}
 
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
 	switch (t) {
@@ -247,16 +287,94 @@ function normalizeConversationFromSoap(c: SoapConvObj): MailConversation {
 	});
 }
 
+function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
+	const ret: MailMessagePart = {
+		contentType: v.ct,
+		size: v.s || 0,
+		name: v.part,
+	};
+	if (v.mp) {
+		ret.parts = map(
+			v.mp || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeMailPartMapFn
+		);
+	}
+	if (v.filename) ret.filename = v.filename;
+	if (v.content) ret.content = v.content;
+	if (v.ci) ret.ci = v.ci;
+	if (v.cd) ret.disposition = v.cd;
+	return ret;
+}
+
+function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	if (v.mp) {
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
+		}
+	}
+	return [];
+}
+
+function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
+	// eslint-disable-next-line @typescript-eslint/no-use-before-define
+	return flattenDeep(map(mp, bodyPathMapFn));
+}
+
+function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
+}
+
+function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	return new MailMessageFromSoap({
+		conversation: m.cid,
+		id: m.id,
+		date: m.d,
+		size: m.s,
+		parent: m.l,
+		parts: map(
+			m.mp || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeMailPartMapFn
+		),
+		fragment: m.fr,
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		bodyPath: generateBodyPath(m.mp || []),
+		subject: m.su,
+		contacts: map(
+			m.e || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeParticipantsFromSoap
+		),
+		read: !(/u/.test(m.f || '')),
+		attachment: /a/.test(m.f || ''),
+		flagged: /f/.test(m.f || ''),
+		urgent: /!/.test(m.f || ''),
+	});
+}
+
 export function fetchConversationsInFolder(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	f: MailsFolder,
 	limit = 50,
 	before = new Date()
-): Promise<Array<MailConversation>> {
+): Promise<[Array<MailConversation>, boolean]> {
 	const queryPart = [
 		`in:"${f.path}"`
 	];
-	if (before.getMilliseconds() > -1) queryPart.push(`before:${before.getMilliseconds()}`);
+	if (before.getTime() > 0) queryPart.push(`before:${before.getMilliseconds()}`);
 	const searchReq = {
 		Body: {
 			SearchRequest: {
@@ -282,11 +400,58 @@ export function fetchConversationsInFolder(
 		.then((response) => response.json())
 		.then((r) => {
 			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.SearchResponse.c;
+			else return r.Body.SearchResponse;
 		})
-		.then((r) => reduce<SoapConvObj, Array<MailConversation>>(
-			r,
-			(acc, v, k) => acc.concat(normalizeConversationFromSoap(v)),
-			[]
+		.then(({ c, more }) => [
+			reduce<SoapConvObj, Array<MailConversation>>(
+				c,
+				(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
+				[]
+			),
+			more,
+		]);
+}
+
+export function fetchMailMessagesById(
+	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	ids: string[]
+): Promise<{[key: string]: MailMessage}> {
+	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
+		_jsns: 'urn:zimbra',
+		onerror: 'continue',
+		GetMsgRequest: []
+	};
+	reduce<string, Array<BatchedRequest & GetMsgRequest>>(
+		ids,
+		(acc, id) => {
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id } });
+			return acc;
+		},
+		batchRequest.GetMsgRequest
+	);
+	return fetch(
+		'/service/soap/BatchRequest',
+		{
+			method: 'POST',
+			body: JSON.stringify({
+				Body: {
+					BatchRequest: batchRequest
+				}
+			})
+		}
+	)
+		.then((response) => response.json())
+		.then((r) => {
+			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
+			else return r.Body.BatchResponse;
+		})
+		.then(({ GetMsgResponse: getMsgResponse }) => reduce<GetMsgResponse, {[key: string]: MailMessage}>(
+			getMsgResponse,
+			(acc, { m }) => {
+				const msg = normalizeMailMessageFromSoap(m[0]);
+				acc[msg.id] = msg;
+				return acc;
+			},
+			{}
 		));
 }

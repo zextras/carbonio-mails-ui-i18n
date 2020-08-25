@@ -54,11 +54,22 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public getConvInFolder(f: MailsFolder): Promise<[Array<MailConversation>, boolean]> {
+	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._fetch,
-			f
-		)
-			.then((convs) => [convs, true]);
+			f,
+			1,
+			lastConv ? new Date(lastConv.date) : undefined
+		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
+	}
+
+	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+		return fetchConversationsInFolder(
+			this._fetch,
+			f,
+			50,
+			lastConv ? new Date(lastConv.date) : undefined
+		);
 	}
 }
