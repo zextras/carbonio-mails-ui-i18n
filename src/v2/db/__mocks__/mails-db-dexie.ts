@@ -25,4 +25,5 @@ const MockedTable = jest.fn().mockImplementation(() => ({
 export class MailsDbDexie {
 	folders = new MockedTable();
 	deletions = new MockedTable();
+	messages = new MockedTable();
 }

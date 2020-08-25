@@ -16,7 +16,9 @@ import {
 import { filter, reduce, map } from 'lodash';
 import { DeletionData, MailsDb } from './mails-db';
 import { MailsFolder } from './mails-folder';
-import { BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest } from '../soap';
+import {
+	BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest
+} from '../soap';
 
 function processInserts(
 	db: MailsDb,

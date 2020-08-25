@@ -117,6 +117,18 @@ export type CreateFolderResponse = {
 	folder: Array<SyncResponseMailFolder>;
 };
 
+// MAIL CHANGE ADDED
+
+export type MailActionRequest = {
+	action: {
+		op: string;
+		id: string;
+	};
+};
+export type CreateMailRequest = {};
+export type CreateMailResponse = {};
+export type ModifyMailRequest = {};
+
 export type BatchedRequest = {
 	_jsns: 'urn:zimbraMail';
 	requestId: string;
@@ -124,13 +136,15 @@ export type BatchedRequest = {
 
 export type BatchedResponse = {
 	requestId: string;
-};
-
+}
 export type BatchRequest = {
 	_jsns: 'urn:zimbra';
 	onerror: 'continue';
 	CreateFolderRequest?: Array<BatchedRequest & CreateFolderRequest>;
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
+	CreateMailRequest?: Array<BatchedRequest & CreateMailRequest>;
+	ModifyMailRequest?: Array<BatchedRequest & ModifyMailRequest>;
+	MailActionRequest?: Array<BatchedRequest & MailActionRequest>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
