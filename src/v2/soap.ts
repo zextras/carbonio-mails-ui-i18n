@@ -138,7 +138,7 @@ export type BatchRequest = {
 };
 
 type GetMsgRequest = {
-	m: { id: string };
+	m: { id: string; html: string };
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
