@@ -45,6 +45,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
 		iframeRef.current.style.height = iframeRef.current.contentDocument.body.querySelector('div').scrollHeight + 'px';
+		iframeRef.current.style.opacity = 1;
 	}, []);
 
 	useEffect(() => {
@@ -83,7 +84,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 			title={msgId}
 			ref={iframeRef}
 			onLoad={onIframeLoad}
-			style={{ border: 'none', width: '100%' }}
+			style={{ border: 'none', width: '100%', opacity: '0' }}
 		/>
 	);
 };

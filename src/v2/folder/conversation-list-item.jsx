@@ -123,11 +123,14 @@ export default function ConversationListItem({
 							</Row>
 						</Container>
 						<Container orientation="horizontal" width="fill" crossAlignment="center">
-							<Row>
-								<Padding right="extrasmall">
-									<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-								</Padding>
-							</Row>
+							{ conversation.msgCount > 1
+								&& (
+									<Row>
+										<Padding right="extrasmall">
+											<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
+										</Padding>
+									</Row>
+								)}
 							<Row
 								wrap="nowrap"
 								takeAvailableSpace={true}
@@ -140,13 +143,11 @@ export default function ConversationListItem({
 							<Row>
 								{ conversation.urgent
 									&& <Icon icon="ArrowUpward" color="error" />}
-								{ conversation.msgCount > 0
+								{ conversation.msgCount > 1
 									&& (
 										<IconButton
 											size="small"
-											icon={displayData.open
-												? 'ArrowIosUpward'
-												: 'ArrowIosDownward'}
+											icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
 											onClick={toggleOpen}
 										/>
 									)}
@@ -156,19 +157,26 @@ export default function ConversationListItem({
 				</HoverContainer>
 			</InvisibleLink>
 			<Divider style={{ minHeight: '1px' }} />
-			<Collapse
-				orientation="vertical"
-				crossSize="100%"
-				disableTransition
-				open={displayData.open}
-			>
-				<Container
-					height={conversation.msgCount * 57}
-					padding={{ left: 'large' }}
-				>
-					<ConversationMessagesList folderId={folderId} conversationId={conversation.id} conversationDexieId={conversation._id} />
-				</Container>
-			</Collapse>
+			{ conversation.msgCount > 1
+				&& (
+					<Collapse
+						orientation="vertical"
+						crossSize="100%"
+						disableTransition
+						open={displayData.open}
+					>
+						<Container
+							height={conversation.msgCount * 57}
+							padding={{ left: 'large' }}
+						>
+							<ConversationMessagesList
+								folderId={folderId}
+								conversationId={conversation.id}
+								conversationDexieId={conversation._id}
+							/>
+						</Container>
+					</Collapse>
+			)}
 		</OuterContainer>
 	);
 };

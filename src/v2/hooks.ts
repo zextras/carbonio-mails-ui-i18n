@@ -152,9 +152,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					.sortBy('date')
 					.then((conversations: MailConversation[]) => {
 						dispatch({ type: 'set-conversations', conversations });
-						if (conversations.length < 50) {
+						/* if (conversations.length < 50) {
 							return loadMore(folder);
-						}
+						} */
 						const lastConv = last(conversations);
 						return db.checkHasMoreConv(folder, lastConv)
 							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
