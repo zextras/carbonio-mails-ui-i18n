@@ -10,7 +10,6 @@
  */
 
 import { IMailMinimalData } from './mail-db-types';
-import { MailMessagePart, Participant } from '../../idb/IMailsIdb';
 
 
 export enum ParticipantType {

@@ -163,7 +163,7 @@ export type BatchRequest = {
 };
 
 type GetMsgRequest = {
-	m: { id: string; html: string };
+	m: { id: string };
 };
 
 
