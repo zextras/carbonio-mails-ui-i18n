@@ -163,15 +163,9 @@ export type BatchRequest = {
 };
 
 type GetMsgRequest = {
-	m: { id: string };
+	m: { id: string; html: string };
 };
 
-export type GetMsgRequest = {
-	_jsns: 'urn:zimbraMail';
-	m: Array<{
-		id: string;
-	}>;
-};
 
 export type GetMsgResponse = {
 	m: Array<SoapEmailMessageObj>;
@@ -250,38 +244,6 @@ type SoapConvObj = {
 	/** Fragment */
 	fr: string;
 };
-
-export type SoapEmailMessagePartObj = {
-	part: string;
-	/**	Content Type	*/ ct: string;
-	/**	Size	*/ s: number;
-	/**	Content id (for inline images)	*/ ci: string;
-	/** Content disposition */ cd?: 'inline'|'attachment';
-	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
-	/**	Set if is the body of the message	*/ body?: true;
-	filename?: string;
-	content: string;
-};
-
-export type SoapEmailMessageObj = {
-	id: string;
-	/** Conversation id */ cid: string;
-	/** Folder id */ l: string;
-	/** Contacts */ e: Array<SoapEmailInfoObj>;
-	/** Fragment */ fr: string;
-	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
-	/** Flags */ f: string;
-	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
-	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
-	// urgent (!), low-priority (?), priority (+)
-	/** Size */ s: number;
-	/** Subject */ su: string;
-	/** Date */ d: number;
-};
-
-type GetMsgResponse = {
-	m: Array<SoapEmailMessageObj>;
-}
 
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
 	switch (t) {
