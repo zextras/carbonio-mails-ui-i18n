@@ -162,10 +162,9 @@ export type BatchRequest = {
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 };
 
-type GetMsgRequest = {
+export type GetMsgRequest = {
 	m: { id: string };
 };
-
 
 export type GetMsgResponse = {
 	m: Array<SoapEmailMessageObj>;
