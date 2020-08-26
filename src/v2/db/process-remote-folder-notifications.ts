@@ -14,17 +14,18 @@ import {
 	reduce, map, filter, intersectionWith
 } from 'lodash';
 import { MailsDb } from './mails-db';
-import { MailsFolder } from './mails-folder';
+import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
 import { normalizeMailsFolders } from './mails-db-utils';
-import { SyncResponse } from '../soap';
+import { SyncResponse, SyncResponseMailFolder } from '../soap';
 
 function searchLocalFolders(db: MailsDb, ids: string[]): Promise<{[key: string]: string}> {
 	return db.folders.where('id').anyOf(ids).toArray()
-		.then((localFolders) => reduce<MailsFolder, {[key: string]: string}>(
+		.then((localFolders) => reduce<MailsFolderFromDb, {[key: string]: string}>(
 			localFolders,
 			(r, f) => {
-				// @ts-ignore
-				r[f.id] = f._id;
+				if (f.id) {
+					r[f.id] = f._id;
+				}
 				return r;
 			},
 			{}
@@ -49,7 +50,10 @@ function searchForLocallyCreatedFolders(
 			_isCreationUpdated
 		),
 		(r, c) => {
-			r[c.mods.id] = true;
+			if (c.mods && c.mods.id) {
+				// @ts-ignore
+				r[c.mods.id] = true;
+			}
 			return r;
 		},
 		{}
@@ -65,9 +69,9 @@ export default function processRemoteFolderNotifications(
 	localChangesFromRemote: IDatabaseChange[],
 	{ folder, deleted }: SyncResponse
 ): Promise<IDatabaseChange[]> {
-	const folders = reduce(
+	const folders = reduce<SyncResponseMailFolder, Array<MailsFolderFromSoap>>(
 		folder || [],
-		(r: MailsFolder[], f) => {
+		(r, f) => {
 			const _folders = normalizeMailsFolders(f);
 			r.push(..._folders);
 			return r;
@@ -77,7 +81,7 @@ export default function processRemoteFolderNotifications(
 
 	if (isInitialSync) {
 		return Promise.resolve(
-			reduce<MailsFolder, IDatabaseChange[]>(
+			reduce<MailsFolderFromSoap, IDatabaseChange[]>(
 				folders,
 				(r, f) => {
 					r.push({
@@ -95,7 +99,7 @@ export default function processRemoteFolderNotifications(
 
 	return searchLocalFolders(
 		db,
-		map<MailsFolder>(folders, 'id'),
+		map<MailsFolderFromSoap>(folders, 'id'),
 	)
 		.then(
 			(idToLocalUUIDMap) => new Promise<{idToLocalUUIDMap: {[key: string]: string}; isLocallyCreated: {[key: string]: boolean}}>((resolve) => {
@@ -104,12 +108,10 @@ export default function processRemoteFolderNotifications(
 			})
 		)
 		.then(({ idToLocalUUIDMap, isLocallyCreated }) => {
-			const dbChanges = reduce<MailsFolder, IDatabaseChange[]>(
+			const dbChanges = reduce<MailsFolderFromSoap, IDatabaseChange[]>(
 				folders,
 				(r, f) => {
-					// @ts-ignore
 					if (idToLocalUUIDMap.hasOwnProperty(f.id)) {
-						// @ts-ignore
 						f._id = idToLocalUUIDMap[f.id];
 						r.push({
 							type: 2,

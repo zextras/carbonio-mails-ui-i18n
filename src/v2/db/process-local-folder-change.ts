@@ -15,10 +15,10 @@ import {
 } from 'dexie-observable/api';
 import { filter, reduce, map } from 'lodash';
 import { DeletionData, MailsDb } from './mails-db';
-import { MailsFolder } from './mails-folder';
 import {
 	BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest
 } from '../soap';
+import { MailsFolderFromDb } from './mails-folder';
 
 function processInserts(
 	db: MailsDb,
@@ -59,10 +59,12 @@ function processUpdates(
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
 	return db.folders.where('_id').anyOf(map(changes, 'key')).toArray().then((folders) => {
-		const uuidToId = reduce<MailsFolder, {[key: string]: string}>(
+		const uuidToId = reduce<MailsFolderFromDb, {[key: string]: string}>(
 			folders,
 			(r, f) => {
-				r[f._id!] = f.id;
+				if (f.id) {
+					r[f._id] = f.id;
+				}
 				return r;
 			},
 			{}

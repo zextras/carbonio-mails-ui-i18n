@@ -11,9 +11,9 @@
 
 import Dexie, { PromiseExtended } from 'dexie';
 import { db } from '@zextras/zapp-shell';
-import { MailsFolder } from './mails-folder';
-import { MailMessage } from './mail-message';
-import { MailConversation } from './mail-conversation';
+import { MailsFolderFromDb } from './mails-folder';
+import { MailMessageFromDb } from './mail-message';
+import { MailConversationFromDb } from './mail-conversation';
 
 export type DeletionData = {
 	_id: string;
@@ -23,11 +23,11 @@ export type DeletionData = {
 };
 
 export class MailsDbDexie extends db.Database {
-	folders: Dexie.Table<MailsFolder, string>; // string = type of the primary key
+	folders: Dexie.Table<MailsFolderFromDb, string>; // string = type of the primary key
 
-	messages: Dexie.Table<MailMessage, string>; // string = type of the primary key
+	messages: Dexie.Table<MailMessageFromDb, string>; // string = type of the primary key
 
-	conversations: Dexie.Table<MailConversation, string>; // string = type of the primary key
+	conversations: Dexie.Table<MailConversationFromDb, string>; // string = type of the primary key
 
 	deletions: Dexie.Table<DeletionData, string>;
 
@@ -40,15 +40,15 @@ export class MailsDbDexie extends db.Database {
 			deletions: '$$rowId, _id, id'
 		});
 		this.folders = this.table('folders');
-		this.folders.mapToClass(MailsFolder);
+		this.folders.mapToClass(MailsFolderFromDb);
 		this.messages = this.table('messages');
-		this.messages.mapToClass(MailMessage);
+		this.messages.mapToClass(MailMessageFromDb);
 		this.conversations = this.table('conversations');
-		this.conversations.mapToClass(MailConversation);
+		this.conversations.mapToClass(MailConversationFromDb);
 		this.deletions = this.table('deletions');
 	}
 
 	public open(): PromiseExtended<MailsDbDexie> {
-		return super.open().then((db) => db as MailsDbDexie);
+		return super.open().then((_db) => _db as MailsDbDexie);
 	}
 }

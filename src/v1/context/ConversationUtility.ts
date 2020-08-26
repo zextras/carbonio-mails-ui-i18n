@@ -19,7 +19,7 @@ import {
 } from 'lodash';
 import { ISyncOperation, ISyncOpRequest } from '@zextras/zapp-shell/lib/sync/ISyncService';
 import { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
-import { IMailsService } from '../IMailsService';
+import { IMailsService } from '../../IMailsService';
 
 export function processOperationsConversation(
 	operations: Array<ISyncOperation<any, ISyncOpRequest<any>>>,
