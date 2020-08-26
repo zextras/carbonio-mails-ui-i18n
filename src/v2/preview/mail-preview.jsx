@@ -276,7 +276,7 @@ function MessageContactsList({ message }) {
 	const { t } = useTranslation();
 	const toContacts = filter(message.contacts, ['type', 't']);
 	const ccContacts = filter(message.contacts, ['type', 'c']);
-	const bccContacts = filter(message.contacts, ['type', 'b']);
+
 	return (
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
@@ -289,12 +289,6 @@ function MessageContactsList({ message }) {
 				<ContactText color="gray1" size="small">
 					{ `${t('Cc')}: ` }
 					{ map(ccContacts, (contact) => contact.displayName || contact.address).join(', ') }
-				</ContactText>
-			)}
-			{ bccContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ `${t('Bcc')}: ` }
-					{ map(bccContacts, (contact) => contact.displayName || contact.address).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>
