@@ -173,7 +173,11 @@ function MailPreviewBlock({
 					mainAlignment="space-between"
 					width="fill"
 				>
-					<Text color={message.read ? 'text' : 'primary'} weight={message.read ? 'normal' : 'bold'}>
+					<Text
+						size={message.read ? 'medium' : 'large'}
+						color={message.read ? 'text' : 'primary'}
+						weight={message.read ? 'normal' : 'bold'}
+					>
 						{mainContact.displayName || mainContact.address}
 					</Text>
 					<Container
