@@ -1,6 +1,6 @@
 /*
  * *** BEGIN LICENSE BLOCK *****
- * Copyright (C) 2011-2019 ZeXtras
+ * Copyright (C) 2011-2020 ZeXtras
  *
  * The contents of this file are subject to the ZeXtras EULA;
  * you may not use this file except in compliance with the EULA.
@@ -20,9 +20,9 @@ import { filter } from 'rxjs/operators';
 import { cloneDeep, filter as loFilter, reduce } from 'lodash';
 import App, { ROUTE as mainRoute } from './components/App';
 import MailsIdbService from './idb/MailsIdbService';
-import MailsService from './MailsService';
+import MailsService from '../MailsService';
 import MailsNetworkService from './network/MailsNetworkService';
-import { calculateAbsPath } from './ISoap';
+import { calculateAbsPath } from '../ISoap';
 import registerActions from './util/registerActions';
 
 const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;

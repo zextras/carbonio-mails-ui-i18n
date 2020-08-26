@@ -63,10 +63,10 @@
     // "declarationDir": "lib"                /* Output directory for generated declaration files. */
   },
   "include": [
-    "src/**/*", "test/**/*"
+    "src/v2/**/*", "test/**/*"
   ],
   "exclude": [
     "node_modules",
-    "!/src/v2/**"
+    "/src/v1/**"
   ]
 }

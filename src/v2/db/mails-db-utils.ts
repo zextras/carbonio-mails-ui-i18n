@@ -13,18 +13,31 @@ import {
 	flattenDeep,
 	forEach, map, reduce, trim
 } from 'lodash';
-import { MailsFolder } from './mails-folder';
-import { ISoapFolderObj, SyncResponseMailFolder } from '../soap';
-import { MailMessage } from './mail-message';
-import { SoapEmailInfoObj, SoapEmailMessageObj, SoapEmailMessagePartObj } from '../../ISoap';
-import { MailMessagePart, Participant, ParticipantType } from '../../idb/IMailsIdb';
+
+import {
+	SoapEmailMessageObj,
+	SoapEmailMessagePartObj,
+	SyncResponseMailFolder,
+	normalizeParticipantsFromSoap
+} from '../soap';
+import { MailMessage, MailMessagePart } from './mail-message';
+import { MailsFolderFromSoap } from './mails-folder';
 
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
 
+export type SoapEmailInfoObj = {
+	/** Address */
+	a: string;
+	/** Display name */
+	d: string;
+	/** Type: (f)rom, (t)o, (c)c, (b)cc, (r)eply-to, (s)ender, read-receipt (n)otification, (rf) resent-from */
+	t: SoapEmailInfoTypeObj;
+	isGroup?: 0|1;
+};
 
-function normalizeFolder(soapFolderObj: ISoapFolderObj): MailsFolder {
-	return new MailsFolder({
+function normalizeFolder(soapFolderObj: SyncResponseMailFolder): MailsFolderFromSoap {
+	return new MailsFolderFromSoap({
 		itemsCount: soapFolderObj.n,
 		name: soapFolderObj.name,
 		// _id: soapFolderObj.uuid,
@@ -36,9 +49,9 @@ function normalizeFolder(soapFolderObj: ISoapFolderObj): MailsFolder {
 	});
 }
 
-export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolder[] {
+export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFromSoap[] {
 	if (!f) return [];
-	let children: MailsFolder[] = [];
+	let children: MailsFolderFromSoap[] = [];
 	if (f.folder) {
 		forEach(f.folder, (c: SyncResponseMailFolder) => {
 			const child = normalizeMailsFolders(c);
@@ -138,25 +151,3 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 	return [];
 }
 
-function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
-	switch (t) {
-		case 'f': return ParticipantType.FROM;
-		case 't': return ParticipantType.TO;
-		case 'c': return ParticipantType.CARBON_COPY;
-		case 'b': return ParticipantType.BLIND_CARBON_COPY;
-		case 'r': return ParticipantType.REPLY_TO;
-		case 's': return ParticipantType.SENDER;
-		case 'n': return ParticipantType.READ_RECEIPT_NOTIFICATION;
-		case 'rf': return ParticipantType.RESENT_FROM;
-		default:
-			throw new Error(`Participant type not handled: '${t}'`);
-	}
-}
-
-function normalizeParticipantsFromSoap(e: SoapEmailInfoObj): Participant {
-	return {
-		type: participantTypeFromSoap(e.t),
-		address: e.a,
-		displayName: e.d
-	};
-}

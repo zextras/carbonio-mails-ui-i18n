@@ -10,6 +10,11 @@
  * *** END LICENSE BLOCK *****
  */
 
+export const hooks = {
+	useAppContext: jest.fn(),
+	useObserveDb: jest.fn(),
+	useBehaviorSubject: jest.fn(),
+};
 
 const MockedDb_version_stores = jest.fn();
 const MockedDb_version = jest.fn().mockImplementation(() => ({
@@ -23,6 +28,7 @@ const MockedDb_table = jest.fn().mockImplementation(() => ({
 
 class MockedDb {
 	version = MockedDb_version;
+
 	table = MockedDb_table;
 }
 

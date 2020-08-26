@@ -12,6 +12,35 @@
 import { IMailMinimalData } from './mail-db-types';
 import { MailMessagePart, Participant } from '../../idb/IMailsIdb';
 
+
+export enum ParticipantType {
+	FROM = 'f',
+	TO = 't',
+	CARBON_COPY = 'c',
+	BLIND_CARBON_COPY = 'b',
+	REPLY_TO = 'r',
+	SENDER = 's',
+	READ_RECEIPT_NOTIFICATION = 'n',
+	RESENT_FROM = 'rf'
+}
+
+type Participant = {
+	type: ParticipantType;
+	address: string;
+	displayName: string;
+};
+
+export type MailMessagePart = {
+	contentType: string;
+	size: number;
+	content?: string;
+	name: string;
+	filename?: string;
+	parts?: Array<MailMessagePart>;
+	ci?: string;
+	disposition?: 'inline'|'attachment';
+};
+
 interface IMailMessage extends IMailMinimalData {
 	conversation: string;
 	contacts: Array<Participant>;
@@ -73,7 +102,7 @@ export class MailMessage implements IMailMessage {
 		attachment,
 		flagged,
 		urgent,
-		bodyPath,
+		bodyPath
 	}: IMailMessage) {
 		this._id = _id;
 		this.id = id;
@@ -90,5 +119,23 @@ export class MailMessage implements IMailMessage {
 		this.flagged = flagged;
 		this.urgent = urgent;
 		this.bodyPath = bodyPath;
+	}
+}
+
+export class MailMessageFromSoap extends MailMessage {
+	id: string;
+
+	constructor({ id, ...rest }: IMailMessage & { id: string }) {
+		super({ ...rest, id });
+		this.id = id;
+	}
+}
+
+export class MailMessageFromDb extends MailMessage {
+	_id: string;
+
+	constructor({ _id, ...rest }: IMailMessage & { _id: string }) {
+		super({ ...rest, _id });
+		this._id = _id;
 	}
 }
