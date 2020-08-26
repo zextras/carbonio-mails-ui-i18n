@@ -9,7 +9,6 @@
  * *** END LICENSE BLOCK *****
  */
 import React, { useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {
 	find,
@@ -18,6 +17,7 @@ import {
 	map
 } from 'lodash';
 import styled from 'styled-components';
+import { hooks } from '@zextras/zapp-shell';
 import {
 	Container,
 	Text,
@@ -43,10 +43,6 @@ const HoverContainer = styled(Container)`
 const OuterContainer = styled(Container)`
 	min-height: 57px;
 `;
-const InvisibleLink = styled(Link)`
-	text-decoration: none;
-	width: 100%;
-`;
 
 export default function ConversationListItem({
 	index,
@@ -56,6 +52,7 @@ export default function ConversationListItem({
 	displayData,
 	updateDisplayData
 }) {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
 		return [sender.displayName || sender.address || '.', sender.address || '.'];
@@ -63,11 +60,13 @@ export default function ConversationListItem({
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			e.stopPropagation();
 			updateDisplayData(index, conversation.id, { open: !displayData.open });
 		},
 		[conversation.id, displayData.open, updateDisplayData]
 	);
+	const _onClick = useCallback((e) => {
+		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
+	}, [folderId, conversation, replaceHistory]);
 	const date = useMemo(
 		() => moment(conversation.date).format('lll'),
 		[conversation.date]
@@ -79,83 +78,83 @@ export default function ConversationListItem({
 		''
 	),
 	[conversation.participants]);
+
 	return (
 		<OuterContainer
 			style={style}
 			background="gray6"
 			mainAlignment="flex-start"
 		>
-			<InvisibleLink to={`/folder/${folderId}?conversation=${conversation._id}`}>
-				<HoverContainer
-					height={56}
-					orientation="horizontal"
-					mainAlignment="flex-start"
-					padding={{ all: 'small' }}
+			<HoverContainer
+				height={56}
+				orientation="horizontal"
+				mainAlignment="flex-start"
+				padding={{ all: 'small' }}
+				onClick={_onClick}
+			>
+				<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+				<Row
+					takeAvailableSpace={true}
+					orientation="vertical"
+					padding={{ left: 'small' }}
 				>
-					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
-					<Row
-						takeAvailableSpace={true}
-						orientation="vertical"
-						padding={{ left: 'small' }}
-					>
-						<Container orientation="horizontal" width="fill">
-							<Row
-								wrap="nowrap"
-								takeAvailableSpace={true}
-								mainAlignment="flex-start"
-							>
-								<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
-							</Row>
-							<Row>
-								{ conversation.attachment
-								&& (
+					<Container orientation="horizontal" width="fill">
+						<Row
+							wrap="nowrap"
+							takeAvailableSpace={true}
+							mainAlignment="flex-start"
+						>
+							<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
+						</Row>
+						<Row>
+							{ conversation.attachment
+							&& (
+								<Padding right="extrasmall">
+									<Icon icon="AttachOutline" />
+								</Padding>
+							)}
+							{ conversation.flagged
+							&& (
+								<Padding right="extrasmall">
+									<Icon icon="Flag" color="error" />
+								</Padding>
+							)}
+							<Text>{date}</Text>
+						</Row>
+					</Container>
+					<Container orientation="horizontal" width="fill" crossAlignment="center">
+						{ conversation.msgCount > 1
+							&& (
+								<Row>
 									<Padding right="extrasmall">
-										<Icon icon="AttachOutline" />
+										<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
 									</Padding>
-								)}
-								{ conversation.flagged
-								&& (
-									<Padding right="extrasmall">
-										<Icon icon="Flag" color="error" />
-									</Padding>
-								)}
-								<Text>{date}</Text>
-							</Row>
-						</Container>
-						<Container orientation="horizontal" width="fill" crossAlignment="center">
+								</Row>
+							)}
+						<Row
+							wrap="nowrap"
+							takeAvailableSpace={true}
+							mainAlignment="flex-start"
+							crossAlignment="baseline"
+						>
+							<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
+							<Text>{` - ${conversation.fragment}`}</Text>
+						</Row>
+						<Row>
+							{ conversation.urgent
+								&& <Icon icon="ArrowUpward" color="error" />}
 							{ conversation.msgCount > 1
 								&& (
-									<Row>
-										<Padding right="extrasmall">
-											<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-										</Padding>
-									</Row>
+									<IconButton
+										size="small"
+										icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
+										onClick={toggleOpen}
+									/>
 								)}
-							<Row
-								wrap="nowrap"
-								takeAvailableSpace={true}
-								mainAlignment="flex-start"
-								crossAlignment="baseline"
-							>
-								<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
-								<Text>{` - ${conversation.fragment}`}</Text>
-							</Row>
-							<Row>
-								{ conversation.urgent
-									&& <Icon icon="ArrowUpward" color="error" />}
-								{ conversation.msgCount > 1
-									&& (
-										<IconButton
-											size="small"
-											icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
-											onClick={toggleOpen}
-										/>
-									)}
-							</Row>
-						</Container>
-					</Row>
-				</HoverContainer>
-			</InvisibleLink>
+						</Row>
+					</Container>
+				</Row>
+			</HoverContainer>
 			<Divider style={{ minHeight: '1px' }} />
 			{ conversation.msgCount > 1
 				&& (

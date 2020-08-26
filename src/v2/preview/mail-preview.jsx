@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useLayoutEffect, useMemo, useState, useRef } from 'react';
+import React, { useLayoutEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { find, map, reduce, filter } from 'lodash';
@@ -138,10 +138,11 @@ function MailPreviewBlock({
 	const actions = [];
 
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
+	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
 
 	return (
 		<HoverContainer
-			onClick={onClick}
+			onClick={_onClick}
 			orientation="horizontal"
 			height="fit"
 			mainAlignment="flex-start"
