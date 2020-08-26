@@ -8,7 +8,8 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-jest.mock('./mails-db');
+
+jest.mock('./mails-db-dexie');
 
 import { MailsFolder } from './mails-folder';
 import { MailsDb } from './mails-db';

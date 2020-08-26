@@ -10,7 +10,7 @@
  */
 import React, { useEffect, useRef } from 'react';
 import { forEach, reduce } from 'lodash';
-import { getBodyToRender } from '../ISoap';
+import { getBodyToRender } from '../../ISoap';
 
 const _CI_REGEX = /^<(.*@zimbra)>$/;
 const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;

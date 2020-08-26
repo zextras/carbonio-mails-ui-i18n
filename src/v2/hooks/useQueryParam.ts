@@ -9,10 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailsDbDexie } from '../mails-db-dexie';
+import { useLocation } from 'react-router-dom';
 
-export class MailsDb extends MailsDbDexie {
-	checkHasMoreConv = jest.fn();
-
-	fetchMoreConv = jest.fn();
+export default function useQueryParam(name: string, defaultValue?: string): string | undefined {
+	return new URLSearchParams(useLocation().search).get(name) || defaultValue;
 }

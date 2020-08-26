@@ -9,10 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailsDbDexie } from '../mails-db-dexie';
+import React from 'react';
+import { Container } from '@zextras/zapp-ui';
 
-export class MailsDb extends MailsDbDexie {
-	checkHasMoreConv = jest.fn();
-
-	fetchMoreConv = jest.fn();
+export default function ConversationEditPanel() {
+	return <Container background="gray3" />;
 }

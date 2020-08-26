@@ -68,3 +68,21 @@ export class MailsFolder implements IMailsFolder {
 		this.parent = parent;
 	}
 }
+
+export class MailsFolderFromSoap extends MailsFolder {
+	id: string;
+
+	constructor({ id, ...rest }: IMailsFolder & { id: string }) {
+		super({ ...rest, id });
+		this.id = id;
+	}
+}
+
+export class MailsFolderFromDb extends MailsFolder {
+	_id: string;
+
+	constructor({ _id, ...rest }: IMailsFolder & { _id: string }) {
+		super({ ...rest, _id });
+		this._id = _id;
+	}
+}

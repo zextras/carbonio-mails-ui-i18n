@@ -19,7 +19,7 @@ import {
 import { filter, startsWith, debounce } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Subscription } from 'rxjs';
-import { IMailsService, RenameMailFolderOp } from '../../IMailsService';
+import { IMailsService, RenameMailFolderOp } from '../../../IMailsService';
 import { MailMessage, Participant } from '../../idb/IMailsIdb';
 import {
 	AttachmentDispatch,
@@ -34,7 +34,7 @@ import {
 	UpdateDispatch
 } from './IuseCompositionData';
 import activityContext from '../../activity/ActivityContext';
-import { mailToCompositionData } from '../../ISoap';
+import { mailToCompositionData } from '../../../ISoap';
 
 const emptyMail: CompositionData = {
 	priority: false,
