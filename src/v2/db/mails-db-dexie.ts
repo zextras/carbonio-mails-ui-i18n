@@ -35,8 +35,8 @@ export class MailsDbDexie extends db.Database {
 		super('mails');
 		this.version(1).stores({
 			folders: '$$_id, id, parent',
-			messages: '$$_id, id, parent',
-			conversations: '$$_id, id, parent',
+			messages: '$$_id, id, parent, conversation',
+			conversations: '$$_id, id, *parent',
 			deletions: '$$rowId, _id, id'
 		});
 		this.folders = this.table('folders');
