@@ -457,7 +457,7 @@ export function fetchMailMessagesById(
 	reduce<string, Array<BatchedRequest & GetMsgRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id, html: '1' } });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: [{ id, html: '1' }] });
 			return acc;
 		},
 		batchRequest.GetMsgRequest
