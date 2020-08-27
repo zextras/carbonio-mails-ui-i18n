@@ -158,6 +158,18 @@ pipeline {
 						nodeCmd 'npm run type-check'
 					}
 				}
+				stage('Linting') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v2'
+                        }
+                    }
+                    steps {
+                        executeNpmLogin()
+						nodeCmd 'npm install'
+						nodeCmd 'npm run lint'
+                    }
+                }
 			}
 		}
 
@@ -182,8 +194,8 @@ pipeline {
 					}
 					steps {
 						executeNpmLogin()
-						cmd sh: "nvm use && npm install"
-						cmd sh: "nvm use && NODE_ENV='production' npx zapp package"
+						nodeCmd 'npm install'
+						nodeCmd 'NODE_ENV="production" npx zapp package'
 						stash includes: 'pkg/com_zextras_zapp_mails.zip', name: 'zimlet_package_unsigned'
 					}
 				}
@@ -202,8 +214,8 @@ pipeline {
 					}
 					steps {
 						script {
-							cmd sh: "nvm use && cd docs/website && npm install"
-							cmd sh: "nvm use && cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build"
+							nodeCmd 'cd docs/website && npm install'
+							nodeCmd 'cd docs/website && BRANCH_NAME=${BRANCH_NAME} npm run build'
 							stash includes: 'docs/website/build/com_zextras_zapp_mails/', name: 'doc'
 						}
 					}

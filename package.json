@@ -11,6 +11,7 @@
     "test:e2e": "protractor protractor.conf.js",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src/v2",
     "type-check:watch": "npm run type-check -- --watch"
   },
   "keywords": [],

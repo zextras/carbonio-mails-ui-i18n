@@ -54,7 +54,7 @@ interface IMailMessage extends IMailMinimalData {
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
 }
 
-export class MailMessage implements IMailMessage {
+class MailMessage implements IMailMessage {
 	_id?: string;
 
 	id?: string;
