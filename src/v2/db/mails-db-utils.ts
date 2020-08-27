@@ -20,7 +20,7 @@ import {
 	SyncResponseMailFolder,
 	normalizeParticipantsFromSoap
 } from '../soap';
-import { MailMessage, MailMessagePart } from './mail-message';
+import { MailMessageFromSoap, MailMessagePart } from './mail-message';
 import { MailsFolderFromSoap } from './mails-folder';
 
 
@@ -65,8 +65,8 @@ export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFro
 	return children;
 }
 
-export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	const obj = new MailMessage({
+export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	const obj = new MailMessageFromSoap({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
