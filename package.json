@@ -33,7 +33,7 @@
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
     "@zextras/zapp-cli": ">=0.0.42 <2.0.0",
-    "@zextras/zapp-shell": ">=0.0.57 <2.0.0",
+    "@zextras/zapp-shell": ">=0.0.63 <2.0.0",
     "@zextras/zapp-ui": ">=0.0.32 <2.0.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",

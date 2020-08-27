@@ -152,9 +152,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					.sortBy('date')
 					.then((conversations: MailConversation[]) => {
 						dispatch({ type: 'set-conversations', conversations });
-						if (conversations.length < 50) {
+						/* if (conversations.length < 50) {
 							return loadMore(folder);
-						}
+						} */
 						const lastConv = last(conversations);
 						return db.checkHasMoreConv(folder, lastConv)
 							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
@@ -181,4 +181,26 @@ export function useConversationMessages(conversationId: Array<MailConversationMe
 	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
 
 	return { messages, loaded };
+}
+
+export function useConversation(conversationId: string) {
+	const { db } = hooks.useAppContext();
+	const conversationQuery = useCallback(
+		() => db.conversations.where('id').equals(conversationId).or('_id').equals(conversationId).first(),
+		[conversationId, db.conversations]
+	);
+	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
+
+	return { conversation, loaded};
+}
+
+export function useMessage(messageId: string) {
+	const { db } = hooks.useAppContext();
+	const messageQuery = useCallback(
+		() => db.messages.where('id').equals(messageId).or('_id').equals(messageId).first(),
+		[messageId, db.messages]
+	);
+	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
+
+	return { message, loaded};
 }
