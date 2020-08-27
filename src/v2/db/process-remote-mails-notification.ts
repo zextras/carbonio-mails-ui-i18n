@@ -13,7 +13,6 @@ import { reduce, map, omit } from 'lodash';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
-	BatchRequest,
 	GetMsgRequest,
 	GetMsgResponse,
 	Jsns,
@@ -22,7 +21,7 @@ import {
 	SyncResponseMail,
 	SyncResponseMailFolder
 } from '../soap';
-import { MailMessage } from './mail-message';
+import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
 import { normalizeMailMessageFromSoap } from './mails-db-utils';
 
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
@@ -44,7 +43,7 @@ function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 export function fetchMessages(
 	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
-): Promise<MailMessage[]> {
+): Promise<MailMessageFromSoap[]> {
 	if (ids.length < 1) return Promise.resolve([]);
 	const getMsgRequest: Jsns & GetMsgRequest = {
 		_jsns: 'urn:zimbraMail',
@@ -74,7 +73,7 @@ export function fetchMessages(
 			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
 			else return r.Body.GetMsgResponse;
 		})
-		.then((response: GetMsgResponse) => reduce<SoapEmailMessageObj, MailMessage[]>(
+		.then((response: GetMsgResponse) => reduce<SoapEmailMessageObj, MailMessageFromSoap[]>(
 			response.m,
 			(r, m) => {
 				r.push(
@@ -99,7 +98,7 @@ function extractAllMailsForInitialSync(
 		_fetch,
 		mIds
 	)
-		.then((message) => reduce<MailMessage, ICreateChange[]>(
+		.then((message) => reduce<MailMessageFromSoap, ICreateChange[]>(
 			message,
 			(r, m) => {
 				r.push({
@@ -116,7 +115,7 @@ function extractAllMailsForInitialSync(
 
 function searchLocalMails(db: MailsDb, ids: string[]): Promise<{[key: string]: string}> {
 	return db.messages.where('id').anyOf(ids).toArray()
-		.then((localMails) => reduce<MailMessage, {[key: string]: string}>(
+		.then((localMails) => reduce<MailMessageFromDb, {[key: string]: string}>(
 			localMails,
 			(r, f) => {
 				// @ts-ignore
@@ -156,7 +155,7 @@ export default function processRemoteMailsNotification(
 				return { idToLocalUUIDMap, isLocallyCreated };
 			})
 			.then(({ idToLocalUUIDMap, isLocallyCreated }) => {
-				const dbChanges = reduce<MailMessage, IDatabaseChange[]>(
+				const dbChanges = reduce<MailMessageFromSoap, IDatabaseChange[]>(
 					message,
 					(r, c) => {
 						// @ts-ignore
@@ -191,7 +190,7 @@ export default function processRemoteMailsNotification(
 						.then((deletedIdToLocalUUIDMap) => {
 							reduce<{[key: string]: string}, IDatabaseChange[]>(
 								deletedIdToLocalUUIDMap,
-								(r, _id, id) => {
+								(r, _id ) => {
 									r.push({
 										type: 3,
 										table: 'messages',

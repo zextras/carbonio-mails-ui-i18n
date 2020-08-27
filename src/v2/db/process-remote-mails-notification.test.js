@@ -86,7 +86,7 @@ describe('Notifications - Mails', () => {
 			});
 	});
 
-	test('Created Message', (done) => {
+	test('New Message', (done) => {
 		const db = new MailsDb();
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
 			json: jest.fn().mockImplementation(() => Promise.resolve({
@@ -285,11 +285,11 @@ describe('Notifications - Mails', () => {
 			md: 2,
 			token: 2,
 			m: [{
-				cid: '-1141',
-				d: 1598253775000,
-				f: '',
-				id: '1141',
-				l: '1146',
+				cid: 'conversation',
+				d: 12,
+				f: '!',
+				id: '1000',
+				l: '1001',
 				md: 1598339530,
 				ms: 1433,
 				rev: 1392,
