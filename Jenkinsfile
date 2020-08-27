@@ -165,6 +165,7 @@ pipeline {
                         }
                     }
                     steps {
+                        executeNpmLogin()
 						nodeCmd 'npm install'
 						nodeCmd 'npm run lint'
                     }

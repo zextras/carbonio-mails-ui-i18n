@@ -8,12 +8,13 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
-import { renderHook, act } from '@testing-library/react-hooks';
 jest.mock('@zextras/zapp-shell');
-import { hooks } from '@zextras/zapp-shell';
 jest.mock('./db/mails-db-dexie');
 jest.mock('./db/mails-db');
+
+import { renderHook, act } from '@testing-library/react-hooks';
+// eslint-disable-next-line import/no-unresolved
+import { hooks } from '@zextras/zapp-shell';
 import { MailsDb } from './db/mails-db';
 import { useConvsInFolder } from './hooks';
 import { MailsFolder } from './db/mails-folder';
@@ -27,6 +28,7 @@ describe('Hooks', () => {
 			id: '1000'
 		})));
 		const convs = [];
+		// eslint-disable-next-line no-plusplus
 		for (let i = 0; i < 50; i++) convs.push(new MailConversation({ id: `-10${i < 10 ? `0${i}` : i}` }));
 		const sortBy = jest.fn().mockImplementation(() => Promise.resolve(convs));
 		db.conversations.where.mockImplementation(() => ({
