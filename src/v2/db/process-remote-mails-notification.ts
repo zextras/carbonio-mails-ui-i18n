@@ -13,9 +13,13 @@ import { reduce, map, omit } from 'lodash';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
+	BatchRequest,
 	GetMsgRequest,
-	GetMsgResponse, SoapEmailMessageObj,
-	SyncResponse, SyncResponseMail,
+	GetMsgResponse,
+	Jsns,
+	SoapEmailMessageObj,
+	SyncResponse,
+	SyncResponseMail,
 	SyncResponseMailFolder
 } from '../soap';
 import { MailMessage } from './mail-message';
@@ -42,12 +46,12 @@ export function fetchMessages(
 	ids: string[]
 ): Promise<MailMessage[]> {
 	if (ids.length < 1) return Promise.resolve([]);
-	const getMsgRequest: GetMsgRequest = {
+	const getMsgRequest: Jsns & GetMsgRequest = {
 		_jsns: 'urn:zimbraMail',
-		m: reduce<string, Array<{id: string}>>(
+		m: reduce<string, Array<{id: string; html: string}>>(
 			ids,
 			(r, v) => {
-				r.push({ id: v });
+				r.push({ id: v, html: '1' });
 				return r;
 			},
 			[]

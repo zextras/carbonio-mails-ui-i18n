@@ -163,7 +163,14 @@ export type BatchRequest = {
 };
 
 export type GetMsgRequest = {
-	m: { id: string };
+	m: Array<{
+		id: string;
+		html: string;
+	}>;
+};
+
+export type Jsns = {
+	_jsns: 'urn:zimbraMail';
 };
 
 export type GetMsgResponse = {
@@ -450,7 +457,7 @@ export function fetchMailMessagesById(
 	reduce<string, Array<BatchedRequest & GetMsgRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id } });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id, html: '1' } });
 			return acc;
 		},
 		batchRequest.GetMsgRequest
