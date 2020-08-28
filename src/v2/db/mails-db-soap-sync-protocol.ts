@@ -58,6 +58,9 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					'/service/soap/SyncRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
 						body: JSON.stringify({
 							Body: {
 								SyncRequest: {
