@@ -10,11 +10,31 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react';
-import { forEach, reduce } from 'lodash';
-import { getBodyToRender } from '../../ISoap';
+import { filter, forEach, get, reduce } from 'lodash';
+import { MailMessage, MailMessagePart } from '../db/mail-message';
 
 const _CI_REGEX = /^<(.*@zimbra)>$/;
 const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;
+
+export function _getParentPath(path: string): string {
+	const p = path.split('.');
+	p.pop();
+	return p.join('.');
+}
+
+export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessagePart[]] {
+	const body: MailMessagePart = get(
+		msg,
+		msg.bodyPath
+	);
+
+	const parent: MailMessagePart = get(
+		msg,
+		_getParentPath(msg.bodyPath)
+	);
+
+	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
+}
 
 const _TextMessageRenderer = ({ body }) => {
 	const containerRef = useRef();
