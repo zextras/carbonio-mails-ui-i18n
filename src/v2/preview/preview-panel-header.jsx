@@ -10,6 +10,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { hooks } from '@zextras/zapp-shell';
 import {
 	Container,
@@ -21,6 +22,7 @@ import {
 } from '@zextras/zapp-ui';
 
 function PreviewPanelHeader({ conversation, folderId }) {
+	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	return (
 		<>
@@ -39,7 +41,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 					padding={{ left: 'large' }}
 					takeAvailableSpace={true}
 				>
-					<Text size="large">{ conversation.subject }</Text>
+					<Text size="large">{ conversation.subject || `(${t('No Subject')})` }</Text>
 				</Row>
 				<IconButton icon="Close" onClick={() => replaceHistory(`/folder/${folderId}`)} />
 			</Container>
