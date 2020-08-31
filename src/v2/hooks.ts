@@ -11,14 +11,12 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
-import { last } from 'lodash';
-import { MailsFolder } from './db/mails-folder';
-import { MailConversation } from './db/mail-conversation';
-import { MailConversationMessage } from './db/mail-conversation-message';
+import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
+import { MailConversationFromDb } from './db/mail-conversation';
+import { AppContext } from './app-context';
 
 type ConversationInFolderState = {
-	conversations: Array<MailConversation>;
-	folder: MailsFolder | undefined;
+	folder: MailsFolderFromDb | undefined;
 	hasMore: boolean;
 	isLoading: boolean;
 }
@@ -29,37 +27,28 @@ type ResetAction = {
 
 type SetFolderAction = {
 	type: 'set-folder';
-	folder: MailsFolder;
-}
-
-type SetConversationsAction = {
-	type: 'set-conversations';
-	conversations: Array<MailConversation>;
+	folder: MailsFolderFromDb;
 }
 
 type SetIsLoadingAction = {
 	type: 'set-is-loading';
 	isLoading: boolean;
-	hasMore: boolean;
 };
 
 type LoadedMoreConversations = {
 	type: 'loaded-more-conversations';
-	conversations: Array<MailConversation>;
 	hasMore: boolean;
 };
 
 type ConvInFolderReducerAction =
 		ResetAction
 	| SetFolderAction
-	| SetConversationsAction
 	| SetIsLoadingAction
 	| LoadedMoreConversations
 	;
 
 function convInFolderInit(): ConversationInFolderState {
 	return {
-		conversations: [],
 		folder: undefined,
 		hasMore: false,
 		isLoading: true
@@ -71,27 +60,17 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 		case 'set-folder':
 			return ({
 				...state,
-				conversations: [],
 				folder: action.folder
-			});
-		case 'set-conversations':
-			return ({
-				...state,
-				conversations: action.conversations,
-				// isLoading: false
 			});
 		case 'set-is-loading':
 			return ({
 				...state,
-				hasMore: action.hasMore,
 				isLoading: action.isLoading
 			});
 		case 'loaded-more-conversations':
 			return ({
 				...state,
-				conversations: [...state.conversations, ...action.conversations],
 				hasMore: action.hasMore,
-				isLoading: false,
 			});
 		case 'reset':
 			return convInFolderInit();
@@ -101,7 +80,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 }
 
 type UseConvsInFolderReturnType = {
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	folder: MailsFolder | undefined;
 	isLoading: boolean;
 	loadMore?: () => Promise<void>;
@@ -109,73 +88,86 @@ type UseConvsInFolderReturnType = {
 }
 
 export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 
 	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
-	const loadMore = useCallback((folder?: MailsFolder) => new Promise<void>((resolve, reject) => {
-		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
-		((folder) ? Promise.resolve(folder) : db.folders.get(folderId))
-			.then((f: MailsFolder) => {
-				if (!f || !f.id) {
-					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
-					resolve();
-				}
-				else {
-					db.conversations
-						.where('parent')
-						.equals(f.id)
-						.reverse()
-						.limit(1)
-						.sortBy('date')
-						.then(([conv]: [MailConversation]) => db.fetchMoreConv(f, conv))
-						.then(([conversations, hasMore]: [Array<MailConversation>, boolean]) => {
-							dispatch({ type: 'loaded-more-conversations', conversations, hasMore });
-							resolve();
-						});
-				}
-			});
-	}), [db, folderId, dispatch]);
 
 	useEffect(() => {
-		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
+		let didCancel = false;
+		dispatch({ type: 'set-is-loading', isLoading: true });
 		db.folders.get(folderId)
-			.then((folder: MailsFolder) => {
-				dispatch({ type: 'set-folder', folder });
+			.then((folder?: MailsFolderFromDb) => {
 				if (!folder || !folder.id) {
-					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
-					return;
+					return false;
 				}
-				db.conversations
-					.where('parent')
-					.equals(folder.id)
-					.reverse()
-					.sortBy('date')
-					.then((conversations: MailConversation[]) => {
-						dispatch({ type: 'set-conversations', conversations });
-						/* if (conversations.length < 50) {
-							return loadMore(folder);
-						} */
-						const lastConv = last(conversations);
-						return db.checkHasMoreConv(folder, lastConv)
-							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
-					});
+				if (!didCancel) {
+					dispatch({ type: 'set-folder', folder });
+					return db.checkHasMoreConv(folder);
+				}
+				return false;
+			})
+			.then((hasMore) => {
+				if (!didCancel) {
+					dispatch({ type: 'loaded-more-conversations', hasMore });
+					dispatch({ type: 'set-is-loading', isLoading: false });
+				}
 			});
-	}, [db, folderId, dispatch, loadMore]);
+		return () => {
+			didCancel = true;
+		};
+	}, [db, folderId, dispatch]);
+
+	const loadMore = useCallback(() => new Promise<void>((resolve, reject) => {
+		if (!state.folder) {
+			resolve();
+			return;
+		}
+		dispatch({ type: 'set-is-loading', isLoading: true });
+		db.fetchMoreConv(state.folder)
+			.then((hasMore: boolean) => {
+				dispatch({ type: 'loaded-more-conversations', hasMore });
+				dispatch({ type: 'set-is-loading', isLoading: false });
+				resolve();
+			});
+	}), [db, state.folder, dispatch]);
+
+	const conversationsQuery = useCallback(
+		() => {
+			if (!state.folder || !state.folder.id) {
+				return Promise.resolve([]);
+			}
+			dispatch({ type: 'set-is-loading', isLoading: true });
+			return db.conversations
+				.where('parent')
+				.equals(state.folder.id)
+				.reverse()
+				.sortBy('date')
+				.then((convs) => {
+					dispatch({ type: 'set-is-loading', isLoading: false });
+					return convs;
+				});
+		},
+		[state.folder, db, dispatch]
+	);
+	const [conversations, loaded] = hooks.useObserveDb(conversationsQuery, db);
 
 	return {
-		conversations: state.conversations,
+		conversations: conversations || [],
 		folder: state.folder,
-		isLoading: state.isLoading,
+		isLoading: state.isLoading || !loaded,
 		hasMore: state.hasMore,
-		loadMore: !state.isLoading && state.hasMore ? loadMore : undefined
+		loadMore: (!state.isLoading && loaded && state.hasMore) ? loadMore : undefined
 	};
 }
 
-export function useConversationMessages(conversationId: Array<MailConversationMessage>) {
-	const { db } = hooks.useAppContext();
+export function useConversationMessages(conversationId: string) {
+	const { db } = hooks.useAppContext<AppContext>();
 
 	const messagesQuery = useCallback(
-		() => db.messages.where('conversation').equals(conversationId).toArray(),
+		() => db.messages
+			.where('conversation')
+			.equals(conversationId)
+			.toArray(),
 		[conversationId, db.messages]
 	);
 	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
@@ -184,23 +176,33 @@ export function useConversationMessages(conversationId: Array<MailConversationMe
 }
 
 export function useConversation(conversationId: string) {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 	const conversationQuery = useCallback(
-		() => db.conversations.where('id').equals(conversationId).or('_id').equals(conversationId).first(),
+		() => db.conversations
+			.where('id')
+			.equals(conversationId)
+			.or('_id')
+			.equals(conversationId)
+			.first(),
 		[conversationId, db.conversations]
 	);
 	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
 
-	return { conversation, loaded};
+	return { conversation, loaded };
 }
 
 export function useMessage(messageId: string) {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 	const messageQuery = useCallback(
-		() => db.messages.where('id').equals(messageId).or('_id').equals(messageId).first(),
+		() => db.messages
+			.where('id')
+			.equals(messageId)
+			.or('_id')
+			.equals(messageId)
+			.first(),
 		[messageId, db.messages]
 	);
 	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
 
-	return { message, loaded};
+	return { message, loaded };
 }

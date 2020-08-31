@@ -10,8 +10,9 @@
  */
 
 import { PromiseExtended } from 'dexie';
-import { MailsFolder } from './mails-folder';
-import { MailConversation } from './mail-conversation';
+import { reduce, some, pullAllWith } from 'lodash';
+import { MailsFolder, MailsFolderFromDb } from './mails-folder';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
 import { MailsDbDexie } from './mails-db-dexie';
 
@@ -36,17 +37,23 @@ export class MailsDb extends MailsDbDexie {
 		return super.open().then((db) => db as MailsDb);
 	}
 
-	public getFolderChildren(folder: MailsFolder): Promise<MailsFolder[]> {
+	public getFolderChildren(folder: MailsFolder): Promise<MailsFolderFromDb[]> {
 		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that.
 		if (!folder.id) return Promise.resolve([]);
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
 
-	public deleteFolder(f: MailsFolder): Promise<void> {
+	public deleteFolder(f: MailsFolderFromDb): Promise<void> {
 		return this.folders.get(f._id!).then((_f) => {
 			if (_f) {
 				console.log({ _id: _f._id!, id: _f.id!, table: 'folders' });
-				return this.deletions.add({ rowId: this.createUUID(), _id: _f._id!, id: _f.id!, table: 'folders' })
+				return this.deletions
+					.add({
+						rowId: this.createUUID(),
+						_id: _f._id!,
+						id: _f.id!,
+						table: 'folders'
+					})
 					.then(() => this.folders.delete(_f._id!).then(() => undefined))
 					.catch(console.error);
 			}
@@ -54,7 +61,7 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversationFromDb): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._fetch,
@@ -64,12 +71,60 @@ export class MailsDb extends MailsDbDexie {
 		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
-	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
+		if (!f.id) {
+			return Promise.resolve(false);
+		}
 		return fetchConversationsInFolder(
 			this._fetch,
 			f,
 			50,
 			lastConv ? new Date(lastConv.date) : undefined
-		);
+		)
+			.then(([remoteConvs, hasMore]) => {
+				const ids = reduce<MailConversationFromSoap, Array<string>>(
+					remoteConvs,
+					(r, v) => {
+						r.push(v.id);
+						return r;
+					},
+					[]
+				);
+				return this.conversations
+					.where('id')
+					.anyOf(ids)
+					.toArray()
+					.then<[MailConversationFromSoap[], boolean]>(
+						(localConvs) => {
+							pullAllWith(
+								remoteConvs,
+								localConvs,
+								(a, b) => ((b.id) ? a.id === b.id : false)
+							);
+							return [remoteConvs, hasMore];
+						}
+					);
+			})
+			.then(([remoteConvs, hasMore]) => {
+				if (remoteConvs.length > 0) {
+					const convsToAdd = reduce<MailConversationFromSoap, MailConversationFromDb[]>(
+						remoteConvs,
+						(r, v) => {
+							r.push(
+								new MailConversationFromDb({
+									...v,
+									_id: this.createUUID()
+								})
+							);
+							return r;
+						},
+						[]
+					);
+					return this.conversations
+						.bulkAdd(convsToAdd)
+						.then((ids) => hasMore);
+				}
+				return hasMore;
+			});
 	}
 }

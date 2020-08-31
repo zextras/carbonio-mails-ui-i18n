@@ -14,7 +14,7 @@ import {
 } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversation, MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 
 type IFolderView =
@@ -269,14 +269,14 @@ function normalizeConversationMessageFromSoap(
 	];
 }
 
-function normalizeConversationFromSoap(c: SoapConvObj): MailConversation {
+function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
 	const [messages, parent]: [MailConversationMessageMetadata[], string[]] = reduce(
 		c.m || [],
 		normalizeConversationMessageFromSoap,
 		[[], []]
 	);
 
-	return new MailConversation({
+	return new MailConversationFromSoap({
 		id: c.id,
 		date: c.d,
 		msgCount: c.n,
@@ -379,7 +379,7 @@ export function fetchConversationsInFolder(
 	f: MailsFolder,
 	limit = 50,
 	before = new Date()
-): Promise<[Array<MailConversation>, boolean]> {
+): Promise<[Array<MailConversationFromSoap>, boolean]> {
 	const queryPart = [
 		`in:"${f.path}"`
 	];
@@ -415,7 +415,7 @@ export function fetchConversationsInFolder(
 			else return r.Body.SearchResponse;
 		})
 		.then(({ c, more }) => [
-			reduce<SoapConvObj, Array<MailConversation>>(
+			reduce<SoapConvObj, Array<MailConversationFromSoap>>(
 				c,
 				(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
 				[]

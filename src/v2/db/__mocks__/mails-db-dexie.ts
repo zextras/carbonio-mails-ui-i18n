@@ -23,6 +23,7 @@ const MockedWhereClause = jest.fn().mockImplementation(() => ({
 class MockedTable {
 	where = MockedWhereClause;
 	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
+	bulkAdd = jest.fn().mockImplementation(() => Promise.resolve([]));
 	get = jest.fn().mockImplementation(() => Promise.resolve());
 }
 
@@ -31,4 +32,5 @@ export class MailsDbDexie {
 	folders = new MockedTable();
 	deletions = new MockedTable();
 	observe = jest.fn();
+	createUUID = jest.fn();
 }

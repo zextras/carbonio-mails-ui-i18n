@@ -11,24 +11,23 @@
 
 import React, { useCallback, useEffect, useRef } from 'react';
 import { filter, forEach, get, reduce } from 'lodash';
-import { MailMessage, MailMessagePart } from '../db/mail-message';
 
 const _CI_REGEX = /^<(.*@zimbra)>$/;
 const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;
 
-export function _getParentPath(path: string): string {
+export function _getParentPath(path) {
 	const p = path.split('.');
 	p.pop();
 	return p.join('.');
 }
 
-export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessagePart[]] {
-	const body: MailMessagePart = get(
+export function getBodyToRender(msg) {
+	const body = get(
 		msg,
 		msg.bodyPath
 	);
 
-	const parent: MailMessagePart = get(
+	const parent = get(
 		msg,
 		_getParentPath(msg.bodyPath)
 	);

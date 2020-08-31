@@ -170,8 +170,7 @@ export default function ConversationListItem({
 						>
 							<ConversationMessagesList
 								folderId={folderId}
-								conversationId={conversation.id}
-								conversationDexieId={conversation._id}
+								conversationId={conversation._id}
 							/>
 						</Container>
 					</Collapse>
@@ -180,7 +179,7 @@ export default function ConversationListItem({
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, conversationDexieId, folderId }) => {
+const ConversationMessagesList = ({ conversationId, folderId }) => {
 	const { messages, loaded } = useConversationMessages(conversationId);
 
 	return (
@@ -188,7 +187,7 @@ const ConversationMessagesList = ({ conversationId, conversationDexieId, folderI
 			{loaded
 			&& map(
 				messages,
-				(message) => <MessageListItem key={message.id} message={message} conversationId={conversationDexieId} folderId={folderId} />
+				(message) => <MessageListItem key={message.id} message={message} conversationId={conversationId} folderId={folderId} />
 			)}
 		</>
 	);

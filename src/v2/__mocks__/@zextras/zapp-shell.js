@@ -30,6 +30,8 @@ class MockedDb {
 	version = MockedDb_version;
 
 	table = MockedDb_table;
+
+	createUUID = jest.fn();
 }
 
 export const db = {
