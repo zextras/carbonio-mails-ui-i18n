@@ -11,6 +11,9 @@
 
 import React, { useCallback, useEffect, useRef } from 'react';
 import { forEach, reduce } from 'lodash';
+import { useTranslation } from 'react-i18next';
+import { Container, Text } from '@zextras/zapp-ui';
+
 import { getBodyToRender } from '../../ISoap';
 
 const _CI_REGEX = /^<(.*@zimbra)>$/;
@@ -44,8 +47,8 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		`;
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
+		iframeRef.current.style.display = 'block';
 		iframeRef.current.style.height = iframeRef.current.contentDocument.body.querySelector('div').scrollHeight + 'px';
-		iframeRef.current.style.opacity = 1;
 	}, []);
 
 	useEffect(() => {
@@ -84,8 +87,16 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 			title={msgId}
 			ref={iframeRef}
 			onLoad={onIframeLoad}
-			style={{ border: 'none', width: '100%', opacity: '0' }}
+			style={{ border: 'none', width: '100%', display: 'none' }}
 		/>
+	);
+};
+
+const EmptyBody = () => {
+	const { t } = useTranslation();
+
+	return (
+		<Container padding={{ bottom: 'medium' }}><Text>{ `(${t('This message has no text content')}.)` }</Text></Container>
 	);
 };
 
@@ -96,6 +107,9 @@ const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 			onUnreadLoaded();
 		}
 	}, []);
+	if (typeof mailMsg.fragment === 'undefined') {
+		return <EmptyBody />;
+	}
 	if (body.contentType === 'text/html') {
 		return (<_HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
 	}

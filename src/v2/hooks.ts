@@ -100,7 +100,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 		case 'reset':
 			return convInFolderInit();
 		default:
-			throw new Error(`Action not handled.`);
+			throw new Error('Action not handled.');
 	}
 }
 
@@ -179,7 +179,7 @@ export function useConversationMessages(conversationId: Array<MailConversationMe
 	const { db } = hooks.useAppContext();
 
 	const messagesQuery = useCallback(
-		() => db.messages.where('conversation').equals(conversationId).toArray(),
+		() => db.messages.where('conversation').equals(conversationId).reverse().sortBy('date'),
 		[conversationId, db.messages]
 	);
 	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
@@ -195,7 +195,7 @@ export function useConversation(conversationId: string) {
 	);
 	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
 
-	return { conversation, loaded};
+	return { conversation, loaded };
 }
 
 export function useMessage(messageId: string) {
@@ -206,5 +206,5 @@ export function useMessage(messageId: string) {
 	);
 	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
 
-	return { message, loaded};
+	return { message, loaded };
 }

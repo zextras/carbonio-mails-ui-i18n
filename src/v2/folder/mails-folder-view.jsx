@@ -11,6 +11,7 @@
 
 import React, {
 	useCallback,
+	useEffect,
 	useMemo,
 	useRef,
 	useState
@@ -32,7 +33,7 @@ import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import { useConvsInFolder } from '../hooks';
 
-function Breadcrumbs({ folder }) {
+function Breadcrumbs({ folder, itemsCount }) {
 	return (
 		<Container
 			background="gray5"
@@ -40,10 +41,19 @@ function Breadcrumbs({ folder }) {
 			crossAlignment="flex-start"
 		>
 			<Row
-				height={48}
-				padding={{ all: 'medium' }}
+				height="100%"
+				width="100%"
+				padding={{ vertical: 'medium', horizontal: 'large' }}
+				mainAlignment="space-between"
 			>
-				<Text size="large">{ folder && folder.path }</Text>
+				<Row
+					mainAlignment="flex-start"
+					takeAvailableSpace={true}
+					padding={{ right: 'medium' }}
+				>
+					<Text size="large">{ folder && folder.path }</Text>
+				</Row>
+				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount > 0 && itemsCount}</Text>
 			</Row>
 			<Divider />
 		</Container>
@@ -101,7 +111,7 @@ export default function FolderView() {
 		>
 			<Responsive mode="desktop" target={window.top}>
 				<Container
-					width="calc(50% - 4px)"
+					width="calc(40% - 4px)"
 					mainAlignment="flex-start"
 					crossAlignment="unset"
 					borderRadius="none"
@@ -113,7 +123,7 @@ export default function FolderView() {
 				</Container>
 				<VerticalDivider />
 				<Container
-					width="calc(50% - 4px)"
+					width="calc(60% - 4px)"
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
 					borderRadius="none"
@@ -148,6 +158,7 @@ const ConversationList = ({ folderId }) => {
 	} = useConvsInFolder(folderId);
 
 	const [displayData, setDisplayData] = useState({});
+	const [containerHeight, setContainerHeight] = useState(0);
 
 	const updateDisplayData = useCallback(
 		(index, id, v) => {
@@ -188,11 +199,19 @@ const ConversationList = ({ folderId }) => {
 	const calcItemSize = useCallback(
 		(index) => {
 			const conv = conversations[index];
-			if (displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 57;
-			return 57;
+			if (displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 70;
+			return 70;
 		},
 		[conversations, displayData]
 	);
+
+	useEffect(() => {
+		if (typeof containerRef.current === 'undefined') return undefined;
+		const onResize = () => setContainerHeight(containerRef.current && containerRef.current.offsetHeight);
+		onResize();
+		window.top.addEventListener('resize', onResize);
+		return () => window.top.removeEventListener('resize', onResize);
+	}, [containerRef.current]);
 
 	if (isLoading) {
 		return <Text> LOADING </Text>;
@@ -200,26 +219,28 @@ const ConversationList = ({ folderId }) => {
 
 	return (
 		<>
-			{ folder && <Breadcrumbs folder={folder} /> }
+			{ folder && <Breadcrumbs folder={folder} itemsCount={conversations.length} /> }
 			<Row
-				takeAvailableSpace={true}
+				ref={containerRef}
+				height="calc(100% - 49px)"
 				orientation="vertical"
 				mainAlignment="flex-start"
 				crossAlignment="flex-start"
+				takeAvailableSpace={true}
+				background="gray6"
 				borderRadius="none"
-				ref={containerRef}
 			>
 				{ conversations && conversations.length > 0 && (
 					<VariableSizeList
 						ref={listRef}
-						height={(containerRef.current && containerRef.current.offsetHeight) || 0}
+						height={containerHeight}
 						width="100%"
 						itemCount={(conversations || []).length}
 						overscanRowCount={15}
 						rowRenderer={rowRenderer}
 						style={{ outline: 'none' }}
 						itemSize={calcItemSize}
-						estimatedItemSize={57}
+						estimatedItemSize={70}
 					>
 						{rowRenderer}
 					</VariableSizeList>
