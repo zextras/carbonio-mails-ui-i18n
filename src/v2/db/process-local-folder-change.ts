@@ -15,7 +15,7 @@ import {
 } from 'dexie-observable/api';
 import { filter, reduce, map } from 'lodash';
 import { DeletionData, MailsDb } from './mails-db';
-import { MailsFolder } from './mails-folder';
+import { MailsFolderFromDb } from './mails-folder';
 import { BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest } from '../soap';
 
 function processInserts(
@@ -57,10 +57,12 @@ function processUpdates(
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
 	return db.folders.where('_id').anyOf(map(changes, 'key')).toArray().then((folders) => {
-		const uuidToId = reduce<MailsFolder, {[key: string]: string}>(
+		const uuidToId = reduce<MailsFolderFromDb, {[key: string]: string}>(
 			folders,
 			(r, f) => {
-				r[f._id!] = f.id;
+				if (f.id) {
+					r[f._id] = f.id;
+				}
 				return r;
 			},
 			{}
@@ -201,6 +203,9 @@ export default function processLocalFolderChange(
 				'/service/soap/BatchRequest',
 				{
 					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
 					body: JSON.stringify({
 						Body: {
 							BatchRequest: _batchRequest

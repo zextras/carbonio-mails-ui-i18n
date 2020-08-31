@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter, map, reduce, last } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
-import { ConversationMailMessage } from '../v1/idb/IMailsIdb';
+import { MailConversationMessage } from './db/mail-conversation-message';
 import { Participant } from './db/mail-db-types';
 import { MailMessage } from './db/mail-message';
 import { CompositionState } from './edit/use-composition-data';
@@ -100,7 +100,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 		case 'reset':
 			return convInFolderInit();
 		default:
-			throw new Error(`Action '${action.type}' not handled.`);
+			throw new Error(`Action not handled.`);
 	}
 }
 
@@ -156,9 +156,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					.sortBy('date')
 					.then((conversations: MailConversation[]) => {
 						dispatch({ type: 'set-conversations', conversations });
-						if (conversations.length < 50) {
+						/* if (conversations.length < 50) {
 							return loadMore(folder);
-						}
+						} */
 						const lastConv = last(conversations);
 						return db.checkHasMoreConv(folder, lastConv)
 							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
@@ -175,7 +175,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	};
 }
 
-export function useConversationMessages(conversationId: Array<ConversationMailMessage>) {
+export function useConversationMessages(conversationId: Array<MailConversationMessage>) {
 	const { db } = hooks.useAppContext();
 
 	const messagesQuery = useCallback(
@@ -185,4 +185,26 @@ export function useConversationMessages(conversationId: Array<ConversationMailMe
 	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
 
 	return { messages, loaded };
+}
+
+export function useConversation(conversationId: string) {
+	const { db } = hooks.useAppContext();
+	const conversationQuery = useCallback(
+		() => db.conversations.where('id').equals(conversationId).or('_id').equals(conversationId).first(),
+		[conversationId, db.conversations]
+	);
+	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
+
+	return { conversation, loaded};
+}
+
+export function useMessage(messageId: string) {
+	const { db } = hooks.useAppContext();
+	const messageQuery = useCallback(
+		() => db.messages.where('id').equals(messageId).or('_id').equals(messageId).first(),
+		[messageId, db.messages]
+	);
+	const [message, loaded] = hooks.useObserveDb(messageQuery, db);
+
+	return { message, loaded};
 }

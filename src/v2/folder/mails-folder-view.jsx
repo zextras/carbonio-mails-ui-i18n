@@ -11,7 +11,8 @@
 
 import React, {
 	useCallback,
-	useMemo, useRef,
+	useMemo,
+	useRef,
 	useState
 } from 'react';
 import { useParams } from 'react-router-dom';
@@ -53,7 +54,7 @@ export default function FolderView() {
 	const { folderId } = useParams();
 
 	const screen = useScreenMode();
-	const previewId = useQueryParam('preview');
+	const conversationId = useQueryParam('conversation');
 	const editId = useQueryParam('edit');
 	const MemoPanel = useMemo(() => {
 		if (editId) {
@@ -65,11 +66,11 @@ export default function FolderView() {
 				/>
 			);
 		}
-		if (previewId) {
+		if (conversationId) {
 			return (
 				<ConversationPreviewPanel
-					key={`conversationPreview-${previewId}`}
-					coversationInternalId={previewId}
+					key={`conversationPreview-${conversationId}`}
+					conversationInternalId={conversationId}
 					folderId={folderId}
 				/>
 			);
@@ -83,7 +84,7 @@ export default function FolderView() {
 			);
 		}
 		return <Container />;
-	}, [editId, folderId, previewId, screen]);
+	}, [editId, folderId, conversationId, screen]);
 
 	return (
 		<Container
@@ -102,7 +103,7 @@ export default function FolderView() {
 				<Container
 					width="calc(50% - 4px)"
 					mainAlignment="flex-start"
-					crossAlignment="flex-start"
+					crossAlignment="unset"
 					borderRadius="none"
 				>
 					<ConversationList
@@ -175,6 +176,7 @@ const ConversationList = ({ folderId }) => {
 					style={style}
 					index={index}
 					conversation={conversations[index]}
+					folderId={folderId}
 					displayData={displayData[conversations[index].id] || { open: false }}
 					updateDisplayData={updateDisplayData}
 				/>
@@ -199,7 +201,9 @@ const ConversationList = ({ folderId }) => {
 	return (
 		<>
 			{ folder && <Breadcrumbs folder={folder} /> }
-			<Container
+			<Row
+				takeAvailableSpace={true}
+				orientation="vertical"
 				mainAlignment="flex-start"
 				crossAlignment="flex-start"
 				borderRadius="none"
@@ -220,7 +224,7 @@ const ConversationList = ({ folderId }) => {
 						{rowRenderer}
 					</VariableSizeList>
 				)}
-			</Container>
+			</Row>
 		</>
 	);
 };

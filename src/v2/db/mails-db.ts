@@ -14,11 +14,11 @@ import { db } from '@zextras/zapp-shell';
 import { BehaviorSubject } from 'rxjs';
 import { sortBy, last, reverse, map } from 'lodash';
 import { MailsFolder } from './mails-folder';
-import { MailMessage } from './mail-message';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';
 import { Participant } from './mail-db-types';
+import { MailsDbDexie } from './mails-db-dexie';
 
 export type DeletionData = {
 	_id: string;
@@ -27,42 +27,13 @@ export type DeletionData = {
 	rowId?: string;
 };
 
-export type GetConvSubjectData = {
-	conversations: Array<MailConversation>;
-	loading: boolean;
-	hasMore: boolean;
-	loadMore(): void;
-};
-
-export class MailsDb extends db.Database {
+export class MailsDb extends MailsDbDexie {
 	private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-
-	folders: Dexie.Table<MailsFolder, string>; // string = type of the primary key
-
-	messages: Dexie.Table<MailMessage, string>; // string = type of the primary key
-
-	conversations: Dexie.Table<MailConversation, string>; // string = type of the primary key
-
-	deletions: Dexie.Table<DeletionData, string>;
 
 	constructor(
 		fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
 	) {
-		super('mails');
-		this.version(1).stores({
-			folders: '$$_id, id, parent',
-			messages: '$$_id, id, parent, conversation',
-			drafts: '$$_id, id, parent, conversation',
-			conversations: '$$_id, id, *parent',
-			deletions: '$$rowId, _id, id'
-		});
-		this.folders = this.table('folders');
-		this.folders.mapToClass(MailsFolder);
-		this.messages = this.table('messages');
-		this.messages.mapToClass(MailMessage);
-		this.conversations = this.table('conversations');
-		this.conversations.mapToClass(MailConversation);
-		this.deletions = this.table('deletions');
+		super();
 		this._fetch = fetch;
 	}
 
@@ -186,7 +157,7 @@ export class MailsDb extends db.Database {
 			f,
 			1,
 			lastConv ? new Date(lastConv.date) : undefined
-		).then(([convs, hasMore]) => (hasMore || convs.length > 0));
+		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
 	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
