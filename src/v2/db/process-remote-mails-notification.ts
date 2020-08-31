@@ -9,7 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { reduce, map, omit } from 'lodash';
+import _, {
+	keys,
+	reduce,
+	map,
+	differenceWith,
+} from 'lodash';
+
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
@@ -117,10 +123,9 @@ function searchLocalMails(db: MailsDb, ids: string[]): Promise<{[key: string]: s
 	return db.messages.where('id').anyOf(ids).toArray()
 		.then((localMails) => reduce<MailMessageFromDb, {[key: string]: string}>(
 			localMails,
-			(r, f) => {
-				// @ts-ignore
-				r[f.id] = f._id;
-				return r;
+			(acc, v) => {
+				acc[v.id!] = v._id;
+				return acc;
 			},
 			{}
 		));
@@ -141,7 +146,82 @@ export default function processRemoteMailsNotification(
 
 	const ids = map<SyncResponseMail>(m || [], 'id');
 
+	return searchLocalMails(
+		db,
+		ids
+	)
+		.then((idToLocalUUIDMap) => {
+			const dbChanges: IDatabaseChange[] = [];
+			if (m && m[0] && m[0].f) {
+				return db.messages.where('id').anyOf(ids).toArray()
+					.then((dbMails) => reduce<MailMessageFromDb, IDatabaseChange[]>(
+						dbMails,
+						(r, c) => {
+							if (idToLocalUUIDMap.hasOwnProperty(c.id!)) {
+								c._id = idToLocalUUIDMap[c.id!];
+								r.push({
+									type: 2,
+									table: 'messages',
+									key: c._id,
+									mods: {
+										read: !(/u/.test(m[0].f || 'false')),
+										attachment: /a/.test(m[0].f || 'false'),
+										flagged: /f/.test(m[0].f || 'false'),
+										urgent: /!/.test(m[0].f || 'false'),
+										parent: m[0].l
+									}
+								});
+							}
+							return r;
+						},
+						dbChanges
+					));
+			}
+			const remoteIds = differenceWith(ids, keys(idToLocalUUIDMap), _.isEqual);
+			if (remoteIds.length > 0) { // TODO: find right condition
+				return fetchMessages(
+					_fetch,
+					remoteIds
+				)
+					.then((soapMails) => reduce<MailMessageFromSoap, IDatabaseChange[]>(
+						soapMails,
+						(r, c) => {
+							r.push({
+								type: 1,
+								table: 'messages',
+								key: undefined,
+								obj: c
+							});
+							return r;
+						},
+						dbChanges
+					));
+			}
+			if (deleted && deleted[0] && deleted[0].m) {
+				return searchLocalMails(
+					db,
+					deleted[0].m[0].ids.split(','),
+				)
+					// eslint-disable-next-line max-len
+					.then((deletedMails) => reduce<{ [key: string]: string }, IDatabaseChange[]>(
+						deletedMails,
+						(r, _id) => {
+							r.push({
+								type: 3,
+								table: 'messages',
+								key: _id,
+							});
+							return r;
+						},
+						dbChanges
+					));
+			}
+			return dbChanges;
+		});
+}
 
+
+/* ______________________________________ VECCHIA FUNZIONE_________________________________________
 	return fetchMessages(
 		_fetch,
 		ids
@@ -206,3 +286,4 @@ export default function processRemoteMailsNotification(
 				return dbChanges;
 			}));
 }
+*/

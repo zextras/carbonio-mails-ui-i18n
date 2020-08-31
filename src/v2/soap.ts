@@ -16,6 +16,7 @@ import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { normalizeMailMessageFromSoap } from './db/mails-db-utils';
 
 
 type IFolderView =
@@ -328,26 +329,6 @@ function normalizeConversationFromSoap(c: SoapConvObj): MailConversation {
 	});
 }
 
-function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
-	const ret: MailMessagePart = {
-		contentType: v.ct,
-		size: v.s || 0,
-		name: v.part,
-	};
-	if (v.mp) {
-		ret.parts = map(
-			v.mp || [],
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			normalizeMailPartMapFn
-		);
-	}
-	if (v.filename) ret.filename = v.filename;
-	if (v.content) ret.content = v.content;
-	if (v.ci) ret.ci = v.ci;
-	if (v.cd) ret.disposition = v.cd;
-	return ret;
-}
-
 function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 	if (v.body) {
 		return [idx];
@@ -366,44 +347,6 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
 	// eslint-disable-next-line @typescript-eslint/no-use-before-define
 	return flattenDeep(map(mp, bodyPathMapFn));
-}
-
-function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
-	const indexes = recursiveBodyPath(mp);
-	const path = reduce(
-		indexes,
-		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
-		''
-	);
-	return trim(path, '.');
-}
-
-function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
-	return new MailMessageFromSoap({
-		conversation: m.cid,
-		id: m.id,
-		date: m.d,
-		size: m.s,
-		parent: m.l,
-		parts: map(
-			m.mp || [],
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			normalizeMailPartMapFn
-		),
-		fragment: m.fr,
-		// eslint-disable-next-line @typescript-eslint/no-use-before-define
-		bodyPath: generateBodyPath(m.mp || []),
-		subject: m.su,
-		contacts: map(
-			m.e || [],
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			normalizeParticipantsFromSoap
-		),
-		read: !(/u/.test(m.f || '')),
-		attachment: /a/.test(m.f || ''),
-		flagged: /f/.test(m.f || ''),
-		urgent: /!/.test(m.f || ''),
-	});
 }
 
 export function fetchConversationsInFolder(

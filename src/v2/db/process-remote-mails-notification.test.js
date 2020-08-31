@@ -1,7 +1,7 @@
 
 jest.mock('./mails-db-dexie');
 
-import { MailMessage } from './mail-message';
+import { MailMessageFromSoap } from './mail-message';
 import processRemoteMailsNotification, { fetchMessages } from './process-remote-mails-notification';
 import { MailsDb } from './mails-db';
 
@@ -25,7 +25,7 @@ describe('Notifications - Mails', () => {
 			.then((msg) => {
 				expect(_fetch).toHaveBeenCalledTimes(1);
 				expect(msg.length).toBe(1);
-				expect(msg[0]).toBeInstanceOf(MailMessage);
+				expect(msg[0]).toBeInstanceOf(MailMessageFromSoap);
 				expect(msg[0].id).toBe('1000');
 				done();
 			})
@@ -81,7 +81,7 @@ describe('Notifications - Mails', () => {
 				expect(changes[0].type).toBe(1);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBeUndefined();
-				expect(changes[0].obj).toBeInstanceOf(MailMessage);
+				expect(changes[0].obj).toBeInstanceOf(MailMessageFromSoap);
 				done();
 			});
 	});
@@ -122,7 +122,7 @@ describe('Notifications - Mails', () => {
 				expect(changes[0].type).toBe(1);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBeUndefined();
-				expect(changes[0].obj).toBeInstanceOf(MailMessage);
+				expect(changes[0].obj).toBeInstanceOf(MailMessageFromSoap);
 				done();
 			});
 	});
@@ -132,7 +132,7 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessage({
+					new MailMessageFromSoap({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
 						parent: '7'
@@ -176,32 +176,27 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessage({
+					new MailMessageFromSoap({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
-						parent: '7'
+						parent: '9',
+						attachment: 'attachment',
+						bodyPath: 'bodyPath',
+						contacts: 'contacts',
+						conversation: 'conversation',
+						date: 'date',
+						flagged: 'flagged',
+						fragment: 'fragment',
+						parts: 'parts',
+						read: 'true',
+						size: 'size',
+						subject: 'subject',
+						urgent: 'false'
 					}),
 				]))
 			}))
 		}));
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					GetMsgResponse: {
-						m: [{
-							id: '1000',
-							l: '7',
-							cid: 'conversation',
-							d: 12,
-							fr: 'fragment',
-							s: 1,
-							su: 'subject',
-							f: 'ua!'
-						}]
-					}
-				}
-			}))
-		}));
+		const _fetch = jest.fn();
 		const SyncResponse = {
 			md: 2,
 			token: 2,
@@ -212,7 +207,7 @@ describe('Notifications - Mails', () => {
 				md: 2,
 				ms: '2',
 				rev: '2',
-				f: '',
+				f: 'ua!',
 				t: '',
 				tn: ''
 			}],
@@ -226,25 +221,17 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(1);
+				expect(_fetch).toHaveBeenCalledTimes(0);
 				expect(changes.length).toBe(1);
 				expect(changes[0].type).toBe(2);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
 				expect(changes[0].mods).toStrictEqual({
 					attachment: true,
-					bodyPath: '',
-					contacts: [],
-					conversation: 'conversation',
-					date: 12,
+					flagged: false,
 					parent: '7',
-					parts: [],
 					read: false,
-					subject: 'subject',
-					size: 1,
-					fragment: 'fragment',
-					urgent: true,
-					flagged: false
+					urgent: true
 				});
 				done();
 			});
@@ -255,32 +242,15 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessage({
+					new MailMessageFromSoap({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
-						parent: '7',
+						parent: '1001',
 					}),
 				]))
 			}))
 		}));
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					GetMsgResponse: {
-						m: [{
-							id: '1000',
-							l: '1001',
-							cid: 'conversation',
-							d: 12,
-							fr: 'fragment',
-							s: 1,
-							su: 'subject',
-							f: '!'
-						}]
-					}
-				}
-			}))
-		}));
+		const _fetch = jest.fn();
 		const SyncResponse = {
 			md: 2,
 			token: 2,
@@ -306,24 +276,71 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(1);
+				expect(_fetch).toHaveBeenCalledTimes(0);
 				expect(changes.length).toBe(1);
 				expect(changes[0].type).toBe(2);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
 				expect(changes[0].mods).toStrictEqual({
 					attachment: false,
-					bodyPath: '',
-					contacts: [],
-					conversation: 'conversation',
-					date: 12,
 					flagged: false,
-					parts: [],
+					parent: '1001',
 					read: true,
-					urgent: true,
-					subject: 'subject',
-					size: 1,
-					fragment: 'fragment',
+					urgent: true
+				});
+				done();
+			});
+	});
+
+	test('Message flagged', (done) => {
+		const db = new MailsDb();
+		db.messages.where.mockImplementation(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailMessageFromSoap({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						id: '1000',
+						parent: '7',
+					}),
+				]))
+			}))
+		}));
+		const _fetch = jest.fn();
+		const SyncResponse = {
+			md: 2,
+			token: 2,
+			m: [{
+				cid: 'conversation',
+				d: 12,
+				f: 'f',
+				id: '1000',
+				l: '1001',
+				md: 1598339530,
+				ms: 1433,
+				rev: 1392,
+				t: '',
+				tn: ''
+			}]
+		};
+		processRemoteMailsNotification(
+			_fetch,
+			db,
+			false,
+			[],
+			[],
+			SyncResponse
+		)
+			.then((changes) => {
+				expect(_fetch).toHaveBeenCalledTimes(0);
+				expect(changes.length).toBe(1);
+				expect(changes[0].type).toBe(2);
+				expect(changes[0].table).toBe('messages');
+				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
+				expect(changes[0].mods).toStrictEqual({
+					attachment: false,
+					flagged: true,
+					read: true,
+					urgent: false,
 					parent: '1001'
 				});
 				done();
