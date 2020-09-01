@@ -9,11 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import _, {
+import {
 	keys,
 	reduce,
 	map,
 	differenceWith,
+	isEqual,
+	keyBy
 } from 'lodash';
 
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
@@ -119,106 +121,94 @@ function extractAllMailsForInitialSync(
 		));
 }
 
-function searchLocalMails(db: MailsDb, ids: string[]): Promise<{[key: string]: string}> {
-	return db.messages.where('id').anyOf(ids).toArray()
-		.then((localMails) => reduce<MailMessageFromDb, {[key: string]: string}>(
-			localMails,
-			(acc, v) => {
-				acc[v.id!] = v._id;
-				return acc;
-			},
-			{}
-		));
-}
-
 export default function processRemoteMailsNotification(
 	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	db: MailsDb,
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
 	localChangesFromRemote: IDatabaseChange[],
-	{ m, deleted, folder }: SyncResponse
+	{ m: mails, deleted, folder }: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	if (isInitialSync) {
 		// Extract all mails from all the folders
 		return extractAllMailsForInitialSync(_fetch, folder!);
 	}
 
-	const ids = map<SyncResponseMail>(m || [], 'id');
+	const ids = map<SyncResponseMail>(mails || [], 'id');
 
-	return searchLocalMails(
-		db,
-		ids
-	)
-		.then((idToLocalUUIDMap) => {
-			const dbChanges: IDatabaseChange[] = [];
-			if (m && m[0] && m[0].f) {
-				return db.messages.where('id').anyOf(ids).toArray()
-					.then((dbMails) => reduce<MailMessageFromDb, IDatabaseChange[]>(
+	const dbChanges: IDatabaseChange[] = [];
+	return db.messages.where('id').anyOf(ids).toArray()
+		.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
+		.then((dbMails: {[id: string]: MailMessageFromDb}) => {
+			if (mails && mails[0] && (mails[0].f || mails[0].l)) {
+				return {
+					dbMails,
+					dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 						dbMails,
-						(r, c) => {
-							if (idToLocalUUIDMap.hasOwnProperty(c.id!)) {
-								c._id = idToLocalUUIDMap[c.id!];
-								r.push({
-									type: 2,
-									table: 'messages',
-									key: c._id,
-									mods: {
-										read: !(/u/.test(m[0].f || 'false')),
-										attachment: /a/.test(m[0].f || 'false'),
-										flagged: /f/.test(m[0].f || 'false'),
-										urgent: /!/.test(m[0].f || 'false'),
-										parent: m[0].l
-									}
-								});
-							}
-							return r;
+						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+							acc.push({
+								type: 2,
+								table: 'messages',
+								key: value._id,
+								mods: {
+									read: !(/u/.test(mails[0].f || 'false')),
+									attachment: /a/.test(mails[0].f || 'false'),
+									flagged: /f/.test(mails[0].f || 'false'),
+									urgent: /!/.test(mails[0].f || 'false'),
+									parent: mails[0].l
+								}
+							});
+							return acc;
 						},
 						dbChanges
-					));
+					)
+				};
 			}
-			const remoteIds = differenceWith(ids, keys(idToLocalUUIDMap), _.isEqual);
-			if (remoteIds.length > 0) { // TODO: find right condition
+			return { dbMails, dbChangesUpdated: [] };
+		})
+		.then(({ dbChangesUpdated, dbMails }) => {
+			const remoteIds = differenceWith(ids, keys(dbMails), isEqual);
+			if (remoteIds.length > 0) {
 				return fetchMessages(
 					_fetch,
 					remoteIds
 				)
 					.then((soapMails) => reduce<MailMessageFromSoap, IDatabaseChange[]>(
 						soapMails,
-						(r, c) => {
-							r.push({
+						(acc, value) => {
+							acc.push({
 								type: 1,
 								table: 'messages',
 								key: undefined,
-								obj: c
+								obj: value
 							});
-							return r;
+							return acc;
 						},
-						dbChanges
+						dbChangesUpdated
 					));
 			}
+			return dbChangesUpdated;
+		})
+		.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
 			if (deleted && deleted[0] && deleted[0].m) {
-				return searchLocalMails(
-					db,
-					deleted[0].m[0].ids.split(','),
-				)
-					// eslint-disable-next-line max-len
-					.then((deletedMails) => reduce<{ [key: string]: string }, IDatabaseChange[]>(
-						deletedMails,
-						(r, _id) => {
-							r.push({
+				return db.messages.where('id').anyOf(deleted[0].m[0].ids.split(',')).toArray()
+					.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
+					.then((deletedMails) => reduce<{ [key: string]: MailMessageFromDb }, IDatabaseChange[]>(
+						deletedMails || {},
+						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+							acc.push({
 								type: 3,
 								table: 'messages',
-								key: _id,
+								key: value._id,
 							});
-							return r;
+							return acc;
 						},
-						dbChanges
+						dbChangesUpdatedAndFetched
 					));
 			}
-			return dbChanges;
+			return dbChangesUpdatedAndFetched;
 		});
-}
+};
 
 
 /* ______________________________________ VECCHIA FUNZIONE_________________________________________
