@@ -93,7 +93,7 @@ export type SyncResponseMail = {
 	cid: string;
 	d: number;
 	id: string;
-	l: string;
+	l?: string;
 	md: number;
 	ms: number;
 	rev: number;
