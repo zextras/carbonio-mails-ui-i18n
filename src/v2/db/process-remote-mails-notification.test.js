@@ -346,4 +346,68 @@ describe('Notifications - Mails', () => {
 				done();
 			});
 	});
+
+	test('Deleted and updated Message', (done) => {
+		const db = new MailsDb();
+		db.messages.where.mockImplementation(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailMessageFromSoap({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						id: '1000',
+						parent: '7'
+					}),
+				]))
+			}))
+		}));
+		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			json: jest.fn().mockImplementation(() => Promise.resolve({}))
+		}));
+		const SyncResponse = {
+			md: 2,
+			token: 2,
+			m: [{
+				cid: 'conversation',
+				d: 12,
+				f: 'f',
+				id: '1000',
+				l: '1001',
+				md: 1598339530,
+				ms: 1433,
+				rev: 1392,
+				t: '',
+				tn: ''
+			}],
+			deleted: [{
+				ids: '1000',
+				m: [{
+					ids: '1000',
+				}]
+			}],
+		};
+		processRemoteMailsNotification(
+			_fetch,
+			db,
+			false,
+			[],
+			[],
+			SyncResponse
+		)
+			.then((changes) => {
+				expect(_fetch).toHaveBeenCalledTimes(0);
+				expect(changes.length).toBe(2);
+				expect(changes[1].type).toBe(3);
+				expect(changes[1].type).toBe(3);
+				expect(changes[0].table).toBe('messages');
+				expect(changes[1].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
+				expect(changes[0].mods).toStrictEqual({
+					attachment: false,
+					flagged: true,
+					read: true,
+					urgent: false,
+					parent: '1001'
+				});
+				done();
+			});
+	});
 });
