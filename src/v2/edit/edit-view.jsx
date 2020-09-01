@@ -101,6 +101,7 @@ export default function EditView({ panel, editPanelId, folderId }) {
 					>
 						<Tooltip label={t('toggleRichText')}>
 							<IconCheckbox
+								borderRadius="regular"
 								icon="Text"
 								value={compositionData.richText}
 								onChange={actions.toggleRichText}
@@ -108,6 +109,7 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						</Tooltip>
 						<Tooltip label={t('toggleUrgent')}>
 							<IconCheckbox
+								borderRadius="regular"
 								icon="ArrowUpward"
 								value={compositionData.urgent}
 								onChange={actions.toggleUrgent}
@@ -115,6 +117,7 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						</Tooltip>
 						<Tooltip label={t('toggleFlagged')}>
 							<IconCheckbox
+								borderRadius="regular"
 								icon="FlagOutline"
 								value={compositionData.flagged}
 								onChange={actions.toggleFlagged}
@@ -180,7 +183,6 @@ export default function EditView({ panel, editPanelId, folderId }) {
 						(
 							<TextArea
 								label=""
-								defaultValue={compositionData.body.text}
 								value={compositionData.body.text}
 								onChange={(ev) => {
 									// eslint-disable-next-line no-param-reassign

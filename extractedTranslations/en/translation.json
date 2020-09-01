@@ -24,6 +24,7 @@
       "to": "To:"
     }
   },
+  "no subject": "",
   "send": "",
   "subject": "",
   "text": "",
@@ -32,6 +33,5 @@
   "toggleRichText": "",
   "toggleUrgent": "",
   "toggleflagged": "",
-  "toggleurgent": "",
-  "no subject": ""
+  "toggleurgent": ""
 }

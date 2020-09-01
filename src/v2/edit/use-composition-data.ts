@@ -21,9 +21,8 @@ import {
 	find
 } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
-import { MailMessage } from '../db/mail-message';
+import { MailMessagePart, MailMessageFromDb } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
-import { MailMessagePart } from '../../v1/idb/IMailsIdb';
 
 export type ResetAction = {
 	type: 'RESET';
@@ -164,22 +163,20 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 	}
 };
 
-const stateContactsFromDraft = (draft: MailMessage, type: string): Array<{ value: string }> => map(
+const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): Array<{ value: string }> => map(
 	filter(draft ? draft.contacts : [], (c) => c.type === type),
 	(c: Participant) => ({ value: c.displayName || c.address })
 );
 
-const extractBody = (draft: MailMessage): { text: string; html: string } => {
-	console.log(draft ? (draft.parts ? draft.parts : 'noparts') : 'nodraft');
+const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
 	const text = find(draft.parts, ['contentType', 'text/plain']);
 	const html = find(draft.parts, ['contentType', 'text/html']);
-	console.log(text.content, html.content);
 	return {
 		text: (text && text.content) ? text.content : '',
 		html: (html && html.content) ? html.content : ''
 	};
 };
-const draftToCompositionData = (draft: MailMessage): CompositionState => ({
+const draftToCompositionData = (draft: MailMessageFromDb): CompositionState => ({
 	subject: draft ? draft.subject : '',
 	to: stateContactsFromDraft(draft, 't'),
 	cc: stateContactsFromDraft(draft, 'c'),
