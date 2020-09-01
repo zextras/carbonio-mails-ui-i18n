@@ -110,7 +110,6 @@ export type CompositionData = {
 const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
 		case 'RESET': {
-			console.log('reset', action.payload.state.body);
 			return {
 				...state,
 				...action.payload.state
@@ -224,7 +223,6 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 		throttle(
 			(dId: string, cData: CompositionState): void => db.saveDraft(dId, cData)
 				.then((newId: string): void => {
-					console.count(newId);
 					if (newId !== dId) {
 						replaceHistory(panel
 							? `/folder/${folderId}?edit=${newId}`

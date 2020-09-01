@@ -144,10 +144,7 @@ export class MailsDb extends MailsDbDexie {
 			attachment: false,
 			flagged: cState.flagged,
 			urgent: cState.urgent
-		}).then(() => {
-			console.log('saved: ', draftId);
-			return draftId;
-		});
+		}).then(() => draftId);
 	}
 
 	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {

@@ -124,7 +124,7 @@ export default function EditView({ panel, editPanelId, folderId }) {
 							/>
 						</Tooltip>
 						<Button
-							onClick={console.log}
+							onClick={() => console.log('Send Mail')}
 							label={t('send')}
 						/>
 					</Row>
