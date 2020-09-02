@@ -22,14 +22,22 @@ const MockedWhereClause = jest.fn().mockImplementation(() => ({
 
 class MockedTable {
 	where = MockedWhereClause;
+
 	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
+
 	get = jest.fn().mockImplementation(() => Promise.resolve());
 }
 
 export class MailsDbDexie {
 	conversations = new MockedTable();
+
 	folders = new MockedTable();
+
 	messages = new MockedTable();
+
 	deletions = new MockedTable();
+
+	messages = new MockedTable();
+
 	observe = jest.fn();
 }

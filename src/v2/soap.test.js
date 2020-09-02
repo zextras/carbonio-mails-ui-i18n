@@ -9,9 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { fetchConversationsInFolder } from './soap';
+import { fetchConversationsInFolder, normalizeMailsFolders } from './soap';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
+
 
 describe('SOAP', () => {
 	test('Fetch Conversations in Folder', (done) => {
@@ -127,5 +128,27 @@ describe('SOAP', () => {
 				expect(e).toBeInstanceOf(Error);
 				done();
 			});
+	});
+
+	test('Normalize Contact Folder, no children', () => {
+		const f = normalizeMailsFolders({
+			n: 1,
+			name: 'Folder Name',
+			id: '1000',
+			absFolderPath: '/Folder Name',
+			u: 0,
+			s: 1,
+			l: '1',
+			view: 'message'
+		});
+		expect(f.length).toBe(1);
+		expect(f[0]).toBeInstanceOf(MailsFolder);
+		expect(f[0].id).toBe('1000');
+		expect(f[0].itemsCount).toBe(1);
+		expect(f[0].name).toBe('Folder Name');
+		expect(f[0].path).toBe('/Folder Name');
+		expect(f[0].unreadCount).toBe(0);
+		expect(f[0].size).toBe(1);
+		expect(f[0].parent).toBe('1');
 	});
 });

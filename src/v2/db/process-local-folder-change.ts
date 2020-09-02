@@ -16,7 +16,13 @@ import {
 import { filter, reduce, map } from 'lodash';
 import { DeletionData, MailsDb } from './mails-db';
 import { MailsFolderFromDb } from './mails-folder';
-import { BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest } from '../soap';
+import {
+	BatchedRequest,
+	BatchedResponse,
+	BatchRequest,
+	CreateFolderResponse,
+	FolderActionRequest
+} from '../soap';
 
 function processInserts(
 	db: MailsDb,
@@ -43,7 +49,7 @@ function processInserts(
 		CreateFolderRequest
 	);
 	if (CreateFolderRequest.length > 0) {
-			batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []), ...CreateFolderRequest];
+		batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []), ...CreateFolderRequest];
 	}
 	return Promise.resolve([batchRequest, localChanges]);
 }
