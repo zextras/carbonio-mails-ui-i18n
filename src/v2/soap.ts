@@ -120,7 +120,8 @@ export type CreateFolderResponse = {
 	folder: Array<SyncResponseMailFolder>;
 };
 
-// MAIL CHANGE ADDED
+// TODO MAIL CHANGES ADDED
+
 export type MsgActionRequest = {
 	action: MsgActionRequestMove
 		| MsgActionRequestFlag
@@ -159,6 +160,48 @@ export type MsgActionResponse = {
 	};
 };
 
+// TODO CONVERSATION CHANGES ADDED
+
+export type ConvActionRequest = {
+	action: ConvActionRequestMove
+		| ConvActionRequestFlag
+		| ConvActionRequestRead
+		| ConvActionRequestTrash
+		| ConvActionRequestDelete
+	;
+	_jsns: 'urn:zimbraMail';
+};
+type ConvActionRequestRead = {
+	op: 'read' | '!read';
+	id: string;
+};
+type ConvActionRequestMove = {
+	op: 'move';
+	l: string;
+	id: string;
+};
+type ConvActionRequestFlag = {
+	op: 'flag' | '!flag';
+	id: string;
+};
+type ConvActionRequestTrash = {
+	op: 'trash';
+	id: string;
+};
+type ConvActionRequestDelete = {
+	op: 'delete';
+	id: string;
+};
+export type ConvActionResponse = {
+	action: {
+		id: string;
+		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';
+		_jsns: 'urn:zimbraMail';
+	};
+};
+
+// TODO BATCH REQUESTS
+
 export type BatchedRequest = {
 	_jsns: 'urn:zimbraMail';
 	requestId: string;
@@ -174,6 +217,7 @@ export type BatchRequest = {
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
 	MsgActionRequest?: Array<BatchedRequest & MsgActionRequest>;
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
+	ConvActionRequest?: Array<BatchedRequest & ConvActionRequest>;
 };
 
 type GetMsgRequest = {
