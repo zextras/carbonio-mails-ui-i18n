@@ -5,11 +5,10 @@ import {
 	MailMessageFromSoap,
 	MailMessageFromDb
 } from './mail-message';
-import processRemoteMailsNotification, { fetchMessages } from './process-remote-mails-notification';
+import processRemoteMailsNotification from './process-remote-mails-notification';
 import { MailsDb } from './mails-db';
 
 describe('Notifications - Mails', () => {
-
 	test('Initial Sync', (done) => {
 		const db = new MailsDb();
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
@@ -335,5 +334,4 @@ describe('Notifications - Mails', () => {
 				done();
 			});
 	});
-
 });
