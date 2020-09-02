@@ -11,9 +11,18 @@
  */
 
 export const hooks = {
-	useAppContext: jest.fn(),
-	useObserveDb: jest.fn(),
-	useBehaviorSubject: jest.fn(),
+	useAppContext: jest.fn(() => {
+		throw new Error('useAppContext is not implemented');
+	}),
+	useObserveDb: jest.fn(() => {
+		throw new Error('useObserveDb is not implemented');
+	}),
+	useBehaviorSubject: jest.fn(() => {
+		throw new Error('useBehaviorSubject is not implemented');
+	}),
+	useReplaceHistoryCallback: jest.fn(() => {
+		throw new Error('useReplaceHistoryCallback is not implemented');
+	})
 };
 
 const MockedDb_version_stores = jest.fn();

@@ -107,7 +107,7 @@ export type CompositionData = {
 	};
 }
 
-const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
+export const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
 		case 'RESET': {
 			return {
@@ -162,12 +162,12 @@ const reducer = (state: CompositionState, action: CompositionAction): Compositio
 	}
 };
 
-const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): Array<{ value: string }> => map(
+export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): Array<{ value: string }> => map(
 	filter(draft ? draft.contacts : [], (c) => c.type === type),
 	(c: Participant) => ({ value: c.displayName || c.address })
 );
 
-const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
+export const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
 	const text = find(draft.parts, ['contentType', 'text/plain']);
 	const html = find(draft.parts, ['contentType', 'text/html']);
 	return {
@@ -175,7 +175,7 @@ const extractBody = (draft: MailMessageFromDb): { text: string; html: string } =
 		html: (html && html.content) ? html.content : ''
 	};
 };
-const draftToCompositionData = (draft: MailMessageFromDb): CompositionState => ({
+export const draftToCompositionData = (draft: MailMessageFromDb): CompositionState => ({
 	subject: draft ? draft.subject : '',
 	to: stateContactsFromDraft(draft, 't'),
 	cc: stateContactsFromDraft(draft, 'c'),
@@ -191,7 +191,7 @@ const draftToCompositionData = (draft: MailMessageFromDb): CompositionState => (
 	urgent: draft ? draft.urgent : false
 });
 
-const emptyDraft: CompositionState = {
+export const emptyDraft: CompositionState = {
 	richText: true,
 	subject: '',
 	urgent: false,

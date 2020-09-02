@@ -29,6 +29,7 @@ class MockedTable {
 export class MailsDbDexie {
 	conversations = new MockedTable();
 	folders = new MockedTable();
+	messages = new MockedTable();
 	deletions = new MockedTable();
 	observe = jest.fn();
 }
