@@ -10,6 +10,7 @@ module.exports = {
   },
   "plugins": [
     "@typescript-eslint/eslint-plugin",
+    "react",
     "react-hooks",
     "jest"
   ],
@@ -24,7 +25,7 @@ module.exports = {
      */
     /**
      * @bug https://github.com/benmosher/eslint-plugin-import/issues/1282
-     * "import/named" temporary disable.
+     * "import/named" temporary disable.                                      //not temporary
      */
     "import/named": "off",
     /**
@@ -62,6 +63,10 @@ module.exports = {
     'comma-dangle': 'off',
     'no-underscore-dangle': 'off',
     'brace-style': ['error', 'stroustrup'],
+    /**
+     * @description rule of eslint-plugin-react
+     */
+    'react/jsx-boolean-value': 1,//Enforce boolean attributes notation in JSX
     'react/jsx-indent': ['error', 'tab'],
     'react/jsx-indent-props': ['error', 'tab'],
     '@typescript-eslint/interface-name-prefix': 'off',
@@ -71,5 +76,5 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service|sync)'] }],
     'no-extra-semi': 'off'
-  }
+  },
 };

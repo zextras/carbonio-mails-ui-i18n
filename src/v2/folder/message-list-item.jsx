@@ -10,8 +10,7 @@
  */
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import { find, reduce, trimStart } from 'lodash';
+import { find, reduce, trimStart, isEmpty } from 'lodash';
 import styled from 'styled-components';
 import {
 	Container,
@@ -22,7 +21,8 @@ import {
 	Padding,
 	Icon,
 } from '@zextras/zapp-ui';
-import { hooks } from '@zextras/zapp-shell';
+import { getTimeLabel } from '../commons/utils';
+import { useTranslation } from 'react-i18next';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -40,7 +40,7 @@ export default function MessageListItem({
 	folderId,
 	conversationId
 }) {
-	const { db } = hooks.useAppContext();
+	const { t } = useTranslation();
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {
@@ -48,7 +48,7 @@ export default function MessageListItem({
 				return [
 					sender.displayName || sender.address || '.',
 					sender.address || '.',
-					moment(message.date).format('lll'),
+					getTimeLabel(message.date),
 					reduce(
 						message.contacts,
 						(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
@@ -74,52 +74,59 @@ export default function MessageListItem({
 			>
 				{ message && (
 					<Container
-						height={56}
+						height={69}
 						orientation="horizontal"
 						mainAlignment="flex-start"
+						crossAlignment="unset"
 						padding={{ all: 'small' }}
 					>
-						<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+						<div style={{ alignSelf: 'center' }}>
+							<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+						</div>
 						<Row
-							orientation="vertical"
-							padding={{ left: 'small' }}
-							takeAvailableSpace={true}
+							wrap="wrap"
+							orientation="horizontal"
+							padding={{ left: 'large' }}
+							height="auto"
+							takeAvailableSpace
 						>
-							<Container orientation="horizontal" width="fill">
+							<Container orientation="horizontal" height="auto" width="fill">
 								<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
 									<Text
 										color={message.read ? 'text' : 'primary'}
-										size="large"
+										size={message.read ? 'medium' : 'large'}
 										weight={message.read ? 'regular' : 'bold'}
 									>
 										{participantsString}
 									</Text>
 								</Row>
 								<Row>
-									{ message.attachment
-									&& (
-										<Padding right="extrasmall">
-											<Icon icon="AttachOutline" />
-										</Padding>
-									)}
-									{ message.flagged
-									&& (
-										<Padding right="extrasmall">
-											<Icon icon="Flag" color="error" />
-										</Padding>
-									)}
-									<Text>{date}</Text>
+									{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
+									{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+									<Padding left="small"><Text>{ date }</Text></Padding>
 								</Row>
 							</Container>
-							<Container orientation="horizontal" width="fill" crossAlignment="center">
+							<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
 								<Row
 									wrap="nowrap"
 									takeAvailableSpace
 									mainAlignment="flex-start"
 									crossAlignment="baseline"
 								>
-									<Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
-									<Text>{` - ${message.fragment}`}</Text>
+									{
+										message.subject
+											? <Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
+											: <Text weight={message.read ? 'regular' : 'bold'} size="large" color="secondary">{ `(${t('No Subject')})` }</Text>
+									}
+									{ !isEmpty(message.fragment) && (
+										<Row
+											takeAvailableSpace
+											mainAlignment="flex-start"
+											padding={{ left: 'extrasmall' }}
+										>
+											<Text>{` - ${message.fragment}`}</Text>
+										</Row>
+									)}
 								</Row>
 								<Row>
 									{ message.urgent
@@ -129,7 +136,6 @@ export default function MessageListItem({
 						</Row>
 					</Container>
 				)}
-				<Divider />
 			</HoverContainer>
 		</InvisibleLink>
 	);

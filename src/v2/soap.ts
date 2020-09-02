@@ -15,7 +15,7 @@ import {
 import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
-import { MailMessage, MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 
 type IFolderView =
 	'search folder'
@@ -231,7 +231,16 @@ type SoapEmailInfoObj = {
 	a: string;
 	/** Display name */
 	d: string;
-	/** Type: (f)rom, (t)o, (c)c, (b)cc, (r)eply-to, (s)ender, read-receipt (n)otification, (rf) resent-from */
+	/** Type:
+	 * (f)rom,
+	 * (t)o,
+	 * (c)c,
+	 * (b)cc,
+	 * (r)eply-to,
+	 * (s)ender,
+	 * read-receipt (n)otification,
+	 * (rf) resent-from
+	 */
 	t: SoapEmailInfoTypeObj;
 	isGroup?: 0|1;
 };
@@ -477,6 +486,9 @@ export function fetchConversationsInFolder(
 		'/service/soap/SearchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(searchReq)
 		}
 	)
@@ -498,7 +510,8 @@ export function fetchConversationsInFolder(
 export function fetchMailMessagesById(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
-): Promise<{[key: string]: MailMessage}> {
+): Promise<{[key: string]: MailMessageFromSoap}> {
+	if (ids.length < 1) return Promise.resolve({});
 	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue',
@@ -516,6 +529,9 @@ export function fetchMailMessagesById(
 		'/service/soap/BatchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				Body: {
 					BatchRequest: batchRequest
@@ -528,13 +544,14 @@ export function fetchMailMessagesById(
 			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
 			else return r.Body.BatchResponse;
 		})
-		.then(({ GetMsgResponse: getMsgResponse }) => reduce<GetMsgResponse, {[key: string]: MailMessage}>(
-			getMsgResponse,
-			(acc, { m }) => {
-				const msg = normalizeMailMessageFromSoap(m[0]);
-				acc[msg.id] = msg;
-				return acc;
-			},
-			{}
-		));
+		.then(({ GetMsgResponse: getMsgResponse }) =>
+			reduce<GetMsgResponse, {[key: string]: MailMessageFromSoap}>(
+				getMsgResponse,
+				(acc, { m }) => {
+					const msg = normalizeMailMessageFromSoap(m[0]);
+					acc[msg.id] = msg;
+					return acc;
+				},
+				{}
+			));
 }

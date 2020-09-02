@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2020 ZeXtras
@@ -10,12 +11,15 @@
  */
 
 jest.mock('@zextras/zapp-shell');
-import { _MOCKS_ } from '@zextras/zapp-shell';
 
+// eslint-disable-next-line import/no-unresolved
+import { _MOCKS_ } from '@zextras/zapp-shell';
 import { MailsDbDexie } from './mails-db-dexie';
 
 describe('Mails DB Dexie', () => {
 	test('Moks from \'@zextras/zapp-shell\'', () => {
+		_MOCKS_.MockedDb_version_stores.mockImplementation(() => {});
+		_MOCKS_.MockedDb_table_mapToClass.mockImplementation(() => {});
 		const db = new MailsDbDexie();
 
 		expect(_MOCKS_.MockedDb_version).toBeCalledWith(1);

@@ -22,6 +22,8 @@ describe('App', function() {
 	it('Main menu item is rendered', async function() {
 		await browser.get('http://localhost:9000');
 		await browser.waitForReact(100000, '#app');
+		await browser.executeAsyncScript("e2e.loadMockedApi('e2e/mocked-api/first-sync-with-empty-folders.js')");
+		await browser.executeScript("e2e.setupCompleted()");
 		await browser.wait(until.presenceOf(element(by.linkText('Mails')), 5000, 'Element taking too long to appear in the DOM'));
 		expect(element(by.linkText('Mails')).isPresent()).toBeTruthy();
 	});

@@ -205,6 +205,9 @@ export default function processLocalFolderChange(
 				'/service/soap/BatchRequest',
 				{
 					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
 					body: JSON.stringify({
 						Body: {
 							BatchRequest: _batchRequest

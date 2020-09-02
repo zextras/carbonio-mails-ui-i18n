@@ -18,10 +18,10 @@ import { fetchConversationsInFolder, fetchMailMessagesById, SyncResponse } from 
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
-import { MailsFolder } from './mails-folder';
-import { MailMessage } from './mail-message';
 import { MailConversationMessage } from './mail-conversation-message';
 import { MailConversation } from './mail-conversation';
+import { MailsFolderFromSoap } from './mails-folder';
+import { MailMessageFromSoap } from './mail-message';
 
 const POLL_INTERVAL = 20000;
 
@@ -58,6 +58,9 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					'/service/soap/SyncRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
 						body: JSON.stringify({
 							Body: {
 								SyncRequest: {
@@ -186,7 +189,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 		}
 		return fetchConversationsInFolder(
 			this._fetch,
-			(folder as ICreateChange).obj as unknown as MailsFolder,
+			(folder as ICreateChange).obj as unknown as MailsFolderFromSoap,
 			undefined,
 			new Date(0)
 		)
@@ -208,7 +211,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						[]
 					)
-				).then((msgs: {[k: string]: MailMessage}) => [
+				).then((msgs: {[k: string]: MailMessageFromSoap}) => [
 					convs,
 					reduce(
 						msgs,
