@@ -176,51 +176,8 @@ export type BatchRequest = {
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 };
 
-
-export type GetMsgRequest = {
-	m: [
-		0, {
-			cid: string;
-			d: number;
-			e: [
-				{
-					0: {
-						a: string;
-						d: string;
-						p: string;
-						t: string;
-					};
-					1: {
-						a: string;
-						d: string;
-						p: string;
-						t: string;
-					};
-				}
-			]
-			f: string;
-			fr: string;
-			id: string;
-			idnt: string;
-			l: string;
-			mid: string;
-			mp: [
-				{
-					0: {
-						body: true;
-						content: string;
-						ct: string;
-						part: string;
-						s: number;
-					};
-				}
-			];
-			rev: number;
-			s: number;
-			sd: number;
-			su: string;
-		}];
-	_jsns: 'urn:zimbraMail';
+type GetMsgRequest = {
+	m: { id: string; html: string };
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -506,7 +463,7 @@ export function fetchMailMessagesById(
 	reduce<string, Array<BatchedRequest & GetMsgRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id } });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id, html: '1' } });
 			return acc;
 		},
 		batchRequest.GetMsgRequest

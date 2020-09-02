@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { find, reduce, trimStart } from 'lodash';
 import styled from 'styled-components';
@@ -29,17 +30,24 @@ const HoverContainer = styled(Container)`
 		background: ${({ theme }) => theme.palette.highlight.regular};
 	}
 `;
+const InvisibleLink = styled(Link)`
+	text-decoration: none;
+	width: 100%;
+`;
 
 export default function MessageListItem({
 	message,
+	folderId,
+	conversationId
 }) {
 	const { db } = hooks.useAppContext();
-	const [avatarLabel, date, participantsString] = useMemo(
+	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {
 				const sender = find(message.contacts, ['type', 'f']);
 				return [
 					sender.displayName || sender.address || '.',
+					sender.address || '.',
 					moment(message.date).format('lll'),
 					reduce(
 						message.contacts,
@@ -50,6 +58,7 @@ export default function MessageListItem({
 			}
 			return [
 				'.',
+				'.',
 				'',
 				''
 			];
@@ -58,67 +67,70 @@ export default function MessageListItem({
 	);
 
 	return (
-		<HoverContainer
-			background="gray6"
-			mainAlignment="space-between"
-		>
-			{ message && (
-				<Container
-					height={56}
-					orientation="horizontal"
-					mainAlignment="flex-start"
-					padding={{ all: 'small' }}
-				>
-					<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
+		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message._id}`}>
+			<HoverContainer
+				background="gray6"
+				mainAlignment="space-between"
+			>
+				{ message && (
 					<Container
-						orientation="vertical"
-						padding={{ left: 'small' }}
+						height={56}
+						orientation="horizontal"
+						mainAlignment="flex-start"
+						padding={{ all: 'small' }}
 					>
-						<Container orientation="horizontal" width="fill">
-							<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
-								<Text
-									color={message.read ? 'text' : 'primary'}
-									size="large"
-									weight={message.read ? 'regular' : 'bold'}
+						<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+						<Row
+							orientation="vertical"
+							padding={{ left: 'small' }}
+							takeAvailableSpace={true}
+						>
+							<Container orientation="horizontal" width="fill">
+								<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
+									<Text
+										color={message.read ? 'text' : 'primary'}
+										size="large"
+										weight={message.read ? 'regular' : 'bold'}
+									>
+										{participantsString}
+									</Text>
+								</Row>
+								<Row>
+									{ message.attachment
+									&& (
+										<Padding right="extrasmall">
+											<Icon icon="AttachOutline" />
+										</Padding>
+									)}
+									{ message.flagged
+									&& (
+										<Padding right="extrasmall">
+											<Icon icon="Flag" color="error" />
+										</Padding>
+									)}
+									<Text>{date}</Text>
+								</Row>
+							</Container>
+							<Container orientation="horizontal" width="fill" crossAlignment="center">
+								<Row
+									wrap="nowrap"
+									takeAvailableSpace
+									mainAlignment="flex-start"
+									crossAlignment="baseline"
 								>
-									{participantsString}
-								</Text>
-							</Row>
-							<Row>
-								{ message.attachment
-								&& (
-									<Padding right="extrasmall">
-										<Icon icon="AttachOutline" />
-									</Padding>
-								)}
-								{ message.flagged
-								&& (
-									<Padding right="extrasmall">
-										<Icon icon="Flag" color="error" />
-									</Padding>
-								)}
-								<Text>{date}</Text>
-							</Row>
-						</Container>
-						<Container orientation="horizontal" width="fill" crossAlignment="center">
-							<Row
-								wrap="nowrap"
-								takeAvailableSpace
-								mainAlignment="flex-start"
-								crossAlignment="baseline"
-							>
-								<Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
-								<Text>{` - ${message.fragment}`}</Text>
-							</Row>
-							<Row>
-								{ message.urgent
-								&& <Icon icon="ArrowUpward" color="error" />}
-							</Row>
-						</Container>
+									<Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
+									<Text>{` - ${message.fragment}`}</Text>
+								</Row>
+								<Row>
+									{ message.urgent
+									&& <Icon icon="ArrowUpward" color="error" />}
+								</Row>
+							</Container>
+						</Row>
 					</Container>
-				</Container>
-			)}
-			<Divider />
-		</HoverContainer>
+				)}
+				<Divider />
+			</HoverContainer>
+		</InvisibleLink>
 	);
 };

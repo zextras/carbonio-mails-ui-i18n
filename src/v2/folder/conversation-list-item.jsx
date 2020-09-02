@@ -17,6 +17,7 @@ import {
 	map
 } from 'lodash';
 import styled from 'styled-components';
+import { hooks } from '@zextras/zapp-shell';
 import {
 	Container,
 	Text,
@@ -46,18 +47,26 @@ const OuterContainer = styled(Container)`
 export default function ConversationListItem({
 	index,
 	conversation,
+	folderId,
 	style,
 	displayData,
 	updateDisplayData
 }) {
-	const avatarLabel = useMemo(() => {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
-		return sender.displayName || sender.address || '.';
+		return [sender.displayName || sender.address || '.', sender.address || '.'];
 	});
 	const toggleOpen = useCallback(
-		() => updateDisplayData(index, conversation.id, { open: !displayData.open }),
+		(e) => {
+			e.preventDefault();
+			updateDisplayData(index, conversation.id, { open: !displayData.open });
+		},
 		[conversation.id, displayData.open, updateDisplayData]
 	);
+	const _onClick = useCallback((e) => {
+		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
+	}, [folderId, conversation, replaceHistory]);
 	const date = useMemo(
 		() => moment(conversation.date).format('lll'),
 		[conversation.date]
@@ -69,6 +78,7 @@ export default function ConversationListItem({
 		''
 	),
 	[conversation.participants]);
+
 	return (
 		<OuterContainer
 			style={style}
@@ -80,8 +90,9 @@ export default function ConversationListItem({
 				orientation="horizontal"
 				mainAlignment="flex-start"
 				padding={{ all: 'small' }}
+				onClick={_onClick}
 			>
-				<Avatar label={avatarLabel} fallbackIcon="EmailOutline" />
+				<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
 				<Row
 					takeAvailableSpace={true}
 					orientation="vertical"
@@ -112,11 +123,14 @@ export default function ConversationListItem({
 						</Row>
 					</Container>
 					<Container orientation="horizontal" width="fill" crossAlignment="center">
-						<Row>
-							<Padding right="extrasmall">
-								<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-							</Padding>
-						</Row>
+						{ conversation.msgCount > 1
+							&& (
+								<Row>
+									<Padding right="extrasmall">
+										<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
+									</Padding>
+								</Row>
+							)}
 						<Row
 							wrap="nowrap"
 							takeAvailableSpace={true}
@@ -129,13 +143,11 @@ export default function ConversationListItem({
 						<Row>
 							{ conversation.urgent
 								&& <Icon icon="ArrowUpward" color="error" />}
-							{ conversation.msgCount > 0
+							{ conversation.msgCount > 1
 								&& (
 									<IconButton
 										size="small"
-										icon={displayData.open
-											? 'ArrowIosUpward'
-											: 'ArrowIosDownward'}
+										icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
 										onClick={toggleOpen}
 									/>
 								)}
@@ -144,24 +156,31 @@ export default function ConversationListItem({
 				</Row>
 			</HoverContainer>
 			<Divider style={{ minHeight: '1px' }} />
-			<Collapse
-				orientation="vertical"
-				crossSize="100%"
-				disableTransition
-				open={displayData.open}
-			>
-				<Container
-					height={conversation.msgCount * 57}
-					padding={{ left: 'large' }}
-				>
-					<ConversationMessagesList conversationId={conversation.id} />
-				</Container>
-			</Collapse>
+			{ conversation.msgCount > 1
+				&& (
+					<Collapse
+						orientation="vertical"
+						crossSize="100%"
+						disableTransition
+						open={displayData.open}
+					>
+						<Container
+							height={conversation.msgCount * 57}
+							padding={{ left: 'large' }}
+						>
+							<ConversationMessagesList
+								folderId={folderId}
+								conversationId={conversation.id}
+								conversationDexieId={conversation._id}
+							/>
+						</Container>
+					</Collapse>
+			)}
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId }) => {
+const ConversationMessagesList = ({ conversationId, conversationDexieId, folderId }) => {
 	const { messages, loaded } = useConversationMessages(conversationId);
 
 	return (
@@ -169,7 +188,7 @@ const ConversationMessagesList = ({ conversationId }) => {
 			{loaded
 			&& map(
 				messages,
-				(message) => <MessageListItem key={message.id} message={message} />
+				(message) => <MessageListItem key={message.id} message={message} conversationId={conversationDexieId} folderId={folderId} />
 			)}
 		</>
 	);
