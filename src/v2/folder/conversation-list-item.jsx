@@ -9,12 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 import React, { useCallback, useMemo } from 'react';
-import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 import {
 	find,
 	reduce,
 	trimStart,
-	map
+	map,
+	isEmpty
 } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
@@ -32,6 +33,7 @@ import {
 } from '@zextras/zapp-ui';
 import MessageListItem from './message-list-item';
 import { useConversationMessages } from '../hooks';
+import { getTimeLabel } from '../commons/utils';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -41,7 +43,7 @@ const HoverContainer = styled(Container)`
 `;
 
 const OuterContainer = styled(Container)`
-	min-height: 57px;
+	min-height: 70px;
 `;
 
 export default function ConversationListItem({
@@ -52,6 +54,7 @@ export default function ConversationListItem({
 	displayData,
 	updateDisplayData
 }) {
+	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
@@ -68,7 +71,7 @@ export default function ConversationListItem({
 		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
 	}, [folderId, conversation, replaceHistory]);
 	const date = useMemo(
-		() => moment(conversation.date).format('lll'),
+		() => getTimeLabel(conversation.date),
 		[conversation.date]
 	);
 
@@ -86,43 +89,43 @@ export default function ConversationListItem({
 			mainAlignment="flex-start"
 		>
 			<HoverContainer
-				height={56}
+				height={69}
 				orientation="horizontal"
 				mainAlignment="flex-start"
+				crossAlignment="unset"
 				padding={{ all: 'small' }}
 				onClick={_onClick}
 			>
-				<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+				<div style={{ alignSelf: 'center' }}>
+					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+				</div>
 				<Row
 					takeAvailableSpace={true}
-					orientation="vertical"
-					padding={{ left: 'small' }}
+					orientation="horizontal"
+					wrap="wrap"
+					padding={{ left: 'large' }}
 				>
-					<Container orientation="horizontal" width="fill">
+					<Container orientation="horizontal" height="auto" width="fill">
 						<Row
 							wrap="nowrap"
 							takeAvailableSpace={true}
 							mainAlignment="flex-start"
 						>
-							<Text color={conversation.read ? 'text' : 'primary'} size="large" weight={conversation.read ? 'regular' : 'bold'}>{participantsString}</Text>
+							<Text
+								color={conversation.read ? 'text' : 'primary'}
+								size={conversation.read ? 'medium' : 'large'}
+								weight={conversation.read ? 'regular' : 'bold'}
+							>
+								{ participantsString }
+							</Text>
 						</Row>
 						<Row>
-							{ conversation.attachment
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="AttachOutline" />
-								</Padding>
-							)}
-							{ conversation.flagged
-							&& (
-								<Padding right="extrasmall">
-									<Icon icon="Flag" color="error" />
-								</Padding>
-							)}
-							<Text>{date}</Text>
+							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
+							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+							<Padding left="small"><Text>{ date }</Text></Padding>
 						</Row>
 					</Container>
-					<Container orientation="horizontal" width="fill" crossAlignment="center">
+					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
 						{ conversation.msgCount > 1
 							&& (
 								<Row>
@@ -133,12 +136,24 @@ export default function ConversationListItem({
 							)}
 						<Row
 							wrap="nowrap"
-							takeAvailableSpace={true}
+							takeAvailableSpace
 							mainAlignment="flex-start"
 							crossAlignment="baseline"
 						>
-							<Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
-							<Text>{` - ${conversation.fragment}`}</Text>
+							{
+								conversation.subject
+									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
+									: <Text weight={conversation.read ? 'regular' : 'bold'} size="large" color="secondary">{ `(${t('No Subject')})` }</Text>
+							}
+							{ !isEmpty(conversation.fragment) && (
+								<Row
+									takeAvailableSpace
+									mainAlignment="flex-start"
+									padding={{ left: 'extrasmall' }}
+								>
+									<Text>{` - ${conversation.fragment}`}</Text>
+								</Row>
+							)}
 						</Row>
 						<Row>
 							{ conversation.urgent
@@ -155,7 +170,6 @@ export default function ConversationListItem({
 					</Container>
 				</Row>
 			</HoverContainer>
-			<Divider style={{ minHeight: '1px' }} />
 			{ conversation.msgCount > 1
 				&& (
 					<Collapse
@@ -164,10 +178,7 @@ export default function ConversationListItem({
 						disableTransition
 						open={displayData.open}
 					>
-						<Container
-							height={conversation.msgCount * 57}
-							padding={{ left: 'large' }}
-						>
+						<Container padding={{ left: 'extralarge' }}>
 							<ConversationMessagesList
 								folderId={folderId}
 								conversationId={conversation.id}
@@ -176,6 +187,7 @@ export default function ConversationListItem({
 						</Container>
 					</Collapse>
 			)}
+			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
 	);
 };
@@ -188,7 +200,16 @@ const ConversationMessagesList = ({ conversationId, conversationDexieId, folderI
 			{loaded
 			&& map(
 				messages,
-				(message) => <MessageListItem key={message.id} message={message} conversationId={conversationDexieId} folderId={folderId} />
+				(message, index) => (
+					<React.Fragment key={message.id}>
+						<MessageListItem
+							message={message}
+							conversationId={conversationDexieId}
+							folderId={folderId}
+						/>
+						{ (messages.length - 1) > index && <Divider /> }
+					</React.Fragment>
+				)
 			)}
 		</>
 	);

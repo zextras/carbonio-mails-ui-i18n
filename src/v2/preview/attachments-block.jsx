@@ -55,7 +55,7 @@ function AttachmentsBlock({ message, attachments }) {
 		return getAttachmentsLink(message.id, message.subject, attachmentsParts);
 	}, [message, attachmentsParts]);
 	const attachmentLabel = useMemo(() => {
-		return attachmentsCount === 1 ? t('attachment') : t('attachments')
+		return attachmentsCount === 1 ? t('attachment') : t('attachments');
 	}, [attachmentsCount, t]);
 
 	return attachmentsCount > 0 && (
@@ -78,27 +78,28 @@ function AttachmentsBlock({ message, attachments }) {
 				padding={{ top: 'extrasmall', bottom: 'medium' }}
 			>
 				<Padding right="small">
-					{ attachmentsCount < 3 &&
-						<Text color="gray1">{ attachmentsCount } { attachmentLabel }</Text>
+					{
+						attachmentsCount < 3
+						&& <Text color="gray1">{ attachmentsCount } { attachmentLabel }</Text>
 					}
 					{ attachmentsCount > 2 && (expanded
-							? (
-								<Row onClick={() => setExpanded(false)} style={{ cursor: 'pointer' }}>
-									<Padding right="small">
-										<Text color="primary">{ attachmentsCount } { attachmentLabel }</Text>
-									</Padding>
-									<Icon icon="ArrowIosUpward" color="primary" />
-								</Row>
-							) : (
-								<Row onClick={() => setExpanded(true)} style={{ cursor: 'pointer' }}>
-									<Padding right="small">
-										<Text color="primary">
-											{ t('Show all') } { attachmentsCount } { attachmentLabel }
-										</Text>
-									</Padding>
-									<Icon icon="ArrowIosDownward" color="primary" />
-								</Row>
-							)
+						? (
+							<Row onClick={() => setExpanded(false)} style={{ cursor: 'pointer' }}>
+								<Padding right="small">
+									<Text color="primary">{ attachmentsCount } { attachmentLabel }</Text>
+								</Padding>
+								<Icon icon="ArrowIosUpward" color="primary" />
+							</Row>
+						) : (
+							<Row onClick={() => setExpanded(true)} style={{ cursor: 'pointer' }}>
+								<Padding right="small">
+									<Text color="primary">
+										{ t('Show all') } { attachmentsCount } { attachmentLabel }
+									</Text>
+								</Padding>
+								<Icon icon="ArrowIosDownward" color="primary" />
+							</Row>
+						)
 					)}
 				</Padding>
 				<Link size="medium" href={actionsDownloadLink}>
@@ -111,6 +112,11 @@ function AttachmentsBlock({ message, attachments }) {
 
 export default AttachmentsBlock;
 
+const AttachmentLink = styled.a`
+	text-decoration: none;
+	width: calc(50% - 4px);
+	margin-bottom: ${({ theme }) => theme.sizes.padding.small};
+`;
 const AttachmentExtension = styled(Text)`
 	display: flex;
 	justify-content: center;
@@ -124,27 +130,32 @@ const AttachmentExtension = styled(Text)`
 	text-transform: uppercase;
 	margin-right: ${({ theme }) => theme.sizes.padding.small};
 `;
+const AttachmentContainer = styled(Row)`
+	transition: 0.2s ease-out;
+	&:hover {
+		background-color: ${({ theme, background }) => theme.palette[background].hover};
+	}
+	&:focus {
+		background-color: ${({ theme, background }) => theme.palette[background].focus};
+	}
+`;
 function Attachment({ filename, size, link }) {
 	const extension = filename.split('.').pop();
 	const sizeLabel = useMemo(() => getSizeLabel(size), [size]);
 	return (
-		<RouterLink
-			to={link}
+		<AttachmentLink
+			rel="noopener noreferrer"
 			target="_blank"
+			href={link}
 			download
-			style={{
-				textDecoration: 'none',
-				width: 'calc(50% - 4px)',
-				marginBottom: '8px'
-			}}
 		>
-			<Row padding={{ all: 'small' }} background="gray5">
+			<AttachmentContainer padding={{ all: 'small' }} background="gray5">
 				<AttachmentExtension>{ extension }</AttachmentExtension>
 				<Row orientation="vertical" crossAlignment="flex-start" takeAvailableSpace={true}>
 					<Padding style={{ width: '100%' }} bottom="extrasmall"><Text>{ filename }</Text></Padding>
 					<Text color="gray1" size="small">{ sizeLabel }</Text>
 				</Row>
-			</Row>
-		</RouterLink>
+			</AttachmentContainer>
+		</AttachmentLink>
 	);
 }
