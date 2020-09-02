@@ -121,16 +121,43 @@ export type CreateFolderResponse = {
 };
 
 // MAIL CHANGE ADDED
-
-export type MailActionRequest = {
-	action: {
-		op: string;
+export type MsgActionRequest = {
+	action: MsgActionRequestMove
+		| MsgActionRequestFlag
+		| MsgActionRequestRead
+		| MsgActionRequestTrash
+		| MsgActionRequestDelete
+	;
+	_jsns: 'urn:zimbraMail';
+};
+type MsgActionRequestMove = {
+		op: 'move';
+		l: string;
 		id: string;
+};
+type MsgActionRequestFlag = {
+		op: 'flag' | '!flag';
+		id: string;
+};
+type MsgActionRequestRead = {
+		op: 'read' | '!read';
+		id: string;
+};
+type MsgActionRequestTrash = {
+	op: 'trash';
+	id: string;
+};
+type MsgActionRequestDelete = {
+	op: 'delete';
+	id: string;
+};
+export type MsgActionResponse = {
+	action: {
+		id: string;
+		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';
+		_jsns: 'urn:zimbraMail';
 	};
 };
-export type CreateMailRequest = {};
-export type CreateMailResponse = {};
-export type ModifyMailRequest = {};
 
 export type BatchedRequest = {
 	_jsns: 'urn:zimbraMail';
@@ -145,14 +172,55 @@ export type BatchRequest = {
 	onerror: 'continue';
 	CreateFolderRequest?: Array<BatchedRequest & CreateFolderRequest>;
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
-	CreateMailRequest?: Array<BatchedRequest & CreateMailRequest>;
-	ModifyMailRequest?: Array<BatchedRequest & ModifyMailRequest>;
-	MailActionRequest?: Array<BatchedRequest & MailActionRequest>;
+	MsgActionRequest?: Array<BatchedRequest & MsgActionRequest>;
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 };
 
-type GetMsgRequest = {
-	m: { id: string };
+
+export type GetMsgRequest = {
+	m: [
+		0, {
+			cid: string;
+			d: number;
+			e: [
+				{
+					0: {
+						a: string;
+						d: string;
+						p: string;
+						t: string;
+					};
+					1: {
+						a: string;
+						d: string;
+						p: string;
+						t: string;
+					};
+				}
+			]
+			f: string;
+			fr: string;
+			id: string;
+			idnt: string;
+			l: string;
+			mid: string;
+			mp: [
+				{
+					0: {
+						body: true;
+						content: string;
+						ct: string;
+						part: string;
+						s: number;
+					};
+				}
+			];
+			rev: number;
+			s: number;
+			sd: number;
+			su: string;
+		}];
+	_jsns: 'urn:zimbraMail';
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';

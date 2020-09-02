@@ -8,26 +8,29 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+jest.mock('./mails-db');
 jest.mock('./mails-db-dexie');
 
-import { MailsDb, DeletionData } from './mails-db';
+import { MailsDb } from './mails-db';
 import processLocalMailsChange from './process-local-mails-change';
+import { MailMessageFromDb } from './mail-message';
 
 describe('Local Changes - Mail', () => {
-	// TODO PROCESS THE LOCAL MAIL CHANGES
-	test('Process Creation Response', (done) => {
+
+	test.skip('Create a Change', (done) => {
 		const db = new MailsDb();
 		const response = {
 			json: jest.fn()
 				.mockImplementationOnce(() => Promise.resolve({
 					Body: {
 						BatchResponse: {
-							CreateMailResponse: [{
+							MsgActionResponse: [{
 								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								cn: [{
+								_jsns: 'urn:zimbraMail',
+								action: {
 									id: '1000',
-									l: '7',
-								}]
+									op: 'create',
+								},
 							}]
 						}
 					}
@@ -37,9 +40,15 @@ describe('Local Changes - Mail', () => {
 						SyncResponse: {
 							md: 1,
 							token: 1,
-							cn: [{
-								id: '1000',
-							}],
+							m: {
+								cid: '-801',
+								d: 1598610497000,
+								id: '801',
+								l: '6',
+								md: 55687,
+								ms: 77212,
+								rev: 1482,
+							}
 						}
 					}
 				})
@@ -51,6 +60,11 @@ describe('Local Changes - Mail', () => {
 				type: 1,
 				table: 'messages',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				obj: {
+					parent: '7',
+					firstName: 'Test',
+					lastName: 'User'
+				}
 			}],
 			fetch
 		).then(
@@ -74,9 +88,13 @@ describe('Local Changes - Mail', () => {
 								BatchRequest: {
 									_jsns: 'urn:zimbra',
 									onerror: 'continue',
-									CreateMailRequest: [{
+									MsgActionRequest: [{
 										_jsns: 'urn:zimbraMail',
 										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+										action: {
+											id: '1000',
+											op: 'create',
+										},
 									}]
 								}
 							}
@@ -87,158 +105,15 @@ describe('Local Changes - Mail', () => {
 			}
 		);
 	});
-	// TODO TYPE 1 INSERTING CHANGES
 
-	test('Inserting Changes Mails', (done) => {
-		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailsDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000'
-					})
-				]))
-			}))
-		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ModifyMailResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: '1',
-						}
-					}
-				})
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
-		processLocalMailsChange(
-			db,
-			[{
-				type: 2,
-				table: 'messages',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-				mods: {
-					firstName: 'Updated Test',
-					lastName: 'User'
-				}
-			}],
-			fetch
-		).then(
-			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(0);
-				expect(fetch).toHaveBeenCalledTimes(1);
-				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
-					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ModifyMailRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-									}]
-								}
-							}
-						})
-					}
-				);
-				done();
-			}
-		);
-	});
-	// TODO other
-	test('Update Mail', (done) => {
-		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailsDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000'
-					})
-				]))
-			}))
-		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ModifyContactResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				})
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
-		processLocalMailsChange(
-			db,
-			[{
-				type: 2,
-				table: 'messages',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-				mods: {
-					firstName: 'Updated Test',
-					lastName: 'User'
-				}
-			}],
-			fetch
-		).then(
-			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(0);
-				expect(fetch).toHaveBeenCalledTimes(1);
-				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
-					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ModifyMailRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-									}]
-								}
-							}
-						})
-					}
-				);
-				done();
-			}
-		);
-	});
 	// TODO TYPE 2 UPDATING CHANGES
-	test('Updating Mails', (done) => {
+
+	test('Moving a mail', (done) => {
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailsDb({
+					new MailMessageFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000'
 					})
@@ -250,10 +125,12 @@ describe('Local Changes - Mail', () => {
 				.mockImplementationOnce(() => Promise.resolve({
 					Body: {
 						BatchResponse: {
-							MailActionResponse: [{
+							MsgActionResponse: [{
 								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+								_jsns: 'urn:zimbraMail',
 								action: {
 									id: '1000',
+									l: '1001',
 									op: 'move'
 								}
 							}]
@@ -265,9 +142,6 @@ describe('Local Changes - Mail', () => {
 						SyncResponse: {
 							md: 1,
 							token: 1,
-							cn: [{
-								id: '1000',
-							}],
 						}
 					}
 				}))
@@ -281,7 +155,7 @@ describe('Local Changes - Mail', () => {
 				table: 'messages',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 				mods: {
-					parent: '1001',
+					parent: '1001'
 				}
 			}],
 			fetch
@@ -293,16 +167,21 @@ describe('Local Changes - Mail', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
 									_jsns: 'urn:zimbra',
 									onerror: 'continue',
-									MailActionRequest: [{
+									MsgActionRequest: [{
 										_jsns: 'urn:zimbraMail',
 										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 										action: {
 											op: 'move',
+											l: '1001',
+											id: '1000',
 										}
 									}]
 								}
@@ -314,6 +193,257 @@ describe('Local Changes - Mail', () => {
 			}
 		);
 	});
+
+	// TODO MOVING TO TRASH
+
+	test('Moving a mail to trash', (done) => {
+		const db = new MailsDb();
+		db.messages.where.mockImplementation(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						id: '1000'
+					})
+				]))
+			}))
+		}));
+		const response = {
+			json: jest.fn()
+				.mockImplementationOnce(() => Promise.resolve({
+					Body: {
+						BatchResponse: {
+							MsgActionResponse: [{
+								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+								_jsns: 'urn:zimbraMail',
+								action: {
+									id: '1000',
+									op: 'trash'
+								}
+							}]
+						}
+					}
+				}))
+				.mockImplementationOnce(() => Promise.resolve({
+					Body: {
+						SyncResponse: {
+							md: 1,
+							token: 1,
+						}
+					}
+				}))
+		};
+
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+		processLocalMailsChange(
+			db,
+			[{
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				mods: {
+					parent: '2',
+				}
+			}],
+			fetch
+		).then(
+			(additionalChanges) => {
+				expect(additionalChanges.length).toBe(0);
+				expect(fetch).toHaveBeenCalledTimes(1);
+				expect(fetch).toHaveBeenCalledWith(
+					'/service/soap/BatchRequest',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							Body: {
+								BatchRequest: {
+									_jsns: 'urn:zimbra',
+									onerror: 'continue',
+									MsgActionRequest: [{
+										_jsns: 'urn:zimbraMail',
+										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+										action: {
+											op: 'trash',
+											id: '1000',
+										}
+									}]
+								}
+							}
+						})
+					}
+				);
+				done();
+			}
+		);
+	});
+	// TODO PROCESS FLAGGED MAIL
+	test('Flag / Unflag', (done) => {
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			json: () => Promise.resolve({
+				Body: {
+					BatchResponse: {}
+				}
+			})
+		}));
+		const db = new MailsDb();
+		db.messages.where.mockImplementation(() => ({
+			anyOf: () => ({
+				toArray: () => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+						id: '1000'
+					}),
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+						id: '1001'
+					})
+				])
+			})
+		}));
+		processLocalMailsChange(
+			db,
+			[{
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+				mods: {
+					flagged: true
+				}
+			}, {
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+				mods: {
+					flagged: false
+				}
+			}],
+			fetch
+		)
+			.then((changes) => {
+				expect(changes.length).toBe(0);
+				expect(fetch).toBeCalledTimes(1);
+				expect(fetch).toHaveBeenNthCalledWith(
+					1,
+					'/service/soap/BatchRequest',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							Body: {
+								BatchRequest: {
+									_jsns: 'urn:zimbra',
+									onerror: 'continue',
+									MsgActionRequest: [{
+										_jsns: 'urn:zimbraMail',
+										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+										action: {
+											id: '1000',
+											op: 'flag'
+										}
+									}, {
+										_jsns: 'urn:zimbraMail',
+										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+										action: {
+											id: '1001',
+											op: '!flag'
+										}
+									}]
+								}
+							}
+						})
+					}
+				);
+				done();
+			});
+	});
+	// TODO READ/UNREAD MAILS
+	test('Read / Unread', (done) => {
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			json: () => Promise.resolve({
+				Body: {
+					BatchResponse: {}
+				}
+			})
+		}));
+		const db = new MailsDb();
+		db.messages.where.mockImplementation(() => ({
+			anyOf: () => ({
+				toArray: () => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+						id: '1000'
+					}),
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+						id: '1001'
+					})
+				])
+			})
+		}));
+		processLocalMailsChange(
+			db,
+			[{
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+				mods: {
+					read: true
+				}
+			}, {
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+				mods: {
+					read: false
+				}
+			}],
+			fetch
+		)
+			.then((changes) => {
+				expect(changes.length).toBe(0);
+				expect(fetch).toBeCalledTimes(1);
+				expect(fetch).toHaveBeenNthCalledWith(
+					1,
+					'/service/soap/BatchRequest',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							Body: {
+								BatchRequest: {
+									_jsns: 'urn:zimbra',
+									onerror: 'continue',
+									MsgActionRequest: [{
+										_jsns: 'urn:zimbraMail',
+										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+										action: {
+											id: '1000',
+											op: 'read'
+										}
+									}, {
+										_jsns: 'urn:zimbraMail',
+										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+										action: {
+											id: '1001',
+											op: '!read'
+										}
+									}]
+								}
+							}
+						})
+					}
+				);
+				done();
+			});
+	});
+
 	// TODO TYPE 3 DELETING CHANGES
 	test('Delete a change', (done) => {
 		const db = new MailsDb();
@@ -333,12 +463,13 @@ describe('Local Changes - Mail', () => {
 				.mockImplementationOnce(() => Promise.resolve({
 					Body: {
 						BatchResponse: {
-							MailActionResponse: [{
+							MsgActionResponse: [{
 								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 								action: {
 									op: 'delete',
 									id: '1000'
-								}
+								},
+								_jsns: 'urn:zimbraMail',
 							}]
 						}
 					}
@@ -363,7 +494,6 @@ describe('Local Changes - Mail', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(anyOf).toHaveBeenCalledWith(['xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx']);
 				expect(additionalChanges.length).toBe(1);
 				expect(additionalChanges[0]).toStrictEqual({
 					key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
@@ -375,12 +505,15 @@ describe('Local Changes - Mail', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
 									_jsns: 'urn:zimbra',
 									onerror: 'continue',
-									MailActionRequest: [{
+									MsgActionRequest: [{
 										_jsns: 'urn:zimbraMail',
 										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 										action: {

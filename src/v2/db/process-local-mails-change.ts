@@ -16,45 +16,61 @@ import { filter, map, reduce } from 'lodash';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
-	BatchRequest, MailActionRequest,
-	CreateMailRequest,
-	CreateMailResponse,
-	ModifyMailRequest,
+	BatchRequest,
+	MsgActionRequest,
+	MsgActionResponse,
 } from '../soap';
+import { MailMessageFromDb } from './mail-message';
 
-// TODO TYPE 1 INSERTING CHANGES
 
-function processMailInserts(
+// TODO TYPE 1 CREATING INSERTS
+function processInserts(
 	db: MailsDb,
 	changes: ICreateChange[],
 	batchRequest: BatchRequest,
 	localChanges: IDatabaseChange[],
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const createMailRequest: Array<BatchedRequest & CreateMailRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & CreateMailRequest>>(
+	const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
+	reduce<ICreateChange, Array<BatchedRequest & MsgActionRequest>>(
 		changes,
 		(r, c) => {
 			r.push({
 				_jsns: 'urn:zimbraMail',
 				requestId: c.key,
+				action: {
+					id: '1000',
+					op: '',
+				},
 			});
 			return r;
 		},
-		createMailRequest
+		msgActionRequest
 	);
-	if (createMailRequest.length > 0) {
-		// eslint-disable-next-line no-param-reassign
-		batchRequest.CreateMailRequest = [
-			...(batchRequest.CreateMailRequest || []),
-			...createMailRequest
+	if (msgActionRequest.length > 0) {
+		batchRequest.MsgActionRequest = [
+			...(batchRequest.MsgActionRequest || []),
+			...msgActionRequest
 		];
 	}
 	return Promise.resolve([batchRequest, localChanges]);
 }
 
-// TODO TYPE 2 UPDATING CHANGES
+// TODO PROCESS CREATION (creating a draft)
 
+function processCreationResponse(r: BatchedResponse & MsgActionResponse): IUpdateChange {
+	const message = r.action;
+	return {
+		type: 2,
+		table: 'messages',
+		key: r.requestId,
+		mods: {
+			id: message.id // TODO is this right?
+		}
+	};
+}
+
+// TODO TYPE 2 UPDATING CHANGES
 function processMailUpdates(
 	db: MailsDb,
 	changes: IUpdateChange[],
@@ -63,54 +79,71 @@ function processMailUpdates(
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
-	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray().then((mails) => {
-		const uuidToId = reduce<MailsDb, {[key: string]: string}>(
-			mails,
-			(r: { [x: string]: any }, f: { _id: string | number; id: string }) => {
+	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray().then((messages) => {
+		const uuidToId = reduce<MailMessageFromDb, {[key: string]: string}>(
+			messages,
+			(r, f) => {
 				if (f._id && f.id) r[f._id] = f.id;
 				return r;
 			},
 			{}
 		);
-		const modifyMailRequest: Array<BatchedRequest & ModifyMailRequest> = [];
-		const moveMailRequest: Array<BatchedRequest & MailActionRequest> = [];
-		// eslint-disable-next-line max-len
-		reduce<IUpdateChange, [Array<BatchedRequest & ModifyMailRequest>, Array<BatchedRequest & MailActionRequest>]>(
+		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
+		reduce<IUpdateChange, [Array<BatchedRequest & MsgActionRequest>]>(
 			changes,
-			([_modifyMailRequest, _moveMailRequest], c) => {
+			([_msgActionRequest], c) => {
 				if (c.mods.parent) {
-					_moveMailRequest.push({
+					if (c.mods.parent === '2') {
+						_msgActionRequest.push({
+							_jsns: 'urn:zimbraMail',
+							requestId: c.key,
+							action: {
+								op: 'trash',
+								id: uuidToId[c.key],
+							}
+						});
+					}
+					else {
+						_msgActionRequest.push({
+							_jsns: 'urn:zimbraMail',
+							requestId: c.key,
+							action: {
+								op: 'move',
+								l: c.mods.parent,
+								id: uuidToId[c.key],
+							}
+						});
+					}
+				}
+				if (c.mods.hasOwnProperty('flagged')) {
+					_msgActionRequest.push({
 						_jsns: 'urn:zimbraMail',
 						requestId: c.key,
 						action: {
-							op: 'move',
 							id: uuidToId[c.key],
-						},
+							op: (c.mods.flagged) ? 'flag' : '!flag'
+						}
 					});
 				}
-				else {
-					_modifyMailRequest.push({
+				if (c.mods.hasOwnProperty('read')) {
+					_msgActionRequest.push({
 						_jsns: 'urn:zimbraMail',
 						requestId: c.key,
+						action: {
+							id: uuidToId[c.key],
+							op: (c.mods.read) ? 'read' : '!read'
+						}
 					});
 				}
-				return [_modifyMailRequest, _moveMailRequest];
+				return [_msgActionRequest];
 			},
-			[modifyMailRequest, moveMailRequest]
+			[msgActionRequest]
 		);
 
-		if (modifyMailRequest.length > 0) {
-			// eslint-disable-next-line no-param-reassign
-			batchRequest.ModifyMailRequest =	[
-				...(batchRequest.ModifyMailRequest || []),
-				...modifyMailRequest
-			];
-		}
-		if (moveMailRequest.length > 0) {
-			// eslint-disable-next-line no-param-reassign
-			batchRequest.MailActionRequest =	[
-				...(batchRequest.MailActionRequest || []),
-				...moveMailRequest
+		if (msgActionRequest.length > 0) {
+			batchRequest.MsgActionRequest =	[
+				...(batchRequest.MsgActionRequest || []),
+				...msgActionRequest
 			];
 		}
 
@@ -136,7 +169,7 @@ function processDeletions(
 			},
 			{}
 		);
-		const mailsActionRequest: Array<BatchedRequest & MailActionRequest> = [];
+		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
 		reduce(
 			changes,
 			(r, c) => {
@@ -155,35 +188,20 @@ function processDeletions(
 				});
 				return r;
 			},
-			mailsActionRequest
+			msgActionRequest
 		);
-		if (mailsActionRequest.length > 0) {
+		if (msgActionRequest.length > 0) {
 			// eslint-disable-next-line no-param-reassign
-			batchRequest.MailActionRequest =	[
-				...(batchRequest.MailActionRequest || []),
-				...mailsActionRequest
+			batchRequest.MsgActionRequest =	[
+				...(batchRequest.MsgActionRequest || []),
+				...msgActionRequest
 			];
 		}
 		return Promise.resolve([batchRequest, localChanges]);
 	});
 }
 
-// TODO PROCESS CREATION
-
-function processCreationResponse(r: BatchedResponse & CreateMailResponse): IUpdateChange {
-	const folder = r.cn[0];
-	return {
-		type: 2,
-		table: 'messages',
-		key: r.requestId,
-		mods: {
-			id: folder.id
-		}
-	};
-}
-
-// TODO PROCESS THE LOCAL MAIL CHANGES
-
+// TODO PROCESSING THE LOCAL MAIL CHANGES
 export default function processLocalMailsChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
@@ -191,41 +209,41 @@ export default function processLocalMailsChange(
 ): Promise<IDatabaseChange[]> {
 	if (changes.length < 1) return Promise.resolve([]);
 
-	const mailChanges = filter(changes, ['table', 'messages']);
+	const messagesChanges = filter(changes, ['table', 'messages']);
 	const batchRequest: BatchRequest = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue'
 	};
 
-	return processMailInserts(
+	return processInserts(
 		db,
-		filter(mailChanges, ['type', 1]) as ICreateChange[],
-		batchRequest,
-		[]
-	).then(([_batchRequest, _dbChanges]) => processMailUpdates(
-		db,
-		filter(mailChanges, ['type', 2]) as IUpdateChange[],
-		_batchRequest,
-		_dbChanges
-	))
+				filter(messagesChanges, ['type', 1]) as ICreateChange[],
+				batchRequest,
+				[]
+	)
+		.then(([_batchRequest, _dbChanges]) => processMailUpdates(
+			db,
+			filter(messagesChanges, ['type', 2]) as IUpdateChange[],
+			_batchRequest,
+			_dbChanges
+		))
 		.then(([_batchRequest, _dbChanges]) => processDeletions(
 			db,
-			filter(mailChanges, ['type', 3]) as IDeleteChange[],
+			filter(messagesChanges, ['type', 3]) as IDeleteChange[],
 			_batchRequest,
 			_dbChanges
 		))
 		.then(([_batchRequest, _dbChanges]) => {
-			if (
-				!_batchRequest.CreateMailRequest
-				&& !_batchRequest.ModifyMailRequest
-				&& !_batchRequest.MailActionRequest
-			) {
+			if (!_batchRequest.MsgActionRequest) {
 				return _dbChanges;
 			}
 			return _fetch(
 				'/service/soap/BatchRequest',
 				{
 					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
 					body: JSON.stringify({
 						Body: {
 							BatchRequest: _batchRequest
@@ -239,16 +257,16 @@ export default function processLocalMailsChange(
 					else return r.Body.BatchResponse;
 				})
 				.then((BatchResponse) => {
-					if (BatchResponse.CreateMailResponse) {
-						const creationChanges = reduce<any, IUpdateChange[]>(
-							BatchResponse.CreateMailResponse,
-							(r, response) => {
-								r.push(processCreationResponse(response));
-								return r;
-							},
-							[]
-						);
-						_dbChanges.unshift(...creationChanges);
+					if (BatchResponse.MsgActionResponse) { // TODO needed for drafts
+						// const creationChanges = reduce<any, IUpdateChange[]>(
+						// 	BatchResponse.MsgActionResponse,
+						// 	(r, response) => {
+						// 		r.push(processCreationResponse(response));
+						// 		return r;
+						// 	},
+						// 	[]
+						// );
+						// _dbChanges.unshift(...creationChanges);
 					}
 					return _dbChanges;
 				});
