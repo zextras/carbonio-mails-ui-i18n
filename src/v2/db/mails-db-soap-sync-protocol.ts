@@ -208,11 +208,11 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						[]
 					)
-				).then((msgs: {[k: string]: MailMessageFromSoap}) => [
+				).then((msgs: MailMessageFromSoap[]) => [
 					convs,
 					reduce(
 						msgs,
-						(acc, v, k) => {
+						(acc, v) => {
 							acc.push({
 								type: 1,
 								table: 'messages',

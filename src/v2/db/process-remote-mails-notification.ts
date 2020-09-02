@@ -21,16 +21,12 @@ import {
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
-	GetMsgRequest,
-	GetMsgResponse,
-	Jsns,
-	SoapEmailMessageObj,
+	fetchMailMessagesById,
 	SyncResponse,
 	SyncResponseMail,
 	SyncResponseMailFolder
 } from '../soap';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
-import { normalizeMailMessageFromSoap } from './mails-db-utils';
 
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 	if (f.id === '3' || (f.view && f.view === 'message')) {
@@ -48,51 +44,6 @@ function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 	return r;
 }
 
-export function fetchMessages(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
-	ids: string[]
-): Promise<MailMessageFromSoap[]> {
-	if (ids.length < 1) return Promise.resolve([]);
-	const getMsgRequest: Jsns & GetMsgRequest = {
-		_jsns: 'urn:zimbraMail',
-		m: reduce<string, Array<{id: string; html: string}>>(
-			ids,
-			(r, v) => {
-				r.push({ id: v, html: '1' });
-				return r;
-			},
-			[]
-		)
-	};
-
-	return _fetch(
-		'/service/soap/GetMsgRequest',
-		{
-			method: 'POST',
-			body: JSON.stringify({
-				Body: {
-					GetMsgRequest: getMsgRequest
-				}
-			})
-		}
-	)
-		.then((response) => response.json())
-		.then((r) => {
-			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.GetMsgResponse;
-		})
-		.then((response: GetMsgResponse) => reduce<SoapEmailMessageObj, MailMessageFromSoap[]>(
-			response.m,
-			(r, m) => {
-				r.push(
-					normalizeMailMessageFromSoap(m)
-				);
-				return r;
-			},
-			[]
-		));
-}
-
 function extractAllMailsForInitialSync(
 	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	folders: Array<SyncResponseMailFolder>
@@ -102,7 +53,7 @@ function extractAllMailsForInitialSync(
 		_folderReducer,
 		[]
 	);
-	return fetchMessages(
+	return fetchMailMessagesById(
 		_fetch,
 		mIds
 	)
@@ -146,17 +97,21 @@ export default function processRemoteMailsNotification(
 					dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 						dbMails,
 						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+							const obj: {[keyPath: string]: any | undefined} = {};
+							if (mails[0].l) {
+								obj.parent = mails[0].l;
+							}
+							if (mails[0].f) {
+								obj.read = !(/u/.test(mails[0].f));
+								obj.attachment = /a/.test(mails[0].f);
+								obj.flagged = /f/.test(mails[0].f);
+								obj.urgent = /!/.test(mails[0].f);
+							}
 							acc.push({
 								type: 2,
 								table: 'messages',
 								key: value._id,
-								mods: {
-									read: !(/u/.test(mails[0].f || 'false')),
-									attachment: /a/.test(mails[0].f || 'false'),
-									flagged: /f/.test(mails[0].f || 'false'),
-									urgent: /!/.test(mails[0].f || 'false'),
-									parent: mails[0].l
-								}
+								mods: obj
 							});
 							return acc;
 						},
@@ -169,7 +124,7 @@ export default function processRemoteMailsNotification(
 		.then(({ dbChangesUpdated, dbMails }) => {
 			const remoteIds = differenceWith(ids, keys(dbMails), isEqual);
 			if (remoteIds.length > 0) {
-				return fetchMessages(
+				return fetchMailMessagesById(
 					_fetch,
 					remoteIds
 				)

@@ -1,45 +1,30 @@
 
 jest.mock('./mails-db-dexie');
 
-import { MailMessageFromSoap } from './mail-message';
+import {
+	MailMessageFromSoap,
+	MailMessageFromDb
+} from './mail-message';
 import processRemoteMailsNotification, { fetchMessages } from './process-remote-mails-notification';
 import { MailsDb } from './mails-db';
 
 describe('Notifications - Mails', () => {
-	test('Fetch Messages', (done) => {
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					GetMsgResponse: {
-						m: [{
-							id: '1000'
-						}]
-					}
-				}
-			}))
-		}));
-		fetchMessages(
-			_fetch,
-			['1000']
-		)
-			.then((msg) => {
-				expect(_fetch).toHaveBeenCalledTimes(1);
-				expect(msg.length).toBe(1);
-				expect(msg[0]).toBeInstanceOf(MailMessageFromSoap);
-				expect(msg[0].id).toBe('1000');
-				done();
-			})
-			.catch((e) => done(e));
-	});
+
 	test('Initial Sync', (done) => {
 		const db = new MailsDb();
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
 			json: jest.fn().mockImplementation(() => Promise.resolve({
 				Body: {
-					GetMsgResponse: {
-						m: [{
-							id: '1000',
-						}]
+					BatchResponse: {
+						GetMsgResponse: [
+							{
+								m: [
+									{
+										id: '1000',
+									}
+								]
+							}
+						]
 					}
 				}
 			}))
@@ -91,17 +76,21 @@ describe('Notifications - Mails', () => {
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
 			json: jest.fn().mockImplementation(() => Promise.resolve({
 				Body: {
-					GetMsgResponse: {
-						m: [{
-							id: '1000'
-						}]
+					BatchResponse: {
+						GetMsgResponse: [
+							{
+								m: [
+									{
+										id: '1000',
+									}
+								]
+							}
+						]
 					}
 				}
 			}))
 		}));
 		const SyncResponse = {
-			md: 1,
-			token: 1,
 			m: [{
 				d: 1,
 				id: '1000',
@@ -179,7 +168,7 @@ describe('Notifications - Mails', () => {
 					new MailMessageFromSoap({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
-						parent: '9',
+						parent: '7',
 						attachment: 'attachment',
 						bodyPath: 'bodyPath',
 						contacts: 'contacts',
@@ -242,7 +231,7 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromSoap({
+					new MailMessageFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
 						parent: '1001',
@@ -296,11 +285,11 @@ describe('Notifications - Mails', () => {
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromSoap({
+				toArray: jest.fn().mockImplementationOnce(() => Promise.resolve([
+					new MailMessageFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
-						parent: '7',
+						parent: '1001',
 					}),
 				]))
 			}))
@@ -347,67 +336,4 @@ describe('Notifications - Mails', () => {
 			});
 	});
 
-	test('Deleted and updated Message', (done) => {
-		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromSoap({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000',
-						parent: '7'
-					}),
-				]))
-			}))
-		}));
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({}))
-		}));
-		const SyncResponse = {
-			md: 2,
-			token: 2,
-			m: [{
-				cid: 'conversation',
-				d: 12,
-				f: 'f',
-				id: '1000',
-				l: '1001',
-				md: 1598339530,
-				ms: 1433,
-				rev: 1392,
-				t: '',
-				tn: ''
-			}],
-			deleted: [{
-				ids: '1000',
-				m: [{
-					ids: '1000',
-				}]
-			}],
-		};
-		processRemoteMailsNotification(
-			_fetch,
-			db,
-			false,
-			[],
-			[],
-			SyncResponse
-		)
-			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(0);
-				expect(changes.length).toBe(2);
-				expect(changes[1].type).toBe(3);
-				expect(changes[1].type).toBe(3);
-				expect(changes[0].table).toBe('messages');
-				expect(changes[1].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
-				expect(changes[0].mods).toStrictEqual({
-					attachment: false,
-					flagged: true,
-					read: true,
-					urgent: false,
-					parent: '1001'
-				});
-				done();
-			});
-	});
 });

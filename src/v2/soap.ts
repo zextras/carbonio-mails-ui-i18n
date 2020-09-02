@@ -10,13 +10,12 @@
  */
 
 import {
-	flattenDeep, map, reduce, trim
+	flattenDeep, forEach, map, reduce, trim
 } from 'lodash';
-import { MailsFolder } from './db/mails-folder';
+import { MailsFolder, MailsFolderFromSoap } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
-import { normalizeMailMessageFromSoap } from './db/mails-db-utils';
 
 
 type IFolderView =
@@ -343,6 +342,90 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 	}
 	return [];
 }
+function normalizeFolder(soapFolderObj: SyncResponseMailFolder): MailsFolderFromSoap {
+	return new MailsFolderFromSoap({
+		itemsCount: soapFolderObj.n,
+		name: soapFolderObj.name,
+		// _id: soapFolderObj.uuid,
+		id: soapFolderObj.id,
+		path: soapFolderObj.absFolderPath,
+		unreadCount: soapFolderObj.u || 0,
+		size: soapFolderObj.s,
+		parent: soapFolderObj.l
+	});
+}
+
+export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFromSoap[] {
+	if (!f) return [];
+	let children: MailsFolderFromSoap[] = [];
+	if (f.folder) {
+		forEach(f.folder, (c: SyncResponseMailFolder) => {
+			const child = normalizeMailsFolders(c);
+			children = [...children, ...child];
+		});
+	}
+	if (f.id === '3' || (f.view && f.view === 'message')) {
+		return [normalizeFolder(f), ...children];
+	}
+
+	return children;
+}
+
+export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	const obj = new MailMessageFromSoap({
+		conversation: m.cid,
+		id: m.id,
+		date: m.d,
+		size: m.s,
+		parent: m.l,
+		parts: map(
+			m.mp || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeMailPartMapFn
+		),
+		fragment: m.fr,
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		bodyPath: generateBodyPath(m.mp || []),
+		subject: m.su,
+		contacts: map(
+			m.e || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeParticipantsFromSoap
+		),
+		read: false,
+		attachment: false,
+		flagged: false,
+		urgent: false
+	});
+
+	if (m.f) {
+		obj.read = !(/u/.test(m.f));
+		obj.attachment = /a/.test(m.f);
+		obj.flagged = /f/.test(m.f);
+		obj.urgent = /!/.test(m.f);
+	}
+	return obj;
+}
+
+function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
+	const ret: MailMessagePart = {
+		contentType: v.ct,
+		size: v.s || 0,
+		name: v.part,
+	};
+	if (v.mp) {
+		ret.parts = map(
+			v.mp || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeMailPartMapFn
+		);
+	}
+	if (v.filename) ret.filename = v.filename;
+	if (v.content) ret.content = v.content;
+	if (v.ci) ret.ci = v.ci;
+	if (v.cd) ret.disposition = v.cd;
+	return ret;
+}
 
 function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
 	// eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -400,7 +483,7 @@ export function fetchConversationsInFolder(
 export function fetchMailMessagesById(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
-): Promise<{[key: string]: MailMessageFromSoap}> {
+): Promise<MailMessageFromSoap[]> {
 	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue',
@@ -431,13 +514,22 @@ export function fetchMailMessagesById(
 			else return r.Body.BatchResponse;
 		})
 		.then(({ GetMsgResponse: getMsgResponse }) =>
-			reduce<GetMsgResponse, {[key: string]: MailMessageFromSoap}>(
+			reduce<GetMsgResponse, MailMessageFromSoap[]>(
 				getMsgResponse,
 				(acc, { m }) => {
-					const msg = normalizeMailMessageFromSoap(m[0]);
-					acc[msg.id] = msg;
+					acc.push(normalizeMailMessageFromSoap(m[0]));
 					return acc;
 				},
-				{}
+				[]
 			));
+}
+
+function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
 }

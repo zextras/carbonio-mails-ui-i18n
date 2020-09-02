@@ -15,8 +15,7 @@ import {
 } from 'lodash';
 import { MailsDb } from './mails-db';
 import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
-import { normalizeMailsFolders } from './mails-db-utils';
-import { SyncResponse, SyncResponseMailFolder } from '../soap';
+import { normalizeMailsFolders, SyncResponse, SyncResponseMailFolder } from '../soap';
 
 function searchLocalFolders(db: MailsDb, ids: string[]): Promise<{[key: string]: string}> {
 	return db.folders.where('id').anyOf(ids).toArray()
