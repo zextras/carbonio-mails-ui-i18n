@@ -462,6 +462,9 @@ export function fetchConversationsInFolder(
 		'/service/soap/SearchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(searchReq)
 		}
 	)
@@ -484,6 +487,7 @@ export function fetchMailMessagesById(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	ids: string[]
 ): Promise<MailMessageFromSoap[]> {
+	if (ids.length < 1) return Promise.resolve([]);
 	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue',
@@ -501,6 +505,9 @@ export function fetchMailMessagesById(
 		'/service/soap/BatchRequest',
 		{
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({
 				Body: {
 					BatchRequest: batchRequest
