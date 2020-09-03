@@ -71,6 +71,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 			return ({
 				...state,
 				hasMore: action.hasMore,
+				isLoading: false
 			});
 		case 'reset':
 			return convInFolderInit();
@@ -109,7 +110,6 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 			.then((hasMore) => {
 				if (!didCancel) {
 					dispatch({ type: 'loaded-more-conversations', hasMore });
-					dispatch({ type: 'set-is-loading', isLoading: false });
 				}
 			});
 		return () => {
@@ -126,7 +126,6 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		db.fetchMoreConv(state.folder)
 			.then((hasMore: boolean) => {
 				dispatch({ type: 'loaded-more-conversations', hasMore });
-				dispatch({ type: 'set-is-loading', isLoading: false });
 				resolve();
 			});
 	}), [db, state.folder, dispatch]);

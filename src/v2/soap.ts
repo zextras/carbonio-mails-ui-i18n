@@ -378,12 +378,12 @@ export function fetchConversationsInFolder(
 	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	f: MailsFolder,
 	limit = 50,
-	before = new Date()
+	before?: Date
 ): Promise<[Array<MailConversationFromSoap>, boolean]> {
 	const queryPart = [
 		`in:"${f.path}"`
 	];
-	if (before.getTime() > 0) queryPart.push(`before:${before.getMilliseconds()}`);
+	if (before) queryPart.push(`before:${before.getTime()}`);
 	const searchReq = {
 		Body: {
 			SearchRequest: {
