@@ -27,7 +27,7 @@ import {
 	ParticipantType
 } from './v1/idb/IMailsIdb';
 import { CompositionData, CompositionParticipants } from './v1/components/compose/IuseCompositionData';
-import { MailMessage } from './v2/db/mail-message';
+import { MailMessage, MailMessageFromDb, MailMessageFromSoap } from './v2/db/mail-message';
 
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
@@ -272,8 +272,8 @@ export function calculateAbsPath(
 	return `${calculateAbsPath(mParentId, fMap[mParentId].name, fMap, fMap[mParentId].parent)}/${mName}`;
 }
 
-export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	return new MailMessage({
+export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	return new MailMessageFromSoap({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -420,7 +420,7 @@ export function _getParentPath(path: string): string {
 	return p.join('.');
 }
 
-export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessagePart[]] {
+export function getBodyToRender(msg: MailMessageFromDb): [MailMessagePart, MailMessagePart[]] {
 	const body: MailMessagePart = get(
 		msg,
 		msg.bodyPath
@@ -466,7 +466,7 @@ export function normalizeParticipants(
 	);
 }
 
-export function getBodyStrings(mail: MailMessage): [{ html: string; text: string }, boolean] {
+export function getBodyStrings(mail: MailMessageFromDb): [{ html: string; text: string }, boolean] {
 	const [body] = getBodyToRender(mail);
 	if (body.contentType === 'text/html') {
 		return [{ html: body.content || '', text: '' }, true];
@@ -477,7 +477,7 @@ export function getBodyStrings(mail: MailMessage): [{ html: string; text: string
 	return [{ html: '', text: '' }, false];
 }
 
-export function mailToCompositionData(mail: MailMessage): CompositionData {
+export function mailToCompositionData(mail: MailMessageFromDb): CompositionData {
 	const [body, html] = getBodyStrings(mail);
 	return {
 		subject: mail.subject,
