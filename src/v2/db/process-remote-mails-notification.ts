@@ -84,28 +84,27 @@ export default function processRemoteMailsNotification(
 		// Extract all mails from all the folders
 		return extractAllMailsForInitialSync(_fetch, folder!);
 	}
-
-	const ids = map<SyncResponseMail>(mails || [], 'id');
-
+	const mappedMails = keyBy(mails, 'id');
+	const ids = keys(mappedMails || []);
 	const dbChanges: IDatabaseChange[] = [];
 	return db.messages.where('id').anyOf(ids).toArray()
 		.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
 		.then((dbMails: {[id: string]: MailMessageFromDb}) => {
-			if (mails && mails[0] && (mails[0].f || mails[0].l)) {
-				return {
+			return {
+				dbMails,
+				dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 					dbMails,
-					dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
-						dbMails,
-						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+					(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+						if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
 							const obj: {[keyPath: string]: any | undefined} = {};
-							if (mails[0].l) {
-								obj.parent = mails[0].l;
+							if (mappedMails[value.id].l) {
+								obj.parent = mappedMails[value.id].l;
 							}
-							if (mails[0].f) {
-								obj.read = !(/u/.test(mails[0].f));
-								obj.attachment = /a/.test(mails[0].f);
-								obj.flagged = /f/.test(mails[0].f);
-								obj.urgent = /!/.test(mails[0].f);
+							if (mappedMails[value.id].f) {
+								obj.read = !(/u/.test(mappedMails[value.id].f || ''));
+								obj.attachment = /a/.test(mappedMails[value.id].f || '');
+								obj.flagged = /f/.test(mappedMails[value.id].f || '');
+								obj.urgent = /!/.test(mappedMails[value.id].f || '');
 							}
 							acc.push({
 								type: 2,
@@ -113,14 +112,42 @@ export default function processRemoteMailsNotification(
 								key: value._id,
 								mods: obj
 							});
-							return acc;
-						},
-						dbChanges
-					)
-				};
-			}
-			return { dbMails, dbChangesUpdated: [] };
+						}
+						return acc;
+					},
+					dbChanges
+				)
+			};
 		})
+		.then(({ dbChangesUpdated, dbMails }) => fetchMailMessagesById(
+			_fetch,
+			reduce(
+				mails,
+				(acc: string[], value: SyncResponseMail) => {
+					if (value.l === '6' && dbMails[value.id]) {
+						acc.push(value.id);
+					}
+					return acc;
+				},
+				[]
+			)
+		)
+			.then((soapMails: MailMessageFromSoap[]) => ({
+				dbChangesUpdated: reduce(
+					soapMails,
+					(acc: IDatabaseChange[], value: MailMessageFromSoap) => [
+						...acc,
+						{
+							type: 2,
+							table: 'messages',
+							key: dbMails[value.id]._id,
+							mods: value
+						}
+					],
+					dbChangesUpdated
+				),
+				dbMails
+			})))
 		.then(({ dbChangesUpdated, dbMails }) => {
 			const remoteIds = differenceWith(ids, keys(dbMails), isEqual);
 			if (remoteIds.length > 0) {
@@ -161,6 +188,7 @@ export default function processRemoteMailsNotification(
 						dbChangesUpdatedAndFetched
 					));
 			}
+			console.log(dbChangesUpdatedAndFetched);
 			return dbChangesUpdatedAndFetched;
 		});
 };

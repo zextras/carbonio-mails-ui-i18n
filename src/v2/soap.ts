@@ -14,7 +14,7 @@ import {
 } from 'lodash';
 import { MailsFolder, MailsFolderFromSoap } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversationFromDb, MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 
 
@@ -101,6 +101,18 @@ export type SyncResponseMail = {
 	// tn?: string; //tagName
 };
 
+export type SyncResponseConversation = {
+		d: number;// date ms
+		id: string;// id
+		md: number;// modified date md
+		ms: number;// modified sequence
+		n?: number;// number of msgs
+		u?: number;// number of unread msgs
+		f?: string;// flags
+		su?: string;// subject
+		fr?: string;// fragment
+};
+
 type SyncResponseDeletedMapRow = {
 	ids: string;
 };
@@ -108,6 +120,7 @@ type SyncResponseDeletedMapRow = {
 export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
 	folder?: Array<SyncResponseDeletedMapRow>;
 	m?: Array<SyncResponseDeletedMapRow>;
+	c?: Array<SyncResponseDeletedMapRow>;
 };
 
 export type SyncResponse = {
@@ -116,6 +129,7 @@ export type SyncResponse = {
 	folder?: Array<SyncResponseMailFolder>;
 	m?: Array<SyncResponseMail>;
 	deleted?: Array<SyncResponseDeletedMap>;
+	c?: Array<SyncResponseConversation>;
 };
 
 export type FolderActionRequest = {
@@ -164,6 +178,13 @@ export type BatchRequest = {
 
 export type GetMsgRequest = {
 	m: Array<{
+		id: string;
+		html: string;
+	}>;
+};
+
+export type GetConvRequest = {
+	c: Array<{
 		id: string;
 		html: string;
 	}>;
@@ -238,7 +259,7 @@ type SoapConvMsgObj = {
 	f: string;
 };
 
-type SoapConvObj = {
+export type SoapConvObj = {
 	id: string;
 	/** Number of the messages */
 	n: number;
@@ -301,14 +322,14 @@ function normalizeConversationMessageFromSoap(
 	];
 }
 
-function normalizeConversationFromSoap(c: SoapConvObj): MailConversation {
+export function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
 	const [messages, parent]: [MailConversationMessageMetadata[], string[]] = reduce(
 		c.m || [],
 		normalizeConversationMessageFromSoap,
 		[[], []]
 	);
 
-	return new MailConversation({
+	return new MailConversationFromSoap({
 		id: c.id,
 		date: c.d,
 		msgCount: c.n,
@@ -437,7 +458,7 @@ export function fetchConversationsInFolder(
 	f: MailsFolder,
 	limit = 50,
 	before = new Date()
-): Promise<[Array<MailConversation>, boolean]> {
+): Promise<[Array<MailConversationFromSoap>, boolean]> {
 	const queryPart = [
 		`in:"${f.path}"`
 	];
@@ -474,7 +495,7 @@ export function fetchConversationsInFolder(
 			else return r.Body.SearchResponse;
 		})
 		.then(({ c, more }) => [
-			reduce<SoapConvObj, Array<MailConversation>>(
+			reduce<SoapConvObj, Array<MailConversationFromSoap>>(
 				c,
 				(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
 				[]
@@ -525,6 +546,54 @@ export function fetchMailMessagesById(
 				getMsgResponse,
 				(acc, { m }) => {
 					acc.push(normalizeMailMessageFromSoap(m[0]));
+					return acc;
+				},
+				[]
+			));
+}
+
+export function fetchMailConversationsById(
+	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	ids: string[]
+): Promise<MailConversationFromSoap[]> {
+	if (ids.length < 1) return Promise.resolve([]);
+	const batchRequest: BatchRequest & {GetConvRequest: Array<BatchedRequest & GetConvRequest>} = {
+		_jsns: 'urn:zimbra',
+		onerror: 'continue',
+		GetConvRequest: []
+	};
+	reduce<string, Array<BatchedRequest & GetConvRequest>>(
+		ids,
+		(acc, id) => {
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1' }] });
+			return acc;
+		},
+		batchRequest.GetConvRequest
+	);
+	return fetch(
+		'/service/soap/BatchRequest',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				Body: {
+					BatchRequest: batchRequest
+				}
+			})
+		}
+	)
+		.then((response) => response.json())
+		.then((r) => {
+			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
+			else return r.Body.BatchResponse;
+		})
+		.then(({ GetConvResponse: getConvResponse }) =>
+			reduce<GetConvResponse, MailConversationFromSoap[]>(
+				getConvResponse,
+				(acc, { c }) => {
+					acc.push(normalizeMailConversationFromSoap(c[0]));
 					return acc;
 				},
 				[]
