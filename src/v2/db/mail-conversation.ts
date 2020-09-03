@@ -29,7 +29,7 @@ export interface IMailConversation {
 	urgent: boolean;
 }
 
-export class MailConversation implements IMailConversation {
+class MailConversation implements IMailConversation {
 	/** Internal UUID */ _id?: string;
 
 	/** Zimbra ID */ id?: string;
