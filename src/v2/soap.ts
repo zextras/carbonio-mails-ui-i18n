@@ -170,7 +170,7 @@ export type SaveDraftRequest = {
 	m: {
 		idnt?: string;
 		e?: Array<SoapEmailInfoObj>;
-		mp?: Array<SoapEmailMessagePartObj>;
+		mp?: Array<Partial<SoapEmailMessagePartObj>>;
 		f?: string;
 		id?: string;
 		su?: string;
@@ -189,7 +189,7 @@ export type SendMailRequest = {
 	m: {
 		idnt?: string;
 		e?: Array<SoapEmailInfoObj>;
-		mp?: Array<SoapEmailMessagePartObj>;
+		mp?: Array<Partial<SoapEmailMessagePartObj>>;
 		f?: string;
 		did?: string;
 		su?: string;
@@ -271,7 +271,7 @@ type SoapEmailInfoObj = {
 	/** Address */
 	a: string;
 	/** Display name */
-	d: string;
+	d?: string;
 	/** Type:
 	 * (f)rom,
 	 * (t)o,
@@ -326,7 +326,7 @@ export type SoapEmailMessagePartObj = {
 	/**	Size	*/ s: number;
 	/**	Content id (for inline images)	*/ ci: string;
 	/** Content disposition */ cd?: 'inline'|'attachment';
-	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
+	/**	Parts	*/ mp: Array<Partial<SoapEmailMessagePartObj>>;
 	/**	Set if is the body of the message	*/ body?: true;
 	filename?: string;
 	content: string;

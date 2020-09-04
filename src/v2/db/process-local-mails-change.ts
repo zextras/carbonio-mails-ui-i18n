@@ -12,15 +12,17 @@
 import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
-import { filter, map, reduce } from 'lodash';
+import { filter, map, reduce, keyBy, startsWith } from 'lodash';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
 	BatchRequest,
 	MsgActionRequest,
-	MsgActionResponse, SaveDraftRequest, SaveDraftResponse
+	MsgActionResponse, SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
 } from '../soap';
-import { MailMessageFromDb } from './mail-message';
+import { MailMessageFromDb, MailMessagePart } from './mail-message';
+import { getBodyStrings } from '../../ISoap';
+import { Participant } from './mail-db-types';
 
 
 // TODO TYPE 1 CREATING INSERTS
@@ -69,15 +71,15 @@ function processInserts(
 
 // TODO PROCESS CREATION (creating a draft)
 
-function processCreationResponse(r: BatchedResponse & SaveDraftResponse): IUpdateChange {
+function processCreationResponse(response: BatchedResponse & SaveDraftResponse): IUpdateChange {
 	return {
 		type: 2,
 		table: 'messages',
-		key: r.requestId,
+		key: response.requestId,
 		mods: {
-			id: r.m[0].id,
-			conversation: r.m[0].cid,
-			date: r.m[0].d
+			id: response.m[0].id,
+			conversation: response.m[0].cid,
+			date: response.m[0].d
 		}
 	};
 }
@@ -91,76 +93,137 @@ function processMailUpdates(
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
-	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray().then((messages) => {
-		const uuidToId = reduce<MailMessageFromDb, {[key: string]: string}>(
-			messages,
-			(acc, value) => {
-				if (value._id && value.id) acc[value._id] = value.id;
-				return acc;
-			},
-			{}
-		);
-		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
-		reduce<IUpdateChange, [Array<BatchedRequest & MsgActionRequest>]>(
-			changes,
-			([_msgActionRequest], value) => {
-				if (value.mods.parent) {
-					if (value.mods.parent === '2') {
+	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray()
+		.then((messagesArray: MailMessageFromDb[]) => keyBy(messagesArray, '_id'))
+		.then((messages: {[key: string]: MailMessageFromDb}) => {
+			const msgActionRequest = reduce<IUpdateChange, Array<BatchedRequest & MsgActionRequest>>(
+				changes,
+				(_msgActionRequest, change) => {
+					if (messages[change.key].parent === '6') {
+						return _msgActionRequest;
+					}
+					const id = messages[change.key].id as string;
+					if (change.mods.parent) {
+						if (change.mods.parent === '2') {
+							_msgActionRequest.push({
+								_jsns: 'urn:zimbraMail',
+								requestId: change.key,
+								action: {
+									op: 'trash',
+									id,
+								}
+							});
+						}
+						else {
+							_msgActionRequest.push({
+								_jsns: 'urn:zimbraMail',
+								requestId: change.key,
+								action: {
+									op: 'move',
+									l: change.mods.parent,
+									id,
+								}
+							});
+						}
+					}
+					if (change.mods.hasOwnProperty('flagged')) {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: value.key,
+							requestId: change.key,
 							action: {
-								op: 'trash',
-								id: uuidToId[value.key],
+								id,
+								op: (change.mods.flagged) ? 'flag' : '!flag'
 							}
 						});
 					}
-					else {
+					if (change.mods.hasOwnProperty('read')) {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: value.key,
+							requestId: change.key,
 							action: {
-								op: 'move',
-								l: value.mods.parent,
-								id: uuidToId[value.key],
+								id,
+								op: (change.mods.read) ? 'read' : '!read'
 							}
 						});
 					}
-				}
-				if (value.mods.hasOwnProperty('flagged')) {
-					_msgActionRequest.push({
-						_jsns: 'urn:zimbraMail',
-						requestId: value.key,
-						action: {
-							id: uuidToId[value.key],
-							op: (value.mods.flagged) ? 'flag' : '!flag'
-						}
-					});
-				}
-				if (value.mods.hasOwnProperty('read')) {
-					_msgActionRequest.push({
-						_jsns: 'urn:zimbraMail',
-						requestId: value.key,
-						action: {
-							id: uuidToId[value.key],
-							op: (value.mods.read) ? 'read' : '!read'
-						}
-					});
-				}
-				return [_msgActionRequest];
-			},
-			[msgActionRequest]
-		);
+					return _msgActionRequest;
+				},
+				[]
+			);
 
-		if (msgActionRequest.length > 0) {
-			batchRequest.MsgActionRequest =	[
-				...(batchRequest.MsgActionRequest || []),
-				...msgActionRequest
-			];
-		}
+			if (msgActionRequest.length > 0) {
+				batchRequest.MsgActionRequest =	[
+					...(batchRequest.MsgActionRequest || []),
+					...msgActionRequest
+				];
+			}
 
-		return [batchRequest, localChanges];
-	});
+			const saveDraftRequest = reduce<IUpdateChange, Array<BatchedRequest & SaveDraftRequest>>(
+				changes,
+				(_saveDraftRequest, change) => {
+					if (messages[change.key].parent === '6') {
+						return _saveDraftRequest;
+					}
+					_saveDraftRequest.push(
+						{
+							_jsns: 'urn:zimbraMail',
+							requestId: change.key,
+							m: {
+								id: messages[change.key].id,
+								su: change.mods.subject || messages[change.key].subject,
+								f: `${
+									messages[change.key].read ? '' : 'u'
+								}${
+									messages[change.key].flagged ? 'f' : ''
+								}${
+									messages[change.key].urgent ? '!' : ''
+								}${
+									messages[change.key].attachment ? 'a' : ''
+								}`,
+								mp: [
+									{
+										ct: 'multipart/alternative',
+										mp: map(
+											messages[change.key].parts,
+											(part: Partial<MailMessagePart>) => ({
+												ct: part.contentType,
+												content: part.content,
+											})
+										)
+									}
+								],
+								e: [
+									...map(
+										messages[change.key].contacts,
+										(contact: Participant) => ({
+											a: contact.address,
+											d: contact.displayName,
+											t: contact.type
+										})
+									),
+									{ // TODO: add own data
+										a: 'admin@example.com',
+										d: 'Example',
+										t: 'f'
+									}
+								]
+							}
+						}
+					);
+					return _saveDraftRequest;
+				},
+				[]
+			);
+
+			if (saveDraftRequest.length > 0) {
+				batchRequest.SaveDraftRequest =	[
+					...(batchRequest.SaveDraftRequest || []),
+					...saveDraftRequest
+				];
+			}
+
+			return [batchRequest, localChanges];
+		});
 }
 
 // TODO TYPE 3 DELETING CHANGES
@@ -269,16 +332,16 @@ export default function processLocalMailsChange(
 					else return r.Body.BatchResponse;
 				})
 				.then((BatchResponse) => {
-					if (BatchResponse.MsgActionResponse) { // TODO needed for drafts
-						// const creationChanges = reduce<any, IUpdateChange[]>(
-						// 	BatchResponse.MsgActionResponse,
-						// 	(r, response) => {
-						// 		r.push(processCreationResponse(response));
-						// 		return r;
-						// 	},
-						// 	[]
-						// );
-						// _dbChanges.unshift(...creationChanges);
+					if (BatchResponse.SaveDraftResponse) { // TODO needed for drafts
+						const creationChanges = reduce<any, IUpdateChange[]>(
+							BatchResponse.SaveDraftResponse,
+							(acc, response) => {
+								acc.push(processCreationResponse(response));
+								return acc;
+							},
+							[]
+						);
+						_dbChanges.unshift(...creationChanges);
 					}
 					return _dbChanges;
 				});
