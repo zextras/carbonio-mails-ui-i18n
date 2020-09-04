@@ -19,9 +19,9 @@ import processRemoteFolderNotifications from './process-remote-folder-notificati
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailConversationMessage } from './mail-conversation-message';
-import { MailConversation } from './mail-conversation';
 import { MailsFolderFromSoap } from './mails-folder';
 import { MailMessageFromSoap } from './mail-message';
+import { MailConversationFromSoap } from './mail-conversation';
 
 const POLL_INTERVAL = 20000;
 
@@ -196,7 +196,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 			.then(
 				([convs]) => fetchMailMessagesById(
 					this._fetch,
-					reduce<MailConversation, string[]>(
+					reduce<MailConversationFromSoap, string[]>(
 						convs,
 						(acc, v) => {
 							reduce<MailConversationMessage, string[]>(

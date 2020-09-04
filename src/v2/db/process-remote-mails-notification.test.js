@@ -94,7 +94,7 @@ describe('Notifications - Mails', () => {
 				d: 1,
 				id: '1000',
 				l: '7'
-			}],
+			}]
 		};
 		processRemoteMailsNotification(
 			_fetch,

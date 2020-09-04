@@ -11,9 +11,9 @@
 
 import { PromiseExtended } from 'dexie';
 import { MailsFolder } from './mails-folder';
-import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
 import { MailsDbDexie } from './mails-db-dexie';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 export type DeletionData = {
 	_id: string;
@@ -54,8 +54,8 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
-		if (!f.id) return Promise.resolve(false);
+	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversationFromDb): Promise<boolean> {
+		if (f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._fetch,
 			f,
@@ -64,7 +64,7 @@ export class MailsDb extends MailsDbDexie {
 		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
-	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversationFromSoap): Promise<[Array<MailConversationFromSoap>, boolean]> {
 		return fetchConversationsInFolder(
 			this._fetch,
 			f,

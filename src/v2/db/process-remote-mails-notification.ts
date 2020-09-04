@@ -12,7 +12,6 @@
 import {
 	keys,
 	reduce,
-	map,
 	differenceWith,
 	isEqual,
 	keyBy
@@ -89,36 +88,34 @@ export default function processRemoteMailsNotification(
 	const dbChanges: IDatabaseChange[] = [];
 	return db.messages.where('id').anyOf(ids).toArray()
 		.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
-		.then((dbMails: {[id: string]: MailMessageFromDb}) => {
-			return {
+		.then((dbMails: {[id: string]: MailMessageFromDb}) => ({
+			dbMails,
+			dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 				dbMails,
-				dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
-					dbMails,
-					(acc: IDatabaseChange[], value: MailMessageFromDb) => {
-						if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
-							const obj: {[keyPath: string]: any | undefined} = {};
-							if (mappedMails[value.id].l) {
-								obj.parent = mappedMails[value.id].l;
-							}
-							if (mappedMails[value.id].f) {
-								obj.read = !(/u/.test(mappedMails[value.id].f || ''));
-								obj.attachment = /a/.test(mappedMails[value.id].f || '');
-								obj.flagged = /f/.test(mappedMails[value.id].f || '');
-								obj.urgent = /!/.test(mappedMails[value.id].f || '');
-							}
-							acc.push({
-								type: 2,
-								table: 'messages',
-								key: value._id,
-								mods: obj
-							});
+				(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+					if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
+						const obj: {[keyPath: string]: any | undefined} = {};
+						if (mappedMails[value.id].l) {
+							obj.parent = mappedMails[value.id].l;
 						}
-						return acc;
-					},
-					dbChanges
-				)
-			};
-		})
+						if (mappedMails[value.id].f) {
+							obj.read = !(/u/.test(mappedMails[value.id].f || ''));
+							obj.attachment = /a/.test(mappedMails[value.id].f || '');
+							obj.flagged = /f/.test(mappedMails[value.id].f || '');
+							obj.urgent = /!/.test(mappedMails[value.id].f || '');
+						}
+						acc.push({
+							type: 2,
+							table: 'messages',
+							key: value._id,
+							mods: obj
+						});
+					}
+					return acc;
+				},
+				dbChanges
+			)
+		}))
 		.then(({ dbChangesUpdated, dbMails }) => fetchMailMessagesById(
 			_fetch,
 			reduce(

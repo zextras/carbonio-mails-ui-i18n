@@ -85,6 +85,9 @@ export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 	m: Array<{
 		ids: string; // Comma-separated values
 	}>;
+	c: Array<{
+		ids: string; // Comma-separated values
+	}>;
 	folder: Array<SyncResponseMailFolder>;
 };
 
@@ -99,6 +102,8 @@ export type SyncResponseMail = {
 	f?: string;
 	// t?: string; //tag
 	// tn?: string; //tagName
+
+
 };
 
 export type SyncResponseConversation = {
@@ -111,6 +116,7 @@ export type SyncResponseConversation = {
 		f?: string;// flags
 		su?: string;// subject
 		fr?: string;// fragment
+		e?: Array<SoapEmailInfoObj>;
 };
 
 type SyncResponseDeletedMapRow = {
@@ -187,6 +193,7 @@ export type GetConvRequest = {
 	c: Array<{
 		id: string;
 		html: string;
+		fetch: string;
 	}>;
 };
 
@@ -196,6 +203,10 @@ export type Jsns = {
 
 export type GetMsgResponse = {
 	m: Array<SoapEmailMessageObj>;
+};
+
+export type GetConvResponse = {
+	c: Array<SoapConvObj>;
 };
 
 export type SoapEmailMessagePartObj = {
@@ -565,7 +576,7 @@ export function fetchMailConversationsById(
 	reduce<string, Array<BatchedRequest & GetConvRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1' }] });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1', fetch: 'all' }] });
 			return acc;
 		},
 		batchRequest.GetConvRequest
@@ -593,7 +604,7 @@ export function fetchMailConversationsById(
 			reduce<GetConvResponse, MailConversationFromSoap[]>(
 				getConvResponse,
 				(acc, { c }) => {
-					acc.push(normalizeMailConversationFromSoap(c[0]));
+					acc.push(normalizeConversationFromSoap(c[0]));
 					return acc;
 				},
 				[]

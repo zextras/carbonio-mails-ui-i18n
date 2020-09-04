@@ -8,33 +8,48 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
+/**
+ * export interface IMailConversation {
+						/** Internal UUID  _id?: string;
+						/** Zimbra ID  id?: string;
+						parent: string[];
+						messages: MailConversationMessage[]; <-	{this._id = _id;
+																										this.id = id;
+																										this.parent = parent;}
+						participants: Participant[]; fatto
+					}
+ * Messages
+						m: SoapConvMsgObj[]; */
 import {
-	differenceWith,
-	isEqual,
-	keyBy,
 	keys,
 	map,
-	reduce
+	reduce,
+	differenceWith,
+	groupBy,
+	isEqual,
+	keyBy
 } from 'lodash';
-import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
-import { MailsDb } from './mails-db';
-import {
-	SyncResponse,
-	SyncResponseConversation,
-	SyncResponseMailFolder,
-	fetchMailConversationsById
-} from '../soap';
 
+import {
+	ICreateChange,
+	IDatabaseChange
+} from 'dexie-observable/api';
+import {
+	fetchMailConversationsById, normalizeParticipantsFromSoap,
+	SyncResponse, SyncResponseConversation,
+	SyncResponseMailFolder
+} from '../soap';
 import {
 	MailConversationFromDb,
 	MailConversationFromSoap
 } from './mail-conversation';
+import { MailsDb } from './mails-db';
+
 
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
-	if (f.id === '3' || (f.view && f.view === 'message')) {
-		if (f.m) {
-			r.push(...f.m[0].ids.split(','));
+	if (f.id === '3' || (f.view && f.view === 'conversation')) {
+		if (f.c) {
+			r.push(...f.c[0].ids.split(','));
 		}
 	}
 	if (f.folder) {
@@ -51,14 +66,14 @@ function extractAllConversationsForInitialSync(
 	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
 	folders: Array<SyncResponseMailFolder>
 ): Promise<ICreateChange[]> {
-	const mIds = reduce<SyncResponseMailFolder, string[]>(
+	const cIds = reduce<SyncResponseMailFolder, string[]>(
 		folders,
 		_folderReducer,
 		[]
 	);
 	return fetchMailConversationsById(
 		_fetch,
-		mIds
+		cIds
 	)
 		.then((conversation) => reduce<MailConversationFromSoap, ICreateChange[]>(
 			conversation,
@@ -81,45 +96,69 @@ export function processRemoteConversationsNotification(
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
 	localChangesFromRemote: IDatabaseChange[],
-	{ c: convs, deleted, folder }: SyncResponse
+	{
+		c: conversations,
+		deleted,
+		folder
+	}: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	if (isInitialSync) {
+		// Extract all mails from all the folders
 		return extractAllConversationsForInitialSync(_fetch, folder!);
 	}
 
-	const ids = map<SyncResponseConversation>(convs || [], 'id');
+	const mappedConvs = keyBy<SyncResponseConversation>(conversations || [], 'id');
+	const ids = keys(mappedConvs || []);
 
 	const dbChanges: IDatabaseChange[] = [];
+
 	return db.conversations.where('id').anyOf(ids).toArray()
 		.then((dbConvsArray) => keyBy(dbConvsArray, 'id'))
-		.then((dbConvs: {[id: string]: MailConversationFromDb}) => {
-			if (convs && convs[0] && convs[0].f) {
-				return {
-					dbConvs,
-					dbChangesUpdated: reduce<{[id: string]: MailConversationFromDb}, IDatabaseChange[]>(
-						dbConvs,
-						(acc: IDatabaseChange[], value: MailConversationFromDb) => {
-							const obj: {[keyPath: string]: any | undefined} = {};
-							if (convs[0].f) {
-								obj.read = !(/u/.test(convs[0].f));
-								obj.attachment = /a/.test(convs[0].f);
-								obj.flagged = /f/.test(convs[0].f);
-								obj.urgent = /!/.test(convs[0].f);
-							}
-							acc.push({
-								type: 2,
-								table: 'messages',
-								key: value._id,
-								mods: obj
-							});
-							return acc;
-						},
-						dbChanges
-					)
-				};
-			}
-			return { dbConvs, dbChangesUpdated: [] };
-		})
+		.then((dbConvs: {[id: string]: MailConversationFromDb}) => ({
+			dbConvs,
+			dbChangesUpdated: reduce<{[id: string]: MailConversationFromDb}, IDatabaseChange[]>(
+				dbConvs,
+				(acc: IDatabaseChange[], value: MailConversationFromDb) => {
+					if (value.id && mappedConvs && mappedConvs[value.id]) {
+						const obj: {[keyPath: string]: any | undefined} = {};
+						if (mappedConvs[value.id].n) {
+							obj.msgCount = mappedConvs[value.id].n;
+						}
+						if (mappedConvs[value.id].u) {
+							obj.unreadMsgCount = mappedConvs[value.id].u;
+						}
+						if (mappedConvs[value.id].d) {
+							obj.date = mappedConvs[value.id].d;
+						}
+						if (mappedConvs[value.id].su) {
+							obj.subject = mappedConvs[value.id].su;
+						}
+						if (mappedConvs[value.id].fr) {
+							obj.fragment = mappedConvs[value.id].fr;
+						}
+						if (mappedConvs[value.id].f) {
+							obj.read = !(/u/.test(mappedConvs[value.id].f || ''));
+							obj.attachment = /a/.test(mappedConvs[value.id].f || '');
+							obj.flagged = /f/.test(mappedConvs[value.id].f || '');
+							obj.urgent = /!/.test(mappedConvs[value.id].f || '');
+						}
+						// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+						// @ts-ignore
+						if (typeof mappedConvs[value.id].e !== 'undefined' && mappedConvs[value.id].e.length > 0) {
+							obj.participants = map(mappedConvs[value.id].e, normalizeParticipantsFromSoap);
+						}
+						acc.push({
+							type: 2,
+							table: 'conversations',
+							key: value._id,
+							mods: obj
+						});
+					}
+					return acc;
+				},
+				dbChanges
+			)
+		}))
 		.then(({ dbChangesUpdated, dbConvs }) => {
 			const remoteIds = differenceWith(ids, keys(dbConvs), isEqual);
 			if (remoteIds.length > 0) {
@@ -127,8 +166,8 @@ export function processRemoteConversationsNotification(
 					_fetch,
 					remoteIds
 				)
-					.then((SoapMailConvs) => reduce<MailConversationFromSoap, IDatabaseChange[]>(
-						SoapMailConvs,
+					.then((soapMails) => reduce<MailConversationFromSoap, IDatabaseChange[]>(
+						soapMails,
 						(acc, value) => {
 							acc.push({
 								type: 1,
@@ -146,22 +185,20 @@ export function processRemoteConversationsNotification(
 		.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
 			if (deleted && deleted[0] && deleted[0].c) {
 				return db.conversations.where('id').anyOf(deleted[0].c[0].ids.split(',')).toArray()
-					.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
-					.then(
-						(deletedMails) => reduce<{ [key: string]: MailConversationFromDb }, IDatabaseChange[]>(
-							deletedMails || {},
-							(acc: IDatabaseChange[], value: MailConversationFromDb) => {
-								acc.push({
-									type: 3,
-									table: 'conversations',
-									key: value._id,
-								});
-								return acc;
-							},
-							dbChangesUpdatedAndFetched
-						)
-					);
+					.then((dbConvsArray) => keyBy(dbConvsArray, 'id'))
+					.then((deletedConvs) => reduce<{ [key: string]: MailConversationFromDb }, IDatabaseChange[]>(
+						deletedConvs || {},
+						(acc: IDatabaseChange[], value: MailConversationFromDb) => {
+							acc.push({
+								type: 3,
+								table: 'conversations',
+								key: value._id,
+							});
+							return acc;
+						},
+						dbChangesUpdatedAndFetched
+					));
 			}
 			return dbChangesUpdatedAndFetched;
 		});
-}
+};
