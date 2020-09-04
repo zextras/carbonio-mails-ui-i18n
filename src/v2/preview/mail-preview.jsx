@@ -13,7 +13,6 @@ import React, { useLayoutEffect, useMemo, useState, useRef, useCallback } from '
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { find, map, reduce, filter } from 'lodash';
-import moment from 'moment';
 import {
 	Container,
 	Text,
@@ -30,6 +29,7 @@ import {
 import { useMessage } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
+import { getTimeLabel } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
 
 const HoverContainer = styled(Container)`
@@ -117,19 +117,6 @@ function MailPreviewLoaded({ message, firstMail }) {
 
 const fallbackContact = { address: '', displayName: '' };
 
-function getTimeLabel(date) {
-	const momentDate = moment(date);
-	if (momentDate.isSame(new Date(), 'day')) {
-		return momentDate.format('LT');
-	}
-	if (momentDate.isSame(new Date(), 'week')) {
-		return momentDate.format('dddd, LT');
-	}
-	if (momentDate.isSame(new Date(), 'month')) {
-		return momentDate.format('DD MMMM');
-	}
-	return momentDate.format('DD/MM/YYYY');
-}
 function MailPreviewBlock({
 	message,
 	open,
@@ -276,6 +263,7 @@ function MessageContactsList({ message }) {
 	const { t } = useTranslation();
 	const toContacts = filter(message.contacts, ['type', 't']);
 	const ccContacts = filter(message.contacts, ['type', 'c']);
+	const bccContacts = filter(message.contacts, ['type', 'b']);
 
 	return (
 		<ContactsContainer>
@@ -289,6 +277,12 @@ function MessageContactsList({ message }) {
 				<ContactText color="gray1" size="small">
 					{ `${t('Cc')}: ` }
 					{ map(ccContacts, (contact) => contact.displayName || contact.address).join(', ') }
+				</ContactText>
+			)}
+			{ bccContacts.length > 0 && (
+				<ContactText color="gray1" size="small">
+					{ `${t('Bcc')}: ` }
+					{ map(bccContacts, (contact) => contact.displayName || contact.address).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>

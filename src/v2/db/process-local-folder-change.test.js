@@ -83,6 +83,9 @@ describe('Local Changes - Folder', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
@@ -151,6 +154,9 @@ describe('Local Changes - Folder', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
@@ -219,6 +225,9 @@ describe('Local Changes - Folder', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
@@ -290,6 +299,9 @@ describe('Local Changes - Folder', () => {
 					'/service/soap/BatchRequest',
 					{
 						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
 						body: JSON.stringify({
 							Body: {
 								BatchRequest: {
