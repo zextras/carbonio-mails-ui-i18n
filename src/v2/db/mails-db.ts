@@ -10,11 +10,13 @@
  */
 
 import { PromiseExtended } from 'dexie';
-import { reduce, some, pullAllWith } from 'lodash';
+import { reduce, some, pullAllWith, keyBy, merge } from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
+import { MailConversationMessage } from './mail-conversation-message';
 import { fetchConversationsInFolder } from '../soap';
 import { MailsDbDexie } from './mails-db-dexie';
+import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
 
 export type DeletionData = {
 	_id: string;
@@ -68,7 +70,7 @@ export class MailsDb extends MailsDbDexie {
 			f,
 			1,
 			lastConv ? new Date(lastConv.date) : undefined
-		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
+		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
 	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
@@ -81,50 +83,84 @@ export class MailsDb extends MailsDbDexie {
 			50,
 			lastConv ? new Date(lastConv.date) : undefined
 		)
-			.then(([remoteConvs, hasMore]) => {
-				const ids = reduce<MailConversationFromSoap, Array<string>>(
-					remoteConvs,
-					(r, v) => {
-						r.push(v.id);
-						return r;
-					},
-					[]
-				);
-				return this.conversations
-					.where('id')
-					.anyOf(ids)
-					.toArray()
-					.then<[MailConversationFromSoap[], boolean]>(
-						(localConvs) => {
-							pullAllWith(
-								remoteConvs,
-								localConvs,
-								(a, b) => ((b.id) ? a.id === b.id : false)
-							);
-							return [remoteConvs, hasMore];
-						}
-					);
-			})
-			.then(([remoteConvs, hasMore]) => {
-				if (remoteConvs.length > 0) {
-					const convsToAdd = reduce<MailConversationFromSoap, MailConversationFromDb[]>(
+			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
+				return this.transaction('rw', this.conversations, this.messages, async () => {
+					const [convsIds, convsMessageIds] = reduce<
+						MailConversationFromSoap,
+						Array<string[]>
+					>(
 						remoteConvs,
-						(r, v) => {
-							r.push(
-								new MailConversationFromDb({
-									...v,
-									_id: this.createUUID()
-								})
-							);
-							return r;
-						},
-						[]
+						([r1, r2], v) => [
+							[...r1, v.id],
+							[
+								...r2,
+								...reduce(v.messages, (acc, m) => m.id, [])
+							]
+						],
+						[[], []]
 					);
-					return this.conversations
-						.bulkAdd(convsToAdd)
-						.then((ids) => hasMore);
-				}
-				return hasMore;
+
+					const convsToAdd = await this.conversations
+						.where('id')
+						.anyOf(convsIds)
+						.toArray()
+						.then<MailConversationFromSoap[]>(
+							(localConvs) => {
+								pullAllWith(
+									remoteConvs,
+									localConvs,
+									(a, b) => ((b.id) ? a.id === b.id : false)
+								);
+								return remoteConvs;
+							}
+						)
+						.then((convs) => reduce<MailConversationFromSoap, MailConversationFromDb[]>(
+							convs,
+							(r, v) => {
+								r.push(
+									new MailConversationFromDb({
+										...v,
+										_id: this.createUUID()
+									})
+								);
+								return r;
+							},
+							[]
+						));
+
+					const convsMessagesToAdd = await this.messages
+						.where('id')
+						.anyOf(convsMessageIds)
+						.toArray()
+						.then<MailMessageFromSoap[]>(
+							(localMessages) => {
+								pullAllWith(
+									remoteConvsMessages,
+									localMessages,
+									(a, b) => ((b.id) ? a.id === b.id : false)
+								);
+								return remoteConvsMessages;
+							}
+						)
+						.then((msgs) => reduce<MailMessageFromSoap, MailMessageFromDb[]>(
+							msgs,
+							(r, v) => {
+								r.push(
+									new MailMessageFromDb({
+										...v,
+										_id: this.createUUID()
+									})
+								);
+								return r;
+							},
+							[]
+						));
+
+					await this.messages.bulkAdd(convsMessagesToAdd);
+					await this.conversations.bulkAdd(convsToAdd);
+				})
+					.then(() => hasMore)
+					.catch(() => false);
 			});
 	}
 }

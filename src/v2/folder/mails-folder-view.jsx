@@ -10,7 +10,7 @@
  */
 
 import React, {
-	useCallback,
+	useCallback, useEffect,
 	useMemo,
 	useRef,
 	useState
@@ -193,6 +193,10 @@ const ConversationList = ({ folderId }) => {
 		},
 		[conversations, displayData]
 	);
+
+	useEffect(() => {
+		hasMore && loadMore && conversations.length === 0 && loadMore();
+	}, [conversations, hasMore, loadMore]);
 
 	if (isLoading) {
 		return <Text> LOADING </Text>;
