@@ -102,10 +102,7 @@ describe('Local Changes - Folder', () => {
 									}]
 								}
 							}
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						}
+						})
 					}
 				);
 				done();
@@ -173,10 +170,7 @@ describe('Local Changes - Folder', () => {
 									}]
 								}
 							}
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						}
+						})
 					}
 				);
 				done();
@@ -244,10 +238,7 @@ describe('Local Changes - Folder', () => {
 									}]
 								}
 							}
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						}
+						})
 					}
 				);
 				done();
@@ -317,10 +308,7 @@ describe('Local Changes - Folder', () => {
 									}]
 								}
 							}
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						}
+						})
 					}
 				);
 				done();
