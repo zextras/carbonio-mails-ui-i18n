@@ -8,24 +8,11 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-/**
- * export interface IMailConversation {
-						/** Internal UUID  _id?: string;
-						/** Zimbra ID  id?: string;
-						parent: string[];
-						messages: MailConversationMessage[]; <-	{this._id = _id;
-																										this.id = id;
-																										this.parent = parent;}
-						participants: Participant[]; fatto
-					}
- * Messages
-						m: SoapConvMsgObj[]; */
 import {
 	keys,
 	map,
 	reduce,
 	differenceWith,
-	groupBy,
 	isEqual,
 	keyBy
 } from 'lodash';
