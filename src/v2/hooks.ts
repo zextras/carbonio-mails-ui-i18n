@@ -11,10 +11,12 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
-import { last } from 'lodash';
+import { keyBy, keys, last, groupBy } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
 import { MailConversationMessage } from './db/mail-conversation-message';
+import { SyncResponseConversation } from './soap';
+import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
 	conversations: Array<MailConversation>;
@@ -145,19 +147,27 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
 					return;
 				}
-				db.conversations
+				db.messages
 					.where('parent')
 					.equals(folder.id)
 					.reverse()
 					.sortBy('date')
-					.then((conversations: MailConversation[]) => {
-						dispatch({ type: 'set-conversations', conversations });
-						/* if (conversations.length < 50) {
-							return loadMore(folder);
-						} */
-						const lastConv = last(conversations);
-						return db.checkHasMoreConv(folder, lastConv)
-							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
+					.then((messages: MailMessageFromDb[]) => {
+						const mappedMsgs = groupBy(messages, 'conversation');
+						const conversationsIds = keys(mappedMsgs);
+						db.conversation
+							.where('id')
+							.equals(...conversationsIds)
+							.sortBy('id')
+							.then((conversations: MailConversation[]) => {
+								dispatch({ type: 'set-conversations', conversations });
+								/* if (conversations.length < 50) {
+									return loadMore(folder);
+								} */
+								const lastConv = last(conversations);
+								return db.checkHasMoreConv(folder, lastConv)
+									.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
+							});
 					});
 			});
 	}, [db, folderId, dispatch, loadMore]);
