@@ -18,7 +18,7 @@ import {
 	BatchedRequest, BatchedResponse,
 	BatchRequest,
 	MsgActionRequest,
-	MsgActionResponse,
+	MsgActionResponse, SaveDraftRequest
 } from '../soap';
 import { MailMessageFromDb } from './mail-message';
 
@@ -31,26 +31,25 @@ function processInserts(
 	localChanges: IDatabaseChange[],
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & MsgActionRequest>>(
+	const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
+	reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
 		changes,
-		(r, c) => {
-			r.push({
+		(acc, change) => {
+			console.log(change);
+			acc.push({
 				_jsns: 'urn:zimbraMail',
-				requestId: c.key,
-				action: {
-					id: '1000',
-					op: '',
-				},
+				requestId: change.key,
+				m: {
+				}
 			});
-			return r;
+			return acc;
 		},
-		msgActionRequest
+		saveDraftRequest
 	);
-	if (msgActionRequest.length > 0) {
-		batchRequest.MsgActionRequest = [
-			...(batchRequest.MsgActionRequest || []),
-			...msgActionRequest
+	if (saveDraftRequest.length > 0) {
+		batchRequest.SendMailRequest = [
+			...(batchRequest.SendMailRequest || []),
+			...saveDraftRequest
 		];
 	}
 	return Promise.resolve([batchRequest, localChanges]);
@@ -82,56 +81,56 @@ function processMailUpdates(
 	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray().then((messages) => {
 		const uuidToId = reduce<MailMessageFromDb, {[key: string]: string}>(
 			messages,
-			(r, f) => {
-				if (f._id && f.id) r[f._id] = f.id;
-				return r;
+			(acc, value) => {
+				if (value._id && value.id) acc[value._id] = value.id;
+				return acc;
 			},
 			{}
 		);
 		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
 		reduce<IUpdateChange, [Array<BatchedRequest & MsgActionRequest>]>(
 			changes,
-			([_msgActionRequest], c) => {
-				if (c.mods.parent) {
-					if (c.mods.parent === '2') {
+			([_msgActionRequest], value) => {
+				if (value.mods.parent) {
+					if (value.mods.parent === '2') {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: c.key,
+							requestId: value.key,
 							action: {
 								op: 'trash',
-								id: uuidToId[c.key],
+								id: uuidToId[value.key],
 							}
 						});
 					}
 					else {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: c.key,
+							requestId: value.key,
 							action: {
 								op: 'move',
-								l: c.mods.parent,
-								id: uuidToId[c.key],
+								l: value.mods.parent,
+								id: uuidToId[value.key],
 							}
 						});
 					}
 				}
-				if (c.mods.hasOwnProperty('flagged')) {
+				if (value.mods.hasOwnProperty('flagged')) {
 					_msgActionRequest.push({
 						_jsns: 'urn:zimbraMail',
-						requestId: c.key,
+						requestId: value.key,
 						action: {
-							id: uuidToId[c.key],
-							op: (c.mods.flagged) ? 'flag' : '!flag'
+							id: uuidToId[value.key],
+							op: (value.mods.flagged) ? 'flag' : '!flag'
 						}
 					});
 				}
-				if (c.mods.hasOwnProperty('read')) {
+				if (value.mods.hasOwnProperty('read')) {
 					_msgActionRequest.push({
 						_jsns: 'urn:zimbraMail',
-						requestId: c.key,
+						requestId: value.key,
 						action: {
-							id: uuidToId[c.key],
-							op: (c.mods.read) ? 'read' : '!read'
+							id: uuidToId[value.key],
+							op: (value.mods.read) ? 'read' : '!read'
 						}
 					});
 				}
@@ -162,31 +161,31 @@ function processDeletions(
 	return db.deletions.where('_id').anyOf(map(changes, 'key')).toArray().then((deletedIds) => {
 		const uuidToId = reduce<DeletionData, {[key: string]: {id: string; rowId: string}}>(
 			filter(deletedIds, ['table', 'messages']),
-			(r, d) => {
+			(acc, value) => {
 				// eslint-disable-next-line no-param-reassign
-				r[d._id] = { id: d.id, rowId: d.rowId! };
-				return r;
+				acc[value._id] = { id: value.id, rowId: value.rowId! };
+				return acc;
 			},
 			{}
 		);
 		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
 		reduce(
 			changes,
-			(r, c) => {
-				r.push({
+			(acc, value) => {
+				acc.push({
 					_jsns: 'urn:zimbraMail',
-					requestId: c.key,
+					requestId: value.key,
 					action: {
 						op: 'delete',
-						id: uuidToId[c.key].id,
+						id: uuidToId[value.key].id,
 					}
 				});
 				localChanges.push({
 					type: 3,
 					table: 'deletions',
-					key: uuidToId[c.key].rowId
+					key: uuidToId[value.key].rowId
 				});
-				return r;
+				return acc;
 			},
 			msgActionRequest
 		);

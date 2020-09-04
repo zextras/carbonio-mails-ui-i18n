@@ -16,6 +16,7 @@ import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversation } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { IMailContact, IMailMP } from '../v1/composer/IComposerSoap';
 
 type IFolderView =
 	'search folder'
@@ -128,6 +129,7 @@ export type MsgActionRequest = {
 		| MsgActionRequestRead
 		| MsgActionRequestTrash
 		| MsgActionRequestDelete
+		| MsgActionRequestUpdate
 	;
 	_jsns: 'urn:zimbraMail';
 };
@@ -139,6 +141,10 @@ type MsgActionRequestMove = {
 type MsgActionRequestFlag = {
 		op: 'flag' | '!flag';
 		id: string;
+};
+type MsgActionRequestUpdate = {
+	op: 'update';
+	id: string;
 };
 type MsgActionRequestRead = {
 		op: 'read' | '!read';
@@ -155,11 +161,40 @@ type MsgActionRequestDelete = {
 export type MsgActionResponse = {
 	action: {
 		id: string;
-		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';
+		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete' | 'update';
 		_jsns: 'urn:zimbraMail';
 	};
 };
 
+export type SaveDraftRequest = {
+	m: {
+		idnt?: string;
+		e?: Array<SoapEmailInfoObj>;
+		mp?: Array<SoapEmailMessagePartObj>;
+		f?: string;
+		id?: string;
+		su?: string;
+	};
+}
+
+export type SaveDraftResponse = {
+	m: Array<{ id: string	}>;
+}
+
+export type SendMailRequest = {
+	m: {
+		idnt?: string;
+		e?: Array<SoapEmailInfoObj>;
+		mp?: Array<SoapEmailMessagePartObj>;
+		f?: string;
+		did?: string;
+		su?: string;
+	};
+}
+
+export type SendMailResponse = {
+
+}
 // TODO CONVERSATION CHANGES ADDED
 
 export type ConvActionRequest = {
@@ -218,6 +253,8 @@ export type BatchRequest = {
 	MsgActionRequest?: Array<BatchedRequest & MsgActionRequest>;
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 	ConvActionRequest?: Array<BatchedRequest & ConvActionRequest>;
+	SaveDraftRequest?: Array<BatchedRequest & SaveDraftRequest>;
+	SendMailRequest?: Array<BatchedRequest & SendMailRequest>;
 };
 
 type GetMsgRequest = {
