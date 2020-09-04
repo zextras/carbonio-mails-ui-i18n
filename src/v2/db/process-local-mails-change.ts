@@ -18,7 +18,7 @@ import {
 	BatchedRequest, BatchedResponse,
 	BatchRequest,
 	MsgActionRequest,
-	MsgActionResponse, SaveDraftRequest
+	MsgActionResponse, SaveDraftRequest, SaveDraftResponse
 } from '../soap';
 import { MailMessageFromDb } from './mail-message';
 
@@ -40,6 +40,18 @@ function processInserts(
 				_jsns: 'urn:zimbraMail',
 				requestId: change.key,
 				m: {
+					su: change.obj.subject,
+					f: `${
+						change.obj.read ? '' : 'u'
+					}${
+						change.obj.flag ? 'f' : ''
+					}${
+						change.obj.urgent ? '!' : ''
+					}${
+						change.obj.attachment ? 'a' : ''
+					}`,
+					mp: change.obj.parts,
+					e: []
 				}
 			});
 			return acc;
@@ -57,14 +69,15 @@ function processInserts(
 
 // TODO PROCESS CREATION (creating a draft)
 
-function processCreationResponse(r: BatchedResponse & MsgActionResponse): IUpdateChange {
-	const message = r.action;
+function processCreationResponse(r: BatchedResponse & SaveDraftResponse): IUpdateChange {
 	return {
 		type: 2,
 		table: 'messages',
 		key: r.requestId,
 		mods: {
-			id: message.id // TODO is this right?
+			id: r.m[0].id,
+			conversation: r.m[0].cid,
+			date: r.m[0].d
 		}
 	};
 }

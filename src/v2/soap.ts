@@ -178,7 +178,11 @@ export type SaveDraftRequest = {
 }
 
 export type SaveDraftResponse = {
-	m: Array<{ id: string	}>;
+	m: Array<{
+		id: string;
+		cid: string;
+		d: number;
+	}>;
 }
 
 export type SendMailRequest = {
