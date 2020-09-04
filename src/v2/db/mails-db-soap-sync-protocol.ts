@@ -145,8 +145,10 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 									deleted
 								}
 							))
-							.then((_remoteChanges) => remoteChanges.push(..._remoteChanges))
-							.then(() => ({ token, remoteChanges })))
+							.then((_remoteChanges) => {
+								remoteChanges.push(..._remoteChanges);
+								return ({ token, remoteChanges });
+							}))
 					.then(({ token, remoteChanges }) => {
 						if (context.clientIdentity !== '') {
 							context.clientIdentity = '';
@@ -156,7 +158,6 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 									remoteChanges
 								}));
 						}
-
 						return {
 							token,
 							remoteChanges
