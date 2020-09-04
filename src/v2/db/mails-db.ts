@@ -10,6 +10,7 @@
  */
 
 import { PromiseExtended } from 'dexie';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsFolder } from './mails-folder';
 import { MailConversation } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
@@ -23,13 +24,10 @@ export type DeletionData = {
 };
 
 export class MailsDb extends MailsDbDexie {
-	private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-
 	constructor(
-		fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+		private _soapFetch: SoapFetch
 	) {
 		super();
-		this._fetch = fetch;
 	}
 
 	public open(): PromiseExtended<MailsDb> {
@@ -57,7 +55,7 @@ export class MailsDb extends MailsDbDexie {
 	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
-			this._fetch,
+			this._soapFetch,
 			f,
 			1,
 			lastConv ? new Date(lastConv.date) : undefined
@@ -66,7 +64,7 @@ export class MailsDb extends MailsDbDexie {
 
 	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
 		return fetchConversationsInFolder(
-			this._fetch,
+			this._soapFetch,
 			f,
 			50,
 			lastConv ? new Date(lastConv.date) : undefined

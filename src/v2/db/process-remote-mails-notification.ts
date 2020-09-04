@@ -9,12 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailsDb } from './mails-db';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { IDatabaseChange } from 'dexie-observable/api';
+import { MailsDb } from './mails-db';
 import { SyncResponse } from '../soap';
 
 export default function processRemoteMailsNotification(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	db: MailsDb,
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
