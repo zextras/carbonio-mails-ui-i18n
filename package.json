@@ -73,7 +73,8 @@
     "react-test-renderer": "16.10.2",
     "styled-components": "5.1.1",
     "typescript": "3.6.4",
-    "webpack-inject-plugin": "1.5.4"
+    "webpack-inject-plugin": "1.5.4",
+    "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
     "@babel/preset-typescript": "7.6.0",
@@ -91,7 +92,6 @@
     "rxjs": "6.5.3",
     "sass-loader": "8.0.0",
     "style-loader": "1.0.0",
-    "ts-jest": "24.1.0",
-    "webpack-dev-server": "^3.11.0"
+    "ts-jest": "24.1.0"
   }
 }
