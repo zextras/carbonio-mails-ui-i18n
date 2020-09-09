@@ -194,6 +194,14 @@ const ConversationList = ({ folderId }) => {
 		[conversations, displayData]
 	);
 
+	const onItemsRendered = useCallback(({ visibleStopIndex }) => {
+		const conversationsLastIndex = conversations.length - 1;
+		if (hasMore && loadMore && visibleStopIndex === conversationsLastIndex) {
+			loadMore(conversations[conversationsLastIndex])
+				.then(() => { /*  */ });
+		}
+	}, [conversations, hasMore, loadMore]);
+
 	useEffect(() => {
 		hasMore && loadMore && conversations.length === 0 && loadMore();
 	}, [conversations, hasMore, loadMore]);
@@ -219,11 +227,11 @@ const ConversationList = ({ folderId }) => {
 						height={(containerRef.current && containerRef.current.offsetHeight) || 0}
 						width="100%"
 						itemCount={(conversations || []).length}
-						overscanRowCount={15}
-						rowRenderer={rowRenderer}
+						overscanCount={15}
 						style={{ outline: 'none' }}
 						itemSize={calcItemSize}
 						estimatedItemSize={57}
+						onItemsRendered={onItemsRendered}
 					>
 						{rowRenderer}
 					</VariableSizeList>

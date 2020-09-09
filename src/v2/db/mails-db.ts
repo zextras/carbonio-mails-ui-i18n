@@ -85,10 +85,7 @@ export class MailsDb extends MailsDbDexie {
 		)
 			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
 				return this.transaction('rw', this.conversations, this.messages, async () => {
-					const [convsIds, convsMessageIds] = reduce<
-						MailConversationFromSoap,
-						Array<string[]>
-					>(
+					const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
 						remoteConvs,
 						([r1, r2], v) => [
 							[...r1, v.id],
