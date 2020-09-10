@@ -10,8 +10,6 @@
  */
 
 jest.mock('./mails-db-dexie');
-
-
 import { MailsDb } from './mails-db';
 import { MailConversationFromSoap, MailConversationFromDb } from './mail-conversation';
 import { processRemoteConversationsNotification } from './process-remote-conversations-notification';
@@ -21,21 +19,13 @@ describe('Notifications - conversation', () => {
 		const db = new MailsDb();
 
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					BatchResponse: {
-						GetConvResponse: [
-							{
-								c: [
-									{
-										id: '1000',
-									}
-								]
-							}
-						]
+			GetConvResponse: [{
+				c: [
+					{
+						id: '1000',
 					}
-				}
-			}))
+				]
+			}]
 		}));
 
 		const SyncResponse = {
@@ -80,33 +70,24 @@ describe('Notifications - conversation', () => {
 
 	test('New Conversation', (done) => {
 		const db = new MailsDb();
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					BatchResponse: {
-						GetConvResponse: [
-							{
-								c: [
-									{
-										id: '1000',
-										d: 1,
-										n: 1,
-										su: 'su',
-										u: 0,
-										m: [{ id: '1' }],
-										e: [{
-											a: 'a',
-											d: 't',
-											t: 't',
-											isGroup: 1
-										}]
-									}
-								]
-							}
-						]
-					}
-				}
-			}))
+		const _fetch = jest.fn()
+			.mockImplementation(() => Promise.resolve({
+				GetConvResponse: [{
+					c: [{
+						id: '1000',
+						d: 1,
+						n: 1,
+						su: 'su',
+						u: 0,
+						m: [{ id: '1' }],
+						e: [{
+							a: 'a',
+							d: 't',
+							t: 't',
+							isGroup: 1
+						}]
+					}]
+				}]
 		}));
 		const SyncResponse = {
 			c: [{

@@ -53,7 +53,7 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
-		if (f.id) return Promise.resolve(false);
+		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._soapFetch,
 			f,

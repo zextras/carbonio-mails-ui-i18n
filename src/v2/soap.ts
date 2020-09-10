@@ -249,6 +249,7 @@ export type SoapEmailMessageObj = {
 export type BatchResponse = {
 	CreateFolderResponse?: Array<BatchedResponse & CreateFolderResponse>;
 	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
+	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -566,7 +567,7 @@ export function fetchMailMessagesById(
 }
 
 export function fetchMailConversationsById(
-	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_soapFetch: SoapFetch,
 	ids: string[]
 ): Promise<MailConversationFromSoap[]> {
 	if (ids.length < 1) return Promise.resolve([]);
@@ -583,25 +584,10 @@ export function fetchMailConversationsById(
 		},
 		batchRequest.GetConvRequest
 	);
-	return fetch(
-		'/service/soap/BatchRequest',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				Body: {
-					BatchRequest: batchRequest
-				}
-			})
-		}
+	return _soapFetch<BatchRequest, BatchResponse>(
+		'Batch',
+		batchRequest
 	)
-		.then((response) => response.json())
-		.then((r) => {
-			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.BatchResponse;
-		})
 		.then(({ GetConvResponse: getConvResponse }) =>
 			reduce<GetConvResponse, MailConversationFromSoap[]>(
 				getConvResponse,
