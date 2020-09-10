@@ -11,11 +11,10 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
-import { keyBy, keys, last, groupBy } from 'lodash';
+import { keys, last, groupBy } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversation, MailConversationFromDb } from './db/mail-conversation';
 import { MailConversationMessage } from './db/mail-conversation-message';
-import { SyncResponseConversation } from './soap';
 import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
@@ -114,6 +113,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext();
 
 	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
+
 	const loadMore = useCallback((folder?: MailsFolder) => new Promise<void>((resolve, reject) => {
 		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
 		((folder) ? Promise.resolve(folder) : db.folders.get(folderId))
@@ -140,36 +140,35 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 
 	useEffect(() => {
 		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
-		db.folders.get(folderId)
+		db.transaction('r', db.folders, db.messages, db.conversations, () => db.folders.get(folderId)
 			.then((folder: MailsFolder) => {
 				dispatch({ type: 'set-folder', folder });
 				if (!folder || !folder.id) {
 					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
-					return;
+					return Promise.resolve();
 				}
-				db.messages
+				return db.messages
 					.where('parent')
 					.equals(folder.id)
 					.reverse()
 					.sortBy('date')
+					.toArray()
 					.then((messages: MailMessageFromDb[]) => {
 						const mappedMsgs = groupBy(messages, 'conversation');
-						const conversationsIds = keys(mappedMsgs);
-						db.conversation
-							.where('id')
-							.equals(...conversationsIds)
-							.sortBy('id')
-							.then((conversations: MailConversation[]) => {
-								dispatch({ type: 'set-conversations', conversations });
-								/* if (conversations.length < 50) {
-									return loadMore(folder);
-								} */
-								const lastConv = last(conversations);
-								return db.checkHasMoreConv(folder, lastConv)
-									.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
-							});
-					});
-			});
+						return keys(mappedMsgs);
+					})
+					.then((conversationsIds: Array<string>) => db.conversation
+						.where('id')
+						.equals(conversationsIds)
+						.toArray()
+						.then((conversations: MailConversationFromDb[]) => {
+							dispatch({ type: 'set-conversations', conversations });
+							const lastConv = last(conversations);
+							return db.checkHasMoreConv(folder, lastConv)
+								.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
+						}));
+			}))
+			.catch();
 	}, [db, folderId, dispatch, loadMore]);
 
 	return {

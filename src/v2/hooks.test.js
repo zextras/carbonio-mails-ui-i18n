@@ -19,7 +19,7 @@ jest.mock('./db/mails-db');
 import { MailsDb } from './db/mails-db';
 import { useConvsInFolder } from './hooks';
 import { MailsFolder } from './db/mails-folder';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversationFromDb } from './db/mail-conversation';
 
 describe('Hooks', () => {
 	test('useConvsInFolder', async () => {
@@ -29,7 +29,7 @@ describe('Hooks', () => {
 			id: '1000'
 		})));
 		const convs = [];
-		for (let i = 0; i < 50; i += 1) convs.push(new MailConversation({ id: `-10${i < 10 ? `0${i}` : i}` }));
+		for (let i = 0; i < 50; i += 1) convs.push(new MailConversationFromDb({ id: `-10${i < 10 ? `0${i}` : i}` }));
 		const sortBy = jest.fn().mockImplementation(() => Promise.resolve(convs));
 		db.conversations.where.mockImplementation(() => ({
 			equals: () => ({
