@@ -220,7 +220,6 @@ function processMailUpdates(
 			);
 
 			if (saveDraftRequest.length > 0) {
-				// eslint-disable-next-line no-param-reassign
 				batchRequest.SaveDraftRequest =	[
 					...(batchRequest.SaveDraftRequest || []),
 					...saveDraftRequest

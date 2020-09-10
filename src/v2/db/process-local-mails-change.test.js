@@ -21,7 +21,7 @@ import { map } from 'lodash';
 import { Participant } from './mail-db-types';
 
 describe('Local Changes - Mail', () => {
-	test.skip('Create a Change', (done) => {
+	test('Create a Change', (done) => {
 		const db = new MailsDb();
 		const fetch = jest.fn()
 			.mockImplementationOnce(() => Promise.resolve({
@@ -55,6 +55,8 @@ describe('Local Changes - Mail', () => {
 					key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 					mods: {
 						id: '1000',
+						conversation: '-1000',
+						date: 1598610497000,
 					},
 					table: 'messages',
 					type: 2
