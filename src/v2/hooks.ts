@@ -11,13 +11,14 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
-import { last } from 'lodash';
+import { keys, last, groupBy } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversationFromDb } from './db/mail-conversation';
 import { MailConversationMessage } from './db/mail-conversation-message';
+import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	folder: MailsFolder | undefined;
 	hasMore: boolean;
 	isLoading: boolean;
@@ -34,7 +35,7 @@ type SetFolderAction = {
 
 type SetConversationsAction = {
 	type: 'set-conversations';
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 }
 
 type SetIsLoadingAction = {
@@ -45,7 +46,7 @@ type SetIsLoadingAction = {
 
 type LoadedMoreConversations = {
 	type: 'loaded-more-conversations';
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	hasMore: boolean;
 };
 
@@ -101,7 +102,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 }
 
 type UseConvsInFolderReturnType = {
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	folder: MailsFolder | undefined;
 	isLoading: boolean;
 	loadMore?: () => Promise<void>;
@@ -112,6 +113,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext();
 
 	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
+
 	const loadMore = useCallback((folder?: MailsFolder) => new Promise<void>((resolve, reject) => {
 		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
 		((folder) ? Promise.resolve(folder) : db.folders.get(folderId))
@@ -127,8 +129,8 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 						.reverse()
 						.limit(1)
 						.sortBy('date')
-						.then(([conv]: [MailConversation]) => db.fetchMoreConv(f, conv))
-						.then(([conversations, hasMore]: [Array<MailConversation>, boolean]) => {
+						.then(([conv]: [MailConversationFromDb]) => db.fetchMoreConv(f, conv))
+						.then(([conversations, hasMore]: [Array<MailConversationFromDb>, boolean]) => {
 							dispatch({ type: 'loaded-more-conversations', conversations, hasMore });
 							resolve();
 						});
@@ -138,28 +140,35 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 
 	useEffect(() => {
 		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
-		db.folders.get(folderId)
+		db.transaction('r', db.folders, db.messages, db.conversations, () => db.folders.get(folderId)
 			.then((folder: MailsFolder) => {
 				dispatch({ type: 'set-folder', folder });
 				if (!folder || !folder.id) {
 					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
-					return;
+					return Promise.resolve();
 				}
-				db.conversations
+				return db.messages
 					.where('parent')
 					.equals(folder.id)
 					.reverse()
 					.sortBy('date')
-					.then((conversations: MailConversation[]) => {
-						dispatch({ type: 'set-conversations', conversations });
-						/* if (conversations.length < 50) {
-							return loadMore(folder);
-						} */
-						const lastConv = last(conversations);
-						return db.checkHasMoreConv(folder, lastConv)
-							.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
-					});
-			});
+					.toArray()
+					.then((messages: MailMessageFromDb[]) => {
+						const mappedMsgs = groupBy(messages, 'conversation');
+						return keys(mappedMsgs);
+					})
+					.then((conversationsIds: Array<string>) => db.conversation
+						.where('id')
+						.equals(conversationsIds)
+						.toArray()
+						.then((conversations: MailConversationFromDb[]) => {
+							dispatch({ type: 'set-conversations', conversations });
+							const lastConv = last(conversations);
+							return db.checkHasMoreConv(folder, lastConv)
+								.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
+						}));
+			}))
+			.catch();
 	}, [db, folderId, dispatch, loadMore]);
 
 	return {

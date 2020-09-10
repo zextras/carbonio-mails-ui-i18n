@@ -11,10 +11,10 @@
 
 import { PromiseExtended } from 'dexie';
 import { SoapFetch } from '@zextras/zapp-shell';
-import { MailsFolder } from './mails-folder';
-import { MailConversation } from './mail-conversation';
+import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
 import { MailsDbDexie } from './mails-db-dexie';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 export type DeletionData = {
 	_id: string;
@@ -35,7 +35,7 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public getFolderChildren(folder: MailsFolder): Promise<MailsFolder[]> {
-		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that.
+		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that
 		if (!folder.id) return Promise.resolve([]);
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
@@ -52,7 +52,7 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._soapFetch,
@@ -62,7 +62,7 @@ export class MailsDb extends MailsDbDexie {
 		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
-	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromSoap): Promise<[Array<MailConversationFromSoap>, boolean]> {
 		return fetchConversationsInFolder(
 			this._soapFetch,
 			f,

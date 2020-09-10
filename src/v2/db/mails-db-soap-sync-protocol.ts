@@ -20,9 +20,9 @@ import processRemoteFolderNotifications from './process-remote-folder-notificati
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailConversationMessage } from './mail-conversation-message';
-import { MailConversation } from './mail-conversation';
-import { MailsFolderFromSoap } from './mails-folder';
+import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
 import { MailMessageFromSoap } from './mail-message';
+import { MailConversationFromSoap } from './mail-conversation';
 
 const POLL_INTERVAL = 20000;
 
@@ -174,14 +174,14 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 		}
 		return fetchConversationsInFolder(
 			this._soapFetch,
-			(folder as ICreateChange).obj as unknown as MailsFolderFromSoap,
+			(folder as ICreateChange).obj as unknown as MailsFolderFromDb,
 			undefined,
 			new Date(0)
 		)
 			.then(
 				([convs]) => fetchMailMessagesById(
 					this._soapFetch,
-					reduce<MailConversation, string[]>(
+					reduce<MailConversationFromSoap, string[]>(
 						convs,
 						(acc, v) => {
 							reduce<MailConversationMessage, string[]>(
@@ -196,11 +196,11 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						[]
 					)
-				).then((msgs: {[k: string]: MailMessageFromSoap}) => [
+				).then((msgs: MailMessageFromSoap[]) => [
 					convs,
 					reduce(
 						msgs,
-						(acc, v, k) => {
+						(acc, v) => {
 							acc.push({
 								type: 1,
 								table: 'messages',
@@ -213,7 +213,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					)
 				])
 			)
-			.then(([convs, mesgs]) => reduce(
+			.then(([convs]) => reduce(
 				convs,
 				(acc, v) => {
 					acc.push({
