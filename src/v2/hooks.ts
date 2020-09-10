@@ -13,12 +13,12 @@ import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
 import { keys, last, groupBy } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
-import { MailConversation, MailConversationFromDb } from './db/mail-conversation';
+import { MailConversationFromDb } from './db/mail-conversation';
 import { MailConversationMessage } from './db/mail-conversation-message';
 import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	folder: MailsFolder | undefined;
 	hasMore: boolean;
 	isLoading: boolean;
@@ -35,7 +35,7 @@ type SetFolderAction = {
 
 type SetConversationsAction = {
 	type: 'set-conversations';
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 }
 
 type SetIsLoadingAction = {
@@ -46,7 +46,7 @@ type SetIsLoadingAction = {
 
 type LoadedMoreConversations = {
 	type: 'loaded-more-conversations';
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	hasMore: boolean;
 };
 
@@ -102,7 +102,7 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 }
 
 type UseConvsInFolderReturnType = {
-	conversations: Array<MailConversation>;
+	conversations: Array<MailConversationFromDb>;
 	folder: MailsFolder | undefined;
 	isLoading: boolean;
 	loadMore?: () => Promise<void>;
@@ -129,8 +129,8 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 						.reverse()
 						.limit(1)
 						.sortBy('date')
-						.then(([conv]: [MailConversation]) => db.fetchMoreConv(f, conv))
-						.then(([conversations, hasMore]: [Array<MailConversation>, boolean]) => {
+						.then(([conv]: [MailConversationFromDb]) => db.fetchMoreConv(f, conv))
+						.then(([conversations, hasMore]: [Array<MailConversationFromDb>, boolean]) => {
 							dispatch({ type: 'loaded-more-conversations', conversations, hasMore });
 							resolve();
 						});

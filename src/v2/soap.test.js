@@ -11,44 +11,38 @@
 
 import { fetchConversationsInFolder, normalizeMailsFolders } from './soap';
 import { MailsFolder } from './db/mails-folder';
-import { MailConversation } from './db/mail-conversation';
+import { MailConversation, MailConversationFromSoap } from './db/mail-conversation';
 
 
 describe('SOAP', () => {
 	test('Fetch Conversations in Folder', (done) => {
 		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					SearchResponse: {
-						c: [{
-							id: '-1000',
-							d: 0,
-							n: 2,
-							u: 1,
-							m: [{
-								id: '1000',
-								l: '2'
-							}, {
-								id: '1001',
-								l: '5'
-							}],
-							e: [
-								{ t: 'f', a: 'from@example.com', d: 'From' },
-								{ t: 't', a: 'to@example.com', d: 'To' },
-								{ t: 'b', a: 'bcc@example.com', d: 'Bcc' },
-								{ t: 'c', a: 'cc@example.com', d: 'Cc' },
-								{ t: 'r', a: 'reply-to@example.com', d: 'Reply-To' },
-								{ t: 's', a: 'sender@example.com', d: 'Sender' },
-								{ t: 'n', a: 'notification@example.com', d: 'Notification' },
-								{ t: 'rf', a: 'resent-from@example.com', d: 'Resent-From' }
-							],
-							su: 'Conversation Subject',
-							fr: 'Conversation Fragment',
-							f: 'u'
-						}]
-					}
-				}
-			})
+			c: [{
+				id: '-1000',
+				d: 0,
+				n: 2,
+				u: 1,
+				m: [{
+					id: '1000',
+					l: '2'
+				}, {
+					id: '1001',
+					l: '5'
+				}],
+				e: [
+					{ t: 'f', a: 'from@example.com', d: 'From' },
+					{ t: 't', a: 'to@example.com', d: 'To' },
+					{ t: 'b', a: 'bcc@example.com', d: 'Bcc' },
+					{ t: 'c', a: 'cc@example.com', d: 'Cc' },
+					{ t: 'r', a: 'reply-to@example.com', d: 'Reply-To' },
+					{ t: 's', a: 'sender@example.com', d: 'Sender' },
+					{ t: 'n', a: 'notification@example.com', d: 'Notification' },
+					{ t: 'rf', a: 'resent-from@example.com', d: 'Resent-From' }
+				],
+				su: 'Conversation Subject',
+				fr: 'Conversation Fragment',
+				f: 'u'
+			}]
 		}));
 		fetchConversationsInFolder(
 			fetch,
@@ -59,7 +53,7 @@ describe('SOAP', () => {
 			.then(([convs, hasMore]) => {
 				expect(convs.length).toBe(1);
 				const conv = convs[0];
-				expect(conv).toBeInstanceOf(MailConversation);
+				expect(conv).toBeInstanceOf(MailConversationFromSoap);
 				expect(conv.id).toBe('-1000');
 				expect(conv.messages).toStrictEqual([
 					{ id: '1000', parent: '2' },
@@ -89,31 +83,25 @@ describe('SOAP', () => {
 
 	test('Fetch Conversations in Folder, Error on ParticipantType', (done) => {
 		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					SearchResponse: {
-						c: [{
-							id: '-1000',
-							d: 0,
-							n: 2,
-							u: 1,
-							m: [{
-								id: '1000',
-								l: '2'
-							}, {
-								id: '1001',
-								l: '5'
-							}],
-							e: [
-								{ t: 'xx', a: 'unknown@example.com', d: 'Unkown' },
-							],
-							su: 'Conversation Subject',
-							fr: 'Conversation Fragment',
-							f: 'u'
-						}]
-					}
-				}
-			})
+			c: [{
+				id: '-1000',
+				d: 0,
+				n: 2,
+				u: 1,
+				m: [{
+					id: '1000',
+					l: '2'
+				}, {
+					id: '1001',
+					l: '5'
+				}],
+				e: [
+					{ t: 'xx', a: 'unknown@example.com', d: 'Unkown' },
+				],
+				su: 'Conversation Subject',
+				fr: 'Conversation Fragment',
+				f: 'u'
+			}]
 		}));
 		fetchConversationsInFolder(
 			fetch,

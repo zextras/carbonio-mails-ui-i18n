@@ -12,21 +12,15 @@ describe('Notifications - Mails', () => {
 	test('Initial Sync', (done) => {
 		const db = new MailsDb();
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					BatchResponse: {
-						GetMsgResponse: [
-							{
-								m: [
-									{
-										id: '1000',
-									}
-								]
-							}
-						]
-					}
+			GetMsgResponse: [
+				{
+					m: [
+						{
+							id: '1000',
+						}
+					]
 				}
-			}))
+			]
 		}));
 		const SyncResponse = {
 			md: 1,
@@ -73,21 +67,15 @@ describe('Notifications - Mails', () => {
 	test('New Message', (done) => {
 		const db = new MailsDb();
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: jest.fn().mockImplementation(() => Promise.resolve({
-				Body: {
-					BatchResponse: {
-						GetMsgResponse: [
-							{
-								m: [
-									{
-										id: '1000',
-									}
-								]
-							}
-						]
-					}
+			GetMsgResponse: [
+				{
+					m: [
+						{
+							id: '1000',
+						}
+					]
 				}
-			}))
+			]
 		}));
 		const SyncResponse = {
 			m: [{

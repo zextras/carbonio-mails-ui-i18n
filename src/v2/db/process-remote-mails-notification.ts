@@ -16,7 +16,7 @@ import {
 	isEqual,
 	keyBy
 } from 'lodash';
-
+import { SoapFetch } from '@zextras/zapp-shell';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
@@ -44,7 +44,7 @@ function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 }
 
 function extractAllMailsForInitialSync(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	folders: Array<SyncResponseMailFolder>
 ): Promise<ICreateChange[]> {
 	const mIds = reduce<SyncResponseMailFolder, string[]>(
@@ -72,7 +72,7 @@ function extractAllMailsForInitialSync(
 }
 
 export default function processRemoteMailsNotification(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	db: MailsDb,
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
