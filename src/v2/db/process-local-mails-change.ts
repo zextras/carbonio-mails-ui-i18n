@@ -13,19 +13,18 @@ import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import {
-	filter, map, reduce, keyBy, startsWith
+	filter, map, reduce, keyBy
 } from 'lodash';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
-	BatchRequest,
+	BatchRequest, BatchResponse,
 	MsgActionRequest,
-	MsgActionResponse, SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
+	SaveDraftRequest, SaveDraftResponse
 } from '../soap';
 import { MailMessageFromDb, MailMessagePart } from './mail-message';
-import { getBodyStrings } from '../../ISoap';
 import { Participant } from './mail-db-types';
-
 
 // TODO TYPE 1 CREATING INSERTS
 function processInserts(
@@ -286,7 +285,7 @@ function processDeletions(
 export default function processLocalMailsChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+	_fetch: SoapFetch
 ): Promise<IDatabaseChange[]> {
 	if (changes.length < 1) return Promise.resolve([]);
 
@@ -318,29 +317,14 @@ export default function processLocalMailsChange(
 			if (!_batchRequest.MsgActionRequest) {
 				return _dbChanges;
 			}
-			return _fetch(
-				'/service/soap/BatchRequest',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						Body: {
-							BatchRequest: _batchRequest
-						}
-					})
-				}
+			return _fetch<BatchRequest, BatchResponse>(
+				'Batch',
+				_batchRequest
 			)
-				.then((response) => response.json())
-				.then((r) => {
-					if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-					else return r.Body.BatchResponse;
-				})
-				.then((BatchResponse) => {
-					if (BatchResponse.SaveDraftResponse) {
+				.then(({ SaveDraftResponse: saveDraftResponse }) => {
+					if (saveDraftResponse) {
 						const creationChanges = reduce<any, IUpdateChange[]>(
-							BatchResponse.SaveDraftResponse,
+							saveDraftResponse,
 							(acc, response) => {
 								acc.push(processCreationResponse(response));
 								return acc;

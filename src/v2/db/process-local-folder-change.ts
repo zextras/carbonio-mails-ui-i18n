@@ -14,11 +14,17 @@ import {
 	IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, reduce, map } from 'lodash';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { DeletionData, MailsDb } from './mails-db';
-import {
-	BatchedRequest, BatchedResponse, BatchRequest, CreateFolderResponse, FolderActionRequest
-} from '../soap';
 import { MailsFolderFromDb } from './mails-folder';
+import {
+	BatchedRequest,
+	BatchedResponse,
+	BatchRequest,
+	BatchResponse,
+	CreateFolderResponse,
+	FolderActionRequest
+} from '../soap';
 
 function processInserts(
 	db: MailsDb,
@@ -45,7 +51,7 @@ function processInserts(
 		CreateFolderRequest
 	);
 	if (CreateFolderRequest.length > 0) {
-			batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []), ...CreateFolderRequest];
+		batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []), ...CreateFolderRequest];
 	}
 	return Promise.resolve([batchRequest, localChanges]);
 }
@@ -170,7 +176,7 @@ function processCreationResponse(r: BatchedResponse & CreateFolderResponse): IUp
 export default function processLocalFolderChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+	soapFetch: SoapFetch
 ): Promise<IDatabaseChange[]> {
 	if (changes.length < 1) return Promise.resolve([]);
 	const folderChanges = filter(changes, ['table', 'folders']);
@@ -201,29 +207,14 @@ export default function processLocalFolderChange(
 			if (!_batchRequest.CreateFolderRequest && !_batchRequest.FolderActionRequest) {
 				return _dbChanges;
 			}
-			return _fetch(
-				'/service/soap/BatchRequest',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						Body: {
-							BatchRequest: _batchRequest
-						}
-					})
-				}
+			return soapFetch<BatchRequest, BatchResponse>(
+				'Batch',
+				_batchRequest
 			)
-				.then((response) => response.json())
-				.then((r) => {
-					if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-					else return r.Body.BatchResponse;
-				})
-				.then((BatchResponse) => {
-					if (BatchResponse.CreateFolderResponse) {
+				.then(({ CreateFolderResponse: createFolderResponse }) => {
+					if (createFolderResponse) {
 						const creationChanges = reduce<any, IUpdateChange[]>(
-							BatchResponse.CreateFolderResponse,
+							createFolderResponse,
 							(r, response) => {
 								r.push(processCreationResponse(response));
 								return r;

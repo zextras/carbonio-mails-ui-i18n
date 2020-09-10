@@ -175,48 +175,38 @@ describe('Local Changes - Mail', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									MsgActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'move',
-											l: '1001',
-											id: '1000',
-										}
-									}],
-									SaveDraftRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										m: {
-											id: '1000',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}],
-											e: [
-												{
-													a: 'admin@example.com',
-													d: 'Example',
-													t: 'f'
-												}
-											]
-										},
-									}]
-								},
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'move',
+								l: '1001',
+								id: '1000',
 							}
-						})
+						}],
+						SaveDraftRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							m: {
+								id: '1000',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}],
+								e: [
+									{
+										a: 'admin@example.com',
+										d: 'Example',
+										t: 'f'
+									}
+								]
+							},
+						}]
 					}
 				);
 				done();
@@ -281,47 +271,37 @@ describe('Local Changes - Mail', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									MsgActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'trash',
-											id: '1000',
-										}
-									}],
-									SaveDraftRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										m: {
-											id: '1000',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}],
-											e: [
-												{
-													a: 'admin@example.com',
-													d: 'Example',
-													t: 'f'
-												}
-											]
-										},
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'trash',
+								id: '1000',
 							}
-						})
+						}],
+						SaveDraftRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							m: {
+								id: '1000',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}],
+								e: [
+									{
+										a: 'admin@example.com',
+										d: 'Example',
+										t: 'f'
+									}
+								]
+							},
+						}]
 					}
 				);
 				done();
@@ -376,74 +356,63 @@ describe('Local Changes - Mail', () => {
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									MsgActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										action: {
-											id: '1000',
-											op: 'flag'
-										}
-									}, {
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										action: {
-											id: '1001',
-											op: '!flag'
-										}
-									}],
-									SaveDraftRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										m: {
-											id: '1000',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}],
-											e: [
-												{
-													a: 'admin@example.com',
-													d: 'Example',
-													t: 'f'
-												}
-											]
-										},
-									},
-									{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										m: {
-											id: '1001',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}],
-											e: [
-												{
-													a: 'admin@example.com',
-													d: 'Example',
-													t: 'f'
-												}
-											]
-										},
-									}
-									]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							action: {
+								id: '1000',
+								op: 'flag'
 							}
-						})
+						}, {
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							action: {
+								id: '1001',
+								op: '!flag'
+							}
+						}],
+						SaveDraftRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							m: {
+								id: '1000',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}],
+								e: [
+									{
+										a: 'admin@example.com',
+										d: 'Example',
+										t: 'f'
+									}
+								]
+							},
+						},
+						{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							m: {
+								id: '1001',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}],
+								e: [
+									{
+										a: 'admin@example.com',
+										d: 'Example',
+										t: 'f'
+									}
+								]
+							},
+						}]
 					}
 				);
 				done();
@@ -497,76 +466,65 @@ describe('Local Changes - Mail', () => {
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									MsgActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										action: {
-											id: '1000',
-											op: 'read'
-										}
-									},
-									{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										action: {
-											id: '1001',
-											op: '!read'
-										}
-									}
-									],
-									SaveDraftRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										m: {
-											id: '1000',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}
-											],
-											e: [{
-												a: 'admin@example.com',
-												d: 'Example',
-												t: 'f'
-											}
-											]
-										},
-									},
-									{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										m: {
-											id: '1001',
-											f: 'u',
-											mp: [{
-												ct: 'multipart/alternative',
-												mp: []
-											}
-											],
-											e: [{
-												a: 'admin@example.com',
-												d: 'Example',
-												t: 'f'
-											}
-											]
-										},
-									}
-									]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							action: {
+								id: '1000',
+								op: 'read'
 							}
-						})
+						},
+						{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							action: {
+								id: '1001',
+								op: '!read'
+							}
+						}
+						],
+						SaveDraftRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							m: {
+								id: '1000',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}
+								],
+								e: [{
+									a: 'admin@example.com',
+									d: 'Example',
+									t: 'f'
+								}
+								]
+							},
+						},
+						{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							m: {
+								id: '1001',
+								f: 'u',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}
+								],
+								e: [{
+									a: 'admin@example.com',
+									d: 'Example',
+									t: 'f'
+								}
+								]
+							},
+						}]
 					}
 				);
 				done();
@@ -631,28 +589,18 @@ describe('Local Changes - Mail', () => {
 				});
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									MsgActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'delete',
-											id: '1000',
-										}
-									}],
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'delete',
+								id: '1000',
 							}
-						})
+						}],
 					}
 				);
 				done();

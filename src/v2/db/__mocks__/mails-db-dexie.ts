@@ -45,6 +45,6 @@ export class MailsDbDexie {
 	messages = new MockedTable();
 
 	observe = jest.fn(() => {
-		throw new Error(`Mock 'observe' not implemented.`);
+		throw new Error('Mock "observe" not implemented.');
 	});
 }
