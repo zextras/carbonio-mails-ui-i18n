@@ -11,50 +11,38 @@
 
 jest.mock('./mails-db');
 jest.mock('./mails-db-dexie');
+import { MailsDb } from './mails-db';
 
 import { MailConversationMessage } from './mail-conversation-message';
 import processLocalConvChange from './process-local-conversations-change';
-import { MailsDb } from './mails-db';
 
 describe('Local Changes - Conversations', () => {
-
 	test.skip('Create a Change', (done) => {
 		const db = new MailsDb();
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ConvActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								_jsns: 'urn:zimbraMail',
-								action: {
-									id: '1000',
-									op: '',
-								},
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-							m: {
-								cid: '-801',
-								d: 1598610497000,
-								id: '801',
-								l: '6',
-								md: 55687,
-								ms: 77212,
-								rev: 1482,
-							}
-						}
-					}
-				})
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				ConvActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					_jsns: 'urn:zimbraMail',
+					action: {
+						id: '1000',
+						op: '',
+					},
+				}]
+			}))
+			.mockImplementationOnce({
+				md: 1,
+				token: 1,
+				m: {
+					cid: '-801',
+					d: 1598610497000,
+					id: '801',
+					l: '6',
+					md: 55687,
+					ms: 77212,
+					rev: 1482,
+				}
+			});
 		processLocalConvChange(
 			db,
 			[{
@@ -79,25 +67,18 @@ describe('Local Changes - Conversations', () => {
 				});
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											id: '1000',
-											op: '',
-										},
-									}]
-								}
-							}
-						})
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								id: '1000',
+								op: '',
+							},
+						}]
 					}
 				);
 				done();
@@ -119,34 +100,22 @@ describe('Local Changes - Conversations', () => {
 				]))
 			}))
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ConvActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								_jsns: 'urn:zimbraMail',
-								action: {
-									id: '1000',
-									l: '1001',
-									op: 'move'
-								}
-							}]
-						}
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				ConvActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					_jsns: 'urn:zimbraMail',
+					action: {
+						id: '1000',
+						l: '1001',
+						op: 'move'
 					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1
+			}));
 		processLocalConvChange(
 			db,
 			[{
@@ -163,29 +132,19 @@ describe('Local Changes - Conversations', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'move',
-											l: '1001',
-											id: '1000',
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'move',
+								l: '1001',
+								id: '1000',
 							}
-						})
+						}]
 					}
 				);
 				done();
@@ -207,33 +166,21 @@ describe('Local Changes - Conversations', () => {
 				]))
 			}))
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ConvActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								_jsns: 'urn:zimbraMail',
-								action: {
-									id: '1000',
-									op: 'trash'
-								}
-							}]
-						}
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				ConvActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					_jsns: 'urn:zimbraMail',
+					action: {
+						id: '1000',
+						op: 'trash'
 					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1
+			}));
 		processLocalConvChange(
 			db,
 			[{
@@ -250,28 +197,18 @@ describe('Local Changes - Conversations', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'trash',
-											id: '1000',
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'trash',
+								id: '1000',
 							}
-						})
+						}]
 					}
 				);
 				done();
@@ -280,13 +217,7 @@ describe('Local Changes - Conversations', () => {
 	});
 	// TODO PROCESS FLAGGED MAIL
 	test('Flag / Unflag', (done) => {
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					BatchResponse: {}
-				}
-			})
-		}));
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: () => ({
@@ -326,35 +257,25 @@ describe('Local Changes - Conversations', () => {
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										action: {
-											id: '1000',
-											op: 'flag'
-										}
-									}, {
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										action: {
-											id: '1001',
-											op: '!flag'
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							action: {
+								id: '1000',
+								op: 'flag'
 							}
-						})
+						}, {
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							action: {
+								id: '1001',
+								op: '!flag'
+							}
+						}]
 					}
 				);
 				done();
@@ -362,13 +283,7 @@ describe('Local Changes - Conversations', () => {
 	});
 	// TODO READ/UNREAD MAILS
 	test('Read / Unread', (done) => {
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					BatchResponse: {}
-				}
-			})
-		}));
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: () => ({
@@ -408,35 +323,25 @@ describe('Local Changes - Conversations', () => {
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-										action: {
-											id: '1000',
-											op: 'read'
-										}
-									}, {
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-										action: {
-											id: '1001',
-											op: '!read'
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+							action: {
+								id: '1000',
+								op: 'read'
 							}
-						})
+						}, {
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+							action: {
+								id: '1001',
+								op: '!read'
+							}
+						}]
 					}
 				);
 				done();
@@ -457,32 +362,21 @@ describe('Local Changes - Conversations', () => {
 		db.deletions.where.mockImplementation(() => ({
 			anyOf
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							ConvActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								action: {
-									op: 'delete',
-									id: '1000'
-								},
-								_jsns: 'urn:zimbraMail',
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				ConvActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					action: {
+						op: 'delete',
+						id: '1000'
+					},
+					_jsns: 'urn:zimbraMail'
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1
+			}));
 		processLocalConvChange(
 			db,
 			[{
@@ -501,28 +395,18 @@ describe('Local Changes - Conversations', () => {
 				});
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									ConvActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'delete',
-											id: '1000',
-										}
-									}],
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'delete',
+								id: '1000',
 							}
-						})
+						}]
 					}
 				);
 				done();

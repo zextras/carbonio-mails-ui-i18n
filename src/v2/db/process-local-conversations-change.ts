@@ -12,12 +12,13 @@ import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, map, reduce } from 'lodash';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
-	BatchRequest,
+	BatchRequest, BatchResponse,
 	ConvActionRequest,
-	ConvActionResponse,
+	ConvActionResponse
 } from '../soap';
 import { MailConversationMessage } from './mail-conversation-message';
 
@@ -203,7 +204,7 @@ function processConvDeletions(
 export default function processLocalConvChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+	_fetch: SoapFetch
 ): Promise<IDatabaseChange[]> {
 	if (changes.length < 1) return Promise.resolve([]);
 
@@ -235,27 +236,12 @@ export default function processLocalConvChange(
 			if (!_batchRequest.ConvActionRequest) {
 				return _dbChanges;
 			}
-			return _fetch(
-				'/service/soap/BatchRequest',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						Body: {
-							BatchRequest: _batchRequest
-						}
-					})
-				}
+			return _fetch<BatchRequest, BatchResponse>(
+				'Batch',
+				_batchRequest
 			)
-				.then((response) => response.json())
-				.then((r) => {
-					if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-					else return r.Body.BatchResponse;
-				})
-				.then((BatchResponse) => {
-					if (BatchResponse.ConvActionRequest) { // TODO needed for drafts
+				.then(({ ConvActionRequest: convActionRequest }) => {
+					if (convActionRequest) { // TODO needed for drafts
 						// const creationChanges = reduce<any, IUpdateChange[]>(
 						// 	BatchResponse.ConvActionRequest,
 						// 	(r, response) => {

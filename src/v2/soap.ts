@@ -371,6 +371,7 @@ export type BatchResponse = {
 	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
 	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 	SaveDraftResponse?: Array<BatchedResponse & SaveDraftResponse>;
+	ConvActionRequest?: Array<BatchedResponse & ConvActionRequest>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
