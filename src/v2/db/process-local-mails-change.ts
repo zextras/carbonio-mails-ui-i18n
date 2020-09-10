@@ -10,12 +10,13 @@
  */
 
 import { IDatabaseChange } from 'dexie-observable/api';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 
 export default function processLocalMailsChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+	_fetch: SoapFetch
 ): Promise<IDatabaseChange[]> {
 	if (changes.length < 1) return Promise.resolve([]);
 

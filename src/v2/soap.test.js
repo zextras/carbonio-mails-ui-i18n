@@ -119,31 +119,25 @@ describe('SOAP', () => {
 
 	test('Fetch Conversations in Folder, Error on ParticipantType', (done) => {
 		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					SearchResponse: {
-						c: [{
-							id: '-1000',
-							d: 0,
-							n: 2,
-							u: 1,
-							m: [{
-								id: '1000',
-								l: '2'
-							}, {
-								id: '1001',
-								l: '5'
-							}],
-							e: [
-								{ t: 'xx', a: 'unknown@example.com', d: 'Unkown' },
-							],
-							su: 'Conversation Subject',
-							fr: 'Conversation Fragment',
-							f: 'u'
-						}]
-					}
-				}
-			})
+			c: [{
+				id: '-1000',
+				d: 0,
+				n: 2,
+				u: 1,
+				m: [{
+					id: '1000',
+					l: '2'
+				}, {
+					id: '1001',
+					l: '5'
+				}],
+				e: [
+					{ t: 'xx', a: 'unknown@example.com', d: 'Unkown' },
+				],
+				su: 'Conversation Subject',
+				fr: 'Conversation Fragment',
+				f: 'u'
+			}]
 		}));
 		fetchConversationsInFolder(
 			fetch,
