@@ -16,7 +16,7 @@ import {
 	isEqual,
 	keyBy
 } from 'lodash';
-
+import { SoapFetch } from '@zextras/zapp-shell';
 import {
 	ICreateChange,
 	IDatabaseChange
@@ -50,7 +50,7 @@ function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 }
 
 function extractAllConversationsForInitialSync(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	folders: Array<SyncResponseMailFolder>
 ): Promise<ICreateChange[]> {
 	const cIds = reduce<SyncResponseMailFolder, string[]>(
@@ -78,7 +78,7 @@ function extractAllConversationsForInitialSync(
 }
 
 export function processRemoteConversationsNotification(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	db: MailsDb,
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
@@ -188,4 +188,4 @@ export function processRemoteConversationsNotification(
 			}
 			return dbChangesUpdatedAndFetched;
 		});
-};
+}
