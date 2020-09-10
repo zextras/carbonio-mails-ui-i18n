@@ -9,6 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { MailMessageFromSoap } from './mail-message';
+
 jest.mock('../soap');
 import { fetchConversationsInFolder } from '../soap';
 
@@ -41,6 +43,11 @@ describe('Mails DB', () => {
 					id: '1001'
 				})
 			],
+			[
+				new MailMessageFromSoap({
+					id: '1002'
+				})
+			],
 			false
 		]));
 		const db = new MailsDb();
@@ -70,9 +77,15 @@ describe('Mails DB', () => {
 					id: '1001'
 				})
 			],
+			[
+				new MailMessageFromSoap({
+					id: '1002'
+				})
+			],
 			false
 		]));
 		const db = new MailsDb();
+		db.transaction.mockImplementation(() => Promise.resolve());
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([

@@ -16,6 +16,7 @@ import { MailsFolder } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { MailConversationMessage } from './db/mail-conversation-message';
 
 type IFolderView =
 	'search folder'
@@ -257,20 +258,22 @@ type MailConversationMessageMetadata = {
 };
 
 function normalizeConversationMessageFromSoap(
-	[r1, r2]: [MailConversationMessageMetadata[], string[]],
+	[r1, r2]: [MailConversationMessage[], string[]],
 	m: SoapConvMsgObj
-): [MailConversationMessageMetadata[], string[]] {
+): [MailConversationMessage[], string[]] {
 	return [
-		r1.concat({
-			id: m.id,
-			parent: m.l
-		}),
+		r1.concat(
+			new MailConversationMessage({
+				id: m.id,
+				parent: m.l
+			})
+		),
 		r2.concat(m.l)
 	];
 }
 
 function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
-	const [messages, parent]: [MailConversationMessageMetadata[], string[]] = reduce(
+	const [messages, parent]: [MailConversationMessage[], string[]] = reduce(
 		c.m || [],
 		normalizeConversationMessageFromSoap,
 		[[], []]

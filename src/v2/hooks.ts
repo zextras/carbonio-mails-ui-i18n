@@ -122,7 +122,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 			resolve();
 			return;
 		}
-		dispatch({ type: 'set-is-loading', isLoading: true });
+		// dispatch({ type: 'set-is-loading', isLoading: true });
 		db.fetchMoreConv(state.folder)
 			.then((hasMore: boolean) => {
 				dispatch({ type: 'loaded-more-conversations', hasMore });

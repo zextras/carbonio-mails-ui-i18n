@@ -60,7 +60,7 @@ describe('Hooks', () => {
 		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);
 		expect(result.current.conversations.length).toBe(50);
 		expect(result.current.loadMore).toBeInstanceOf(Function);
-		expect(result.current.isLoading).toBe(true);
+		expect(result.current.isLoading).toBe(false);
 		expect(result.current.hasMore).toBe(true);
 
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));

@@ -84,7 +84,7 @@ export class MailsDb extends MailsDbDexie {
 			lastConv ? new Date(lastConv.date) : undefined
 		)
 			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
-				return this.transaction('rw', this.conversations, this.messages, async () => {
+				return this.transaction('rw', this.conversations, this.messages, () => {
 					const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
 						remoteConvs,
 						([r1, r2], v) => [
@@ -97,67 +97,79 @@ export class MailsDb extends MailsDbDexie {
 						[[], []]
 					);
 
-					const convsToAdd = await this.conversations
-						.where('id')
-						.anyOf(convsIds)
-						.toArray()
-						.then<MailConversationFromSoap[]>(
-							(localConvs) => {
-								pullAllWith(
-									remoteConvs,
-									localConvs,
-									(a, b) => ((b.id) ? a.id === b.id : false)
-								);
-								return remoteConvs;
-							}
-						)
-						.then((convs) => reduce<MailConversationFromSoap, MailConversationFromDb[]>(
-							convs,
-							(r, v) => {
-								r.push(
-									new MailConversationFromDb({
-										...v,
-										_id: this.createUUID()
-									})
-								);
-								return r;
-							},
-							[]
-						));
-
-					const convsMessagesToAdd = await this.messages
-						.where('id')
-						.anyOf(convsMessageIds)
-						.toArray()
-						.then<MailMessageFromSoap[]>(
-							(localMessages) => {
-								pullAllWith(
-									remoteConvsMessages,
-									localMessages,
-									(a, b) => ((b.id) ? a.id === b.id : false)
-								);
-								return remoteConvsMessages;
-							}
-						)
-						.then((msgs) => reduce<MailMessageFromSoap, MailMessageFromDb[]>(
-							msgs,
-							(r, v) => {
-								r.push(
-									new MailMessageFromDb({
-										...v,
-										_id: this.createUUID()
-									})
-								);
-								return r;
-							},
-							[]
-						));
-
-					await this.messages.bulkAdd(convsMessagesToAdd);
-					await this.conversations.bulkAdd(convsToAdd);
+					return this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
+						.then((convsMessagesToAdd) => this.messages.bulkAdd(convsMessagesToAdd))
+						.then(() => this.getConvsToAdd(convsIds, remoteConvs))
+						.then((convsToAdd) => this.conversations.bulkAdd(convsToAdd));
 				})
 					.then(() => hasMore)
 					.catch(() => false);
 			});
+	}
+
+	private getConvsToAdd(
+		convsIds: string[],
+		remoteConvs: MailConversationFromSoap[]
+	): Promise<MailConversationFromDb[]> {
+		return this.conversations
+			.where('id')
+			.anyOf(convsIds)
+			.toArray()
+			.then<MailConversationFromSoap[]>(
+				(localConvs) => {
+					pullAllWith(
+						remoteConvs,
+						localConvs,
+						(a, b) => ((b.id) ? a.id === b.id : false)
+					);
+					return remoteConvs;
+				}
+			)
+			.then((convs) => reduce<MailConversationFromSoap, MailConversationFromDb[]>(
+				convs,
+				(r, v) => {
+					r.push(
+						new MailConversationFromDb({
+							...v,
+							_id: this.createUUID()
+						})
+					);
+					return r;
+				},
+				[]
+			));
+	}
+
+	private getConvsMessagesToAdd(
+		convsMessagesIds: string[],
+		remoteConvsMessages: MailMessageFromSoap[]
+	): Promise<MailMessageFromDb[]> {
+		return this.messages
+			.where('id')
+			.anyOf(convsMessagesIds)
+			.toArray()
+			.then<MailMessageFromSoap[]>(
+				(localMessages) => {
+					pullAllWith(
+						remoteConvsMessages,
+						localMessages,
+						(a, b) => ((b.id) ? a.id === b.id : false)
+					);
+					return remoteConvsMessages;
+				}
+			)
+			.then((msgs) => reduce<MailMessageFromSoap, MailMessageFromDb[]>(
+				msgs,
+				(r, v) => {
+					r.push(
+						new MailMessageFromDb({
+							...v,
+							_id: this.createUUID()
+						})
+					);
+					return r;
+				},
+				[]
+			));
 	}
 }

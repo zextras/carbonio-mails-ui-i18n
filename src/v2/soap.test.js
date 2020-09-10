@@ -9,60 +9,88 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { fetchConversationsInFolder } from './soap';
+import { fetchConversationsInFolder, fetchMailMessagesById } from './soap';
 import { MailsFolder } from './db/mails-folder';
 import { MailConversation } from './db/mail-conversation';
+import { MailMessageFromSoap } from './db/mail-message';
+import { MailConversationMessage } from './db/mail-conversation-message';
 
 describe('SOAP', () => {
 	test('Fetch Conversations in Folder', (done) => {
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					SearchResponse: {
-						c: [{
-							id: '-1000',
-							d: 0,
-							n: 2,
-							u: 1,
-							m: [{
-								id: '1000',
-								l: '2'
-							}, {
-								id: '1001',
-								l: '5'
-							}],
-							e: [
-								{ t: 'f', a: 'from@example.com', d: 'From' },
-								{ t: 't', a: 'to@example.com', d: 'To' },
-								{ t: 'b', a: 'bcc@example.com', d: 'Bcc' },
-								{ t: 'c', a: 'cc@example.com', d: 'Cc' },
-								{ t: 'r', a: 'reply-to@example.com', d: 'Reply-To' },
-								{ t: 's', a: 'sender@example.com', d: 'Sender' },
-								{ t: 'n', a: 'notification@example.com', d: 'Notification' },
-								{ t: 'rf', a: 'resent-from@example.com', d: 'Resent-From' }
-							],
-							su: 'Conversation Subject',
-							fr: 'Conversation Fragment',
-							f: 'u'
-						}]
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				json: () => Promise.resolve({
+					Body: {
+						SearchResponse: {
+							c: [{
+								id: '-1000',
+								d: 0,
+								n: 2,
+								u: 1,
+								m: [{
+									id: '1000',
+									l: '2'
+								}, {
+									id: '1001',
+									l: '5'
+								}],
+								e: [
+									{ t: 'f', a: 'from@example.com', d: 'From' },
+									{ t: 't', a: 'to@example.com', d: 'To' },
+									{ t: 'b', a: 'bcc@example.com', d: 'Bcc' },
+									{ t: 'c', a: 'cc@example.com', d: 'Cc' },
+									{ t: 'r', a: 'reply-to@example.com', d: 'Reply-To' },
+									{ t: 's', a: 'sender@example.com', d: 'Sender' },
+									{ t: 'n', a: 'notification@example.com', d: 'Notification' },
+									{ t: 'rf', a: 'resent-from@example.com', d: 'Resent-From' }
+								],
+								su: 'Conversation Subject',
+								fr: 'Conversation Fragment',
+								f: 'u'
+							}]
+						}
 					}
-				}
-			})
-		}));
+				})
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				json: () => Promise.resolve({
+					Body: {
+						BatchResponse: {
+							GetMsgResponse: [
+								{
+									m: [
+										{
+											id: '1000'
+										}
+									]
+								},
+								{
+									m: [
+										{
+											id: '1001'
+										}
+									]
+								}
+							]
+						}
+					}
+				})
+			}));
+
 		fetchConversationsInFolder(
 			fetch,
 			new MailsFolder({
 				path: '/Inbox'
 			})
 		)
-			.then(([convs, hasMore]) => {
+			.then(([convs, convsMessages, hasMore]) => {
 				expect(convs.length).toBe(1);
 				const conv = convs[0];
 				expect(conv).toBeInstanceOf(MailConversation);
 				expect(conv.id).toBe('-1000');
 				expect(conv.messages).toStrictEqual([
-					{ id: '1000', parent: '2' },
-					{ id: '1001', parent: '5' }
+					new MailConversationMessage({ id: '1000', parent: '2' }),
+					new MailConversationMessage({ id: '1001', parent: '5' })
 				]);
 				expect(conv.parent).toStrictEqual(['2', '5']);
 				expect(conv.subject).toBe('Conversation Subject');
@@ -81,6 +109,9 @@ describe('SOAP', () => {
 					{ address: 'notification@example.com', displayName: 'Notification', type: 'n' },
 					{ address: 'resent-from@example.com', displayName: 'Resent-From', type: 'rf' }
 				]);
+				expect(conv.urgent).toBe(false);
+				expect(convsMessages[0]).toBeInstanceOf(MailMessageFromSoap);
+				expect(convsMessages[1]).toBeInstanceOf(MailMessageFromSoap);
 				done();
 			})
 			.catch(done);

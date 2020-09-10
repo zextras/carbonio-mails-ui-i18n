@@ -33,4 +33,5 @@ export class MailsDbDexie {
 	deletions = new MockedTable();
 	observe = jest.fn();
 	createUUID = jest.fn();
+	transaction = jest.fn();
 }
