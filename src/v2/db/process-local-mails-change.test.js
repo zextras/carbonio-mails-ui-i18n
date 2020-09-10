@@ -23,31 +23,20 @@ import { Participant } from './mail-db-types';
 describe('Local Changes - Mail', () => {
 	test.skip('Create a Change', (done) => {
 		const db = new MailsDb();
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							SaveDraftResponse: [{
-								m: {
-									id: '1000',
-									cid: '-1000',
-									d: 1598610497000,
-								}
-							}]
-						}
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				SaveDraftResponse: [{
+					m: {
+						id: '1000',
+						cid: '-1000',
+						d: 1598610497000
 					}
-				}))
-				.mockImplementationOnce({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				})
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+				}]
+			}))
+			.mockImplementationOnce({
+				md: 1,
+				token: 1
+			});
 		processLocalMailsChange(
 			db,
 			[{
@@ -131,34 +120,22 @@ describe('Local Changes - Mail', () => {
 				]))
 			}))
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							MsgActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								_jsns: 'urn:zimbraMail',
-								action: {
-									id: '1000',
-									l: '1001',
-									op: 'move'
-								}
-							}]
-						},
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				MsgActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					_jsns: 'urn:zimbraMail',
+					action: {
+						id: '1000',
+						l: '1001',
+						op: 'move'
 					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1
+			}));
 		processLocalMailsChange(
 			db,
 			[{
@@ -228,33 +205,21 @@ describe('Local Changes - Mail', () => {
 				]))
 			}))
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							MsgActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								_jsns: 'urn:zimbraMail',
-								action: {
-									id: '1000',
-									op: 'trash'
-								}
-							}]
-						}
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				MsgActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					_jsns: 'urn:zimbraMail',
+					action: {
+						id: '1000',
+						op: 'trash'
 					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1
+			}));
 		processLocalMailsChange(
 			db,
 			[{
@@ -310,13 +275,7 @@ describe('Local Changes - Mail', () => {
 	});
 	// TODO PROCESS FLAGGED MAIL done
 	test('Flag / Unflag', (done) => {
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					BatchResponse: {},
-				}
-			})
-		}));
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: () => ({
@@ -420,13 +379,7 @@ describe('Local Changes - Mail', () => {
 	});
 	// TODO READ/UNREAD MAILS done
 	test('Read / Unread', (done) => {
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			json: () => Promise.resolve({
-				Body: {
-					BatchResponse: {},
-				}
-			})
-		}));
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: () => ({
@@ -545,32 +498,21 @@ describe('Local Changes - Mail', () => {
 		db.deletions.where.mockImplementation(() => ({
 			anyOf
 		}));
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							MsgActionResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								action: {
-									op: 'delete',
-									id: '1000'
-								},
-								_jsns: 'urn:zimbraMail',
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-						}
-					}
-				}))
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				MsgActionResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					action: {
+						op: 'delete',
+						id: '1000'
+					},
+					_jsns: 'urn:zimbraMail',
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1,
+			}));
 		processLocalMailsChange(
 			db,
 			[{
