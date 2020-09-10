@@ -62,8 +62,8 @@ function processInserts(
 	);
 	if (saveDraftRequest.length > 0) {
 		// eslint-disable-next-line no-param-reassign
-		batchRequest.SendMailRequest = [
-			...(batchRequest.SendMailRequest || []),
+		batchRequest.SaveDraftRequest = [
+			...(batchRequest.SaveDraftRequest || []),
 			...saveDraftRequest
 		];
 	}
@@ -313,7 +313,7 @@ export default function processLocalMailsChange(
 			_dbChanges
 		))
 		.then(([_batchRequest, _dbChanges]) => {
-			if (!_batchRequest.MsgActionRequest) {
+			if (!_batchRequest.MsgActionRequest && !_batchRequest.SaveDraftRequest) {
 				return _dbChanges;
 			}
 			return _fetch<BatchRequest, BatchResponse>(
@@ -322,7 +322,7 @@ export default function processLocalMailsChange(
 			)
 				.then(({ SaveDraftResponse: saveDraftResponse }) => {
 					if (saveDraftResponse) {
-						const creationChanges = reduce<any, IUpdateChange[]>(
+						const creationChanges = reduce<BatchedResponse & SaveDraftResponse, IUpdateChange[]>(
 							saveDraftResponse,
 							(acc, response) => {
 								acc.push(processCreationResponse(response));

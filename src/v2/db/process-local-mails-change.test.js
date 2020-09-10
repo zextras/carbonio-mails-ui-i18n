@@ -26,11 +26,12 @@ describe('Local Changes - Mail', () => {
 		const fetch = jest.fn()
 			.mockImplementationOnce(() => Promise.resolve({
 				SaveDraftResponse: [{
-					m: {
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					m: [{
 						id: '1000',
 						cid: '-1000',
 						d: 1598610497000
-					}
+					}]
 				}]
 			}))
 			.mockImplementationOnce({
@@ -67,31 +68,23 @@ describe('Local Changes - Mail', () => {
 					{
 						_jsns: 'urn:zimbra',
 						onerror: 'continue',
-						MsgActionRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							action: {
-								id: '1000',
-								op: 'create',
-							},
-						}],
 						SaveDraftRequest: [{
 							_jsns: 'urn:zimbraMail',
 							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 							m: {
-								id: '1000',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}],
 								e: [
 									{
 										a: 'admin@example.com',
 										d: 'Example',
 										t: 'f'
 									}
-								]
+								],
+								f: 'u',
+								id: '1000',
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: []
+								}]
 							}
 						}]
 					}
