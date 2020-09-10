@@ -18,13 +18,13 @@ jest.mock('./db/mails-db-dexie');
 jest.mock('./db/mails-db');
 import { MailsDb } from './db/mails-db';
 import { useConvsInFolder } from './hooks';
-import { MailsFolder } from './db/mails-folder';
+import { MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
 
 describe('Hooks', () => {
 	test('useConvsInFolder', async () => {
 		const db = new MailsDb();
-		db.folders.get.mockImplementation(() => Promise.resolve(new MailsFolder({
+		db.folders.get.mockImplementation(() => Promise.resolve(new MailsFolderFromDb({
 			_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 			id: '1000'
 		})));
@@ -55,7 +55,7 @@ describe('Hooks', () => {
 
 		await waitForNextUpdate();
 
-		expect(result.current.folder).toBeInstanceOf(MailsFolder);
+		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);
 		expect(result.current.conversations.length).toBe(50);
 		expect(result.current.loadMore).toBeInstanceOf(Function);
 		expect(result.current.isLoading).toBe(false);
@@ -63,11 +63,11 @@ describe('Hooks', () => {
 
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
 		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[
-			new MailConversation({ id: '-10051' })
+			new MailConversationFromDb({ id: '-10051' })
 		], false]));
 		await act(() => result.current.loadMore());
 
-		expect(result.current.folder).toBeInstanceOf(MailsFolder);
+		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);
 		expect(result.current.conversations.length).toBe(51);
 		expect(result.current.loadMore).toBeUndefined();
 		expect(result.current.isLoading).toBe(false);

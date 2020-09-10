@@ -88,7 +88,7 @@ describe('Notifications - conversation', () => {
 						}]
 					}]
 				}]
-		}));
+			}));
 		const SyncResponse = {
 			c: [{
 				d: 1,
