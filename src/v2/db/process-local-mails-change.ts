@@ -12,7 +12,9 @@
 import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
-import { filter, map, reduce, keyBy, startsWith } from 'lodash';
+import {
+	filter, map, reduce, keyBy, startsWith
+} from 'lodash';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
@@ -37,7 +39,6 @@ function processInserts(
 	reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
 		changes,
 		(acc, change) => {
-			console.log(change);
 			acc.push({
 				_jsns: 'urn:zimbraMail',
 				requestId: change.key,
@@ -61,6 +62,7 @@ function processInserts(
 		saveDraftRequest
 	);
 	if (saveDraftRequest.length > 0) {
+		// eslint-disable-next-line no-param-reassign
 		batchRequest.SendMailRequest = [
 			...(batchRequest.SendMailRequest || []),
 			...saveDraftRequest
@@ -126,6 +128,7 @@ function processMailUpdates(
 							});
 						}
 					}
+					// eslint-disable-next-line no-prototype-builtins
 					if (change.mods.hasOwnProperty('flagged')) {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
@@ -136,6 +139,7 @@ function processMailUpdates(
 							}
 						});
 					}
+					// eslint-disable-next-line no-prototype-builtins
 					if (change.mods.hasOwnProperty('read')) {
 						_msgActionRequest.push({
 							_jsns: 'urn:zimbraMail',
@@ -152,6 +156,7 @@ function processMailUpdates(
 			);
 
 			if (msgActionRequest.length > 0) {
+				// eslint-disable-next-line no-param-reassign
 				batchRequest.MsgActionRequest =	[
 					...(batchRequest.MsgActionRequest || []),
 					...msgActionRequest
@@ -216,6 +221,7 @@ function processMailUpdates(
 			);
 
 			if (saveDraftRequest.length > 0) {
+				// eslint-disable-next-line no-param-reassign
 				batchRequest.SaveDraftRequest =	[
 					...(batchRequest.SaveDraftRequest || []),
 					...saveDraftRequest
@@ -332,7 +338,7 @@ export default function processLocalMailsChange(
 					else return r.Body.BatchResponse;
 				})
 				.then((BatchResponse) => {
-					if (BatchResponse.SaveDraftResponse) { // TODO needed for drafts
+					if (BatchResponse.SaveDraftResponse) {
 						const creationChanges = reduce<any, IUpdateChange[]>(
 							BatchResponse.SaveDraftResponse,
 							(acc, response) => {
