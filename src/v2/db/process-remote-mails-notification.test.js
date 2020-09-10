@@ -108,7 +108,7 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromSoap({
+					new MailMessageFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
 						parent: '7'
@@ -152,7 +152,7 @@ describe('Notifications - Mails', () => {
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromSoap({
+					new MailMessageFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000',
 						parent: '7',
