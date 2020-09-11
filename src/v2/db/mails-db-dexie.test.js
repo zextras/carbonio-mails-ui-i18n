@@ -18,6 +18,8 @@ import { MailsDbDexie } from './mails-db-dexie';
 
 describe('Mails DB Dexie', () => {
 	test('Moks from \'@zextras/zapp-shell\'', () => {
+		_MOCKS_.MockedDb_version_stores.mockImplementation(() => {});
+		_MOCKS_.MockedDb_table_mapToClass.mockImplementation(() => {});
 		const db = new MailsDbDexie();
 
 		expect(_MOCKS_.MockedDb_version).toBeCalledWith(1);

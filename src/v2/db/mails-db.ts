@@ -9,16 +9,16 @@
  * *** END LICENSE BLOCK *****
  */
 
-import Dexie, { PromiseExtended } from 'dexie';
-import { db } from '@zextras/zapp-shell';
+import { PromiseExtended } from 'dexie';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { BehaviorSubject } from 'rxjs';
 import { sortBy, last, reverse, map } from 'lodash';
-import { MailsFolder } from './mails-folder';
-import { MailConversation } from './mail-conversation';
+import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';
 import { Participant } from './mail-db-types';
 import { MailsDbDexie } from './mails-db-dexie';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 export type DeletionData = {
 	_id: string;
@@ -28,13 +28,10 @@ export type DeletionData = {
 };
 
 export class MailsDb extends MailsDbDexie {
-	private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-
 	constructor(
-		fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+		private _soapFetch: SoapFetch
 	) {
 		super();
-		this._fetch = fetch;
 	}
 
 	public open(): PromiseExtended<MailsDb> {
@@ -42,7 +39,7 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public getFolderChildren(folder: MailsFolder): Promise<MailsFolder[]> {
-		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that.
+		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that
 		if (!folder.id) return Promise.resolve([]);
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
@@ -147,19 +144,19 @@ export class MailsDb extends MailsDbDexie {
 		}).then(() => draftId);
 	}
 
-	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<boolean> {
+	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
-			this._fetch,
+			this._soapFetch,
 			f,
 			1,
 			lastConv ? new Date(lastConv.date) : undefined
 		).then(([convs, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
-	public fetchMoreConv(f: MailsFolder, lastConv?: MailConversation): Promise<[Array<MailConversation>, boolean]> {
+	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromSoap): Promise<[Array<MailConversationFromSoap>, boolean]> {
 		return fetchConversationsInFolder(
-			this._fetch,
+			this._soapFetch,
 			f,
 			50,
 			lastConv ? new Date(lastConv.date) : undefined

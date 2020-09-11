@@ -18,40 +18,29 @@ import processLocalFolderChange from './process-local-folder-change';
 describe('Local Changes - Folder', () => {
 	test('Create a folder', (done) => {
 		const db = new MailsDb();
-		const response = {
-			json: jest.fn()
-				.mockImplementationOnce(() => Promise.resolve({
-					Body: {
-						BatchResponse: {
-							CreateFolderResponse: [{
-								requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-								folder: [{
-									id: '1000',
-									name: 'New Folder',
-									absFolderPath: '/New Folder',
-									l: '1'
-								}]
-							}]
-						}
-					}
-				}))
-				.mockImplementationOnce({
-					Body: {
-						SyncResponse: {
-							md: 1,
-							token: 1,
-							folder: [{
-								absFolderPath: '/New Folder',
-								id: '1000',
-								l: '1',
-								name: 'New Folder',
-								view: 'contact'
-							}],
-						}
-					}
-				})
-		};
-		const fetch = jest.fn().mockImplementation(() => Promise.resolve(response));
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				CreateFolderResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					folder: [{
+						id: '1000',
+						name: 'New Folder',
+						absFolderPath: '/New Folder',
+						l: '1'
+					}]
+				}]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				md: 1,
+				token: 1,
+				folder: [{
+					absFolderPath: '/New Folder',
+					id: '1000',
+					l: '1',
+					name: 'New Folder',
+					view: 'contact'
+				}]
+			}));
 		processLocalFolderChange(
 			db,
 			[{
@@ -80,26 +69,19 @@ describe('Local Changes - Folder', () => {
 				});
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									CreateFolderRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										folder: {
-											l: '1',
-											name: 'Folder Name',
-											view: 'message'
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						CreateFolderRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							folder: {
+								l: '1',
+								name: 'Folder Name',
+								view: 'message'
 							}
-						})
+						}]
 					}
 				);
 				done();
@@ -145,26 +127,19 @@ describe('Local Changes - Folder', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									FolderActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'rename',
-											id: '1000',
-											name: 'New Folder Name'
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						FolderActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'rename',
+								id: '1000',
+								name: 'New Folder Name'
 							}
-						})
+						}]
 					}
 				);
 				done();
@@ -210,26 +185,19 @@ describe('Local Changes - Folder', () => {
 				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									FolderActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'move',
-											id: '1000',
-											l: '2'
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						FolderActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'move',
+								id: '1000',
+								l: '2'
 							}
-						})
+						}]
 					}
 				);
 				done();
@@ -278,25 +246,18 @@ describe('Local Changes - Folder', () => {
 				});
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
-					'/service/soap/BatchRequest',
+					'Batch',
 					{
-						method: 'POST',
-						body: JSON.stringify({
-							Body: {
-								BatchRequest: {
-									_jsns: 'urn:zimbra',
-									onerror: 'continue',
-									FolderActionRequest: [{
-										_jsns: 'urn:zimbraMail',
-										requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-										action: {
-											op: 'delete',
-											id: '1000',
-										}
-									}]
-								}
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						FolderActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'delete',
+								id: '1000',
 							}
-						})
+						}]
 					}
 				);
 				done();

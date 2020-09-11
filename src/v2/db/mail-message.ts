@@ -11,6 +11,7 @@
 
 import { IMailMinimalData } from './mail-db-types';
 
+
 export enum ParticipantType {
 	FROM = 'f',
 	TO = 't',

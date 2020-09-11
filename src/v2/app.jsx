@@ -14,7 +14,8 @@ import {
 	setMainMenuItems,
 	setRoutes,
 	setCreateOptions,
-	setAppContext
+	setAppContext,
+	network
 } from '@zextras/zapp-shell';
 import { MailsDb } from './db/mails-db';
 import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
@@ -34,8 +35,8 @@ export default function app() {
 		children: []
 	}]);
 
-	const db = new MailsDb(fetch.bind(window));
-	const syncProtocol = new MailsDbSoapSyncProtocol(db, fetch.bind(window));
+	const db = new MailsDb(network.soapFetch);
+	const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
 	db.registerSyncProtocol('soap-mails', syncProtocol);
 	db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
 

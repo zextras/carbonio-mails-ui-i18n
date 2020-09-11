@@ -12,16 +12,17 @@
 import { IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation } from 'dexie-syncable/api';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { find, reduce } from 'lodash';
+import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 import processLocalFolderChange from './process-local-folder-change';
-import { fetchConversationsInFolder, fetchMailMessagesById, SyncResponse } from '../soap';
+import { fetchConversationsInFolder, fetchMailMessagesById, SyncRequest, SyncResponse } from '../soap';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailConversationMessage } from './mail-conversation-message';
-import { MailConversation } from './mail-conversation';
-import { MailsFolderFromSoap } from './mails-folder';
+import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
 import { MailMessageFromSoap } from './mail-message';
+import { MailConversationFromSoap } from './mail-conversation';
 
 const POLL_INTERVAL = 20000;
 
@@ -32,7 +33,7 @@ interface IContactsDexieContext extends IPersistedContext {
 export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 	constructor(
 		private _db: MailsDb,
-		private _fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+		private _soapFetch: SoapFetch
 	) {}
 
 	public sync(
@@ -51,33 +52,17 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 		processLocalFolderChange(
 			this._db,
 			changes,
-			this._fetch
+			this._soapFetch
 		)
 			.then((localChangesFromRemote) => {
-				this._fetch(
-					'/service/soap/SyncRequest',
+				this._soapFetch<SyncRequest, SyncResponse>(
+					'Sync',
 					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							Body: {
-								SyncRequest: {
-									_jsns: 'urn:zimbraMail',
-									typed: true,
-									token: syncedRevision
-								}
-							}
-						})
+						_jsns: 'urn:zimbraMail',
+						typed: 1,
+						token: syncedRevision
 					}
 				)
-					.then((response) => response.json())
-					.then((r) => {
-						// TODO: Handle "mail.MUST_RESYNC" fault
-						if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-						else return r.Body.SyncResponse as SyncResponse;
-					})
 					.then(
 						({
 							token,
@@ -126,13 +111,13 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						processLocalMailsChange(
 							this._db,
 							changes,
-							this._fetch
+							this._soapFetch
 						)
 							.then((_localChangesFromRemote) => {
 								localChangesFromRemote.push(..._localChangesFromRemote);
 							})
 							.then(() => processRemoteMailsNotification(
-								this._fetch,
+								this._soapFetch,
 								this._db,
 								!baseRevision,
 								changes,
@@ -188,15 +173,15 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 			return Promise.resolve(remoteChanges);
 		}
 		return fetchConversationsInFolder(
-			this._fetch,
-			(folder as ICreateChange).obj as unknown as MailsFolderFromSoap,
+			this._soapFetch,
+			(folder as ICreateChange).obj as unknown as MailsFolderFromDb,
 			undefined,
 			new Date(0)
 		)
 			.then(
 				([convs]) => fetchMailMessagesById(
-					this._fetch,
-					reduce<MailConversation, string[]>(
+					this._soapFetch,
+					reduce<MailConversationFromSoap, string[]>(
 						convs,
 						(acc, v) => {
 							reduce<MailConversationMessage, string[]>(
@@ -211,11 +196,11 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						[]
 					)
-				).then((msgs: {[k: string]: MailMessageFromSoap}) => [
+				).then((msgs: MailMessageFromSoap[]) => [
 					convs,
 					reduce(
 						msgs,
-						(acc, v, k) => {
+						(acc, v) => {
 							acc.push({
 								type: 1,
 								table: 'messages',
@@ -228,7 +213,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					)
 				])
 			)
-			.then(([convs, mesgs]) => reduce(
+			.then(([convs]) => reduce(
 				convs,
 				(acc, v) => {
 					acc.push({
