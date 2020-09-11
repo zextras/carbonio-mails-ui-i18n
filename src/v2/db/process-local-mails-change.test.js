@@ -8,8 +8,6 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import { SaveDraftRequest, SoapEmailMessagePartObj } from '../soap';
-
 jest.mock('./mails-db');
 jest.mock('./mails-db-dexie');
 
@@ -17,8 +15,6 @@ import { MailsDb } from './mails-db';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailMessageFromDb } from './mail-message';
 // eslint-disable-next-line import/order
-import { map } from 'lodash';
-import { Participant } from './mail-db-types';
 
 describe('Local Changes - Mail', () => {
 	test('Create a Change', (done) => {
@@ -45,24 +41,34 @@ describe('Local Changes - Mail', () => {
 				table: 'messages',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 				obj: {
-					_jsns: 'urn:zimbraMail',
-					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 					parent: '6',
-					m: [{
-						su: {
-							_content: 'subject',
-							f: 'u',
-							mp: [{
-								ct: 'multipart/alternative',
-								mp: []
-							}],
-							e: [{
-								a: 'admin@example.com',
-								d: 'Example',
-								t: 'f'
-							}],
+					subject: 'subject',
+					read: false,
+					flag: false,
+					urgent: false,
+					attachment: false,
+					parts: [
+						{
+							contentType: 'text/plain',
+							content: 'plain text mail',
+						},
+						{
+							contentType: 'text/html',
+							content: '<p>plain text mail</p>',
 						}
-					}]
+					],
+					contacts: [
+						{
+							address: 'admin@example.com',
+							displayName: 'Example',
+							type: 'f'
+						},
+						{
+							address: 'to@example.com',
+							displayName: 'To Contact',
+							type: 't'
+						}
+					],
 				}
 			}],
 			fetch
@@ -94,17 +100,28 @@ describe('Local Changes - Mail', () => {
 										a: 'admin@example.com',
 										d: 'Example',
 										t: 'f'
+									},
+									{
+										a: 'to@example.com',
+										d: 'To Contact',
+										t: 't'
 									}
 								],
 								f: 'u',
-								id: '1000',
 								mp: [{
 									ct: 'multipart/alternative',
-									mp: []
+									mp: [
+										{
+											ct: 'text/plain',
+											content: 'plain text mail',
+										},
+										{
+											ct: 'text/html',
+											content: '<p>plain text mail</p>',
+										}
+									]
 								}],
-								su: {
-									_content: 'subject'
-								}
+								su: 'subject'
 							}
 						}]
 					}
@@ -183,13 +200,7 @@ describe('Local Changes - Mail', () => {
 									ct: 'multipart/alternative',
 									mp: []
 								}],
-								e: [
-									{
-										a: 'admin@example.com',
-										d: 'Example',
-										t: 'f'
-									}
-								]
+								e: []
 							},
 						}]
 					}
@@ -266,13 +277,7 @@ describe('Local Changes - Mail', () => {
 									ct: 'multipart/alternative',
 									mp: []
 								}],
-								e: [
-									{
-										a: 'admin@example.com',
-										d: 'Example',
-										t: 'f'
-									}
-								]
+								e: []
 							},
 						}]
 					}
@@ -352,13 +357,7 @@ describe('Local Changes - Mail', () => {
 									ct: 'multipart/alternative',
 									mp: []
 								}],
-								e: [
-									{
-										a: 'admin@example.com',
-										d: 'Example',
-										t: 'f'
-									}
-								]
+								e: []
 							},
 						},
 						{
@@ -371,13 +370,7 @@ describe('Local Changes - Mail', () => {
 									ct: 'multipart/alternative',
 									mp: []
 								}],
-								e: [
-									{
-										a: 'admin@example.com',
-										d: 'Example',
-										t: 'f'
-									}
-								]
+								e: []
 							},
 						}]
 					}
@@ -459,12 +452,7 @@ describe('Local Changes - Mail', () => {
 									mp: []
 								}
 								],
-								e: [{
-									a: 'admin@example.com',
-									d: 'Example',
-									t: 'f'
-								}
-								]
+								e: []
 							},
 						},
 						{
@@ -478,12 +466,7 @@ describe('Local Changes - Mail', () => {
 									mp: []
 								}
 								],
-								e: [{
-									a: 'admin@example.com',
-									d: 'Example',
-									t: 'f'
-								}
-								]
+								e: []
 							},
 						}]
 					}

@@ -339,15 +339,15 @@ export type GetConvResponse = {
 };
 
 export type SoapEmailMessagePartObj = {
-	part: string;
+	part?: string;
 	/**	Content Type  */ ct: string;
-	/**	Size  */ s: number;
-	/**	Content id (for inline images)  */ ci: string;
+	/**	Size  */ s?: number;
+	/**	Content id (for inline images)  */ ci?: string;
 	/** Content disposition */ cd?: 'inline' | 'attachment';
-	/**	Parts  */ mp: Array<SoapEmailMessagePartObj>;
+	/**	Parts  */ mp?: Array<SoapEmailMessagePartObj>;
 	/**	Set if is the body of the message  */ body?: true;
 	filename?: string;
-	content: string;
+	content?: string;
 };
 
 export type SoapEmailMessageObj = {

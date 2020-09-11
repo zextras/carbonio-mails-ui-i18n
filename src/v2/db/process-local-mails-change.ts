@@ -21,10 +21,11 @@ import {
 	BatchedRequest, BatchedResponse,
 	BatchRequest, BatchResponse,
 	MsgActionRequest,
-	SaveDraftRequest, SaveDraftResponse
+	SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
 } from '../soap';
 import { MailMessageFromDb, MailMessagePart } from './mail-message';
 import { Participant } from './mail-db-types';
+import { SoapEmailInfoObj } from '../../ISoap';
 
 // TODO TYPE 1 CREATING INSERTS
 function processInserts(
@@ -52,8 +53,26 @@ function processInserts(
 					}${
 						change.obj.attachment ? 'a' : ''
 					}`,
-					mp: change.obj.parts,
-					e: []
+					mp: [
+						{
+							ct: 'multipart/alternative',
+							mp: map(
+								change.obj.parts,
+								(part: MailMessagePart): SoapEmailMessagePartObj => ({
+									ct: part.contentType,
+									content: part.content || ''
+								})
+							)
+						}
+					],
+					e: map(
+						change.obj.contacts,
+						(contact: Participant): SoapEmailInfoObj => ({
+							a: contact.address,
+							d: contact.displayName,
+							t: contact.type
+						})
+					)
 				}
 			});
 			return acc;
@@ -189,7 +208,7 @@ function processMailUpdates(
 										ct: 'multipart/alternative',
 										mp: map(
 											messages[change.key].parts,
-											(part: Partial<MailMessagePart>) => ({
+											(part: MailMessagePart) => ({
 												ct: part.contentType,
 												content: part.content,
 											})
@@ -205,11 +224,6 @@ function processMailUpdates(
 											t: contact.type
 										})
 									),
-									{ // TODO: add own data
-										a: 'admin@example.com',
-										d: 'Example',
-										t: 'f'
-									}
 								]
 							}
 						}
