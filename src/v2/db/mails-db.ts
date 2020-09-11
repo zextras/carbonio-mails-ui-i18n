@@ -44,50 +44,10 @@ export class MailsDb extends MailsDbDexie {
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
 
-	public deleteFolder(f: MailsFolder): Promise<void> {
-		return this.folders.get(f._id!).then((_f) => {
-			if (_f) {
-				console.log({ _id: _f._id!, id: _f.id!, table: 'folders' });
-				return this.deletions.add({ rowId: this.createUUID(), _id: _f._id!, id: _f.id!, table: 'folders' })
-					.then(() => this.folders.delete(_f._id!).then(() => undefined))
-					.catch(console.error);
-			}
-			return undefined;
-		});
-	}
-
-	public getConvInFolder(f: MailsFolder): BehaviorSubject<GetConvSubjectData> {
-		const subject = new BehaviorSubject<GetConvSubjectData>({ conversations: [], loading: true, hasMore: false });
-		this.conversations.where('parent').equals(f.id!).toArray()
-			.then((conversations: MailConversation[]) => {
-				const sorted = reverse(sortBy(conversations, 'date'));
-				const _last = last(conversations);
-				subject.next({
-					...subject.getValue(),
-					conversations: sorted
-				});
-
-				fetchConversationsInFolder(
-					this._fetch,
-					f,
-					1,
-					_last ? new Date(_last.date) : undefined
-				)
-					.then(([convs, hasMore]) => {
-						subject.next({
-							...subject.getValue(),
-							hasMore: convs.length > 0 || hasMore,
-							loading: false
-						});
-					});
-				// TODO: Catch possible errors to complete the subject
-			});
-		return subject;
-	}
-
 	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
-		console.log(cState);
 		if (draftId === 'new') {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// @ts-ignore
 			return this.messages.add({
 				parent: '6',
 				conversation: '',
@@ -101,7 +61,8 @@ export class MailsDb extends MailsDbDexie {
 				attachment: false,
 				flagged: false,
 				urgent: false,
-				bodyPath: ''
+				bodyPath: '',
+				send: false,
 			});
 		}
 		return this.messages.update(draftId, {
@@ -140,8 +101,12 @@ export class MailsDb extends MailsDbDexie {
 			date: Date.now(),
 			attachment: false,
 			flagged: cState.flagged,
-			urgent: cState.urgent
+			urgent: cState.urgent,
 		}).then(() => draftId);
+	}
+
+	public sendMail(draftId: string): Promise<string> {
+		return this.messages.update(draftId, { send: true }).then(() => draftId);
 	}
 
 	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {

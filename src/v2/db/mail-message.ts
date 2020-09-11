@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2020 ZeXtras
@@ -53,6 +54,7 @@ interface IMailMessage extends IMailMinimalData {
 	flagged: boolean;
 	urgent: boolean;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
+	send?: boolean;
 }
 
 class MailMessage implements IMailMessage {
@@ -86,6 +88,8 @@ class MailMessage implements IMailMessage {
 
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
 
+	send?: boolean;
+
 	constructor({
 		_id,
 		id,
@@ -101,7 +105,8 @@ class MailMessage implements IMailMessage {
 		attachment,
 		flagged,
 		urgent,
-		bodyPath
+		bodyPath,
+		send,
 	}: IMailMessage) {
 		this._id = _id;
 		this.id = id;
@@ -118,6 +123,7 @@ class MailMessage implements IMailMessage {
 		this.flagged = flagged;
 		this.urgent = urgent;
 		this.bodyPath = bodyPath;
+		this.send = send;
 	}
 }
 
