@@ -10,14 +10,17 @@
  */
 
 import {
-	flattenDeep, map, reduce, trim
+	flattenDeep, forEach, map, reduce, trim
 } from 'lodash';
+
+import { MailsFolderFromDb, MailsFolderFromSoap } from './db/mails-folder';
 import { SoapFetch } from '@zextras/zapp-shell';
-import { MailsFolder } from './db/mails-folder';
+
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 import { MailConversationMessage } from './db/mail-conversation-message';
+
 
 type IFolderView =
 	'search folder'
@@ -32,6 +35,27 @@ type IFolderView =
 	| 'wiki'
 	| 'task'
 	| 'chat';
+
+export type ISoapFolderObj = {
+	absFolderPath: string;
+	activesyncdisabled: boolean;
+	deletable: boolean;
+	folder?: Array<ISoapFolderObj>;
+	i4ms: number;
+	i4next: number;
+	id: string;
+	/** Parent ID */ l: string;
+	luuid: string;
+	ms: number;
+	/** Count of non-folder items */ n: number;
+	name: string;
+	rev: number;
+	/** Size */ s: number;
+	/** Count of unread messages */ u?: number;
+	uuid: string;
+	view: IFolderView;
+	webOfflineSyncDays: number;
+}
 
 type ISoapSyncFolderObj = {
 	absFolderPath: string;
@@ -65,7 +89,38 @@ export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 	m: Array<{
 		ids: string; // Comma-separated values
 	}>;
+	c: Array<{
+		ids: string; // Comma-separated values
+	}>;
 	folder: Array<SyncResponseMailFolder>;
+};
+
+export type SyncResponseMail = {
+	cid: string;
+	d: number;
+	id: string;
+	l?: string;
+	md: number;
+	ms: number;
+	rev: number;
+	f?: string;
+	// t?: string; //tag
+	// tn?: string; //tagName
+
+
+};
+
+export type SyncResponseConversation = {
+		d: number;// date ms
+		id: string;// id
+		md: number;// modified date md
+		ms: number;// modified sequence
+		n?: number;// number of msgs
+		u?: number;// number of unread msgs
+		f?: string;// flags
+		su?: string;// subject
+		fr?: string;// fragment
+		e?: Array<SoapEmailInfoObj>;
 };
 
 type SyncResponseDeletedMapRow = {
@@ -75,16 +130,7 @@ type SyncResponseDeletedMapRow = {
 export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
 	folder?: Array<SyncResponseDeletedMapRow>;
 	m?: Array<SyncResponseDeletedMapRow>;
-};
-
-type SyncResponseMail = {
-	cid: string;
-	d: number;
-	id: string;
-	l: string;
-	md: number;
-	ms: number;
-	rev: number;
+	c?: Array<SyncResponseDeletedMapRow>;
 };
 
 export type SyncRequest = {
@@ -99,6 +145,7 @@ export type SyncResponse = {
 	folder?: Array<SyncResponseMailFolder>;
 	m?: Array<SyncResponseMail>;
 	deleted?: Array<SyncResponseDeletedMap>;
+	c?: Array<SyncResponseConversation>;
 };
 
 export type FolderActionRequest = {
@@ -145,13 +192,65 @@ export type BatchRequest = {
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 };
 
+export type GetMsgRequest = {
+	m: Array<{
+		id: string;
+		html: string;
+	}>;
+};
+
+export type GetConvRequest = {
+	c: Array<{
+		id: string;
+		html: string;
+		fetch: string;
+	}>;
+};
+
+export type Jsns = {
+	_jsns: 'urn:zimbraMail';
+};
+
+export type GetMsgResponse = {
+	m: Array<SoapEmailMessageObj>;
+};
+
+export type GetConvResponse = {
+	c: Array<SoapConvObj>;
+};
+
+export type SoapEmailMessagePartObj = {
+	part: string;
+	/**	Content Type	*/ ct: string;
+	/**	Size	*/ s: number;
+	/**	Content id (for inline images)	*/ ci: string;
+	/** Content disposition */ cd?: 'inline'|'attachment';
+	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
+	/**	Set if is the body of the message	*/ body?: true;
+	filename?: string;
+	content: string;
+};
+
+export type SoapEmailMessageObj = {
+	id: string;
+	/** Conversation id */ cid: string;
+	/** Folder id */ l: string;
+	/** Contacts */ e: Array<SoapEmailInfoObj>;
+	/** Fragment */ fr: string;
+	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
+	/** Flags */ f: string;
+	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
+	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
+	// urgent (!), low-priority (?), priority (+)
+	/** Size */ s: number;
+	/** Subject */ su: string;
+	/** Date */ d: number;
+};
+
 export type BatchResponse = {
 	CreateFolderResponse?: Array<BatchedResponse & CreateFolderResponse>;
 	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
-};
-
-type GetMsgRequest = {
-	m: { id: string; html: string };
+	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -187,7 +286,7 @@ type SoapConvMsgObj = {
 	f: string;
 };
 
-type SoapConvObj = {
+export type SoapConvObj = {
 	id: string;
 	/** Number of the messages */
 	n: number;
@@ -208,38 +307,6 @@ type SoapConvObj = {
 	/** Fragment */
 	fr: string;
 };
-
-export type SoapEmailMessagePartObj = {
-	part: string;
-	/**	Content Type	*/ ct: string;
-	/**	Size	*/ s: number;
-	/**	Content id (for inline images)	*/ ci: string;
-	/** Content disposition */ cd?: 'inline'|'attachment';
-	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
-	/**	Set if is the body of the message	*/ body?: true;
-	filename?: string;
-	content: string;
-};
-
-export type SoapEmailMessageObj = {
-	id: string;
-	/** Conversation id */ cid: string;
-	/** Folder id */ l: string;
-	/** Contacts */ e: Array<SoapEmailInfoObj>;
-	/** Fragment */ fr: string;
-	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
-	/** Flags */ f: string;
-	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
-	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
-	// urgent (!), low-priority (?), priority (+)
-	/** Size */ s: number;
-	/** Subject */ su: string;
-	/** Date */ d: number;
-};
-
-type GetMsgResponse = {
-	m: Array<SoapEmailMessageObj>;
-}
 
 type SearchRequest = {
 	_jsns: 'urn:zimbraMail';
@@ -273,7 +340,7 @@ function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
 	}
 }
 
-function normalizeParticipantsFromSoap(e: SoapEmailInfoObj): Participant {
+export function normalizeParticipantsFromSoap(e: SoapEmailInfoObj): Participant {
 	return {
 		type: participantTypeFromSoap(e.t),
 		address: e.a,
@@ -301,7 +368,7 @@ function normalizeConversationMessageFromSoap(
 	];
 }
 
-function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
+export function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
 	const [messages, parent]: [MailConversationMessage[], string[]] = reduce(
 		c.m || [],
 		normalizeConversationMessageFromSoap,
@@ -328,6 +395,86 @@ function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap
 	});
 }
 
+function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	if (v.mp) {
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
+		}
+	}
+	return [];
+}
+
+function normalizeFolder(soapFolderObj: SyncResponseMailFolder): MailsFolderFromSoap {
+	return new MailsFolderFromSoap({
+		itemsCount: soapFolderObj.n,
+		name: soapFolderObj.name,
+		// _id: soapFolderObj.uuid,
+		id: soapFolderObj.id,
+		path: soapFolderObj.absFolderPath,
+		unreadCount: soapFolderObj.u || 0,
+		size: soapFolderObj.s,
+		parent: soapFolderObj.l
+	});
+}
+
+export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFromSoap[] {
+	if (!f) return [];
+	let children: MailsFolderFromSoap[] = [];
+	if (f.folder) {
+		forEach(f.folder, (c: SyncResponseMailFolder) => {
+			const child = normalizeMailsFolders(c);
+			children = [...children, ...child];
+		});
+	}
+	if (f.id === '3' || (f.view && f.view === 'message')) {
+		return [normalizeFolder(f), ...children];
+	}
+
+	return children;
+}
+
+export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	const obj = new MailMessageFromSoap({
+		conversation: m.cid,
+		id: m.id,
+		date: m.d,
+		size: m.s,
+		parent: m.l,
+		parts: map(
+			m.mp || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeMailPartMapFn
+		),
+		fragment: m.fr,
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		bodyPath: generateBodyPath(m.mp || []),
+		subject: m.su,
+		contacts: map(
+			m.e || [],
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			normalizeParticipantsFromSoap
+		),
+		read: false,
+		attachment: false,
+		flagged: false,
+		urgent: false
+	});
+
+	if (m.f) {
+		obj.read = !(/u/.test(m.f));
+		obj.attachment = /a/.test(m.f);
+		obj.flagged = /f/.test(m.f);
+		obj.urgent = /!/.test(m.f);
+	}
+	return obj;
+}
+
 function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
 	const ret: MailMessagePart = {
 		contentType: v.ct,
@@ -348,69 +495,16 @@ function normalizeMailPartMapFn(v: SoapEmailMessagePartObj): MailMessagePart {
 	return ret;
 }
 
-function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
-	if (v.body) {
-		return [idx];
-	}
-	if (v.mp) {
-		// eslint-disable-next-line @typescript-eslint/no-use-before-define
-		const paths = recursiveBodyPath(v.mp);
-		if (paths.length > 0) {
-			paths.push(idx);
-			return paths;
-		}
-	}
-	return [];
-}
-
 function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
 	// eslint-disable-next-line @typescript-eslint/no-use-before-define
 	return flattenDeep(map(mp, bodyPathMapFn));
 }
 
-function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
-	const indexes = recursiveBodyPath(mp);
-	const path = reduce(
-		indexes,
-		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
-		''
-	);
-	return trim(path, '.');
-}
-
-function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
-	return new MailMessageFromSoap({
-		conversation: m.cid,
-		id: m.id,
-		date: m.d,
-		size: m.s,
-		parent: m.l,
-		parts: map(
-			m.mp || [],
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			normalizeMailPartMapFn
-		),
-		fragment: m.fr,
-		// eslint-disable-next-line @typescript-eslint/no-use-before-define
-		bodyPath: generateBodyPath(m.mp || []),
-		subject: m.su,
-		contacts: map(
-			m.e || [],
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			normalizeParticipantsFromSoap
-		),
-		read: !(/u/.test(m.f || '')),
-		attachment: /a/.test(m.f || ''),
-		flagged: /f/.test(m.f || ''),
-		urgent: /!/.test(m.f || ''),
-	});
-}
-
 export function fetchMailMessagesById(
 	soapFetch: SoapFetch,
 	ids: string[]
-): Promise<{[key: string]: MailMessageFromSoap}> {
-	if (ids.length < 1) return Promise.resolve({});
+): Promise<MailMessageFromSoap[]> {
+	if (ids.length < 1) return Promise.resolve([]);
 	const batchRequest: BatchRequest = {
 		_jsns: 'urn:zimbra',
 		onerror: 'continue'
@@ -418,7 +512,7 @@ export function fetchMailMessagesById(
 	batchRequest.GetMsgRequest = reduce<string, Array<BatchedRequest & GetMsgRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: { id, html: '1' } });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: [{ id, html: '1' }] });
 			return acc;
 		},
 		[]
@@ -428,20 +522,53 @@ export function fetchMailMessagesById(
 		batchRequest
 	)
 		.then(({ GetMsgResponse: getMsgResponse }) =>
-			reduce<GetMsgResponse, {[key: string]: MailMessageFromSoap}>(
+
+			reduce<GetMsgResponse, MailMessageFromSoap[]>(
 				getMsgResponse || [],
 				(acc, { m }) => {
-					const msg = normalizeMailMessageFromSoap(m[0]);
-					acc[msg.id] = msg;
+					acc.push(normalizeMailMessageFromSoap(m[0]));
 					return acc;
 				},
-				{}
+				[]
+			));
+}
+
+export function fetchMailConversationsById(
+	_soapFetch: SoapFetch,
+	ids: string[]
+): Promise<MailConversationFromSoap[]> {
+	if (ids.length < 1) return Promise.resolve([]);
+	const batchRequest: BatchRequest & {GetConvRequest: Array<BatchedRequest & GetConvRequest>} = {
+		_jsns: 'urn:zimbra',
+		onerror: 'continue',
+		GetConvRequest: []
+	};
+	reduce<string, Array<BatchedRequest & GetConvRequest>>(
+		ids,
+		(acc, id) => {
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1', fetch: 'all' }] });
+			return acc;
+		},
+		batchRequest.GetConvRequest
+	);
+	return _soapFetch<BatchRequest, BatchResponse>(
+		'Batch',
+		batchRequest
+	)
+		.then(({ GetConvResponse: getConvResponse }) =>
+			reduce<GetConvResponse, MailConversationFromSoap[]>(
+				getConvResponse,
+				(acc, { c }) => {
+					acc.push(normalizeConversationFromSoap(c[0]));
+					return acc;
+				},
+				[]
 			));
 }
 
 export function fetchConversationsInFolder(
 	soapFetch: SoapFetch,
-	f: MailsFolder,
+	f: MailsFolderFromDb,
 	limit = 50,
 	before?: Date
 ): Promise<[Array<MailConversationFromSoap>, Array<MailMessageFromSoap>, boolean]> {
@@ -482,19 +609,26 @@ export function fetchConversationsInFolder(
 			);
 
 			return fetchMailMessagesById(soapFetch, msgIds)
-				.then((convsMessages: {[k: string]: MailMessageFromSoap}) => {
+				.then((convsMessages: Array<MailMessageFromSoap>) => {
 					return [
 						reduce<SoapConvObj, Array<MailConversationFromSoap>>(
 							c,
 							(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
 							[]
 						),
-						reduce<
-							{[k: string]: MailMessageFromSoap},
-							MailMessageFromSoap[]
-						>(convsMessages, (acc, msg) => [...acc, msg], []),
+						convsMessages,
 						more
 					];
 				});
 		});
+}
+
+function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
 }

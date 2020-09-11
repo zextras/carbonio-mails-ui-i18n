@@ -22,13 +22,13 @@ import {
 	Conversation,
 	ConversationMailMessage,
 	IMailFolderSchmV1,
-	MailMessage, MailMessagePart,
+	MailMessagePart,
 	Participant,
 	ParticipantType
 } from './v1/idb/IMailsIdb';
 import { CompositionData, CompositionParticipants } from './v1/components/compose/IuseCompositionData';
-import React from 'react';
-import { IMailContact } from './v1/composer/IComposerSoap';
+import { MailMessage, MailMessageFromDb, MailMessageFromSoap } from './v2/db/mail-message';
+
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
 	folder: Array<ISoapSyncMailFolderObj>;
@@ -92,7 +92,7 @@ export type SoapEmailMessageObj = {
 	/** Contacts */ e: Array<SoapEmailInfoObj>;
 	/** Fragment */ fr: string;
 	/** Parts */ mp: Array<SoapEmailMessagePartObj>;
-	/** Flags */ f: string;
+	/** Flags */ f?: string;
 	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
 	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
 	// urgent (!), low-priority (?), priority (+)
@@ -272,8 +272,8 @@ export function calculateAbsPath(
 	return `${calculateAbsPath(mParentId, fMap[mParentId].name, fMap, fMap[mParentId].parent)}/${mName}`;
 }
 
-export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessage {
-	return {
+export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
+	return new MailMessageFromSoap({
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -297,7 +297,7 @@ export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessag
 		attachment: /a/.test(m.f || ''),
 		flagged: /f/.test(m.f || ''),
 		urgent: /!/.test(m.f || ''),
-	};
+	});
 }
 
 function normalizeConversationMessageFromSoap(
@@ -420,7 +420,7 @@ export function _getParentPath(path: string): string {
 	return p.join('.');
 }
 
-export function getBodyToRender(msg: MailMessage): [MailMessagePart, MailMessagePart[]] {
+export function getBodyToRender(msg: MailMessageFromDb): [MailMessagePart, MailMessagePart[]] {
 	const body: MailMessagePart = get(
 		msg,
 		msg.bodyPath
@@ -466,7 +466,7 @@ export function normalizeParticipants(
 	);
 }
 
-export function getBodyStrings(mail: MailMessage): [{ html: string; text: string }, boolean] {
+export function getBodyStrings(mail: MailMessageFromDb): [{ html: string; text: string }, boolean] {
 	const [body] = getBodyToRender(mail);
 	if (body.contentType === 'text/html') {
 		return [{ html: body.content || '', text: '' }, true];
@@ -477,7 +477,7 @@ export function getBodyStrings(mail: MailMessage): [{ html: string; text: string
 	return [{ html: '', text: '' }, false];
 }
 
-export function mailToCompositionData(mail: MailMessage): CompositionData {
+export function mailToCompositionData(mail: MailMessageFromDb): CompositionData {
 	const [body, html] = getBodyStrings(mail);
 	return {
 		subject: mail.subject,

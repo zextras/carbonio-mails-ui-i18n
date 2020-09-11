@@ -42,7 +42,7 @@ export class MailsDbDexie {
 	deletions = new MockedTable();
 
 	observe = jest.fn(() => {
-		throw new Error(`Mock 'observe' not implemented.`);
+		throw new Error('Mock "observe" not implemented.');
 	});
 	createUUID = jest.fn();
 	transaction = jest.fn();

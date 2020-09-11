@@ -61,7 +61,7 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public checkHasMoreConv(f: MailsFolder, lastConv?: MailConversationFromDb): Promise<boolean> {
+	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._soapFetch,

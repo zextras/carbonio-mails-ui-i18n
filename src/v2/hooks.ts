@@ -11,9 +11,13 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
+import { keys, last, groupBy } from 'lodash';
+
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
 import { AppContext } from './app-context';
+import { MailConversationMessage } from './db/mail-conversation-message';
+import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -93,6 +97,22 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 
 	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
 
+	const loadMore = useCallback(
+		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
+			if (!state.folder) {
+				resolve();
+				return;
+			}
+			dispatch({ type: 'set-is-loading', isLoading: true });
+			db.fetchMoreConv(state.folder, lastConv)
+				.then((hasMore: boolean) => {
+					dispatch({ type: 'loaded-more-conversations', hasMore });
+					resolve();
+				});
+		}),
+		[db, state.folder, dispatch]
+	);
+
 	useEffect(() => {
 		let didCancel = false;
 		dispatch({ type: 'set-is-loading', isLoading: true });
@@ -115,23 +135,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		return () => {
 			didCancel = true;
 		};
-	}, [db, folderId, dispatch]);
-
-	const loadMore = useCallback(
-		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
-			if (!state.folder) {
-				resolve();
-				return;
-			}
-			dispatch({ type: 'set-is-loading', isLoading: true });
-			db.fetchMoreConv(state.folder, lastConv)
-				.then((hasMore: boolean) => {
-					dispatch({ type: 'loaded-more-conversations', hasMore });
-					resolve();
-				});
-		}),
-		[db, state.folder, dispatch]
-	);
+	}, [db, folderId, dispatch, loadMore]);
 
 	const conversationsQuery = useCallback(
 		() => {
@@ -139,15 +143,25 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 				return Promise.resolve([]);
 			}
 			dispatch({ type: 'set-is-loading', isLoading: true });
-			return db.conversations
+
+			return db.transaction('r', db.messages, db.conversations, () => db.messages
 				.where('parent')
 				.equals(state.folder.id)
 				.reverse()
 				.sortBy('date')
-				.then((convs) => {
-					dispatch({ type: 'set-is-loading', isLoading: false });
-					return convs;
-				});
+				.toArray()
+				.then((messages: MailMessageFromDb[]) => {
+					const mappedMsgs = groupBy(messages, 'conversation');
+					return keys(mappedMsgs);
+				})
+				.then((conversationsIds: Array<string>) => db.conversations
+					.where('id')
+					.equals(conversationsIds)
+					.toArray()
+					.then((conversations: MailConversationFromDb[]) => {
+						dispatch({ type: 'set-is-loading', isLoading: false });
+						return conversations;
+					})));
 		},
 		[state.folder, db, dispatch]
 	);
