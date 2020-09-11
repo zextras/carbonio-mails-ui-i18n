@@ -45,7 +45,24 @@ describe('Local Changes - Mail', () => {
 				table: 'messages',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 				obj: {
+					_jsns: 'urn:zimbraMail',
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 					parent: '6',
+					m: [{
+						su: {
+							_content: 'subject',
+							f: 'u',
+							mp: [{
+								ct: 'multipart/alternative',
+								mp: []
+							}],
+							e: [{
+								a: 'admin@example.com',
+								d: 'Example',
+								t: 'f'
+							}],
+						}
+					}]
 				}
 			}],
 			fetch
