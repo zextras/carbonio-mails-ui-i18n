@@ -80,8 +80,8 @@ export default function processRemoteMailsNotification(
 	{ m: mails, deleted, folder }: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	if (isInitialSync) {
-		// Extract all mails from all the folders
-		return extractAllMailsForInitialSync(_fetch, folder!);
+		return Promise.resolve([]);
+		// extractAllMailsForInitialSync(_fetch, folder!); //disabled to avoid massive batches
 	}
 	const mappedMails = keyBy(mails, 'id');
 	const ids = keys(mappedMails || []);
