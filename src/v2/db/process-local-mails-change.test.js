@@ -84,7 +84,10 @@ describe('Local Changes - Mail', () => {
 								mp: [{
 									ct: 'multipart/alternative',
 									mp: []
-								}]
+								}],
+								su: {
+									_content: 'subject'
+								}
 							}
 						}]
 					}
