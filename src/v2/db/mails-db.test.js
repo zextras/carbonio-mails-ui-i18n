@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailMessageFromSoap } from './mail-message';
+import { MailMessageFromSoap, MailMessageFromDb } from './mail-message';
 
 jest.mock('../soap');
 import { fetchConversationsInFolder } from '../soap';
@@ -22,32 +22,34 @@ import { MailConversationFromDb, MailConversationFromSoap } from './mail-convers
 
 describe('Mails DB', () => {
 	test('fetchMoreConv, Local folder not synced with remote', (done) => {
-		const fetch = jest.fn();
-		const db = new MailsDb(
-			fetch
-		);
+		const _fetch = jest.fn();
+		const db = new MailsDb(_fetch);
 		db.fetchMoreConv(
 			new MailsFolderFromDb({})
 		)
 			.then((hasMore) => {
 				expect(hasMore).toBeFalsy();
+				expect(db.messages.bulkAdd).not.toHaveBeenCalled();
 				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
 				done();
 			});
 	});
 
 	test('fetchMoreConv, Load more from remote, not present locally', (done) => {
+		const mockedConversations = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const mockedConversationsMessages = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
+
 		fetchConversationsInFolder.mockImplementation(() => Promise.resolve([
-			[
-				new MailConversationFromSoap({
-					id: '1001'
-				})
-			],
-			[
-				new MailMessageFromSoap({
-					id: '1002'
-				})
-			],
+			mockedConversations,
+			mockedConversationsMessages,
 			false
 		]));
 		const db = new MailsDb();
@@ -56,7 +58,12 @@ describe('Mails DB', () => {
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([])),
 			})),
 		}));
-		db.createUUID.mockImplementationOnce(() => ('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'));
+		db.messages.where.mockImplementation(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([])),
+			})),
+		}));
+		db.transaction.mockImplementation(() => Promise.resolve());
 		db.fetchMoreConv(
 			new MailsFolderFromDb({
 				id: '1000',
@@ -65,23 +72,24 @@ describe('Mails DB', () => {
 		)
 			.then((hasMore) => {
 				expect(hasMore).toBeFalsy();
-				expect(db.conversations.bulkAdd).toHaveBeenCalled();
 				done();
 			});
 	});
 
 	test('fetchMoreConv, Load more from remote, present locally', (done) => {
+		const mockedConversations = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const mockedConversationsMessages = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
 		fetchConversationsInFolder.mockImplementation(() => Promise.resolve([
-			[
-				new MailConversationFromSoap({
-					id: '1001'
-				})
-			],
-			[
-				new MailMessageFromSoap({
-					id: '1002'
-				})
-			],
+			mockedConversations,
+			mockedConversationsMessages,
 			false
 		]));
 		const db = new MailsDb();
@@ -96,6 +104,17 @@ describe('Mails DB', () => {
 				])),
 			})),
 		}));
+		db.messages.where.mockImplementationOnce(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'mxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						id: '1002'
+					})
+				])),
+			})),
+		}));
+
 		db.fetchMoreConv(
 			new MailsFolderFromDb({
 				id: '1000',
@@ -104,7 +123,6 @@ describe('Mails DB', () => {
 		)
 			.then((hasMore) => {
 				expect(hasMore).toBeFalsy();
-				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
 				done();
 			});
 	});

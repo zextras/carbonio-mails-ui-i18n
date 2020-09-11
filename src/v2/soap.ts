@@ -570,7 +570,8 @@ export function fetchConversationsInFolder(
 	soapFetch: SoapFetch,
 	f: MailsFolderFromDb,
 	limit = 50,
-	before?: Date
+	before?: Date,
+	expandMessages = true
 ): Promise<[Array<MailConversationFromSoap>, Array<MailMessageFromSoap>, boolean]> {
 	const queryPart = [
 		`in:"${f.path}"`
@@ -607,6 +608,18 @@ export function fetchConversationsInFolder(
 				},
 				[]
 			);
+
+			if (!expandMessages) {
+				return Promise.resolve([
+					reduce<SoapConvObj, Array<MailConversationFromSoap>>(
+						c,
+						(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
+						[]
+					),
+					[],
+					more
+				]);
+			}
 
 			return fetchMailMessagesById(soapFetch, msgIds)
 				.then((convsMessages: Array<MailMessageFromSoap>) => {

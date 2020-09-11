@@ -185,7 +185,6 @@ export default function processRemoteMailsNotification(
 						dbChangesUpdatedAndFetched
 					));
 			}
-			console.log(dbChangesUpdatedAndFetched);
 			return dbChangesUpdatedAndFetched;
 		});
 };

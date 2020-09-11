@@ -135,7 +135,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		return () => {
 			didCancel = true;
 		};
-	}, [db, folderId, dispatch, loadMore]);
+	}, [db, folderId, dispatch]);
 
 	const conversationsQuery = useCallback(
 		() => {
@@ -146,9 +146,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 
 			return db.transaction('r', db.messages, db.conversations, () => db.messages
 				.where('parent')
-				.equals(state.folder.id)
-				.reverse()
-				.sortBy('date')
+				.equals(state.folder!.id!)
 				.toArray()
 				.then((messages: MailMessageFromDb[]) => {
 					const mappedMsgs = groupBy(messages, 'conversation');
@@ -156,8 +154,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 				})
 				.then((conversationsIds: Array<string>) => db.conversations
 					.where('id')
-					.equals(conversationsIds)
-					.toArray()
+					.anyOf(conversationsIds)
+					.reverse()
+					.sortBy('date')
 					.then((conversations: MailConversationFromDb[]) => {
 						dispatch({ type: 'set-is-loading', isLoading: false });
 						return conversations;

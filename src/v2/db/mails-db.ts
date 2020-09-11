@@ -67,7 +67,8 @@ export class MailsDb extends MailsDbDexie {
 			this._soapFetch,
 			f,
 			1,
-			lastConv ? new Date(lastConv.date) : undefined
+			lastConv ? new Date(lastConv.date) : undefined,
+			false
 		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)));
 	}
 
@@ -83,25 +84,49 @@ export class MailsDb extends MailsDbDexie {
 		)
 			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
 				return this.transaction('rw', this.conversations, this.messages, () => {
-					const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
-						remoteConvs,
-						([r1, r2], v) => [
-							[...r1, v.id],
-							[
-								...r2,
-								...reduce(v.messages, (acc, m) => [ ...acc, m.id], [])
-							]
-						],
-						[[], []]
-					);
-					return this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
-						.then((convsMessagesToAdd) => this.messages.bulkAdd(convsMessagesToAdd))
-						.then(() => this.getConvsToAdd(convsIds, remoteConvs))
-						.then((convsToAdd) => this.conversations.bulkAdd(convsToAdd));
+					return this.checkForDuplicates(remoteConvs, remoteConvsMessages)
+						.then(
+							([convsToAdd, convsMessagesToAdd]) =>
+								this.saveConvsAndMessages(
+									convsToAdd as MailConversationFromDb[],
+									convsMessagesToAdd as MailMessageFromDb[]
+								)
+						)
 				})
 					.then(() => hasMore)
 					.catch(() => false);
 			});
+	}
+
+	public checkForDuplicates(
+		remoteConvs: MailConversationFromSoap[],
+		remoteConvsMessages: MailMessageFromSoap[]
+	): Promise<Array<MailConversationFromDb[]|MailMessageFromDb[]>> {
+		const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
+			remoteConvs,
+			([r1, r2], v) => [
+				[...r1, v.id],
+				[
+					...r2,
+					...reduce(v.messages, (acc, m) => [ ...acc, m.id], [])
+				]
+			],
+			[[], []]
+		);
+		return Promise.all([
+			this.getConvsToAdd(convsIds, remoteConvs),
+			this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
+		]);
+	}
+
+	public saveConvsAndMessages(
+		convsToAdd: MailConversationFromDb[],
+		convsMessagesToAdd: MailMessageFromDb[]
+	): Promise<string[]|void[]> {
+		return Promise.all([
+			this.messages.bulkAdd(convsMessagesToAdd),
+			this.conversations.bulkAdd(convsToAdd)
+		]);
 	}
 
 	private getConvsToAdd(

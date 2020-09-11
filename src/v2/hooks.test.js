@@ -63,16 +63,11 @@ describe('Hooks', () => {
 		expect(result.current.hasMore).toBe(true);
 
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
-		
-		/* db.fetchMoreConv.mockImplementation(() => Promise.resolve(false));
-		hooks.useObserveDb.mockImplementation(() => ([[
-			...convs, new MailConversation({ id: '-10051' })
-		], false]));
-		await act(() => result.current.loadMore()); */
 
-		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[
-			new MailConversationFromDb({ id: '-10051' })
-		], false]));
+		db.fetchMoreConv.mockImplementation(() => Promise.resolve(false));
+		hooks.useObserveDb.mockImplementation(() => ([[
+			...convs, new MailConversationFromDb({ id: '-10051' })
+		], true]));
 		await act(() => result.current.loadMore());
 
 		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);
@@ -80,5 +75,6 @@ describe('Hooks', () => {
 		expect(result.current.loadMore).toBeUndefined();
 		expect(result.current.isLoading).toBe(false);
 		expect(result.current.hasMore).toBe(false);
+
 	});
 });
