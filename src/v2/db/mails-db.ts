@@ -89,12 +89,11 @@ export class MailsDb extends MailsDbDexie {
 							[...r1, v.id],
 							[
 								...r2,
-								...reduce(v.messages, (acc, m) => m.id, [])
+								...reduce(v.messages, (acc, m) => [ ...acc, m.id], [])
 							]
 						],
 						[[], []]
 					);
-
 					return this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
 						.then((convsMessagesToAdd) => this.messages.bulkAdd(convsMessagesToAdd))
 						.then(() => this.getConvsToAdd(convsIds, remoteConvs))

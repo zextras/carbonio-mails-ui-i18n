@@ -178,10 +178,11 @@ export default function ConversationListItem({
 						disableTransition
 						open={displayData.open}
 					>
-						<Container padding={{ left: 'extralarge' }}>
+						<Container padding={{ left: 'extralarge' }} height="auto">
 							<ConversationMessagesList
 								folderId={folderId}
 								conversationId={conversation._id}
+								conversationZimbraId={conversation.id}
 							/>
 						</Container>
 					</Collapse>
@@ -191,8 +192,8 @@ export default function ConversationListItem({
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, folderId }) => {
-	const { messages, loaded } = useConversationMessages(conversationId);
+const ConversationMessagesList = ({ conversationId, conversationZimbraId, folderId }) => {
+	const { messages, loaded } = useConversationMessages(conversationZimbraId);
 
 	return (
 		<>

@@ -117,18 +117,21 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		};
 	}, [db, folderId, dispatch]);
 
-	const loadMore = useCallback(() => new Promise<void>((resolve, reject) => {
-		if (!state.folder) {
-			resolve();
-			return;
-		}
-		// dispatch({ type: 'set-is-loading', isLoading: true });
-		db.fetchMoreConv(state.folder)
-			.then((hasMore: boolean) => {
-				dispatch({ type: 'loaded-more-conversations', hasMore });
+	const loadMore = useCallback(
+		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
+			if (!state.folder) {
 				resolve();
-			});
-	}), [db, state.folder, dispatch]);
+				return;
+			}
+			dispatch({ type: 'set-is-loading', isLoading: true });
+			db.fetchMoreConv(state.folder, lastConv)
+				.then((hasMore: boolean) => {
+					dispatch({ type: 'loaded-more-conversations', hasMore });
+					resolve();
+				});
+		}),
+		[db, state.folder, dispatch]
+	);
 
 	const conversationsQuery = useCallback(
 		() => {

@@ -19,6 +19,7 @@ import React, {
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
 import {
+	Button,
 	Container,
 	Divider,
 	Text,
@@ -146,6 +147,13 @@ export default function FolderView() {
 	);
 }
 
+const LoadingIndicator = ({ style, index }) => {
+	return (
+		<Container height={70} style={style} index={index}>
+			<Button loading={true} disabled={true} label="" type="ghost" />
+		</Container>
+	);
+}
 const ConversationList = ({ folderId }) => {
 	const containerRef = useRef();
 	const listRef = useRef();
@@ -176,6 +184,7 @@ const ConversationList = ({ folderId }) => {
 			index,
 			style
 		}) => {
+			if (!conversations[index]) return <LoadingIndicator style={style} index={index} />;
 			if (!displayData[conversations[index].id]) {
 				setDisplayData((oldData) => ({
 					...oldData,
@@ -199,23 +208,21 @@ const ConversationList = ({ folderId }) => {
 	const calcItemSize = useCallback(
 		(index) => {
 			const conv = conversations[index];
-			if (displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 70;
+			if (conv && displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 70 - 1;
 			return 70;
 		},
 		[conversations, displayData]
 	);
 
-	const onItemsRendered = useCallback(({ visibleStopIndex }) => {
+	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;
-		if (hasMore && loadMore && visibleStopIndex === conversationsLastIndex) {
-			loadMore(conversations[conversationsLastIndex])
-				.then(() => { /*  */ });
-		}
-	}, [conversations, hasMore, loadMore]);
+		!isLoading && hasMore && loadMore && overscanStopIndex >= conversationsLastIndex
+			&& loadMore(conversations[conversationsLastIndex]);
+	}, [conversations, hasMore, loadMore, isLoading]);
 
 	useEffect(() => {
-		hasMore && loadMore && conversations.length === 0 && loadMore();
-	}, [conversations, hasMore, loadMore]);
+		!isLoading && hasMore && loadMore && conversations.length < 20 && loadMore();
+	}, [conversations, hasMore, isLoading, loadMore]);
 
 	useEffect(() => {
 		if (typeof containerRef.current === 'undefined') return undefined;
@@ -224,10 +231,6 @@ const ConversationList = ({ folderId }) => {
 		window.top.addEventListener('resize', onResize);
 		return () => window.top.removeEventListener('resize', onResize);
 	}, [containerRef.current]);
-
-	if (isLoading) {
-		return <Text> LOADING </Text>;
-	}
 
 	return (
 		<>
@@ -242,12 +245,12 @@ const ConversationList = ({ folderId }) => {
 				background="gray6"
 				borderRadius="none"
 			>
-				{ conversations && conversations.length > 0 && (
+				{ (isLoading || (conversations && conversations.length > 0)) && (
 					<VariableSizeList
 						ref={listRef}
 						height={containerHeight}
 						width="100%"
-						itemCount={(conversations || []).length}
+						itemCount={(isLoading ? 1 : 0) + (conversations || []).length}
 						overscanCount={15}
 						style={{ outline: 'none' }}
 						itemSize={calcItemSize}

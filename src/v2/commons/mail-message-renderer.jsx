@@ -14,8 +14,6 @@ import { filter, forEach, get, reduce } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
 
-import { getBodyToRender } from '../../ISoap';
-
 const _CI_REGEX = /^<(.*@zimbra)>$/;
 const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;
 
@@ -73,7 +71,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 
 	useEffect(() => {
 		iframeRef.current.contentDocument.open();
-		iframeRef.current.contentDocument.write(body.content);
+		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
 		iframeRef.current.contentDocument.close();
 
 		const imgMap = reduce(
