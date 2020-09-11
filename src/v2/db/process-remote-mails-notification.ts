@@ -77,13 +77,9 @@ export default function processRemoteMailsNotification(
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
 	localChangesFromRemote: IDatabaseChange[],
-	{ m: mails, deleted, folder }: SyncResponse
+	{ m: mails, deleted }: SyncResponse
 ): Promise<IDatabaseChange[]> {
-	if (isInitialSync) {
-		// Extract all mails from all the folders
-		return extractAllMailsForInitialSync(_fetch, folder!);
-	}
-	const mappedMails = keyBy(mails, 'id');
+	const mappedMails = keyBy(mails || [], 'id');
 	const ids = keys(mappedMails || []);
 	const dbChanges: IDatabaseChange[] = [];
 	return db.messages.where('id').anyOf(ids).toArray()
