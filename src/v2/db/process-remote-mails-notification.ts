@@ -79,6 +79,9 @@ export default function processRemoteMailsNotification(
 	localChangesFromRemote: IDatabaseChange[],
 	{ m: mails, deleted }: SyncResponse
 ): Promise<IDatabaseChange[]> {
+	if (isInitialSync) {
+		return Promise.resolve([]);
+	}
 	const mappedMails = keyBy(mails || [], 'id');
 	const ids = keys(mappedMails || []);
 	const dbChanges: IDatabaseChange[] = [];
@@ -181,7 +184,6 @@ export default function processRemoteMailsNotification(
 						dbChangesUpdatedAndFetched
 					));
 			}
-			console.log(dbChangesUpdatedAndFetched);
 			return dbChangesUpdatedAndFetched;
 		});
 };

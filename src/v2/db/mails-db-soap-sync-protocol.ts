@@ -179,7 +179,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 			new Date(0)
 		)
 			.then(
-				([convs]) => fetchMailMessagesById(
+				([convs, hasMore]) => fetchMailMessagesById(
 					this._soapFetch,
 					reduce<MailConversationFromSoap, string[]>(
 						convs,
@@ -196,7 +196,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						[]
 					)
-				).then((msgs: MailMessageFromSoap[]) => [
+				).then((msgs: MailMessageFromSoap[]): [MailConversationFromSoap[], IDatabaseChange[]] => ([
 					convs,
 					reduce(
 						msgs,
@@ -211,9 +211,9 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						},
 						remoteChanges
 					)
-				])
+				]))
 			)
-			.then(([convs]) => reduce(
+			.then(([convs, _remoteChanges]) => reduce(
 				convs,
 				(acc, v) => {
 					acc.push({
@@ -224,7 +224,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					});
 					return acc;
 				},
-				remoteChanges
+				_remoteChanges
 			));
 	}
 }

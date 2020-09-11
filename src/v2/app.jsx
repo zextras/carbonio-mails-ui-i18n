@@ -26,14 +26,6 @@ const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-vie
 export default function app() {
 	console.log('Hello from mails');
 
-	setMainMenuItems([{
-		id: 'mails-main',
-		icon: 'EmailOutline',
-		to: '/folder/2', // Default route to `Inbox`
-		label: 'Mails',
-		children: []
-	}]);
-
 	const db = new MailsDb(network.soapFetch);
 	const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
 	db.registerSyncProtocol('soap-mails', syncProtocol);

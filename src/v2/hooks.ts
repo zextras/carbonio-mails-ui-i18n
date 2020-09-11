@@ -152,12 +152,11 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					.equals(folder.id)
 					.reverse()
 					.sortBy('date')
-					.toArray()
 					.then((messages: MailMessageFromDb[]) => {
 						const mappedMsgs = groupBy(messages, 'conversation');
 						return keys(mappedMsgs);
 					})
-					.then((conversationsIds: Array<string>) => db.conversation
+					.then((conversationsIds: Array<string>) => db.conversations
 						.where('id')
 						.equals(conversationsIds)
 						.toArray()
