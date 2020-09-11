@@ -10,9 +10,8 @@
  */
 
 import { PromiseExtended } from 'dexie';
-import { SoapFetch } from '@zextras/zapp-shell';
-import { BehaviorSubject } from 'rxjs';
-import { sortBy, last, reverse, map } from 'lodash';
+import { SoapFetch, accounts } from '@zextras/zapp-shell';
+import { map } from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';
@@ -82,20 +81,21 @@ export class MailsDb extends MailsDbDexie {
 					type: 'b',
 					address: c.value,
 					displayName: ''
-				}) as Participant)
+				}) as Participant),
+				{
+					type: 'f',
+					address: accounts[0].name,
+					displayName: accounts[0].displayName
+				}
 			],
 			parts: [
 				{
 					contentType: 'text/plain',
-					size: cState.body.text.length,
 					content: cState.body.text,
-					name: '1',
 				},
 				{
 					contentType: 'text/html',
-					size: cState.body.html.length,
 					content: cState.body.html,
-					name: '1',
 				}
 			],
 			date: Date.now(),
