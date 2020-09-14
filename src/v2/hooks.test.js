@@ -75,6 +75,5 @@ describe('Hooks', () => {
 		expect(result.current.loadMore).toBeUndefined();
 		expect(result.current.isLoading).toBe(false);
 		expect(result.current.hasMore).toBe(false);
-
 	});
 });

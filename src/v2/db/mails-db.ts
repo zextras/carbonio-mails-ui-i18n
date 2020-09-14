@@ -38,7 +38,7 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public getFolderChildren(folder: MailsFolder): Promise<MailsFolderFromDb[]> {
-		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that.
+		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that
 		if (!folder.id) return Promise.resolve([]);
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
@@ -91,7 +91,7 @@ export class MailsDb extends MailsDbDexie {
 									convsToAdd as MailConversationFromDb[],
 									convsMessagesToAdd as MailMessageFromDb[]
 								)
-						)
+						);
 				})
 					.then(() => hasMore)
 					.catch(() => false);

@@ -126,4 +126,89 @@ describe('Mails DB', () => {
 				done();
 			});
 	});
+
+	test('checkForDuplicates, No duplicates', (done) => {
+		const db = new MailsDb();
+
+		const mockedRemoteConvs = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const mockedRemoteConvsMessages = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
+
+		db.checkForDuplicates(
+			mockedRemoteConvs,
+			mockedRemoteConvsMessages
+		)
+			.then((result) => {
+				expect(result).toBeDefined();
+				expect(result).toBeInstanceOf(Array);
+				expect(result.length).toEqual(2);
+				expect(result).toEqual([
+					[
+						{
+							"id": "1001"
+						}
+					],
+					[
+						{
+							"id": "1002"
+						}
+					]
+				]);
+				done();
+			});
+	})
+
+	test('checkForDuplicates, Both duplicates', (done) => {
+		const db = new MailsDb();
+
+		const mockedRemoteConvs = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const mockedRemoteConvsMessages = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
+
+		db.conversations.where.mockImplementationOnce(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailConversationFromDb({
+						id: '1001'
+					})
+				])),
+			})),
+		}));
+
+		db.messages.where.mockImplementationOnce(() => ({
+			anyOf: jest.fn().mockImplementation(() => ({
+				toArray: jest.fn().mockImplementation(() => Promise.resolve([
+					new MailMessageFromDb({
+						id: '1002'
+					})
+				])),
+			})),
+		}));
+
+		db.checkForDuplicates(
+			mockedRemoteConvs,
+			mockedRemoteConvsMessages
+		)
+			.then((result) => {
+				expect(result).toBeDefined();
+				expect(result).toBeInstanceOf(Array);
+				expect(result.length).toEqual(2);
+				expect(result).toStrictEqual([[],[]]);
+				done();
+			});
+		})
 });
