@@ -178,11 +178,11 @@ export default function ConversationListItem({
 						disableTransition
 						open={displayData.open}
 					>
-						<Container padding={{ left: 'extralarge' }}>
+						<Container padding={{ left: 'extralarge' }} height="auto">
 							<ConversationMessagesList
 								folderId={folderId}
-								conversationId={conversation.id}
-								conversationDexieId={conversation._id}
+								conversationId={conversation._id}
+								conversationZimbraId={conversation.id}
 							/>
 						</Container>
 					</Collapse>
@@ -192,8 +192,8 @@ export default function ConversationListItem({
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, conversationDexieId, folderId }) => {
-	const { messages, loaded } = useConversationMessages(conversationId);
+const ConversationMessagesList = ({ conversationId, conversationZimbraId, folderId }) => {
+	const { messages, loaded } = useConversationMessages(conversationZimbraId);
 
 	return (
 		<>
@@ -204,7 +204,7 @@ const ConversationMessagesList = ({ conversationId, conversationDexieId, folderI
 					<React.Fragment key={message.id}>
 						<MessageListItem
 							message={message}
-							conversationId={conversationDexieId}
+							conversationId={conversationId}
 							folderId={folderId}
 						/>
 						{ (messages.length - 1) > index && <Divider /> }
