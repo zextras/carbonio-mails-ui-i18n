@@ -9,15 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IIDBFolderSchmV1 } from '@zextras/zapp-shell/lib/idb/IShellIdbSchema';
-import { IFolderSchmV1 } from '@zextras/zapp-shell/lib/sync/IFolderSchm';
-
-export type IMailFolderSchmV1 = IFolderSchmV1 & {
+export type IMailFolderSchmV1 = {
 	synced: boolean;
 	hasMore: boolean;
 };
 
-type IIDBMailFolderSchmV1 = IIDBFolderSchmV1 & {
+type IIDBMailFolderSchmV1 = {
 	folders: {
         key: string;
         value: IMailFolderSchmV1;
