@@ -109,7 +109,11 @@ export class MailsDb extends MailsDbDexie {
 				[...r1, v.id],
 				[
 					...r2,
-					...reduce(v.messages, (acc, m) => [ ...acc, m.id], [])
+					...reduce(
+						v.messages,
+						(acc: string[], m: MailConversationMessage): string[] => [...acc, m.id!],
+						[]
+					)
 				]
 			],
 			[[], []]

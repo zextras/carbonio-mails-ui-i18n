@@ -255,18 +255,18 @@ describe('Mails DB', () => {
 				expect(result).toEqual([
 					[
 						{
-							"id": "1001"
+							id: '1001'
 						}
 					],
 					[
 						{
-							"id": "1002"
+							id: '1002'
 						}
 					]
 				]);
 				done();
 			});
-	})
+	});
 
 	test('checkForDuplicates, Both duplicates', (done) => {
 		const db = new MailsDb();
@@ -275,14 +275,13 @@ describe('Mails DB', () => {
 			new MailConversationFromSoap({
 				id: '1001',
 				messages: [
-					{id: '1100'},
-					{id: '1101'}
+					{ id: '1100' },
+					{ id: '1101' }
 				]
 			})
 		];
 		const mockedRemoteConvsMessages = [
-			new MailMessageFromSoap({
-				id: '1002'})
+			new MailMessageFromSoap({ id: '1002' })
 		];
 
 		db.conversations.where.mockImplementationOnce(() => ({
@@ -313,7 +312,7 @@ describe('Mails DB', () => {
 				expect(result).toBeDefined();
 				expect(result).toBeInstanceOf(Array);
 				expect(result.length).toEqual(2);
-				expect(result).toStrictEqual([[],[]]);
+				expect(result).toStrictEqual([[], []]);
 				done();
 			});
 	});
@@ -344,18 +343,18 @@ describe('Mails DB', () => {
 				expect(result).toEqual([
 					[
 						{
-							"id": "1002"
+							id: '1002'
 						}
 					],
 					[
 						{
-							"id": "1001"
+							id: '1001'
 						}
 					]
 				]);
 				done();
 			});
-	})
+	});
 
 	test('saveConvsAndMessages, Nothing to Add', (done) => {
 		const db = new MailsDb();
@@ -373,10 +372,10 @@ describe('Mails DB', () => {
 				expect(result).toBeDefined();
 				expect(result).toBeInstanceOf(Array);
 				expect(result.length).toEqual(2);
-				expect(result).toStrictEqual([[],[]]);
+				expect(result).toStrictEqual([[], []]);
 				done();
 			});
-	})
+	});
 
 	test('CheckHasMoreConv, Local folder not synced with remote', (done) => {
 		const _fetch = jest.fn();
@@ -388,7 +387,7 @@ describe('Mails DB', () => {
 				expect(hasMore).toBeFalsy();
 				expect(db.messages.bulkAdd).not.toHaveBeenCalled();
 				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
-				expect()
+				expect();
 				done();
 			});
 	});
@@ -427,10 +426,10 @@ describe('Mails DB', () => {
 			mailsFolderFromDb,
 			mailConversationfromDb
 		)
-		.then((hasMore) => {
-			expect(hasMore).toBe(true);
-			done();
-		});
+			.then((hasMore) => {
+				expect(hasMore).toBe(true);
+				done();
+			});
 	});
 
 	test('CheckHasMoreConv, No more conversations', (done) => {
