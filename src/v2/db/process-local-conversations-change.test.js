@@ -9,11 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { MailConversationFromDb } from './mail-conversation';
+
 jest.mock('./mails-db');
 jest.mock('./mails-db-dexie');
 import { MailsDb } from './mails-db';
 
-import { MailConversationMessage } from './mail-conversation-message';
 import processLocalConvChange from './process-local-conversations-change';
 
 describe('Local Changes - Conversations', () => {
@@ -24,7 +25,7 @@ describe('Local Changes - Conversations', () => {
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailConversationMessage({ // TODO why
+					new MailConversationFromDb({ // TODO why
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000'
 					})
@@ -90,7 +91,7 @@ describe('Local Changes - Conversations', () => {
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailConversationMessage({
+					new MailConversationFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000'
 					})
@@ -153,11 +154,11 @@ describe('Local Changes - Conversations', () => {
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: () => ({
 				toArray: () => Promise.resolve([
-					new MailConversationMessage({
+					new MailConversationFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
 						id: '1000'
 					}),
-					new MailConversationMessage({
+					new MailConversationFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
 						id: '1001'
 					})
@@ -219,11 +220,11 @@ describe('Local Changes - Conversations', () => {
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: () => ({
 				toArray: () => Promise.resolve([
-					new MailConversationMessage({
+					new MailConversationFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
 						id: '1000'
 					}),
-					new MailConversationMessage({
+					new MailConversationFromDb({
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
 						id: '1001'
 					})

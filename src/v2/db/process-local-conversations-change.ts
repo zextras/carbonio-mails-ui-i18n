@@ -173,10 +173,11 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processInserts( // TODO won't solve
+	return processConvUpdates( // TODO won't solve
 		db,
-		filter(conversationsChanges, ['type', 1]) as ICreateChange[],
-		batchRequest,
+		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
+		_batchRequest,
+		_dbChanges
 		[]
 	)
 		.then(([_batchRequest, _dbChanges]) => processConvUpdates(
