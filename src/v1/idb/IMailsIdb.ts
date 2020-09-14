@@ -91,7 +91,7 @@ export type MailMessagePart = {
 	contentType: string;
 	size: number;
 	content?: string;
-	name: string;
+	name?: string;
 	filename?: string;
 	parts?: Array<MailMessagePart>;
 	ci?: string;

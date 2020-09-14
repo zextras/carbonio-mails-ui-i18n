@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import {
-	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
+	IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, map, reduce } from 'lodash';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -22,7 +22,7 @@ import {
 	BatchRequest, BatchResponse,
 	ConvActionRequest,
 } from '../soap';
-import { MailConversationMessage } from './mail-conversation-message';
+import { MailConversationFromDb } from './mail-conversation';
 
 
 // TODO TYPE 2 UPDATING CHANGES
@@ -35,66 +35,66 @@ function processConvUpdates(
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
 	return db.conversations.where('_id').anyOf(map(changes, 'key')).toArray().then((conversations) => {
-		const uuidToId = reduce<MailConversationMessage, {[key: string]: string}>(
+		const uuidToId = reduce<MailConversationFromDb, {[key: string]: string}>(
 			conversations,
-			(r, f) => {
-				if (f._id && f.id) r[f._id] = f.id;
-				return r;
+			(acc, conv) => {
+				if (conv._id && conv.id) acc[conv._id] = conv.id;
+				return acc;
 			},
 			{}
 		);
 		const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-		reduce<IUpdateChange, [Array<BatchedRequest & ConvActionRequest>]>(
+		reduce<IUpdateChange, Array<BatchedRequest & ConvActionRequest>>(
 			changes,
-			([_convActionRequest], c) => {
-				if (c.mods.parent) {
-					if (c.mods.parent === '2') {
-						_convActionRequest.push({
+			(acc, conv) => {
+				if (conv.mods.parent) {
+					if (conv.mods.parent === '2') {
+						acc.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: c.key,
+							requestId: conv.key,
 							action: {
 								op: 'trash',
-								id: uuidToId[c.key],
+								id: uuidToId[conv.key],
 							}
 						});
 					}
 					else {
-						_convActionRequest.push({
+						acc.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: c.key,
+							requestId: conv.key,
 							action: {
 								op: 'move',
-								l: c.mods.parent,
-								id: uuidToId[c.key],
+								l: conv.mods.parent,
+								id: uuidToId[conv.key],
 							}
 						});
 					}
 				}
 				// eslint-disable-next-line no-prototype-builtins
-				if (c.mods.hasOwnProperty('flagged')) {
-					_convActionRequest.push({
+				if (conv.mods.hasOwnProperty('flagged')) {
+					acc.push({
 						_jsns: 'urn:zimbraMail',
-						requestId: c.key,
+						requestId: conv.key,
 						action: {
-							id: uuidToId[c.key],
-							op: (c.mods.flagged) ? 'flag' : '!flag'
+							id: uuidToId[conv.key],
+							op: (conv.mods.flagged) ? 'flag' : '!flag'
 						}
 					});
 				}
 				// eslint-disable-next-line no-prototype-builtins
-				if (c.mods.hasOwnProperty('read')) {
-					_convActionRequest.push({
+				if (conv.mods.hasOwnProperty('read')) {
+					acc.push({
 						_jsns: 'urn:zimbraMail',
-						requestId: c.key,
+						requestId: conv.key,
 						action: {
-							id: uuidToId[c.key],
-							op: (c.mods.read) ? 'read' : '!read'
+							id: uuidToId[conv.key],
+							op: (conv.mods.read) ? 'read' : '!read'
 						}
 					});
 				}
-				return [_convActionRequest];
+				return acc;
 			},
-			[convActionRequest]
+			convActionRequest
 		);
 
 		if (convActionRequest.length > 0) {
@@ -120,31 +120,31 @@ function processConvDeletions(
 	return db.deletions.where('_id').anyOf(map(changes, 'key')).toArray().then((deletedIds) => {
 		const uuidToId = reduce<DeletionData, {[key: string]: {id: string; rowId: string}}>(
 			filter(deletedIds, ['table', 'conversations']),
-			(r, d) => {
+			(acc, value) => {
 				// eslint-disable-next-line no-param-reassign
-				r[d._id] = { id: d.id, rowId: d.rowId! };
-				return r;
+				acc[value._id] = { id: value.id, rowId: value.rowId! };
+				return acc;
 			},
 			{}
 		);
 		const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
 		reduce(
 			changes,
-			(r, c) => {
-				r.push({
+			(acc, change) => {
+				acc.push({
 					_jsns: 'urn:zimbraMail',
-					requestId: c.key,
+					requestId: change.key,
 					action: {
 						op: 'delete',
-						id: uuidToId[c.key].id,
+						id: uuidToId[change.key].id,
 					}
 				});
 				localChanges.push({
 					type: 3,
 					table: 'deletions',
-					key: uuidToId[c.key].rowId
+					key: uuidToId[change.key].rowId
 				});
-				return r;
+				return acc;
 			},
 			convActionRequest
 		);
@@ -173,19 +173,12 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processConvUpdates( // TODO won't solve
+	return processConvUpdates(
 		db,
 		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
-		_batchRequest,
-		_dbChanges
-		[]
+		batchRequest,
+		changes
 	)
-		.then(([_batchRequest, _dbChanges]) => processConvUpdates(
-			db,
-			filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
-			_batchRequest,
-			_dbChanges
-		))
 		.then(([_batchRequest, _dbChanges]) => processConvDeletions(
 			db,
 			filter(conversationsChanges, ['type', 3]) as IDeleteChange[],

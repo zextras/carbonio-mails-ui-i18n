@@ -61,7 +61,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(0);
+				expect(additionalChanges.length).toBe(1);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',
@@ -126,7 +126,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(0);
+				expect(additionalChanges.length).toBe(1);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',
@@ -185,7 +185,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		)
 			.then((changes) => {
-				expect(changes.length).toBe(0);
+				expect(changes.length).toBe(2);
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
@@ -251,7 +251,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		)
 			.then((changes) => {
-				expect(changes.length).toBe(0);
+				expect(changes.length).toBe(2);
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
@@ -319,12 +319,19 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(1); // TODO problem here
-				expect(additionalChanges[0]).toStrictEqual({
-					key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
-					table: 'deletions',
-					type: 3
-				});
+				expect(additionalChanges.length).toBe(2); // TODO problem here
+				expect(additionalChanges[0]).toStrictEqual(
+					{
+						key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						table: 'conversations',
+						type: 3
+					},
+					{
+						key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
+						table: 'deletions',
+						type: 3
+					}
+				);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',

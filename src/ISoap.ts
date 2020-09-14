@@ -27,7 +27,7 @@ import {
 	ParticipantType
 } from './v1/idb/IMailsIdb';
 import { CompositionData, CompositionParticipants } from './v1/components/compose/IuseCompositionData';
-import { MailMessage, MailMessageFromDb, MailMessageFromSoap } from './v2/db/mail-message';
+import { MailMessageFromDb, MailMessageFromSoap } from './v2/db/mail-message';
 
 
 export type ISoapSyncMailFolderObj = ISoapSyncFolderObj & {
@@ -481,7 +481,7 @@ export function mailToCompositionData(mail: MailMessageFromDb): CompositionData 
 	const [body, html] = getBodyStrings(mail);
 	return {
 		subject: mail.subject,
-		attachments: findAttachments(mail.parts, []),
+		attachments: findAttachments(mail.parts || [], []),
 		to: normalizeParticipants('t', mail.contacts),
 		cc: normalizeParticipants('c', mail.contacts),
 		bcc: normalizeParticipants('bcc', mail.contacts),
