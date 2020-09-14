@@ -11,6 +11,7 @@
 
 import { PromiseExtended } from 'dexie';
 import { reduce, pullAllWith } from 'lodash';
+// eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
 
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
@@ -86,20 +87,18 @@ export class MailsDb extends MailsDbDexie {
 			50,
 			lastConv ? new Date(lastConv.date) : undefined
 		)
-			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
-				return this.transaction('rw', this.conversations, this.messages, () => {
-					return this.checkForDuplicates(remoteConvs, remoteConvsMessages)
+			.then(([remoteConvs, remoteConvsMessages, hasMore]) =>
+				this.transaction('rw', this.conversations, this.messages, () =>
+					this.checkForDuplicates(remoteConvs, remoteConvsMessages)
 						.then(
 							([convsToAdd, convsMessagesToAdd]) =>
 								this.saveConvsAndMessages(
 									convsToAdd as MailConversationFromDb[],
 									convsMessagesToAdd as MailMessageFromDb[]
 								)
-						);
-				})
+						))
 					.then(() => hasMore)
-					.catch(() => false);
-			});
+					.catch(() => false));
 	}
 
 	public checkForDuplicates(
