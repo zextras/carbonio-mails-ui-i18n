@@ -387,7 +387,6 @@ describe('Mails DB', () => {
 				expect(hasMore).toBeFalsy();
 				expect(db.messages.bulkAdd).not.toHaveBeenCalled();
 				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
-				expect();
 				done();
 			});
 	});
