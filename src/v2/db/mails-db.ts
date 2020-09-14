@@ -18,6 +18,7 @@ import { MailConversationFromDb, MailConversationFromSoap } from './mail-convers
 import { fetchConversationsInFolder } from '../soap';
 import { MailsDbDexie } from './mails-db-dexie';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
+import { MailConversationMessage } from './mail-conversation-message';
 
 export type DeletionData = {
 	_id: string;

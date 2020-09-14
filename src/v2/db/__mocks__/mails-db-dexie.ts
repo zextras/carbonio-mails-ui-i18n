@@ -33,6 +33,7 @@ class MockedTable {
 	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
 	bulkAdd = jest.fn().mockImplementation(() => Promise.resolve([]));
 	get = jest.fn().mockImplementation(() => Promise.resolve());
+	delete = jest.fn().mockImplementation(() => Promise.resolve());
 }
 
 export class MailsDbDexie {

@@ -21,6 +21,109 @@ import { MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 describe('Mails DB', () => {
+	test('getFolderChildren', (done) => {
+		const db = new MailsDb();
+
+		const mailsFolder = {
+			id: '1000',
+			path: '/Test Folder',
+		};
+
+		db.folders.where.mockImplementationOnce(() => ({
+			sortBy: jest.fn().mockImplementation(() => Promise.resolve([
+				{
+					id: '1002',
+					_id: '_id',
+					itemsCount: 0,
+					size: 0,
+					unreadCount: 0,
+					name: 'name',
+					parent: 'parent',
+					path: 'path'
+				}
+			])),
+		}));
+
+		db.getFolderChildren(
+			mailsFolder
+		)
+			.then((res) => {
+				expect(res).toBeDefined();
+				expect(res).toStrictEqual([
+					{
+						id: '1002',
+						_id: '_id',
+						itemsCount: 0,
+						size: 0,
+						unreadCount: 0,
+						name: 'name',
+						parent: 'parent',
+						path: 'path'
+					}
+				]);
+				done();
+			});
+	});
+
+	test('deleteFolder, folder not in db', (done) => {
+		const db = new MailsDb();
+
+		const mailsFolder = {
+			_id: '1000',
+			path: '/Test Folder',
+		};
+
+		db.folders.get.mockImplementation(() => Promise.resolve());
+
+		db.deleteFolder(
+			mailsFolder
+		)
+			.then((res) => {
+				expect(res).toBeUndefined();
+				expect(db.deletions.add).toBeCalledTimes(0);
+				expect(db.folders.get).toBeCalledTimes(1);
+				done();
+			});
+	});
+
+	test('deleteFolder, successfull delete', (done) => {
+		const db = new MailsDb();
+
+		const mailsFolder = {
+			_id: '1000',
+			path: '/Test Folder',
+		};
+		const _f = new MailsFolderFromDb({
+			id: '1002',
+			_id: '_id',
+			itemsCount: 0,
+			size: 0,
+			unreadCount: 0,
+			name: 'name',
+			parent: 'parent',
+			path: 'path'
+		});
+		const deletion = {
+			rowId: 'rowId',
+			_id: '_id',
+			id: '1002',
+			table: 'folders'
+		};
+		db.folders.get.mockImplementation(() => Promise.resolve(_f));
+		db.deletions.add.mockImplementation(() => Promise.resolve(deletion));
+
+		db.deleteFolder(
+			mailsFolder
+		)
+			.then((res) => {
+				expect(res).toBeUndefined();
+				expect(deletion.table).toBe('folders');
+				expect(db.deletions.add).toBeCalledTimes(1);
+				expect(db.folders.get).toBeCalledTimes(1);
+				done();
+			});
+	});
+
 	test('fetchMoreConv, Local folder not synced with remote', (done) => {
 		const _fetch = jest.fn();
 		const db = new MailsDb(_fetch);
@@ -28,7 +131,7 @@ describe('Mails DB', () => {
 			new MailsFolderFromDb({})
 		)
 			.then((hasMore) => {
-				expect(hasMore).toBeFalsy();
+				expect(hasMore).toBe(false);
 				expect(db.messages.bulkAdd).not.toHaveBeenCalled();
 				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
 				done();
@@ -170,13 +273,16 @@ describe('Mails DB', () => {
 
 		const mockedRemoteConvs = [
 			new MailConversationFromSoap({
-				id: '1001'
+				id: '1001',
+				messages: [
+					{id: '1100'},
+					{id: '1101'}
+				]
 			})
 		];
 		const mockedRemoteConvsMessages = [
 			new MailMessageFromSoap({
-				id: '1002'
-			})
+				id: '1002'})
 		];
 
 		db.conversations.where.mockImplementationOnce(() => ({
@@ -210,5 +316,145 @@ describe('Mails DB', () => {
 				expect(result).toStrictEqual([[],[]]);
 				done();
 			});
-		})
+	});
+
+	test('saveConvsAndMessages, Both to Add', (done) => {
+		const db = new MailsDb();
+
+		const convsToAdd = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const convsMessagesToAdd = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
+		db.messages.bulkAdd.mockImplementation(() => convsMessagesToAdd);
+		db.conversations.bulkAdd.mockImplementation(() => convsToAdd);
+		db.saveConvsAndMessages(
+			convsToAdd,
+			convsMessagesToAdd
+		)
+			.then((result) => {
+				expect(result).toBeDefined();
+				expect(result).toBeInstanceOf(Array);
+				expect(result.length).toEqual(2);
+				expect(result).toEqual([
+					[
+						{
+							"id": "1002"
+						}
+					],
+					[
+						{
+							"id": "1001"
+						}
+					]
+				]);
+				done();
+			});
+	})
+
+	test('saveConvsAndMessages, Nothing to Add', (done) => {
+		const db = new MailsDb();
+
+		const convsToAdd = [];
+		const convsMessagesToAdd = [];
+
+		db.messages.bulkAdd.mockImplementation(() => convsMessagesToAdd);
+		db.conversations.bulkAdd.mockImplementation(() => convsToAdd);
+		db.saveConvsAndMessages(
+			convsToAdd,
+			convsMessagesToAdd
+		)
+			.then((result) => {
+				expect(result).toBeDefined();
+				expect(result).toBeInstanceOf(Array);
+				expect(result.length).toEqual(2);
+				expect(result).toStrictEqual([[],[]]);
+				done();
+			});
+	})
+
+	test('CheckHasMoreConv, Local folder not synced with remote', (done) => {
+		const _fetch = jest.fn();
+		const db = new MailsDb(_fetch);
+		db.fetchMoreConv(
+			new MailsFolderFromDb({})
+		)
+			.then((hasMore) => {
+				expect(hasMore).toBeFalsy();
+				expect(db.messages.bulkAdd).not.toHaveBeenCalled();
+				expect(db.conversations.bulkAdd).not.toHaveBeenCalled();
+				expect()
+				done();
+			});
+	});
+
+	test('CheckHasMoreConv, Has more conversations', (done) => {
+		const db = new MailsDb();
+
+		const mockedConversations = [
+			new MailConversationFromSoap({
+				id: '1001'
+			})
+		];
+		const mockedConversationsMessages = [
+			new MailMessageFromSoap({
+				id: '1002'
+			})
+		];
+
+		const mailsFolderFromDb = {
+			id: '1000',
+			path: '/Test Folder'
+		};
+
+		const mailConversationfromDb = {
+			_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+			id: '1001'
+		};
+
+		fetchConversationsInFolder.mockImplementation(() => Promise.resolve([
+			mockedConversations,
+			mockedConversationsMessages,
+			false
+		]));
+
+		db.checkHasMoreConv(
+			mailsFolderFromDb,
+			mailConversationfromDb
+		)
+		.then((hasMore) => {
+			expect(hasMore).toBe(true);
+			done();
+		});
+	});
+
+	test('CheckHasMoreConv, No more conversations', (done) => {
+		const db = new MailsDb();
+
+		const mailsFolderFromDb = {
+			id: '1000',
+			path: '/Test Folder'
+		};
+
+		const mailConversationfromDb = {
+			_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+			id: '1001'
+		};
+
+		fetchConversationsInFolder.mockImplementation(() => Promise.resolve([[], [], false]));
+
+		db.checkHasMoreConv(
+			mailsFolderFromDb,
+			mailConversationfromDb
+		)
+			.then((hasMore) => {
+				expect(hasMore).toBe(false);
+				done();
+			});
+	});
 });
