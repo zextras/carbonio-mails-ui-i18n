@@ -17,75 +17,6 @@ import { MailConversationMessage } from './mail-conversation-message';
 import processLocalConvChange from './process-local-conversations-change';
 
 describe('Local Changes - Conversations', () => {
-	test.skip('Create a Change', (done) => {
-		const db = new MailsDb();
-		const fetch = jest.fn()
-			.mockImplementationOnce(() => Promise.resolve({
-				ConvActionResponse: [{
-					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-					_jsns: 'urn:zimbraMail',
-					action: {
-						id: '1000',
-						op: '',
-					},
-				}]
-			}))
-			.mockImplementationOnce({
-				md: 1,
-				token: 1,
-				m: {
-					cid: '-801',
-					d: 1598610497000,
-					id: '801',
-					l: '6',
-					md: 55687,
-					ms: 77212,
-					rev: 1482,
-				}
-			});
-		processLocalConvChange(
-			db,
-			[{
-				type: 1,
-				table: 'conversations',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-				obj: {
-					parent: '7',
-				}
-			}],
-			fetch
-		).then(
-			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(1);
-				expect(additionalChanges[0]).toStrictEqual({
-					key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-					mods: {
-						id: '1000',
-					},
-					table: 'conversations',
-					type: 2
-				});
-				expect(fetch).toHaveBeenCalledTimes(1);
-				expect(fetch).toHaveBeenCalledWith(
-					'Batch',
-					{
-						_jsns: 'urn:zimbra',
-						onerror: 'continue',
-						ConvActionRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							action: {
-								id: '1000',
-								op: '',
-							},
-						}]
-					}
-				);
-				done();
-			}
-		);
-	});
-
 	// TODO TYPE 2 UPDATING CHANGES
 
 	test('Moving a conversation', (done) => {
@@ -93,7 +24,7 @@ describe('Local Changes - Conversations', () => {
 		db.conversations.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailConversationMessage({
+					new MailConversationMessage({ // TODO why
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						id: '1000'
 					})

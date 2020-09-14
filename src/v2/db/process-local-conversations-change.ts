@@ -12,62 +12,18 @@ import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, map, reduce } from 'lodash';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
-	BatchedRequest, BatchedResponse,
+	BatchedRequest,
 	BatchRequest, BatchResponse,
 	ConvActionRequest,
-	ConvActionResponse
 } from '../soap';
 import { MailConversationMessage } from './mail-conversation-message';
 
-// TODO TYPE 1 CREATING INSERTS
-function processInserts(
-	db: MailsDb,
-	changes: ICreateChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
-		changes,
-		(r, c) => {
-			r.push({
-				_jsns: 'urn:zimbraMail',
-				requestId: c.key,
-				action: {
-					id: '1000',
-					op: '',
-				},
-			});
-			return r;
-		},
-		convActionRequest
-	);
-	if (convActionRequest.length > 0) {
-		batchRequest.ConvActionRequest = [
-			...(batchRequest.ConvActionRequest || []),
-			...convActionRequest
-		];
-	}
-	return Promise.resolve([batchRequest, localChanges]);
-}
-
-// TODO PROCESS CREATION (creating a draft)
-
-function processCreationResponse(r: BatchedResponse & ConvActionResponse): IUpdateChange {
-	const conversation = r.action;
-	return {
-		type: 2,
-		table: 'conversations',
-		key: r.requestId,
-		mods: {
-			id: conversation.id // TODO is this right?
-		}
-	};
-}
 
 // TODO TYPE 2 UPDATING CHANGES
 function processConvUpdates(
@@ -114,6 +70,7 @@ function processConvUpdates(
 						});
 					}
 				}
+				// eslint-disable-next-line no-prototype-builtins
 				if (c.mods.hasOwnProperty('flagged')) {
 					_convActionRequest.push({
 						_jsns: 'urn:zimbraMail',
@@ -124,6 +81,7 @@ function processConvUpdates(
 						}
 					});
 				}
+				// eslint-disable-next-line no-prototype-builtins
 				if (c.mods.hasOwnProperty('read')) {
 					_convActionRequest.push({
 						_jsns: 'urn:zimbraMail',
@@ -140,6 +98,7 @@ function processConvUpdates(
 		);
 
 		if (convActionRequest.length > 0) {
+			// eslint-disable-next-line no-param-reassign
 			batchRequest.ConvActionRequest =	[
 				...(batchRequest.ConvActionRequest || []),
 				...convActionRequest
@@ -214,7 +173,7 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processInserts(
+	return processInserts( // TODO won't solve
 		db,
 		filter(conversationsChanges, ['type', 1]) as ICreateChange[],
 		batchRequest,
@@ -241,16 +200,8 @@ export default function processLocalConvChange(
 				_batchRequest
 			)
 				.then(({ ConvActionRequest: convActionRequest }) => {
-					if (convActionRequest) { // TODO needed for drafts
-						// const creationChanges = reduce<any, IUpdateChange[]>(
-						// 	BatchResponse.ConvActionRequest,
-						// 	(r, response) => {
-						// 		r.push(processCreationResponse(response));
-						// 		return r;
-						// 	},
-						// 	[]
-						// );
-						// _dbChanges.unshift(...creationChanges);
+					if (convActionRequest) {
+
 					}
 					return _dbChanges;
 				});
