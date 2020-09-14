@@ -194,6 +194,7 @@ export default function processLocalConvChange(
 				_batchRequest
 			)
 				.then(({ ConvActionRequest: convActionRequest }) => {
+					// eslint-disable-next-line no-empty
 					if (convActionRequest) {
 
 					}

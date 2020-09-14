@@ -15,6 +15,8 @@ import {
 import {
 	filter, map, reduce, keyBy
 } from 'lodash';
+
+// @ts-ignore
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
@@ -234,6 +236,7 @@ function processMailUpdates(
 			);
 
 			if (saveDraftRequest.length > 0) {
+				// eslint-disable-next-line no-param-reassign
 				batchRequest.SaveDraftRequest =	[
 					...(batchRequest.SaveDraftRequest || []),
 					...saveDraftRequest
