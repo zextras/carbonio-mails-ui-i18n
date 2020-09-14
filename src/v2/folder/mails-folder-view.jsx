@@ -167,6 +167,7 @@ const ConversationList = ({ folderId }) => {
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);
+	const [lmConvsLength, setLmConvsLength] = useState(0);
 
 	const updateDisplayData = useCallback(
 		(index, id, v) => {
@@ -216,9 +217,11 @@ const ConversationList = ({ folderId }) => {
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;
-		!isLoading && hasMore && loadMore && overscanStopIndex >= conversationsLastIndex
-			&& loadMore(conversations[conversationsLastIndex]);
-	}, [conversations, hasMore, loadMore, isLoading]);
+		if (!isLoading && lmConvsLength !== conversationsLastIndex && hasMore && loadMore && overscanStopIndex >= conversationsLastIndex) {
+			setLmConvsLength(conversationsLastIndex);
+			loadMore(conversations[conversationsLastIndex]);
+		}
+	}, [conversations, hasMore, loadMore, isLoading, lmConvsLength]);
 
 	useEffect(() => {
 		!isLoading && hasMore && loadMore && conversations.length < 20 && loadMore();
