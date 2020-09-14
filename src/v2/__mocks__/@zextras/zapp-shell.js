@@ -12,25 +12,32 @@
 
 export const hooks = {
 	useAppContext: jest.fn(() => {
-		throw new Error('useAppContext is not implemented');
+		throw new Error('Mock \'useAppContext\' not implemented.');
 	}),
+
 	useObserveDb: jest.fn(() => {
-		throw new Error('useObserveDb is not implemented');
+		throw new Error('Mock \'useObserveDb\' not implemented.');
 	}),
+
 	useBehaviorSubject: jest.fn(() => {
-		throw new Error('useBehaviorSubject is not implemented');
+		throw new Error('Mock \'useBehaviorSubject\' not implemented.');
 	}),
+
 	useReplaceHistoryCallback: jest.fn(() => {
-		throw new Error('useReplaceHistoryCallback is not implemented');
+		throw new Error('Mock \'useReplaceHistoryCallback\' is not implemented');
 	})
 };
 
-const MockedDb_version_stores = jest.fn();
+const MockedDb_version_stores = jest.fn(() => {
+	throw new Error('Mock \'MockedDb_version_stores\' not implemented.');
+});
 const MockedDb_version = jest.fn().mockImplementation(() => ({
 	stores: MockedDb_version_stores
 }));
 
-const MockedDb_table_mapToClass = jest.fn();
+const MockedDb_table_mapToClass = jest.fn(() => {
+	throw new Error('Mock \'MockedDb_table_mapToClass\' not implemented.');
+});
 const MockedDb_table = jest.fn().mockImplementation(() => ({
 	mapToClass: MockedDb_table_mapToClass
 }));
@@ -39,6 +46,8 @@ class MockedDb {
 	version = MockedDb_version;
 
 	table = MockedDb_table;
+
+	createUUID = jest.fn();
 }
 
 export const db = {

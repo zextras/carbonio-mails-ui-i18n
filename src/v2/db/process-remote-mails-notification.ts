@@ -12,12 +12,11 @@
 import {
 	keys,
 	reduce,
-	map,
 	differenceWith,
 	isEqual,
 	keyBy
 } from 'lodash';
-
+import { SoapFetch } from '@zextras/zapp-shell';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
@@ -45,7 +44,7 @@ function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 }
 
 function extractAllMailsForInitialSync(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	folders: Array<SyncResponseMailFolder>
 ): Promise<ICreateChange[]> {
 	const mIds = reduce<SyncResponseMailFolder, string[]>(
@@ -73,52 +72,49 @@ function extractAllMailsForInitialSync(
 }
 
 export default function processRemoteMailsNotification(
-	_fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_fetch: SoapFetch,
 	db: MailsDb,
 	isInitialSync: boolean,
 	changes: IDatabaseChange[],
 	localChangesFromRemote: IDatabaseChange[],
-	{ m: mails, deleted, folder }: SyncResponse
+	{ m: mails, deleted }: SyncResponse
 ): Promise<IDatabaseChange[]> {
 	if (isInitialSync) {
-		// Extract all mails from all the folders
-		return extractAllMailsForInitialSync(_fetch, folder!);
+		return Promise.resolve([]);
 	}
-	const mappedMails = keyBy(mails, 'id');
+	const mappedMails = keyBy(mails || [], 'id');
 	const ids = keys(mappedMails || []);
 	const dbChanges: IDatabaseChange[] = [];
 	return db.messages.where('id').anyOf(ids).toArray()
 		.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
-		.then((dbMails: {[id: string]: MailMessageFromDb}) => {
-			return {
+		.then((dbMails: {[id: string]: MailMessageFromDb}) => ({
+			dbMails,
+			dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 				dbMails,
-				dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
-					dbMails,
-					(acc: IDatabaseChange[], value: MailMessageFromDb) => {
-						if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
-							const obj: {[keyPath: string]: any | undefined} = {};
-							if (mappedMails[value.id].l) {
-								obj.parent = mappedMails[value.id].l;
-							}
-							if (mappedMails[value.id].f) {
-								obj.read = !(/u/.test(mappedMails[value.id].f || ''));
-								obj.attachment = /a/.test(mappedMails[value.id].f || '');
-								obj.flagged = /f/.test(mappedMails[value.id].f || '');
-								obj.urgent = /!/.test(mappedMails[value.id].f || '');
-							}
-							acc.push({
-								type: 2,
-								table: 'messages',
-								key: value._id,
-								mods: obj
-							});
+				(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+					if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
+						const obj: {[keyPath: string]: any | undefined} = {};
+						if (mappedMails[value.id].l) {
+							obj.parent = mappedMails[value.id].l;
 						}
-						return acc;
-					},
-					dbChanges
-				)
-			};
-		})
+						if (mappedMails[value.id].f) {
+							obj.read = !(/u/.test(mappedMails[value.id].f || ''));
+							obj.attachment = /a/.test(mappedMails[value.id].f || '');
+							obj.flagged = /f/.test(mappedMails[value.id].f || '');
+							obj.urgent = /!/.test(mappedMails[value.id].f || '');
+						}
+						acc.push({
+							type: 2,
+							table: 'messages',
+							key: value._id,
+							mods: obj
+						});
+					}
+					return acc;
+				},
+				dbChanges
+			)
+		}))
 		.then(({ dbChangesUpdated, dbMails }) => fetchMailMessagesById(
 			_fetch,
 			reduce(
@@ -188,7 +184,6 @@ export default function processRemoteMailsNotification(
 						dbChangesUpdatedAndFetched
 					));
 			}
-			console.log(dbChangesUpdatedAndFetched);
 			return dbChangesUpdatedAndFetched;
 		});
 };

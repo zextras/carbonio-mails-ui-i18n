@@ -20,24 +20,33 @@ const MockedWhereClause = jest.fn().mockImplementation(() => ({
 	equals: MockedCollection
 }));
 
+const MockedAddClause = jest.fn().mockImplementation(() => ({
+	anyOf: MockedCollection,
+	equals: MockedCollection
+}));
+
 class MockedTable {
 	where = MockedWhereClause;
 
-	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
+	add = MockedAddClause;
 
+	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
+	bulkAdd = jest.fn().mockImplementation(() => Promise.resolve([]));
 	get = jest.fn().mockImplementation(() => Promise.resolve());
 }
 
 export class MailsDbDexie {
 	conversations = new MockedTable();
 
-	folders = new MockedTable();
+	messages= new MockedTable();
 
-	messages = new MockedTable();
+	folders = new MockedTable();
 
 	deletions = new MockedTable();
 
-	messages = new MockedTable();
-
-	observe = jest.fn();
+	observe = jest.fn(() => {
+		throw new Error('Mock "observe" not implemented.');
+	});
+	createUUID = jest.fn();
+	transaction = jest.fn();
 }

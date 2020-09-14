@@ -34,9 +34,9 @@
     "@types/react-router-dom": "5.1.0",
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
-    "@zextras/zapp-cli": ">=0.0.42 <2.0.0",
-    "@zextras/zapp-shell": ">=0.0.63 <2.0.0",
-    "@zextras/zapp-ui": ">=0.0.32 <2.0.0",
+    "@zextras/zapp-cli": ">=0.0.54 <2.0.0",
+    "@zextras/zapp-shell": ">=0.0.67 <2.0.0",
+    "@zextras/zapp-ui": ">=0.0.34 <2.0.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",
     "babel-loader": "8.0.6",
@@ -73,7 +73,8 @@
     "react-test-renderer": "16.10.2",
     "styled-components": "5.1.1",
     "typescript": "3.6.4",
-    "webpack-inject-plugin": "1.5.4"
+    "webpack-inject-plugin": "1.5.4",
+    "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
     "@babel/preset-typescript": "7.6.0",

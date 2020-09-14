@@ -12,10 +12,14 @@
 import {
 	flattenDeep, forEach, map, reduce, trim
 } from 'lodash';
-import { MailsFolder, MailsFolderFromSoap } from './db/mails-folder';
+
+import { MailsFolderFromDb, MailsFolderFromSoap } from './db/mails-folder';
+import { SoapFetch } from '@zextras/zapp-shell';
+
 import { Participant, ParticipantType } from './db/mail-db-types';
-import { MailConversationFromDb, MailConversationFromSoap } from './db/mail-conversation';
+import { MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { MailConversationMessage } from './db/mail-conversation-message';
 
 
 type IFolderView =
@@ -85,6 +89,9 @@ export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 	m: Array<{
 		ids: string; // Comma-separated values
 	}>;
+	c: Array<{
+		ids: string; // Comma-separated values
+	}>;
 	folder: Array<SyncResponseMailFolder>;
 };
 
@@ -99,6 +106,8 @@ export type SyncResponseMail = {
 	f?: string;
 	// t?: string; //tag
 	// tn?: string; //tagName
+
+
 };
 
 export type SyncResponseConversation = {
@@ -111,6 +120,7 @@ export type SyncResponseConversation = {
 		f?: string;// flags
 		su?: string;// subject
 		fr?: string;// fragment
+		e?: Array<SoapEmailInfoObj>;
 };
 
 type SyncResponseDeletedMapRow = {
@@ -121,6 +131,12 @@ export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
 	folder?: Array<SyncResponseDeletedMapRow>;
 	m?: Array<SyncResponseDeletedMapRow>;
 	c?: Array<SyncResponseDeletedMapRow>;
+};
+
+export type SyncRequest = {
+	_jsns: 'urn:zimbraMail';
+	typed: 0|1;
+	token: string;
 };
 
 export type SyncResponse = {
@@ -187,6 +203,7 @@ export type GetConvRequest = {
 	c: Array<{
 		id: string;
 		html: string;
+		fetch: string;
 	}>;
 };
 
@@ -196,6 +213,10 @@ export type Jsns = {
 
 export type GetMsgResponse = {
 	m: Array<SoapEmailMessageObj>;
+};
+
+export type GetConvResponse = {
+	c: Array<SoapConvObj>;
 };
 
 export type SoapEmailMessagePartObj = {
@@ -224,6 +245,12 @@ export type SoapEmailMessageObj = {
 	/** Size */ s: number;
 	/** Subject */ su: string;
 	/** Date */ d: number;
+};
+
+export type BatchResponse = {
+	CreateFolderResponse?: Array<BatchedResponse & CreateFolderResponse>;
+	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
+	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -281,6 +308,23 @@ export type SoapConvObj = {
 	fr: string;
 };
 
+type SearchRequest = {
+	_jsns: 'urn:zimbraMail';
+	sortBy: 'dateDesc';
+	types: 'conversation';
+	fullConversation: 0|1;
+	needExp: 0|1;
+	recip: 0|1;
+	limit: number;
+	query: string;
+	fetch: 'all';
+};
+
+type SearchResponse = {
+	c: SoapConvObj[];
+	more: boolean;
+};
+
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
 	switch (t) {
 		case 'f': return ParticipantType.FROM;
@@ -310,20 +354,22 @@ type MailConversationMessageMetadata = {
 };
 
 function normalizeConversationMessageFromSoap(
-	[r1, r2]: [MailConversationMessageMetadata[], string[]],
+	[r1, r2]: [MailConversationMessage[], string[]],
 	m: SoapConvMsgObj
-): [MailConversationMessageMetadata[], string[]] {
+): [MailConversationMessage[], string[]] {
 	return [
-		r1.concat({
-			id: m.id,
-			parent: m.l
-		}),
+		r1.concat(
+			new MailConversationMessage({
+				id: m.id,
+				parent: m.l
+			})
+		),
 		r2.concat(m.l)
 	];
 }
 
 export function normalizeConversationFromSoap(c: SoapConvObj): MailConversationFromSoap {
-	const [messages, parent]: [MailConversationMessageMetadata[], string[]] = reduce(
+	const [messages, parent]: [MailConversationMessage[], string[]] = reduce(
 		c.m || [],
 		normalizeConversationMessageFromSoap,
 		[[], []]
@@ -363,6 +409,7 @@ function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 	}
 	return [];
 }
+
 function normalizeFolder(soapFolderObj: SyncResponseMailFolder): MailsFolderFromSoap {
 	return new MailsFolderFromSoap({
 		itemsCount: soapFolderObj.n,
@@ -453,97 +500,31 @@ function recursiveBodyPath(mp: Array<SoapEmailMessagePartObj>): Array<number> {
 	return flattenDeep(map(mp, bodyPathMapFn));
 }
 
-export function fetchConversationsInFolder(
-	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
-	f: MailsFolder,
-	limit = 50,
-	before = new Date()
-): Promise<[Array<MailConversationFromSoap>, boolean]> {
-	const queryPart = [
-		`in:"${f.path}"`
-	];
-	if (before.getTime() > 0) queryPart.push(`before:${before.getMilliseconds()}`);
-	const searchReq = {
-		Body: {
-			SearchRequest: {
-				_jsns: 'urn:zimbraMail',
-				sortBy: 'dateDesc',
-				types: 'conversation',
-				fullConversation: 1,
-				needExp: 1,
-				recip: 0,
-				limit,
-				query: queryPart.join(' '),
-				fetch: 'all'
-			}
-		}
-	};
-
-	return fetch(
-		'/service/soap/SearchRequest',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(searchReq)
-		}
-	)
-		.then((response) => response.json())
-		.then((r) => {
-			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.SearchResponse;
-		})
-		.then(({ c, more }) => [
-			reduce<SoapConvObj, Array<MailConversationFromSoap>>(
-				c,
-				(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
-				[]
-			),
-			more,
-		]);
-}
-
 export function fetchMailMessagesById(
-	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	soapFetch: SoapFetch,
 	ids: string[]
 ): Promise<MailMessageFromSoap[]> {
 	if (ids.length < 1) return Promise.resolve([]);
-	const batchRequest: BatchRequest & {GetMsgRequest: Array<BatchedRequest & GetMsgRequest>} = {
+	const batchRequest: BatchRequest = {
 		_jsns: 'urn:zimbra',
-		onerror: 'continue',
-		GetMsgRequest: []
+		onerror: 'continue'
 	};
-	reduce<string, Array<BatchedRequest & GetMsgRequest>>(
+	batchRequest.GetMsgRequest = reduce<string, Array<BatchedRequest & GetMsgRequest>>(
 		ids,
 		(acc, id) => {
 			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, m: [{ id, html: '1' }] });
 			return acc;
 		},
-		batchRequest.GetMsgRequest
+		[]
 	);
-	return fetch(
-		'/service/soap/BatchRequest',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				Body: {
-					BatchRequest: batchRequest
-				}
-			})
-		}
+	return soapFetch<BatchRequest, BatchResponse>(
+		'Batch',
+		batchRequest
 	)
-		.then((response) => response.json())
-		.then((r) => {
-			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.BatchResponse;
-		})
 		.then(({ GetMsgResponse: getMsgResponse }) =>
+
 			reduce<GetMsgResponse, MailMessageFromSoap[]>(
-				getMsgResponse,
+				getMsgResponse || [],
 				(acc, { m }) => {
 					acc.push(normalizeMailMessageFromSoap(m[0]));
 					return acc;
@@ -553,7 +534,7 @@ export function fetchMailMessagesById(
 }
 
 export function fetchMailConversationsById(
-	fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>,
+	_soapFetch: SoapFetch,
 	ids: string[]
 ): Promise<MailConversationFromSoap[]> {
 	if (ids.length < 1) return Promise.resolve([]);
@@ -565,39 +546,94 @@ export function fetchMailConversationsById(
 	reduce<string, Array<BatchedRequest & GetConvRequest>>(
 		ids,
 		(acc, id) => {
-			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1' }] });
+			acc.push({ _jsns: 'urn:zimbraMail', requestId: id, c: [{ id, html: '1', fetch: 'all' }] });
 			return acc;
 		},
 		batchRequest.GetConvRequest
 	);
-	return fetch(
-		'/service/soap/BatchRequest',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				Body: {
-					BatchRequest: batchRequest
-				}
-			})
-		}
+	return _soapFetch<BatchRequest, BatchResponse>(
+		'Batch',
+		batchRequest
 	)
-		.then((response) => response.json())
-		.then((r) => {
-			if (r.Body.Fault) throw new Error(r.Body.Fault.Reason.Text);
-			else return r.Body.BatchResponse;
-		})
 		.then(({ GetConvResponse: getConvResponse }) =>
 			reduce<GetConvResponse, MailConversationFromSoap[]>(
 				getConvResponse,
 				(acc, { c }) => {
-					acc.push(normalizeMailConversationFromSoap(c[0]));
+					acc.push(normalizeConversationFromSoap(c[0]));
 					return acc;
 				},
 				[]
 			));
+}
+
+export function fetchConversationsInFolder(
+	soapFetch: SoapFetch,
+	f: MailsFolderFromDb,
+	limit = 50,
+	before?: Date,
+	expandMessages = true
+): Promise<[Array<MailConversationFromSoap>, Array<MailMessageFromSoap>, boolean]> {
+	const queryPart = [
+		`in:"${f.path}"`
+	];
+	if (before) queryPart.push(`before:${before.getTime()}`);
+	const searchReq: SearchRequest = {
+		_jsns: 'urn:zimbraMail',
+		sortBy: 'dateDesc',
+		types: 'conversation',
+		fullConversation: 1,
+		needExp: 1,
+		recip: 0,
+		limit,
+		query: queryPart.join(' '),
+		fetch: 'all'
+	};
+	return soapFetch<SearchRequest, SearchResponse>(
+		'Search',
+		searchReq
+	)
+		.then(({ c, more }) => {
+			const msgIds = reduce<SoapConvObj, Array<string>>(
+				c,
+				(acc, v) => {
+					reduce(
+						v.m,
+						(acc2, v2) => {
+							acc2.push(v2.id);
+							return acc2;
+						},
+						acc
+					);
+					return acc;
+				},
+				[]
+			);
+
+			if (!expandMessages) {
+				return Promise.resolve([
+					reduce<SoapConvObj, Array<MailConversationFromSoap>>(
+						c,
+						(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
+						[]
+					),
+					[],
+					more
+				]);
+			}
+
+			return fetchMailMessagesById(soapFetch, msgIds)
+				.then((convsMessages: Array<MailMessageFromSoap>) => {
+					return [
+						reduce<SoapConvObj, Array<MailConversationFromSoap>>(
+							c,
+							(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
+							[]
+						),
+						convsMessages,
+						more
+					];
+				});
+		});
 }
 
 function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
