@@ -11,6 +11,7 @@
 
 import { PromiseExtended } from 'dexie';
 import { reduce, pullAllWith } from 'lodash';
+// eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
@@ -38,7 +39,8 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public getFolderChildren(folder: MailsFolder): Promise<MailsFolderFromDb[]> {
-		// TODO: For locally created folders we should resolve the internal id, we should ALWAYS to that
+		// TODO: For locally created folders
+		//  we should resolve the internal id, we should ALWAYS to that.
 		if (!folder.id) return Promise.resolve([]);
 		return this.folders.where({ parent: folder.id }).sortBy('name');
 	}
@@ -61,7 +63,9 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public checkHasMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
+	public checkHasMoreConv(
+		f: MailsFolderFromDb, lastConv?: MailConversationFromDb
+	): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
 			this._soapFetch,
@@ -82,20 +86,18 @@ export class MailsDb extends MailsDbDexie {
 			50,
 			lastConv ? new Date(lastConv.date) : undefined
 		)
-			.then(([remoteConvs, remoteConvsMessages, hasMore]) => {
-				return this.transaction('rw', this.conversations, this.messages, () => {
-					return this.checkForDuplicates(remoteConvs, remoteConvsMessages)
+			.then(([remoteConvs, remoteConvsMessages, hasMore]) =>
+				this.transaction('rw', this.conversations, this.messages, () =>
+					this.checkForDuplicates(remoteConvs, remoteConvsMessages)
 						.then(
 							([convsToAdd, convsMessagesToAdd]) =>
 								this.saveConvsAndMessages(
 									convsToAdd as MailConversationFromDb[],
 									convsMessagesToAdd as MailMessageFromDb[]
 								)
-						);
-				})
+						))
 					.then(() => hasMore)
-					.catch(() => false);
-			});
+					.catch(() => false));
 	}
 
 	public checkForDuplicates(
