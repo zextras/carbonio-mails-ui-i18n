@@ -43,12 +43,13 @@ describe('Hooks', () => {
 		}));
 
 		hooks.useAppContext.mockImplementation(() => ({ db }));
+		hooks.useObserveDb.mockImplementation(() => ([convs, true]));
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
-		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[], false]));
+		db.fetchMoreConv.mockImplementation(() => Promise.resolve(true));
 
 		const { result, waitForNextUpdate } = renderHook(() => useConvsInFolder('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'));
 		expect(result.current.folder).toBeUndefined();
-		expect(result.current.conversations.length).toBe(0);
+		expect(result.current.conversations.length).toBe(50);
 		expect(result.current.loadMore).toBeUndefined();
 		expect(result.current.isLoading).toBe(true);
 		expect(result.current.hasMore).toBe(false);
@@ -62,9 +63,11 @@ describe('Hooks', () => {
 		expect(result.current.hasMore).toBe(true);
 
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
-		db.fetchMoreConv.mockImplementation(() => Promise.resolve([[
-			new MailConversationFromDb({ id: '-10051' })
-		], false]));
+
+		db.fetchMoreConv.mockImplementation(() => Promise.resolve(false));
+		hooks.useObserveDb.mockImplementation(() => ([[
+			...convs, new MailConversationFromDb({ id: '-10051' })
+		], true]));
 		await act(() => result.current.loadMore());
 
 		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);

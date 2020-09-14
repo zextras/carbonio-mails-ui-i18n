@@ -12,14 +12,15 @@
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
 import { keys, last, groupBy } from 'lodash';
-import { MailsFolder } from './db/mails-folder';
+
+import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
+import { AppContext } from './app-context';
 import { MailConversationMessage } from './db/mail-conversation-message';
 import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
-	conversations: Array<MailConversationFromDb>;
-	folder: MailsFolder | undefined;
+	folder: MailsFolderFromDb | undefined;
 	hasMore: boolean;
 	isLoading: boolean;
 }
@@ -30,37 +31,28 @@ type ResetAction = {
 
 type SetFolderAction = {
 	type: 'set-folder';
-	folder: MailsFolder;
-}
-
-type SetConversationsAction = {
-	type: 'set-conversations';
-	conversations: Array<MailConversationFromDb>;
+	folder: MailsFolderFromDb;
 }
 
 type SetIsLoadingAction = {
 	type: 'set-is-loading';
 	isLoading: boolean;
-	hasMore: boolean;
 };
 
 type LoadedMoreConversations = {
 	type: 'loaded-more-conversations';
-	conversations: Array<MailConversationFromDb>;
 	hasMore: boolean;
 };
 
 type ConvInFolderReducerAction =
 		ResetAction
 	| SetFolderAction
-	| SetConversationsAction
 	| SetIsLoadingAction
 	| LoadedMoreConversations
 	;
 
 function convInFolderInit(): ConversationInFolderState {
 	return {
-		conversations: [],
 		folder: undefined,
 		hasMore: false,
 		isLoading: true
@@ -72,27 +64,18 @@ function convInFolderReducer(state: ConversationInFolderState, action: ConvInFol
 		case 'set-folder':
 			return ({
 				...state,
-				conversations: [],
 				folder: action.folder
-			});
-		case 'set-conversations':
-			return ({
-				...state,
-				conversations: action.conversations,
-				// isLoading: false
 			});
 		case 'set-is-loading':
 			return ({
 				...state,
-				hasMore: action.hasMore,
 				isLoading: action.isLoading
 			});
 		case 'loaded-more-conversations':
 			return ({
 				...state,
-				conversations: [...state.conversations, ...action.conversations],
 				hasMore: action.hasMore,
-				isLoading: false,
+				isLoading: false
 			});
 		case 'reset':
 			return convInFolderInit();
@@ -110,78 +93,90 @@ type UseConvsInFolderReturnType = {
 }
 
 export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 
 	const [state, dispatch] = useReducer(convInFolderReducer, [], convInFolderInit);
 
-	const loadMore = useCallback((folder?: MailsFolder) => new Promise<void>((resolve, reject) => {
-		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
-		((folder) ? Promise.resolve(folder) : db.folders.get(folderId))
-			.then((f: MailsFolder) => {
-				if (!f || !f.id) {
-					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
+	const loadMore = useCallback(
+		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
+			if (!state.folder) {
+				resolve();
+				return;
+			}
+			dispatch({ type: 'set-is-loading', isLoading: true });
+			db.fetchMoreConv(state.folder, lastConv)
+				.then((hasMore: boolean) => {
+					dispatch({ type: 'loaded-more-conversations', hasMore });
 					resolve();
-				}
-				else {
-					db.conversations
-						.where('parent')
-						.equals(f.id)
-						.reverse()
-						.limit(1)
-						.sortBy('date')
-						.then(([conv]: [MailConversationFromDb]) => db.fetchMoreConv(f, conv))
-						.then(([conversations, hasMore]: [Array<MailConversationFromDb>, boolean]) => {
-							dispatch({ type: 'loaded-more-conversations', conversations, hasMore });
-							resolve();
-						});
-				}
-			});
-	}), [db, folderId, dispatch]);
+				});
+		}),
+		[db, state.folder, dispatch]
+	);
 
 	useEffect(() => {
-		dispatch({ type: 'set-is-loading', isLoading: true, hasMore: false });
-		db.transaction('r', db.folders, db.messages, db.conversations, () => db.folders.get(folderId)
-			.then((folder: MailsFolder) => {
-				dispatch({ type: 'set-folder', folder });
+		let didCancel = false;
+		dispatch({ type: 'set-is-loading', isLoading: true });
+		db.folders.get(folderId)
+			.then((folder?: MailsFolderFromDb) => {
 				if (!folder || !folder.id) {
-					dispatch({ type: 'set-is-loading', isLoading: false, hasMore: false });
-					return Promise.resolve();
+					return false;
 				}
-				return db.messages
-					.where('parent')
-					.equals(folder.id)
+				if (!didCancel) {
+					dispatch({ type: 'set-folder', folder });
+					return db.checkHasMoreConv(folder);
+				}
+				return false;
+			})
+			.then((hasMore) => {
+				if (!didCancel) {
+					dispatch({ type: 'loaded-more-conversations', hasMore });
+				}
+			});
+		return () => {
+			didCancel = true;
+		};
+	}, [db, folderId, dispatch]);
+
+	const conversationsQuery = useCallback(
+		() => {
+			if (!state.folder || !state.folder.id) {
+				return Promise.resolve([]);
+			}
+			dispatch({ type: 'set-is-loading', isLoading: true });
+
+			return db.transaction('r', db.messages, db.conversations, () => db.messages
+				.where('parent')
+				.equals(state.folder!.id!)
+				.toArray()
+				.then((messages: MailMessageFromDb[]) => {
+					const mappedMsgs = groupBy(messages, 'conversation');
+					return keys(mappedMsgs);
+				})
+				.then((conversationsIds: Array<string>) => db.conversations
+					.where('id')
+					.anyOf(conversationsIds)
 					.reverse()
 					.sortBy('date')
-					.toArray()
-					.then((messages: MailMessageFromDb[]) => {
-						const mappedMsgs = groupBy(messages, 'conversation');
-						return keys(mappedMsgs);
-					})
-					.then((conversationsIds: Array<string>) => db.conversation
-						.where('id')
-						.equals(conversationsIds)
-						.toArray()
-						.then((conversations: MailConversationFromDb[]) => {
-							dispatch({ type: 'set-conversations', conversations });
-							const lastConv = last(conversations);
-							return db.checkHasMoreConv(folder, lastConv)
-								.then((hasMore: boolean) => dispatch({ type: 'set-is-loading', isLoading: false, hasMore }));
-						}));
-			}))
-			.catch();
-	}, [db, folderId, dispatch, loadMore]);
+					.then((conversations: MailConversationFromDb[]) => {
+						dispatch({ type: 'set-is-loading', isLoading: false });
+						return conversations;
+					})));
+		},
+		[state.folder, db, dispatch]
+	);
+	const [conversations, loaded] = hooks.useObserveDb(conversationsQuery, db);
 
 	return {
-		conversations: state.conversations,
+		conversations: conversations || [],
 		folder: state.folder,
-		isLoading: state.isLoading,
+		isLoading: state.isLoading || !loaded,
 		hasMore: state.hasMore,
-		loadMore: !state.isLoading && state.hasMore ? loadMore : undefined
+		loadMore: (!state.isLoading && loaded && state.hasMore) ? loadMore : undefined
 	};
 }
 
-export function useConversationMessages(conversationId: Array<MailConversationMessage>) {
-	const { db } = hooks.useAppContext();
+export function useConversationMessages(conversationId: string) {
+	const { db } = hooks.useAppContext<AppContext>();
 
 	const messagesQuery = useCallback(
 		() => db.messages.where('conversation').equals(conversationId).reverse().sortBy('date'),
@@ -193,9 +188,14 @@ export function useConversationMessages(conversationId: Array<MailConversationMe
 }
 
 export function useConversation(conversationId: string) {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 	const conversationQuery = useCallback(
-		() => db.conversations.where('id').equals(conversationId).or('_id').equals(conversationId).first(),
+		() => db.conversations
+			.where('id')
+			.equals(conversationId)
+			.or('_id')
+			.equals(conversationId)
+			.first(),
 		[conversationId, db.conversations]
 	);
 	const [conversation, loaded] = hooks.useObserveDb(conversationQuery, db);
@@ -204,9 +204,14 @@ export function useConversation(conversationId: string) {
 }
 
 export function useMessage(messageId: string) {
-	const { db } = hooks.useAppContext();
+	const { db } = hooks.useAppContext<AppContext>();
 	const messageQuery = useCallback(
-		() => db.messages.where('id').equals(messageId).or('_id').equals(messageId).first(),
+		() => db.messages
+			.where('id')
+			.equals(messageId)
+			.or('_id')
+			.equals(messageId)
+			.first(),
 		[messageId, db.messages]
 	);
 	const [message, loaded] = hooks.useObserveDb(messageQuery, db);

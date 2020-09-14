@@ -31,15 +31,14 @@ class MockedTable {
 	add = MockedAddClause;
 
 	bulkGet = jest.fn().mockImplementation(() => Promise.resolve([]));
-
+	bulkAdd = jest.fn().mockImplementation(() => Promise.resolve([]));
 	get = jest.fn().mockImplementation(() => Promise.resolve());
 }
 
 export class MailsDbDexie {
 	conversations = new MockedTable();
-
+	messages= new MockedTable();
 	folders = new MockedTable();
-
 	deletions = new MockedTable();
 
 	messages = new MockedTable();
@@ -47,4 +46,6 @@ export class MailsDbDexie {
 	observe = jest.fn(() => {
 		throw new Error('Mock "observe" not implemented.');
 	});
+	createUUID = jest.fn();
+	transaction = jest.fn();
 }
