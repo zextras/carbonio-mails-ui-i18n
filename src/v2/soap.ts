@@ -12,15 +12,12 @@
 import {
 	flattenDeep, forEach, map, reduce, trim
 } from 'lodash';
-
-import { MailsFolderFromDb, MailsFolderFromSoap } from './db/mails-folder';
 import { SoapFetch } from '@zextras/zapp-shell';
-
+import { MailsFolderFromDb, MailsFolderFromSoap } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversationFromSoap } from './db/mail-conversation';
 import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 import { MailConversationMessage } from './db/mail-conversation-message';
-
 
 type IFolderView =
 	'search folder'
@@ -175,6 +172,126 @@ export type CreateFolderResponse = {
 	folder: Array<SyncResponseMailFolder>;
 };
 
+// TODO MAIL CHANGES ADDED
+
+export type MsgActionRequest = {
+	action: MsgActionRequestMove
+		| MsgActionRequestFlag
+		| MsgActionRequestRead
+		| MsgActionRequestTrash
+		| MsgActionRequestDelete
+		| MsgActionRequestUpdate
+	;
+	_jsns: 'urn:zimbraMail';
+};
+type MsgActionRequestMove = {
+		op: 'move';
+		l: string;
+		id: string;
+};
+type MsgActionRequestFlag = {
+		op: 'flag' | '!flag';
+		id: string;
+};
+type MsgActionRequestUpdate = {
+	op: 'update';
+	id: string;
+};
+type MsgActionRequestRead = {
+		op: 'read' | '!read';
+		id: string;
+};
+type MsgActionRequestTrash = {
+	op: 'trash';
+	id: string;
+};
+type MsgActionRequestDelete = {
+	op: 'delete';
+	id: string;
+};
+export type MsgActionResponse = {
+	action: {
+		id: string;
+		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete' | 'update';
+		_jsns: 'urn:zimbraMail';
+	};
+};
+
+export type SaveDraftRequest = {
+	m: {
+		idnt?: string;
+		e?: Array<SoapEmailInfoObj>;
+		mp?: Array<SoapEmailMessagePartObj>;
+		f?: string;
+		id?: string;
+		su?: string;
+	};
+}
+
+export type SaveDraftResponse = {
+	m: Array<{
+		id: string;
+		cid: string;
+		d: number;
+	}>;
+}
+
+export type SendMailRequest = {
+	m: {
+		idnt?: string;
+		e?: Array<SoapEmailInfoObj>;
+		mp?: Array<SoapEmailMessagePartObj>;
+		f?: string;
+		did?: string;
+		su?: string;
+	};
+}
+
+export type SendMailResponse = {
+
+}
+// TODO CONVERSATION CHANGES ADDED
+
+export type ConvActionRequest = {
+	action: ConvActionRequestMove
+		| ConvActionRequestFlag
+		| ConvActionRequestRead
+		| ConvActionRequestTrash
+		| ConvActionRequestDelete
+	;
+	_jsns: 'urn:zimbraMail';
+};
+type ConvActionRequestRead = {
+	op: 'read' | '!read';
+	id: string;
+};
+type ConvActionRequestMove = {
+	op: 'move';
+	l: string;
+	id: string;
+};
+type ConvActionRequestFlag = {
+	op: 'flag' | '!flag';
+	id: string;
+};
+type ConvActionRequestTrash = {
+	op: 'trash';
+	id: string;
+};
+type ConvActionRequestDelete = {
+	op: 'delete';
+	id: string;
+};
+export type ConvActionResponse = {
+	action: {
+		id: string;
+		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';
+		_jsns: 'urn:zimbraMail';
+	};
+};
+
+// TODO BATCH REQUESTS
+
 export type BatchedRequest = {
 	_jsns: 'urn:zimbraMail';
 	requestId: string;
@@ -182,14 +299,17 @@ export type BatchedRequest = {
 
 export type BatchedResponse = {
 	requestId: string;
-};
-
+}
 export type BatchRequest = {
 	_jsns: 'urn:zimbra';
 	onerror: 'continue';
 	CreateFolderRequest?: Array<BatchedRequest & CreateFolderRequest>;
 	FolderActionRequest?: Array<BatchedRequest & FolderActionRequest>;
+	MsgActionRequest?: Array<BatchedRequest & MsgActionRequest>;
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
+	ConvActionRequest?: Array<BatchedRequest & ConvActionRequest>;
+	SaveDraftRequest?: Array<BatchedRequest & SaveDraftRequest>;
+	SendMailRequest?: Array<BatchedRequest & SendMailRequest>;
 };
 
 export type GetMsgRequest = {
@@ -220,15 +340,15 @@ export type GetConvResponse = {
 };
 
 export type SoapEmailMessagePartObj = {
-	part: string;
-	/**	Content Type	*/ ct: string;
-	/**	Size	*/ s: number;
-	/**	Content id (for inline images)	*/ ci: string;
-	/** Content disposition */ cd?: 'inline'|'attachment';
-	/**	Parts	*/ mp: Array<SoapEmailMessagePartObj>;
-	/**	Set if is the body of the message	*/ body?: true;
+	part?: string;
+	/**	Content Type  */ ct: string;
+	/**	Size  */ s?: number;
+	/**	Content id (for inline images)  */ ci?: string;
+	/** Content disposition */ cd?: 'inline' | 'attachment';
+	/**	Parts  */ mp?: Array<SoapEmailMessagePartObj>;
+	/**	Set if is the body of the message  */ body?: true;
 	filename?: string;
-	content: string;
+	content?: string;
 };
 
 export type SoapEmailMessageObj = {
@@ -251,6 +371,8 @@ export type BatchResponse = {
 	CreateFolderResponse?: Array<BatchedResponse & CreateFolderResponse>;
 	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
 	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
+	SaveDraftResponse?: Array<BatchedResponse & SaveDraftResponse>;
+	ConvActionRequest?: Array<BatchedResponse & ConvActionRequest>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -259,7 +381,7 @@ type SoapEmailInfoObj = {
 	/** Address */
 	a: string;
 	/** Display name */
-	d: string;
+	d?: string;
 	/** Type:
 	 * (f)rom,
 	 * (t)o,
@@ -344,7 +466,7 @@ export function normalizeParticipantsFromSoap(e: SoapEmailInfoObj): Participant 
 	return {
 		type: participantTypeFromSoap(e.t),
 		address: e.a,
-		displayName: e.d
+		displayName: e.d || e.a
 	};
 }
 
