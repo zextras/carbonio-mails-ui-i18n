@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import {
+	ICreateChange,
 	IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, map, reduce } from 'lodash';
@@ -18,13 +19,101 @@ import { filter, map, reduce } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
-	BatchedRequest,
+	BatchedRequest, BatchedResponse,
 	BatchRequest, BatchResponse,
-	ConvActionRequest,
+	ConvActionRequest, ConvActionResponse,
+	SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
 } from '../soap';
 import { MailConversationFromDb } from './mail-conversation';
+import { MailMessagePart } from './mail-message';
+import { Participant } from './mail-db-types';
+import { SoapEmailInfoObj } from '../../ISoap';
 
-
+function processInserts(
+	db: MailsDb,
+	changes: ICreateChange[],
+	batchRequest: BatchRequest,
+	localChanges: IDatabaseChange[],
+): Promise<[BatchRequest, IDatabaseChange[]]> {
+	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
+	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
+		changes,
+		(r, c) => {
+			r.push({
+				_jsns: 'urn:zimbraMail',
+				requestId: c.key,
+				action: {
+					id: '1000',
+					op: '', // TODO what goes here?
+				},
+			});
+			return r;
+		},
+		convActionRequest
+	);
+	if (convActionRequest.length > 0) {
+		// eslint-disable-next-line no-param-reassign
+		batchRequest.ConvActionRequest = [
+			...(batchRequest.ConvActionRequest || []),
+			...convActionRequest
+		];
+	}
+	return Promise.resolve([batchRequest, localChanges]);
+	// if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	// const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
+	// reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
+	// 	changes,
+	// 	(acc, change) => {
+	// 		acc.push({
+	// 			_jsns: 'urn:zimbraMail',
+	// 			requestId: change.key,
+	// 			m: { // TODO also has idnt , id
+	// 				su: change.obj.subject, // TODO object with _content string
+	// 				f: `${
+	// 					change.obj.read ? '' : 'u'
+	// 				}${
+	// 					change.obj.flag ? 'f' : ''
+	// 				}${
+	// 					change.obj.urgent ? '!' : ''
+	// 				}${
+	// 					change.obj.attachment ? 'a' : ''
+	// 				}`,
+	// 				mp: [
+	// 					{
+	// 						ct: 'multipart/alternative',
+	// 						mp: map(
+	// 							change.obj.parts,
+	// 							(part: MailMessagePart): SoapEmailMessagePartObj => ({
+	// 								ct: part.contentType,
+	// 								content: part.content || ''
+	// 							})
+	// 						)
+	// 					}
+	// 				],
+	// 				e: map(
+	// 					change.obj.contacts,
+	// 					(contact: Participant): SoapEmailInfoObj => ({
+	// 						a: contact.address,
+	// 						d: contact.displayName, // TODO keeps spitting out p instead
+	// 						t: contact.type
+	// 					})
+	// 				)
+	// 			}
+	// 		});
+	// 		return acc;
+	// 	},
+	// 	saveDraftRequest
+	// );
+	// if (saveDraftRequest.length > 0) {
+	// 	// eslint-disable-next-line no-param-reassign
+	// 	batchRequest.SaveDraftRequest = [
+	// 		...(batchRequest.SaveDraftRequest || []),
+	// 		...saveDraftRequest
+	// 	];
+	// }
+	// return Promise.resolve([batchRequest, localChanges]);
+}
 // TODO TYPE 2 UPDATING CHANGES
 function processConvUpdates(
 	db: MailsDb,
@@ -158,6 +247,20 @@ function processConvDeletions(
 		return Promise.resolve([batchRequest, localChanges]);
 	});
 }
+// TODO PROCESS CREATION (creating a draft)
+
+function processCreation(response: BatchedResponse & SaveDraftResponse): IUpdateChange {
+	return {
+		type: 2,
+		table: 'conversations',
+		key: response.requestId,
+		mods: {
+			id: response.m[0].id,
+			conversation: response.m[0].cid,
+			date: response.m[0].d
+		}
+	};
+}
 
 // TODO PROCESSING THE LOCAL MAIL CHANGES
 export default function processLocalConvChange(
@@ -173,17 +276,23 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processConvUpdates(
+	return processInserts(
 		db,
-		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
-		batchRequest,
-		changes
+				filter(conversationsChanges, ['type', 1]) as ICreateChange[],
+				batchRequest,
+				[]
 	)
+		.then(([_batchRequest, _dbChanges]) => processConvUpdates(
+			db,
+					filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
+					_batchRequest,
+					_dbChanges
+		))
 		.then(([_batchRequest, _dbChanges]) => processConvDeletions(
 			db,
-			filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
-			_batchRequest,
-			_dbChanges
+					filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
+					_batchRequest,
+					_dbChanges
 		))
 		.then(([_batchRequest, _dbChanges]) => {
 			if (!_batchRequest.ConvActionRequest) {
@@ -193,10 +302,17 @@ export default function processLocalConvChange(
 				'Batch',
 				_batchRequest
 			)
-				.then(({ ConvActionRequest: convActionRequest }) => {
-					// eslint-disable-next-line no-empty
-					if (convActionRequest) {
-
+				.then((BatchResponse) => {
+					if (BatchResponse.ConvActionRequest) { // TODO needed for edits
+						const creationChanges = reduce<BatchedResponse & SaveDraftResponse, IUpdateChange[]>(
+							BatchResponse.ConvActionRequest,
+							(acc, response) => {
+								acc.push(processCreation(response));
+								return acc;
+							},
+							[]
+						);
+						_dbChanges.unshift(...creationChanges);
 					}
 					return _dbChanges;
 				});
