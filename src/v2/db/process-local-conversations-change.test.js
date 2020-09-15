@@ -16,74 +16,189 @@ jest.mock('./mails-db-dexie');
 import { MailsDb } from './mails-db';
 
 import processLocalConvChange from './process-local-conversations-change';
+import processLocalMailsChange from './process-local-mails-change';
 
 describe('Local Changes - Conversations', () => {
-	test('Create a Change', (done) => {
-		const db = new MailsDb();
-		const fetch = jest.fn()
-			.mockImplementationOnce(() => Promise.resolve({
-				Body: {
-					BatchResponse: {
-						ConvActionResponse: [{
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							_jsns: 'urn:zimbraMail',
-							action: {
-								id: '1000',
-								op: '',
-							},
-						}]
-					}
-				}
-			}))
-			.mockImplementationOnce({
-				md: 1,
-				token: 1,
-			});
-		processLocalConvChange(
-			db,
-			[{
-				type: 1,
-				table: 'conversations',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-				obj: {
-					parent: '6',
-					// TODO what else?
-				}
-			}],
-			fetch
-		).then(
-			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(1);
-				expect(additionalChanges[0]).toStrictEqual({
-					key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-					mods: {
-						id: '1000',
-						conversation: '-1000',
-						date: 1598610497000,
-					},
-					table: 'conversations',
-					type: 2
-				});
-				expect(fetch).toHaveBeenCalledTimes(1);
-				expect(fetch).toHaveBeenCalledWith(
-					'Batch',
-					{
-						_jsns: 'urn:zimbra',
-						onerror: 'continue',
-						ConvActionRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							action: {
-								id: '1000',
-								op: '',
-							},
-						}]
-					}
-				);
-				done();
-			}
-		);
-	});
+	// test('Create a Change', (done) => {
+	// 	const db = new MailsDb();
+	// 	const fetch = jest.fn()
+	// 		.mockImplementationOnce(() => Promise.resolve({
+	// 			Body: {
+	// 				BatchResponse: {
+	// 					ConvActionResponse: [{
+	// 						requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 						_jsns: 'urn:zimbraMail',
+	// 						action: {
+	// 							id: '1000',
+	// 							op: '',
+	// 						},
+	// 					}]
+	// 				}
+	// 			}
+	// 		}))
+	// 		.mockImplementationOnce({
+	// 			md: 1,
+	// 			token: 1,
+	// 		});
+	// 	processLocalConvChange(
+	// 		db,
+	// 		[{
+	// 			type: 1,
+	// 			table: 'conversations',
+	// 			key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 			obj: {
+	// 				parent: '6',
+	// 				// TODO what else?
+	// 			}
+	// 		}],
+	// 		fetch
+	// 	).then(
+	// 		(additionalChanges) => {
+	// 			expect(additionalChanges.length).toBe(1);
+	// 			expect(additionalChanges[0]).toStrictEqual({
+	// 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 				mods: {
+	// 					id: '1000',
+	// 					conversation: '-1000',
+	// 					date: 1598610497000,
+	// 				},
+	// 				table: 'conversations',
+	// 				type: 2
+	// 			});
+	// 			expect(fetch).toHaveBeenCalledTimes(1);
+	// 			expect(fetch).toHaveBeenCalledWith(
+	// 				'Batch',
+	// 				{
+	// 					_jsns: 'urn:zimbra',
+	// 					onerror: 'continue',
+	// 					ConvActionRequest: [{
+	// 						_jsns: 'urn:zimbraMail',
+	// 						requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 						action: {
+	// 							id: '1000',
+	// 							op: '',
+	// 						},
+	// 					}]
+	// 				}
+	// 			);
+	// 			done();
+	// 		}
+	// 	);
+	// });
+
+	// test('Create a Change', (done) => {
+	// 	const db = new MailsDb();
+	// 	const fetch = jest.fn()
+	// 		.mockImplementationOnce(() => Promise.resolve({
+	// 			SaveDraftResponse: [{
+	// 				requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 				m: [{
+	// 					id: '1000',
+	// 					cid: '-1000',
+	// 					d: 1598610497000
+	// 				}]
+	// 			}]
+	// 		}))
+	// 		.mockImplementationOnce({
+	// 			md: 1,
+	// 			token: 1
+	// 		});
+	// 	processLocalMailsChange(
+	// 		db,
+	// 		[{
+	// 			type: 1,
+	// 			table: 'conversations',
+	// 			key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 			obj: {
+	// 				parent: '6',
+	// 				subject: 'subject',
+	// 				read: false,
+	// 				flag: false,
+	// 				urgent: false,
+	// 				attachment: false,
+	// 				parts: [
+	// 					{
+	// 						contentType: 'text/plain',
+	// 						content: 'plain text mail',
+	// 					},
+	// 					{
+	// 						contentType: 'text/html',
+	// 						content: '<p>plain text mail</p>',
+	// 					}
+	// 				],
+	// 				contacts: [
+	// 					{
+	// 						address: 'admin@example.com',
+	// 						displayName: 'Example',
+	// 						type: 'f'
+	// 					},
+	// 					{
+	// 						address: 'to@example.com',
+	// 						displayName: 'To Contact',
+	// 						type: 't'
+	// 					}
+	// 				],
+	// 			}
+	// 		}],
+	// 		fetch
+	// 	).then(
+	// 		(additionalChanges) => {
+	// 			expect(additionalChanges.length).toBe(1);
+	// 			expect(additionalChanges[0]).toStrictEqual({
+	// 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 				mods: {
+	// 					id: '1000',
+	// 					conversation: '-1000',
+	// 					date: 1598610497000,
+	// 				},
+	// 				table: 'conversations',
+	// 				type: 2
+	// 			});
+	// 			expect(fetch).toHaveBeenCalledTimes(1);
+	// 			expect(fetch).toHaveBeenCalledWith(
+	// 				'Batch',
+	// 				{
+	// 					_jsns: 'urn:zimbra',
+	// 					onerror: 'continue',
+	// 					SaveDraftRequest: [{
+	// 						_jsns: 'urn:zimbraMail',
+	// 						requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+	// 						m: {
+	// 							e: [
+	// 								{
+	// 									a: 'admin@example.com',
+	// 									d: 'Example',
+	// 									t: 'f'
+	// 								},
+	// 								{
+	// 									a: 'to@example.com',
+	// 									d: 'To Contact',
+	// 									t: 't'
+	// 								}
+	// 							],
+	// 							f: 'u',
+	// 							mp: [{
+	// 								ct: 'multipart/alternative',
+	// 								mp: [
+	// 									{
+	// 										ct: 'text/plain',
+	// 										content: 'plain text mail',
+	// 									},
+	// 									{
+	// 										ct: 'text/html',
+	// 										content: '<p>plain text mail</p>',
+	// 									}
+	// 								]
+	// 							}],
+	// 							su: 'subject'
+	// 						}
+	// 					}]
+	// 				}
+	// 			);
+	// 			done();
+	// 		}
+	// 	);
+	// });
 
 	// TODO TYPE 2 UPDATING CHANGES
 	test('Moving a conversation', (done) => {

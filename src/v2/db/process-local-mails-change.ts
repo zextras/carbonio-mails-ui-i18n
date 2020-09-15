@@ -46,8 +46,8 @@ function processInserts(
 			acc.push({
 				_jsns: 'urn:zimbraMail',
 				requestId: change.key,
-				m: {
-					su: change.obj.subject,
+				m: { // TODO also has idnt , id
+					su: change.obj.subject, // TODO object with _content string
 					f: `${
 						change.obj.read ? '' : 'u'
 					}${
@@ -73,7 +73,7 @@ function processInserts(
 						change.obj.contacts,
 						(contact: Participant): SoapEmailInfoObj => ({
 							a: contact.address,
-							d: contact.displayName,
+							d: contact.displayName, // TODO keeps spitting out p instead
 							t: contact.type
 						})
 					)
