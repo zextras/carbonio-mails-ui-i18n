@@ -43,42 +43,44 @@ function processInserts(
 	reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
 		changes,
 		(acc, change) => {
-			acc.push({
-				_jsns: 'urn:zimbraMail',
-				requestId: change.key,
-				m: { // TODO also has idnt , id
-					su: change.obj.subject, // TODO object with _content string
-					f: `${
-						change.obj.read ? '' : 'u'
-					}${
-						change.obj.flag ? 'f' : ''
-					}${
-						change.obj.urgent ? '!' : ''
-					}${
-						change.obj.attachment ? 'a' : ''
-					}`,
-					mp: [
-						{
-							ct: 'multipart/alternative',
-							mp: map(
-								change.obj.parts,
-								(part: MailMessagePart): SoapEmailMessagePartObj => ({
-									ct: part.contentType,
-									content: part.content || ''
-								})
-							)
-						}
-					],
-					e: map(
-						change.obj.contacts,
-						(contact: Participant): SoapEmailInfoObj => ({
-							a: contact.address,
-							d: contact.displayName, // TODO keeps spitting out p instead
-							t: contact.type
-						})
-					)
-				}
-			});
+			if (change.obj.parent === '6' && typeof change.obj.id === 'undefined') {
+				acc.push({
+					_jsns: 'urn:zimbraMail',
+					requestId: change.key,
+					m: { // TODO also has idnt , id
+						su: change.obj.subject, // TODO object with _content string
+						f: `${
+							change.obj.read ? '' : 'u'
+						}${
+							change.obj.flag ? 'f' : ''
+						}${
+							change.obj.urgent ? '!' : ''
+						}${
+							change.obj.attachment ? 'a' : ''
+						}`,
+						mp: [
+							{
+								ct: 'multipart/alternative',
+								mp: map(
+									change.obj.parts,
+									(part: MailMessagePart): SoapEmailMessagePartObj => ({
+										ct: part.contentType,
+										content: part.content || ''
+									})
+								)
+							}
+						],
+						e: map(
+							change.obj.contacts,
+							(contact: Participant): SoapEmailInfoObj => ({
+								a: contact.address,
+								d: contact.displayName, // TODO keeps spitting out p instead
+								t: contact.type
+							})
+						)
+					}
+				});
+			}
 			return acc;
 		},
 		saveDraftRequest
