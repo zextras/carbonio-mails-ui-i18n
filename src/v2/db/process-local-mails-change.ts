@@ -118,7 +118,6 @@ function processMailUpdates(
 	localChanges: IDatabaseChange[],
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-
 	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray()
 		.then((messagesArray: MailMessageFromDb[]) => keyBy(messagesArray, '_id'))
 		.then((messages: {[key: string]: MailMessageFromDb}) => {
@@ -190,7 +189,7 @@ function processMailUpdates(
 			const saveDraftRequest = reduce<IUpdateChange, Array<BatchedRequest & SaveDraftRequest>>(
 				changes,
 				(_saveDraftRequest, change) => {
-					if (messages[change.key].parent === '6') {
+					if (messages[change.key].parent !== '6') {
 						return _saveDraftRequest;
 					}
 					_saveDraftRequest.push(
