@@ -103,21 +103,14 @@ describe('Mails DB', () => {
 			parent: 'parent',
 			path: 'path'
 		});
-		const deletion = {
-			rowId: 'rowId',
-			_id: '_id',
-			id: '1002',
-			table: 'folders'
-		};
 		db.folders.get.mockImplementation(() => Promise.resolve(_f));
-		db.deletions.add.mockImplementation(() => Promise.resolve(deletion));
+		db.deletions.add.mockImplementation(() => Promise.resolve('1002'));
 
 		db.deleteFolder(
 			mailsFolder
 		)
 			.then((res) => {
 				expect(res).toBeUndefined();
-				expect(deletion.table).toBe('folders');
 				expect(db.deletions.add).toBeCalledTimes(1);
 				expect(db.folders.get).toBeCalledTimes(1);
 				done();
@@ -330,8 +323,8 @@ describe('Mails DB', () => {
 				id: '1002'
 			})
 		];
-		db.messages.bulkAdd.mockImplementation(() => convsMessagesToAdd);
-		db.conversations.bulkAdd.mockImplementation(() => convsToAdd);
+		db.messages.bulkAdd.mockImplementation(() => '1002');
+		db.conversations.bulkAdd.mockImplementation(() => '1001');
 		db.saveConvsAndMessages(
 			convsToAdd,
 			convsMessagesToAdd
@@ -340,18 +333,12 @@ describe('Mails DB', () => {
 				expect(result).toBeDefined();
 				expect(result).toBeInstanceOf(Array);
 				expect(result.length).toEqual(2);
-				expect(result).toEqual([
+				expect(result).toEqual(
 					[
-						{
-							id: '1002'
-						}
-					],
-					[
-						{
-							id: '1001'
-						}
+						'1002',
+						'1001'
 					]
-				]);
+				);
 				done();
 			});
 	});
@@ -362,8 +349,8 @@ describe('Mails DB', () => {
 		const convsToAdd = [];
 		const convsMessagesToAdd = [];
 
-		db.messages.bulkAdd.mockImplementation(() => convsMessagesToAdd);
-		db.conversations.bulkAdd.mockImplementation(() => convsToAdd);
+		db.messages.bulkAdd.mockImplementation(() => '');
+		db.conversations.bulkAdd.mockImplementation(() => '');
 		db.saveConvsAndMessages(
 			convsToAdd,
 			convsMessagesToAdd
@@ -372,7 +359,7 @@ describe('Mails DB', () => {
 				expect(result).toBeDefined();
 				expect(result).toBeInstanceOf(Array);
 				expect(result.length).toEqual(2);
-				expect(result).toStrictEqual([[], []]);
+				expect(result).toStrictEqual(['', '']);
 				done();
 			});
 	});
