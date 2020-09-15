@@ -323,8 +323,8 @@ describe('Mails DB', () => {
 				id: '1002'
 			})
 		];
-		db.messages.bulkAdd.mockImplementation(() => '1002');
-		db.conversations.bulkAdd.mockImplementation(() => '1001');
+		db.messages.bulkAdd.mockImplementation(() => ['1002']);
+		db.conversations.bulkAdd.mockImplementation(() => ['1001']);
 		db.saveConvsAndMessages(
 			convsToAdd,
 			convsMessagesToAdd
@@ -335,8 +335,8 @@ describe('Mails DB', () => {
 				expect(result.length).toEqual(2);
 				expect(result).toEqual(
 					[
-						'1002',
-						'1001'
+						['1002'],
+						['1001']
 					]
 				);
 				done();
@@ -349,8 +349,8 @@ describe('Mails DB', () => {
 		const convsToAdd = [];
 		const convsMessagesToAdd = [];
 
-		db.messages.bulkAdd.mockImplementation(() => '');
-		db.conversations.bulkAdd.mockImplementation(() => '');
+		db.messages.bulkAdd.mockImplementation(() => ['']);
+		db.conversations.bulkAdd.mockImplementation(() => ['']);
 		db.saveConvsAndMessages(
 			convsToAdd,
 			convsMessagesToAdd
@@ -359,7 +359,7 @@ describe('Mails DB', () => {
 				expect(result).toBeDefined();
 				expect(result).toBeInstanceOf(Array);
 				expect(result.length).toEqual(2);
-				expect(result).toStrictEqual(['', '']);
+				expect(result).toStrictEqual([[''], ['']]);
 				done();
 			});
 	});
