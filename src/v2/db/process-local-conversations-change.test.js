@@ -18,8 +18,74 @@ import { MailsDb } from './mails-db';
 import processLocalConvChange from './process-local-conversations-change';
 
 describe('Local Changes - Conversations', () => {
-	// TODO TYPE 2 UPDATING CHANGES
+	test('Create a Change', (done) => {
+		const db = new MailsDb();
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				Body: {
+					BatchResponse: {
+						ConvActionResponse: [{
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							_jsns: 'urn:zimbraMail',
+							action: {
+								id: '1000',
+								op: '',
+							},
+						}]
+					}
+				}
+			}))
+			.mockImplementationOnce({
+				md: 1,
+				token: 1,
+			});
+		processLocalConvChange(
+			db,
+			[{
+				type: 1,
+				table: 'conversations',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				obj: {
+					parent: '6',
+					// TODO what else?
+				}
+			}],
+			fetch
+		).then(
+			(additionalChanges) => {
+				expect(additionalChanges.length).toBe(1);
+				expect(additionalChanges[0]).toStrictEqual({
+					key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					mods: {
+						id: '1000',
+						conversation: '-1000',
+						date: 1598610497000,
+					},
+					table: 'conversations',
+					type: 2
+				});
+				expect(fetch).toHaveBeenCalledTimes(1);
+				expect(fetch).toHaveBeenCalledWith(
+					'Batch',
+					{
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						ConvActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								id: '1000',
+								op: '',
+							},
+						}]
+					}
+				);
+				done();
+			}
+		);
+	});
 
+	// TODO TYPE 2 UPDATING CHANGES
 	test('Moving a conversation', (done) => {
 		const db = new MailsDb();
 		db.conversations.where.mockImplementation(() => ({

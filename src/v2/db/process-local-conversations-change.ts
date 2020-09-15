@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import {
+	ICreateChange,
 	IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import { filter, map, reduce } from 'lodash';
@@ -18,13 +19,44 @@ import { filter, map, reduce } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
-	BatchedRequest,
+	BatchedRequest, BatchedResponse,
 	BatchRequest, BatchResponse,
-	ConvActionRequest,
+	ConvActionRequest, ConvActionResponse, SaveDraftResponse
 } from '../soap';
 import { MailConversationFromDb } from './mail-conversation';
 
-
+function processInserts(
+	db: MailsDb,
+	changes: ICreateChange[],
+	batchRequest: BatchRequest,
+	localChanges: IDatabaseChange[],
+): Promise<[BatchRequest, IDatabaseChange[]]> {
+	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
+	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
+		changes,
+		(r, c) => {
+			r.push({
+				_jsns: 'urn:zimbraMail',
+				requestId: c.key,
+				action: {
+					id: '1000',
+					op: '', // TODO what goes here?
+				},
+			});
+			return r;
+		},
+		convActionRequest
+	);
+	if (convActionRequest.length > 0) {
+		// eslint-disable-next-line no-param-reassign
+		batchRequest.ConvActionRequest = [
+			...(batchRequest.ConvActionRequest || []),
+			...convActionRequest
+		];
+	}
+	return Promise.resolve([batchRequest, localChanges]);
+}
 // TODO TYPE 2 UPDATING CHANGES
 function processConvUpdates(
 	db: MailsDb,
@@ -158,6 +190,20 @@ function processConvDeletions(
 		return Promise.resolve([batchRequest, localChanges]);
 	});
 }
+// TODO PROCESS CREATION (creating a draft)
+
+function processCreation(response: BatchedResponse & ConvActionResponse): IUpdateChange {
+	return {
+		type: 2,
+		table: 'conversations',
+		key: response.requestId,
+		mods: {
+			id: response.m[0].id,
+			conversation: response.m[0].cid,
+			date: response.m[0].d
+		}
+	};
+}
 
 // TODO PROCESSING THE LOCAL MAIL CHANGES
 export default function processLocalConvChange(
@@ -173,17 +219,23 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processConvUpdates(
+	return processInserts(
 		db,
-		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
-		batchRequest,
-		changes
+				filter(conversationsChanges, ['type', 1]) as ICreateChange[],
+				batchRequest,
+				[]
 	)
+		.then(([_batchRequest, _dbChanges]) => processConvUpdates(
+			db,
+					filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
+					_batchRequest,
+					_dbChanges
+		))
 		.then(([_batchRequest, _dbChanges]) => processConvDeletions(
 			db,
-			filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
-			_batchRequest,
-			_dbChanges
+					filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
+					_batchRequest,
+					_dbChanges
 		))
 		.then(([_batchRequest, _dbChanges]) => {
 			if (!_batchRequest.ConvActionRequest) {
@@ -193,10 +245,17 @@ export default function processLocalConvChange(
 				'Batch',
 				_batchRequest
 			)
-				.then(({ ConvActionRequest: convActionRequest }) => {
-					// eslint-disable-next-line no-empty
-					if (convActionRequest) {
-
+				.then((BatchResponse) => {
+					if (BatchResponse.ConvActionRequest) { // TODO needed for edits
+						const creationChanges = reduce<BatchedResponse & ConvActionResponse, IUpdateChange[]>(
+							BatchResponse.ConvActionRequest,
+							(acc, response) => {
+								acc.push(processCreation(response));
+								return acc;
+							},
+							[]
+						);
+						_dbChanges.unshift(...creationChanges);
 					}
 					return _dbChanges;
 				});

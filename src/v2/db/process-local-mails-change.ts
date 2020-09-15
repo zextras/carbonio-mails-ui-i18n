@@ -16,7 +16,9 @@ import {
 	filter, map, reduce, keyBy
 } from 'lodash';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
+// eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
