@@ -277,7 +277,7 @@ describe('Local Changes - Conversations', () => {
 			});
 	});
 
-	test('Delete a Conversation Change', (done) => {
+	test('Delete a Conversation', (done) => {
 		const db = new MailsDb();
 		const anyOf = jest.fn().mockImplementation(() => ({
 			toArray: jest.fn().mockImplementation(() => Promise.resolve([{

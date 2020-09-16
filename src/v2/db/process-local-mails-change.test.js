@@ -120,7 +120,7 @@ describe('Local Changes - Mail', () => {
 										}
 									]
 								}],
-								su: 'subject'
+								su: { _content: 'subject' }
 							}
 						}]
 					}
