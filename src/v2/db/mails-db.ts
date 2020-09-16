@@ -13,7 +13,6 @@ import { PromiseExtended } from 'dexie';
 import { reduce, pullAllWith } from 'lodash';
 // eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
-
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { fetchConversationsInFolder } from '../soap';
