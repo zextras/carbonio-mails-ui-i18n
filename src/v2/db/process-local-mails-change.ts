@@ -13,7 +13,7 @@ import {
 	ICreateChange, IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
 import {
-	filter, map, reduce, keyBy
+	filter, map, reduce, keyBy, pullAll, keys, groupBy, pullAllWith
 } from 'lodash';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -24,73 +24,17 @@ import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
 	BatchRequest, BatchResponse,
-	MsgActionRequest,
-	SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
+	MsgActionRequest, normalizeDraftToSoap,
+	SaveDraftRequest, SaveDraftResponse
 } from '../soap';
-import { MailMessageFromDb, MailMessagePart } from './mail-message';
-import { Participant } from './mail-db-types';
-import { SoapEmailInfoObj } from '../../ISoap';
+import { MailMessageFromDb } from './mail-message';
 
 function processInserts(
 	db: MailsDb,
 	changes: ICreateChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
+	[batchRequest, localChanges]: ChainData,
+): Promise<ChainData> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
-		changes,
-		(acc, change) => {
-			if (change.obj.parent === '6' && typeof change.obj.id === 'undefined') {
-				acc.push({
-					_jsns: 'urn:zimbraMail',
-					requestId: change.key,
-					m: {
-						su: change.obj.subject,
-						f: `${ // priorities to be completed
-							change.obj.read ? '' : 'u'
-						}${
-							change.obj.flag ? 'f' : ''
-						}${
-							change.obj.urgent ? '!' : ''
-						}${
-							change.obj.attachment ? 'a' : ''
-						}`,
-						mp: [
-							{
-								ct: 'multipart/alternative',
-								mp: map(
-									change.obj.parts,
-									(part: MailMessagePart): SoapEmailMessagePartObj => ({
-										ct: part.contentType,
-										content: part.content || ''
-									})
-								)
-							}
-						],
-						e: map(
-							change.obj.contacts,
-							(contact: Participant): SoapEmailInfoObj => ({
-								a: contact.address,
-								d: contact.displayName,
-								t: contact.type
-							})
-						)
-					}
-				});
-			}
-			return acc;
-		},
-		saveDraftRequest
-	);
-	if (saveDraftRequest.length > 0) {
-		// eslint-disable-next-line no-param-reassign
-		batchRequest.SaveDraftRequest = [
-			...(batchRequest.SaveDraftRequest || []),
-			...saveDraftRequest
-		];
-	}
 	return Promise.resolve([batchRequest, localChanges]);
 }
 
@@ -110,9 +54,8 @@ function processCreationResponse(response: BatchedResponse & SaveDraftResponse):
 function processMailUpdates(
 	db: MailsDb,
 	changes: IUpdateChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
+	[batchRequest, localChanges]: ChainData,
+): Promise<ChainData> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray()
 		.then((messagesArray: MailMessageFromDb[]) => keyBy(messagesArray, '_id'))
@@ -182,78 +125,17 @@ function processMailUpdates(
 				];
 			}
 
-			const saveDraftRequest = reduce<IUpdateChange, Array<BatchedRequest & SaveDraftRequest>>(
-				changes,
-				(_saveDraftRequest, change) => {
-					if (messages[change.key].parent !== '6') {
-						return _saveDraftRequest;
-					}
-					_saveDraftRequest.push(
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: change.key,
-							m: {
-								id: messages[change.key].id,
-								su: change.mods.subject || messages[change.key].subject,
-								f: `${
-									messages[change.key].read ? '' : 'u'
-								}${
-									messages[change.key].flagged ? 'f' : ''
-								}${
-									messages[change.key].urgent ? '!' : ''
-								}${
-									messages[change.key].attachment ? 'a' : ''
-								}`,
-								mp: [
-									{
-										ct: 'multipart/alternative',
-										mp: map(
-											messages[change.key].parts,
-											(part: MailMessagePart) => ({
-												ct: part.contentType,
-												content: part.content,
-											})
-										)
-									}
-								],
-								e: [
-									...map(
-										messages[change.key].contacts,
-										(contact: Participant) => ({
-											a: contact.address,
-											d: contact.displayName,
-											t: contact.type
-										})
-									),
-								]
-							}
-						}
-					);
-					return _saveDraftRequest;
-				},
-				[]
-			);
-
-			if (saveDraftRequest.length > 0) {
-				// eslint-disable-next-line no-param-reassign
-				batchRequest.SaveDraftRequest =	[
-					...(batchRequest.SaveDraftRequest || []),
-					...saveDraftRequest
-				];
-			}
-
 			return [batchRequest, localChanges];
 		});
 }
 
 function processDeletions(
 	db: MailsDb,
-	changes: IDeleteChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	return db.deletions.where('_id').anyOf(map(changes, 'key')).toArray().then((deletedIds) => {
+	_keys: string[],
+	[batchRequest, localChanges]: ChainData,
+): Promise<ChainData> {
+	if (_keys.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	return db.deletions.where('_id').anyOf(_keys).toArray().then((deletedIds) => {
 		const uuidToId = reduce<DeletionData, {[key: string]: {id: string; rowId: string}}>(
 			filter(deletedIds, ['table', 'messages']),
 			(acc, value) => {
@@ -265,20 +147,20 @@ function processDeletions(
 		);
 		const msgActionRequest: Array<BatchedRequest & MsgActionRequest> = [];
 		reduce(
-			changes,
-			(acc, value) => {
+			_keys,
+			(acc, key) => {
 				acc.push({
 					_jsns: 'urn:zimbraMail',
-					requestId: value.key,
+					requestId: key,
 					action: {
 						op: 'delete',
-						id: uuidToId[value.key].id,
+						id: uuidToId[key].id,
 					}
 				});
 				localChanges.push({
 					type: 3,
 					table: 'deletions',
-					key: uuidToId[value.key].rowId
+					key: uuidToId[key].rowId
 				});
 				return acc;
 			},
@@ -295,6 +177,40 @@ function processDeletions(
 	});
 }
 
+function processSaveDrafts(
+	db: MailsDb,
+	ids: string[],
+	[batchRequest, localChanges]: ChainData,
+): Promise<ChainData> {
+	return db.messages
+		.bulkGet(ids)
+		.then((msgs) => {
+			const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
+			reduce<MailMessageFromDb, Array<BatchedRequest & SaveDraftRequest>>(
+				msgs,
+				(acc, msg) => {
+					acc.push({
+						_jsns: 'urn:zimbraMail',
+						requestId: msg._id,
+						m: normalizeDraftToSoap(msg)
+					});
+					return acc;
+				},
+				saveDraftRequest
+			);
+			if (saveDraftRequest.length > 0) {
+				// eslint-disable-next-line no-param-reassign
+				batchRequest.SaveDraftRequest = [
+					...(batchRequest.SaveDraftRequest || []),
+					...saveDraftRequest
+				];
+			}
+			return [batchRequest, localChanges];
+		});
+}
+
+type ChainData = [BatchRequest, IDatabaseChange[]];
+
 export default function processLocalMailsChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
@@ -308,23 +224,50 @@ export default function processLocalMailsChange(
 		onerror: 'continue'
 	};
 
-	return processInserts(
+	const draftsChanges: IDatabaseChange[] = [
+		...filter(
+			filter(messagesChanges, ['type', 1]) as ICreateChange[],
+			['obj.parent', '6']
+		),
+		...filter(
+			filter(messagesChanges, ['type', 2]) as ICreateChange[],
+			['mods.parent', '6']
+		),
+	];
+	const deletedMessages = keys(
+		groupBy(
+			filter(messagesChanges, ['type', 3]) as IDeleteChange[],
+			'key'
+		)
+	);
+	const draftIds = keys(
+		groupBy(
+			draftsChanges,
+			'key'
+		)
+	);
+	pullAll(draftIds, deletedMessages);
+	pullAllWith(messagesChanges, [...draftIds, ...deletedMessages], (a, b) => (a.key === b));
+
+	return processDeletions(
 		db,
-				filter(messagesChanges, ['type', 1]) as ICreateChange[],
-				batchRequest,
-				[]
+		deletedMessages,
+		[batchRequest, []]
 	)
-		.then(([_batchRequest, _dbChanges]) => processMailUpdates(
+		.then((cd) => processSaveDrafts(
+			db,
+			draftIds,
+			cd
+		))
+		.then((cd) => processInserts(
+			db,
+			filter(messagesChanges, ['type', 1]) as ICreateChange[],
+			cd
+		))
+		.then((cd) => processMailUpdates(
 			db,
 			filter(messagesChanges, ['type', 2]) as IUpdateChange[],
-			_batchRequest,
-			_dbChanges
-		))
-		.then(([_batchRequest, _dbChanges]) => processDeletions(
-			db,
-			filter(messagesChanges, ['type', 3]) as IDeleteChange[],
-			_batchRequest,
-			_dbChanges
+			cd
 		))
 		.then(([_batchRequest, _dbChanges]) => {
 			if (!_batchRequest.MsgActionRequest && !_batchRequest.SaveDraftRequest) {

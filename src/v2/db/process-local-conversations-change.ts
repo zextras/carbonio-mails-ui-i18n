@@ -39,7 +39,6 @@ function processConvUpdates(
 		.then((dbConvsArray) => keyBy(dbConvsArray, '_id'))
 		.then((conversations) => {
 			const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-			console.log(changes, conversations);
 			reduce<IUpdateChange, Array<BatchedRequest & ConvActionRequest>>(
 				changes,
 				(acc, change) => {
