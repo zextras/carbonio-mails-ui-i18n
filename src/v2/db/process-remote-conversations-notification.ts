@@ -123,12 +123,12 @@ export function processRemoteConversationsNotification(
 						if (mappedConvs[value.id].fr) {
 							obj.fragment = mappedConvs[value.id].fr;
 						}
-						if (mappedConvs[value.id].f) {
-							obj.read = !(/u/.test(mappedConvs[value.id].f || ''));
-							obj.attachment = /a/.test(mappedConvs[value.id].f || '');
-							obj.flagged = /f/.test(mappedConvs[value.id].f || '');
-							obj.urgent = /!/.test(mappedConvs[value.id].f || '');
-						}
+
+						obj.read = !(/u/.test(mappedConvs[value.id].f || ''));
+						obj.attachment = /a/.test(mappedConvs[value.id].f || '');
+						obj.flagged = /f/.test(mappedConvs[value.id].f || '');
+						obj.urgent = /!/.test(mappedConvs[value.id].f || '');
+
 						// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 						// @ts-ignore
 						if (typeof mappedConvs[value.id].e !== 'undefined' && mappedConvs[value.id].e.length > 0) {
