@@ -142,8 +142,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 			if (!state.folder || !state.folder.id) {
 				return Promise.resolve([]);
 			}
-			dispatch({ type: 'set-is-loading', isLoading: true });
-
+			// dispatch({ type: 'set-is-loading', isLoading: true });
 			return db.transaction('r', db.messages, db.conversations, () => db.messages
 				.where('parent')
 				.equals(state.folder!.id!)
@@ -158,7 +157,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					.reverse()
 					.sortBy('date')
 					.then((conversations: MailConversationFromDb[]) => {
-						dispatch({ type: 'set-is-loading', isLoading: false });
+						// dispatch({ type: 'set-is-loading', isLoading: false });
 						return conversations;
 					})));
 		},
