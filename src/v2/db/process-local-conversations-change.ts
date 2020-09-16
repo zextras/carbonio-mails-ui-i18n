@@ -29,91 +29,66 @@ import { MailMessagePart } from './mail-message';
 import { Participant } from './mail-db-types';
 import { SoapEmailInfoObj } from '../../ISoap';
 
-function processInserts(
-	db: MailsDb,
-	changes: ICreateChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
-		changes,
-		(r, c) => {
-			r.push({
-				_jsns: 'urn:zimbraMail',
-				requestId: c.key,
-				action: {
-					id: '1000',
-					op: '', // TODO what goes here?
-				},
-			});
-			return r;
-		},
-		convActionRequest
-	);
-	if (convActionRequest.length > 0) {
-		// eslint-disable-next-line no-param-reassign
-		batchRequest.ConvActionRequest = [
-			...(batchRequest.ConvActionRequest || []),
-			...convActionRequest
-		];
-	}
-	return Promise.resolve([batchRequest, localChanges]);
-	// if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	// const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
-	// reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
-	// 	changes,
-	// 	(acc, change) => {
-	// 		acc.push({
-	// 			_jsns: 'urn:zimbraMail',
-	// 			requestId: change.key,
-	// 			m: { // TODO also has idnt , id
-	// 				su: change.obj.subject, // TODO object with _content string
-	// 				f: `${
-	// 					change.obj.read ? '' : 'u'
-	// 				}${
-	// 					change.obj.flag ? 'f' : ''
-	// 				}${
-	// 					change.obj.urgent ? '!' : ''
-	// 				}${
-	// 					change.obj.attachment ? 'a' : ''
-	// 				}`,
-	// 				mp: [
-	// 					{
-	// 						ct: 'multipart/alternative',
-	// 						mp: map(
-	// 							change.obj.parts,
-	// 							(part: MailMessagePart): SoapEmailMessagePartObj => ({
-	// 								ct: part.contentType,
-	// 								content: part.content || ''
-	// 							})
-	// 						)
-	// 					}
-	// 				],
-	// 				e: map(
-	// 					change.obj.contacts,
-	// 					(contact: Participant): SoapEmailInfoObj => ({
-	// 						a: contact.address,
-	// 						d: contact.displayName, // TODO keeps spitting out p instead
-	// 						t: contact.type
-	// 					})
-	// 				)
-	// 			}
-	// 		});
-	// 		return acc;
-	// 	},
-	// 	saveDraftRequest
-	// );
-	// if (saveDraftRequest.length > 0) {
-	// 	// eslint-disable-next-line no-param-reassign
-	// 	batchRequest.SaveDraftRequest = [
-	// 		...(batchRequest.SaveDraftRequest || []),
-	// 		...saveDraftRequest
-	// 	];
-	// }
-	// return Promise.resolve([batchRequest, localChanges]);
-}
+// function processInserts(
+// 	db: MailsDb,
+// 	changes: ICreateChange[],
+// 	batchRequest: BatchRequest,
+// 	localChanges: IDatabaseChange[],
+// ): Promise<[BatchRequest, IDatabaseChange[]]> {
+// 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
+// 	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
+// 	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
+// 		changes,
+// 		(acc, change) => {
+// 			acc.push({
+// 				_jsns: 'urn:zimbraMail',
+// 				requestId: change.key,
+// 				m: { // TODO also has idnt , id
+// 					su: change.obj.subject, // TODO object with _content string
+// 					f: `${
+// 						change.obj.read ? '' : 'u'
+// 					}${
+// 						change.obj.flag ? 'f' : ''
+// 					}${
+// 						change.obj.urgent ? '!' : ''
+// 					}${
+// 						change.obj.attachment ? 'a' : ''
+// 					}`,
+// 					mp: [
+// 						{
+// 							ct: 'multipart/alternative',
+// 							mp: map(
+// 								change.obj.parts,
+// 								(part: MailMessagePart): SoapEmailMessagePartObj => ({
+// 									ct: part.contentType,
+// 									content: part.content || ''
+// 								})
+// 							)
+// 						}
+// 					],
+// 					e: map(
+// 						change.obj.contacts,
+// 						(contact: Participant): SoapEmailInfoObj => ({
+// 							a: contact.address,
+// 							d: contact.displayName, // TODO keeps spitting out p instead
+// 							t: contact.type
+// 						})
+// 					)
+// 				}
+// 			});
+// 			return acc;
+// 		},
+// 		convActionRequest
+// 	);
+// 	if (convActionRequest.length > 0) {
+// 		// eslint-disable-next-line no-param-reassign
+// 		batchRequest.ConvActionRequest = [
+// 			...(batchRequest.ConvActionRequest || []),
+// 			...convActionRequest
+// 		];
+// 	}
+// 	return Promise.resolve([batchRequest, localChanges]);
+// }
 // TODO TYPE 2 UPDATING CHANGES
 function processConvUpdates(
 	db: MailsDb,
@@ -303,7 +278,7 @@ export default function processLocalConvChange(
 				_batchRequest
 			)
 				.then((BatchResponse) => {
-					if (BatchResponse.ConvActionRequest) { // TODO needed for edits
+					if (BatchResponse.ConvActionRequest) {
 						const creationChanges = reduce<BatchedResponse & SaveDraftResponse, IUpdateChange[]>(
 							BatchResponse.ConvActionRequest,
 							(acc, response) => {
