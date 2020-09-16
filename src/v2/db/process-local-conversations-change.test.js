@@ -19,7 +19,6 @@ import processLocalConvChange from './process-local-conversations-change';
 import processLocalMailsChange from './process-local-mails-change';
 
 describe('Local Changes - Conversations', () => {
-
 	test('Moving a conversation', (done) => {
 		const db = new MailsDb();
 		db.conversations.where.mockImplementation(() => ({
