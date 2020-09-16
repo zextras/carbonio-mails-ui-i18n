@@ -16,7 +16,7 @@ import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsFolderFromDb, MailsFolderFromSoap } from './db/mails-folder';
 import { Participant, ParticipantType } from './db/mail-db-types';
 import { MailConversationFromSoap } from './db/mail-conversation';
-import { MailMessageFromSoap, MailMessagePart } from './db/mail-message';
+import { MailMessageFromDb, MailMessageFromSoap, MailMessagePart } from './db/mail-message';
 import { MailConversationMessage } from './db/mail-conversation-message';
 
 type IFolderView =
@@ -103,8 +103,6 @@ export type SyncResponseMail = {
 	f?: string;
 	// t?: string; //tag
 	// tn?: string; //tagName
-
-
 };
 
 export type SyncResponseConversation = {
@@ -216,14 +214,7 @@ export type MsgActionResponse = {
 };
 
 export type SaveDraftRequest = {
-	m: {
-		idnt?: string;
-		e?: Array<SoapEmailInfoObj>;
-		mp?: Array<SoapEmailMessagePartObj>;
-		f?: string;
-		id?: string;
-		su?: string;
-	};
+	m: SoapDraftMessageObj;
 }
 
 export type SaveDraftResponse = {
@@ -336,7 +327,7 @@ export type GetConvResponse = {
 
 export type SoapEmailMessagePartObj = {
 	part?: string;
-	/**	Content Type  */ ct: string;
+	/**	Content Type  */ ct: 'multipart/alternative' | string;
 	/**	Size  */ s?: number;
 	/**	Content id (for inline images)  */ ci?: string;
 	/** Content disposition */ cd?: 'inline' | 'attachment';
@@ -344,6 +335,18 @@ export type SoapEmailMessagePartObj = {
 	/**	Set if is the body of the message  */ body?: true;
 	filename?: string;
 	content?: string;
+};
+
+export type SoapDraftMessagePartObj = {
+	part?: string;
+	/**	Content Type  */ ct: 'multipart/alternative' | string;
+	/**	Size  */ s?: number;
+	/**	Content id (for inline images)  */ ci?: string;
+	/** Content disposition */ cd?: 'inline' | 'attachment';
+	/**	Parts  */ mp?: Array<SoapDraftMessagePartObj>;
+	/**	Set if is the body of the message  */ body?: true;
+	filename?: string;
+	content?: { _content: string };
 };
 
 export type SoapEmailMessageObj = {
@@ -440,6 +443,13 @@ type SearchRequest = {
 type SearchResponse = {
 	c: SoapConvObj[];
 	more: boolean;
+};
+
+type SoapDraftMessageObj = {
+	su: { _content: string };
+	mp: Array<SoapDraftMessagePartObj>;
+	e: Array<SoapEmailInfoObj>;
+	f?: string;
 };
 
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
@@ -554,6 +564,53 @@ export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFro
 	}
 
 	return children;
+}
+
+function normalizeDraftMailPartsToSoap(parts: MailMessagePart[]): SoapDraftMessagePartObj[] {
+	return map<MailMessagePart, SoapDraftMessagePartObj>(
+		parts,
+		(part) => {
+			const p: SoapDraftMessagePartObj = {
+				ct: part.contentType,
+			};
+			if (part.content) {
+				p.content = { _content: part.content };
+			}
+			if (part.parts && part.parts.length > 0) {
+				p.mp = normalizeDraftMailPartsToSoap(part.parts);
+			}
+			return p;
+		}
+	);
+}
+
+export function normalizeDraftToSoap(m: MailMessageFromDb): SoapDraftMessageObj {
+	const flags = `${ // priorities to be completed
+		m.read ? '' : 'u'
+	}${
+		m.flagged ? 'f' : ''
+	}${
+		m.urgent ? '!' : ''
+	}`;
+
+	const message: SoapDraftMessageObj = {
+		su: { _content: m.subject },
+		mp: normalizeDraftMailPartsToSoap(m.parts),
+		e: map(
+			m.contacts,
+			(contact: Participant): SoapEmailInfoObj => ({
+				a: contact.address,
+				// d: contact.displayName,
+				t: contact.type
+			})
+		)
+	};
+
+	if (flags !== '') {
+		message.f = flags;
+	}
+
+	return message;
 }
 
 export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {

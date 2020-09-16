@@ -13,12 +13,42 @@ jest.mock('./mails-db-dexie');
 
 import { MailsDb } from './mails-db';
 import processLocalMailsChange from './process-local-mails-change';
-import { MailMessageFromDb } from './mail-message';
+import { MailMessageFromDb, ParticipantType } from './mail-message';
 // eslint-disable-next-line import/order
 
 describe('Local Changes - Mail', () => {
-	test('Create a Draft', (done) => {
+	test('Create and edit a Draft', (done) => {
 		const db = new MailsDb();
+		db.messages
+			.bulkGet
+			.mockImplementationOnce(
+				() => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						read: true,
+						parent: '6',
+						id: '1000',
+						subject: 'Edited 2 subject',
+						contacts: [{
+							address: 'user@example.com',
+							type: ParticipantType.FROM
+						}, {
+							address: 'to2@example.com',
+							type: ParticipantType.TO
+						}],
+						parts: [{
+							contentType: 'multipart/alternative',
+							parts: [{
+								contentType: 'text/plain',
+								content: 'Edited 2 text',
+							}, {
+								contentType: 'text/html',
+								content: '<p>Edited 2 text</p>',
+							}]
+						}],
+					})
+				])
+			);
 		const fetch = jest.fn()
 			.mockImplementationOnce(() => Promise.resolve({
 				SaveDraftResponse: [{
@@ -42,21 +72,17 @@ describe('Local Changes - Mail', () => {
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 				obj: {
 					parent: '6',
-					subject: 'subject',
-					read: false,
-					flag: false,
-					urgent: false,
-					attachment: false,
-					parts: [
-						{
+					subject: 'Edited 1 subject',
+					parts: [{
+						contentType: 'multipart/alternative',
+						parts: [{
 							contentType: 'text/plain',
-							content: 'plain text mail',
-						},
-						{
+							content: 'Edited 1 text',
+						}, {
 							contentType: 'text/html',
-							content: '<p>plain text mail</p>',
-						}
-					],
+							content: '<p>Edited 1 text</p>',
+						}]
+					}],
 					contacts: [
 						{
 							address: 'admin@example.com',
@@ -64,11 +90,41 @@ describe('Local Changes - Mail', () => {
 							type: 'f'
 						},
 						{
-							address: 'to@example.com',
-							displayName: 'To Contact',
+							address: 'to2@example.com',
+							displayName: 'To Contact 2',
 							type: 't'
 						}
-					],
+					]
+				}
+			}, {
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				mods: {
+					subject: 'Edited 2 subject',
+					parent: '6',
+					parts: [{
+						contentType: 'multipart/alternative',
+						parts: [{
+							contentType: 'text/plain',
+							content: 'Edited 2 text',
+						}, {
+							contentType: 'text/html',
+							content: '<p>Edited 2 text</p>',
+						}]
+					}],
+					contacts: [
+						{
+							address: 'admin@example.com',
+							displayName: 'Example',
+							type: 'f'
+						},
+						{
+							address: 'to2@example.com',
+							displayName: 'To Contact 2',
+							type: 't'
+						}
+					]
 				}
 			}],
 			fetch
@@ -97,13 +153,11 @@ describe('Local Changes - Mail', () => {
 							m: {
 								e: [
 									{
-										a: 'admin@example.com',
-										d: 'Example',
+										a: 'user@example.com',
 										t: 'f'
 									},
 									{
-										a: 'to@example.com',
-										d: 'To Contact',
+										a: 'to2@example.com',
 										t: 't'
 									}
 								],
@@ -112,15 +166,15 @@ describe('Local Changes - Mail', () => {
 									mp: [
 										{
 											ct: 'text/plain',
-											content: 'plain text mail',
+											content: { _content: 'Edited 2 text' },
 										},
 										{
 											ct: 'text/html',
-											content: { _content: '<p>plain text mail</p>' },
+											content: { _content: '<p>Edited 2 text</p>' },
 										}
 									]
 								}],
-								su: { _content: 'subject' }
+								su: { _content: 'Edited 2 subject' }
 							}
 						}]
 					}
@@ -130,7 +184,260 @@ describe('Local Changes - Mail', () => {
 		);
 	});
 
-	test('Moving a mail', (done) => {
+	test('Edit a Draft, two edits on the same draft', (done) => {
+		const db = new MailsDb();
+		db.messages
+			.bulkGet
+			.mockImplementationOnce(
+				() => Promise.resolve([
+					new MailMessageFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+						read: true,
+						parent: '6',
+						id: '1000',
+						subject: 'Edited 2 subject',
+						contacts: [{
+							address: 'user@example.com',
+							type: ParticipantType.FROM
+						}, {
+							address: 'to2@example.com',
+							type: ParticipantType.TO
+						}],
+						parts: [{
+							contentType: 'multipart/alternative',
+							parts: [{
+								contentType: 'text/plain',
+								content: 'Edited 2 text',
+							}, {
+								contentType: 'text/html',
+								content: '<p>Edited 2 text</p>',
+							}]
+						}],
+					})
+				])
+			);
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				SaveDraftResponse: [{
+					requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					m: [{
+						id: '1000',
+						cid: '-1000',
+						d: 1598610497000
+					}]
+				}]
+			}))
+			.mockImplementationOnce({
+				md: 1,
+				token: 1
+			});
+		processLocalMailsChange(
+			db,
+			[{
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				mods: {
+					parent: '6',
+					subject: 'Edited 1 subject',
+					parts: [{
+						contentType: 'multipart/alternative',
+						parts: [{
+							contentType: 'text/plain',
+							content: 'Edited 1 text',
+						}, {
+							contentType: 'text/html',
+							content: '<p>Edited 1 text</p>',
+						}]
+					}],
+					contacts: [
+						{
+							address: 'admin@example.com',
+							displayName: 'Example',
+							type: 'f'
+						},
+						{
+							address: 'to2@example.com',
+							displayName: 'To Contact 2',
+							type: 't'
+						}
+					]
+				}
+			}, {
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				mods: {
+					subject: 'Edited 2 subject',
+					parent: '6',
+					parts: [{
+						contentType: 'multipart/alternative',
+						parts: [{
+							contentType: 'text/plain',
+							content: 'Edited 2 text',
+						}, {
+							contentType: 'text/html',
+							content: '<p>Edited 2 text</p>',
+						}]
+					}],
+					contacts: [
+						{
+							address: 'admin@example.com',
+							displayName: 'Example',
+							type: 'f'
+						},
+						{
+							address: 'to2@example.com',
+							displayName: 'To Contact 2',
+							type: 't'
+						}
+					]
+				}
+			}],
+			fetch
+		).then(
+			(additionalChanges) => {
+				expect(additionalChanges.length).toBe(1);
+				expect(additionalChanges[0]).toStrictEqual({
+					key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					mods: {
+						id: '1000',
+						conversation: '-1000',
+						date: 1598610497000,
+					},
+					table: 'messages',
+					type: 2
+				});
+				expect(fetch).toHaveBeenCalledTimes(1);
+				expect(fetch).toHaveBeenCalledWith(
+					'Batch',
+					{
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						SaveDraftRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							m: {
+								e: [
+									{
+										a: 'user@example.com',
+										t: 'f'
+									},
+									{
+										a: 'to2@example.com',
+										t: 't'
+									}
+								],
+								mp: [{
+									ct: 'multipart/alternative',
+									mp: [
+										{
+											ct: 'text/plain',
+											content: { _content: 'Edited 2 text' },
+										},
+										{
+											ct: 'text/html',
+											content: { _content: '<p>Edited 2 text</p>' },
+										}
+									]
+								}],
+								su: { _content: 'Edited 2 subject' }
+							}
+						}]
+					}
+				);
+				done();
+			}
+		);
+	});
+
+	test('Edit a deleted Draft', (done) => {
+		const db = new MailsDb();
+		const anyOf = jest.fn().mockImplementation(() => ({
+			toArray: jest.fn().mockImplementation(() => Promise.resolve([{
+				rowId: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
+				_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				id: '1000',
+				table: 'messages',
+			}]))
+		}));
+		db.deletions.where.mockImplementation(() => ({
+			anyOf
+		}));
+		const fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({}))
+			.mockImplementationOnce({
+				md: 1,
+				token: 1
+			});
+		processLocalMailsChange(
+			db,
+			[{
+				type: 2,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+				mods: {
+					subject: 'Edited 2 subject',
+					parent: '6',
+					parts: [{
+						contentType: 'multipart/alternative',
+						parts: [{
+							contentType: 'text/plain',
+							content: 'Edited 2 text',
+						}, {
+							contentType: 'text/html',
+							content: '<p>Edited 2 text</p>',
+						}]
+					}],
+					contacts: [
+						{
+							address: 'admin@example.com',
+							displayName: 'Example',
+							type: 'f'
+						},
+						{
+							address: 'to2@example.com',
+							displayName: 'To Contact 2',
+							type: 't'
+						}
+					]
+				}
+			}, {
+				type: 3,
+				table: 'messages',
+				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'
+			}],
+			fetch
+		).then(
+			(additionalChanges) => {
+				expect(additionalChanges.length).toBe(1);
+				expect(additionalChanges[0]).toStrictEqual({
+					type: 3,
+					table: 'deletions',
+					key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
+				});
+				expect(fetch).toHaveBeenCalledTimes(1);
+				expect(fetch).toHaveBeenCalledWith(
+					'Batch',
+					{
+						_jsns: 'urn:zimbra',
+						onerror: 'continue',
+						MsgActionRequest: [{
+							_jsns: 'urn:zimbraMail',
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+							action: {
+								op: 'delete',
+								id: '1000',
+							}
+						}]
+					}
+				);
+				done();
+			}
+		);
+	});
+
+	test('Move a message', (done) => {
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
@@ -194,7 +501,7 @@ describe('Local Changes - Mail', () => {
 		);
 	});
 
-	test('Moving a mail to trash', (done) => {
+	test('Move a message to trash', (done) => {
 		const db = new MailsDb();
 		db.messages.where.mockImplementation(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
@@ -390,7 +697,7 @@ describe('Local Changes - Mail', () => {
 			});
 	});
 
-	test('Delete a draft', (done) => {
+	test('Delete a Message', (done) => {
 		const db = new MailsDb();
 		const anyOf = jest.fn().mockImplementation(() => ({
 			toArray: jest.fn().mockImplementation(() => Promise.resolve([{
@@ -447,7 +754,7 @@ describe('Local Changes - Mail', () => {
 								op: 'delete',
 								id: '1000',
 							}
-						}],
+						}]
 					}
 				);
 				done();

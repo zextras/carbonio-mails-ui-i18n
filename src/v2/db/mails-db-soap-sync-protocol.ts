@@ -20,7 +20,7 @@ import processRemoteFolderNotifications from './process-remote-folder-notificati
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailConversationMessage } from './mail-conversation-message';
-import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
+import { MailsFolderFromDb } from './mails-folder';
 import { MailMessageFromSoap } from './mail-message';
 import { MailConversationFromSoap } from './mail-conversation';
 
