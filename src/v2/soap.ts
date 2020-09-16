@@ -172,8 +172,6 @@ export type CreateFolderResponse = {
 	folder: Array<SyncResponseMailFolder>;
 };
 
-// TODO MAIL CHANGES ADDED
-
 export type MsgActionRequest = {
 	action: MsgActionRequestMove
 		| MsgActionRequestFlag
@@ -250,7 +248,6 @@ export type SendMailRequest = {
 export type SendMailResponse = {
 
 }
-// TODO CONVERSATION CHANGES ADDED
 
 export type ConvActionRequest = {
 	action: ConvActionRequestMove
@@ -289,8 +286,6 @@ export type ConvActionResponse = {
 		_jsns: 'urn:zimbraMail';
 	};
 };
-
-// TODO BATCH REQUESTS
 
 export type BatchedRequest = {
 	_jsns: 'urn:zimbraMail';
@@ -372,7 +367,7 @@ export type BatchResponse = {
 	GetMsgResponse?: Array<BatchedResponse & GetMsgResponse>;
 	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 	SaveDraftResponse?: Array<BatchedResponse & SaveDraftResponse>;
-	ConvActionRequest?: Array<BatchedResponse & ConvActionRequest>;
+	ConvActionResponse?: Array<BatchedResponse & ConvActionResponse>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';

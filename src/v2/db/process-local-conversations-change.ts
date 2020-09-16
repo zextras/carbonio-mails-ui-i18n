@@ -12,109 +12,21 @@ import {
 	ICreateChange,
 	IDatabaseChange, IDeleteChange, IUpdateChange
 } from 'dexie-observable/api';
-import { filter, map, reduce } from 'lodash';
+import {
+	filter, keyBy, map, reduce
+} from 'lodash';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
-	BatchedRequest, BatchedResponse,
-	BatchRequest, BatchResponse,
-	ConvActionRequest, ConvActionResponse,
-	SaveDraftRequest, SaveDraftResponse, SoapEmailMessagePartObj
+	BatchedRequest,
+	BatchRequest,
+	BatchResponse,
+	ConvActionRequest,
 } from '../soap';
-import { MailConversationFromDb } from './mail-conversation';
-import { MailMessagePart } from './mail-message';
-import { Participant } from './mail-db-types';
-import { SoapEmailInfoObj } from '../../ISoap';
 
-function processInserts(
-	db: MailsDb,
-	changes: ICreateChange[],
-	batchRequest: BatchRequest,
-	localChanges: IDatabaseChange[],
-): Promise<[BatchRequest, IDatabaseChange[]]> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-	reduce<ICreateChange, Array<BatchedRequest & ConvActionRequest>>(
-		changes,
-		(r, c) => {
-			r.push({
-				_jsns: 'urn:zimbraMail',
-				requestId: c.key,
-				action: {
-					id: '1000',
-					op: '', // TODO what goes here?
-				},
-			});
-			return r;
-		},
-		convActionRequest
-	);
-	if (convActionRequest.length > 0) {
-		// eslint-disable-next-line no-param-reassign
-		batchRequest.ConvActionRequest = [
-			...(batchRequest.ConvActionRequest || []),
-			...convActionRequest
-		];
-	}
-	return Promise.resolve([batchRequest, localChanges]);
-	// if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	// const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
-	// reduce<ICreateChange, Array<BatchedRequest & SaveDraftRequest>>(
-	// 	changes,
-	// 	(acc, change) => {
-	// 		acc.push({
-	// 			_jsns: 'urn:zimbraMail',
-	// 			requestId: change.key,
-	// 			m: { // TODO also has idnt , id
-	// 				su: change.obj.subject, // TODO object with _content string
-	// 				f: `${
-	// 					change.obj.read ? '' : 'u'
-	// 				}${
-	// 					change.obj.flag ? 'f' : ''
-	// 				}${
-	// 					change.obj.urgent ? '!' : ''
-	// 				}${
-	// 					change.obj.attachment ? 'a' : ''
-	// 				}`,
-	// 				mp: [
-	// 					{
-	// 						ct: 'multipart/alternative',
-	// 						mp: map(
-	// 							change.obj.parts,
-	// 							(part: MailMessagePart): SoapEmailMessagePartObj => ({
-	// 								ct: part.contentType,
-	// 								content: part.content || ''
-	// 							})
-	// 						)
-	// 					}
-	// 				],
-	// 				e: map(
-	// 					change.obj.contacts,
-	// 					(contact: Participant): SoapEmailInfoObj => ({
-	// 						a: contact.address,
-	// 						d: contact.displayName, // TODO keeps spitting out p instead
-	// 						t: contact.type
-	// 					})
-	// 				)
-	// 			}
-	// 		});
-	// 		return acc;
-	// 	},
-	// 	saveDraftRequest
-	// );
-	// if (saveDraftRequest.length > 0) {
-	// 	// eslint-disable-next-line no-param-reassign
-	// 	batchRequest.SaveDraftRequest = [
-	// 		...(batchRequest.SaveDraftRequest || []),
-	// 		...saveDraftRequest
-	// 	];
-	// }
-	// return Promise.resolve([batchRequest, localChanges]);
-}
-// TODO TYPE 2 UPDATING CHANGES
 function processConvUpdates(
 	db: MailsDb,
 	changes: IUpdateChange[],
@@ -123,82 +35,76 @@ function processConvUpdates(
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
 
-	return db.conversations.where('_id').anyOf(map(changes, 'key')).toArray().then((conversations) => {
-		const uuidToId = reduce<MailConversationFromDb, {[key: string]: string}>(
-			conversations,
-			(acc, conv) => {
-				if (conv._id && conv.id) acc[conv._id] = conv.id;
-				return acc;
-			},
-			{}
-		);
-		const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-		reduce<IUpdateChange, Array<BatchedRequest & ConvActionRequest>>(
-			changes,
-			(acc, conv) => {
-				if (conv.mods.parent) {
-					if (conv.mods.parent === '2') {
+	return db.conversations.where('_id').anyOf(map(changes, 'key')).toArray()
+		.then((dbConvsArray) => keyBy(dbConvsArray, '_id'))
+		.then((conversations) => {
+			const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
+			console.log(changes, conversations);
+			reduce<IUpdateChange, Array<BatchedRequest & ConvActionRequest>>(
+				changes,
+				(acc, change) => {
+					if (change.mods.parent) {
+						if (change.mods.parent === '2') {
+							acc.push({
+								_jsns: 'urn:zimbraMail',
+								requestId: change.key,
+								action: {
+									op: 'trash',
+									id: conversations[change.key].id!,
+								}
+							});
+						}
+						else {
+							acc.push({
+								_jsns: 'urn:zimbraMail',
+								requestId: change.key,
+								action: {
+									op: 'move',
+									l: change.mods.parent,
+									id: conversations[change.key].id!,
+								}
+							});
+						}
+					}
+					// eslint-disable-next-line no-prototype-builtins
+					if (change.mods.hasOwnProperty('flagged')) {
 						acc.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: conv.key,
+							requestId: change.key,
 							action: {
-								op: 'trash',
-								id: uuidToId[conv.key],
+								id: conversations[change.key].id!,
+								op: (change.mods.flagged) ? 'flag' : '!flag'
 							}
 						});
 					}
-					else {
+					// eslint-disable-next-line no-prototype-builtins
+					if (change.mods.hasOwnProperty('read')) {
 						acc.push({
 							_jsns: 'urn:zimbraMail',
-							requestId: conv.key,
+							requestId: change.key,
 							action: {
-								op: 'move',
-								l: conv.mods.parent,
-								id: uuidToId[conv.key],
+								id: conversations[change.key].id!,
+								op: (change.mods.read) ? 'read' : '!read'
 							}
 						});
 					}
-				}
-				// eslint-disable-next-line no-prototype-builtins
-				if (conv.mods.hasOwnProperty('flagged')) {
-					acc.push({
-						_jsns: 'urn:zimbraMail',
-						requestId: conv.key,
-						action: {
-							id: uuidToId[conv.key],
-							op: (conv.mods.flagged) ? 'flag' : '!flag'
-						}
-					});
-				}
-				// eslint-disable-next-line no-prototype-builtins
-				if (conv.mods.hasOwnProperty('read')) {
-					acc.push({
-						_jsns: 'urn:zimbraMail',
-						requestId: conv.key,
-						action: {
-							id: uuidToId[conv.key],
-							op: (conv.mods.read) ? 'read' : '!read'
-						}
-					});
-				}
-				return acc;
-			},
-			convActionRequest
-		);
+					return acc;
+				},
+				convActionRequest
+			);
 
-		if (convActionRequest.length > 0) {
+			if (convActionRequest.length > 0) {
 			// eslint-disable-next-line no-param-reassign
-			batchRequest.ConvActionRequest =	[
-				...(batchRequest.ConvActionRequest || []),
-				...convActionRequest
-			];
-		}
+				batchRequest.ConvActionRequest =	[
+					...(batchRequest.ConvActionRequest || []),
+					...convActionRequest
+				];
+			}
 
-		return [batchRequest, localChanges];
-	});
+			return [batchRequest, localChanges];
+		});
 }
 
-// TODO TYPE 3 DELETING CHANGES
 function processConvDeletions(
 	db: MailsDb,
 	changes: IDeleteChange[],
@@ -206,63 +112,44 @@ function processConvDeletions(
 	localChanges: IDatabaseChange[],
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	return db.deletions.where('_id').anyOf(map(changes, 'key')).toArray().then((deletedIds) => {
-		const uuidToId = reduce<DeletionData, {[key: string]: {id: string; rowId: string}}>(
-			filter(deletedIds, ['table', 'conversations']),
-			(acc, value) => {
-				// eslint-disable-next-line no-param-reassign
-				acc[value._id] = { id: value.id, rowId: value.rowId! };
-				return acc;
-			},
-			{}
-		);
-		const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
-		reduce(
-			changes,
-			(acc, change) => {
-				acc.push({
-					_jsns: 'urn:zimbraMail',
-					requestId: change.key,
-					action: {
-						op: 'delete',
-						id: uuidToId[change.key].id,
-					}
-				});
-				localChanges.push({
-					type: 3,
-					table: 'deletions',
-					key: uuidToId[change.key].rowId
-				});
-				return acc;
-			},
-			convActionRequest
-		);
-		if (convActionRequest.length > 0) {
+	return db.deletions.where('_id').anyOf(map(changes, 'key')).toArray()
+		.then((deletionsArray) => keyBy(
+			filter(deletionsArray, ['table', 'conversations']),
+			'_id'
+		))
+		.then((deletions: {[id: string]: DeletionData}) => {
+			const convActionRequest: Array<BatchedRequest & ConvActionRequest> = [];
+			reduce(
+				changes,
+				(acc, change) => {
+					acc.push({
+						_jsns: 'urn:zimbraMail',
+						requestId: change.key,
+						action: {
+							op: 'delete',
+							id: deletions[change.key].id,
+						}
+					});
+					localChanges.push({
+						type: 3,
+						table: 'deletions',
+						key: deletions[change.key].rowId
+					});
+					return acc;
+				},
+				convActionRequest
+			);
+			if (convActionRequest.length > 0) {
 			// eslint-disable-next-line no-param-reassign
-			batchRequest.ConvActionRequest =	[
-				...(batchRequest.ConvActionRequest || []),
-				...convActionRequest
-			];
-		}
-		return Promise.resolve([batchRequest, localChanges]);
-	});
-}
-// TODO PROCESS CREATION (creating a draft)
-
-function processCreation(response: BatchedResponse & SaveDraftResponse): IUpdateChange {
-	return {
-		type: 2,
-		table: 'conversations',
-		key: response.requestId,
-		mods: {
-			id: response.m[0].id,
-			conversation: response.m[0].cid,
-			date: response.m[0].d
-		}
-	};
+				batchRequest.ConvActionRequest =	[
+					...(batchRequest.ConvActionRequest || []),
+					...convActionRequest
+				];
+			}
+			return Promise.resolve([batchRequest, localChanges]);
+		});
 }
 
-// TODO PROCESSING THE LOCAL MAIL CHANGES
 export default function processLocalConvChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],
@@ -276,23 +163,17 @@ export default function processLocalConvChange(
 		onerror: 'continue'
 	};
 
-	return processInserts(
+	return processConvUpdates(
 		db,
-				filter(conversationsChanges, ['type', 1]) as ICreateChange[],
-				batchRequest,
-				[]
+		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
+		batchRequest,
+		changes
 	)
-		.then(([_batchRequest, _dbChanges]) => processConvUpdates(
-			db,
-					filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
-					_batchRequest,
-					_dbChanges
-		))
 		.then(([_batchRequest, _dbChanges]) => processConvDeletions(
 			db,
-					filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
-					_batchRequest,
-					_dbChanges
+			filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
+			_batchRequest,
+			_dbChanges
 		))
 		.then(([_batchRequest, _dbChanges]) => {
 			if (!_batchRequest.ConvActionRequest) {
@@ -301,20 +182,6 @@ export default function processLocalConvChange(
 			return _fetch<BatchRequest, BatchResponse>(
 				'Batch',
 				_batchRequest
-			)
-				.then((BatchResponse) => {
-					if (BatchResponse.ConvActionRequest) { // TODO needed for edits
-						const creationChanges = reduce<BatchedResponse & SaveDraftResponse, IUpdateChange[]>(
-							BatchResponse.ConvActionRequest,
-							(acc, response) => {
-								acc.push(processCreation(response));
-								return acc;
-							},
-							[]
-						);
-						_dbChanges.unshift(...creationChanges);
-					}
-					return _dbChanges;
-				});
+			).then(() => _dbChanges);
 		});
 }

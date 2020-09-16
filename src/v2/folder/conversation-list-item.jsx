@@ -58,7 +58,7 @@ export default function ConversationListItem({
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
-		return [sender.displayName || sender.address || '.', sender.address || '.'];
+		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
 	});
 	const toggleOpen = useCallback(
 		(e) => {

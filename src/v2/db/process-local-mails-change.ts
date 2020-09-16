@@ -31,7 +31,6 @@ import { MailMessageFromDb, MailMessagePart } from './mail-message';
 import { Participant } from './mail-db-types';
 import { SoapEmailInfoObj } from '../../ISoap';
 
-// TODO TYPE 1 CREATING INSERTS
 function processInserts(
 	db: MailsDb,
 	changes: ICreateChange[],
@@ -47,9 +46,9 @@ function processInserts(
 				acc.push({
 					_jsns: 'urn:zimbraMail',
 					requestId: change.key,
-					m: { // TODO also has idnt , id
-						su: change.obj.subject, // TODO object with _content string
-						f: `${
+					m: {
+						su: change.obj.subject,
+						f: `${ // priorities to be completed
 							change.obj.read ? '' : 'u'
 						}${
 							change.obj.flag ? 'f' : ''
@@ -74,7 +73,7 @@ function processInserts(
 							change.obj.contacts,
 							(contact: Participant): SoapEmailInfoObj => ({
 								a: contact.address,
-								d: contact.displayName, // TODO keeps spitting out p instead
+								d: contact.displayName,
 								t: contact.type
 							})
 						)
@@ -95,8 +94,6 @@ function processInserts(
 	return Promise.resolve([batchRequest, localChanges]);
 }
 
-// TODO PROCESS CREATION (creating a draft)
-
 function processCreationResponse(response: BatchedResponse & SaveDraftResponse): IUpdateChange {
 	return {
 		type: 2,
@@ -110,7 +107,6 @@ function processCreationResponse(response: BatchedResponse & SaveDraftResponse):
 	};
 }
 
-// TODO TYPE 2 UPDATING CHANGES
 function processMailUpdates(
 	db: MailsDb,
 	changes: IUpdateChange[],
@@ -118,7 +114,6 @@ function processMailUpdates(
 	localChanges: IDatabaseChange[],
 ): Promise<[BatchRequest, IDatabaseChange[]]> {
 	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-
 	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray()
 		.then((messagesArray: MailMessageFromDb[]) => keyBy(messagesArray, '_id'))
 		.then((messages: {[key: string]: MailMessageFromDb}) => {
@@ -190,7 +185,7 @@ function processMailUpdates(
 			const saveDraftRequest = reduce<IUpdateChange, Array<BatchedRequest & SaveDraftRequest>>(
 				changes,
 				(_saveDraftRequest, change) => {
-					if (messages[change.key].parent === '6') {
+					if (messages[change.key].parent !== '6') {
 						return _saveDraftRequest;
 					}
 					_saveDraftRequest.push(
@@ -251,7 +246,6 @@ function processMailUpdates(
 		});
 }
 
-// TODO TYPE 3 DELETING CHANGES
 function processDeletions(
 	db: MailsDb,
 	changes: IDeleteChange[],
@@ -301,7 +295,6 @@ function processDeletions(
 	});
 }
 
-// TODO PROCESSING THE LOCAL MAIL CHANGES
 export default function processLocalMailsChange(
 	db: MailsDb,
 	changes: IDatabaseChange[],

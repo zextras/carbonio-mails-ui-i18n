@@ -17,7 +17,7 @@ import { MailMessageFromDb } from './mail-message';
 // eslint-disable-next-line import/order
 
 describe('Local Changes - Mail', () => {
-	test('Create a Change', (done) => {
+	test('Create a Draft', (done) => {
 		const db = new MailsDb();
 		const fetch = jest.fn()
 			.mockImplementationOnce(() => Promise.resolve({
@@ -107,7 +107,6 @@ describe('Local Changes - Mail', () => {
 										t: 't'
 									}
 								],
-								f: 'u',
 								mp: [{
 									ct: 'multipart/alternative',
 									mp: [
@@ -117,11 +116,11 @@ describe('Local Changes - Mail', () => {
 										},
 										{
 											ct: 'text/html',
-											content: '<p>plain text mail</p>',
+											content: { _content: '<p>plain text mail</p>' },
 										}
 									]
 								}],
-								su: 'subject'
+								su: { _content: 'subject' }
 							}
 						}]
 					}
@@ -130,8 +129,6 @@ describe('Local Changes - Mail', () => {
 			}
 		);
 	});
-
-	// TODO TYPE 2 UPDATING CHANGES done
 
 	test('Moving a mail', (done) => {
 		const db = new MailsDb();
@@ -190,27 +187,12 @@ describe('Local Changes - Mail', () => {
 								id: '1000',
 							}
 						}],
-						SaveDraftRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							m: {
-								id: '1000',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}],
-								e: []
-							},
-						}]
 					}
 				);
 				done();
 			}
 		);
 	});
-
-	// TODO MOVING TO TRASH done
 
 	test('Moving a mail to trash', (done) => {
 		const db = new MailsDb();
@@ -267,26 +249,13 @@ describe('Local Changes - Mail', () => {
 								id: '1000',
 							}
 						}],
-						SaveDraftRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-							m: {
-								id: '1000',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}],
-								e: []
-							},
-						}]
 					}
 				);
 				done();
 			}
 		);
 	});
-	// TODO PROCESS FLAGGED MAIL done
+
 	test('Flag / Unflag', (done) => {
 		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
@@ -347,38 +316,12 @@ describe('Local Changes - Mail', () => {
 								op: '!flag'
 							}
 						}],
-						SaveDraftRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-							m: {
-								id: '1000',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}],
-								e: []
-							},
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-							m: {
-								id: '1001',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}],
-								e: []
-							},
-						}]
 					}
 				);
 				done();
 			});
 	});
-	// TODO READ/UNREAD MAILS done
+
 	test('Read / Unread', (done) => {
 		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
 		const db = new MailsDb();
@@ -441,42 +384,13 @@ describe('Local Changes - Mail', () => {
 							}
 						}
 						],
-						SaveDraftRequest: [{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-							m: {
-								id: '1000',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}
-								],
-								e: []
-							},
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-							m: {
-								id: '1001',
-								f: 'u',
-								mp: [{
-									ct: 'multipart/alternative',
-									mp: []
-								}
-								],
-								e: []
-							},
-						}]
 					}
 				);
 				done();
 			});
 	});
 
-	// TODO TYPE 3 DELETING CHANGES done
-	test('Delete a change', (done) => {
+	test('Delete a draft', (done) => {
 		const db = new MailsDb();
 		const anyOf = jest.fn().mockImplementation(() => ({
 			toArray: jest.fn().mockImplementation(() => Promise.resolve([{
