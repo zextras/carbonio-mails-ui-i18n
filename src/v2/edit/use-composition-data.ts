@@ -104,6 +104,7 @@ export type CompositionData = {
 		toggleRichText: (richText: boolean) => void;
 		toggleFlagged: (flagged: boolean) => void;
 		toggleUrgent: (urgent: boolean) => void;
+		sendMail: () => void;
 	};
 }
 
@@ -285,6 +286,16 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 		},
 		[]
 	);
+	const sendMail = useCallback(
+		() => {
+			db.sendMail(draftId).then((dId: string) => {
+				if (!panel) {
+					replaceHistory(`/folder/${folderId}?edit=${dId}`);
+				}
+			});
+		},
+		[db, draftId, folderId, panel, replaceHistory]
+	);
 	return {
 		compositionData,
 		actions: {
@@ -293,7 +304,8 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 			updateBody,
 			toggleRichText,
 			toggleUrgent,
-			toggleFlagged
+			toggleFlagged,
+			sendMail
 		}
 	};
 };

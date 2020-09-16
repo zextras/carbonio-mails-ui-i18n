@@ -14,9 +14,9 @@ import { BehaviorSubject } from 'rxjs';
 import { sortBy, last, reverse, map } from 'lodash';
 import { reduce, pullAllWith } from 'lodash';
 // eslint-disable-next-line import/no-unresolved
-import { SoapFetch } from '@zextras/zapp-shell';
-import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
+import { SoapFetch, accounts } from '@zextras/zapp-shell';
+import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';
 import { Participant } from './mail-db-types';
@@ -67,38 +67,10 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public getConvInFolder(f: MailsFolder): BehaviorSubject<GetConvSubjectData> {
-		const subject = new BehaviorSubject<GetConvSubjectData>({ conversations: [], loading: true, hasMore: false });
-		this.conversations.where('parent').equals(f.id!).toArray()
-			.then((conversations: MailConversation[]) => {
-				const sorted = reverse(sortBy(conversations, 'date'));
-				const _last = last(conversations);
-				subject.next({
-					...subject.getValue(),
-					conversations: sorted
-				});
-
-				fetchConversationsInFolder(
-					this._fetch,
-					f,
-					1,
-					_last ? new Date(_last.date) : undefined
-				)
-					.then(([convs, hasMore]) => {
-						subject.next({
-							...subject.getValue(),
-							hasMore: convs.length > 0 || hasMore,
-							loading: false
-						});
-					});
-				// TODO: Catch possible errors to complete the subject
-			});
-		return subject;
-	}
-
 	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
-		console.log(cState);
 		if (draftId === 'new') {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// @ts-ignore
 			return this.messages.add({
 				parent: '6',
 				conversation: '',
@@ -112,7 +84,8 @@ export class MailsDb extends MailsDbDexie {
 				attachment: false,
 				flagged: false,
 				urgent: false,
-				bodyPath: ''
+				bodyPath: '',
+				send: false,
 			});
 		}
 		return this.messages.update(draftId, {
@@ -132,31 +105,37 @@ export class MailsDb extends MailsDbDexie {
 					type: 'b',
 					address: c.value,
 					displayName: ''
-				}) as Participant)
+				}) as Participant),
+				{
+					type: 'f',
+					address: accounts[0].name,
+					displayName: accounts[0].displayName
+				}
 			],
 			parts: [
 				{
 					contentType: 'text/plain',
-					size: cState.body.text.length,
 					content: cState.body.text,
-					name: '1',
 				},
 				{
 					contentType: 'text/html',
-					size: cState.body.html.length,
 					content: cState.body.html,
-					name: '1',
 				}
 			],
 			date: Date.now(),
 			attachment: false,
 			flagged: cState.flagged,
-			urgent: cState.urgent
+			urgent: cState.urgent,
 		}).then(() => draftId);
 	}
 
+	public sendMail(draftId: string): Promise<string> {
+		return this.messages.update(draftId, { send: true }).then(() => draftId);
+	}
+
 	public checkHasMoreConv(
-		f: MailsFolderFromDb, lastConv?: MailConversationFromDb
+		f: MailsFolderFromDb,
+		lastConv?: MailConversationFromDb
 	): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(
