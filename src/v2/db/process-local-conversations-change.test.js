@@ -16,7 +16,6 @@ jest.mock('./mails-db-dexie');
 import { MailsDb } from './mails-db';
 
 import processLocalConvChange from './process-local-conversations-change';
-import processLocalMailsChange from './process-local-mails-change';
 
 describe('Local Changes - Conversations', () => {
 	test('Moving a conversation', (done) => {
