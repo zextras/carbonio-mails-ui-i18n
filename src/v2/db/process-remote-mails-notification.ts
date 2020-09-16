@@ -92,17 +92,17 @@ export default function processRemoteMailsNotification(
 			dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
 				dbMails,
 				(acc: IDatabaseChange[], value: MailMessageFromDb) => {
-					if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
+					if (value.id && mappedMails && mappedMails[value.id] && mappedMails[value.id].l !== '6') {
 						const obj: {[keyPath: string]: any | undefined} = {};
 						if (mappedMails[value.id].l) {
 							obj.parent = mappedMails[value.id].l;
 						}
-						if (mappedMails[value.id].f) {
-							obj.read = !(/u/.test(mappedMails[value.id].f || ''));
-							obj.attachment = /a/.test(mappedMails[value.id].f || '');
-							obj.flagged = /f/.test(mappedMails[value.id].f || '');
-							obj.urgent = /!/.test(mappedMails[value.id].f || '');
-						}
+
+						obj.read = !(/u/.test(mappedMails[value.id].f || ''));
+						obj.attachment = /a/.test(mappedMails[value.id].f || '');
+						obj.flagged = /f/.test(mappedMails[value.id].f || '');
+						obj.urgent = /!/.test(mappedMails[value.id].f || '');
+
 						acc.push({
 							type: 2,
 							table: 'messages',
