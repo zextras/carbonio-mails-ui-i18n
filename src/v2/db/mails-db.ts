@@ -78,13 +78,12 @@ export class MailsDb extends MailsDbDexie {
 				date: Date.now(),
 				subject: '',
 				fragment: '',
-				read: false,
+				read: true,
 				parts: [],
 				size: 0,
 				attachment: false,
 				flagged: false,
 				urgent: false,
-				bodyPath: '',
 				send: false,
 			});
 		}
@@ -114,12 +113,17 @@ export class MailsDb extends MailsDbDexie {
 			],
 			parts: [
 				{
-					contentType: 'text/plain',
-					content: cState.body.text,
-				},
-				{
-					contentType: 'text/html',
-					content: cState.body.html,
+					contentType: 'multipart/alternative',
+					parts: [
+						{
+							contentType: 'text/plain',
+							content: cState.body.text,
+						},
+						{
+							contentType: 'text/html',
+							content: cState.body.html,
+						}
+					]
 				}
 			],
 			date: Date.now(),
