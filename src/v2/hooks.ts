@@ -217,3 +217,19 @@ export function useMessage(messageId: string) {
 
 	return { message, loaded };
 }
+
+export function useFolder(folderId: string) {
+	const { db } = hooks.useAppContext<AppContext>();
+	const folderQuery = useCallback(
+		() => db.folders
+			.where('id')
+			.equals(folderId)
+			.or('_id')
+			.equals(folderId)
+			.first(),
+		[folderId, db.folders]
+	);
+	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
+
+	return { folder, folderLoaded };
+}
