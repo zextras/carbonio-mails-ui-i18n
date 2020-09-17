@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { hooks } from '@zextras/zapp-shell';
 import {
 	Container,
@@ -13,17 +13,18 @@ import { useTranslation } from 'react-i18next';
 import EditView from './edit-view';
 
 export default function MailEditPanel({ editPanelId, folderId }) {
+	const [header, setHeader] = useState(undefined);
 	return (
 		<>
-			<MailEditHeader editPanelId={editPanelId} folderId={folderId} />
+			<MailEditHeader editPanelId={editPanelId} folderId={folderId} header={header} />
 			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)' }} background="gray6">
-				<EditView panel={true} editPanelId={editPanelId} folderId={folderId} />
+				<EditView panel={true} editPanelId={editPanelId} folderId={folderId} setHeader={setHeader} />
 			</Container>
 		</>
 	);
 };
 
-const MailEditHeader = ({ editPanelId, folderId }) => {
+const MailEditHeader = ({ editPanelId, folderId, header }) => {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 
@@ -47,7 +48,7 @@ const MailEditHeader = ({ editPanelId, folderId }) => {
 				</Padding>
 				<Row takeAvailableSpace mainAlignment="flex-start">
 					<Text size="large">
-						{ t(editPanelId && editPanelId !== 'new' ? 'Edit Draft' : 'New Draft') }
+						{ header || t('Edit Draft') }
 					</Text>
 				</Row>
 				<IconButton icon="Close" size="small" onClick={onClose} />

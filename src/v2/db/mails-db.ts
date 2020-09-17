@@ -111,8 +111,8 @@ export class MailsDb extends MailsDbDexie {
 					displayName: accounts[0].displayName
 				}
 			],
-			parts: [
-				{
+			parts: [cState.richText
+				? {
 					contentType: 'multipart/alternative',
 					parts: [
 						{
@@ -124,6 +124,10 @@ export class MailsDb extends MailsDbDexie {
 							content: cState.body.html,
 						}
 					]
+				}
+				: {
+					contentType: 'text/plain',
+					content: cState.body.text
 				}
 			],
 			date: Date.now(),

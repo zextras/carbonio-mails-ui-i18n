@@ -10,7 +10,7 @@
  */
 
 import React, {
-	useCallback,
+	useCallback, useEffect,
 	useState
 } from 'react';
 import {
@@ -75,7 +75,9 @@ const EditorWrapper = styled.div`
 `;
 
 
-export default function EditView({ panel, editPanelId, folderId }) {
+export default function EditView({
+	panel, editPanelId, folderId, setHeader
+}) {
 	const {
 		compositionData,
 		actions
@@ -86,7 +88,9 @@ export default function EditView({ panel, editPanelId, folderId }) {
 		() => setOpen((isOpen) => !isOpen),
 		[]
 	);
-
+	useEffect(() => {
+		if (setHeader) setHeader(compositionData.subject);
+	}, [compositionData.subject, setHeader]);
 	return (
 		<Catcher>
 			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
