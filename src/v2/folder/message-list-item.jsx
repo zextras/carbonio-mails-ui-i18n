@@ -15,14 +15,15 @@ import styled from 'styled-components';
 import {
 	Container,
 	Text,
-	Divider,
 	Avatar,
+	Badge,
 	Row,
 	Padding,
 	Icon,
 } from '@zextras/zapp-ui';
 import { getTimeLabel } from '../commons/utils';
 import { useTranslation } from 'react-i18next';
+import { useFolder } from '../hooks';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -41,6 +42,7 @@ export default function MessageListItem({
 	conversationId
 }) {
 	const { t } = useTranslation();
+	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {
@@ -129,8 +131,16 @@ export default function MessageListItem({
 									)}
 								</Row>
 								<Row>
-									{ message.urgent
-									&& <Icon icon="ArrowUpward" color="error" />}
+									{ message.urgent && (
+										<Padding left="extrasmall">
+											<Icon icon="ArrowUpward" color="error" />
+										</Padding>
+									)}
+									{ messageFolderLoaded && messageFolder._id !== folderId && (
+										<Padding left="small">
+											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
+										</Padding>
+									)}
 								</Row>
 							</Container>
 						</Row>
