@@ -137,6 +137,14 @@ export class MailsDb extends MailsDbDexie {
 		return this.messages.update(draftId, { send: true }).then(() => draftId);
 	}
 
+	public moveMessageToTrash(id: string): Promise<number> {
+		return this.messages.update(id, { parent: '2' });
+	}
+
+	public deleteMessage(id: string): Promise<void> {
+		return this.messages.delete(id);
+	}
+
 	public checkHasMoreConv(
 		f: MailsFolderFromDb,
 		lastConv?: MailConversationFromDb

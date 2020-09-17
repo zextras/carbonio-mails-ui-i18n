@@ -23,19 +23,62 @@ import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb, DeletionData } from './mails-db';
 import {
 	BatchedRequest, BatchedResponse,
-	BatchRequest, BatchResponse,
+	BatchRequest, BatchResponse, generateBodyPath,
 	MsgActionRequest, normalizeDraftToSoap,
 	SaveDraftRequest, SaveDraftResponse
 } from '../soap';
 import { MailMessageFromDb } from './mail-message';
 
+function processSaveDrafts(
+	db: MailsDb,
+	[batchRequest, localChanges, drafts]: ChainData,
+): Promise<ChainData> {
+	const saveDraftRequest = reduce<MailMessageFromDb, Array<BatchedRequest & SaveDraftRequest>>(
+		drafts,
+		(acc, msg) => {
+			acc.push({
+				_jsns: 'urn:zimbraMail',
+				requestId: msg._id,
+				m: normalizeDraftToSoap(msg)
+			});
+			return acc;
+		},
+		[]
+	);
+	if (saveDraftRequest.length > 0) {
+		// eslint-disable-next-line no-param-reassign
+		batchRequest.SaveDraftRequest = [
+			...(batchRequest.SaveDraftRequest || []),
+			...saveDraftRequest
+		];
+	}
+	return Promise.resolve([
+		batchRequest,
+		localChanges,
+		drafts
+	]);
+}
+
 function processInserts(
 	db: MailsDb,
 	changes: ICreateChange[],
-	[batchRequest, localChanges]: ChainData,
+	[batchRequest, localChanges, drafts]: ChainData,
 ): Promise<ChainData> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
-	return Promise.resolve([batchRequest, localChanges]);
+	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges, drafts]);
+	return db.messages.where('_id').anyOf(
+		map(
+			filter(changes, (c) => c.obj.parent === '6' && typeof c.obj.id === 'undefined'),
+			'key'
+		)
+	)
+		.toArray()
+		.then(
+			(createdDrafts: MailMessageFromDb[]) => [
+				batchRequest,
+				localChanges,
+				[...drafts, ...createdDrafts]
+			]
+		);
 }
 
 function processCreationResponse(response: BatchedResponse & SaveDraftResponse): IUpdateChange {
@@ -46,7 +89,8 @@ function processCreationResponse(response: BatchedResponse & SaveDraftResponse):
 		mods: {
 			id: response.m[0].id,
 			conversation: response.m[0].cid,
-			date: response.m[0].d
+			date: response.m[0].d,
+			bodyPath: generateBodyPath(response.m[0].mp)
 		}
 	};
 }
@@ -54,16 +98,18 @@ function processCreationResponse(response: BatchedResponse & SaveDraftResponse):
 function processMailUpdates(
 	db: MailsDb,
 	changes: IUpdateChange[],
-	[batchRequest, localChanges]: ChainData,
+	[batchRequest, localChanges, drafts]: ChainData,
 ): Promise<ChainData> {
-	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	if (changes.length < 1) return Promise.resolve([batchRequest, localChanges, drafts]);
 	return db.messages.where('_id').anyOf(map(changes, 'key')).toArray()
 		.then((messagesArray: MailMessageFromDb[]) => keyBy(messagesArray, '_id'))
 		.then((messages: {[key: string]: MailMessageFromDb}) => {
+			const editedDrafts: MailMessageFromDb[] = [];
 			const msgActionRequest = reduce<IUpdateChange, Array<BatchedRequest & MsgActionRequest>>(
 				changes,
 				(_msgActionRequest, change) => {
 					if (messages[change.key].parent === '6') {
+						editedDrafts.push(messages[change.key]);
 						return _msgActionRequest;
 					}
 					const id = messages[change.key].id as string;
@@ -125,16 +171,16 @@ function processMailUpdates(
 				];
 			}
 
-			return [batchRequest, localChanges];
+			return [batchRequest, localChanges, [...drafts, ...editedDrafts]];
 		});
 }
 
 function processDeletions(
 	db: MailsDb,
 	_keys: string[],
-	[batchRequest, localChanges]: ChainData,
+	[batchRequest, localChanges, drafts]: ChainData,
 ): Promise<ChainData> {
-	if (_keys.length < 1) return Promise.resolve([batchRequest, localChanges]);
+	if (_keys.length < 1) return Promise.resolve([batchRequest, localChanges, drafts]);
 	return db.deletions.where('_id').anyOf(_keys).toArray().then((deletedIds) => {
 		const uuidToId = reduce<DeletionData, {[key: string]: {id: string; rowId: string}}>(
 			filter(deletedIds, ['table', 'messages']),
@@ -173,43 +219,11 @@ function processDeletions(
 				...msgActionRequest
 			];
 		}
-		return Promise.resolve([batchRequest, localChanges]);
+		return Promise.resolve([batchRequest, localChanges, drafts]);
 	});
 }
 
-function processSaveDrafts(
-	db: MailsDb,
-	ids: string[],
-	[batchRequest, localChanges]: ChainData,
-): Promise<ChainData> {
-	return db.messages
-		.bulkGet(ids)
-		.then((msgs) => {
-			const saveDraftRequest: Array<BatchedRequest & SaveDraftRequest> = [];
-			reduce<MailMessageFromDb, Array<BatchedRequest & SaveDraftRequest>>(
-				msgs,
-				(acc, msg) => {
-					acc.push({
-						_jsns: 'urn:zimbraMail',
-						requestId: msg._id,
-						m: normalizeDraftToSoap(msg)
-					});
-					return acc;
-				},
-				saveDraftRequest
-			);
-			if (saveDraftRequest.length > 0) {
-				// eslint-disable-next-line no-param-reassign
-				batchRequest.SaveDraftRequest = [
-					...(batchRequest.SaveDraftRequest || []),
-					...saveDraftRequest
-				];
-			}
-			return [batchRequest, localChanges];
-		});
-}
-
-type ChainData = [BatchRequest, IDatabaseChange[]];
+type ChainData = [BatchRequest, IDatabaseChange[], MailMessageFromDb[]];
 
 export default function processLocalMailsChange(
 	db: MailsDb,
@@ -224,49 +238,23 @@ export default function processLocalMailsChange(
 		onerror: 'continue'
 	};
 
-	const draftsChanges: IDatabaseChange[] = [
-		...filter(
-			filter(messagesChanges, ['type', 1]) as ICreateChange[],
-			['obj.parent', '6']
-		),
-		...filter(
-			filter(messagesChanges, ['type', 2]) as ICreateChange[],
-			['mods.parent', '6']
-		),
-	];
-	const deletedMessages = keys(
-		groupBy(
-			filter(messagesChanges, ['type', 3]) as IDeleteChange[],
-			'key'
-		)
-	);
-	const draftIds = keys(
-		groupBy(
-			draftsChanges,
-			'key'
-		)
-	);
-	pullAll(draftIds, deletedMessages);
-	pullAllWith(messagesChanges, [...draftIds, ...deletedMessages], (a, b) => (a.key === b));
-
 	return processDeletions(
 		db,
-		deletedMessages,
-		[batchRequest, []]
+		keys(groupBy(filter(messagesChanges, ['type', 3]) as IDeleteChange[], 'key')),
+		[batchRequest, [], []]
 	)
-		.then((cd) => processSaveDrafts(
-			db,
-			draftIds,
-			cd
-		))
-		.then((cd) => processInserts(
+		.then((cd: ChainData) => processInserts(
 			db,
 			filter(messagesChanges, ['type', 1]) as ICreateChange[],
 			cd
 		))
-		.then((cd) => processMailUpdates(
+		.then((cd: ChainData) => processMailUpdates(
 			db,
 			filter(messagesChanges, ['type', 2]) as IUpdateChange[],
+			cd
+		))
+		.then((cd: ChainData) => processSaveDrafts(
+			db,
 			cd
 		))
 		.then(([_batchRequest, _dbChanges]) => {

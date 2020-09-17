@@ -31,6 +31,8 @@ import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
+import { hooks } from '@zextras/zapp-shell';
+import { useParams } from 'react-router-dom';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -122,11 +124,52 @@ function MailPreviewBlock({
 	open,
 	onClick
 }) {
-	const actions = [];
+	const { t } = useTranslation();
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const { folderId } = useParams();
+	const { db } = hooks.useAppContext();
+
+	const actions = useMemo(() => {
+		const arr = [];
+		if (message.parent === '6') {
+			arr.push({
+				id: 'message-preview-edit-draft',
+				icon: 'Edit2Outline',
+				label: t('Edit Draft'),
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message._id}`)
+			});
+		}
+		if (message.parent === '2') {
+			arr.push({
+				id: 'message-preview-delete',
+				icon: 'TrashOutline',
+				label: t('Delete Message'),
+				onActivate: () => {
+					db.deleteMessage(message._id).then((updated) => (
+						updated > 0
+							? replaceHistory(`/folder/${folderId}`)
+							: console.error('Error removing element')
+					));
+				}
+			});
+		}
+		else {
+			arr.push({
+				id: 'message-preview-trash',
+				icon: 'TrashOutline',
+				label: t('Move to Trash'),
+				onActivate: () => {
+					db.moveMessageToTrash(message._id)
+						.then(() => replaceHistory(`/folder/${folderId}`));
+				}
+			});
+		}
+		return arr;
+	}, [db, folderId, message._id, message.parent, replaceHistory, t]);
 
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
-
+	console.log(actions);
 	return (
 		<HoverContainer
 			onClick={_onClick}

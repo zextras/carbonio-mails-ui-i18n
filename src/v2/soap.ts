@@ -219,6 +219,7 @@ export type SaveDraftRequest = {
 
 export type SaveDraftResponse = {
 	m: Array<{
+		mp: Array<SoapEmailMessagePartObj>;
 		id: string;
 		cid: string;
 		d: number;
@@ -810,7 +811,7 @@ export function fetchConversationsInFolder(
 		});
 }
 
-function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
+export function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
 	const indexes = recursiveBodyPath(mp);
 	const path = reduce(
 		indexes,
