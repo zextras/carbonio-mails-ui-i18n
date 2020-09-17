@@ -150,7 +150,7 @@ export default function processRemoteMailsNotification(
 									type: 2,
 									table: 'messages',
 									key: dbMails[value.id]._id,
-									mods: value
+									mods: omit(value, '_id')
 								}
 							],
 							dbChangesUpdated
@@ -187,8 +187,8 @@ export default function processRemoteMailsNotification(
 							acc.push({
 								type: 2,
 								table: 'conversations',
-								key: mappedConversations[value.id]._id,
-								mods: omit(value, '_id')
+								key: mappedConversations[value.id] ? mappedConversations[value.id]._id : undefined,
+								mods: omit(value, '_id', 'fragment')
 							});
 							return acc;
 						},

@@ -1,3 +1,4 @@
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 jest.mock('./mails-db-dexie');
 
@@ -66,17 +67,29 @@ describe('Notifications - Mails', () => {
 
 	test('New Message', (done) => {
 		const db = new MailsDb();
-		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
-			GetMsgResponse: [
-				{
-					m: [
-						{
-							id: '1000',
-						}
-					]
-				}
-			]
-		}));
+		const _fetch = jest.fn()
+			.mockImplementationOnce(() => Promise.resolve({
+				GetMsgResponse: [
+					{
+						m: [
+							{
+								id: '1000',
+							}
+						]
+					}
+				]
+			}))
+			.mockImplementationOnce(() => Promise.resolve({
+				GetConvResponse: [
+					{
+						c: [
+							{
+								id: '-1000'
+							}
+						]
+					}
+				]
+			}));
 		const SyncResponse = {
 			m: [{
 				d: 1,
@@ -84,6 +97,12 @@ describe('Notifications - Mails', () => {
 				l: '7'
 			}]
 		};
+		db.transaction.mockImplementation(() => Promise.resolve([
+			[],
+			[
+				new MailConversationFromDb({ id: '-1000', _id: 'cxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx' })
+			]
+		]));
 		processRemoteMailsNotification(
 			_fetch,
 			db,
@@ -93,12 +112,15 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(1);
-				expect(changes.length).toBe(1);
+				expect(_fetch).toHaveBeenCalledTimes(2); // Once for the message, once for the conversation
+				expect(changes.length).toBe(2);
 				expect(changes[0].type).toBe(1);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBeUndefined();
 				expect(changes[0].obj).toBeInstanceOf(MailMessageFromSoap);
+				expect(changes[1].type).toBe(2);
+				expect(changes[1].table).toBe('conversations');
+				expect(changes[1].key).toBe('cxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
 				done();
 			});
 	});
@@ -116,6 +138,7 @@ describe('Notifications - Mails', () => {
 				]))
 			}))
 		}));
+		db.transaction.mockImplementation(() => Promise.resolve([[], []]));
 		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
 			json: jest.fn().mockImplementation(() => Promise.resolve({}))
 		}));
@@ -149,35 +172,47 @@ describe('Notifications - Mails', () => {
 
 	test('Updated Message - Marked as read', (done) => {
 		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000',
-						parent: '7',
-						attachment: 'attachment',
-						bodyPath: 'bodyPath',
-						contacts: 'contacts',
-						conversation: 'conversation',
-						date: 'date',
-						flagged: 'flagged',
-						fragment: 'fragment',
-						parts: 'parts',
-						read: 'true',
-						size: 'size',
-						subject: 'subject',
-						urgent: 'false'
-					}),
-				]))
-			}))
+		db.transaction.mockImplementation(() => Promise.resolve([
+			[
+				new MailMessageFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					id: '1000',
+					parent: '7',
+					attachment: 'attachment',
+					bodyPath: 'bodyPath',
+					contacts: 'contacts',
+					conversation: 'conversation',
+					date: 'date',
+					flagged: 'flagged',
+					fragment: 'fragment',
+					parts: 'parts',
+					read: 'true',
+					size: 'size',
+					subject: 'subject',
+					urgent: 'false'
+				})
+			],
+			[
+				new MailConversationFromDb({ id: '-1000', _id: 'cxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx' })
+			]
+		]));
+		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			GetConvResponse: [
+				{
+					c: [
+						{
+							id: '-1000'
+						}
+					]
+				}
+			]
 		}));
-		const _fetch = jest.fn();
 		const SyncResponse = {
 			md: 2,
 			token: 2,
 			m: [{
 				d: 1,
+				cid: '-1000',
 				id: '1000',
 				l: '7',
 				md: 2,
@@ -197,8 +232,8 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(0);
-				expect(changes.length).toBe(1);
+				expect(_fetch).toHaveBeenCalledTimes(1);
+				expect(changes.length).toBe(2); // Once for message, once for conversation
 				expect(changes[0].type).toBe(2);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
@@ -215,18 +250,27 @@ describe('Notifications - Mails', () => {
 
 	test('Updated Message - Moved', (done) => {
 		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => Promise.resolve([
-					new MailMessageFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000',
-						parent: '1001',
-					}),
-				]))
-			}))
+		db.transaction.mockImplementation(() => Promise.resolve([
+			[
+				new MailMessageFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					id: '1000',
+					parent: '1001',
+				})
+			],
+			[]
+		]));
+		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			GetConvResponse: [
+				{
+					c: [
+						{
+							id: '-1000'
+						}
+					]
+				}
+			]
 		}));
-		const _fetch = jest.fn();
 		const SyncResponse = {
 			md: 2,
 			token: 2,
@@ -252,8 +296,8 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(0);
-				expect(changes.length).toBe(1);
+				expect(_fetch).toHaveBeenCalledTimes(1);
+				expect(changes.length).toBe(2);
 				expect(changes[0].type).toBe(2);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
@@ -270,23 +314,32 @@ describe('Notifications - Mails', () => {
 
 	test('Message flagged', (done) => {
 		const db = new MailsDb();
-		db.messages.where.mockImplementation(() => ({
-			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementationOnce(() => Promise.resolve([
-					new MailMessageFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						id: '1000',
-						parent: '1001',
-					}),
-				]))
-			}))
+		db.transaction.mockImplementation(() => Promise.resolve([
+			[
+				new MailMessageFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
+					id: '1000',
+					parent: '1001',
+				})
+			],
+			[]
+		]));
+		const _fetch = jest.fn().mockImplementation(() => Promise.resolve({
+			GetConvResponse: [
+				{
+					c: [
+						{
+							id: '-1000'
+						}
+					]
+				}
+			]
 		}));
-		const _fetch = jest.fn();
 		const SyncResponse = {
 			md: 2,
 			token: 2,
 			m: [{
-				cid: 'conversation',
+				cid: '-1000',
 				d: 12,
 				f: 'f',
 				id: '1000',
@@ -307,8 +360,8 @@ describe('Notifications - Mails', () => {
 			SyncResponse
 		)
 			.then((changes) => {
-				expect(_fetch).toHaveBeenCalledTimes(0);
-				expect(changes.length).toBe(1);
+				expect(_fetch).toHaveBeenCalledTimes(1);
+				expect(changes.length).toBe(2);
 				expect(changes[0].type).toBe(2);
 				expect(changes[0].table).toBe('messages');
 				expect(changes[0].key).toBe('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx');
