@@ -161,7 +161,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 						return conversations;
 					})));
 		},
-		[state.folder, db, dispatch]
+		[state.folder, db]
 	);
 	const [conversations, loaded] = hooks.useObserveDb(conversationsQuery, db);
 
