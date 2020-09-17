@@ -226,19 +226,12 @@ export type SaveDraftResponse = {
 	}>;
 }
 
-export type SendMailRequest = {
-	m: {
-		idnt?: string;
-		e?: Array<SoapEmailInfoObj>;
-		mp?: Array<SoapEmailMessagePartObj>;
-		f?: string;
-		did?: string;
-		su?: string;
-	};
+export type SendMsgRequest = {
+	m: SoapDraftMessageObj;
 }
 
-export type SendMailResponse = {
-
+export type SendMsgResponse = {
+	m: [{ id: string }];
 }
 
 export type ConvActionRequest = {
@@ -296,7 +289,7 @@ export type BatchRequest = {
 	GetMsgRequest?: Array<BatchedRequest & GetMsgRequest>;
 	ConvActionRequest?: Array<BatchedRequest & ConvActionRequest>;
 	SaveDraftRequest?: Array<BatchedRequest & SaveDraftRequest>;
-	SendMailRequest?: Array<BatchedRequest & SendMailRequest>;
+	SendMsgRequest?: Array<BatchedRequest & SendMsgRequest>;
 };
 
 export type GetMsgRequest = {
@@ -372,6 +365,7 @@ export type BatchResponse = {
 	GetConvResponse?: Array<BatchedResponse & GetConvResponse>;
 	SaveDraftResponse?: Array<BatchedResponse & SaveDraftResponse>;
 	ConvActionResponse?: Array<BatchedResponse & ConvActionResponse>;
+	SendMsgResponse?: Array<BatchedResponse & SendMsgResponse>;
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
@@ -451,6 +445,7 @@ type SoapDraftMessageObj = {
 	mp: Array<SoapDraftMessagePartObj>;
 	e: Array<SoapEmailInfoObj>;
 	f?: string;
+	did?: string;
 };
 
 function participantTypeFromSoap(t: SoapEmailInfoTypeObj): ParticipantType {
@@ -585,7 +580,7 @@ function normalizeDraftMailPartsToSoap(parts: MailMessagePart[]): SoapDraftMessa
 	);
 }
 
-export function normalizeDraftToSoap(m: MailMessageFromDb): SoapDraftMessageObj {
+export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId): SoapDraftMessageObj {
 	const flags = `${ // priorities to be completed
 		m.read ? '' : 'u'
 	}${
@@ -610,7 +605,9 @@ export function normalizeDraftToSoap(m: MailMessageFromDb): SoapDraftMessageObj 
 	if (flags !== '') {
 		message.f = flags;
 	}
-
+	if (includeDraftId) {
+		message.draftId = m.id;
+	}
 	return message;
 }
 

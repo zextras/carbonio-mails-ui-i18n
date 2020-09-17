@@ -169,7 +169,6 @@ function MailPreviewBlock({
 
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
-	console.log(actions);
 	return (
 		<HoverContainer
 			onClick={_onClick}
