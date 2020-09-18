@@ -632,18 +632,12 @@ export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessag
 			// eslint-disable-next-line @typescript-eslint/no-use-before-define
 			normalizeParticipantsFromSoap
 		),
-		read: false,
-		attachment: false,
-		flagged: false,
-		urgent: false
+		read: !(/u/.test(m.f || '')),
+		attachment: /a/.test(m.f || ''),
+		flagged: /f/.test(m.f || ''),
+		urgent: /!/.test(m.f || '')
 	});
 
-	if (m.f) {
-		obj.read = !(/u/.test(m.f));
-		obj.attachment = /a/.test(m.f);
-		obj.flagged = /f/.test(m.f);
-		obj.urgent = /!/.test(m.f);
-	}
 	return obj;
 }
 

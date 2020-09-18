@@ -14,18 +14,22 @@ import {
 	reduce,
 	differenceWith,
 	isEqual,
-	keyBy
+	keyBy,
+	uniq,
+	omit
 } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { MailsDb } from './mails-db';
 import {
 	fetchMailMessagesById,
+	fetchMailConversationsById,
 	SyncResponse,
 	SyncResponseMail,
 	SyncResponseMailFolder
 } from '../soap';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 	if (f.id === '3' || (f.view && f.view === 'message')) {
@@ -84,106 +88,131 @@ export default function processRemoteMailsNotification(
 	}
 	const mappedMails = keyBy(mails || [], 'id');
 	const ids = keys(mappedMails || []);
+	const conversationsIds: string[] = reduce<
+		{[id: string]: SyncResponseMail},
+		string[]
+	>(mappedMails, (acc, value) => ([...acc, value.cid]), []);
 	const dbChanges: IDatabaseChange[] = [];
-	return db.messages.where('id').anyOf(ids).toArray()
-		.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
-		.then((dbMails: {[id: string]: MailMessageFromDb}) => ({
-			dbMails,
-			dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
-				dbMails,
-				(acc: IDatabaseChange[], value: MailMessageFromDb) => {
-					if (value.id && mappedMails && mappedMails[value.id] && (mappedMails[value.id].f || mappedMails[value.id].l !== '6')) {
-						const obj: {[keyPath: string]: any | undefined} = {};
-						if (mappedMails[value.id].l) {
-							obj.parent = mappedMails[value.id].l;
-						}
-						if (mappedMails[value.id].f) {
-							obj.read = !(/u/.test(mappedMails[value.id].f || ''));
-							obj.attachment = /a/.test(mappedMails[value.id].f || '');
-							obj.flagged = /f/.test(mappedMails[value.id].f || '');
-							obj.urgent = /!/.test(mappedMails[value.id].f || '');
-						}
-						acc.push({
-							type: 2,
-							table: 'messages',
-							key: value._id,
-							mods: obj
-						});
-					}
-					return acc;
-				},
-				dbChanges
-			)
-		}))
-		.then(({ dbChangesUpdated, dbMails }) => fetchMailMessagesById(
-			_fetch,
-			reduce(
-				mails,
-				(acc: string[], value: SyncResponseMail) => {
-					if (value.l === '6' && dbMails[value.id]) {
-						acc.push(value.id);
-					}
-					return acc;
-				},
-				[]
-			)
-		)
-			.then((soapMails: MailMessageFromSoap[]) => ({
-				dbChangesUpdated: reduce(
-					soapMails,
-					(acc: IDatabaseChange[], value: MailMessageFromSoap) => [
-						...acc,
-						{
-							type: 2,
-							table: 'messages',
-							key: dbMails[value.id]._id,
-							mods: value
-						}
-					],
-					dbChangesUpdated
-				),
-				dbMails
-			})))
-		.then(({ dbChangesUpdated, dbMails }) => {
-			const remoteIds = differenceWith(ids, keys(dbMails), isEqual);
-			if (remoteIds.length > 0) {
-				return fetchMailMessagesById(
+
+	return db.transaction('r', db.messages, db.conversations, () => Promise.all([
+		db.messages.where('id').anyOf(ids).toArray(),
+		db.conversations.where('id').anyOf(uniq(conversationsIds)).toArray()
+	]))
+		.then(([dbMailsArray, dbConversationsArray]: [MailMessageFromDb[], MailConversationFromDb[]]) => {
+			const mappedConversations = keyBy(dbConversationsArray, 'id');
+			return Promise.resolve(keyBy(dbMailsArray, 'id'))
+				.then((dbMails: {[id: string]: MailMessageFromDb}) => ({
+					dbMails,
+					dbChangesUpdated: reduce<{[id: string]: MailMessageFromDb}, IDatabaseChange[]>(
+						dbMails,
+						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+							if (value.id && mappedMails && mappedMails[value.id] && mappedMails[value.id].l !== '6') {
+								const obj: {[keyPath: string]: any | undefined} = {};
+								if (mappedMails[value.id].l) {
+									obj.parent = mappedMails[value.id].l;
+								}
+
+								obj.read = !(/u/.test(mappedMails[value.id].f || ''));
+								obj.attachment = /a/.test(mappedMails[value.id].f || '');
+								obj.flagged = /f/.test(mappedMails[value.id].f || '');
+								obj.urgent = /!/.test(mappedMails[value.id].f || '');
+
+								acc.push({
+									type: 2,
+									table: 'messages',
+									key: value._id,
+									mods: obj
+								});
+							}
+							return acc;
+						},
+						dbChanges
+					)
+				}))
+				.then(({ dbChangesUpdated, dbMails }) => fetchMailMessagesById(
 					_fetch,
-					remoteIds
+					reduce(
+						mails,
+						(acc: string[], value: SyncResponseMail) => {
+							if (value.l === '6' && dbMails[value.id]) {
+								acc.push(value.id);
+							}
+							return acc;
+						},
+						[]
+					)
 				)
-					.then((soapMails) => reduce<MailMessageFromSoap, IDatabaseChange[]>(
-						soapMails,
+					.then((soapMails: MailMessageFromSoap[]) => ({
+						dbChangesUpdated: reduce(
+							soapMails,
+							(acc: IDatabaseChange[], value: MailMessageFromSoap) => [
+								...acc,
+								{
+									type: 2,
+									table: 'messages',
+									key: dbMails[value.id]._id,
+									mods: omit(value, '_id')
+								}
+							],
+							dbChangesUpdated
+						),
+						dbMails
+					})))
+				.then(({ dbChangesUpdated, dbMails }) => {
+					const remoteIds = differenceWith(ids, keys(dbMails), isEqual);
+					if (remoteIds.length > 0) {
+						return fetchMailMessagesById(
+							_fetch,
+							remoteIds
+						)
+							.then((soapMails) => reduce<MailMessageFromSoap, IDatabaseChange[]>(
+								soapMails,
+								(acc, value) => {
+									acc.push({
+										type: 1,
+										table: 'messages',
+										key: undefined,
+										obj: value
+									});
+									return acc;
+								},
+								dbChangesUpdated
+							));
+					}
+					return dbChangesUpdated;
+				})
+				.then((dbChangesUpdated: IDatabaseChange[]) => fetchMailConversationsById(_fetch, uniq(conversationsIds))
+					.then((fetchedConvs: MailConversationFromSoap[]) => reduce<MailConversationFromSoap, IDatabaseChange[]>(
+						fetchedConvs,
 						(acc, value) => {
 							acc.push({
-								type: 1,
-								table: 'messages',
-								key: undefined,
-								obj: value
+								type: 2,
+								table: 'conversations',
+								key: mappedConversations[value.id] ? mappedConversations[value.id]._id : undefined,
+								mods: omit(value, '_id', 'fragment')
 							});
 							return acc;
 						},
 						dbChangesUpdated
-					));
-			}
-			return dbChangesUpdated;
-		})
-		.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
-			if (deleted && deleted[0] && deleted[0].m) {
-				return db.messages.where('id').anyOf(deleted[0].m[0].ids.split(',')).toArray()
-					.then((dbMailsArray) => keyBy(dbMailsArray, 'id'))
-					.then((deletedMails) => reduce<{ [key: string]: MailMessageFromDb }, IDatabaseChange[]>(
-						deletedMails || {},
-						(acc: IDatabaseChange[], value: MailMessageFromDb) => {
-							acc.push({
-								type: 3,
-								table: 'messages',
-								key: value._id,
-							});
-							return acc;
-						},
-						dbChangesUpdatedAndFetched
-					));
-			}
-			return dbChangesUpdatedAndFetched;
+					)))
+				.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
+					if (deleted && deleted[0] && deleted[0].m) {
+						return db.messages.where('id').anyOf(deleted[0].m[0].ids.split(',')).toArray()
+							.then((dbMailsArr) => keyBy(dbMailsArr, 'id'))
+							.then((deletedMails) => reduce<{ [key: string]: MailMessageFromDb }, IDatabaseChange[]>(
+								deletedMails || {},
+								(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+									acc.push({
+										type: 3,
+										table: 'messages',
+										key: value._id,
+									});
+									return acc;
+								},
+								dbChangesUpdatedAndFetched
+							));
+					}
+					return dbChangesUpdatedAndFetched;
+				});
 		});
 };

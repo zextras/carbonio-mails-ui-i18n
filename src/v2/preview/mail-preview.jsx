@@ -10,6 +10,7 @@
  */
 
 import React, { useLayoutEffect, useMemo, useState, useRef, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { find, map, reduce, filter } from 'lodash';
@@ -17,6 +18,7 @@ import {
 	Container,
 	Text,
 	Avatar,
+	Badge,
 	Divider,
 	Collapse,
 	Icon,
@@ -26,7 +28,7 @@ import {
 	Dropdown
 } from '@zextras/zapp-ui';
 
-import { useMessage } from '../hooks';
+import { useMessage, useFolder } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel } from '../commons/utils';
@@ -167,6 +169,8 @@ function MailPreviewBlock({
 		return arr;
 	}, [db, folderId, message._id, message.parent, replaceHistory, t]);
 
+	const { folderId: currentFolderId } = useParams();
+	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
 	return (
@@ -270,17 +274,14 @@ function MailPreviewBlock({
 					<Container
 						orientation="horizontal"
 						width="fit"
-						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : '0'}}
+						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : undefined }}
 					>
 						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
-						{ /* message.folder && message.folder.name !== path && (
+						{ messageFolderLoaded && messageFolder._id !== currentFolderId && (
 							<Padding left="small">
-								<Badge
-									value={message.folder.name}
-									type="read"
-								/>
+								<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 							</Padding>
-						) */ }
+						) }
 					</Container>
 				</Container>
 			</Row>
