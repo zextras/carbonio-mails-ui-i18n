@@ -22,6 +22,7 @@ import useCompositionData, {
 	reducer,
 	stateContactsFromDraft
 } from './use-composition-data';
+
 jest.mock('../db/mails-db-dexie');
 jest.mock('../db/mails-db');
 import { MailsDb } from '../db/mails-db';
@@ -114,7 +115,7 @@ describe('useCompositionData', () => {
 			},
 			{
 				...emptyDraft,
-				body:  {
+				body: {
 					html: '<p>updated body</p>',
 					text: 'updated body'
 				}

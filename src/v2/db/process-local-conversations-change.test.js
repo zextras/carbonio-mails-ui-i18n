@@ -348,52 +348,48 @@ describe('Local Changes - Conversations', () => {
 	test('Process a list of local conversation changes', (done) => {
 		const db = new MailsDb();
 		const toArray = jest.fn()
-			.mockImplementationOnce(() => {
-				return Promise.resolve([
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
-						id: '1000'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-						id: '1001'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-						id: '1002'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3',
-						id: '1003'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4',
-						id: '1004'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
-						id: '1005'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
-						id: '1005'
-					}),
-					new MailConversationFromDb({
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
-						id: '1006'
-					})
-				]);
-			})
-			.mockImplementationOnce(() => {
-				return Promise.resolve([
-					{
-						rowId: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy0',
-						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
-						id: '1000',
-						table: 'conversations',
-					}
-				]);
-			});
+			.mockImplementationOnce(() => Promise.resolve([
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
+					id: '1000'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+					id: '1001'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+					id: '1002'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3',
+					id: '1003'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4',
+					id: '1004'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
+					id: '1005'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
+					id: '1005'
+				}),
+				new MailConversationFromDb({
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
+					id: '1006'
+				})
+			]))
+			.mockImplementationOnce(() => Promise.resolve([
+				{
+					rowId: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy0',
+					_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
+					id: '1000',
+					table: 'conversations',
+				}
+			]));
 		db.conversations.where.mockImplementationOnce(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
 				toArray
@@ -467,8 +463,9 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(toArray).toHaveBeenCalledTimes(2); // Deletion trigger the cleanup of the deletions table
-				expect(additionalChanges.length).toBe(1); // Deletion trigger the cleanup of the deletions table
+				// Deletion triggers the cleanup of the deletions table
+				expect(toArray).toHaveBeenCalledTimes(2);
+				expect(additionalChanges.length).toBe(1);
 				expect(additionalChanges).toStrictEqual([{
 					key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy0',
 					table: 'deletions',
