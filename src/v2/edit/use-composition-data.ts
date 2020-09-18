@@ -165,7 +165,7 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 
 export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): Array<{ value: string }> => map(
 	filter(draft ? draft.contacts : [], (c) => c.type === type),
-	(c: Participant) => ({ value: c.displayName || c.address })
+	(c: Participant) => ({ value: c.address })
 );
 
 export const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {

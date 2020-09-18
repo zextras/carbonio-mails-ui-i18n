@@ -142,7 +142,7 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public moveMessageToTrash(id: string): Promise<number> {
-		return this.messages.update(id, { parent: '2' });
+		return this.messages.update(id, { parent: '3' });
 	}
 
 	public deleteMessage(id: string): Promise<void> {

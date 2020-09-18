@@ -10,7 +10,6 @@
  */
 
 import React, { useLayoutEffect, useMemo, useState, useRef, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { find, map, reduce, filter } from 'lodash';
@@ -141,17 +140,18 @@ function MailPreviewBlock({
 				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message._id}`)
 			});
 		}
-		if (message.parent === '2') {
+		if (message.parent === '3') {
 			arr.push({
 				id: 'message-preview-delete',
 				icon: 'TrashOutline',
 				label: t('Delete Message'),
 				onActivate: () => {
-					db.deleteMessage(message._id).then((updated) => (
-						updated > 0
-							? replaceHistory(`/folder/${folderId}`)
-							: console.error('Error removing element')
-					));
+					db.deleteMessage(message._id);
+					// 	.then((updated) => (
+					// 	updated > 0
+					// 		? replaceHistory(`/folder/${folderId}`)
+					// 		: console.error('Error removing element')
+					// ));
 				}
 			});
 		}
@@ -161,8 +161,8 @@ function MailPreviewBlock({
 				icon: 'TrashOutline',
 				label: t('Move to Trash'),
 				onActivate: () => {
-					db.moveMessageToTrash(message._id)
-						.then(() => replaceHistory(`/folder/${folderId}`));
+					db.moveMessageToTrash(message._id);
+					// .then(() => replaceHistory(`/folder/${folderId}`));
 				}
 			});
 		}

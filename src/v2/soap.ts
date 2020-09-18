@@ -606,7 +606,7 @@ export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId): Soap
 		message.f = flags;
 	}
 	if (includeDraftId) {
-		message.draftId = m.id;
+		message.did = m.id;
 	}
 	return message;
 }

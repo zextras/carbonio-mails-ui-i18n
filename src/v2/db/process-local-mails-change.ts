@@ -55,13 +55,11 @@ function processSaveDrafts(
 	const sendMsgRequest = reduce<MailMessageFromDb, Array<BatchedRequest & SendMsgRequest>>(
 		filter(drafts, 'send'),
 		(acc, msg) => {
-			console.log(msg);
 			acc.push({
 				_jsns: 'urn:zimbraMail',
 				requestId: msg._id,
 				m: normalizeDraftToSoap(msg, true)
 			});
-			console.log('sending!');
 			return acc;
 		},
 		[]
