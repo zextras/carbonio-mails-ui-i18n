@@ -82,6 +82,10 @@ const EditorWrapper = styled.div`
 			overflow-y: auto;
 			max-height: 100%;
 		}
+		.tox-edit-area__iframe {
+			height: 100%;
+			padding-bottom: ${(props) => props.theme.sizes.padding.large};
+		}
 		&.tox-tinymce {
 			height: 100% !important;
 		}
@@ -92,23 +96,40 @@ const EditorWrapper = styled.div`
 export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
+	const [html, setHtml] = useState('');
+
 	const {
 		compositionData,
 		actions
 	} = useCompositionData(editPanelId, panel || false, folderId);
+
 	const { t } = useTranslation();
+
 	const [open, setOpen] = useState(false);
+
 	const toggleOpen = useCallback(
 		() => setOpen((isOpen) => !isOpen),
 		[]
 	);
+
 	useEffect(() => {
 		if (setHeader) setHeader(compositionData.subject);
 	}, [compositionData.subject, setHeader]);
+
+	useEffect(() => {
+		setHtml(compositionData.body.html);
+	}, [compositionData.body.html]);
+
+	const onEditorChange = useCallback((change) => {
+		setHtml(change[1]);
+		actions.updateBody(change);
+	}, [actions]);
+
 	return (
 		<Catcher>
 			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
 				<Container
+					crossAlignment="unset"
 					height="fit"
 				>
 					<Row
@@ -178,20 +199,22 @@ export default function EditView({
 							</Collapse>
 						</Container>
 					</Container>
-					<EmailComposerInput
-						onChange={(ev) => actions.updateSubject(ev.target.value)}
-						placeholder={t('subject')}
-						placeholderType="inline"
-						value={compositionData.subject}
-					/>
+					<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
+						<EmailComposerInput
+							onChange={(ev) => actions.updateSubject(ev.target.value)}
+							placeholder={t('subject')}
+							placeholderType="default"
+							value={compositionData.subject}
+						/>
+					</Padding>
 					<Divider />
 				</Container>
 				{ compositionData.richText
 					? (
 						<EditorWrapper>
 							<RichTextEditor
-								value={compositionData.body.html}
-								onEditorChange={actions.updateBody}
+								value={html}
+								onEditorChange={onEditorChange}
 								minHeight={150}
 							/>
 						</EditorWrapper>
