@@ -96,19 +96,35 @@ const EditorWrapper = styled.div`
 export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
+	const [html, setHtml] = useState('');
+
 	const {
 		compositionData,
 		actions
 	} = useCompositionData(editPanelId, panel || false, folderId);
+
 	const { t } = useTranslation();
+
 	const [open, setOpen] = useState(false);
+
 	const toggleOpen = useCallback(
 		() => setOpen((isOpen) => !isOpen),
 		[]
 	);
+
 	useEffect(() => {
 		if (setHeader) setHeader(compositionData.subject);
 	}, [compositionData.subject, setHeader]);
+
+	useEffect(() => {
+		setHtml(compositionData.body.html);
+	}, [compositionData.body.html]);
+
+	const onEditorChange = useCallback((change) => {
+		setHtml(change[1]);
+		actions.updateBody(change);
+	}, [actions]);
+
 	return (
 		<Catcher>
 			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
@@ -197,8 +213,8 @@ export default function EditView({
 					? (
 						<EditorWrapper>
 							<RichTextEditor
-								value={compositionData.body.html}
-								onEditorChange={actions.updateBody}
+								value={html}
+								onEditorChange={onEditorChange}
 								minHeight={150}
 							/>
 						</EditorWrapper>
