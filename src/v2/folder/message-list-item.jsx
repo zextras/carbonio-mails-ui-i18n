@@ -42,7 +42,7 @@ export default function MessageListItem({
 	conversationId
 }) {
 	const { t } = useTranslation();
-	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
+	const [messageFolder, messageFolderLoaded] = useFolder(message.parent);
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {

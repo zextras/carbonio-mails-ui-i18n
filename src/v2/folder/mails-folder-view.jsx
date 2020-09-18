@@ -33,6 +33,9 @@ import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import { useConvsInFolder } from '../hooks';
+import ConversationListProvider from '../context/conversation-list-provider';
+import FolderListProvider from '../context/folder-list-provider';
+import MessageListProvider from '../context/message-list-provider';
 
 function Breadcrumbs({ folder, itemsCount }) {
 	return (
@@ -49,7 +52,7 @@ function Breadcrumbs({ folder, itemsCount }) {
 			>
 				<Row
 					mainAlignment="flex-start"
-					takeAvailableSpace={true}
+					takeAvailableSpace
 					padding={{ right: 'medium' }}
 				>
 					<Text size="large">{ folder && folder.path }</Text>
@@ -98,62 +101,66 @@ export default function FolderView() {
 	}, [editId, folderId, conversationId, screen]);
 
 	return (
-		<Container
-			orientation="row"
-			crossAlignment="flex-start"
-			mainAlignment="flex-start"
-			width="fill"
-			height="fill"
-			background="gray5"
-			borderRadius="none"
-			style={{
-				maxHeight: '100%',
-			}}
-		>
-			<Responsive mode="desktop" target={window.top}>
-				<Container
-					width="calc(40% - 4px)"
-					mainAlignment="flex-start"
-					crossAlignment="unset"
-					borderRadius="none"
-				>
-					<ConversationList
-						key={`ConversationList-${folderId}`}
-						folderId={folderId}
-					/>
-				</Container>
-				<VerticalDivider />
-				<Container
-					width="calc(60% - 4px)"
-					mainAlignment="flex-start"
-					crossAlignment="flex-start"
-					borderRadius="none"
-					style={{ maxHeight: '100%' }}
-				>
-					{MemoPanel}
-				</Container>
-			</Responsive>
-			<Responsive mode="mobile" target={window.top}>
-				<Container
-					mainAlignment="flex-start"
-					crossAlignment="flex-start"
-					borderRadius="none"
-					height="fill"
-				>
-					{MemoPanel}
-				</Container>
-			</Responsive>
-		</Container>
+		<FolderListProvider>
+			<ConversationListProvider>
+				<MessageListProvider>
+					<Container
+						orientation="row"
+						crossAlignment="flex-start"
+						mainAlignment="flex-start"
+						width="fill"
+						height="fill"
+						background="gray5"
+						borderRadius="none"
+						style={{
+							maxHeight: '100%',
+						}}
+					>
+						<Responsive mode="desktop" target={window.top}>
+							<Container
+								width="calc(40% - 4px)"
+								mainAlignment="flex-start"
+								crossAlignment="unset"
+								borderRadius="none"
+							>
+								<ConversationList
+									key={`ConversationList-${folderId}`}
+									folderId={folderId}
+								/>
+							</Container>
+							<VerticalDivider />
+							<Container
+								width="calc(60% - 4px)"
+								mainAlignment="flex-start"
+								crossAlignment="flex-start"
+								borderRadius="none"
+								style={{ maxHeight: '100%' }}
+							>
+								{MemoPanel}
+							</Container>
+						</Responsive>
+						<Responsive mode="mobile" target={window.top}>
+							<Container
+								mainAlignment="flex-start"
+								crossAlignment="flex-start"
+								borderRadius="none"
+								height="fill"
+							>
+								{MemoPanel}
+							</Container>
+						</Responsive>
+					</Container>
+				</MessageListProvider>
+			</ConversationListProvider>
+		</FolderListProvider>
 	);
 }
 
-const LoadingIndicator = ({ style, index }) => {
-	return (
-		<Container height={70} style={style} index={index}>
-			<Button loading={true} disabled={true} label="" type="ghost" />
-		</Container>
-	);
-}
+const LoadingIndicator = ({ style, index }) => (
+	<Container height={70} style={style} index={index}>
+		<Button loading disabled label="" type="ghost" />
+	</Container>
+);
 const ConversationList = ({ folderId }) => {
 	const containerRef = useRef();
 	const listRef = useRef();
@@ -203,13 +210,15 @@ const ConversationList = ({ folderId }) => {
 				/>
 			);
 		},
-		[conversations, displayData, updateDisplayData]
+		[conversations, displayData, folderId, updateDisplayData]
 	);
 
 	const calcItemSize = useCallback(
 		(index) => {
 			const conv = conversations[index];
-			if (conv && displayData[conv.id] && displayData[conv.id].open) return (conv.msgCount + 1) * 70 - 1;
+			if (conv && displayData[conv.id] && displayData[conv.id].open) {
+				return (conv.msgCount + 1) * 70 - 1;
+			}
 			return 70;
 		},
 		[conversations, displayData]
@@ -217,7 +226,8 @@ const ConversationList = ({ folderId }) => {
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;
-		if (!isLoading && lmConvsLength !== conversationsLastIndex && hasMore && loadMore && overscanStopIndex >= conversationsLastIndex) {
+		if (!isLoading && lmConvsLength !== conversationsLastIndex
+			&& hasMore && loadMore && overscanStopIndex >= conversationsLastIndex) {
 			setLmConvsLength(conversationsLastIndex);
 			loadMore(conversations[conversationsLastIndex]);
 		}
@@ -233,7 +243,7 @@ const ConversationList = ({ folderId }) => {
 		onResize();
 		window.top.addEventListener('resize', onResize);
 		return () => window.top.removeEventListener('resize', onResize);
-	}, [containerRef.current]);
+	}, []);
 
 	return (
 		<>
@@ -244,7 +254,7 @@ const ConversationList = ({ folderId }) => {
 				orientation="vertical"
 				mainAlignment="flex-start"
 				crossAlignment="flex-start"
-				takeAvailableSpace={true}
+				takeAvailableSpace
 				background="gray6"
 				borderRadius="none"
 			>

@@ -46,6 +46,10 @@ const OuterContainer = styled(Container)`
 	min-height: 70px;
 `;
 
+const CollapseElement = styled(Container)`
+	display: ${({ open }) => (open ? 'block' : 'none')};
+`;
+
 export default function ConversationListItem({
 	index,
 	conversation,
@@ -65,7 +69,7 @@ export default function ConversationListItem({
 			e.preventDefault();
 			updateDisplayData(index, conversation.id, { open: !displayData.open });
 		},
-		[conversation.id, displayData.open, updateDisplayData]
+		[conversation.id, displayData.open, index, updateDisplayData]
 	);
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
@@ -100,7 +104,7 @@ export default function ConversationListItem({
 					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
 				</div>
 				<Row
-					takeAvailableSpace={true}
+					takeAvailableSpace
 					orientation="horizontal"
 					wrap="wrap"
 					padding={{ left: 'large' }}
@@ -108,7 +112,7 @@ export default function ConversationListItem({
 					<Container orientation="horizontal" height="auto" width="fill">
 						<Row
 							wrap="nowrap"
-							takeAvailableSpace={true}
+							takeAvailableSpace
 							mainAlignment="flex-start"
 						>
 							<Text
@@ -172,28 +176,29 @@ export default function ConversationListItem({
 			</HoverContainer>
 			{ conversation.msgCount > 1
 				&& (
-					<Collapse
-						orientation="vertical"
-						crossSize="100%"
-						disableTransition
+					<CollapseElement
 						open={displayData.open}
 					>
-						<Container padding={{ left: 'extralarge' }} height="auto">
-							<ConversationMessagesList
-								folderId={folderId}
-								conversationId={conversation._id}
-								conversationZimbraId={conversation.id}
-							/>
-						</Container>
-					</Collapse>
-			)}
+						{ displayData.open && (
+							<Container padding={{ left: 'extralarge' }} height="auto">
+								<ConversationMessagesList
+									folderId={folderId}
+									conversationId={conversation._id}
+									convMessages={conversation.messages}
+								/>
+							</Container>
+						)}
+					</CollapseElement>
+				)}
 			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, conversationZimbraId, folderId }) => {
-	const { messages, loaded } = useConversationMessages(conversationZimbraId);
+const ConversationMessagesList = ({ conversationId, convMessages, folderId }) => {
+	const ids = useMemo(() => map(convMessages, (m) => m.id), [convMessages]);
+
+	const [messages, loaded] = useConversationMessages(ids);
 
 	return (
 		<>

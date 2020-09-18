@@ -10,12 +10,18 @@
  */
 
 import { hooks } from '@zextras/zapp-shell';
-import { useCallback, useEffect, useReducer } from 'react';
-import { keys, groupBy } from 'lodash';
+import {
+	useCallback, useContext, useEffect, useMemo, useReducer
+} from 'react';
+import {
+	sortBy, filter, find, keyBy, pick
+} from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
-import { MailMessageFromDb } from './db/mail-message';
 import { AppContext } from './app-context';
+import ConversationListContext from './context/conversation-list-context';
+import MessageListContext from './context/message-list-context';
+import FolderListContext from './context/folder-list-context';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -90,6 +96,29 @@ type UseConvsInFolderReturnType = {
 	hasMore: boolean;
 }
 
+function useConvsByFolder(folder: MailsFolderFromDb | undefined): [Array<MailConversationFromDb>, boolean] {
+	const [_conversations, loaded] = useContext(ConversationListContext);
+
+	const conversations = useMemo(
+		() => (
+			loaded && folder
+				? Object.values(filter(
+					_conversations,
+					(conv: MailConversationFromDb): boolean => !!find(
+						conv.parent,
+						(parent) => parent === folder.id
+					)
+				))
+				: []),
+		[loaded, _conversations, folder]
+	);
+
+	if (!folder) {
+		return [[], false];
+	}
+
+	return [conversations, loaded];
+}
 export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext<AppContext>();
 
@@ -98,6 +127,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const loadMore = useCallback(
 		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
 			if (!state.folder) {
+				console.warn('I\'m FOCKING OUTTA HERE');
 				resolve();
 				return;
 			}
@@ -107,8 +137,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					dispatch({ type: 'loaded-more-conversations', hasMore });
 					resolve();
 				});
+			resolve();
 		}),
-		[db, state.folder, dispatch]
+		[db, state.folder]
 	);
 
 	useEffect(() => {
@@ -135,36 +166,9 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		};
 	}, [db, folderId, dispatch]);
 
-	const conversationsQuery = useCallback(
-		() => {
-			if (!state.folder || !state.folder.id) {
-				return Promise.resolve([]);
-			}
-			// dispatch({ type: 'set-is-loading', isLoading: true });
-			return db.transaction('r', db.messages, db.conversations, () => db.messages
-				.where('parent')
-				.equals(state.folder!.id!)
-				.toArray()
-				.then((messages: MailMessageFromDb[]) => {
-					const mappedMsgs = groupBy(messages, 'conversation');
-					return keys(mappedMsgs);
-				})
-				.then((conversationsIds: Array<string>) => db.conversations
-					.where('id')
-					.anyOf(conversationsIds)
-					.reverse()
-					.sortBy('date')
-					.then((conversations: MailConversationFromDb[]) => {
-						// dispatch({ type: 'set-is-loading', isLoading: false });
-						return conversations;
-					})));
-		},
-		[state.folder, db]
-	);
-	const [conversations, loaded] = hooks.useObserveDb(conversationsQuery, db);
-
+	const [conversations, loaded] = useConvsByFolder(state.folder);
 	return {
-		conversations: conversations || [],
+		conversations: sortBy(conversations, 'date').reverse() || [],
 		folder: state.folder,
 		isLoading: state.isLoading || !loaded,
 		hasMore: state.hasMore,
@@ -172,16 +176,19 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	};
 }
 
-export function useConversationMessages(conversationId: string) {
-	const { db } = hooks.useAppContext<AppContext>();
-
-	const messagesQuery = useCallback(
-		() => db.messages.where('conversation').equals(conversationId).reverse().sortBy('date'),
-		[conversationId, db.messages]
+export function useConversationMessages(messageIds: string[]) {
+	const [_messages, loaded] = useContext(MessageListContext);
+	const messages = useMemo(
+		() => sortBy(
+			pick(keyBy(_messages, 'id'), messageIds),
+			'date'
+		).reverse(),
+		[_messages, messageIds]
 	);
-	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
-
-	return { messages, loaded };
+	return [
+		messages,
+		loaded
+	];
 }
 
 export function useConversation(conversationId: string) {
@@ -217,17 +224,19 @@ export function useMessage(messageId: string) {
 }
 
 export function useFolder(folderId: string) {
-	const { db } = hooks.useAppContext<AppContext>();
-	const folderQuery = useCallback(
-		() => db.folders
-			.where('id')
-			.equals(folderId)
-			.or('_id')
-			.equals(folderId)
-			.first(),
-		[folderId, db.folders]
+	// const folderQuery = useCallback(
+	// 	() => db.folders
+	// 		.where('id')
+	// 		.equals(folderId)
+	// 		.or('_id')
+	// 		.equals(folderId)
+	// 		.first(),
+	// 	[folderId, db.folders]
+	// );
+	const [_folders, folderLoaded] = useContext(FolderListContext);
+	const folder = useMemo(
+		() => find(_folders, ['id', folderId]),
+		[_folders, folderId]
 	);
-	const [folder, folderLoaded] = hooks.useObserveDb(folderQuery, db);
-
-	return { folder, folderLoaded };
+	return [folder, folderLoaded];
 }
