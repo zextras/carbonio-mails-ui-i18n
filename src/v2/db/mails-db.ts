@@ -10,12 +10,16 @@
  */
 
 import { PromiseExtended } from 'dexie';
+import { BehaviorSubject } from 'rxjs';
+import { sortBy, last, reverse, map } from 'lodash';
 import { reduce, pullAllWith } from 'lodash';
 // eslint-disable-next-line import/no-unresolved
-import { SoapFetch } from '@zextras/zapp-shell';
-import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
+import { SoapFetch, accounts } from '@zextras/zapp-shell';
+import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
+import { CompositionState } from '../edit/use-composition-data';
+import { Participant } from './mail-db-types';
 import { MailsDbDexie } from './mails-db-dexie';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
 import { MailConversationMessage } from './mail-conversation-message';
@@ -63,8 +67,110 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
+	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
+		if (draftId === 'new') {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// @ts-ignore
+			return this.messages.add({
+				parent: '6',
+				conversation: '',
+				contacts: [],
+				date: Date.now(),
+				subject: '',
+				fragment: '',
+				read: true,
+				parts: [
+					cState.richText
+						? {
+							contentType: 'multipart/alternative',
+							parts: [
+								{
+									contentType: 'text/plain',
+									content: cState.body.text,
+								},
+								{
+									contentType: 'text/html',
+									content: cState.body.html,
+								}
+							]
+						}
+						: {
+							contentType: 'text/plain',
+							content: cState.body.text,
+						}
+				],
+				size: 0,
+				attachment: false,
+				flagged: false,
+				urgent: false,
+				send: false,
+			});
+		}
+		return this.messages.update(draftId, {
+			subject: cState.subject,
+			contacts: [
+				...map(cState.to, (c: { value: string }): Participant => ({
+					type: 't',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.cc, (c: { value: string }): Participant => ({
+					type: 'c',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.bcc, (c: { value: string }): Participant => ({
+					type: 'b',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				{
+					type: 'f',
+					address: accounts[0].name,
+					displayName: accounts[0].displayName
+				}
+			],
+			parts: [cState.richText
+				? {
+					contentType: 'multipart/alternative',
+					parts: [
+						{
+							contentType: 'text/plain',
+							content: cState.body.text,
+						},
+						{
+							contentType: 'text/html',
+							content: cState.body.html,
+						}
+					]
+				}
+				: {
+					contentType: 'text/plain',
+					content: cState.body.text
+				}
+			],
+			date: Date.now(),
+			attachment: false,
+			flagged: cState.flagged,
+			urgent: cState.urgent,
+		}).then(() => draftId);
+	}
+
+	public sendMail(draftId: string): Promise<string> {
+		return this.messages.update(draftId, { send: true }).then(() => draftId);
+	}
+
+	public moveMessageToTrash(id: string): Promise<number> {
+		return this.messages.update(id, { parent: '3' });
+	}
+
+	public deleteMessage(id: string): Promise<void> {
+		return this.messages.delete(id);
+	}
+
 	public checkHasMoreConv(
-		f: MailsFolderFromDb, lastConv?: MailConversationFromDb
+		f: MailsFolderFromDb,
+		lastConv?: MailConversationFromDb
 	): Promise<boolean> {
 		if (!f.id) return Promise.resolve(false);
 		return fetchConversationsInFolder(

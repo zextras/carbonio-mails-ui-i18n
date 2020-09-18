@@ -11,13 +11,11 @@
 
 import { hooks } from '@zextras/zapp-shell';
 import { useCallback, useEffect, useReducer } from 'react';
-import { keys, last, groupBy } from 'lodash';
-
+import { keys, groupBy } from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
-import { AppContext } from './app-context';
-import { MailConversationMessage } from './db/mail-conversation-message';
 import { MailMessageFromDb } from './db/mail-message';
+import { AppContext } from './app-context';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;

@@ -320,9 +320,13 @@ describe('Notifications - conversation', () => {
 				expect(changes[0]).toStrictEqual({
 					key: '_id',
 					mods: {
+						attachment: false,
 						date: 1,
+						flagged: false,
+						read: true,
 						subject: 'subject',
 						unreadMsgCount: 1,
+						urgent: false,
 						fragment: [
 							'1',
 							'2',

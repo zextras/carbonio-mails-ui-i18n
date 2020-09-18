@@ -22,6 +22,10 @@ export const hooks = {
 	useBehaviorSubject: jest.fn(() => {
 		throw new Error('Mock \'useBehaviorSubject\' not implemented.');
 	}),
+
+	useReplaceHistoryCallback: jest.fn(() => {
+		throw new Error('Mock \'useReplaceHistoryCallback\' is not implemented');
+	})
 };
 
 const MockedDb_version_stores = jest.fn(() => {

@@ -22,6 +22,7 @@ import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
 import mainMenuItems from './main-menu-items';
 
 const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
+const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
 
 export default function app() {
 	console.log('Hello from mails');
@@ -52,7 +53,25 @@ export default function app() {
 			route: '/',
 			view: lazyFolderView
 		},
+		{
+			route: '/edit/:id',
+			view: lazyEditView
+		},
+		{
+			route: '/new',
+			view: lazyEditView
+		}
 	]);
 
-	setCreateOptions([]);
+	setCreateOptions([{
+		id: 'create-mail',
+		label: 'New Mail',
+		app: {
+			boardPath: '/new',
+			getPath: () => {
+				const splittedLocation = window.top.location.pathname.split('/folder');
+				return `${splittedLocation[1] ? `/folder${splittedLocation[1]}` : ''}?edit=new`;
+			},
+		}
+	}]);
 }

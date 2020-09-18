@@ -29,7 +29,7 @@ import {
 } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
 import useQueryParam from '../hooks/useQueryParam';
-import ConversationEditPanel from '../edit/conversation-edit-panel';
+import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import { useConvsInFolder } from '../hooks';
@@ -108,7 +108,6 @@ export default function FolderView() {
 			borderRadius="none"
 			style={{
 				maxHeight: '100%',
-				overflowY: 'auto'
 			}}
 		>
 			<Responsive mode="desktop" target={window.top}>
@@ -129,6 +128,7 @@ export default function FolderView() {
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
 					borderRadius="none"
+					style={{ maxHeight: '100%' }}
 				>
 					{MemoPanel}
 				</Container>

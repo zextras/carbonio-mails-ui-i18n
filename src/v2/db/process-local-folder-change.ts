@@ -211,10 +211,10 @@ export default function processLocalFolderChange(
 				'Batch',
 				_batchRequest
 			)
-				.then(({ CreateFolderResponse }) => {
-					if (CreateFolderResponse) {
+				.then(({ CreateFolderResponse: createFolderResponse }) => {
+					if (createFolderResponse) {
 						const creationChanges = reduce<any, IUpdateChange[]>(
-							CreateFolderResponse,
+							createFolderResponse,
 							(r, response) => {
 								r.push(processCreationResponse(response));
 								return r;

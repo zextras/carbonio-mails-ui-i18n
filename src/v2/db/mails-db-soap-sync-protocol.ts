@@ -20,7 +20,7 @@ import processRemoteFolderNotifications from './process-remote-folder-notificati
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
 import { MailConversationMessage } from './mail-conversation-message';
-import { MailsFolderFromDb, MailsFolderFromSoap } from './mails-folder';
+import { MailsFolderFromDb } from './mails-folder';
 import { MailMessageFromSoap } from './mail-message';
 import { MailConversationFromSoap } from './mail-conversation';
 
@@ -130,8 +130,10 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 									deleted
 								}
 							))
-							.then((_remoteChanges) => remoteChanges.push(..._remoteChanges))
-							.then(() => ({ token, remoteChanges })))
+							.then((_remoteChanges) => {
+								remoteChanges.push(..._remoteChanges);
+								return ({ token, remoteChanges });
+							}))
 					.then(({ token, remoteChanges }) => {
 						if (context.clientIdentity !== '') {
 							context.clientIdentity = '';
@@ -141,7 +143,6 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 									remoteChanges
 								}));
 						}
-
 						return {
 							token,
 							remoteChanges
