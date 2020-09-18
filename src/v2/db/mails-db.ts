@@ -79,7 +79,26 @@ export class MailsDb extends MailsDbDexie {
 				subject: '',
 				fragment: '',
 				read: true,
-				parts: [],
+				parts: [
+					cState.richText
+						? {
+							contentType: 'multipart/alternative',
+							parts: [
+								{
+									contentType: 'text/plain',
+									content: cState.body.text,
+								},
+								{
+									contentType: 'text/html',
+									content: cState.body.html,
+								}
+							]
+						}
+						: {
+							contentType: 'text/plain',
+							content: cState.body.text,
+						}
+				],
 				size: 0,
 				attachment: false,
 				flagged: false,

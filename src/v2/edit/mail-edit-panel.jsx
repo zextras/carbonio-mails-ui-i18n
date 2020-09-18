@@ -17,7 +17,7 @@ export default function MailEditPanel({ editPanelId, folderId }) {
 	return (
 		<>
 			<MailEditHeader editPanelId={editPanelId} folderId={folderId} header={header} />
-			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)' }} background="gray6">
+			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)', flexGrow: '1' }} background="gray6">
 				<EditView panel={true} editPanelId={editPanelId} folderId={folderId} setHeader={setHeader} />
 			</Container>
 		</>

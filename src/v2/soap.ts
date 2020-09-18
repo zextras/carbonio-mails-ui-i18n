@@ -441,6 +441,7 @@ type SearchResponse = {
 };
 
 type SoapDraftMessageObj = {
+	id?: string;
 	su: { _content: string };
 	mp: Array<SoapDraftMessagePartObj>;
 	e: Array<SoapEmailInfoObj>;
@@ -580,7 +581,7 @@ function normalizeDraftMailPartsToSoap(parts: MailMessagePart[]): SoapDraftMessa
 	);
 }
 
-export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId): SoapDraftMessageObj {
+export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId: boolean): SoapDraftMessageObj {
 	const flags = `${ // priorities to be completed
 		m.read ? '' : 'u'
 	}${
@@ -601,7 +602,9 @@ export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId): Soap
 			})
 		)
 	};
-
+	if (m.id) {
+		message.id = m.id;
+	}
 	if (flags !== '') {
 		message.f = flags;
 	}

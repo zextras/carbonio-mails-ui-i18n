@@ -142,7 +142,7 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 		case 'TOGGLE_RICH_TEXT': {
 			return {
 				...state,
-				richText: action.payload.richText,
+				richText: !action.payload.richText,
 			};
 		}
 		case 'TOGGLE_FLAGGED': {
@@ -170,12 +170,14 @@ export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): 
 
 export const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
 	const text = find(draft.parts, ['contentType', 'text/plain']);
-	const html = find(draft.parts, ['contentType', 'text/html']);
+	const html = find(draft.parts, ['contentType', 'multipart/alternative']);
+	const htmlText = html ? find(html.parts, ['contentType', 'text/html']) : '';
 	return {
 		text: (text && text.content) ? text.content : '',
-		html: (html && html.content) ? html.content : ''
+		html: (htmlText && htmlText.content) ? htmlText.content : ''
 	};
 };
+
 export const draftToCompositionData = (draft: MailMessageFromDb): CompositionState => ({
 	subject: draft ? draft.subject : '',
 	to: stateContactsFromDraft(draft, 't'),
@@ -183,10 +185,10 @@ export const draftToCompositionData = (draft: MailMessageFromDb): CompositionSta
 	bcc: stateContactsFromDraft(draft, 'b'),
 	body: { ...extractBody(draft) },
 	richText: draft
-		? filter(
+		? !!find(
 			draft.parts,
-			(part: MailMessagePart): boolean => part.contentType === 'text/html'
-		).length > 0
+			(part: MailMessagePart): boolean => part.contentType === 'multipart/alternative'
+		)
 		: true,
 	flagged: draft ? draft.flagged : false,
 	urgent: draft ? draft.urgent : false

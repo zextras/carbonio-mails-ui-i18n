@@ -86,7 +86,7 @@ export type Participant = {
 
 export type MailMessagePart = {
 	contentType: string;
-	size: number;
+	size?: number;
 	content?: string;
 	name?: string;
 	filename?: string;

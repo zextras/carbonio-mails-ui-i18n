@@ -30,11 +30,22 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import useCompositionData from './use-composition-data';
 
+const ResizedIconCheckbox = styled(IconCheckbox)`
+	[class^="Padding__Comp"] {
+		padding: 6px;
+		svg {
+			height: 20px;
+			width: 20px;
+		}
+	}
+`;
+
 const TextArea = styled.textarea`
 	box-sizing: border-box;
 	padding: ${(props) => props.theme.sizes.padding.large};
 	height: fit-content;
 	min-height: 150px;
+	flex-grow: 1;
 	width: 100%;
 	border: none;
 	resize: none;
@@ -47,7 +58,7 @@ const TextArea = styled.textarea`
 
 const EditorWrapper = styled.div`
 	width: 100%;
-	max-height: 100%;
+	height: 100%;
 	overflow-y: auto;
 	position: relative;
 
@@ -70,6 +81,9 @@ const EditorWrapper = styled.div`
 			margin-left: calc(-1rem + ${(props) => props.theme.sizes.padding.large});
 			overflow-y: auto;
 			max-height: 100%;
+		}
+		&.tox-tinymce {
+			height: 100% !important;
 		}
 	}
 `;
@@ -104,33 +118,32 @@ export default function EditView({
 						width="100%"
 					>
 						<Tooltip label={t('toggleRichText')}>
-							<IconCheckbox
-								borderRadius="regular"
+							<ResizedIconCheckbox
 								icon="Text"
-								value={compositionData.richText}
+								value={!compositionData.richText}
 								onChange={actions.toggleRichText}
 							/>
 						</Tooltip>
 						<Tooltip label={t('toggleUrgent')}>
-							<IconCheckbox
-								borderRadius="regular"
+							<ResizedIconCheckbox
 								icon="ArrowUpward"
 								value={compositionData.urgent}
 								onChange={actions.toggleUrgent}
 							/>
 						</Tooltip>
 						<Tooltip label={t('toggleFlagged')}>
-							<IconCheckbox
-								borderRadius="regular"
+							<ResizedIconCheckbox
 								icon="FlagOutline"
 								value={compositionData.flagged}
 								onChange={actions.toggleFlagged}
 							/>
 						</Tooltip>
-						<Button
-							onClick={actions.sendMail}
-							label={t('send')}
-						/>
+						<Padding left="large">
+							<Button
+								onClick={actions.sendMail}
+								label={t('send')}
+							/>
+						</Padding>
 					</Row>
 					<Container orientation="horizontal" width="fill" height="fit" crossAlignment="flex-start">
 						<Padding top="extrasmall">
