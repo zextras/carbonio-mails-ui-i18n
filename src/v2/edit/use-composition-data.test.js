@@ -154,7 +154,7 @@ describe('useCompositionData', () => {
 				address: 'bcc.ciao@ciao.ciao',
 				displayName: 'BdisplayName'
 			}
-		]
+		];
 		const cases = [
 			{
 				input: {
@@ -162,7 +162,7 @@ describe('useCompositionData', () => {
 				},
 				type: 't',
 				expected: [{
-					value: 'TdisplayName'
+					value: 't.ciao@ciao.ciao'
 				}]
 			},
 			{
@@ -171,7 +171,7 @@ describe('useCompositionData', () => {
 				},
 				type: 'c',
 				expected: [{
-					value: 'CdisplayName'
+					value: 'cc.ciao@ciao.ciao'
 				}]
 			},
 			{
@@ -180,7 +180,7 @@ describe('useCompositionData', () => {
 				},
 				type: 'b',
 				expected: [{
-					value: 'BdisplayName'
+					value: 'bcc.ciao@ciao.ciao'
 				}]
 			},
 			{
@@ -200,7 +200,7 @@ describe('useCompositionData', () => {
 				type: 't',
 				expected: [
 					{
-						value: 'TdisplayName'
+						value: 't.ciao@ciao.ciao'
 					},
 					{
 						value: 't.ciao@ciao.ciao'
@@ -299,9 +299,9 @@ describe('useCompositionData', () => {
 					urgent: true,
 					flagged: true,
 					subject: 'subject',
-					to: [{ value: 'TdisplayName' }],
-					cc: [{ value: 'CdisplayName' }],
-					bcc: [{ value: 'BdisplayName' }]
+					to: [{ value: 't.ciao@ciao.ciao' }],
+					cc: [{ value: 'cc.ciao@ciao.ciao' }],
+					bcc: [{ value: 'bcc.ciao@ciao.ciao' }]
 				}
 			},
 		];
@@ -311,10 +311,10 @@ describe('useCompositionData', () => {
 		);
 	});
 
-	test('useCompositionData', async () => {
+	test.skip('useCompositionData', async () => {
 		const db = new MailsDb();
 		// db.messages.get.mockImplementation(() => Promise.resolve('ciaoooo'));
-		hooks.useReplaceHistoryCallback.mockImplementation(() => (route) => console.log(route));
+		hooks.useReplaceHistoryCallback.mockImplementation(() => (() => undefined));
 		hooks.useAppContext.mockImplementation(() => ({ db }));
 		hooks.useObserveDb.mockImplementation(() => Promise.resolve([{
 			parts: [
@@ -352,5 +352,5 @@ describe('useCompositionData', () => {
 			() => useCompositionData('gnagna', true, 'safga')
 		);
 		expect(result).toBe({});
-	})
+	});
 });

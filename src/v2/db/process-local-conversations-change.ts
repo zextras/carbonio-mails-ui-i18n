@@ -42,8 +42,11 @@ function processConvUpdates(
 			reduce<IUpdateChange, Array<BatchedRequest & ConvActionRequest>>(
 				changes,
 				(acc, change) => {
+					if (!conversations[change.key] || !conversations[change.key].id) {
+						return acc;
+					}
 					if (change.mods.parent) {
-						if (change.mods.parent === '2') {
+						if (change.mods.parent === '3') {
 							acc.push({
 								_jsns: 'urn:zimbraMail',
 								requestId: change.key,
@@ -121,6 +124,9 @@ function processConvDeletions(
 			reduce(
 				changes,
 				(acc, change) => {
+					if (!deletions[change.key] || !deletions[change.key].id) {
+						return acc;
+					}
 					acc.push({
 						_jsns: 'urn:zimbraMail',
 						requestId: change.key,
@@ -166,21 +172,21 @@ export default function processLocalConvChange(
 		db,
 		filter(conversationsChanges, ['type', 2]) as IUpdateChange[],
 		batchRequest,
-		changes
+		[]
 	)
-		.then(([_batchRequest, _dbChanges]) => processConvDeletions(
+		.then(([_batchRequest, _localChanges]) => processConvDeletions(
 			db,
 			filter(conversationsChanges, ['type', 3]) as IDeleteChange[],
 			_batchRequest,
-			_dbChanges
+			_localChanges
 		))
-		.then(([_batchRequest, _dbChanges]) => {
+		.then(([_batchRequest, _localChanges]) => {
 			if (!_batchRequest.ConvActionRequest) {
-				return _dbChanges;
+				return _localChanges;
 			}
 			return _fetch<BatchRequest, BatchResponse>(
 				'Batch',
 				_batchRequest
-			).then(() => _dbChanges);
+			).then(() => _localChanges);
 		});
 }

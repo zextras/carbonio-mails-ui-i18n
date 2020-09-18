@@ -16,6 +16,7 @@ jest.mock('./mails-db-dexie');
 import { MailsDb } from './mails-db';
 
 import processLocalConvChange from './process-local-conversations-change';
+import { MailMessageFromDb } from './mail-message';
 
 describe('Local Changes - Conversations', () => {
 	test('Moving a conversation', (done) => {
@@ -59,7 +60,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(1);
+				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',
@@ -116,13 +117,13 @@ describe('Local Changes - Conversations', () => {
 				table: 'conversations',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 				mods: {
-					parent: '2',
+					parent: '3',
 				}
 			}],
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(1);
+				expect(additionalChanges.length).toBe(0);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',
@@ -181,7 +182,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		)
 			.then((changes) => {
-				expect(changes.length).toBe(2);
+				expect(changes.length).toBe(0);
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
@@ -247,7 +248,7 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		)
 			.then((changes) => {
-				expect(changes.length).toBe(2);
+				expect(changes.length).toBe(0);
 				expect(fetch).toBeCalledTimes(1);
 				expect(fetch).toHaveBeenNthCalledWith(
 					1,
@@ -315,13 +316,8 @@ describe('Local Changes - Conversations', () => {
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(2);
+				expect(additionalChanges.length).toBe(1);
 				expect(additionalChanges[0]).toStrictEqual(
-					{
-						key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
-						table: 'conversations',
-						type: 3
-					},
 					{
 						key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
 						table: 'deletions',
@@ -351,71 +347,67 @@ describe('Local Changes - Conversations', () => {
 
 	test('Process a list of local conversation changes', (done) => {
 		const db = new MailsDb();
-		db.conversations.where.mockImplementation(() => ({
+		const toArray = jest.fn()
+			.mockImplementationOnce(() => {
+				return Promise.resolve([
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
+						id: '1000'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
+						id: '1001'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
+						id: '1002'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3',
+						id: '1003'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4',
+						id: '1004'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
+						id: '1005'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
+						id: '1005'
+					}),
+					new MailConversationFromDb({
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
+						id: '1006'
+					})
+				]);
+			})
+			.mockImplementationOnce(() => {
+				return Promise.resolve([
+					{
+						rowId: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy0',
+						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
+						id: '1000',
+						table: 'conversations',
+					}
+				]);
+			});
+		db.conversations.where.mockImplementationOnce(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => {
-					console.log('conv mock');
-					return Promise.resolve([
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
-							id: '1001'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
-							id: '1002'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3',
-							id: '1003'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4',
-							id: '1004'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
-							id: '1005'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
-							id: '1005'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
-							id: '1006'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx7',
-							id: '1007'
-						}),
-						new MailConversationFromDb({
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx8',
-							id: '1008'
-						})
-					]);
-				})
+				toArray
 			}))
 		}));
-		db.deletions.where.mockImplementation(() => ({
+		db.deletions.where.mockImplementationOnce(() => ({
 			anyOf: jest.fn().mockImplementation(() => ({
-				toArray: jest.fn().mockImplementation(() => {
-					console.log('deletion mock');
-					return Promise.resolve([
-						{
-							rowId: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy',
-							_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
-							id: '1000',
-							table: 'conversations',
-						}
-					]);
-				})
+				toArray
 			}))
 		}));
 
-		const fetch = jest.fn();
-		processLocalConvChange(
-			db,
-			[{
+		const fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
+		const localChanges = [
+			{
 				type: 3,
 				table: 'conversations',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx0',
@@ -465,46 +457,23 @@ describe('Local Changes - Conversations', () => {
 				table: 'conversations',
 				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
 				mods: {
-					parent: '2',
+					parent: '3',
 				}
-			},
-			{
-				type: 2,
-				table: 'conversations',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx7',
-				mods: {
-					flagged: true,
-					parent: '1001'
-				}
-			}, {
-				type: 2,
-				table: 'conversations',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx8',
-				mods: {
-					flagged: false,
-					read: true
-				}
-			},
-			{
-				type: 2,
-				table: 'messages',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx9',
-			},
-			{
-				type: 3,
-				table: 'messages',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxx10',
-			},
-			{
-				type: 1,
-				table: 'messages',
-				key: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxx11',
-			},
-			],
+			}
+		];
+		processLocalConvChange(
+			db,
+			localChanges,
 			fetch
 		).then(
 			(additionalChanges) => {
-				expect(additionalChanges.length).toBe(11);
+				expect(toArray).toHaveBeenCalledTimes(2); // Deletion trigger the cleanup of the deletions table
+				expect(additionalChanges.length).toBe(1); // Deletion trigger the cleanup of the deletions table
+				expect(additionalChanges).toStrictEqual([{
+					key: 'yyyyyyyy-yyyy-Myyy-Nyyy-yyyyyyyyyyyy0',
+					table: 'deletions',
+					type: 3,
+				}]);
 				expect(fetch).toHaveBeenCalledTimes(1);
 				expect(fetch).toHaveBeenCalledWith(
 					'Batch',
@@ -513,85 +482,52 @@ describe('Local Changes - Conversations', () => {
 						onerror: 'continue',
 						ConvActionRequest: [{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1',
 							action: {
 								id: '1001',
 								op: 'read'
-							}
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx1'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2',
 							action: {
 								id: '1002',
 								op: '!read'
-							}
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx2'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3',
 							action: {
 								id: '1003',
 								op: 'flag'
-							}
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx3'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4',
 							action: {
 								id: '1004',
 								op: '!flag'
-							}
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx4'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5',
 							action: {
-								op: 'move',
-								l: '1001',
 								id: '1005',
-							}
+								l: '1001',
+								op: 'move',
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx5'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6',
 							action: {
 								op: 'trash',
 								id: '1006',
-							}
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx7',
-							action: {
-								op: 'move',
-								l: '1001',
-								id: '1007',
-							}
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx7',
-							action: {
-								id: '1007',
-								op: 'flag'
-							}
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx8',
-							action: {
-								id: '1008',
-								op: '!flag'
-							}
-						},
-						{
-							_jsns: 'urn:zimbraMail',
-							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx8',
-							action: {
-								id: '1008',
-								op: 'read'
-							}
+							},
+							requestId: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxx6'
 						},
 						{
 							_jsns: 'urn:zimbraMail',
