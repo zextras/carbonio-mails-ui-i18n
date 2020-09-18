@@ -1,5 +1,6 @@
-node_modules/
+/node_modules/
 /pkg/
 /build/
 /.idea/workspace.xml
-/deploy/
+/.idea/compiler.xml
+/e2e/output/
