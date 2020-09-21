@@ -34,8 +34,8 @@ import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import { useConvsInFolder } from '../hooks';
 import ConversationListProvider from '../context/conversation-list-provider';
-import FolderListProvider from '../context/folder-list-provider';
 import MessageListProvider from '../context/message-list-provider';
+import FolderListProvider from '../context/folder-list-provider';
 
 function Breadcrumbs({ folder, itemsCount }) {
 	return (
@@ -102,7 +102,7 @@ export default function FolderView() {
 
 	return (
 		<FolderListProvider>
-			<ConversationListProvider>
+			<ConversationListProvider folderId={folderId}>
 				<MessageListProvider>
 					<Container
 						orientation="row"

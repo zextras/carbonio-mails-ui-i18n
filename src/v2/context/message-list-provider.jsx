@@ -9,25 +9,31 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback } from 'react';
-import { keyBy } from 'lodash';
+import React, { useCallback, useContext, useMemo } from 'react';
+import { filter, keyBy, find } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import MessageListContext from './message-list-context';
+import ConversationListContext from './conversation-list-context';
 
 function MessageListProvider({ children }) {
 	const { db } = hooks.useAppContext();
-	const query = useCallback(
-		() => db.messages.toArray().then((m) => keyBy(m, '_id')),
-		[db.messages]
+	const [conversations, convsLoaded] = useContext(ConversationListContext);
+	const messagesQuery = useCallback(
+		() => db.messages.toArray()
+			.then((mess) => keyBy(
+				filter(mess, (m) => convsLoaded ? find(conversations, ['id', m.conversation]) : false),
+				'_id'
+			)),
+		[conversations, convsLoaded, db.messages]
 	);
-	const [messages, loaded] = hooks.useObserveDb(query, db);
+	const [messages, loaded] = hooks.useObserveDb(messagesQuery, db);
 	return (
 		<MessageListContext.Provider
 			value={[messages, loaded]}
 		>
 			{ children }
 		</MessageListContext.Provider>
-	)
+	);
 }
 
 export default MessageListProvider;

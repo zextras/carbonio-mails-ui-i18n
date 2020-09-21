@@ -23,6 +23,7 @@ import {
 import { hooks } from '@zextras/zapp-shell';
 import { MailMessagePart, MailMessageFromDb } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
+import { useMessage } from '../hooks';
 
 export type ResetAction = {
 	type: 'RESET';
@@ -213,11 +214,7 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [initialized, setInitialized] = useState(false);
 
-	const draftQuery = useCallback(
-		() => db.messages.get(draftId),
-		[draftId, db.messages]
-	);
-	const [draft, loaded] = hooks.useObserveDb(draftQuery, db);
+	const [draft, loaded] = useMessage(draftId);
 	const [compositionData, dispatch] = useReducer(
 		reducer,
 		(draft && loaded) ? draftToCompositionData(draft) : emptyDraft

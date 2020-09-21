@@ -54,7 +54,7 @@ const findAttachments = (parts, acc) => reduce(
 );
 
 function MailPreview({ message: messageData, firstMail }) {
-	const { message, loaded } = useMessage(messageData.id);
+	const [message, loaded] = useMessage(messageData.id);
 
 	if (!loaded) return null;
 
