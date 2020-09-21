@@ -72,7 +72,7 @@ describe('useCompositionData', () => {
 			{
 				type: 'TOGGLE_RICH_TEXT',
 				payload: {
-					richText: false
+					richText: true
 				}
 			},
 			{
@@ -221,17 +221,22 @@ describe('useCompositionData', () => {
 				input: {
 					parts: [
 						{
-							contentType: 'text/html',
-							content: 'hello in HTML'
-						},
-						{
-							contentType: 'text/plain',
-							content: 'hello plain'
+							contentType: 'multipart/alternative',
+							parts: [
+								{
+									contentType: 'text/html',
+									content: 'hello in HTML'
+								},
+								{
+									contentType: 'text/plain',
+									content: 'hello plain'
+								}
+							]
 						}
 					]
 				},
 				expected: {
-					text: 'hello plain',
+					text: '',
 					html: 'hello in HTML'
 				}
 			},
@@ -262,12 +267,17 @@ describe('useCompositionData', () => {
 				input: {
 					parts: [
 						{
-							contentType: 'text/html',
-							content: 'hello in HTML'
-						},
-						{
-							contentType: 'text/plain',
-							content: 'hello plain'
+							contentType: 'multipart/alternative',
+							parts: [
+								{
+									contentType: 'text/html',
+									content: 'hello in HTML'
+								},
+								{
+									contentType: 'text/plain',
+									content: 'hello plain'
+								}
+							]
 						}
 					],
 					contacts: [
@@ -293,7 +303,7 @@ describe('useCompositionData', () => {
 				},
 				expected: {
 					body: {
-						text: 'hello plain',
+						text: '',
 						html: 'hello in HTML'
 					},
 					richText: true,

@@ -15,7 +15,7 @@ import {
 	find,
 	filter
 } from 'lodash';
-import { IMailsService } from '../../IMailsService';
+import { IMailsService } from '../../src/IMailsService';
 import { MailMessageWithFolder } from '../context/ConversationFolderCtxt';
 
 export default function registerActions(mailsSrvc: IMailsService): void {

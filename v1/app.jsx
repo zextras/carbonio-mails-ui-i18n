@@ -20,9 +20,9 @@ import { filter } from 'rxjs/operators';
 import { cloneDeep, filter as loFilter, reduce } from 'lodash';
 import App, { ROUTE as mainRoute } from './components/App';
 import MailsIdbService from './idb/MailsIdbService';
-import MailsService from '../MailsService';
+import MailsService from '../src/MailsService';
 import MailsNetworkService from './network/MailsNetworkService';
-import { calculateAbsPath } from '../ISoap';
+import { calculateAbsPath } from '../src/ISoap';
 import registerActions from './util/registerActions';
 
 const _FOLDER_UPDATED_EV_REG = /mails:updated:folder/;

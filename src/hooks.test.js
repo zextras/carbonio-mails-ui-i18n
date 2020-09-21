@@ -8,10 +8,13 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+import React from 'react';
+
 import { renderHook, act } from '@testing-library/react-hooks';
 
 jest.mock('@zextras/zapp-shell');
 // eslint-disable-next-line import/no-unresolved
+
 import { hooks } from '@zextras/zapp-shell';
 
 jest.mock('./db/mails-db-dexie');
@@ -20,6 +23,7 @@ import { MailsDb } from './db/mails-db';
 import { useConvsInFolder } from './hooks';
 import { MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
+import ConversationListContext from './context/conversation-list-context';
 
 describe('Hooks', () => {
 	test('useConvsInFolder', async () => {
@@ -30,24 +34,19 @@ describe('Hooks', () => {
 		})));
 		const convs = [];
 		for (let i = 0; i < 50; i += 1) convs.push(new MailConversationFromDb({ id: `-10${i < 10 ? `0${i}` : i}` }));
-		const sortBy = jest.fn().mockImplementation(() => Promise.resolve(convs));
-		db.conversations.where.mockImplementation(() => ({
-			equals: () => ({
-				reverse: jest.fn().mockImplementation(() => ({
-					sortBy,
-					limit: jest.fn().mockImplementation(() => ({
-						sortBy
-					}))
-				}))
-			})
-		}));
+
 
 		hooks.useAppContext.mockImplementation(() => ({ db }));
-		hooks.useObserveDb.mockImplementation(() => ([convs, true]));
+		// hooks.useObserveDb.mockImplementation(() => ([convs, true]));
+		let wrapper = ({ children }) => (
+			<ConversationListContext.Provider value={[convs, true]}>
+				{children}
+			</ConversationListContext.Provider>
+		);
 		db.checkHasMoreConv.mockImplementationOnce(() => Promise.resolve(true));
 		db.fetchMoreConv.mockImplementation(() => Promise.resolve(true));
 
-		const { result, waitForNextUpdate } = renderHook(() => useConvsInFolder('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'));
+		const { result, waitForNextUpdate, rerender } = renderHook(() => useConvsInFolder('xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'), { wrapper });
 		expect(result.current.folder).toBeUndefined();
 		expect(result.current.conversations.length).toBe(50);
 		expect(result.current.loadMore).toBeUndefined();
@@ -68,8 +67,16 @@ describe('Hooks', () => {
 		hooks.useObserveDb.mockImplementation(() => ([[
 			...convs, new MailConversationFromDb({ id: '-10051' })
 		], true]));
+		wrapper = ({ children }) => (
+			<ConversationListContext.Provider
+				value={[[...convs, new MailConversationFromDb({ id: '-10051' })], true]}
+			>
+				{children}
+			</ConversationListContext.Provider>
+		);
 		await act(() => result.current.loadMore());
 
+		rerender();
 		expect(result.current.folder).toBeInstanceOf(MailsFolderFromDb);
 		expect(result.current.conversations.length).toBe(51);
 		expect(result.current.loadMore).toBeUndefined();

@@ -30,7 +30,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { syncOperations } from '@zextras/zapp-shell/sync';
 import { fc } from '@zextras/zapp-shell/fc';
-import { IMailsService } from '../../IMailsService';
+import { IMailsService } from '../../src/IMailsService';
 import ConversationFolderCtxt, { ConversationWithMessages, MailMessageWithFolder } from './ConversationFolderCtxt';
 import { processOperationsConversation, processOperationsList } from './ConversationUtility';
 import {
@@ -38,7 +38,7 @@ import {
 	_MESSAGE_UPDATED_EV_REG,
 	_CONVERSATION_DELETED_EV_REG,
 	_MESSAGE_DELETED_EV_REG
-} from '../../MailsService';
+} from '../../src/MailsService';
 
 type ConversationFolderCtxtProviderProps = {
 	folderPath: string;
