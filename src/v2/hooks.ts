@@ -95,30 +95,7 @@ type UseConvsInFolderReturnType = {
 	loadMore?: () => Promise<void>;
 	hasMore: boolean;
 }
-//
-// function useConvsByFolder(folder: MailsFolderFromDb | undefined): [Array<MailConversationFromDb>, boolean] {
-// 	const [_conversations, loaded] = useContext(ConversationListContext);
-//
-// 	const conversations = useMemo(
-// 		() => (
-// 			loaded && folder
-// 				? Object.values(filter(
-// 					_conversations,
-// 					(conv: MailConversationFromDb): boolean => !!find(
-// 						conv.parent,
-// 						(parent) => parent === folder.id
-// 					)
-// 				))
-// 				: []),
-// 		[loaded, _conversations, folder]
-// 	);
-//
-// 	if (!folder) {
-// 		return [[], false];
-// 	}
-//
-// 	return [conversations, loaded];
-// }
+
 export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext<AppContext>();
 
@@ -127,7 +104,6 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const loadMore = useCallback(
 		(lastConv?: MailConversationFromDb) => new Promise<void>((resolve, reject) => {
 			if (!state.folder) {
-				console.warn('I\'m FOCKING OUTTA HERE');
 				resolve();
 				return;
 			}

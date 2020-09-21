@@ -52,7 +52,6 @@ export class MailsDb extends MailsDbDexie {
 	public deleteFolder(f: MailsFolderFromDb): Promise<void> {
 		return this.folders.get(f._id!).then((_f) => {
 			if (_f) {
-				console.log({ _id: _f._id!, id: _f.id!, table: 'folders' });
 				return this.deletions
 					.add({
 						rowId: this.createUUID(),
