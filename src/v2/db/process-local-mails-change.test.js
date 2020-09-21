@@ -26,7 +26,6 @@ describe('Local Changes - Mail', () => {
 						_id: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx',
 						read: true,
 						parent: '6',
-						id: '1000',
 						subject: 'Edited 2 subject',
 						contacts: [{
 							address: 'user@example.com',

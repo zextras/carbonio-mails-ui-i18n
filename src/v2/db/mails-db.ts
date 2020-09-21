@@ -10,12 +10,10 @@
  */
 
 import { PromiseExtended } from 'dexie';
-import { BehaviorSubject } from 'rxjs';
-import { sortBy, last, reverse, map } from 'lodash';
-import { reduce, pullAllWith } from 'lodash';
+import { map, reduce, pullAllWith } from 'lodash';
 // eslint-disable-next-line import/no-unresolved
-import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { SoapFetch, accounts } from '@zextras/zapp-shell';
+import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
 import { CompositionState } from '../edit/use-composition-data';

@@ -14,7 +14,7 @@ import {
 	useCallback, useContext, useEffect, useMemo, useReducer
 } from 'react';
 import {
-	sortBy, filter, find, keyBy, pick
+	sortBy, find, keyBy, pick
 } from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
@@ -22,6 +22,7 @@ import { AppContext } from './app-context';
 import ConversationListContext from './context/conversation-list-context';
 import MessageListContext from './context/message-list-context';
 import FolderListContext from './context/folder-list-context';
+import { MailMessageFromDb } from './db/mail-message';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -167,29 +168,29 @@ export function useConversationMessages(messageIds: string[]) {
 	];
 }
 
-export function useConversation(conversationId: string) {
+export function useConversation(conversationId: string): [MailConversationFromDb, boolean] {
 	const [conversations, loaded] = useContext(ConversationListContext);
 	const conversation = useMemo(
-		() => find(conversations, ['id', conversationId]) || find(conversations, ['_id', conversationId]),
+		() => conversations[conversationId] || find(conversations, ['id', conversationId]),
 		[conversationId, conversations]
 	);
-	return { conversation, loaded };
+	return [conversation!, loaded];
 }
 
-export function useMessage(messageId: string) {
+export function useMessage(messageId: string): [MailMessageFromDb, boolean] {
 	const [messages, loaded] = useContext(MessageListContext);
-	const message = useMemo(
-		() => find(messages, ['id', messageId]) || find(messages, ['_id', messageId]),
+	const message: MailMessageFromDb = useMemo(
+		() => messages[messageId] || find(messages, ['id', messageId]),
 		[messageId, messages]
 	);
 	return [message, loaded];
 }
 
-export function useFolder(folderId: string) {
+export function useFolder(folderId: string): [MailsFolderFromDb, boolean] {
 	const [_folders, folderLoaded] = useContext(FolderListContext);
 	const folder = useMemo(
 		() => find(_folders, ['id', folderId]),
 		[_folders, folderId]
 	);
-	return [folder, folderLoaded];
+	return [folder!, folderLoaded];
 }
