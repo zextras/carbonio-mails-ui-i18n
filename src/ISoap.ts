@@ -17,16 +17,16 @@ import {
 	get,
 	filter
 } from 'lodash';
-import { CompositionParticipants } from './v1/components/compose/IuseCompositionData';
+import { CompositionParticipants } from '../v1/components/compose/IuseCompositionData';
 import {
 	MailMessageFromDb,
 	MailMessageFromSoap,
 	ParticipantType,
 	MailMessagePart
-} from './v2/db/mail-message';
-import { Participant } from './v2/db/mail-db-types';
-import { MailConversationMessage } from './v2/db/mail-conversation-message';
-import { IMailConversation } from './v2/db/mail-conversation';
+} from './db/mail-message';
+import { Participant } from './db/mail-db-types';
+import { MailConversationMessage } from './db/mail-conversation-message';
+import { IMailConversation } from './db/mail-conversation';
 
 export type SoapConvObj = {
 	id: string;
