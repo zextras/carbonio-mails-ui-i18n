@@ -32,7 +32,7 @@ import {
 	MarkMessageAsSpamOp,
 	TrashMessageOp, SendMsgOp
 } from './IMailsService';
-import { IMailsIdbService } from '../v1/idb/IMailsIdbService';
+import { IMailsIdbService } from './idb/IMailsIdbService';
 import {
 	MarkConversationAsReadOpReq,
 	MarkMessageAsReadOpReq,
@@ -42,11 +42,11 @@ import {
 	MarkMessageAsSpamOpReq,
 	TrashMessageOpReq,
 	mailToCompositionData, SendMsgOpReq, ISoapContact
-} from './ISoap';
-import { Conversation, IMailFolderSchmV1, MailMessage } from '../v1/idb/IMailsIdb';
-import { IMailsNetworkService } from '../v1/network/IMailsNetworkService';
-import { ConversationWithMessages, MailMessageWithFolder } from '../v1/context/ConversationFolderCtxt';
-import { CompositionAttachment, CompositionData } from '../v1/components/compose/IuseCompositionData';
+} from '../src/ISoap';
+import { Conversation, IMailFolderSchmV1, MailMessage } from './idb/IMailsIdb';
+import { IMailsNetworkService } from './network/IMailsNetworkService';
+import { ConversationWithMessages, MailMessageWithFolder } from './context/ConversationFolderCtxt';
+import { CompositionAttachment, CompositionData } from './components/compose/IuseCompositionData';
 import { sessionSrvc } from '@zextras/zapp-shell/service';
 
 export const _CONVERSATION_UPDATED_EV_REG = /mails:updated:conversation/;

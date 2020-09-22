@@ -20,7 +20,7 @@ import { filter } from 'rxjs/operators';
 import { cloneDeep, filter as loFilter, reduce } from 'lodash';
 import App, { ROUTE as mainRoute } from './components/App';
 import MailsIdbService from './idb/MailsIdbService';
-import MailsService from '../src/MailsService';
+import MailsService from './MailsService';
 import MailsNetworkService from './network/MailsNetworkService';
 import { calculateAbsPath } from '../src/ISoap';
 import registerActions from './util/registerActions';

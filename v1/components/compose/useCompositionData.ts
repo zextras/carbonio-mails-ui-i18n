@@ -19,7 +19,7 @@ import {
 import { filter, startsWith, debounce } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Subscription } from 'rxjs';
-import { IMailsService, RenameMailFolderOp } from '../../../src/IMailsService';
+import { IMailsService, RenameMailFolderOp } from '../../IMailsService';
 import { MailMessage, Participant } from '../../idb/IMailsIdb';
 import {
 	AttachmentDispatch,

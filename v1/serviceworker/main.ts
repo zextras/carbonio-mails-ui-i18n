@@ -18,7 +18,7 @@ import { normalizeFolder } from '../idb/IdbMailsUtils';
 import MailsIdbService from '../idb/MailsIdbService';
 import { ISoapSyncMailFolderObj, ISoapSyncMailResponse } from '../../src/ISoap';
 import { IMailFolderSchmV1, MailMessage } from '../idb/IMailsIdb';
-import MailsService from '../../src/MailsService';
+import MailsService from '../MailsService';
 
 const _idbSrvc = new MailsIdbService();
 const _networkSrvc = new MailsNetworkService(

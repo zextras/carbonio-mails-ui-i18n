@@ -168,20 +168,30 @@ export function useConversationMessages(messageIds: string[]) {
 	];
 }
 
-export function useConversation(conversationId: string): [MailConversationFromDb, boolean] {
+export function useConversation(conversationId: string): [MailConversationFromDb | null, boolean] {
 	const [conversations, loaded] = useContext(ConversationListContext);
 	const conversation = useMemo(
-		() => conversations[conversationId] || find(conversations, ['id', conversationId]),
-		[conversationId, conversations]
+		() => {
+			if (loaded) {
+				return conversations[conversationId] || find(conversations, ['id', conversationId]);
+			}
+			return null;
+		},
+		[conversationId, conversations, loaded]
 	);
-	return [conversation!, loaded];
+	return [conversation, loaded];
 }
 
-export function useMessage(messageId: string): [MailMessageFromDb, boolean] {
+export function useMessage(messageId: string): [MailMessageFromDb | null, boolean] {
 	const [messages, loaded] = useContext(MessageListContext);
-	const message: MailMessageFromDb = useMemo(
-		() => messages[messageId] || find(messages, ['id', messageId]),
-		[messageId, messages]
+	const message: MailMessageFromDb | null = useMemo(
+		() => {
+			if (loaded) {
+				return messages[messageId] || find(messages, ['id', messageId]);
+			}
+			return null;
+		},
+		[loaded, messageId, messages]
 	);
 	return [message, loaded];
 }

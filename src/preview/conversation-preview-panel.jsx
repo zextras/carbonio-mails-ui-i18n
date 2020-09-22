@@ -18,11 +18,10 @@ import { useConversation } from '../hooks';
 import MailPreview from './mail-preview';
 
 export default function ConversationPreviewPanel({ conversationInternalId, folderId }) {
-	const {
+	const [
 		conversation,
-		loaded: conversationLoaded
-	} = useConversation(conversationInternalId);
-
+		conversationLoaded
+	] = useConversation(conversationInternalId);
 	return (
 		<Container
 			orientation="vertical"
