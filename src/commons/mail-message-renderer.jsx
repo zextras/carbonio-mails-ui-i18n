@@ -14,8 +14,8 @@ import { filter, forEach, get, reduce } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
 
-const _CI_REGEX = /^<(.*@zimbra)>$/;
-const _CI_SRC_REGEX = /^cid:(.*@zimbra)$/;
+const _CI_REGEX = /^<(.*)>$/;
+const _CI_SRC_REGEX = /^cid:(.*)$/;
 
 export function _getParentPath(path) {
 	const p = path.split('.');
