@@ -64,8 +64,6 @@
   ],
   "exclude": [
     "node_modules",
-    "/v1/**",
-    "src/**/*.js",
-    "src/**/*.jsx"
+    "v1"
   ]
 }

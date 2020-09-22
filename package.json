@@ -11,7 +11,7 @@
     "test:e2e": "protractor protractor.conf.js",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src/v2",
+    "lint": "eslint src",
     "type-check:watch": "npm run type-check -- --watch"
   },
   "keywords": [],
@@ -35,7 +35,7 @@
     "@typescript-eslint/eslint-plugin": "2.6.1",
     "@typescript-eslint/parser": "2.6.1",
     "@zextras/zapp-cli": ">=0.0.54 <2.0.0",
-    "@zextras/zapp-shell": ">=0.0.88 <2.0.0",
+    "@zextras/zapp-shell": ">=0.0.89 <2.0.0",
     "@zextras/zapp-ui": ">=0.0.37 <2.0.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "25.1.0",
