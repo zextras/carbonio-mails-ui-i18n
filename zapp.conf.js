@@ -6,5 +6,5 @@ module.exports = {
 	pkgLabel: 'Mails',
 	pkgDescription: pkg.description,
 	version: pkg.version,
-	projectType: 'App'
+	projectType: 'app'
 };

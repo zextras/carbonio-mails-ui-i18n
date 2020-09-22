@@ -1,0 +1,40 @@
+{
+  "Bcc": "",
+  "Cc": "",
+  "Delete Message": "",
+  "Download": "",
+  "Download all": "",
+  "Edit Draft": "",
+  "Move to Trash": "",
+  "No Subject": "",
+  "Show all": "",
+  "This message has no text content": "",
+  "To": "",
+  "attachment": "",
+  "attachments": "",
+  "bcc": "",
+  "cc": "",
+  "mail": {
+    "composer": {
+      "cc": "Cc:",
+      "draft": "Draft",
+      "header": "New Mail",
+      "send": "Send",
+      "subject": "Subject:",
+      "textarea": {
+        "label": "Write here your message"
+      },
+      "to": "To:"
+    }
+  },
+  "no subject": "",
+  "send": "",
+  "subject": "",
+  "text": "",
+  "to": "",
+  "toggleFlagged": "",
+  "toggleRichText": "",
+  "toggleUrgent": "",
+  "toggleflagged": "",
+  "toggleurgent": ""
+}
