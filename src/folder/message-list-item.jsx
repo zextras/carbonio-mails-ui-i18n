@@ -53,7 +53,7 @@ export default function MessageListItem({
 					getTimeLabel(message.date),
 					reduce(
 						message.contacts,
-						(acc, part) => trimStart(`${acc}, ${participantToString(part)}`, ', '),
+						(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
 						''
 					)
 				];

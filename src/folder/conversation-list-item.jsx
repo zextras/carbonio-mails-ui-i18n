@@ -79,7 +79,7 @@ export default function ConversationListItem({
 	);
 	const participantsString = useMemo(() => reduce(
 		conversation.participants,
-		(acc, part) => trimStart(`${acc}, ${participantToString(part)}`, ', '),
+		(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
 		''
 	),
 	[conversation.participants]);

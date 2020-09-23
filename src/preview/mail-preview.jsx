@@ -212,7 +212,7 @@ function MailPreviewBlock({
 						color={message.read ? 'text' : 'primary'}
 						weight={message.read ? 'normal' : 'bold'}
 					>
-						{participantToString(mainContact)}
+						{participantToString(mainContact, t)}
 					</Text>
 					<Container
 						orientation="horizontal"
@@ -313,19 +313,19 @@ function MessageContactsList({ message }) {
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('To')}: ` }
-					{ map(toContacts, (contact) => participantToString(contact)).join(', ') }
+					{ map(toContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Cc')}: ` }
-					{ map(ccContacts, (contact) => participantToString(contact)).join(', ') }
+					{ map(ccContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Bcc')}: ` }
-					{ map(bccContacts, (contact) => participantToString(contact)).join(', ') }
+					{ map(bccContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>

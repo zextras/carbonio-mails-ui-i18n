@@ -27,10 +27,10 @@ export function getTimeLabel(date) {
 	return momentDate.format('DD/MM/YYYY');
 }
 
-export function participantToString(participant) {
+export function participantToString(participant, t) {
 	const me = find(accounts, ['name', participant.address]);
 	if (me) {
-		return 'Me';
+		return t('Me');
 	}
 	return participant.displayName || participant.address;
 }
