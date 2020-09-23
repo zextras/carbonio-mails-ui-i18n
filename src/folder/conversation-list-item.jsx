@@ -29,11 +29,10 @@ import {
 	Padding,
 	Icon,
 	IconButton,
-	Collapse
 } from '@zextras/zapp-ui';
 import MessageListItem from './message-list-item';
 import { useConversationMessages } from '../hooks';
-import { getTimeLabel } from '../commons/utils';
+import { getTimeLabel, participantToString } from '../commons/utils';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -78,10 +77,9 @@ export default function ConversationListItem({
 		() => getTimeLabel(conversation.date),
 		[conversation.date]
 	);
-
 	const participantsString = useMemo(() => reduce(
 		conversation.participants,
-		(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
+		(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
 		''
 	),
 	[conversation.participants]);

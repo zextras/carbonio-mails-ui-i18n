@@ -10,6 +10,8 @@
  */
 
 import moment from 'moment';
+import { accounts } from '@zextras/zapp-shell';
+import { find } from 'lodash';
 
 export function getTimeLabel(date) {
 	const momentDate = moment(date);
@@ -23,4 +25,12 @@ export function getTimeLabel(date) {
 		return momentDate.format('DD MMMM');
 	}
 	return momentDate.format('DD/MM/YYYY');
+}
+
+export function participantToString(participant, t) {
+	const me = find(accounts, ['name', participant.address]);
+	if (me) {
+		return t('Me');
+	}
+	return participant.displayName || participant.address;
 }
