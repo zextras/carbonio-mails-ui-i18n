@@ -138,21 +138,21 @@ export default function EditView({
 						mainAlignment="flex-end"
 						width="100%"
 					>
-						<Tooltip label={t('toggleRichText')}>
+						<Tooltip label={t('Toggle Rich Text')}>
 							<ResizedIconCheckbox
 								icon="Text"
 								value={!compositionData.richText}
 								onChange={actions.toggleRichText}
 							/>
 						</Tooltip>
-						<Tooltip label={t('toggleUrgent')}>
+						<Tooltip label={t('Toggle Urgent')}>
 							<ResizedIconCheckbox
 								icon="ArrowUpward"
 								value={compositionData.urgent}
 								onChange={actions.toggleUrgent}
 							/>
 						</Tooltip>
-						<Tooltip label={t('toggleFlagged')}>
+						<Tooltip label={t('Toggle Flagged')}>
 							<ResizedIconCheckbox
 								icon="FlagOutline"
 								value={compositionData.flagged}
@@ -162,7 +162,7 @@ export default function EditView({
 						<Padding left="large">
 							<Button
 								onClick={actions.sendMail}
-								label={t('send')}
+								label={t('Send')}
 							/>
 						</Padding>
 					</Row>
@@ -176,7 +176,7 @@ export default function EditView({
 						</Padding>
 						<Container>
 							<ChipInput
-								placeholder={t('to')}
+								placeholder={t('To')}
 								onChange={(value) => actions.updateContacts('to', value)}
 								value={compositionData.to}
 							/>
@@ -184,14 +184,14 @@ export default function EditView({
 							<Collapse orientation="vertical" crossSize="100%" open={open}>
 								<ChipInput
 									placeholderType="inline"
-									placeholder={t('cc')}
+									placeholder={t('Cc')}
 									onChange={(value) => actions.updateContacts('cc', value)}
 									value={compositionData.cc}
 								/>
 								<Divider />
 								<ChipInput
 									placeholderType="inline"
-									placeholder={t('bcc')}
+									placeholder={t('Bcc')}
 									onChange={(value) => actions.updateContacts('bcc', value)}
 									value={compositionData.bcc}
 								/>
@@ -202,7 +202,7 @@ export default function EditView({
 					<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
 						<EmailComposerInput
 							onChange={(ev) => actions.updateSubject(ev.target.value)}
-							placeholder={t('subject')}
+							placeholder={t('Subject')}
 							placeholderType="default"
 							value={compositionData.subject}
 						/>
