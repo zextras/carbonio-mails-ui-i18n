@@ -26,7 +26,6 @@ const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" *
 
 export default function app() {
 	console.log('Hello from mails');
-
 	const db = new MailsDb(network.soapFetch);
 	const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
 	db.registerSyncProtocol('soap-mails', syncProtocol);
@@ -39,10 +38,6 @@ export default function app() {
 	db
 		.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
 		.subscribe((folders) => mainMenuItems(folders, db));
-
-	setAppContext({
-		db
-	});
 
 	setRoutes([
 		{
