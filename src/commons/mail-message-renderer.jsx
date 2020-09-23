@@ -58,9 +58,16 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 			body {
 				margin: 0;
 				overflow-y: hidden;
+				font-family: Roboto, sans-serif;
+				font-size: 14px;
+			}
+			body pre, body pre * {
+				white-space: pre-wrap;
+				word-wrap: break-word !important;
+				text-wrap: suppress !important;
 			}
 			img {
-				max-width: 100%;
+				max-width: 100%
 			}
 		`;
 		styleTag.textContent = styles;
@@ -73,7 +80,6 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		iframeRef.current.contentDocument.open();
 		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
 		iframeRef.current.contentDocument.close();
-
 		const imgMap = reduce(
 			parts,
 			(r, v, k) => {
@@ -89,6 +95,9 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		forEach(
 			images,
 			(p, k) => {
+				if (p.hasAttribute('dfsrc')) {
+					p.setAttribute('src', p.getAttribute('dfsrc'));
+				}
 				if (!_CI_SRC_REGEX.test(p.src)) return;
 				const ci = _CI_SRC_REGEX.exec(p.getAttribute('src'))[1];
 				if (imgMap.hasOwnProperty(ci)) {
@@ -98,7 +107,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 				}
 			}
 		);
-	}, [iframeRef.current, body, parts, msgId]);
+	}, [body, parts, msgId]);
 
 	return (
 		<iframe

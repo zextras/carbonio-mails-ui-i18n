@@ -21,7 +21,7 @@ import {
 	Padding,
 	Icon,
 } from '@zextras/zapp-ui';
-import { getTimeLabel } from '../commons/utils';
+import { getTimeLabel, participantToString } from '../commons/utils';
 import { useTranslation } from 'react-i18next';
 import { useFolder } from '../hooks';
 
@@ -53,7 +53,7 @@ export default function MessageListItem({
 					getTimeLabel(message.date),
 					reduce(
 						message.contacts,
-						(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
+						(acc, part) => trimStart(`${acc}, ${participantToString(part)}`, ', '),
 						''
 					)
 				];
