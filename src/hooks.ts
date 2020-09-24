@@ -14,7 +14,7 @@ import {
 	useCallback, useContext, useEffect, useMemo, useReducer
 } from 'react';
 import {
-	sortBy, find, keyBy, pick
+	sortBy, find, keyBy, pick, filter
 } from 'lodash';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
@@ -96,6 +96,17 @@ type UseConvsInFolderReturnType = {
 	loadMore?: () => Promise<void>;
 	hasMore: boolean;
 }
+function useConvsByFolder(folder: MailsFolderFromDb | undefined): [MailConversationFromDb[], boolean] {
+	const [convs, loaded] = useContext(ConversationListContext);
+	const conversations = useMemo(
+		() => filter(
+			convs,
+			(c) => loaded && folder && folder.id ? c.parent.includes(folder.id) : false
+		),
+		[convs, folder, loaded]
+	);
+	return [conversations, loaded];
+}
 
 export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	const { db } = hooks.useAppContext<AppContext>();
@@ -143,7 +154,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 		};
 	}, [db, folderId, dispatch]);
 
-	const [conversations, loaded] = useContext(ConversationListContext);
+	const [conversations, loaded] = useConvsByFolder(state.folder);
 	return {
 		conversations: sortBy(conversations, 'date').reverse() || [],
 		folder: state.folder,

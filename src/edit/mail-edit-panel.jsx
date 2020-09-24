@@ -41,17 +41,19 @@ const MailEditHeader = ({ editPanelId, folderId, header }) => {
 				orientation="horizontal"
 				mainAlignment="flex-start"
 				height={48}
-				padding={{ left: 'large', right: 'large' }}
+				padding={{ left: 'large', right: 'extrasmall' }}
 			>
-				<Padding right="medium">
-					<Icon size="medium" icon="EmailOutline" />
-				</Padding>
-				<Row takeAvailableSpace mainAlignment="flex-start">
+				<Icon size="medium" icon="EditOutline" />
+				<Row
+					takeAvailableSpace
+					mainAlignment="flex-start"
+					padding={{ left: 'large' }}
+				>
 					<Text size="large">
 						{ header || t('Edit Draft') }
 					</Text>
 				</Row>
-				<IconButton icon="Close" size="small" onClick={onClose} />
+				<IconButton icon="Close" onClick={onClose} />
 			</Container>
 			<Divider />
 		</Container>

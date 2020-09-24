@@ -288,8 +288,9 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	const sendMail = useCallback(
 		() => {
 			db.sendMail(draftId).then((dId: string) => {
-				replaceHistory(`/folder/${folderId}/`);
-				// TODO close panel!
+				if (panel) {
+					replaceHistory(`/folder/${folderId}/`);
+				}
 			});
 		},
 		[db, draftId, folderId, panel, replaceHistory]

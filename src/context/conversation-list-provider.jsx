@@ -9,30 +9,36 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useContext, useMemo } from 'react';
-import { filter, keyBy } from 'lodash';
+import React, {
+	useCallback, useEffect, useState
+} from 'react';
+import { keyBy } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import ConversationListContext from './conversation-list-context';
-import FolderListContext from './folder-list-context';
 
-function ConversationListProvider({ children, folderId }) {
+function ConversationListProvider({ children }) {
 	const { db } = hooks.useAppContext();
-	const [folders, folderLoaded] = useContext(FolderListContext);
-	const id = useMemo(() => {
-		if (folderLoaded) {
-			return folders[folderId].id;
-		}
-		return null;
-	}, [folderId, folderLoaded, folders]);
 	const conversationsQuery = useCallback(
 		() => db.conversations.toArray()
 			.then((convs) => keyBy(
-				filter(convs, (c) => folderLoaded ? c.parent.includes(id) : false),
+				convs,
 				'_id'
 			)),
-		[db.conversations, folderLoaded, id]
+		[db.conversations]
 	);
-	const [conversations, loaded] = hooks.useObserveDb(conversationsQuery, db);
+
+	const [conversationsFromDB, conversationsLoaded] = hooks.useObserveDb(conversationsQuery, db);
+
+	const [loaded, setLoaded] = useState(false);
+	const [conversations, setConversations] = useState({});
+
+	useEffect(() => {
+		if (conversationsLoaded && !loaded) setLoaded(true);
+	}, [conversationsLoaded, loaded]);
+	useEffect(() => {
+		if (conversationsFromDB && conversationsLoaded) setConversations(conversationsFromDB);
+	}, [conversationsLoaded, conversationsFromDB]);
+
 	return (
 		<ConversationListContext.Provider
 			value={[conversations, loaded]}

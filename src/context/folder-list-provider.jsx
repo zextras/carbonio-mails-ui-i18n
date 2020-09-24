@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { keyBy } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import FolderListContext from './folder-list-context';
@@ -20,7 +20,19 @@ function FolderListProvider({ children }) {
 		() => db.folders.toArray().then((c) => keyBy(c, '_id')),
 		[db.folders]
 	);
-	const [folders, loaded] = hooks.useObserveDb(query, db);
+
+	const [foldersFromDb, foldersLoaded] = hooks.useObserveDb(query, db);
+
+	const [loaded, setLoaded] = useState(false);
+	const [folders, setFolders] = useState({});
+
+	useEffect(() => {
+		if (foldersLoaded && !loaded) setLoaded(true);
+	}, [foldersLoaded, loaded]);
+	useEffect(() => {
+		if (foldersFromDb && foldersLoaded) setFolders(foldersFromDb);
+	}, [foldersLoaded, foldersFromDb]);
+
 	return (
 		<FolderListContext.Provider
 			value={[folders, loaded]}
