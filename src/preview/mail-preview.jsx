@@ -30,7 +30,7 @@ import {
 import { useMessage, useFolder } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
-import { getTimeLabel } from '../commons/utils';
+import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
 import { hooks } from '@zextras/zapp-shell';
 import { useParams } from 'react-router-dom';
@@ -212,7 +212,7 @@ function MailPreviewBlock({
 						color={message.read ? 'text' : 'primary'}
 						weight={message.read ? 'normal' : 'bold'}
 					>
-						{mainContact.displayName || mainContact.address}
+						{participantToString(mainContact, t)}
 					</Text>
 					<Container
 						orientation="horizontal"
@@ -313,19 +313,19 @@ function MessageContactsList({ message }) {
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('To')}: ` }
-					{ map(toContacts, (contact) => contact.displayName || contact.address).join(', ') }
+					{ map(toContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Cc')}: ` }
-					{ map(ccContacts, (contact) => contact.displayName || contact.address).join(', ') }
+					{ map(ccContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Bcc')}: ` }
-					{ map(bccContacts, (contact) => contact.displayName || contact.address).join(', ') }
+					{ map(bccContacts, (contact) => participantToString(contact, t)).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>
