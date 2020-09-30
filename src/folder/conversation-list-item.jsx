@@ -8,7 +8,7 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
 	find,
@@ -51,13 +51,14 @@ const CollapseElement = styled(Container)`
 `;
 
 export default function ConversationListItem({
-	index,
-	conversation,
-	folderId,
-	style,
-	displayData,
-	updateDisplayData
-}) {
+																							 index,
+																							 conversation,
+																							 folderId,
+																							 zimbraFolderId,
+																							 style,
+																							 displayData,
+																							 updateDisplayData
+																						 }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
@@ -83,8 +84,10 @@ export default function ConversationListItem({
 		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${part.displayName || part.address}`, ', '),
 		''
-	),
-	[conversation.participants]);
+		),
+		[conversation.participants]);
+
+	const isConversation = conversation.msgCount > 1;
 
 	return (
 		<OuterContainer
@@ -101,7 +104,7 @@ export default function ConversationListItem({
 				onClick={_onClick}
 			>
 				<div style={{ alignSelf: 'center' }}>
-					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline"/>
 				</div>
 				<Row
 					takeAvailableSpace
@@ -120,24 +123,24 @@ export default function ConversationListItem({
 								size={conversation.read ? 'medium' : 'large'}
 								weight={conversation.read ? 'regular' : 'bold'}
 							>
-								{ participantsString }
+								{participantsString}
 							</Text>
 						</Row>
 						<Row>
-							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-							<Padding left="small"><Text>{ date }</Text></Padding>
+							{conversation.attachment && <Padding left="small"><Icon icon="AttachOutline"/></Padding>}
+							{conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag"/></Padding>}
+							<Padding left="small"><Text>{date}</Text></Padding>
 						</Row>
 					</Container>
 					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
-						{ conversation.msgCount > 1
-							&& (
-								<Row>
-									<Padding right="extrasmall">
-										<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-									</Padding>
-								</Row>
-							)}
+						{conversation.msgCount > 1
+						&& (
+							<Row>
+								<Padding right="extrasmall">
+									<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'}/>
+								</Padding>
+							</Row>
+						)}
 						<Row
 							wrap="nowrap"
 							takeAvailableSpace
@@ -147,9 +150,10 @@ export default function ConversationListItem({
 							{
 								conversation.subject
 									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
-									: <Text weight={conversation.read ? 'regular' : 'bold'} size="large" color="secondary">{ `(${t('No Subject')})` }</Text>
+									: <Text weight={conversation.read ? 'regular' : 'bold'} size="large"
+													color="secondary">{`(${t('No Subject')})`}</Text>
 							}
-							{ !isEmpty(conversation.fragment) && (
+							{!isEmpty(conversation.fragment) && (
 								<Row
 									takeAvailableSpace
 									mainAlignment="flex-start"
@@ -160,42 +164,44 @@ export default function ConversationListItem({
 							)}
 						</Row>
 						<Row>
-							{ conversation.urgent
-								&& <Icon icon="ArrowUpward" color="error" />}
-							{ conversation.msgCount > 1
-								&& (
-									<IconButton
-										size="small"
-										icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
-										onClick={toggleOpen}
-									/>
-								)}
+							{conversation.urgent
+							&& <Icon icon="ArrowUpward" color="error"/>}
+							{isConversation
+							&& (
+								<IconButton
+									size="small"
+									icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
+									onClick={toggleOpen}
+								/>
+							)}
 						</Row>
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ conversation.msgCount > 1
-				&& (
-					<CollapseElement
-						open={displayData.open}
-					>
-						{ displayData.open && (
-							<Container padding={{ left: 'extralarge' }} height="auto">
-								<ConversationMessagesList
-									folderId={folderId}
-									conversationId={conversation._id}
-									convMessages={conversation.messages}
-								/>
-							</Container>
-						)}
-					</CollapseElement>
-				)}
-			<Divider style={{ minHeight: '1px' }} />
+			{isConversation
+			&& (
+				<CollapseElement
+					open={displayData.open}
+				>
+					{displayData.open && (
+						<Container padding={{ left: 'extralarge' }} height="auto">
+							<ConversationMessagesList
+								zimbraFolderId={zimbraFolderId}
+								folderId={folderId}
+								conversationId={conversation._id}
+								convMessages={conversation.messages}
+							/>
+						</Container>
+					)}
+				</CollapseElement>
+			)}
+
+			<Divider style={{ minHeight: '1px' }}/>
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, convMessages, folderId }) => {
+const ConversationMessagesList = ({ conversationId, convMessages, folderId, zimbraFolderId}) => {
 	const ids = useMemo(() => map(convMessages, (m) => m.id), [convMessages]);
 
 	const [messages, loaded] = useConversationMessages(ids);
@@ -208,14 +214,17 @@ const ConversationMessagesList = ({ conversationId, convMessages, folderId }) =>
 				(message, index) => (
 					<React.Fragment key={message.id}>
 						<MessageListItem
+							zimbraFolderId={zimbraFolderId}
 							message={message}
 							conversationId={conversationId}
 							folderId={folderId}
 						/>
-						{ (messages.length - 1) > index && <Divider /> }
+						{(messages.length - 1) > index && <Divider/>}
 					</React.Fragment>
 				)
 			)}
 		</>
 	);
 };
+
+

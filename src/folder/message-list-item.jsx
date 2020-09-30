@@ -8,7 +8,7 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { find, reduce, trimStart, isEmpty } from 'lodash';
 import styled from 'styled-components';
@@ -24,14 +24,16 @@ import {
 import { getTimeLabel } from '../commons/utils';
 import { useTranslation } from 'react-i18next';
 import { useFolder } from '../hooks';
+import MailHoverBar from './mail-hover-bar';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
+	opacity: ${({ isHover }) => (isHover  ? 0.6 : 1)};
+	mask-image: ${({ isHover }) => (isHover ? 'linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))' : '')};
 `;
+
 const InvisibleLink = styled(Link)`
+	position: relative;
 	text-decoration: none;
 	width: 100%;
 `;
@@ -67,12 +69,16 @@ export default function MessageListItem({
 		},
 		[message]
 	);
+	const [isHover, setIsHover] = useState(false);
 
 	return (
 		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message._id}`}>
 			<HoverContainer
 				background="gray6"
 				mainAlignment="space-between"
+				isHover={isHover}
+				onMouseOver={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
 			>
 				{ message && (
 					<Container
@@ -147,6 +153,14 @@ export default function MessageListItem({
 					</Container>
 				)}
 			</HoverContainer>
+			{
+				isHover && <Container
+					onMouseEnter={() => setIsHover(true)}
+					onMouseLeave={() => setIsHover(false)}
+				>
+					<MailHoverBar folder={messageFolder} message={message} />
+				</Container>
+			}
 		</InvisibleLink>
 	);
 };
