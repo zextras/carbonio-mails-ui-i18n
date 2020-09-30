@@ -212,7 +212,6 @@ const ConversationMessagesList = ({ conversationId, convMessages, folderId, zimb
 				(message, index) => (
 					<React.Fragment key={message.id}>
 						<MessageListItem
-							zimbraFolderId={zimbraFolderId}
 							message={message}
 							conversationId={conversationId}
 							folderId={folderId}

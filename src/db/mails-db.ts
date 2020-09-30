@@ -303,4 +303,11 @@ export class MailsDb extends MailsDbDexie {
 				[]
 			));
 	}
+
+	public setFlag(messageId: string, value: boolean): Promise<void> {
+		console.log(messageId, value);
+		return this.messages.update(messageId, {
+			flagged: value
+		}).then(() => {});
+	}
 }
