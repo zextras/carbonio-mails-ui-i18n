@@ -20,7 +20,9 @@ const ButtonBar = styled(Row)`
 	top: 8px;
 `;
 
-function moveToThresh(db, message) {
+function MoveToThrash({ message }) {
+	const { db } = hooks.useAppContext();
+
 	return (
 		<IconButton
 			size="large"
@@ -33,7 +35,8 @@ function moveToThresh(db, message) {
 	);
 }
 
-function deleteMessage(db, message) {
+function Delete({ message }) {
+	const { db } = hooks.useAppContext();
 	return (
 		<IconButton
 			size="large"
@@ -46,7 +49,8 @@ function deleteMessage(db, message) {
 	);
 }
 
-function flagUnflag(db, message) {
+function FlagUnflag({ message }) {
+	const { db } = hooks.useAppContext();
 	if (message.flagged) {
 		return (
 			<IconButton
@@ -71,7 +75,8 @@ function flagUnflag(db, message) {
 	);
 }
 
-function readUnread(db, message) {
+function ReadUnread({ message }) {
+	const { db } = hooks.useAppContext();
 	if (message.read) {
 		return (
 			<IconButton
@@ -96,7 +101,8 @@ function readUnread(db, message) {
 	);
 }
 
-function archive(db, message) {
+function Archive({ message }) {
+	return <div />;
 	// return (
 	// 	<IconButton
 	// 		size="large"
@@ -109,7 +115,8 @@ function archive(db, message) {
 	// );
 }
 
-function forward(db, message) {
+function Forward({ message }) {
+	return <div />;
 	// return (
 	// 	<IconButton
 	// 		size="large"
@@ -122,14 +129,16 @@ function forward(db, message) {
 	// );
 }
 
-function edit(db, message, action) {
+function Edit({ message, folder }) {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
 	return (
 		<IconButton
 			size="large"
 			icon="Edit2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				action();
+				replaceHistory(`/folder/${folder._id}?edit=${message._id}`);
 			}}
 		/>
 	);
@@ -137,47 +146,44 @@ function edit(db, message, action) {
 
 export default function MailHoverBar({ message, folder }) {
 	const { db } = hooks.useAppContext();
-	const replaceHistory = hooks.useReplaceHistoryCallback();
-
-	const editMessage = () => replaceHistory(`/folder/${folder._id}?edit=${message._id}`);
 
 	const buttons = useMemo(() => {
 		switch (folder.id) {
 			case '2':	// INBOX
 				return (
 					<>
-						{moveToThresh(db, message)}
-						{flagUnflag(db, message)}
-						{archive(db, message)}
-						{readUnread(db, message)}
+						<MoveToThrash message={message} />
+						<FlagUnflag message={message} />
+						<Archive message={message} />
+						<ReadUnread message={message} />
 					</>
 				);
 			case '3': // TRASH
 			case '4': // JUNK - SPAM
 				return (
 					<>
-						{deleteMessage(db, message)}
-						{readUnread(db, message)}
-						{archive(db, message)}
-						{flagUnflag(db, message)}
+						<Delete message={message} />
+						<ReadUnread message={message} />
+						<Archive message={message} />
+						<FlagUnflag message={message} />
 					</>
 				);
 			case '5': // SENT
 				return (
 					<>
-						{moveToThresh(db, message)}
-						{archive(db, message)}
-						{forward(db, message)}
-						{flagUnflag(db, message)}
+						<MoveToThrash message={message} />
+						<Archive message={message} />
+						<Forward message={message} />
+						<FlagUnflag message={message} />
 					</>
 				);
 			case '6': // DRAFT
 				return (
 					<>
-						{moveToThresh(db, message)}
-						{edit(db, message, editMessage)}
-						{archive(db, message)}
-						{flagUnflag(db, message)}
+						<MoveToThrash message={message} />
+						<Edit message={message} folder={folder} />
+						<Archive message={message} />
+						<FlagUnflag message={message} />
 					</>
 				);
 				// TODO: discuss about Outbox and Archive folder
@@ -185,8 +191,8 @@ export default function MailHoverBar({ message, folder }) {
 			default:
 				return (
 					<>
-						{moveToThresh(db, message)}
-						{flagUnflag(db, message)}
+						<MoveToThrash message={message} />
+						<FlagUnflag message={message} />
 					</>
 				);
 		}
