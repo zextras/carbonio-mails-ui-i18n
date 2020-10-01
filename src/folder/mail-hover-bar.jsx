@@ -20,6 +20,96 @@ const ButtonBar = styled(Row)`
 	top: 8px;
 `;
 
+function moveToThresh(db, message) {
+	return (
+		<IconButton
+			size="large"
+			icon="Trash2Outline"
+			onClick={(ev) => {
+				ev.preventDefault();
+				db.moveMessageToTrash(message._id);
+			}}
+		/>
+	);
+}
+
+function deleteMessage(db, message) {
+	return (
+		<IconButton
+			size="large"
+			icon="Trash2Outline"
+			onClick={(ev) => {
+				ev.preventDefault();
+				db.deleteMessage(message._id);
+			}}
+		/>
+	);
+}
+
+function flagUnflag(db, message) {
+	if (message.flagged) {
+		return (
+			<IconButton
+				size="large"
+				icon="FlagOutline"
+				onClick={(ev) => {
+					ev.preventDefault();
+					db.setFlag(message._id, false);
+				}}
+			/>
+		);
+	}
+	return (
+		<IconButton
+			size="large"
+			icon="Flag"
+			onClick={(ev) => {
+				ev.preventDefault();
+				db.setFlag(message._id, true);
+			}}
+		/>
+	);
+}
+
+function readUnread(db, message) {
+	if (message.read) {
+		return (
+			<IconButton
+				size="large"
+				icon="EmailOutline"
+				onClick={(ev) => {
+					ev.preventDefault();
+					db.setRead(message._id, false);
+				}}
+			/>
+		);
+	}
+	return (
+		<IconButton
+			size="large"
+			icon="EmailReadOutline"
+			onClick={(ev) => {
+				ev.preventDefault();
+				db.setRead(message._id, true);
+			}}
+		/>
+	);
+}
+
+function archive(db, message) {
+	return;
+	return (
+		<IconButton
+			size="large"
+			icon="ArchiveOutline"
+			onClick={(ev) => {
+				ev.preventDefault();
+				// TODO: archive; in future, when it will be defined
+			}}
+		/>
+	);
+}
+
 export default function MailHoverBar({ message, folder }) {
 	const { db } = hooks.useAppContext();
 	const buttons = useMemo(() => {
@@ -27,110 +117,47 @@ export default function MailHoverBar({ message, folder }) {
 			case '2': {
 				return (
 					<>
-						<IconButton
-							size="large"
-							icon="Trash2Outline"
-							onClick={(ev) => {
-								ev.preventDefault();
-								db.moveMessageToTrash(message._id);
-							}}
-						/>
-						{message.flagged
-							? (
-								<IconButton
-									size="large"
-									icon="FlagOutline"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, false);
-									}}
-								/>
-							)
-							: (
-								<IconButton
-									size="large"
-									icon="Flag"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, true);
-									}}
-								/>
-							)}
+						{
+							moveToThresh(db, message)
+						}
+						{
+							flagUnflag(db, message)
+						}
+						{
+							archive(db, message)
+						}
+						{
+							readUnread(db, message)
+						}
 					</>
 				);
 			}
 			case '3': {
 				return (
 					<>
-						<IconButton
-							size="large"
-							icon="Trash2Outline"
-							onClick={(ev) => {
-								ev.preventDefault();
-								db.deleteMessage(message._id);
-							}}
-						/>
-						{message.flagged
-							? (
-								<IconButton
-									size="large"
-									icon="FlagOutline"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, false);
-									}}
-								/>
-							)
-							: (
-								<IconButton
-									size="large"
-									icon="Flag"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, true);
-									}}
-								/>
-							)}
+						{
+							deleteMessage(db, message)
+						}
+						{
+							flagUnflag(db, message)
+						}
 					</>
 				);
 			}
 			default: {
 				return (
 					<>
-						<IconButton
-							size="large"
-							icon="Trash2Outline"
-							onClick={(ev) => {
-								ev.preventDefault();
-								db.moveMessageToTrash(message._id);
-							}}
-						/>
-						{message.flagged
-							? (
-								<IconButton
-									size="large"
-									icon="FlagOutline"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, false);
-									}}
-								/>
-							)
-							: (
-								<IconButton
-									size="large"
-									icon="Flag"
-									onClick={(ev) => {
-										ev.preventDefault();
-										db.setFlag(message._id, true);
-									}}
-								/>
-							)}
+						{
+							moveToThresh(db, message)
+						}
+						{
+							flagUnflag(db, message)
+						}
 					</>
 				);
 			}
 		}
-	}, [db, folder.id, message._id, message.flagged]);
+	}, [db, folder.id, message._id, message.flagged, message.read]);
 
 	return (
 		<ButtonBar orientation="horizontal">

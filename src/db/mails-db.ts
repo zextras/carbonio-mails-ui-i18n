@@ -309,4 +309,10 @@ export class MailsDb extends MailsDbDexie {
 			flagged: value
 		}).then(() => {});
 	}
+
+	public setRead(messageId: string, value: boolean): Promise<void> {
+		return this.messages.update(messageId, {
+			read: value
+		}).then(() => {});
+	}
 }
