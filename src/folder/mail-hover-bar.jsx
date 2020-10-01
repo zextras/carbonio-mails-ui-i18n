@@ -9,8 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { Icon, IconButton, Row } from '@zextras/zapp-ui';
-import React from 'react';
+import { IconButton, Row } from '@zextras/zapp-ui';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 
@@ -22,28 +22,78 @@ const ButtonBar = styled(Row)`
 
 export default function MailHoverBar({ message, folder }) {
 	const { db } = hooks.useAppContext();
-	if(folder.id === '2')
-		return <ButtonBar orientation="horizontal">
-			<IconButton size="large" icon="Trash2Outline" onClick={() => {
-				alert('ciao');
-			}}/>
-			{/*- Archive */}
-			{/*- Forward */}
-			{message.flagged
-				? <IconButton size="large" icon="FlagOutline" onClick={() => {db.setFlag(message._id, false); }}/>
-				: <IconButton size="large" icon="Flag" onClick={() => {db.setFlag(message._id, true); }}/>
+	const buttons = useMemo(() => {
+		switch (folder.id) {
+			case '2': {
+				return (
+					<>
+						<IconButton
+							size="large"
+							icon="Trash2Outline"
+							onClick={() => {}}
+						/>
+						{message.flagged
+							? (
+								<IconButton
+									size="large"
+									icon="FlagOutline"
+									onClick={() => {
+										db.setFlag(message._id, false);
+									}}
+								/>
+							)
+							: (
+								<IconButton
+									size="large"
+									icon="Flag"
+									onClick={() => {
+										db.setFlag(message._id, true);
+									}}
+								/>
+							)}
+					</>
+				);
 			}
-		</ButtonBar>;
-	return <ButtonBar orientation="horizontal">
-		<IconButton size="large" icon="Trash2Outline" onClick={() => {
-			alert('ciao');
-		}}/>
-		{/*- Archive */}
-		{/*- Forward */}
-		{message.flagged
-			? <IconButton size="large" icon="FlagOutline" onClick={() => {db.setFlag(message._id, false); }}/>
-			: <IconButton size="large" icon="Flag" onClick={() => () => {db.setFlag(message._id, true); }}/>
+			default: {
+				return (
+					<>
+						<IconButton
+							size="large"
+							icon="Trash2Outline"
+							onClick={() => {
+								alert('ciao');
+							}}
+						/>
+						{message.flagged
+							? (
+								<IconButton
+									size="large"
+									icon="FlagOutline"
+									onClick={(ev) => {
+										ev.stopPropagation();
+										db.setFlag(message._id, false);
+									}}
+								/>
+							)
+							: (
+								<IconButton
+									size="large"
+									icon="Flag"
+									onClick={(ev) => {
+										ev.stopPropagation();
+										db.setFlag(message._id, true);
+									}}
+								/>
+							)}
+					</>
+				);
+			}
 		}
-	</ButtonBar>;
-}
+	}, [db, folder.id, message._id, message.flagged]);
 
+	return (
+		<ButtonBar orientation="horizontal">
+			{buttons}
+		</ButtonBar>
+	);
+}

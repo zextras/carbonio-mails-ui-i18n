@@ -73,7 +73,6 @@ export default function MessageListItem({
 		},
 		[message]
 	);
-	console.log(message);
 
 	return (
 		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message._id}`}>
