@@ -97,14 +97,39 @@ function readUnread(db, message) {
 }
 
 function archive(db, message) {
-	return;
+	// return (
+	// 	<IconButton
+	// 		size="large"
+	// 		icon="ArchiveOutline"
+	// 		onClick={(ev) => {
+	// 			ev.preventDefault();
+	// 			// TODO: archive; in future, when it will be defined
+	// 		}}
+	// 	/>
+	// );
+}
+
+function forward(db, message) {
+	// return (
+	// 	<IconButton
+	// 		size="large"
+	// 		icon="Forward"
+	// 		onClick={(ev) => {
+	// 			ev.preventDefault();
+	// 			// TODO: forward
+	// 		}}
+	// 	/>
+	// );
+}
+
+function edit(db, message, action) {
 	return (
 		<IconButton
 			size="large"
-			icon="ArchiveOutline"
+			icon="Edit2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				// TODO: archive; in future, when it will be defined
+				action();
 			}}
 		/>
 	);
@@ -112,50 +137,58 @@ function archive(db, message) {
 
 export default function MailHoverBar({ message, folder }) {
 	const { db } = hooks.useAppContext();
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
+	const editMessage = () => replaceHistory(`/folder/${folder._id}?edit=${message._id}`);
+
 	const buttons = useMemo(() => {
 		switch (folder.id) {
-			case '2': {
+			case '2':	// INBOX
 				return (
 					<>
-						{
-							moveToThresh(db, message)
-						}
-						{
-							flagUnflag(db, message)
-						}
-						{
-							archive(db, message)
-						}
-						{
-							readUnread(db, message)
-						}
+						{moveToThresh(db, message)}
+						{flagUnflag(db, message)}
+						{archive(db, message)}
+						{readUnread(db, message)}
 					</>
 				);
-			}
-			case '3': {
+			case '3': // TRASH
+			case '4': // JUNK - SPAM
 				return (
 					<>
-						{
-							deleteMessage(db, message)
-						}
-						{
-							flagUnflag(db, message)
-						}
+						{deleteMessage(db, message)}
+						{readUnread(db, message)}
+						{archive(db, message)}
+						{flagUnflag(db, message)}
 					</>
 				);
-			}
-			default: {
+			case '5': // SENT
 				return (
 					<>
-						{
-							moveToThresh(db, message)
-						}
-						{
-							flagUnflag(db, message)
-						}
+						{moveToThresh(db, message)}
+						{archive(db, message)}
+						{forward(db, message)}
+						{flagUnflag(db, message)}
 					</>
 				);
-			}
+			case '6': // DRAFT
+				return (
+					<>
+						{moveToThresh(db, message)}
+						{edit(db, message, editMessage)}
+						{archive(db, message)}
+						{flagUnflag(db, message)}
+					</>
+				);
+				// TODO: discuss about Outbox and Archive folder
+				// TODO: discuss about the default behavior (in a folder not listed)
+			default:
+				return (
+					<>
+						{moveToThresh(db, message)}
+						{flagUnflag(db, message)}
+					</>
+				);
 		}
 	}, [db, folder.id, message._id, message.flagged, message.read]);
 
