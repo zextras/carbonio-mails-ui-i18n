@@ -30,14 +30,18 @@ export default function MailHoverBar({ message, folder }) {
 						<IconButton
 							size="large"
 							icon="Trash2Outline"
-							onClick={() => {}}
+							onClick={(ev) => {
+								ev.preventDefault();
+								db.moveMessageToTrash(message._id);
+							}}
 						/>
 						{message.flagged
 							? (
 								<IconButton
 									size="large"
 									icon="FlagOutline"
-									onClick={() => {
+									onClick={(ev) => {
+										ev.preventDefault();
 										db.setFlag(message._id, false);
 									}}
 								/>
@@ -46,7 +50,43 @@ export default function MailHoverBar({ message, folder }) {
 								<IconButton
 									size="large"
 									icon="Flag"
-									onClick={() => {
+									onClick={(ev) => {
+										ev.preventDefault();
+										db.setFlag(message._id, true);
+									}}
+								/>
+							)}
+					</>
+				);
+			}
+			case '3': {
+				return (
+					<>
+						<IconButton
+							size="large"
+							icon="Trash2Outline"
+							onClick={(ev) => {
+								ev.preventDefault();
+								db.deleteMessage(message._id);
+							}}
+						/>
+						{message.flagged
+							? (
+								<IconButton
+									size="large"
+									icon="FlagOutline"
+									onClick={(ev) => {
+										ev.preventDefault();
+										db.setFlag(message._id, false);
+									}}
+								/>
+							)
+							: (
+								<IconButton
+									size="large"
+									icon="Flag"
+									onClick={(ev) => {
+										ev.preventDefault();
 										db.setFlag(message._id, true);
 									}}
 								/>
@@ -60,8 +100,9 @@ export default function MailHoverBar({ message, folder }) {
 						<IconButton
 							size="large"
 							icon="Trash2Outline"
-							onClick={() => {
-								alert('ciao');
+							onClick={(ev) => {
+								ev.preventDefault();
+								db.moveMessageToTrash(message._id);
 							}}
 						/>
 						{message.flagged
@@ -70,7 +111,7 @@ export default function MailHoverBar({ message, folder }) {
 									size="large"
 									icon="FlagOutline"
 									onClick={(ev) => {
-										ev.stopPropagation();
+										ev.preventDefault();
 										db.setFlag(message._id, false);
 									}}
 								/>
@@ -80,7 +121,7 @@ export default function MailHoverBar({ message, folder }) {
 									size="large"
 									icon="Flag"
 									onClick={(ev) => {
-										ev.stopPropagation();
+										ev.preventDefault();
 										db.setFlag(message._id, true);
 									}}
 								/>
