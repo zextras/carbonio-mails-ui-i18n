@@ -20,9 +20,7 @@ const ButtonBar = styled(Row)`
 	top: 8px;
 `;
 
-function MoveToThrash({ message }) {
-	const { db } = hooks.useAppContext();
-
+function MoveToTrash({ message, db }) {
 	return (
 		<IconButton
 			size="large"
@@ -35,22 +33,20 @@ function MoveToThrash({ message }) {
 	);
 }
 
-function Delete({ message }) {
-	const { db } = hooks.useAppContext();
+function Delete({ message, db }) {
 	return (
 		<IconButton
 			size="large"
 			icon="Trash2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				db.deleteMessage(message._id);
+				db.deleteMessage(message);
 			}}
 		/>
 	);
 }
 
-function FlagUnflag({ message }) {
-	const { db } = hooks.useAppContext();
+function FlagUnflag({ message, db }) {
 	if (message.flagged) {
 		return (
 			<IconButton
@@ -75,8 +71,7 @@ function FlagUnflag({ message }) {
 	);
 }
 
-function ReadUnread({ message }) {
-	const { db } = hooks.useAppContext();
+function ReadUnread({ message, db }) {
 	if (message.read) {
 		return (
 			<IconButton
@@ -102,7 +97,7 @@ function ReadUnread({ message }) {
 }
 
 function Archive({ message }) {
-	return <div />;
+	return null;
 	// return (
 	// 	<IconButton
 	// 		size="large"
@@ -116,7 +111,7 @@ function Archive({ message }) {
 }
 
 function Forward({ message }) {
-	return <div />;
+	return null;
 	// return (
 	// 	<IconButton
 	// 		size="large"
@@ -152,47 +147,47 @@ export default function MailHoverBar({ message, folder }) {
 			case '2':	// INBOX
 				return (
 					<>
-						<MoveToThrash message={message} />
-						<FlagUnflag message={message} />
-						<Archive message={message} />
-						<ReadUnread message={message} />
+						<MoveToTrash message={message} db={db} />
+						<FlagUnflag message={message} db={db} />
+						<Archive message={message} db={db} />
+						<ReadUnread message={message} db={db} />
 					</>
 				);
 			case '3': // TRASH
 			case '4': // JUNK - SPAM
 				return (
 					<>
-						<Delete message={message} />
-						<ReadUnread message={message} />
-						<Archive message={message} />
-						<FlagUnflag message={message} />
+						<Delete message={message} db={db} />
+						<ReadUnread message={message} db={db} />
+						<Archive message={message} db={db} />
+						<FlagUnflag message={message} db={db} />
 					</>
 				);
 			case '5': // SENT
 				return (
 					<>
-						<MoveToThrash message={message} />
-						<Archive message={message} />
+						<MoveToTrash message={message} db={db} />
+						<Archive message={message} db={db} />
 						<Forward message={message} />
-						<FlagUnflag message={message} />
+						<FlagUnflag message={message} db={db} />
 					</>
 				);
 			case '6': // DRAFT
 				return (
 					<>
-						<MoveToThrash message={message} />
+						<MoveToTrash message={message} db={db} />
 						<Edit message={message} folder={folder} />
-						<Archive message={message} />
-						<FlagUnflag message={message} />
+						<Archive message={message} db={db} />
+						<FlagUnflag message={message} db={db} />
 					</>
 				);
-				// TODO: discuss about Outbox and Archive folder
-				// TODO: discuss about the default behavior (in a folder not listed)
+			// TODO: discuss about Outbox and Archive folder
+			// TODO: discuss about the default behavior (in a folder not listed)
 			default:
 				return (
 					<>
-						<MoveToThrash message={message} />
-						<FlagUnflag message={message} />
+						<MoveToTrash message={message} db={db} />
+						<FlagUnflag message={message} db={db} />
 					</>
 				);
 		}

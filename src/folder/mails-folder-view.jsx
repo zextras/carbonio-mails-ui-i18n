@@ -164,7 +164,8 @@ const LoadingIndicator = ({ style, index }) => (
 		<Button loading disabled label="" type="ghost" />
 	</Container>
 );
-const ConversationList = ({ folderId , zimbraFolderId}) => {
+
+const ConversationList = ({ folderId, zimbraFolderId }) => {
 	const containerRef = useRef();
 	const listRef = useRef();
 	const {
@@ -214,7 +215,7 @@ const ConversationList = ({ folderId , zimbraFolderId}) => {
 				/>
 			);
 		},
-		[conversations, displayData, folderId, updateDisplayData]
+		[conversations, displayData, folderId]
 	);
 
 	const calcItemSize = useCallback(
@@ -227,6 +228,10 @@ const ConversationList = ({ folderId , zimbraFolderId}) => {
 		},
 		[conversations, displayData]
 	);
+
+	useEffect(() => {
+		listRef.current.resetAfterIndex(0, true);
+	}, [conversations]);
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;

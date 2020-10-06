@@ -8,28 +8,12 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-	find,
-	reduce,
-	trimStart,
-	map,
-	isEmpty
-} from 'lodash';
+import { find, isEmpty, map, reduce, trimStart } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
-import {
-	Container,
-	Text,
-	Divider,
-	Avatar,
-	Row,
-	Badge,
-	Padding,
-	Icon,
-	IconButton,
-} from '@zextras/zapp-ui';
+import { Avatar, Badge, Container, Divider, Icon, IconButton, Padding, Row, Text } from '@zextras/zapp-ui';
 import MessageListItem from './message-list-item';
 import { useConversationMessages } from '../hooks';
 import { getTimeLabel, participantToString } from '../commons/utils';
@@ -49,15 +33,7 @@ const CollapseElement = styled(Container)`
 	display: ${({ open }) => (open ? 'block' : 'none')};
 `;
 
-export default function ConversationListItem({
-																							 index,
-																							 conversation,
-																							 folderId,
-																							 zimbraFolderId,
-																							 style,
-																							 displayData,
-																							 updateDisplayData
-																						 }) {
+export default function ConversationListItem({ index, conversation, folderId, zimbraFolderId, style, displayData, updateDisplayData }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
@@ -71,6 +47,7 @@ export default function ConversationListItem({
 		},
 		[conversation.id, displayData.open, index, updateDisplayData]
 	);
+
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
 	}, [folderId, conversation, replaceHistory]);
@@ -184,23 +161,23 @@ export default function ConversationListItem({
 					{displayData.open && (
 						<Container padding={{ left: 'extralarge' }} height="auto">
 							<ConversationMessagesList
+								toggleOpen={toggleOpen}
 								zimbraFolderId={zimbraFolderId}
 								folderId={folderId}
-								conversationId={conversation._id}
-								convMessages={conversation.messages}
+								conversation={conversation}
 							/>
 						</Container>
 					)}
 				</CollapseElement>
 			)}
 
-			<Divider style={{ minHeight: '1px' }}/>
+			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, convMessages, folderId, zimbraFolderId}) => {
-	const ids = useMemo(() => map(convMessages, (m) => m.id), [convMessages]);
+const ConversationMessagesList = ({ conversation, folderId}) => {
+	const ids = useMemo(() => map(conversation.messages, (m) => m.id), [conversation.messages]);
 
 	const [messages, loaded] = useConversationMessages(ids);
 
@@ -213,10 +190,10 @@ const ConversationMessagesList = ({ conversationId, convMessages, folderId, zimb
 					<React.Fragment key={message.id}>
 						<MessageListItem
 							message={message}
-							conversationId={conversationId}
+							conversation={conversation}
 							folderId={folderId}
 						/>
-						{(messages.length - 1) > index && <Divider/>}
+						{ (messages.length - 1) > index && <Divider /> }
 					</React.Fragment>
 				)
 			)}

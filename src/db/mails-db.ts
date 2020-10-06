@@ -25,7 +25,7 @@ import { MailConversationMessage } from './mail-conversation-message';
 export type DeletionData = {
 	_id: string;
 	id: string;
-	table: 'mails'|'folders';
+	table: 'mails' | 'folders';
 	rowId?: string;
 };
 
@@ -83,24 +83,24 @@ export class MailsDb extends MailsDbDexie {
 							parts: [
 								{
 									contentType: 'text/plain',
-									content: cState.body.text,
+									content: cState.body.text
 								},
 								{
 									contentType: 'text/html',
-									content: cState.body.html,
+									content: cState.body.html
 								}
 							]
 						}
 						: {
 							contentType: 'text/plain',
-							content: cState.body.text,
+							content: cState.body.text
 						}
 				],
 				size: 0,
 				attachment: false,
 				flagged: false,
 				urgent: false,
-				send: false,
+				send: false
 			});
 		}
 		return this.messages.update(draftId, {
@@ -133,11 +133,11 @@ export class MailsDb extends MailsDbDexie {
 					parts: [
 						{
 							contentType: 'text/plain',
-							content: cState.body.text,
+							content: cState.body.text
 						},
 						{
 							contentType: 'text/html',
-							content: cState.body.html,
+							content: cState.body.html
 						}
 					]
 				}
@@ -149,7 +149,7 @@ export class MailsDb extends MailsDbDexie {
 			date: Date.now(),
 			attachment: false,
 			flagged: cState.flagged,
-			urgent: cState.urgent,
+			urgent: cState.urgent
 		}).then(() => draftId);
 	}
 
@@ -161,8 +161,22 @@ export class MailsDb extends MailsDbDexie {
 		return this.messages.update(id, { parent: '3' });
 	}
 
-	public deleteMessage(id: string): Promise<void> {
-		return this.messages.delete(id);
+	public deleteMessage(message: MailMessageFromDb): Promise<void> {
+		return this.transaction('rw', this.conversations, this.messages, () => {
+			this.conversations.where('id').equals(message.conversation)
+				.modify((value, ref) => {
+					const newConversation = {
+						...value,
+						messages: value.messages.filter((obj) => obj.id !== message.id),
+						msgCount: value.msgCount - 1
+					};
+					// eslint-disable-next-line no-param-reassign
+					ref.value = newConversation;
+				}).then((n) => n)
+				.catch(console.error);
+			this.messages.delete(message._id)
+				.catch(console.error);
+		}).catch(console.error);
 	}
 
 	public checkHasMoreConv(
@@ -206,7 +220,7 @@ export class MailsDb extends MailsDbDexie {
 	public checkForDuplicates(
 		remoteConvs: MailConversationFromSoap[],
 		remoteConvsMessages: MailMessageFromSoap[]
-	): Promise<Array<MailConversationFromDb[]|MailMessageFromDb[]>> {
+	): Promise<Array<MailConversationFromDb[] | MailMessageFromDb[]>> {
 		const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
 			remoteConvs,
 			([r1, r2], v) => [
@@ -231,7 +245,7 @@ export class MailsDb extends MailsDbDexie {
 	public saveConvsAndMessages(
 		convsToAdd: MailConversationFromDb[],
 		convsMessagesToAdd: MailMessageFromDb[]
-	): Promise<string[]|void[]> {
+	): Promise<string[] | void[]> {
 		return Promise.all([
 			this.messages.bulkAdd(convsMessagesToAdd),
 			this.conversations.bulkAdd(convsToAdd)
@@ -307,12 +321,14 @@ export class MailsDb extends MailsDbDexie {
 	public setFlag(messageId: string, value: boolean): Promise<void> {
 		return this.messages.update(messageId, {
 			flagged: value
-		}).then(() => {});
+		}).then(() => {
+		});
 	}
 
 	public setRead(messageId: string, value: boolean): Promise<void> {
 		return this.messages.update(messageId, {
 			read: value
-		}).then(() => {});
+		}).then(() => {
+		});
 	}
 }

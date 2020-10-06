@@ -42,11 +42,7 @@ const InvisibleLink = styled(Link)`
 	}
 `;
 
-export default function MessageListItem({
-																					message,
-																					folderId,
-																					conversationId
-																				}) {
+export default function MessageListItem({ message, folderId, conversation, forceUpdate }) {
 	const { t } = useTranslation();
 	const [messageFolder, messageFolderLoaded] = useFolder(message.parent);
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
@@ -75,7 +71,7 @@ export default function MessageListItem({
 	);
 
 	return (
-		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message._id}`}>
+		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation._id}&message=${message._id}`}>
 			<HoverContainer
 				background="gray6"
 				mainAlignment="space-between"
@@ -155,7 +151,7 @@ export default function MessageListItem({
 				)}
 			</HoverContainer>
 			<HoverBarContainer>
-				<MailHoverBar folder={messageFolder} message={message}/>
+				<MailHoverBar folder={messageFolder} message={message} forceUpdate={forceUpdate} />
 			</HoverBarContainer>
 		</InvisibleLink>
 	);
