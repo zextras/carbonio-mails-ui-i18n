@@ -10,26 +10,10 @@
  */
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-	find,
-	reduce,
-	trimStart,
-	map,
-	isEmpty
-} from 'lodash';
+import { find, isEmpty, map, reduce, trimStart } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
-import {
-	Container,
-	Text,
-	Divider,
-	Avatar,
-	Row,
-	Badge,
-	Padding,
-	Icon,
-	IconButton,
-} from '@zextras/zapp-ui';
+import { Avatar, Badge, Container, Divider, Icon, IconButton, Padding, Row, Text } from '@zextras/zapp-ui';
 import MessageListItem from './message-list-item';
 import { useConversationMessages } from '../hooks';
 import { getTimeLabel, participantToString } from '../commons/utils';
@@ -49,14 +33,7 @@ const CollapseElement = styled(Container)`
 	display: ${({ open }) => (open ? 'block' : 'none')};
 `;
 
-export default function ConversationListItem({
-	index,
-	conversation,
-	folderId,
-	style,
-	displayData,
-	updateDisplayData
-}) {
+export default function ConversationListItem({ index, conversation, folderId, zimbraFolderId, style, displayData, updateDisplayData }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
@@ -70,6 +47,7 @@ export default function ConversationListItem({
 		},
 		[conversation.id, displayData.open, index, updateDisplayData]
 	);
+
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
 	}, [folderId, conversation, replaceHistory]);
@@ -81,8 +59,10 @@ export default function ConversationListItem({
 		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
 		''
-	),
-	[conversation.participants]);
+		),
+		[conversation.participants]);
+
+	const isConversation = conversation.msgCount > 1;
 
 	return (
 		<OuterContainer
@@ -99,7 +79,7 @@ export default function ConversationListItem({
 				onClick={_onClick}
 			>
 				<div style={{ alignSelf: 'center' }}>
-					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+					<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline"/>
 				</div>
 				<Row
 					takeAvailableSpace
@@ -118,24 +98,24 @@ export default function ConversationListItem({
 								size={conversation.read ? 'medium' : 'large'}
 								weight={conversation.read ? 'regular' : 'bold'}
 							>
-								{ participantsString }
+								{participantsString}
 							</Text>
 						</Row>
 						<Row>
-							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-							<Padding left="small"><Text>{ date }</Text></Padding>
+							{conversation.attachment && <Padding left="small"><Icon icon="AttachOutline"/></Padding>}
+							{conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag"/></Padding>}
+							<Padding left="small"><Text>{date}</Text></Padding>
 						</Row>
 					</Container>
 					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
-						{ conversation.msgCount > 1
-							&& (
-								<Row>
-									<Padding right="extrasmall">
-										<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
-									</Padding>
-								</Row>
-							)}
+						{conversation.msgCount > 1
+						&& (
+							<Row>
+								<Padding right="extrasmall">
+									<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'}/>
+								</Padding>
+							</Row>
+						)}
 						<Row
 							wrap="nowrap"
 							takeAvailableSpace
@@ -145,9 +125,10 @@ export default function ConversationListItem({
 							{
 								conversation.subject
 									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
-									: <Text weight={conversation.read ? 'regular' : 'bold'} size="large" color="secondary">{ `(${t('No Subject')})` }</Text>
+									: <Text weight={conversation.read ? 'regular' : 'bold'} size="large"
+													color="secondary">{`(${t('No Subject')})`}</Text>
 							}
-							{ !isEmpty(conversation.fragment) && (
+							{!isEmpty(conversation.fragment) && (
 								<Row
 									takeAvailableSpace
 									mainAlignment="flex-start"
@@ -158,43 +139,45 @@ export default function ConversationListItem({
 							)}
 						</Row>
 						<Row>
-							{ conversation.urgent
-								&& <Icon icon="ArrowUpward" color="error" />}
-							{ conversation.msgCount > 1
-								&& (
-									<IconButton
-										size="small"
-										icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
-										onClick={toggleOpen}
-									/>
-								)}
+							{conversation.urgent
+							&& <Icon icon="ArrowUpward" color="error"/>}
+							{isConversation
+							&& (
+								<IconButton
+									size="small"
+									icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
+									onClick={toggleOpen}
+								/>
+							)}
 						</Row>
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ conversation.msgCount > 1
-				&& (
-					<CollapseElement
-						open={displayData.open}
-					>
-						{ displayData.open && (
-							<Container padding={{ left: 'extralarge' }} height="auto">
-								<ConversationMessagesList
-									folderId={folderId}
-									conversationId={conversation._id}
-									convMessages={conversation.messages}
-								/>
-							</Container>
-						)}
-					</CollapseElement>
-				)}
+			{isConversation
+			&& (
+				<CollapseElement
+					open={displayData.open}
+				>
+					{displayData.open && (
+						<Container padding={{ left: 'extralarge' }} height="auto">
+							<ConversationMessagesList
+								toggleOpen={toggleOpen}
+								zimbraFolderId={zimbraFolderId}
+								folderId={folderId}
+								conversation={conversation}
+							/>
+						</Container>
+					)}
+				</CollapseElement>
+			)}
+
 			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
 	);
 };
 
-const ConversationMessagesList = ({ conversationId, convMessages, folderId }) => {
-	const ids = useMemo(() => map(convMessages, (m) => m.id), [convMessages]);
+const ConversationMessagesList = ({ conversation, folderId}) => {
+	const ids = useMemo(() => map(conversation.messages, (m) => m.id), [conversation.messages]);
 
 	const [messages, loaded] = useConversationMessages(ids);
 
@@ -207,7 +190,7 @@ const ConversationMessagesList = ({ conversationId, convMessages, folderId }) =>
 					<React.Fragment key={message.id}>
 						<MessageListItem
 							message={message}
-							conversationId={conversationId}
+							conversation={conversation}
 							folderId={folderId}
 						/>
 						{ (messages.length - 1) > index && <Divider /> }
@@ -217,3 +200,5 @@ const ConversationMessagesList = ({ conversationId, convMessages, folderId }) =>
 		</>
 	);
 };
+
+

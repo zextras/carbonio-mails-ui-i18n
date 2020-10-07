@@ -56,7 +56,7 @@ const findAttachments = (parts, acc) => reduce(
 function MailPreview({ message: messageData, firstMail }) {
 	const [message, loaded] = useMessage(messageData.id);
 
-	if (!loaded) return null;
+	if (!loaded || !message) return null;
 
 	return (
 		<MailPreviewLoaded
@@ -146,12 +146,8 @@ function MailPreviewBlock({
 				icon: 'TrashOutline',
 				label: t('Delete Message'),
 				onActivate: () => {
-					db.deleteMessage(message._id);
-					// 	.then((updated) => (
-					// 	updated > 0
-					// 		? replaceHistory(`/folder/${folderId}`)
-					// 		: console.error('Error removing element')
-					// ));
+					db.deleteMessage(message._id)
+						.then(() => replaceHistory(`/folder/${folderId}`));
 				}
 			});
 		}
