@@ -132,7 +132,8 @@ function MailPreviewBlock({
 
 	const actions = useMemo(() => {
 		const arr = [];
-		if (message.parent === '6') {
+
+		if (message.parent === '6') {	// DRAFT
 			arr.push({
 				id: 'message-preview-edit-draft',
 				icon: 'Edit2Outline',
@@ -140,14 +141,61 @@ function MailPreviewBlock({
 				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message._id}`)
 			});
 		}
-		if (message.parent === '3') {
+		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT
+			arr.push({
+				id: 'message-preview-reply',
+				icon: 'UndoOutline',
+				label: t('Reply'),
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=reply&actionId=${message.id}`)
+			});
+			arr.push({
+				id: 'message-preview-reply-all',
+				icon: 'ReplyAll',
+				label: t('Reply to All'),
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=replyAll&actionId=${message.id}`)
+			});
+			arr.push({
+				id: 'message-preview-forward',
+				icon: 'Forward',
+				label: t('Forward'),
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=forward&actionId=${message.id}`)
+			});
+			arr.push({
+				id: 'message-preview-edit-as-new',
+				icon: 'Edit2Outline',
+				label: t('Edit as new'),
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=editAsNew&actionId=${message.id}`)
+			});
+		}
+		if (!message.flagged) {
+			arr.push({
+				id: 'message-preview-flag',
+				icon: 'FlagOutline',
+				label: t('Set as flagged'),
+				onActivate: (ev) => {
+					ev.preventDefault();
+					db.setFlag(message._id, true);
+				}
+			});
+		}
+		else {
+			arr.push({
+				id: 'message-preview-not-flag',
+				icon: 'Flag',
+				label: t('Set as not flagged'),
+				onActivate: (ev) => {
+					ev.preventDefault();
+					db.setFlag(message._id, false);
+				}
+			});
+		}
+		if (message.parent === '3' || message.parent === '4') { // TRASH OR JUNK
 			arr.push({
 				id: 'message-preview-delete',
 				icon: 'TrashOutline',
 				label: t('Delete Message'),
 				onActivate: () => {
-					db.deleteMessage(message._id)
-						.then(() => replaceHistory(`/folder/${folderId}`));
+					db.deleteMessage(message);
 				}
 			});
 		}
@@ -158,12 +206,11 @@ function MailPreviewBlock({
 				label: t('Move to Trash'),
 				onActivate: () => {
 					db.moveMessageToTrash(message._id);
-					// .then(() => replaceHistory(`/folder/${folderId}`));
 				}
 			});
 		}
 		return arr;
-	}, [db, folderId, message._id, message.parent, replaceHistory, t]);
+	}, [db, folderId, message._id, message.parent, message.flagged, replaceHistory, t]);
 
 	const { folderId: currentFolderId } = useParams();
 	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
