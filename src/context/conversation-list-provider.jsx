@@ -15,6 +15,7 @@ import React, {
 import { keyBy } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import ConversationListContext from './conversation-list-context';
+import { report } from '../commons/report-exception';
 
 function ConversationListProvider({ children }) {
 	const { db } = hooks.useAppContext();
@@ -23,7 +24,7 @@ function ConversationListProvider({ children }) {
 			.then((convs) => keyBy(
 				convs,
 				'_id'
-			)),
+			)).catch(report),
 		[db.conversations]
 	);
 

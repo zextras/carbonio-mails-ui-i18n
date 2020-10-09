@@ -24,6 +24,7 @@ import { hooks } from '@zextras/zapp-shell';
 import { MailMessagePart, MailMessageFromDb } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
 import { useMessage } from '../hooks';
+import { report } from '../commons/report-exception';
 
 export type ResetAction = {
 	type: 'RESET';
@@ -159,7 +160,7 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 			};
 		}
 		default:
-			console.warn('unrecognized action type');
+			report(new Error('useCompositionData: unrecognized action type'));
 			return state;
 	}
 };

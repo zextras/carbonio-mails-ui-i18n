@@ -13,11 +13,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { keyBy } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import FolderListContext from './folder-list-context';
+import { report } from '../commons/report-exception';
 
 function FolderListProvider({ children }) {
 	const { db } = hooks.useAppContext();
 	const query = useCallback(
-		() => db.folders.toArray().then((c) => keyBy(c, '_id')),
+		() => db.folders.toArray().then((c) => keyBy(c, '_id')).catch(report),
 		[db.folders]
 	);
 
