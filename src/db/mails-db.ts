@@ -21,6 +21,7 @@ import { Participant } from './mail-db-types';
 import { MailsDbDexie } from './mails-db-dexie';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
 import { MailConversationMessage } from './mail-conversation-message';
+import { report } from '../commons/report-exception';
 
 export type DeletionData = {
 	_id: string;
@@ -37,14 +38,14 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public open(): PromiseExtended<MailsDb> {
-		return super.open().then((db) => db as MailsDb);
+		return super.open().then((db) => db as MailsDb).catch(report);
 	}
 
 	public getFolderChildren(folder: MailsFolder): Promise<MailsFolderFromDb[]> {
 		// TODO: For locally created folders
 		//  we should resolve the internal id, we should ALWAYS to that.
 		if (!folder.id) return Promise.resolve([]);
-		return this.folders.where({ parent: folder.id }).sortBy('name');
+		return this.folders.where({ parent: folder.id }).sortBy('name').catch(report);
 	}
 
 	public deleteFolder(f: MailsFolderFromDb): Promise<void> {
@@ -58,7 +59,7 @@ export class MailsDb extends MailsDbDexie {
 						table: 'folders'
 					})
 					.then(() => this.folders.delete(_f._id!).then(() => undefined))
-					.catch(console.error);
+					.catch(report);
 			}
 			return undefined;
 		});
@@ -101,7 +102,7 @@ export class MailsDb extends MailsDbDexie {
 				flagged: false,
 				urgent: false,
 				send: false
-			});
+			}).catch(report);
 		}
 		return this.messages.update(draftId, {
 			subject: cState.subject,
@@ -150,15 +151,15 @@ export class MailsDb extends MailsDbDexie {
 			attachment: false,
 			flagged: cState.flagged,
 			urgent: cState.urgent
-		}).then(() => draftId);
+		}).then(() => draftId).catch(report);
 	}
 
 	public sendMail(draftId: string): Promise<string> {
-		return this.messages.update(draftId, { send: true }).then(() => draftId);
+		return this.messages.update(draftId, { send: true }).then(() => draftId).catch(report);
 	}
 
 	public moveMessageToTrash(id: string): Promise<number> {
-		return this.messages.update(id, { parent: '3' });
+		return this.messages.update(id, { parent: '3' }).catch(report);
 	}
 
 	public deleteMessage(message: MailMessageFromDb): Promise<void> {
@@ -173,10 +174,10 @@ export class MailsDb extends MailsDbDexie {
 					// eslint-disable-next-line no-param-reassign
 					ref.value = newConversation;
 				}).then((n) => n)
-				.catch(console.error);
+				.catch(report);
 			this.messages.delete(message._id)
-				.catch(console.error);
-		}).catch(console.error);
+				.catch(report);
+		}).catch(report);
 	}
 
 	public checkHasMoreConv(
@@ -190,7 +191,11 @@ export class MailsDb extends MailsDbDexie {
 			1,
 			lastConv ? new Date(lastConv.date) : undefined,
 			false
-		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)));
+		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)))
+			.catch((err) => {
+				report(err);
+				return false;
+			});
 	}
 
 	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
@@ -238,7 +243,7 @@ export class MailsDb extends MailsDbDexie {
 		);
 		return Promise.all([
 			this.getConvsToAdd(convsIds, remoteConvs),
-			this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
+			this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)//TODO: catch these
 		]);
 	}
 
@@ -282,7 +287,8 @@ export class MailsDb extends MailsDbDexie {
 					return r;
 				},
 				[]
-			));
+			))
+			.catch(report);
 	}
 
 	private getConvsMessagesToAdd(
@@ -315,20 +321,21 @@ export class MailsDb extends MailsDbDexie {
 					return r;
 				},
 				[]
-			));
+			))
+			.catch(report);
 	}
 
 	public setFlag(messageId: string, value: boolean): Promise<void> {
 		return this.messages.update(messageId, {
 			flagged: value
 		}).then(() => {
-		});
+		}).catch(report);
 	}
 
 	public setRead(messageId: string, value: boolean): Promise<void> {
 		return this.messages.update(messageId, {
 			read: value
 		}).then(() => {
-		});
+		}).catch(report);
 	}
 }

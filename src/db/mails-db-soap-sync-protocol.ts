@@ -15,14 +15,13 @@ import { find, reduce } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 import processLocalFolderChange from './process-local-folder-change';
-import { fetchConversationsInFolder, fetchMailMessagesById, SyncRequest, SyncResponse } from '../soap';
+import { fetchConversationsInFolder, SyncRequest, SyncResponse } from '../soap';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
-import { MailConversationMessage } from './mail-conversation-message';
 import { MailsFolderFromDb } from './mails-folder';
-import { MailMessageFromSoap } from './mail-message';
 import { MailConversationFromSoap } from './mail-conversation';
+import { report } from '../commons/report-exception';
 
 const POLL_INTERVAL = 20000;
 
@@ -96,7 +95,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 										deleted,
 										remoteChanges
 									}))
-									.catch((e: Error) => reject(e));
+									.catch(report);
 							}
 						)
 					)
@@ -157,10 +156,12 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						onSuccess({ again: POLL_INTERVAL });
 					})
 					.catch((e) => {
+						report(e);
 						onError(e, POLL_INTERVAL);
 					});
 			})
 			.catch((e) => {
+				report(e);
 				onError(e, POLL_INTERVAL);
 			});
 	}
@@ -209,6 +210,10 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 					return acc;
 				},
 				_remoteChanges
-			));
+			))
+			.catch((err) => {
+				report(err);
+				return [];
+			});
 	}
 }
