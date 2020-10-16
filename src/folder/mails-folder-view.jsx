@@ -230,7 +230,7 @@ const ConversationList = ({ folderId, zimbraFolderId }) => {
 	);
 
 	useEffect(() => {
-		listRef.current.resetAfterIndex(0, true);
+		if (listRef.current) listRef.current.resetAfterIndex(0, true);
 	}, [conversations]);
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {

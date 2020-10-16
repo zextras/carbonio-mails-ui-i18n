@@ -25,6 +25,8 @@ import { MailMessagePart, MailMessageFromDb } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
 import { useMessage } from '../hooks';
 import { report } from '../commons/report-exception';
+import useQueryParam from '../hooks/useQueryParam';
+import handleSaveDraft from './save-draft-helper';
 
 export type ResetAction = {
 	type: 'RESET';
@@ -215,6 +217,9 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [initialized, setInitialized] = useState(false);
 
+	const action = useQueryParam('action') || '';
+	const actionId = useQueryParam('actionId') || '';
+
 	const [draft, loaded] = useMessage(draftId);
 	const [compositionData, dispatch] = useReducer(
 		reducer,
@@ -222,7 +227,7 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	);
 	const timedSaveDraft = useCallback(
 		throttle(
-			(dId: string, cData: CompositionState): void => db.saveDraft(dId, cData)
+			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId)
 				.then((newId: string): void => {
 					if (newId !== dId) {
 						replaceHistory(panel
