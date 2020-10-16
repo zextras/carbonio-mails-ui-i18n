@@ -110,18 +110,49 @@ function Archive({ message }) {
 	// );
 }
 
-function Forward({ message }) {
-	return null;
-	// return (
-	// 	<IconButton
-	// 		size="large"
-	// 		icon="Forward"
-	// 		onClick={(ev) => {
-	// 			ev.preventDefault();
-	// 			// TODO: forward
-	// 		}}
-	// 	/>
-	// );
+function Forward({ message, folder }) {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
+	return (
+		<IconButton
+			size="large"
+			icon="Forward"
+			onClick={(ev) => {
+				ev.preventDefault();
+				replaceHistory(`/folder/${folder._id}?edit=new&action=forward&actionId=${message.id}`);
+			}}
+		/>
+	);
+}
+
+function Reply({ message, folder }) {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
+	return (
+		<IconButton
+			size="large"
+			icon="UndoOutline"
+			onClick={(ev) => {
+				ev.preventDefault();
+				replaceHistory(`/folder/${folder._id}?edit=new&action=reply&actionId=${message.id}`);
+			}}
+		/>
+	);
+}
+
+function ReplyAll({ message, folder }) {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
+	return (
+		<IconButton
+			size="large"
+			icon="ReplyAll"
+			onClick={(ev) => {
+				ev.preventDefault();
+				replaceHistory(`/folder/${folder._id}?edit=new&action=replyAll&actionId=${message.id}`);
+			}}
+		/>
+	);
 }
 
 function Edit({ message, folder }) {
@@ -144,15 +175,6 @@ export default function MailHoverBar({ message, folder }) {
 
 	const buttons = useMemo(() => {
 		switch (folder.id) {
-			case '2':	// INBOX
-				return (
-					<>
-						<MoveToTrash message={message} db={db} />
-						<FlagUnflag message={message} db={db} />
-						<Archive message={message} db={db} />
-						<ReadUnread message={message} db={db} />
-					</>
-				);
 			case '3': // TRASH
 			case '4': // JUNK - SPAM
 				return (
@@ -168,7 +190,7 @@ export default function MailHoverBar({ message, folder }) {
 					<>
 						<MoveToTrash message={message} db={db} />
 						<Archive message={message} db={db} />
-						<Forward message={message} />
+						<Forward message={message} folder={folder} />
 						<FlagUnflag message={message} db={db} />
 					</>
 				);
@@ -182,12 +204,16 @@ export default function MailHoverBar({ message, folder }) {
 					</>
 				);
 			// TODO: discuss about Outbox and Archive folder
-			// TODO: discuss about the default behavior (in a folder not listed)
+			case '2':	// INBOX
 			default:
 				return (
 					<>
+						<Reply message={message} folder={folder} />
+						<ReplyAll message={message} folder={folder} />
 						<MoveToTrash message={message} db={db} />
 						<FlagUnflag message={message} db={db} />
+						<Archive message={message} db={db} />
+						<ReadUnread message={message} db={db} />
 					</>
 				);
 		}

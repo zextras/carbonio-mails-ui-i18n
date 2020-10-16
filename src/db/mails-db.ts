@@ -153,6 +153,61 @@ export class MailsDb extends MailsDbDexie {
 		}).then(() => draftId);
 	}
 
+	public saveDraftFromAction(cState: CompositionState, conversation: string): Promise<string> {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// @ts-ignore
+		return this.messages.add({
+			parent: '6',
+			conversation,
+			contacts: [
+				...map(cState.to, (c: { value: string }): Participant => ({
+					type: 't',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.cc, (c: { value: string }): Participant => ({
+					type: 'c',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				{
+					type: 'f',
+					address: accounts[0].name,
+					displayName: accounts[0].displayName
+				}
+			],
+			date: Date.now(),
+			subject: cState.subject,
+			fragment: cState.body.text.substring(0, 60),
+			read: true,
+			parts: [
+				cState.richText
+					? {
+						contentType: 'multipart/alternative',
+						parts: [
+							{
+								contentType: 'text/plain',
+								content: cState.body.text,
+							},
+							{
+								contentType: 'text/html',
+								content: cState.body.html,
+							}
+						]
+					}
+					: {
+						contentType: 'text/plain',
+						content: cState.body.text,
+					}
+			],
+			size: 0,
+			attachment: false,
+			flagged: false,
+			urgent: false,
+			send: false
+		});
+	}
+
 	public sendMail(draftId: string): Promise<string> {
 		return this.messages.update(draftId, { send: true }).then(() => draftId);
 	}
@@ -163,6 +218,8 @@ export class MailsDb extends MailsDbDexie {
 
 	public deleteMessage(message: MailMessageFromDb): Promise<void> {
 		return this.transaction('rw', this.conversations, this.messages, () => {
+			this.messages.delete(message._id)
+				.catch(console.error);
 			this.conversations.where('id').equals(message.conversation)
 				.modify((value, ref) => {
 					const newConversation = {
@@ -173,8 +230,6 @@ export class MailsDb extends MailsDbDexie {
 					// eslint-disable-next-line no-param-reassign
 					ref.value = newConversation;
 				}).then((n) => n)
-				.catch(console.error);
-			this.messages.delete(message._id)
 				.catch(console.error);
 		}).catch(console.error);
 	}
