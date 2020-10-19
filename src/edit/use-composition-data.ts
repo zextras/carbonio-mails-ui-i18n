@@ -191,9 +191,7 @@ function handleSaveDraft(
 					draftResponse.body.html = body.html;
 					return db.saveDraftFromAction(draftResponse, message.conversation);
 				}
-				else {
-					throw new Error('Message not found');
-				}
+				throw new Error('MessageId not found');
 			});
 		}
 		return db.messages.where({ id: actionId }).first().then((message) => {
@@ -267,14 +265,10 @@ function handleSaveDraft(
 
 				return db.saveDraftFromAction(draftResponse, message.conversation);
 			}
-			else {
-				throw new Error('Message not found');
-			}
+			throw new Error('Message not found');
 		});
 	}
-	else {
-		return db.saveDraft(id, cData);
-	}
+	return db.saveDraft(id, cData);
 }
 
 const useCompositionData = (draftId: string, panel: boolean, folderId: string): CompositionData => {
@@ -299,7 +293,8 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 							? `/folder/${folderId}?edit=${newId}`
 							: `/edit/${newId}`);
 					}
-				}),
+				})
+				.catch(console.error), // TODO: here returns error of Id's not found
 			500,
 			{ leading: false, trailing: true }
 		),
