@@ -12,6 +12,7 @@ import { setMainMenuItems } from '@zextras/zapp-shell';
 import { reduce, find } from 'lodash';
 import { MailsFolder } from './db/mails-folder';
 import { MailsDb } from './db/mails-db';
+import { report } from './commons/report-exception';
 
 type MainMenuItem = {
 	id: string;
@@ -34,6 +35,10 @@ function buildMenuItem(folder: MailsFolder, db: MailsDb): Promise<MainMenuItem> 
 				)
 			)
 		)
+		.catch((err) => {
+			report(err);
+			return [];
+		})
 		.then((children) => {
 			if (children.length > 0) {
 				return {
@@ -72,5 +77,6 @@ export default function mainMenuItems(folders: MailsFolder[], db: MailsDb): void
 				label: 'Mails',
 				children
 			}]);
-		});
+		})
+		.catch(report);
 }

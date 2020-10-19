@@ -27,6 +27,7 @@ import { MailMessagePart, MailMessageFromDb, ParticipantType } from '../db/mail-
 import { Participant } from '../db/mail-db-types';
 import { CompositionData, CompositionState, emptyDraft } from './composition-types';
 import { useMessage } from '../hooks';
+import { report } from '../commons/report-exception';
 import useQueryParam from '../hooks/useQueryParam';
 import { MailsDb } from '../db/mails-db';
 
@@ -137,7 +138,7 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 			};
 		}
 		default:
-			console.warn('unrecognized action type');
+			report(new Error('useCompositionData: unrecognized action type'));
 			return state;
 	}
 };
