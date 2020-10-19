@@ -27,9 +27,6 @@ const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" *
 
 export default function app() {
 	console.log('Hello from mails');
-	window.onerror = (msg, url, lineNo, columnNo, error) => {
-		report(error);
-	};
 	const db = new MailsDb(network.soapFetch);
 	const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
 	db.registerSyncProtocol('soap-mails', syncProtocol);
