@@ -20,8 +20,9 @@ import {
 	throttle,
 	find
 } from 'lodash';
-// eslint-disable-next-line import/no-unresolved
 import { accounts, hooks } from '@zextras/zapp-shell';
+import moment from 'moment';
+import i18n from 'i18next';
 import { MailMessagePart, MailMessageFromDb, ParticipantType } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
 import { CompositionData, CompositionState, emptyDraft } from './composition-types';
@@ -176,7 +177,8 @@ function handleSaveDraft(
 	db: MailsDb,
 	id: string,
 	cData: CompositionState,
-	action: string, actionId: string
+	action: string, actionId: string,
+	t: (key: string) => string
 ): Promise<string> {
 	const draftResponse: CompositionState = { ...emptyDraft };
 	if (action) {
@@ -238,30 +240,18 @@ function handleSaveDraft(
 					.map((c) => `"${c.displayName}" <${c.address}>`)
 					.join(', ');
 
+				const date = moment(message.date).format('LLLL');
 
-				const options = {
-					weekday: 'long',
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-					hour: 'numeric',
-					minute: 'numeric',
-					second: 'numeric'
-				};
-				const date = new Date(message.date);
-				const printDate = date.toLocaleString(undefined, options);
-
-
-				let bodyHtml = `<br /><br /><hr><b>From:</b> ${from} <br /> <b>To:</b> ${to} <br />`;
-				let bodyText = `\n\n---------------------------\nFrom: ${from}\nTo: ${to}\n`;
+				let bodyHtml = `<br /><br /><hr><b>${t('From')}:</b> ${from} <br /> <b>${t('To')}:</b> ${to} <br />`;
+				let bodyText = `\n\n---------------------------\n${t('From')}: ${from}\n${t('To')}: ${to}\n`;
 
 				if (cc.length > 0) {
-					bodyHtml = bodyHtml.concat(`<b>Cc:</b> ${cc}<br />`);
-					bodyText = bodyText.concat(`Cc: ${cc}\n`);
+					bodyHtml = bodyHtml.concat(`<b>${t('Cc')}</b> ${cc}<br />`);
+					bodyText = bodyText.concat(`${t('Cc')}: ${cc}\n`);
 				}
 
-				draftResponse.body.html = bodyHtml.concat(`<b>Sent:</b> ${printDate} <br /> <b>Object:</b> ${message.subject} <br /><br />${body.html}`);
-				draftResponse.body.text = bodyText.concat(`Sent: ${printDate}\nObject: ${message.subject}\n\n${body.text}`);
+				draftResponse.body.html = bodyHtml.concat(`<b>${t('Sent')}:</b> ${date} <br /> <b>${t('Subject')}:</b> ${message.subject} <br /><br />${body.html}`);
+				draftResponse.body.text = bodyText.concat(`${t('Sent')}: ${date}\n${t('Subject')}: ${message.subject}\n\n${body.text}`);
 
 				return db.saveDraftFromAction(draftResponse, message.conversation);
 			}
@@ -271,7 +261,12 @@ function handleSaveDraft(
 	return db.saveDraft(id, cData);
 }
 
-const useCompositionData = (draftId: string, panel: boolean, folderId: string): CompositionData => {
+const useCompositionData = (
+	draftId: string,
+	panel: boolean,
+	folderId: string,
+	t: (key: string) => string
+): CompositionData => {
 	const { db } = hooks.useAppContext();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [initialized, setInitialized] = useState(false);
@@ -286,7 +281,7 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	);
 	const timedSaveDraft = useCallback(
 		throttle(
-			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId)
+			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId, t)
 				.then((newId: string): void => {
 					if (newId !== dId) {
 						replaceHistory(panel
