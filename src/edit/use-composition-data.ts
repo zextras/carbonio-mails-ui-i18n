@@ -20,13 +20,16 @@ import {
 	throttle,
 	find
 } from 'lodash';
-import { hooks } from '@zextras/zapp-shell';
-import { MailMessagePart, MailMessageFromDb } from '../db/mail-message';
+import { accounts, hooks } from '@zextras/zapp-shell';
+import moment from 'moment';
+import i18n from 'i18next';
+import { MailMessagePart, MailMessageFromDb, ParticipantType } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
+import { CompositionData, CompositionState, emptyDraft } from './composition-types';
 import { useMessage } from '../hooks';
 import { report } from '../commons/report-exception';
 import useQueryParam from '../hooks/useQueryParam';
-import handleSaveDraft from './save-draft-helper';
+import { MailsDb } from '../db/mails-db';
 
 export type ResetAction = {
 	type: 'RESET';
@@ -45,7 +48,7 @@ export type UpdateSubjectAction = {
 export type UpdateContactsAction = {
 	type: 'UPDATE_CONTACTS';
 	payload: {
-		type: 'to' |	'cc' | 'bcc';
+		type: 'to' | 'cc' | 'bcc';
 		value: Array<{ value: string }>;
 	};
 };
@@ -85,33 +88,6 @@ export type CompositionAction = UpdateSubjectAction
 	| ToggleFlaggedAction
 	| ToggleUrgentAction;
 
-export type CompositionState = {
-	to: Array<{ value: string}>;
-	cc: Array<{ value: string}>;
-	bcc: Array<{ value: string}>;
-	subject: string;
-	body: {
-		text: string;
-		html: string;
-	};
-	richText: boolean;
-	flagged: boolean;
-	urgent: boolean;
-};
-
-export type CompositionData = {
-	compositionData: CompositionState;
-	actions: {
-		updateSubject: (value: string) => void;
-		updateContacts: (type: 'to' |	'cc' | 'bcc', value: Array<{ value: string }>) => void;
-		updateBody: (value: [string, string]) => void;
-		toggleRichText: (richText: boolean) => void;
-		toggleFlagged: (flagged: boolean) => void;
-		toggleUrgent: (urgent: boolean) => void;
-		sendMail: () => void;
-	};
-}
-
 export const reducer = (state: CompositionState, action: CompositionAction): CompositionState => {
 	switch (action.type) {
 		case 'RESET': {
@@ -146,7 +122,7 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 		case 'TOGGLE_RICH_TEXT': {
 			return {
 				...state,
-				richText: !action.payload.richText,
+				richText: !action.payload.richText
 			};
 		}
 		case 'TOGGLE_FLAGGED': {
@@ -198,21 +174,100 @@ export const draftToCompositionData = (draft: MailMessageFromDb): CompositionSta
 	urgent: draft ? draft.urgent : false
 });
 
-export const emptyDraft: CompositionState = {
-	richText: true,
-	subject: '',
-	urgent: false,
-	flagged: false,
-	to: [],
-	cc: [],
-	bcc: [],
-	body: {
-		text: '',
-		html: ''
-	}
-};
+function handleSaveDraft(
+	db: MailsDb,
+	id: string,
+	cData: CompositionState,
+	action: string, actionId: string,
+	t: (key: string) => string
+): Promise<string> {
+	const draftResponse: CompositionState = { ...emptyDraft };
+	if (action) {
+		if (action === 'editAsNew') {
+			return db.messages.where({ id: actionId }).first().then((message) => {
+				if (message) {
+					draftResponse.subject = message.subject;
+					const body = extractBody(message);
+					draftResponse.richText = message.parts.filter((part) => part.contentType !== 'text/plain').length !== 0;
 
-const useCompositionData = (draftId: string, panel: boolean, folderId: string): CompositionData => {
+					draftResponse.body.text = body.text;
+					draftResponse.body.html = body.html;
+					return db.saveDraftFromAction(draftResponse, message.conversation);
+				}
+				throw new Error('MessageId not found');
+			});
+		}
+		return db.messages.where({ id: actionId }).first().then((message) => {
+			if (message) {
+				if (action === 'reply' || action === 'replyAll') {
+					let to = message.contacts.filter((m) => m.type === ParticipantType.REPLY_TO);
+					if (to.length < 1) {
+						to = message.contacts.filter((m) => m.type === ParticipantType.FROM);
+					}
+					draftResponse.to = to.map((m) => ({ value: m.address }));
+					if (message.subject.startsWith('Re:')) draftResponse.subject = `${message.subject}`;
+					else draftResponse.subject = `Re: ${message.subject}`;
+				}
+
+				if (action === 'replyAll') {
+					draftResponse.cc = message.contacts
+						.filter((m) =>
+							(m.type === ParticipantType.CARBON_COPY || m.type === ParticipantType.TO))
+						.filter((m) => !(m.address in accounts.map((a) => a.name)))
+						.map((m) => ({ value: m.address }));
+				}
+
+				if (action === 'forward') {
+					draftResponse.subject = `Fwd: ${message.subject}`;
+					// TODO: attachments
+				}
+
+				draftResponse.richText = message.parts.filter((part) => part.contentType !== 'text/plain').length !== 0;
+
+				const body = extractBody(message);
+
+				const from = message.contacts
+					.filter((m) => m.type === ParticipantType.FROM)
+					.map((c) => `"${c.displayName}" <${c.address}>`)
+					.join(', ');
+
+				const to = message.contacts
+					.filter((m) => m.type === ParticipantType.TO)
+					.map((c) => `"${c.displayName}" <${c.address}>`)
+					.join(', ');
+
+				const cc = message.contacts
+					.filter((m) => m.type === ParticipantType.CARBON_COPY)
+					.map((c) => `"${c.displayName}" <${c.address}>`)
+					.join(', ');
+
+				const date = moment(message.date).format('LLLL');
+
+				let bodyHtml = `<br /><br /><hr><b>${t('From')}:</b> ${from} <br /> <b>${t('To')}:</b> ${to} <br />`;
+				let bodyText = `\n\n---------------------------\n${t('From')}: ${from}\n${t('To')}: ${to}\n`;
+
+				if (cc.length > 0) {
+					bodyHtml = bodyHtml.concat(`<b>${t('Cc')}</b> ${cc}<br />`);
+					bodyText = bodyText.concat(`${t('Cc')}: ${cc}\n`);
+				}
+
+				draftResponse.body.html = bodyHtml.concat(`<b>${t('Sent')}:</b> ${date} <br /> <b>${t('Subject')}:</b> ${message.subject} <br /><br />${body.html}`);
+				draftResponse.body.text = bodyText.concat(`${t('Sent')}: ${date}\n${t('Subject')}: ${message.subject}\n\n${body.text}`);
+
+				return db.saveDraftFromAction(draftResponse, message.conversation);
+			}
+			throw new Error('Message not found');
+		});
+	}
+	return db.saveDraft(id, cData);
+}
+
+const useCompositionData = (
+	draftId: string,
+	panel: boolean,
+	folderId: string,
+	t: (key: string) => string
+): CompositionData => {
 	const { db } = hooks.useAppContext();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const [initialized, setInitialized] = useState(false);
@@ -227,14 +282,15 @@ const useCompositionData = (draftId: string, panel: boolean, folderId: string): 
 	);
 	const timedSaveDraft = useCallback(
 		throttle(
-			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId)
+			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId, t)
 				.then((newId: string): void => {
 					if (newId !== dId) {
 						replaceHistory(panel
 							? `/folder/${folderId}?edit=${newId}`
 							: `/edit/${newId}`);
 					}
-				}),
+				})
+				.catch(console.error), // TODO: here returns error of Id's not found
 			500,
 			{ leading: false, trailing: true }
 		),

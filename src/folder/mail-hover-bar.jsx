@@ -208,12 +208,13 @@ export default function MailHoverBar({ message, folder }) {
 			default:
 				return (
 					<>
+						<ReadUnread message={message} db={db} />
 						<Reply message={message} folder={folder} />
 						<ReplyAll message={message} folder={folder} />
-						<MoveToTrash message={message} db={db} />
 						<FlagUnflag message={message} db={db} />
+						<Forward message={message} folder={folder} />
 						<Archive message={message} db={db} />
-						<ReadUnread message={message} db={db} />
+						<MoveToTrash message={message} db={db} />
 					</>
 				);
 		}

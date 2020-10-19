@@ -16,7 +16,7 @@ import { SoapFetch, accounts } from '@zextras/zapp-shell';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
-import { CompositionState } from '../edit/use-composition-data';
+import { CompositionState } from '../edit/composition-types';
 import { Participant } from './mail-db-types';
 import { MailsDbDexie } from './mails-db-dexie';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
@@ -126,7 +126,7 @@ export class MailsDb extends MailsDbDexie {
 					type: 'f',
 					address: accounts[0].name,
 					displayName: accounts[0].displayName
-				}
+				} as Participant
 			],
 			parts: [cState.richText
 				? {
@@ -175,7 +175,7 @@ export class MailsDb extends MailsDbDexie {
 					type: 'f',
 					address: accounts[0].name,
 					displayName: accounts[0].displayName
-				}
+				} as Participant
 			],
 			date: Date.now(),
 			subject: cState.subject,

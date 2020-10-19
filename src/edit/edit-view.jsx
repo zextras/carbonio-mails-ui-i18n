@@ -97,13 +97,12 @@ export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
+	const { t } = useTranslation();
 
 	const {
 		compositionData,
 		actions
-	} = useCompositionData(editPanelId, panel || false, folderId);
-
-	const { t } = useTranslation();
+	} = useCompositionData(editPanelId, panel || false, folderId, t);
 
 	const [open, setOpen] = useState(false);
 
