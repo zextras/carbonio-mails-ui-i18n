@@ -368,7 +368,6 @@ function generateBodyPath(mp: Array<SoapEmailMessagePartObj>): string {
 	return trim(path, '.');
 }
 
-
 function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
 	if (v.body) {
 		return [idx];

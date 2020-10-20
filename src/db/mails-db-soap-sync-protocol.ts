@@ -9,13 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation } from 'dexie-syncable/api';
+import {
+	IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation
+} from 'dexie-syncable/api';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { find, reduce } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 import processLocalFolderChange from './process-local-folder-change';
-import { fetchConversationsInFolder, fetchMailMessagesById, SyncRequest, SyncResponse } from '../soap';
+import {
+	fetchConversationsInFolder, fetchMailMessagesById, SyncRequest, SyncResponse
+} from '../soap';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';

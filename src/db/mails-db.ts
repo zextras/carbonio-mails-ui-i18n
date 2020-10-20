@@ -66,8 +66,6 @@ export class MailsDb extends MailsDbDexie {
 
 	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
 		if (draftId === 'new') {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
 			return this.messages.add({
 				parent: '6',
 				conversation: '',
@@ -101,7 +99,7 @@ export class MailsDb extends MailsDbDexie {
 				flagged: false,
 				urgent: false,
 				send: false
-			});
+			} as unknown as MailMessageFromDb);
 		}
 		return this.messages.update(draftId, {
 			subject: cState.subject,
@@ -154,8 +152,6 @@ export class MailsDb extends MailsDbDexie {
 	}
 
 	public saveDraftFromAction(cState: CompositionState, conversation: string): Promise<string> {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-		// @ts-ignore
 		return this.messages.add({
 			parent: '6',
 			conversation,
@@ -205,7 +201,7 @@ export class MailsDb extends MailsDbDexie {
 			flagged: false,
 			urgent: false,
 			send: false
-		});
+		} as unknown as MailMessageFromDb);
 	}
 
 	public sendMail(draftId: string): Promise<string> {
@@ -373,17 +369,15 @@ export class MailsDb extends MailsDbDexie {
 			));
 	}
 
-	public setFlag(messageId: string, value: boolean): Promise<void> {
+	public setFlag(messageId: string, value: boolean): Promise<number> {
 		return this.messages.update(messageId, {
 			flagged: value
-		}).then(() => {
 		});
 	}
 
-	public setRead(messageId: string, value: boolean): Promise<void> {
+	public setRead(messageId: string, value: boolean): Promise<number> {
 		return this.messages.update(messageId, {
 			read: value
-		}).then(() => {
 		});
 	}
 }

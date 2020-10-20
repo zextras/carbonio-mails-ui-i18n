@@ -32,7 +32,6 @@ import {
 } from './mail-conversation';
 import { MailsDb } from './mails-db';
 
-
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 	if (f.id === '3' || (f.view && f.view === 'conversation')) {
 		if (f.c) {
