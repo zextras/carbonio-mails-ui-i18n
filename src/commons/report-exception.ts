@@ -10,6 +10,6 @@
  */
 import { fiberChannelSink } from '@zextras/zapp-shell';
 
-export function report(error: Error) {
+export function report(error: Error): void {
 	fiberChannelSink({ event: 'report-exception', data: { exception: error } });
 }

@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint max-classes-per-file: ["error", 2] */
 const MockedCollection = jest.fn().mockImplementation(() => ({
 	toArray: jest.fn().mockImplementation(() => Promise.resolve([])),
 	reverse: jest.fn().mockImplementation(() => MockedCollection),

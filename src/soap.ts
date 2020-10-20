@@ -581,8 +581,9 @@ function normalizeDraftMailPartsToSoap(parts: MailMessagePart[]): SoapDraftMessa
 	);
 }
 
-export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId: boolean): SoapDraftMessageObj {
-	const flags = `${ // priorities to be completed
+export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId: boolean):
+	SoapDraftMessageObj {
+	const flags = `${// priorities to be completed
 		m.read ? '' : 'u'
 	}${
 		m.flagged ? 'f' : ''
@@ -791,17 +792,15 @@ export function fetchConversationsInFolder(
 			}
 
 			return fetchMailMessagesById(soapFetch, msgIds)
-				.then((convsMessages: Array<MailMessageFromSoap>) => {
-					return [
-						reduce<SoapConvObj, Array<MailConversationFromSoap>>(
-							c,
-							(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
-							[]
-						),
-						convsMessages,
-						more
-					];
-				});
+				.then((convsMessages: Array<MailMessageFromSoap>) => [
+					reduce<SoapConvObj, Array<MailConversationFromSoap>>(
+						c,
+						(acc, v) => acc.concat(normalizeConversationFromSoap(v)),
+						[]
+					),
+					convsMessages,
+					more
+				]);
 		});
 }
 

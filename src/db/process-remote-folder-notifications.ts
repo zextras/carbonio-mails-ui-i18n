@@ -9,6 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint no-param-reassign: ["error", {"props": true,
+															"ignorePropertyModificationsFor": ["r","f"] }] */
+
 import { ICreateChange, IDatabaseChange, IUpdateChange } from 'dexie-observable/api';
 import {
 	reduce, map, filter, intersectionWith
@@ -31,7 +34,7 @@ function searchLocalFolders(db: MailsDb, ids: string[]): Promise<{[key: string]:
 		));
 }
 
-function _isCreationUpdated(u: IUpdateChange, c: ICreateChange) {
+function _isCreationUpdated(u: IUpdateChange, c: ICreateChange): boolean {
 	return c.key === u.key && typeof u.mods.id !== 'undefined';
 }
 
@@ -50,7 +53,6 @@ function searchForLocallyCreatedFolders(
 		),
 		(r, c) => {
 			if (c.mods && c.mods.id) {
-				// @ts-ignore
 				r[c.mods.id] = true;
 			}
 			return r;
@@ -101,16 +103,19 @@ export default function processRemoteFolderNotifications(
 		map<MailsFolderFromSoap>(folders, 'id'),
 	)
 		.then(
-			(idToLocalUUIDMap) => new Promise<{idToLocalUUIDMap: {[key: string]: string}; isLocallyCreated: {[key: string]: boolean}}>((resolve) => {
-				searchForLocallyCreatedFolders(changes, localChangesFromRemote)
-					.then((isLocallyCreated) => resolve({ idToLocalUUIDMap, isLocallyCreated }));
-			})
+			(idToLocalUUIDMap) =>
+				new Promise<{idToLocalUUIDMap: {[key: string]: string};
+											isLocallyCreated: {[key: string]: boolean};}>((resolve) => {
+												searchForLocallyCreatedFolders(changes, localChangesFromRemote)
+													.then((isLocallyCreated) =>
+														resolve({ idToLocalUUIDMap, isLocallyCreated }));
+											})
 		)
 		.then(({ idToLocalUUIDMap, isLocallyCreated }) => {
 			const dbChanges = reduce<MailsFolderFromSoap, IDatabaseChange[]>(
 				folders,
 				(r, f) => {
-					if (idToLocalUUIDMap.hasOwnProperty(f.id)) {
+					if (Object.prototype.hasOwnProperty.call(idToLocalUUIDMap, f.id)) {
 						f._id = idToLocalUUIDMap[f.id];
 						r.push({
 							type: 2,

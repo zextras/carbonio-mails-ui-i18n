@@ -9,13 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation } from 'dexie-syncable/api';
+import {
+	IPersistedContext, ISyncProtocol, PollContinuation, ReactiveContinuation
+} from 'dexie-syncable/api';
 import { ICreateChange, IDatabaseChange } from 'dexie-observable/api';
 import { find, reduce } from 'lodash';
 import { SoapFetch } from '@zextras/zapp-shell';
 import { MailsDb } from './mails-db';
 import processLocalFolderChange from './process-local-folder-change';
-import { fetchConversationsInFolder, SyncRequest, SyncResponse } from '../soap';
+import {
+	fetchConversationsInFolder, fetchMailMessagesById, SyncRequest, SyncResponse
+} from '../soap';
 import processRemoteFolderNotifications from './process-remote-folder-notifications';
 import processRemoteMailsNotification from './process-remote-mails-notification';
 import processLocalMailsChange from './process-local-mails-change';
@@ -30,6 +34,7 @@ interface IContactsDexieContext extends IPersistedContext {
 }
 
 export class MailsDbSoapSyncProtocol implements ISyncProtocol {
+	// eslint-disable-next-line no-useless-constructor
 	constructor(
 		private _db: MailsDb,
 		private _soapFetch: SoapFetch
@@ -43,7 +48,8 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 		syncedRevision: any,
 		changes: IDatabaseChange[],
 		partial: boolean,
-		applyRemoteChanges: (changes: IDatabaseChange[], lastRevision: any, partial?: boolean, clear?: boolean) => Promise<void>,
+		applyRemoteChanges: (changes: IDatabaseChange[], lastRevision: any, partial?: boolean,
+													clear?: boolean) => Promise<void>,
 		onChangesAccepted: () => void,
 		onSuccess: (continuation: (PollContinuation | ReactiveContinuation)) => void,
 		onError: (error: any, again?: number) => void
@@ -95,7 +101,10 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 										deleted,
 										remoteChanges
 									}))
-									.catch(report);
+									.catch((e: Error) => {
+										report(e);
+										reject(e);
+									});
 							}
 						)
 					)
@@ -135,6 +144,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 							}))
 					.then(({ token, remoteChanges }) => {
 						if (context.clientIdentity !== '') {
+							// eslint-disable-next-line no-param-reassign
 							context.clientIdentity = '';
 							return context.save()
 								.then(() => ({
@@ -156,17 +166,16 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 						onSuccess({ again: POLL_INTERVAL });
 					})
 					.catch((e) => {
-						report(e);
 						onError(e, POLL_INTERVAL);
 					});
 			})
 			.catch((e) => {
-				report(e);
 				onError(e, POLL_INTERVAL);
 			});
 	}
 
-	private _fetchFirstSyncData(remoteChanges: Array<IDatabaseChange>): Promise<Array<IDatabaseChange>> {
+	private _fetchFirstSyncData(remoteChanges: Array<IDatabaseChange>):
+		Promise<Array<IDatabaseChange>> {
 		const folder = find(
 			remoteChanges,
 			{ obj: { id: '2' } } // Fetch the inbox folder

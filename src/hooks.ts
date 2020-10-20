@@ -64,7 +64,8 @@ function convInFolderInit(): ConversationInFolderState {
 	};
 }
 
-function convInFolderReducer(state: ConversationInFolderState, action: ConvInFolderReducerAction): ConversationInFolderState {
+function convInFolderReducer(state: ConversationInFolderState, action: ConvInFolderReducerAction):
+	ConversationInFolderState {
 	switch (action.type) {
 		case 'set-folder':
 			return ({
@@ -96,12 +97,13 @@ type UseConvsInFolderReturnType = {
 	loadMore?: () => Promise<void>;
 	hasMore: boolean;
 }
-function useConvsByFolder(folder: MailsFolderFromDb | undefined): [MailConversationFromDb[], boolean] {
+function useConvsByFolder(folder: MailsFolderFromDb | undefined):
+	[MailConversationFromDb[], boolean] {
 	const [convs, loaded] = useContext(ConversationListContext);
 	const conversations = useMemo(
 		() => filter(
 			convs,
-			(c) => loaded && folder && folder.id ? c.parent.includes(folder.id) : false
+			(c) => (loaded && folder && folder.id ? c.parent.includes(folder.id) : false)
 		),
 		[convs, folder, loaded]
 	);
@@ -149,7 +151,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					dispatch({ type: 'loaded-more-conversations', hasMore });
 				}
 			});
-		return () => {
+		return (): void => {
 			didCancel = true;
 		};
 	}, [db, folderId, dispatch]);
@@ -164,7 +166,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 	};
 }
 
-export function useConversationMessages(messageIds: string[]) {
+export function useConversationMessages(messageIds: string[]): [MailMessageFromDb[], boolean] {
 	const [_messages, loaded] = useContext(MessageListContext);
 	const messages = useMemo(
 		() => sortBy(
