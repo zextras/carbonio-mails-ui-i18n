@@ -32,7 +32,6 @@ import {
 } from './mail-conversation';
 import { MailsDb } from './mails-db';
 
-
 function _folderReducer(r: string[], f: SyncResponseMailFolder): string[] {
 	if (f.id === '3' || (f.view && f.view === 'conversation')) {
 		if (f.c) {
@@ -173,18 +172,19 @@ export function processRemoteConversationsNotification(
 			if (deleted && deleted[0] && deleted[0].c) {
 				return db.conversations.where('id').anyOf(deleted[0].c[0].ids.split(',')).toArray()
 					.then((dbConvsArray) => keyBy(dbConvsArray, 'id'))
-					.then((deletedConvs) => reduce<{ [key: string]: MailConversationFromDb }, IDatabaseChange[]>(
-						deletedConvs || {},
-						(acc: IDatabaseChange[], value: MailConversationFromDb) => {
-							acc.push({
-								type: 3,
-								table: 'conversations',
-								key: value._id,
-							});
-							return acc;
-						},
-						dbChangesUpdatedAndFetched
-					));
+					.then((deletedConvs) =>
+						reduce<{ [key: string]: MailConversationFromDb }, IDatabaseChange[]>(
+							deletedConvs || {},
+							(acc: IDatabaseChange[], value: MailConversationFromDb) => {
+								acc.push({
+									type: 3,
+									table: 'conversations',
+									key: value._id,
+								});
+								return acc;
+							},
+							dbChangesUpdatedAndFetched
+						));
 			}
 			return dbChangesUpdatedAndFetched;
 		});

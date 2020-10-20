@@ -16,16 +16,17 @@ import { SoapFetch, accounts } from '@zextras/zapp-shell';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
-import { CompositionState } from '../edit/use-composition-data';
+import { CompositionState } from '../edit/composition-types';
 import { Participant } from './mail-db-types';
 import { MailsDbDexie } from './mails-db-dexie';
 import { MailMessageFromDb, MailMessageFromSoap } from './mail-message';
 import { MailConversationMessage } from './mail-conversation-message';
+import { report } from '../commons/report-exception';
 
 export type DeletionData = {
 	_id: string;
 	id: string;
-	table: 'mails'|'folders';
+	table: 'mails' | 'folders';
 	rowId?: string;
 };
 
@@ -44,7 +45,7 @@ export class MailsDb extends MailsDbDexie {
 		// TODO: For locally created folders
 		//  we should resolve the internal id, we should ALWAYS to that.
 		if (!folder.id) return Promise.resolve([]);
-		return this.folders.where({ parent: folder.id }).sortBy('name');
+		return this.folders.where({ parent: folder.id }).sortBy('name').catch(report);
 	}
 
 	public deleteFolder(f: MailsFolderFromDb): Promise<void> {
@@ -58,7 +59,7 @@ export class MailsDb extends MailsDbDexie {
 						table: 'folders'
 					})
 					.then(() => this.folders.delete(_f._id!).then(() => undefined))
-					.catch(console.error);
+					.catch(report);
 			}
 			return undefined;
 		});
@@ -66,8 +67,6 @@ export class MailsDb extends MailsDbDexie {
 
 	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
 		if (draftId === 'new') {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
 			return this.messages.add({
 				parent: '6',
 				conversation: '',
@@ -83,25 +82,26 @@ export class MailsDb extends MailsDbDexie {
 							parts: [
 								{
 									contentType: 'text/plain',
-									content: cState.body.text,
+									content: cState.body.text
 								},
 								{
 									contentType: 'text/html',
-									content: cState.body.html,
+									content: cState.body.html
 								}
 							]
 						}
 						: {
 							contentType: 'text/plain',
-							content: cState.body.text,
+							content: cState.body.text
 						}
 				],
 				size: 0,
 				attachment: false,
 				flagged: false,
 				urgent: false,
-				send: false,
-			});
+				send: false
+			} as unknown as MailMessageFromDb)
+				.catch(report);
 		}
 		return this.messages.update(draftId, {
 			subject: cState.subject,
@@ -125,7 +125,7 @@ export class MailsDb extends MailsDbDexie {
 					type: 'f',
 					address: accounts[0].name,
 					displayName: accounts[0].displayName
-				}
+				} as Participant
 			],
 			parts: [cState.richText
 				? {
@@ -133,11 +133,11 @@ export class MailsDb extends MailsDbDexie {
 					parts: [
 						{
 							contentType: 'text/plain',
-							content: cState.body.text,
+							content: cState.body.text
 						},
 						{
 							contentType: 'text/html',
-							content: cState.body.html,
+							content: cState.body.html
 						}
 					]
 				}
@@ -149,20 +149,87 @@ export class MailsDb extends MailsDbDexie {
 			date: Date.now(),
 			attachment: false,
 			flagged: cState.flagged,
-			urgent: cState.urgent,
-		}).then(() => draftId);
+			urgent: cState.urgent
+		}).then(() => draftId).catch(report);
+	}
+
+	public saveDraftFromAction(cState: CompositionState, conversation: string): Promise<string> {
+		return this.messages.add({
+			parent: '6',
+			conversation,
+			contacts: [
+				...map(cState.to, (c: { value: string }): Participant => ({
+					type: 't',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				...map(cState.cc, (c: { value: string }): Participant => ({
+					type: 'c',
+					address: c.value,
+					displayName: ''
+				}) as Participant),
+				{
+					type: 'f',
+					address: accounts[0].name,
+					displayName: accounts[0].displayName
+				} as Participant
+			],
+			date: Date.now(),
+			subject: cState.subject,
+			fragment: cState.body.text.substring(0, 60),
+			read: true,
+			parts: [
+				cState.richText
+					? {
+						contentType: 'multipart/alternative',
+						parts: [
+							{
+								contentType: 'text/plain',
+								content: cState.body.text,
+							},
+							{
+								contentType: 'text/html',
+								content: cState.body.html,
+							}
+						]
+					}
+					: {
+						contentType: 'text/plain',
+						content: cState.body.text,
+					}
+			],
+			size: 0,
+			attachment: false,
+			flagged: false,
+			urgent: false,
+			send: false
+		} as unknown as MailMessageFromDb);
 	}
 
 	public sendMail(draftId: string): Promise<string> {
-		return this.messages.update(draftId, { send: true }).then(() => draftId);
+		return this.messages.update(draftId, { send: true }).then(() => draftId).catch(report);
 	}
 
 	public moveMessageToTrash(id: string): Promise<number> {
-		return this.messages.update(id, { parent: '3' });
+		return this.messages.update(id, { parent: '3' }).catch(report);
 	}
 
-	public deleteMessage(id: string): Promise<void> {
-		return this.messages.delete(id);
+	public deleteMessage(message: MailMessageFromDb): Promise<void> {
+		return this.transaction('rw', this.conversations, this.messages, () => {
+			this.conversations.where('id').equals(message.conversation)
+				.modify((value, ref) => {
+					const newConversation = {
+						...value,
+						messages: value.messages.filter((obj) => obj.id !== message.id),
+						msgCount: value.msgCount - 1
+					};
+					// eslint-disable-next-line no-param-reassign
+					ref.value = newConversation;
+				}).then((n) => n)
+				.catch(report);
+			this.messages.delete(message._id)
+				.catch(report);
+		}).catch(report);
 	}
 
 	public checkHasMoreConv(
@@ -176,7 +243,11 @@ export class MailsDb extends MailsDbDexie {
 			1,
 			lastConv ? new Date(lastConv.date) : undefined,
 			false
-		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)));
+		).then(([convs, convsMessages, hasMore]) => (hasMore || (convs.length > 0)))
+			.catch((err) => {
+				report(err);
+				return false;
+			});
 	}
 
 	public fetchMoreConv(f: MailsFolderFromDb, lastConv?: MailConversationFromDb): Promise<boolean> {
@@ -206,7 +277,7 @@ export class MailsDb extends MailsDbDexie {
 	public checkForDuplicates(
 		remoteConvs: MailConversationFromSoap[],
 		remoteConvsMessages: MailMessageFromSoap[]
-	): Promise<Array<MailConversationFromDb[]|MailMessageFromDb[]>> {
+	): Promise<Array<MailConversationFromDb[] | MailMessageFromDb[]>> {
 		const [convsIds, convsMessageIds] = reduce<MailConversationFromSoap, Array<string[]>>(
 			remoteConvs,
 			([r1, r2], v) => [
@@ -224,14 +295,14 @@ export class MailsDb extends MailsDbDexie {
 		);
 		return Promise.all([
 			this.getConvsToAdd(convsIds, remoteConvs),
-			this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages)
+			this.getConvsMessagesToAdd(convsMessageIds, remoteConvsMessages) // TODO: catch these
 		]);
 	}
 
 	public saveConvsAndMessages(
 		convsToAdd: MailConversationFromDb[],
 		convsMessagesToAdd: MailMessageFromDb[]
-	): Promise<string[]|void[]> {
+	): Promise<string[] | void[]> {
 		return Promise.all([
 			this.messages.bulkAdd(convsMessagesToAdd),
 			this.conversations.bulkAdd(convsToAdd)
@@ -268,7 +339,8 @@ export class MailsDb extends MailsDbDexie {
 					return r;
 				},
 				[]
-			));
+			))
+			.catch(report);
 	}
 
 	private getConvsMessagesToAdd(
@@ -301,6 +373,19 @@ export class MailsDb extends MailsDbDexie {
 					return r;
 				},
 				[]
-			));
+			))
+			.catch(report);
+	}
+
+	public setFlag(messageId: string, value: boolean): Promise<number> {
+		return this.messages.update(messageId, {
+			flagged: value
+		}).catch(report);
+	}
+
+	public setRead(messageId: string, value: boolean): Promise<number> {
+		return this.messages.update(messageId, {
+			read: value
+		}).catch(report);
 	}
 }

@@ -9,22 +9,21 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, {
-	useCallback, useEffect,
-	useState
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	Button,
-	Container,
-	Row,
-	IconButton,
-	EmailComposerInput,
-	Collapse,
-	Divider,
+	Catcher,
 	ChipInput,
+	Collapse,
+	Container,
+	Divider,
+	EmailComposerInput,
+	IconButton,
+	IconCheckbox,
 	Padding,
 	RichTextEditor,
-	Catcher, IconCheckbox, Tooltip
+	Row,
+	Tooltip
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -92,18 +91,16 @@ const EditorWrapper = styled.div`
 	}
 `;
 
-
 export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
+	const { t } = useTranslation();
 
 	const {
 		compositionData,
 		actions
-	} = useCompositionData(editPanelId, panel || false, folderId);
-
-	const { t } = useTranslation();
+	} = useCompositionData(editPanelId, panel || false, folderId, t);
 
 	const [open, setOpen] = useState(false);
 
@@ -209,7 +206,7 @@ export default function EditView({
 					</Padding>
 					<Divider />
 				</Container>
-				{ compositionData.richText
+				{compositionData.richText
 					? (
 						<EditorWrapper>
 							<RichTextEditor

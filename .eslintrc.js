@@ -38,6 +38,7 @@ module.exports = {
       "allowShortCircuit": true,
       "allowTernary": true
     }], // https://eslint.org/docs/rules/no-unused-expressions
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": [] }], // TODO: here we can insert the name of parameters that can be edited without throwing linter error
 
     /**
      * @description rules of @typescript-eslint
@@ -70,11 +71,21 @@ module.exports = {
     'react/jsx-indent': ['error', 'tab'],
     'react/jsx-indent-props': ['error', 'tab'],
     '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     'implicit-arrow-linebreak': 'off',
     'import/first': 'off',
     'import/no-extraneous-dependencies': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell/(context|fc|idb|network|router|service|sync)'] }],
+    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell$'] } ],
     'no-extra-semi': 'off'
   },
+  "overrides": [
+    { // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-function-return-type.md
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["error"]
+      }
+    }
+  ]
 };

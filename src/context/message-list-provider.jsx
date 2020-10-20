@@ -13,12 +13,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { keyBy } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import MessageListContext from './message-list-context';
+import { report } from '../commons/report-exception';
 
 function MessageListProvider({ children }) {
 	const { db } = hooks.useAppContext();
 	const messagesQuery = useCallback(
 		() => db.messages.toArray()
-			.then((mess) => keyBy(mess, '_id')),
+			.then((mess) => keyBy(mess, '_id')).catch(report),
 		[db.messages]
 	);
 	const [messagesFromDB, messagesLoaded] = hooks.useObserveDb(messagesQuery, db);

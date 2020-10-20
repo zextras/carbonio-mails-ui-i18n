@@ -34,7 +34,6 @@ describe('Hooks', () => {
 		const convs = [];
 		for (let i = 0; i < 50; i += 1) convs.push(new MailConversationFromDb({ id: `-10${i < 10 ? `0${i}` : i}` }));
 
-
 		hooks.useAppContext.mockImplementation(() => ({ db }));
 		// hooks.useObserveDb.mockImplementation(() => ([convs, true]));
 		let wrapper = ({ children }) => (

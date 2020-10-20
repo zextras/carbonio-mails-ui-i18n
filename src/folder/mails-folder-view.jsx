@@ -32,7 +32,7 @@ import useQueryParam from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
-import { useConvsInFolder } from '../hooks';
+import { useConvsInFolder, useFolder } from '../hooks';
 import ConversationListProvider from '../context/conversation-list-provider';
 import MessageListProvider from '../context/message-list-provider';
 import FolderListProvider from '../context/folder-list-provider';
@@ -66,6 +66,7 @@ function Breadcrumbs({ folder, itemsCount }) {
 
 export default function FolderView() {
 	const { folderId } = useParams();
+	const zimbraFolderId = useFolder(folderId).id;
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');
@@ -126,6 +127,7 @@ export default function FolderView() {
 								<ConversationList
 									key={`ConversationList-${folderId}`}
 									folderId={folderId}
+									zimbraFolderId={zimbraFolderId}
 								/>
 							</Container>
 							<VerticalDivider />
@@ -161,7 +163,8 @@ const LoadingIndicator = ({ style, index }) => (
 		<Button loading disabled label="" type="ghost" />
 	</Container>
 );
-const ConversationList = ({ folderId }) => {
+
+const ConversationList = ({ folderId, zimbraFolderId }) => {
 	const containerRef = useRef();
 	const listRef = useRef();
 	const {
@@ -205,12 +208,13 @@ const ConversationList = ({ folderId }) => {
 					index={index}
 					conversation={conversations[index]}
 					folderId={folderId}
+					zimbraFolderId={zimbraFolderId}
 					displayData={displayData[conversations[index].id] || { open: false }}
 					updateDisplayData={updateDisplayData}
 				/>
 			);
 		},
-		[conversations, displayData, folderId, updateDisplayData]
+		[conversations, displayData, folderId]
 	);
 
 	const calcItemSize = useCallback(
@@ -223,6 +227,10 @@ const ConversationList = ({ folderId }) => {
 		},
 		[conversations, displayData]
 	);
+
+	useEffect(() => {
+		if (listRef.current) listRef.current.resetAfterIndex(0, true);
+	}, [conversations]);
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;
