@@ -35,6 +35,7 @@ interface IContactsDexieContext extends IPersistedContext {
 }
 
 export class MailsDbSoapSyncProtocol implements ISyncProtocol {
+	// eslint-disable-next-line no-useless-constructor
 	constructor(
 		private _db: MailsDb,
 		private _soapFetch: SoapFetch
@@ -48,7 +49,8 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 		syncedRevision: any,
 		changes: IDatabaseChange[],
 		partial: boolean,
-		applyRemoteChanges: (changes: IDatabaseChange[], lastRevision: any, partial?: boolean, clear?: boolean) => Promise<void>,
+		applyRemoteChanges: (changes: IDatabaseChange[], lastRevision: any, partial?: boolean,
+													clear?: boolean) => Promise<void>,
 		onChangesAccepted: () => void,
 		onSuccess: (continuation: (PollContinuation | ReactiveContinuation)) => void,
 		onError: (error: any, again?: number) => void
@@ -140,6 +142,7 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 							}))
 					.then(({ token, remoteChanges }) => {
 						if (context.clientIdentity !== '') {
+							// eslint-disable-next-line no-param-reassign
 							context.clientIdentity = '';
 							return context.save()
 								.then(() => ({
@@ -169,7 +172,8 @@ export class MailsDbSoapSyncProtocol implements ISyncProtocol {
 			});
 	}
 
-	private _fetchFirstSyncData(remoteChanges: Array<IDatabaseChange>): Promise<Array<IDatabaseChange>> {
+	private _fetchFirstSyncData(remoteChanges: Array<IDatabaseChange>):
+		Promise<Array<IDatabaseChange>> {
 		const folder = find(
 			remoteChanges,
 			{ obj: { id: '2' } } // Fetch the inbox folder

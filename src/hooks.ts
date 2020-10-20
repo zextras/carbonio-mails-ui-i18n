@@ -151,7 +151,7 @@ export function useConvsInFolder(folderId: string): UseConvsInFolderReturnType {
 					dispatch({ type: 'loaded-more-conversations', hasMore });
 				}
 			});
-		return () => {
+		return (): void => {
 			didCancel = true;
 		};
 	}, [db, folderId, dispatch]);

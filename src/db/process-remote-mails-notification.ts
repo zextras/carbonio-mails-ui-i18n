@@ -98,7 +98,8 @@ export default function processRemoteMailsNotification(
 		db.messages.where('id').anyOf(ids).toArray(),
 		db.conversations.where('id').anyOf(uniq(conversationsIds)).toArray()
 	]))
-		.then(([dbMailsArray, dbConversationsArray]: [MailMessageFromDb[], MailConversationFromDb[]]) => {
+		.then(([dbMailsArray, dbConversationsArray]:
+					[MailMessageFromDb[], MailConversationFromDb[]]) => {
 			const mappedConversations = keyBy(dbConversationsArray, 'id');
 			return Promise.resolve(keyBy(dbMailsArray, 'id'))
 				.then((dbMails: {[id: string]: MailMessageFromDb}) => ({
@@ -181,36 +182,44 @@ export default function processRemoteMailsNotification(
 					}
 					return dbChangesUpdated;
 				})
-				.then((dbChangesUpdated: IDatabaseChange[]) => fetchMailConversationsById(_fetch, uniq(conversationsIds))
-					.then((fetchedConvs: MailConversationFromSoap[]) => reduce<MailConversationFromSoap, IDatabaseChange[]>(
-						fetchedConvs,
-						(acc, value) => {
-							acc.push({
-								type: 2,
-								table: 'conversations',
-								key: mappedConversations[value.id] ? mappedConversations[value.id]._id : undefined,
-								mods: omit(value, '_id', 'fragment')
-							});
-							return acc;
-						},
-						dbChangesUpdated
-					)))
-				.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
-					if (deleted && deleted[0] && deleted[0].m) {
-						return db.messages.where('id').anyOf(deleted[0].m[0].ids.split(',')).toArray()
-							.then((dbMailsArr) => keyBy(dbMailsArr, 'id'))
-							.then((deletedMails) => reduce<{ [key: string]: MailMessageFromDb }, IDatabaseChange[]>(
-								deletedMails || {},
-								(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+				.then((dbChangesUpdated: IDatabaseChange[]) =>
+					fetchMailConversationsById(_fetch, uniq(conversationsIds))
+						.then((fetchedConvs: MailConversationFromSoap[]) =>
+							reduce<MailConversationFromSoap, IDatabaseChange[]>(
+								fetchedConvs,
+								(acc, value) => {
 									acc.push({
-										type: 3,
-										table: 'messages',
-										key: value._id,
+										type: 2,
+										table: 'conversations',
+										key: mappedConversations[value.id]
+											? mappedConversations[value.id]._id
+											: undefined,
+										mods: omit(value, '_id', 'fragment')
 									});
 									return acc;
 								},
-								dbChangesUpdatedAndFetched
-							));
+								dbChangesUpdated
+							)))
+				.then((dbChangesUpdatedAndFetched: IDatabaseChange[]) => {
+					if (deleted && deleted[0] && deleted[0].m) {
+						return db.messages
+							.where('id')
+							.anyOf(deleted[0].m[0].ids.split(','))
+							.toArray()
+							.then((dbMailsArr) => keyBy(dbMailsArr, 'id'))
+							.then((deletedMails) =>
+								reduce<{ [key: string]: MailMessageFromDb }, IDatabaseChange[]>(
+									deletedMails || {},
+									(acc: IDatabaseChange[], value: MailMessageFromDb) => {
+										acc.push({
+											type: 3,
+											table: 'messages',
+											key: value._id,
+										});
+										return acc;
+									},
+									dbChangesUpdatedAndFetched
+								));
 					}
 					return dbChangesUpdatedAndFetched;
 				});

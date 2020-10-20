@@ -97,7 +97,8 @@ export type SoapEmailInfoObj = {
 	a: string;
 	/** Display name */
 	d: string;
-	/** Type: (f)rom, (t)o, (c)c, (b)cc, (r)eply-to, (s)ender, read-receipt (n)otification, (rf) resent-from */
+	/** Type: (f)rom, (t)o, (c)c, (b)cc, (r)eply-to, (s)ender, read-receipt (n)otification,
+	 *  			(rf) resent-from */
 	t: SoapEmailInfoTypeObj;
 	isGroup?: 0|1;
 };
