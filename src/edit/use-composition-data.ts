@@ -291,7 +291,7 @@ const useCompositionData = (
 							: `/edit/${newId}`);
 					}
 				})
-				.catch(console.error), // TODO: here returns error of Id's not found
+				.catch(report), // TODO: here returns error of Id's not found
 			500,
 			{ leading: false, trailing: true }
 		),

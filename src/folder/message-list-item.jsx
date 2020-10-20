@@ -10,11 +10,21 @@
  */
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { find, isEmpty, reduce, trimStart } from 'lodash';
+import {
+	find, isEmpty, reduce, trimStart
+} from 'lodash';
 import styled from 'styled-components';
-import { Avatar, Badge, Container, Icon, Padding, Row, Text } from '@zextras/zapp-ui';
-import { getTimeLabel, participantToString } from '../commons/utils';
+import {
+	Avatar,
+	Badge,
+	Container,
+	Icon,
+	Padding,
+	Row,
+	Text
+} from '@zextras/zapp-ui';
 import { useTranslation } from 'react-i18next';
+import { getTimeLabel, participantToString } from '../commons/utils';
 import { useFolder } from '../hooks';
 import MailHoverBar from './mail-hover-bar';
 
@@ -42,7 +52,9 @@ const InvisibleLink = styled(Link)`
 	}
 `;
 
-export default function MessageListItem({ message, folderId, conversation, forceUpdate }) {
+export default function MessageListItem({
+	message, folderId, conversation, forceUpdate
+}) {
 	const { t } = useTranslation();
 	const [messageFolder, messageFolderLoaded] = useFolder(message.parent);
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
@@ -67,7 +79,7 @@ export default function MessageListItem({ message, folderId, conversation, force
 				''
 			];
 		},
-		[message]
+		[message, t]
 	);
 
 	return (
@@ -85,7 +97,7 @@ export default function MessageListItem({ message, folderId, conversation, force
 						padding={{ all: 'small' }}
 					>
 						<div style={{ alignSelf: 'center' }}>
-							<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline"/>
+							<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
 						</div>
 						<Row
 							wrap="wrap"
@@ -105,8 +117,8 @@ export default function MessageListItem({ message, folderId, conversation, force
 									</Text>
 								</Row>
 								<Row>
-									{message.attachment && <Padding left="small"><Icon icon="AttachOutline"/></Padding>}
-									{message.flagged && <Padding left="small"><Icon color="error" icon="Flag"/></Padding>}
+									{message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding>}
+									{message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding>}
 									<Padding left="small"><Text>{date}</Text></Padding>
 								</Row>
 							</Container>
@@ -120,8 +132,15 @@ export default function MessageListItem({ message, folderId, conversation, force
 									{
 										message.subject
 											? <Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
-											: <Text weight={message.read ? 'regular' : 'bold'} size="large"
-															color="secondary">{`(${t('No Subject')})`}</Text>
+											: (
+												<Text
+													weight={message.read ? 'regular' : 'bold'}
+													size="large"
+													color="secondary"
+												>
+													{`(${t('No Subject')})`}
+												</Text>
+											)
 									}
 									{!isEmpty(message.fragment) && (
 										<Row
@@ -136,12 +155,12 @@ export default function MessageListItem({ message, folderId, conversation, force
 								<Row>
 									{message.urgent && (
 										<Padding left="extrasmall">
-											<Icon icon="ArrowUpward" color="error"/>
+											<Icon icon="ArrowUpward" color="error" />
 										</Padding>
 									)}
 									{messageFolderLoaded && messageFolder._id !== folderId && (
 										<Padding left="small">
-											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'}/>
+											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 										</Padding>
 									)}
 								</Row>

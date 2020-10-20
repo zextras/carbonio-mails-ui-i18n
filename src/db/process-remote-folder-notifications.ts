@@ -53,6 +53,8 @@ function searchForLocallyCreatedFolders(
 		),
 		(r, c) => {
 			if (c.mods && c.mods.id) {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// @ts-ignore
 				r[c.mods.id] = true;
 			}
 			return r;
