@@ -65,7 +65,6 @@ function Breadcrumbs({ folder, itemsCount }) {
 }
 
 export default function FolderView() {
-
 	const { folderId } = useParams();
 	const zimbraFolderId = useFolder(folderId).id;
 

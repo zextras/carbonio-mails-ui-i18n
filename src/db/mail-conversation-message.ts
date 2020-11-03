@@ -11,6 +11,7 @@
 
 import { IMailMinimalData } from './mail-db-types';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IMailConversationMessage extends IMailMinimalData {}
 
 export class MailConversationMessage implements IMailConversationMessage {

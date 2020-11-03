@@ -218,7 +218,7 @@ export default function MailHoverBar({ message, folder }) {
 					</>
 				);
 		}
-	}, [db, folder.id, message._id, message.flagged, message.read]);
+	}, [db, folder, message]);
 
 	return (
 		<ButtonBar orientation="horizontal">

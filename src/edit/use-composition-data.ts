@@ -22,7 +22,6 @@ import {
 } from 'lodash';
 import { accounts, hooks } from '@zextras/zapp-shell';
 import moment from 'moment';
-import i18n from 'i18next';
 import { MailMessagePart, MailMessageFromDb, ParticipantType } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
 import { CompositionData, CompositionState, emptyDraft } from './composition-types';
@@ -143,10 +142,12 @@ export const reducer = (state: CompositionState, action: CompositionAction): Com
 	}
 };
 
-export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string): Array<{ value: string }> => map(
-	filter(draft ? draft.contacts : [], (c) => c.type === type),
-	(c: Participant) => ({ value: c.address })
-);
+export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string):
+	Array<{ value: string }> =>
+	map(
+		filter(draft ? draft.contacts : [], (c) => c.type === type),
+		(c: Participant) => ({ value: c.address })
+	);
 
 export const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
 	const text = find(draft.parts, ['contentType', 'text/plain']);
@@ -290,7 +291,7 @@ const useCompositionData = (
 							: `/edit/${newId}`);
 					}
 				})
-				.catch(console.error), // TODO: here returns error of Id's not found
+				.catch(report), // TODO: here returns error of Id's not found
 			500,
 			{ leading: false, trailing: true }
 		),

@@ -9,6 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint no-param-reassign: ["error", {"props": true,
+															"ignorePropertyModificationsFor": ["batchRequest", "r"] }] */
+
 import {
 	ICreateChange, IDatabaseChange,
 	IDeleteChange, IUpdateChange
@@ -51,7 +54,8 @@ function processInserts(
 		CreateFolderRequest
 	);
 	if (CreateFolderRequest.length > 0) {
-		batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []), ...CreateFolderRequest];
+		batchRequest.CreateFolderRequest = [...(batchRequest.CreateFolderRequest || []),
+			...CreateFolderRequest];
 	}
 	return Promise.resolve([batchRequest, localChanges]);
 }
@@ -107,7 +111,8 @@ function processUpdates(
 		);
 
 		if (folderActionRequest.length > 0) {
-			batchRequest.FolderActionRequest = [...(batchRequest.FolderActionRequest || []), ...folderActionRequest];
+			batchRequest.FolderActionRequest = [...(batchRequest.FolderActionRequest || []),
+				...folderActionRequest];
 		}
 		return [batchRequest, localChanges];
 	});
@@ -151,7 +156,8 @@ function processDeletions(
 			folderActionRequest
 		);
 		if (folderActionRequest.length > 0) {
-			batchRequest.FolderActionRequest = [...(batchRequest.FolderActionRequest || []), ...folderActionRequest];
+			batchRequest.FolderActionRequest = [...(batchRequest.FolderActionRequest || []),
+				...folderActionRequest];
 		}
 		return Promise.resolve([batchRequest, localChanges]);
 	});

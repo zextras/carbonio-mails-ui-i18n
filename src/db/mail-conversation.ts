@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint max-classes-per-file: ["error", 3] */
 import { Participant } from './mail-db-types';
 import { MailConversationMessage } from './mail-conversation-message';
 
