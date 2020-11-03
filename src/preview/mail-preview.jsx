@@ -9,10 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useLayoutEffect, useMemo, useState, useRef, useCallback } from 'react';
+import React, {
+	useLayoutEffect, useMemo,
+	useState, useRef, useCallback
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { find, map, reduce, filter } from 'lodash';
+import {
+	find, map, reduce, filter
+} from 'lodash';
+import { hooks } from '@zextras/zapp-shell';
+import { useParams } from 'react-router-dom';
 import {
 	Container,
 	Text,
@@ -32,8 +39,6 @@ import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
-import { hooks } from '@zextras/zapp-shell';
-import { useParams } from 'react-router-dom';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -300,7 +305,7 @@ function MailPreviewBlock({
 					mainAlignment="space-between"
 					crossAlignment="flex-end"
 					height="20px"
-					padding={{ top: open ? 'small' : '0'}}
+					padding={{ top: open ? 'small' : '0' }}
 				>
 					<Container
 						orientation="horizontal"
@@ -311,8 +316,7 @@ function MailPreviewBlock({
 					>
 						{ open
 							? <MessageContactsList message={message} />
-							: <Text color="text" size="medium">{ message.fragment }</Text>
-						}
+							: <Text color="text" size="medium">{ message.fragment }</Text> }
 					</Container>
 					<Container
 						orientation="horizontal"
@@ -347,6 +351,7 @@ const ContactText = styled(Text)`
 `;
 function MessageContactsList({ message }) {
 	const { t } = useTranslation();
+	const accounts = hooks.useUserAccounts();
 	const toContacts = filter(message.contacts, ['type', 't']);
 	const ccContacts = filter(message.contacts, ['type', 'c']);
 	const bccContacts = filter(message.contacts, ['type', 'b']);
@@ -356,19 +361,19 @@ function MessageContactsList({ message }) {
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('To')}: ` }
-					{ map(toContacts, (contact) => participantToString(contact, t)).join(', ') }
+					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Cc')}: ` }
-					{ map(ccContacts, (contact) => participantToString(contact, t)).join(', ') }
+					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
 					{ `${t('Bcc')}: ` }
-					{ map(bccContacts, (contact) => participantToString(contact, t)).join(', ') }
+					{ map(bccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 		</ContactsContainer>

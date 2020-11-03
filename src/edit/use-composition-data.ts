@@ -20,7 +20,7 @@ import {
 	throttle,
 	find
 } from 'lodash';
-import { accounts, hooks } from '@zextras/zapp-shell';
+import { Account, hooks } from '@zextras/zapp-shell';
 import moment from 'moment';
 import { MailMessagePart, MailMessageFromDb, ParticipantType } from '../db/mail-message';
 import { Participant } from '../db/mail-db-types';
@@ -180,7 +180,8 @@ function handleSaveDraft(
 	id: string,
 	cData: CompositionState,
 	action: string, actionId: string,
-	t: (key: string) => string
+	t: (key: string) => string,
+	accounts: Account[]
 ): Promise<string> {
 	const draftResponse: CompositionState = { ...emptyDraft };
 	if (action) {
@@ -193,7 +194,7 @@ function handleSaveDraft(
 
 					draftResponse.body.text = body.text;
 					draftResponse.body.html = body.html;
-					return db.saveDraftFromAction(draftResponse, message.conversation);
+					return db.saveDraftFromAction(draftResponse, message.conversation, accounts);
 				}
 				throw new Error('MessageId not found');
 			});
@@ -255,12 +256,16 @@ function handleSaveDraft(
 				draftResponse.body.html = bodyHtml.concat(`<b>${t('Sent')}:</b> ${date} <br /> <b>${t('Subject')}:</b> ${message.subject} <br /><br />${body.html}`);
 				draftResponse.body.text = bodyText.concat(`${t('Sent')}: ${date}\n${t('Subject')}: ${message.subject}\n\n${body.text}`);
 
-				return db.saveDraftFromAction(draftResponse, message.conversation);
+				return db.saveDraftFromAction(
+					draftResponse,
+					message.conversation,
+					accounts
+				);
 			}
 			throw new Error('Message not found');
 		});
 	}
-	return db.saveDraft(id, cData);
+	return db.saveDraft(id, cData, accounts);
 }
 
 const useCompositionData = (
@@ -271,6 +276,7 @@ const useCompositionData = (
 ): CompositionData => {
 	const { db } = hooks.useAppContext();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const accounts = hooks.useUserAccounts();
 	const [initialized, setInitialized] = useState(false);
 
 	const action = useQueryParam('action') || '';
@@ -283,15 +289,18 @@ const useCompositionData = (
 	);
 	const timedSaveDraft = useCallback(
 		throttle(
-			(dId: string, cData: CompositionState) => handleSaveDraft(db, dId, cData, action, actionId, t)
-				.then((newId: string): void => {
-					if (newId !== dId) {
-						replaceHistory(panel
-							? `/folder/${folderId}?edit=${newId}`
-							: `/edit/${newId}`);
-					}
-				})
-				.catch(report), // TODO: here returns error of Id's not found
+			// eslint-disable-next-line arrow-body-style
+			(dId: string, cData: CompositionState) => {
+				return handleSaveDraft(db, dId, cData, action, actionId, t, accounts)
+					.then((newId: string): void => {
+						if (newId !== dId) {
+							replaceHistory(panel
+								? `/folder/${folderId}?edit=${newId}`
+								: `/edit/${newId}`);
+						}
+					})
+					.catch(report); // TODO: here returns error of Id's not found
+			},
 			500,
 			{ leading: false, trailing: true }
 		),

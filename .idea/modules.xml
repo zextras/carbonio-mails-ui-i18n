@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mail.iml" filepath="$PROJECT_DIR$/.idea/mail.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/zapp-mails.iml" filepath="$PROJECT_DIR$/.idea/zapp-mails.iml" />
     </modules>
   </component>
 </project>

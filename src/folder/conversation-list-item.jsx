@@ -42,6 +42,7 @@ export default function ConversationListItem({
 }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const accounts = hooks.useUserAccounts();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
 		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
@@ -63,10 +64,10 @@ export default function ConversationListItem({
 	);
 	const participantsString = useMemo(() => reduce(
 		conversation.participants,
-		(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
+		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		''
 	),
-	[conversation.participants, t]);
+	[conversation.participants, t, accounts]);
 
 	const isConversation = conversation.msgCount > 1;
 
