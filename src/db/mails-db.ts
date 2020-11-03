@@ -12,7 +12,7 @@
 import { PromiseExtended } from 'dexie';
 import { map, reduce, pullAllWith } from 'lodash';
 // eslint-disable-next-line import/no-unresolved
-import { SoapFetch, accounts } from '@zextras/zapp-shell';
+import { Account, SoapFetch } from '@zextras/zapp-shell';
 import { MailConversationFromDb, MailConversationFromSoap } from './mail-conversation';
 import { MailsFolder, MailsFolderFromDb } from './mails-folder';
 import { fetchConversationsInFolder } from '../soap';
@@ -65,7 +65,11 @@ export class MailsDb extends MailsDbDexie {
 		});
 	}
 
-	public saveDraft(draftId: string, cState: CompositionState): Promise<string> {
+	public saveDraft(
+		draftId: string,
+		cState: CompositionState,
+		accounts: Account[]
+	): Promise<string> {
 		if (draftId === 'new') {
 			return this.messages.add({
 				parent: '6',
@@ -153,7 +157,11 @@ export class MailsDb extends MailsDbDexie {
 		}).then(() => draftId).catch(report);
 	}
 
-	public saveDraftFromAction(cState: CompositionState, conversation: string): Promise<string> {
+	public saveDraftFromAction(
+		cState: CompositionState,
+		conversation: string,
+		accounts: Account[]
+	): Promise<string> {
 		return this.messages.add({
 			parent: '6',
 			conversation,

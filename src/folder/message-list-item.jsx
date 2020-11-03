@@ -14,6 +14,7 @@ import {
 	find, isEmpty, reduce, trimStart
 } from 'lodash';
 import styled from 'styled-components';
+import { hooks } from '@zextras/zapp-shell';
 import {
 	Avatar,
 	Badge,
@@ -56,6 +57,7 @@ export default function MessageListItem({
 	message, folderId, conversation, forceUpdate
 }) {
 	const { t } = useTranslation();
+	const accounts = hooks.useUserAccounts();
 	const [messageFolder, messageFolderLoaded] = useFolder(message.parent);
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
@@ -67,7 +69,7 @@ export default function MessageListItem({
 					getTimeLabel(message.date),
 					reduce(
 						message.contacts,
-						(acc, part) => trimStart(`${acc}, ${participantToString(part, t)}`, ', '),
+						(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 						''
 					)
 				];
@@ -79,7 +81,7 @@ export default function MessageListItem({
 				''
 			];
 		},
-		[message, t]
+		[message, t, accounts]
 	);
 
 	return (
