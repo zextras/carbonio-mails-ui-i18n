@@ -17,7 +17,6 @@ import {
 	get,
 	filter
 } from 'lodash';
-import { CompositionParticipants } from '../v1/components/compose/IuseCompositionData';
 import {
 	MailMessageFromDb,
 	MailMessageFromSoap,
@@ -91,6 +90,8 @@ export type SoapEmailMessageObj = {
 };
 
 type SoapEmailInfoTypeObj = 'f'|'t'|'c'|'b'|'r'|'s'|'n'|'rf';
+
+type CompositionParticipants = Array<{ value: string }>;
 
 export type SoapEmailInfoObj = {
 	/** Address */

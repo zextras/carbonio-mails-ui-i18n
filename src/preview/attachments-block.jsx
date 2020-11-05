@@ -27,13 +27,13 @@ import {
 const getSizeLabel = (size) => {
 	let value = '';
 	if (size < 1024000) {
-		value = Math.round((size / 1024) * 100) / 100 + ' KB';
+		value = `${Math.round((size / 1024) * 100) / 100} KB`;
 	}
 	else if (size < 1024000000) {
-		value = Math.round((size / 1024 / 1024) * 100) / 100 + ' MB';
+		value = `${Math.round((size / 1024 / 1024) * 100) / 100} MB`;
 	}
 	else {
-		value = Math.round((size / 1024 / 1024 / 1024) * 100) / 100 + ' GB';
+		value = `${Math.round((size / 1024 / 1024 / 1024) * 100) / 100} GB`;
 	}
 	return value;
 };
@@ -51,12 +51,9 @@ function AttachmentsBlock({ message, attachments }) {
 
 	const attachmentsCount = useMemo(() => attachments.length, [attachments]);
 	const attachmentsParts = useMemo(() => map(attachments, 'name'), [attachments]);
-	const actionsDownloadLink = useMemo(() => {
-		return getAttachmentsLink(message.id, message.subject, attachmentsParts);
-	}, [message, attachmentsParts]);
-	const attachmentLabel = useMemo(() => {
-		return attachmentsCount === 1 ? t('attachment') : t('attachments');
-	}, [attachmentsCount, t]);
+	const actionsDownloadLink = useMemo(() =>
+		getAttachmentsLink(message.id, message.subject, attachmentsParts), [message, attachmentsParts]);
+	const attachmentLabel = useMemo(() => (attachmentsCount === 1 ? t('attachment') : t('attachments')), [attachmentsCount, t]);
 
 	return attachmentsCount > 0 && (
 		<Container crossAlignment="flex-start">
@@ -80,13 +77,23 @@ function AttachmentsBlock({ message, attachments }) {
 				<Padding right="small">
 					{
 						attachmentsCount < 3
-						&& <Text color="gray1">{ attachmentsCount } { attachmentLabel }</Text>
+						&& (
+							<Text color="gray1">
+								{ attachmentsCount }
+								{' '}
+								{ attachmentLabel }
+							</Text>
+						)
 					}
 					{ attachmentsCount > 2 && (expanded
 						? (
 							<Row onClick={() => setExpanded(false)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
-									<Text color="primary">{ attachmentsCount } { attachmentLabel }</Text>
+									<Text color="primary">
+										{ attachmentsCount }
+										{' '}
+										{ attachmentLabel }
+									</Text>
 								</Padding>
 								<Icon icon="ArrowIosUpward" color="primary" />
 							</Row>
@@ -94,7 +101,11 @@ function AttachmentsBlock({ message, attachments }) {
 							<Row onClick={() => setExpanded(true)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
 									<Text color="primary">
-										{ t('Show all') } { attachmentsCount } { attachmentLabel }
+										{ t('Show all') }
+										{' '}
+										{ attachmentsCount }
+										{' '}
+										{ attachmentLabel }
 									</Text>
 								</Padding>
 								<Icon icon="ArrowIosDownward" color="primary" />

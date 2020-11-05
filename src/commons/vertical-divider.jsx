@@ -24,6 +24,6 @@ export const VerticalDivider = () => (
 		width={8}
 		background="gray5"
 	>
-		{/*<Notch />*/}
+		{/* <Notch /> */}
 	</Container>
 );

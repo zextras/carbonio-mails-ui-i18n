@@ -19,46 +19,45 @@ import {
 } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { selectAllFolders } from '../store/folders-slice';
+import MailsFolder from '../types/mails-folder';
 
-export default function SetMainMenuItems() {
+export default function SetMainMenuItems(): null {
 	useSetMainMenuItems();
 	return null;
 }
 
-function useSetMainMenuItems() {
+function useSetMainMenuItems(): void {
 	const { t } = useTranslation();
 	const allFolders = useSelector(selectAllFolders);
 
-	const folders = reduce(allFolders, (a, c) => {
+	const folders = reduce(allFolders, (a: Array<any>, c: MailsFolder) => {
 		a.push({
-			id: c.zid,
-			parentId: c.parentZid,
+			id: c.id,
+			parent: c.parent,
 			label: c.name,
-			children: c.items || [],
-			badgeCounter: c.unreadedNotifications || 0,
-			to: `/folder/${c.zid}`
+			children: [],
+			badgeCounter: c.unreadCount || 0,
+			to: `/folder/${c.id}`
 		});
 		return a;
 	}, []);
 
 	useEffect(() => {
 		const nestedCalendars = nest(folders, '1');
-		const trashItem = remove(nestedCalendars, (c) => c.id === '3'); // move Trash folder to the end
-		const allItems = nestedCalendars.concat(trashItem);
 
 		setMainMenuItems([{
-			id: 'folder-main',
-			icon: 'CalendarOutline',
-			to: '/view',
-			label: 'folder',
-			children: allItems,
+			id: 'mails-main',
+			icon: 'EmailOutline',
+			to: '/folder/2', // Default route to `Inbox`
+			label: 'Mails',
+			children: nestedCalendars,
 		}]);
 	}, [folders]);
 }
 
-function nest(items, id) {
+function nest(items: Array<any>, id: string): Array<any> {
 	return map(
-		filter(items, (item) => item.parentId === id),
+		filter(items, (item) => item.parent === id),
 		(item) => ({ ...item, children: nest(items, item.id) })
 	);
 }

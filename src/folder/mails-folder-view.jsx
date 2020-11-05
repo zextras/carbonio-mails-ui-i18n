@@ -16,6 +16,7 @@ import React, {
 	useRef,
 	useState
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
 import {
@@ -36,6 +37,7 @@ import { useConvsInFolder, useFolder } from '../hooks';
 import ConversationListProvider from '../context/conversation-list-provider';
 import MessageListProvider from '../context/message-list-provider';
 import FolderListProvider from '../context/folder-list-provider';
+import { fetchConversations } from '../store/conversations-slice';
 
 function Breadcrumbs({ folder, itemsCount }) {
 	return (
@@ -65,7 +67,14 @@ function Breadcrumbs({ folder, itemsCount }) {
 }
 
 export default function FolderView() {
-	const folderId = useParams();
+	const { folderId } = useParams();
+	console.log('FOLDER-VIEW');
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (folderId) dispatch(fetchConversations({ folderId }));
+	}, [dispatch, folderId]);
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');
@@ -126,7 +135,6 @@ export default function FolderView() {
 								<ConversationList
 									key={`ConversationList-${folderId}`}
 									folderId={folderId}
-									folderId={folderId}
 								/>
 							</Container>
 							<VerticalDivider />
@@ -164,8 +172,6 @@ const LoadingIndicator = ({ style, index }) => (
 );
 
 const ConversationList = ({ folderId }) => {
-	// TODO: fix with new architecture
-	return null;
 	const containerRef = useRef();
 	const listRef = useRef();
 	const {
@@ -209,13 +215,12 @@ const ConversationList = ({ folderId }) => {
 					index={index}
 					conversation={conversations[index]}
 					folderId={folderId}
-					folderId={folderId}
 					displayData={displayData[conversations[index].id] || { open: false }}
 					updateDisplayData={updateDisplayData}
 				/>
 			);
 		},
-		[conversations, displayData, folderId]
+		[conversations, displayData, folderId, updateDisplayData]
 	);
 
 	const calcItemSize = useCallback(
@@ -248,7 +253,8 @@ const ConversationList = ({ folderId }) => {
 
 	useEffect(() => {
 		if (typeof containerRef.current === 'undefined') return undefined;
-		const onResize = () => setContainerHeight(containerRef.current && containerRef.current.offsetHeight);
+		const onResize = () =>
+			setContainerHeight(containerRef.current && containerRef.current.offsetHeight);
 		onResize();
 		window.top.addEventListener('resize', onResize);
 		return () => window.top.removeEventListener('resize', onResize);

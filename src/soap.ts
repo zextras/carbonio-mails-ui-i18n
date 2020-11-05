@@ -559,7 +559,6 @@ export function normalizeMailsFolders(f: SyncResponseMailFolder): MailsFolderFro
 	if (f.id === '3' || (f.view && f.view === 'message')) {
 		return [normalizeFolder(f), ...children];
 	}
-
 	return children;
 }
 

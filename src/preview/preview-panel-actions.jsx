@@ -10,29 +10,25 @@
  */
 
 import React from 'react';
-import {
-	Container,
-	IconButton,
-	Padding
-} from '@zextras/zapp-ui';
+import { Container, IconButton, Padding } from '@zextras/zapp-ui';
 
 function PreviewPanelActions({ conversation }) {
 	return <Container height="auto" padding={{ top: 'large' }} />;
-	return (
-		<Container
-			orientation="horizontal"
-			mainAlignment="flex-end"
-			crossAlignment="center"
-			height="auto"
-			padding={{ horizontal: 'large', vertical: 'small' }}
-		>
-			<Padding left="extrasmall"><IconButton size="medium" icon="UndoOutline" /></Padding>
-			{ /* <Padding left="extrasmall"><IconButton size="medium" icon="ArchiveOutline" /></Padding> */ }
-			<Padding left="extrasmall"><IconButton size="medium" icon="Trash2Outline" /></Padding>
-			{ /* <Padding left="extrasmall"><IconButton size="medium" icon="PricetagsOutline" /></Padding> */ }
-			{ /* <Padding left="extrasmall"><IconButton size="medium" icon="MoreVertical" /></Padding> */ }
-		</Container>
-	);
+	// return (
+	// 	<Container
+	// 		orientation="horizontal"
+	// 		mainAlignment="flex-end"
+	// 		crossAlignment="center"
+	// 		height="auto"
+	// 		padding={ {horizontal: 'large', vertical: 'small'} }
+	// 	>
+	// 		<Padding left="extrasmall"><IconButton size="medium" icon="UndoOutline"/></Padding>
+	// 		<Padding left="extrasmall"><IconButton size="medium" icon="ArchiveOutline"/></Padding>
+	// 		<Padding left="extrasmall"><IconButton size="medium" icon="Trash2Outline"/></Padding>
+	// 		<Padding left="extrasmall"><IconButton size="medium" icon="PricetagsOutline"/></Padding>
+	// 		<Padding left="extrasmall"><IconButton size="medium" icon="MoreVertical"/></Padding>
+	// 	</Container>
+	// );
 }
 
 export default PreviewPanelActions;

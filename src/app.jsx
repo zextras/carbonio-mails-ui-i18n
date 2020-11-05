@@ -13,15 +13,15 @@ import React, { lazy, useEffect } from 'react';
 import {
 	network, setAppContext, setCreateOptions, setRoutes, store
 } from '@zextras/zapp-shell';
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { MailsDb } from './db/mails-db';
 import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
 import { report } from './commons/report-exception';
 import syncSliceReducer, { startSync } from './store/sync-slice';
 import foldersSliceReducer from './store/folders-slice';
 import accountsSliceReducer from './store/accounts-slice';
-import mainMenuItems from './main-menu-items';
 import SetMainMenuItems from './secondary-bar/set-main-menu-items';
+import conversationsSliceReducer from './store/conversations-slice';
 
 const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
 const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
@@ -39,8 +39,12 @@ export default function App() {
 				accounts: accountsSliceReducer,
 				folders: foldersSliceReducer,
 				sync: syncSliceReducer,
+				conversations: conversationsSliceReducer,
 			}),
 		);
+		// const customizedMiddleware = getDefaultMiddleware({
+		// 	serializableCheck: false,
+		// });
 	}, []);
 
 	useEffect(() => {

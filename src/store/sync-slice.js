@@ -12,8 +12,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { network } from '@zextras/zapp-shell';
-import { handleSyncData as handleCalendarsSyncData } from './folders-slice';
-
+import { handleSyncData as handleFolderSyncData } from './folders-slice';
 
 const performSync = createAsyncThunk('sync/performSync', async (arg, { getState, dispatch }) => {
 	const { status, token } = getState().sync;
@@ -31,7 +30,7 @@ const performSync = createAsyncThunk('sync/performSync', async (arg, { getState,
 			},
 		);
 		if (!token || token !== _token) {
-			await dispatch(handleCalendarsSyncData({
+			await dispatch(handleFolderSyncData({
 				firstSync: !token, token: _token, folder, deleted,
 			}));
 			// await dispatch(handleAppointmentsSyncData({

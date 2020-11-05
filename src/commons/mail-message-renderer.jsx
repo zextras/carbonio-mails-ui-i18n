@@ -10,7 +10,9 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react';
-import { filter, forEach, get, reduce } from 'lodash';
+import {
+	filter, forEach, get, reduce
+} from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
 
@@ -37,7 +39,7 @@ export function getBodyToRender(msg) {
 	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
 }
 
-const _TextMessageRenderer = ({ body }) => {
+const TextMessageRenderer = ({ body }) => {
 	const containerRef = useRef();
 
 	useEffect(() => {
@@ -49,7 +51,7 @@ const _TextMessageRenderer = ({ body }) => {
 	);
 };
 
-const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
+const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 	const iframeRef = useRef();
 	const onIframeLoad = useCallback((ev) => {
 		ev.persist();
@@ -73,7 +75,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
 		iframeRef.current.style.display = 'block';
-		iframeRef.current.style.height = iframeRef.current.contentDocument.body.querySelector('div').scrollHeight + 'px';
+		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.querySelector('div').scrollHeight}px`;
 	}, []);
 
 	useEffect(() => {
@@ -100,7 +102,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 				}
 				if (!_CI_SRC_REGEX.test(p.src)) return;
 				const ci = _CI_SRC_REGEX.exec(p.getAttribute('src'))[1];
-				if (imgMap.hasOwnProperty(ci)) {
+				if (Object.prototype.hasOwnProperty.call(imgMap, ci)) {
 					const part = imgMap[ci];
 					p.setAttribute('pnsrc', p.getAttribute('src'));
 					p.setAttribute('src', `/service/home/~/?auth=co&id=${msgId}&part=${part.name}`);
@@ -138,13 +140,12 @@ const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 		return <EmptyBody />;
 	}
 	if (body.contentType === 'text/html') {
-		return (<_HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
+		return (<HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
 	}
-	else if (body.contentType === 'text/plain') {
-		return (<_TextMessageRenderer body={body} />);
+	if (body.contentType === 'text/plain') {
+		return (<TextMessageRenderer body={body} />);
 	}
-	else {
-		throw new Error(`Cannot render '${body.contentType}'`);
-	}
+
+	throw new Error(`Cannot render '${body.contentType}'`);
 };
 export default MailMessageRenderer;
