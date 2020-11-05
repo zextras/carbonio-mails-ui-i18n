@@ -11,14 +11,17 @@
 
 import React, { lazy, useEffect } from 'react';
 import {
-	setRoutes,
-	setCreateOptions,
-	setAppContext,
-	network
+	network, setAppContext, setCreateOptions, setRoutes, store
 } from '@zextras/zapp-shell';
+import { combineReducers } from '@reduxjs/toolkit';
 import { MailsDb } from './db/mails-db';
 import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
+import { report } from './commons/report-exception';
+import syncSliceReducer, { startSync } from './store/sync-slice';
+import foldersSliceReducer from './store/folders-slice';
+import accountsSliceReducer from './store/accounts-slice';
 import mainMenuItems from './main-menu-items';
+import SetMainMenuItems from './secondary-bar/set-main-menu-items';
 
 const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
 const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
@@ -26,37 +29,40 @@ const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" *
 export default function App() {
 	console.log('Hello from mails');
 
+	window.onerror = (msg, url, lineNo, columnNo, error) => {
+		report(error);
+	};
+
 	useEffect(() => {
-		const db = new MailsDb(network.soapFetch);
-		const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
-		db.registerSyncProtocol('soap-mails', syncProtocol);
-		db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
+		store.setReducer(
+			combineReducers({
+				accounts: accountsSliceReducer,
+				folders: foldersSliceReducer,
+				sync: syncSliceReducer,
+			}),
+		);
+	}, []);
 
-		setAppContext({
-			db
-		});
-
-		db
-			.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
-			.subscribe((folders) => mainMenuItems(folders, db));
+	useEffect(() => {
+		store.store.dispatch(startSync());
 
 		setRoutes([
 			{
 				route: '/folder/:folderId',
-				view: lazyFolderView
+				view: lazyFolderView,
 			},
 			{
 				route: '/',
-				view: lazyFolderView
+				view: lazyFolderView,
 			},
 			{
 				route: '/edit/:id',
-				view: lazyEditView
+				view: lazyEditView,
 			},
 			{
 				route: '/new',
-				view: lazyEditView
-			}
+				view: lazyEditView,
+			},
 		]);
 
 		setCreateOptions([{
@@ -68,9 +74,57 @@ export default function App() {
 					const splittedLocation = window.top.location.pathname.split('/folder');
 					return `${splittedLocation[1] ? `/folder${splittedLocation[1]}` : ''}?edit=new`;
 				},
-			}
+			},
 		}]);
 	}, []);
 
-	return null;
+	useEffect(() => {
+		const db = new MailsDb(network.soapFetch);
+		const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
+		db.registerSyncProtocol('soap-mails', syncProtocol);
+		db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
+
+		setAppContext({
+			db,
+		});
+
+		// db
+		// 	.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
+		// 	.subscribe((folders) => mainMenuItems(folders, db));
+
+		// setRoutes([
+		// 	{
+		// 		route: '/folder/:folderId',
+		// 		view: lazyFolderView,
+		// 	},
+		// 	{
+		// 		route: '/',
+		// 		view: lazyFolderView,
+		// 	},
+		// 	{
+		// 		route: '/edit/:id',
+		// 		view: lazyEditView,
+		// 	},
+		// 	{
+		// 		route: '/new',
+		// 		view: lazyEditView,
+		// 	},
+		// ]);
+		//
+		// setCreateOptions([{
+		// 	id: 'create-mail',
+		// 	label: 'New Mail',
+		// 	app: {
+		// 		boardPath: '/new',
+		// 		getPath: () => {
+		// 			const splittedLocation = window.top.location.pathname.split('/folder');
+		// 			return `${splittedLocation[1] ? `/folder${splittedLocation[1]}` : ''}?edit=new`;
+		// 		},
+		// 	},
+		// }]);
+	}, []);
+
+	return (
+		<SetMainMenuItems />
+	);
 }

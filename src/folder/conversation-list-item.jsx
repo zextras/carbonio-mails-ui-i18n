@@ -38,7 +38,7 @@ const CollapseElement = styled(Container)`
 `;
 
 export default function ConversationListItem({
-	index, conversation, folderId, zimbraFolderId, style, displayData, updateDisplayData
+	index, conversation, folderId, style, displayData, updateDisplayData
 }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
@@ -46,7 +46,7 @@ export default function ConversationListItem({
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
 		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
-	});
+	}, [conversation.participants]);
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -176,7 +176,6 @@ export default function ConversationListItem({
 						<Container padding={{ left: 'extralarge' }} height="auto">
 							<ConversationMessagesList
 								toggleOpen={toggleOpen}
-								zimbraFolderId={zimbraFolderId}
 								folderId={folderId}
 								conversation={conversation}
 							/>

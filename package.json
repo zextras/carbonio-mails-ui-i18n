@@ -79,8 +79,8 @@
   },
   "dependencies": {
     "@babel/preset-typescript": "7.6.0",
-    "@types/faker": "5.1.4",
     "@reduxjs/toolkit": "1.4.0",
+    "@types/faker": "5.1.4",
     "@types/jest": "24.0.23",
     "css-loader": "3.2.0",
     "faker": "5.1.0",
@@ -90,6 +90,7 @@
     "lodash": "^4.17.20",
     "moment": "2.27.0",
     "node-sass": "^4.14.1",
+    "polished": "^4.0.3",
     "react": "16.11.0",
     "react-i18next": "11.5.0",
     "react-window": "1.8.5",

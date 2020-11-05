@@ -38,7 +38,7 @@ module.exports = {
       "allowShortCircuit": true,
       "allowTernary": true
     }], // https://eslint.org/docs/rules/no-unused-expressions
-    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": [] }], // TODO: here we can insert the name of parameters that can be edited without throwing linter error
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state", "appointment", "r", "cache"] }],
 
     /**
      * @description rules of @typescript-eslint
@@ -72,11 +72,12 @@ module.exports = {
     'react/jsx-indent-props': ['error', 'tab'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false, "variables": true }],
     'implicit-arrow-linebreak': 'off',
     'import/first': 'off',
     'import/no-extraneous-dependencies': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell$'] } ],
+    'import/no-unresolved': [2, { ignore: ['^@zextras/zapp-shell'] } ],
     'no-extra-semi': 'off'
   },
   "overrides": [

@@ -65,8 +65,7 @@ function Breadcrumbs({ folder, itemsCount }) {
 }
 
 export default function FolderView() {
-	const { folderId } = useParams();
-	const zimbraFolderId = useFolder(folderId).id;
+	const folderId = useParams();
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');
@@ -127,7 +126,7 @@ export default function FolderView() {
 								<ConversationList
 									key={`ConversationList-${folderId}`}
 									folderId={folderId}
-									zimbraFolderId={zimbraFolderId}
+									folderId={folderId}
 								/>
 							</Container>
 							<VerticalDivider />
@@ -164,7 +163,9 @@ const LoadingIndicator = ({ style, index }) => (
 	</Container>
 );
 
-const ConversationList = ({ folderId, zimbraFolderId }) => {
+const ConversationList = ({ folderId }) => {
+	// TODO: fix with new architecture
+	return null;
 	const containerRef = useRef();
 	const listRef = useRef();
 	const {
@@ -208,7 +209,7 @@ const ConversationList = ({ folderId, zimbraFolderId }) => {
 					index={index}
 					conversation={conversations[index]}
 					folderId={folderId}
-					zimbraFolderId={zimbraFolderId}
+					folderId={folderId}
 					displayData={displayData[conversations[index].id] || { open: false }}
 					updateDisplayData={updateDisplayData}
 				/>

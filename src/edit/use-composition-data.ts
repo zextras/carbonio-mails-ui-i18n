@@ -149,10 +149,27 @@ export const stateContactsFromDraft = (draft: MailMessageFromDb, type: string):
 		(c: Participant) => ({ value: c.address })
 	);
 
+function isHtml(parts: Array<MailMessagePart>): boolean {
+	function subtreeContainsHtmlParts(part: MailMessagePart): boolean {
+		if (part.contentType === 'text/html') return true;
+		return part.parts ? part.parts.some(subtreeContainsHtmlParts) : false;
+	}
+	return parts.some(subtreeContainsHtmlParts);
+}
+
+function recursiveFindText(parts: Array<MailMessagePart>): MailMessagePart | undefined {
+	function findText(part: MailMessagePart): MailMessagePart | undefined {
+		if (part.contentType === 'text/plain') return part;
+		return part.parts && recursiveFindText(part.parts);
+	}
+	return parts.find(findText);
+}
+
 export const extractBody = (draft: MailMessageFromDb): { text: string; html: string } => {
-	const text = find(draft.parts, ['contentType', 'text/plain']);
+	const text = recursiveFindText(draft.parts);
 	const html = find(draft.parts, ['contentType', 'multipart/alternative']);
 	const htmlText = html ? find(html.parts, ['contentType', 'text/html']) : '';
+
 	return {
 		text: (text && text.content) ? text.content : '',
 		html: (htmlText && htmlText.content) ? htmlText.content : ''
@@ -165,12 +182,7 @@ export const draftToCompositionData = (draft: MailMessageFromDb): CompositionSta
 	cc: stateContactsFromDraft(draft, 'c'),
 	bcc: stateContactsFromDraft(draft, 'b'),
 	body: { ...extractBody(draft) },
-	richText: draft
-		? !!find(
-			draft.parts,
-			(part: MailMessagePart): boolean => part.contentType === 'multipart/alternative'
-		)
-		: true,
+	richText: isHtml(draft.parts),
 	flagged: draft ? draft.flagged : false,
 	urgent: draft ? draft.urgent : false
 });
@@ -189,8 +201,9 @@ function handleSaveDraft(
 			return db.messages.where({ id: actionId }).first().then((message) => {
 				if (message) {
 					draftResponse.subject = message.subject;
+					console.log(message.parts);
 					const body = extractBody(message);
-					draftResponse.richText = message.parts.filter((part) => part.contentType !== 'text/plain').length !== 0;
+					draftResponse.richText = isHtml(message.parts);
 
 					draftResponse.body.text = body.text;
 					draftResponse.body.html = body.html;
@@ -215,7 +228,7 @@ function handleSaveDraft(
 					draftResponse.cc = message.contacts
 						.filter((m) =>
 							(m.type === ParticipantType.CARBON_COPY || m.type === ParticipantType.TO))
-						.filter((m) => !(m.address in accounts.map((a) => a.name)))
+						.filter((m) => !(accounts.map((a) => a.name).includes(m.address)))
 						.map((m) => ({ value: m.address }));
 				}
 
@@ -224,7 +237,7 @@ function handleSaveDraft(
 					// TODO: attachments
 				}
 
-				draftResponse.richText = message.parts.filter((part) => part.contentType !== 'text/plain').length !== 0;
+				draftResponse.richText = isHtml(message.parts);
 
 				const body = extractBody(message);
 
