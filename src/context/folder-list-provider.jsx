@@ -10,33 +10,16 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { keyBy } from 'lodash';
-import { hooks } from '@zextras/zapp-shell';
+import { useSelector } from 'react-redux';
 import FolderListContext from './folder-list-context';
-import { report } from '../commons/report-exception';
+import { selectFolders } from '../store/folders-slice';
 
 function FolderListProvider({ children }) {
-	const { db } = hooks.useAppContext();
-	const query = useCallback(
-		() => db.folders.toArray().then((c) => keyBy(c, '_id')).catch(report),
-		[db.folders]
-	);
-
-	const [foldersFromDb, foldersLoaded] = hooks.useObserveDb(query, db);
-
-	const [loaded, setLoaded] = useState(false);
-	const [folders, setFolders] = useState({});
-
-	useEffect(() => {
-		if (foldersLoaded && !loaded) setLoaded(true);
-	}, [foldersLoaded, loaded]);
-	useEffect(() => {
-		if (foldersFromDb && foldersLoaded) setFolders(foldersFromDb);
-	}, [foldersLoaded, foldersFromDb]);
+	const allFolders = useSelector(selectFolders);
 
 	return (
 		<FolderListContext.Provider
-			value={[folders, loaded]}
+			value={[allFolders, true]}
 		>
 			{ children }
 		</FolderListContext.Provider>

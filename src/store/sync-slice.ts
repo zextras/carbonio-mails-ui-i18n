@@ -12,16 +12,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { network } from '@zextras/zapp-shell';
+import { SyncResponse } from '../soap';
+import { SyncStateType } from '../types/state';
+import { fetchConversations } from './conversations-slice';
 import { handleSyncData as handleFolderSyncData } from './folders-slice';
 
-const performSync = createAsyncThunk('sync/performSync', async (arg, { getState, dispatch }) => {
+const performSync = createAsyncThunk('sync/performSync', async (arg, { getState, dispatch }: any) => {
 	const { status, token } = getState().sync;
 
 	if (status === 'syncing') {
 		console.log('Perform a Sync!');
-		const {
-			token: _token, folder, deleted, appt,
-		} = await network.soapFetch(
+		const syncResponse: SyncResponse = await network.soapFetch(
 			'Sync',
 			{
 				_jsns: 'urn:zimbraMail',
@@ -29,10 +30,18 @@ const performSync = createAsyncThunk('sync/performSync', async (arg, { getState,
 				token,
 			},
 		);
+		const {
+			token: _token, folder, deleted
+		} = syncResponse;
 		if (!token || token !== _token) {
 			await dispatch(handleFolderSyncData({
 				firstSync: !token, token: _token, folder, deleted,
 			}));
+			dispatch({
+				type: 'conversations/handleSyncData',
+				payload: syncResponse,
+			},);
+
 			// await dispatch(handleAppointmentsSyncData({
 			// 	firstSync: !token, token: _token, folder, deleted, appt,
 			// }));
@@ -47,23 +56,23 @@ const performSync = createAsyncThunk('sync/performSync', async (arg, { getState,
 	});
 });
 
-function performSyncPending(state, action) {
+function performSyncPending(state: SyncStateType, action: any): void {
 	if (state.status === 'idle' || state.status === 'init') {
 		state.status = 'syncing';
 	}
 }
 
-function performSyncFulfilled(state, { payload }) {
+function performSyncFulfilled(state: SyncStateType, { payload }: any): void {
 	const { token } = payload;
 	state.token = token;
 	state.status = state.intervalId > 0 ? 'idle' : 'stopped';
 }
 
-function performSyncRejected(state, action) {
+function performSyncRejected(state: SyncStateType, action: any): void {
 	console.warn('performSyncRejected');
 }
 
-export const startSync = createAsyncThunk('sync/start', async (arg, { getState, dispatch }) => {
+export const startSync = createAsyncThunk('sync/start', async (arg, { getState, dispatch }: any) => {
 	const { status, intervalId } = getState().sync;
 	if (status === 'init' || status === 'stopped') {
 		await dispatch(performSync());
@@ -81,7 +90,7 @@ export const startSync = createAsyncThunk('sync/start', async (arg, { getState, 
 	});
 });
 
-export const stopSync = createAsyncThunk('sync/stop', (arg, { getState, dispatch }) => {
+export const stopSync = createAsyncThunk('sync/stop', (arg, { getState, dispatch }: any) => {
 	const { status, intervalId } = getState().sync;
 	if (status === 'idle') {
 		clearInterval(intervalId);
@@ -103,13 +112,13 @@ export const stopSync = createAsyncThunk('sync/stop', (arg, { getState, dispatch
 	});
 });
 
-function startStopSyncFulfilled(state, { payload }) {
+function startStopSyncFulfilled(state: SyncStateType, { payload }: any): void {
 	const { status, intervalId } = payload;
 	state.status = status;
 	state.intervalId = intervalId;
 }
 
-function setStatusR(state, { payload }) {
+function setStatusR(state: SyncStateType, { payload }: any): void {
 	state.status = payload.status;
 }
 
@@ -123,12 +132,12 @@ export const syncSlice = createSlice({
 	reducers: {
 		setStatus: produce(setStatusR),
 	},
-	extraReducers: {
-		[performSync.pending]: produce(performSyncPending),
-		[performSync.fulfilled]: produce(performSyncFulfilled),
-		[performSync.rejected]: produce(performSyncRejected),
-		[startSync.fulfilled]: produce(startStopSyncFulfilled),
-		[stopSync.fulfilled]: produce(startStopSyncFulfilled),
+	extraReducers: (builder) => {
+		builder.addCase(performSync.pending, produce(performSyncPending));
+		builder.addCase(performSync.fulfilled, produce(performSyncFulfilled));
+		builder.addCase(performSync.rejected, produce(performSyncRejected));
+		builder.addCase(startSync.fulfilled, produce(startStopSyncFulfilled));
+		builder.addCase(stopSync.fulfilled, produce(startStopSyncFulfilled));
 	},
 });
 

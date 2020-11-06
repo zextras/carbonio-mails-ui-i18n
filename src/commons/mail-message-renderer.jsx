@@ -44,7 +44,7 @@ const TextMessageRenderer = ({ body }) => {
 
 	useEffect(() => {
 		containerRef.current.innerText = body.content;
-	}, [containerRef.current, body]);
+	}, [body]);
 
 	return (
 		<div style={{ fontFamily: 'monospace' }} ref={containerRef} />
@@ -135,7 +135,7 @@ const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 		if (!mailMsg.read) {
 			onUnreadLoaded();
 		}
-	}, []);
+	}, [mailMsg.read, onUnreadLoaded]);
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;
 	}

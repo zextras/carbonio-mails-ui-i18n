@@ -10,36 +10,28 @@
  */
 
 import React, {
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
+	useCallback, useEffect, useMemo, useRef, useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
 import {
-	Button,
-	Container,
-	Divider,
-	Text,
-	useScreenMode,
-	Responsive,
-	Row
+	Button, Container, Divider, Responsive, Row, Text, useScreenMode
 } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
 import useQueryParam from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
-import { useConvsInFolder, useFolder } from '../hooks';
-import ConversationListProvider from '../context/conversation-list-provider';
-import MessageListProvider from '../context/message-list-provider';
-import FolderListProvider from '../context/folder-list-provider';
-import { fetchConversations } from '../store/conversations-slice';
+import {
+	fetchConversations,
+	selectConversationList,
+	selectConversationsStatus,
+	selectFolderHasMoreConversations,
+} from '../store/conversations-slice';
+import { selectFolder, selectFoldersLoaded } from '../store/folders-slice';
 
-function Breadcrumbs({ folder, itemsCount }) {
+function Breadcrumbs({ folderPath, itemsCount }) {
 	return (
 		<Container
 			background="gray5"
@@ -57,9 +49,9 @@ function Breadcrumbs({ folder, itemsCount }) {
 					takeAvailableSpace
 					padding={{ right: 'medium' }}
 				>
-					<Text size="large">{ folder && folder.path }</Text>
+					<Text size="large">{ folderPath }</Text>
 				</Row>
-				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount > 0 && itemsCount}</Text>
+				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount > 0 && itemsCount }</Text>
 			</Row>
 			<Divider />
 		</Container>
@@ -68,17 +60,25 @@ function Breadcrumbs({ folder, itemsCount }) {
 
 export default function FolderView() {
 	const { folderId } = useParams();
-	console.log('FOLDER-VIEW');
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (folderId) dispatch(fetchConversations({ folderId }));
-	}, [dispatch, folderId]);
+		dispatch({
+			type: 'conversations/setCurrentFolder',
+			payload: folderId,
+		});
+	}, [folderId]);
+
+	const foldersAreLoaded = useSelector(selectFoldersLoaded);
+	useEffect(() => {
+		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId }));
+	}, [folderId, foldersAreLoaded]);
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');
 	const editId = useQueryParam('edit');
+
 	const MemoPanel = useMemo(() => {
 		if (editId) {
 			return (
@@ -110,58 +110,52 @@ export default function FolderView() {
 	}, [editId, folderId, conversationId, screen]);
 
 	return (
-		<FolderListProvider>
-			<ConversationListProvider folderId={folderId}>
-				<MessageListProvider>
-					<Container
-						orientation="row"
-						crossAlignment="flex-start"
-						mainAlignment="flex-start"
-						width="fill"
-						height="fill"
-						background="gray5"
-						borderRadius="none"
-						style={{
-							maxHeight: '100%',
-						}}
-					>
-						<Responsive mode="desktop" target={window.top}>
-							<Container
-								width="calc(40% - 4px)"
-								mainAlignment="flex-start"
-								crossAlignment="unset"
-								borderRadius="none"
-							>
-								<ConversationList
-									key={`ConversationList-${folderId}`}
-									folderId={folderId}
-								/>
-							</Container>
-							<VerticalDivider />
-							<Container
-								width="calc(60% - 4px)"
-								mainAlignment="flex-start"
-								crossAlignment="flex-start"
-								borderRadius="none"
-								style={{ maxHeight: '100%' }}
-							>
-								{MemoPanel}
-							</Container>
-						</Responsive>
-						<Responsive mode="mobile" target={window.top}>
-							<Container
-								mainAlignment="flex-start"
-								crossAlignment="flex-start"
-								borderRadius="none"
-								height="fill"
-							>
-								{MemoPanel}
-							</Container>
-						</Responsive>
-					</Container>
-				</MessageListProvider>
-			</ConversationListProvider>
-		</FolderListProvider>
+		<Container
+			orientation="row"
+			crossAlignment="flex-start"
+			mainAlignment="flex-start"
+			width="fill"
+			height="fill"
+			background="gray5"
+			borderRadius="none"
+			style={{
+				maxHeight: '100%',
+			}}
+		>
+			<Responsive mode="desktop" target={window.top}>
+				<Container
+					width="calc(40% - 4px)"
+					mainAlignment="flex-start"
+					crossAlignment="unset"
+					borderRadius="none"
+				>
+					<ConversationList
+						key={`ConversationList-${folderId}`}
+						folderId={folderId}
+					/>
+				</Container>
+				<VerticalDivider />
+				<Container
+					width="calc(60% - 4px)"
+					mainAlignment="flex-start"
+					crossAlignment="flex-start"
+					borderRadius="none"
+					style={{ maxHeight: '100%' }}
+				>
+					{ MemoPanel }
+				</Container>
+			</Responsive>
+			<Responsive mode="mobile" target={window.top}>
+				<Container
+					mainAlignment="flex-start"
+					crossAlignment="flex-start"
+					borderRadius="none"
+					height="fill"
+				>
+					{ MemoPanel }
+				</Container>
+			</Responsive>
+		</Container>
 	);
 }
 
@@ -172,15 +166,20 @@ const LoadingIndicator = ({ style, index }) => (
 );
 
 const ConversationList = ({ folderId }) => {
+	const dispatch = useDispatch();
+
 	const containerRef = useRef();
 	const listRef = useRef();
-	const {
-		conversations,
-		folder,
-		isLoading,
-		hasMore,
-		loadMore
-	} = useConvsInFolder(folderId);
+	const folder = useSelector(selectFolder, folderId);
+	const conversations = useSelector(selectConversationList);
+
+	// TODO: complete this fallowing fields
+	const isLoading = useSelector(selectConversationsStatus) === 'pending';
+	const hasMore = useSelector(selectFolderHasMoreConversations);
+
+	const loadMore = useCallback(() => {
+		dispatch;
+	}, []);
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);
@@ -191,22 +190,19 @@ const ConversationList = ({ folderId }) => {
 			listRef.current && listRef.current.resetAfterIndex(index);
 			setDisplayData((oldData) => ({
 				...oldData,
-				[id]: v
+				[id]: v,
 			}));
 		},
-		[]
+		[],
 	);
 
 	const rowRenderer = useCallback(
-		({
-			index,
-			style
-		}) => {
+		({ index, style }) => {
 			if (!conversations[index]) return <LoadingIndicator style={style} index={index} />;
 			if (!displayData[conversations[index].id]) {
 				setDisplayData((oldData) => ({
 					...oldData,
-					[conversations[index].id]: { open: false }
+					[conversations[index].id]: { open: false },
 				}));
 			}
 			return (
@@ -220,7 +216,7 @@ const ConversationList = ({ folderId }) => {
 				/>
 			);
 		},
-		[conversations, displayData, folderId, updateDisplayData]
+		[conversations, displayData, folderId, updateDisplayData],
 	);
 
 	const calcItemSize = useCallback(
@@ -231,7 +227,7 @@ const ConversationList = ({ folderId }) => {
 			}
 			return 70;
 		},
-		[conversations, displayData]
+		[conversations, displayData],
 	);
 
 	useEffect(() => {
@@ -262,7 +258,7 @@ const ConversationList = ({ folderId }) => {
 
 	return (
 		<>
-			{ folder && <Breadcrumbs folder={folder} itemsCount={conversations.length} /> }
+			{ folder && <Breadcrumbs folderPath={folder.path} itemsCount={conversations.length} /> }
 			<Row
 				ref={containerRef}
 				height="calc(100% - 49px)"
@@ -285,9 +281,9 @@ const ConversationList = ({ folderId }) => {
 						estimatedItemSize={57}
 						onItemsRendered={onItemsRendered}
 					>
-						{rowRenderer}
+						{ rowRenderer }
 					</VariableSizeList>
-				)}
+				) }
 			</Row>
 		</>
 	);

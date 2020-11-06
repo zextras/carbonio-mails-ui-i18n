@@ -9,17 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-/* eslint no-param-reassign: ["error", {"props": true, "ignorePropertyModificationsFor": ["c"] }] */
-
 import React, { useEffect } from 'react';
 import { setMainMenuItems } from '@zextras/zapp-shell';
 import { useSelector } from 'react-redux';
-import {
-	remove, reduce, forEach, map, filter, every
-} from 'lodash';
-import { useTranslation } from 'react-i18next';
-import { selectAllFolders } from '../store/folders-slice';
-import MailsFolder from '../types/mails-folder';
+import { reduce, map, filter } from 'lodash';
+import { selectFolders } from '../store/folders-slice';
+import { MailsFolder } from '../types/mails-folder';
+import { MailsFolderMap } from '../types/state';
 
 export default function SetMainMenuItems(): null {
 	useSetMainMenuItems();
@@ -27,8 +23,7 @@ export default function SetMainMenuItems(): null {
 }
 
 function useSetMainMenuItems(): void {
-	const { t } = useTranslation();
-	const allFolders = useSelector(selectAllFolders);
+	const allFolders: MailsFolderMap = useSelector(selectFolders);
 
 	const folders = reduce(allFolders, (a: Array<any>, c: MailsFolder) => {
 		a.push({
@@ -36,7 +31,7 @@ function useSetMainMenuItems(): void {
 			parent: c.parent,
 			label: c.name,
 			children: [],
-			badgeCounter: c.unreadCount || 0,
+			badgeCounter: c.unreadCount,
 			to: `/folder/${c.id}`
 		});
 		return a;

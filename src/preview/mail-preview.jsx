@@ -86,7 +86,7 @@ function MailPreviewLoaded({ message, firstMail }) {
 	useLayoutEffect(() => {
 		if (typeof urlMessageId === 'undefined' && firstMail) return;
 		setOpen(urlMessageId === message._id);
-	}, [urlMessageId]);
+	}, [firstMail, message._id, urlMessageId]);
 
 	return (
 		<Container
@@ -105,7 +105,7 @@ function MailPreviewLoaded({ message, firstMail }) {
 					overflowY: 'auto'
 				}}
 			>
-				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition={true}>
+				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
 					<Container
 						width="100%"
 						height="fit"
@@ -215,7 +215,7 @@ function MailPreviewBlock({
 			});
 		}
 		return arr;
-	}, [db, folderId, message._id, message.parent, message.flagged, replaceHistory, t]);
+	}, [message, t, replaceHistory, folderId, db]);
 
 	const { folderId: currentFolderId } = useParams();
 	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
@@ -248,7 +248,7 @@ function MailPreviewBlock({
 				height="fit"
 				width="calc(100% - 48px)"
 				padding={{ all: 'small', bottom: 'medium' }}
-				takeAvailableSpace={true}
+				takeAvailableSpace
 			>
 				<Container
 					orientation="horizontal"

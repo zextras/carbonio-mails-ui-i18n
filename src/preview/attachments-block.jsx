@@ -162,7 +162,7 @@ function Attachment({ filename, size, link }) {
 		>
 			<AttachmentContainer padding={{ all: 'small' }} background="gray5">
 				<AttachmentExtension>{ extension }</AttachmentExtension>
-				<Row orientation="vertical" crossAlignment="flex-start" takeAvailableSpace={true}>
+				<Row orientation="vertical" crossAlignment="flex-start" takeAvailableSpace>
 					<Padding style={{ width: '100%' }} bottom="extrasmall"><Text>{ filename }</Text></Padding>
 					<Text color="gray1" size="small">{ sizeLabel }</Text>
 				</Row>

@@ -14,13 +14,12 @@ import produce from 'immer';
 import {
 	reduce, isEmpty, forEach, filter,
 } from 'lodash';
-import MailsFolder from '../types/mails-folder';
+import { MailsFolder } from '../types/mails-folder';
+import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
 
-export function findFolders(folder: any): any {
-	const toRet = {};
+export function findFolders(folder: any): MailsFolderMap {
+	const toRet: MailsFolderMap = {};
 	if ((folder.view && folder.view === 'message') || folder.id === '3') {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-		// @ts-ignore
 		toRet[folder.id] = {
 			id: folder.id,
 			uuid: folder.uuid,
@@ -70,8 +69,19 @@ export const handleSyncData = createAsyncThunk('folders/handleSyncData', async (
 	}
 });
 
-function setFoldersReducer(state: any, { payload }: any): void {
-	state.folders = {};
+function setFoldersReducer(state: FoldersStateType, { payload }: any): void {
+	reduce(
+		payload,
+		(r, v, k) => {
+			r[k] = v;
+			return r;
+		},
+		state.folders,
+	);
+	state.loaded = true;
+}
+
+function updateFoldersReducer(state: FoldersStateType, { payload }: any): void {
 	reduce(
 		payload,
 		(r, v, k) => {
@@ -82,18 +92,7 @@ function setFoldersReducer(state: any, { payload }: any): void {
 	);
 }
 
-function updateFoldersReducer(state: any, { payload }: any): void {
-	reduce(
-		payload,
-		(r, v, k) => {
-			r[k] = v;
-			return r;
-		},
-		state.folders,
-	);
-}
-
-function deleteFoldersReducer(state: any, { payload }: any): void {
+function deleteFoldersReducer(state: FoldersStateType, { payload }: any): void {
 	forEach(
 		payload,
 		(id) => state.folders[id] && delete state.folders[id],
@@ -103,36 +102,41 @@ function deleteFoldersReducer(state: any, { payload }: any): void {
 export const foldersSlice = createSlice({
 	name: 'folders',
 	initialState: {
+		loaded: false,
 		status: 'idle',
-		folders: {} as Map<string, MailsFolder>,
-	},
+		folders: {} as MailsFolderMap,
+	} as FoldersStateType,
 	reducers: {
 		setFolders: produce(setFoldersReducer),
 		updateFolders: produce(updateFoldersReducer),
 		deleteFolders: produce(deleteFoldersReducer),
 	},
-	// extraReducers: (builder) => {
-	// 	builder.addCase(handleSyncData.pending, produce(fetchFoldersPending));
-	// 	builder.addCase(handleSyncData.fulfilled, produce(fetchFoldersFullFilled));
-	// 	builder.addCase(handleSyncData.rejected, produce(fetchFoldersRejected));
-	// },
+	extraReducers: {
+	}
 });
 
 export default foldersSlice.reducer;
 
-export function selectAllFolders({ folders }: any): Array<MailsFolder> {
-	return folders ? folders.folders : [];
+export function selectFolders({ folders }: StateType): MailsFolderMap {
+	return folders ? folders.folders : {};
 }
 
-export function selectStatus({ folders }: any): string {
+export function selectFoldersStatus({ folders }: StateType): string {
 	return folders.status;
 }
 
-export function selectFolder({ folders }: any, id: string): MailsFolder {
+export function selectFolder({ folders }: StateType, id: string): MailsFolder {
 	return folders.folders[id];
 }
 
-export function selectFolderName({ folders }: any, id: string): string {
-	console.log(id);
+export function selectFolderName({ folders }: StateType, id: string): string {
 	return folders.folders[id].name;
+}
+
+export function selectFolderPath({ folders }: StateType, id: string): string {
+	return folders.folders[id].path;
+}
+
+export function selectFoldersLoaded({ folders }: StateType): boolean {
+	return folders.loaded;
 }

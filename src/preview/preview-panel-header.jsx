@@ -39,7 +39,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 				<Row
 					mainAlignment="flex-start"
 					padding={{ left: 'large' }}
-					takeAvailableSpace={true}
+					takeAvailableSpace
 				>
 					<Text size="large">{ conversation.subject || `(${t('No Subject')})` }</Text>
 				</Row>

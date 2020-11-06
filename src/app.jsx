@@ -11,15 +11,12 @@
 
 import React, { lazy, useEffect } from 'react';
 import {
-	network, setAppContext, setCreateOptions, setRoutes, store
+	setCreateOptions, setRoutes, store
 } from '@zextras/zapp-shell';
-import { combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { MailsDb } from './db/mails-db';
-import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
+import { combineReducers } from '@reduxjs/toolkit';
 import { report } from './commons/report-exception';
 import syncSliceReducer, { startSync } from './store/sync-slice';
 import foldersSliceReducer from './store/folders-slice';
-import accountsSliceReducer from './store/accounts-slice';
 import SetMainMenuItems from './secondary-bar/set-main-menu-items';
 import conversationsSliceReducer from './store/conversations-slice';
 
@@ -34,17 +31,14 @@ export default function App() {
 	};
 
 	useEffect(() => {
+		// TODO: add his type using typescript: https://react-redux.js.org/using-react-redux/static-typing
 		store.setReducer(
 			combineReducers({
-				accounts: accountsSliceReducer,
 				folders: foldersSliceReducer,
 				sync: syncSliceReducer,
 				conversations: conversationsSliceReducer,
 			}),
 		);
-		// const customizedMiddleware = getDefaultMiddleware({
-		// 	serializableCheck: false,
-		// });
 	}, []);
 
 	useEffect(() => {
@@ -83,14 +77,14 @@ export default function App() {
 	}, []);
 
 	useEffect(() => {
-		const db = new MailsDb(network.soapFetch);
-		const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
-		db.registerSyncProtocol('soap-mails', syncProtocol);
-		db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
-
-		setAppContext({
-			db,
-		});
+		// const db = new MailsDb(network.soapFetch);
+		// const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
+		// db.registerSyncProtocol('soap-mails', syncProtocol);
+		// db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
+		//
+		// setAppContext({
+		// 	db,
+		// });
 
 		// db
 		// 	.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))

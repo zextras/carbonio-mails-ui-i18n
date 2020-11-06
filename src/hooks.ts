@@ -209,11 +209,13 @@ export function useMessage(messageId: string): [MailMessageFromDb | null, boolea
 	return [message, loaded];
 }
 
-export function useFolder(folderId: string): [MailsFolderFromDb, boolean] {
-	const [_folders, folderLoaded] = useContext(FolderListContext);
-	const folder = useMemo(
-		() => find(_folders, ['id', folderId]),
-		[_folders, folderId]
-	);
-	return [folder!, folderLoaded];
+export function useFolder(folderId: string): null {
+	// TODO: substitute all occurrences with `selectorFromStore`
+	return null;
+	// const [_folders, folderLoaded] = useContext(FolderListContext);
+	// const folder = useMemo(
+	// 	() => find(_folders, ['id', folderId]),
+	// 	[_folders, folderId]
+	// );
+	// return [folder!, folderLoaded];
 }

@@ -135,11 +135,12 @@ export type SyncRequest = {
 };
 
 export type SyncResponse = {
-	token: string;
 	md: number;
+	token: string;
+	more: boolean;
+	deleted?: Array<SyncResponseDeletedMap>;
 	folder?: Array<SyncResponseMailFolder>;
 	m?: Array<SyncResponseMail>;
-	deleted?: Array<SyncResponseDeletedMap>;
 	c?: Array<SyncResponseConversation>;
 };
 
@@ -423,7 +424,7 @@ export type SoapConvObj = {
 	fr: string;
 };
 
-type SearchRequest = {
+export type SearchRequest = {
 	_jsns: 'urn:zimbraMail';
 	sortBy: 'dateDesc';
 	types: 'conversation';
@@ -435,7 +436,7 @@ type SearchRequest = {
 	fetch: 'all';
 };
 
-type SearchResponse = {
+export type SearchResponse = {
 	c: SoapConvObj[];
 	more: boolean;
 };
@@ -483,10 +484,10 @@ function normalizeConversationMessageFromSoap(
 ): [MailConversationMessage[], string[]] {
 	return [
 		r1.concat(
-			new MailConversationMessage({
+			{
 				id: m.id,
 				parent: m.l
-			})
+			}
 		),
 		r2.concat(m.l)
 	];
@@ -499,7 +500,7 @@ export function normalizeConversationFromSoap(c: SoapConvObj): MailConversationF
 		[[], []]
 	);
 
-	return new MailConversationFromSoap({
+	return {
 		id: c.id,
 		date: c.d,
 		msgCount: c.n,
@@ -516,7 +517,7 @@ export function normalizeConversationFromSoap(c: SoapConvObj): MailConversationF
 		attachment: /a/.test(c.f || ''),
 		flagged: /f/.test(c.f || ''),
 		urgent: /!/.test(c.f || ''),
-	});
+	};
 }
 
 function bodyPathMapFn(v: SoapEmailMessagePartObj, idx: number): Array<number> {
