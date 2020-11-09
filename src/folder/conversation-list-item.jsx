@@ -11,7 +11,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-	find, isEmpty, map, reduce, trimStart
+	find, isEmpty, reduce, trimStart
 } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
@@ -22,21 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import { getOneConversation, selectMessages } from '../store/conversations-slice';
-
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
-
-const OuterContainer = styled(Container)`
-	min-height: 70px;
-`;
-
-const CollapseElement = styled(Container)`
-	display: ${({ open }) => (open ? 'block' : 'none')};
-`;
 
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
@@ -61,9 +46,9 @@ export default function ConversationListItem({
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) {
 			dispatch(getOneConversation({ conversationId: conversation.id }));
-			replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
+			replaceHistory(`/folder/${folderId}?conversation=${conversation.id}`);
 		}
-	}, [replaceHistory, folderId, conversation._id]);
+	}, [replaceHistory, folderId, conversation.id]);
 	const date = useMemo(
 		() => getTimeLabel(conversation.date),
 		[conversation.date],
@@ -72,8 +57,7 @@ export default function ConversationListItem({
 		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
-	),
-	[conversation.participants, t, accounts]);
+	), [conversation.participants, t, accounts]);
 
 	const isConversation = conversation.msgCount > 1;
 
@@ -199,27 +183,44 @@ export default function ConversationListItem({
 function ConversationMessagesList({ conversation, folderId }) {
 	const allMessages = useSelector(selectMessages);
 
-	const ids = useMemo(() => map(conversation.messages, (m) => m.id), [conversation.messages]);
+	const messages = useMemo(() => {
+		if (conversation && conversation.messages) {
+			const _messages = conversation.messages
+				.filter((m) => m.id in allMessages)
+				.map((m) => allMessages[m.id]);
+			_messages.sort((a, b) => b.date - a.date);
+			return _messages;
+		}
+		return [];
+	}, [conversation, allMessages]);
 
-	const messages = ids
-		.filter((id) => id in allMessages)
-		.map((id) => allMessages[id]);
-
-	return conversation && ids.length > 0 && (
+	return conversation && messages.length > 0 && (
 		<>
-			{ map(
-				messages,
-				(message, index) => (
-					<React.Fragment key={message.id}>
-						<MessageListItem
-							message={message}
-							conversation={conversation}
-							folderId={folderId}
-						/>
-						{ (messages.length - 1) > index && <Divider /> }
-					</React.Fragment>
-				),
-			) }
+			{ messages.map((message, index) => (
+				<React.Fragment key={message.id}>
+					<MessageListItem
+						message={message}
+						conversation={conversation}
+						folderId={folderId}
+					/>
+					{ (messages.length - 1) > index && <Divider /> }
+				</React.Fragment>
+			)) }
 		</>
 	);
 }
+
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
+
+const OuterContainer = styled(Container)`
+	min-height: 70px;
+`;
+
+const CollapseElement = styled(Container)`
+	display: ${({ open }) => (open ? 'block' : 'none')};
+`;

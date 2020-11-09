@@ -111,20 +111,23 @@ export const getOneConversation = createAsyncThunk<GetConvResponse,
 function getOneConversationFullFilled(
 	state: ConversationsStateType,
 	{ payload }: { payload: GetConvResponse },
-):
-	ConversationsStateType {
-	const conversations = {
-		...state.conversations,
-		...keyBy(payload.c.map(normalizeConversationFromSoap), (c) => c.id),
-	};
+):	ConversationsStateType {
+	// const newConversations = keyBy(payload.c.map(normalizeConversationFromSoap), (c) => c.id);
+	// const conversations = {
+	// 	...state.conversations,
+	// 	...newConversations,
+	// };
+	const newMessages = keyBy(
+		payload.c.flatMap((c) => c.m.map(normalizeMailMessageFromSoap)),
+		(c) => c.id
+	);
 	const messages = {
 		...state.messages,
-		...keyBy(payload.c.flatMap((c) => c.m.map(normalizeMailMessageFromSoap)), (c) => c.id)
+		...newMessages
 	};
 	return {
 		...state,
 		messages,
-		conversations,
 	};
 }
 

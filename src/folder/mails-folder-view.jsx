@@ -46,7 +46,7 @@ export default function FolderView() {
 	// It allows to anticipate the loading
 	const foldersAreLoaded = useSelector(selectFoldersLoaded);
 	useEffect(() => {
-		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId, limit: 50 }));
+		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId, limit: 100 }));
 	}, [folderId, foldersAreLoaded]);
 
 	const screen = useScreenMode();
@@ -67,7 +67,7 @@ export default function FolderView() {
 			return (
 				<ConversationPreviewPanel
 					key={`conversationPreview-${conversationId}`}
-					conversationInternalId={conversationId}
+					conversationId={conversationId}
 					folderId={folderId}
 				/>
 			);
@@ -217,7 +217,7 @@ const ConversationList = ({ folderId }) => {
 
 	return (
 		<>
-			{folder && <Breadcrumbs folderName={folder.name} itemsCount={conversations.length} /> }
+			{folder && <Breadcrumbs folderPath={folder.path} itemsCount={conversations.length} /> }
 			<Row
 				ref={containerRef}
 				height="calc(100% - 49px)"
@@ -246,7 +246,7 @@ const ConversationList = ({ folderId }) => {
 	);
 };
 
-function Breadcrumbs({ folderName, itemsCount }) {
+function Breadcrumbs({ folderPath, itemsCount }) {
 	return (
 		<Container
 			background="gray5"
@@ -264,7 +264,7 @@ function Breadcrumbs({ folderName, itemsCount }) {
 					takeAvailableSpace
 					padding={{ right: 'medium' }}
 				>
-					<Text size="large">{ folderName }</Text>
+					<Text size="large">{ folderPath }</Text>
 				</Row>
 				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
 			</Row>

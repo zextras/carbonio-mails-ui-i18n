@@ -9,26 +9,48 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { map } from 'lodash';
 import { Container } from '@zextras/zapp-ui';
+import { useDispatch, useSelector } from 'react-redux';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
-import { useConversation } from '../hooks';
 import MailPreview from './mail-preview';
+import { getOneConversation, selectConversations } from '../store/conversations-slice';
 
-export default function ConversationPreviewPanel({ conversationInternalId, folderId }) {
-	const [
-		conversation,
-		conversationLoaded
-	] = useConversation(conversationInternalId);
+export default function ConversationPreviewPanel({ conversationId, folderId }) {
+	const dispatch = useDispatch();
+	const conversations = useSelector(selectConversations);
+	const conversation = conversations[conversationId];
+
+	useEffect(() => {
+		if (!conversation) {
+			dispatch(getOneConversation({ conversationId }));
+		}
+	}, [conversationId]);
+
+	const messages = useMemo(() => {
+		if (conversation) {
+			const ms = conversation.messages.slice();
+			ms.reverse();
+			return ms.map((message, index) => (
+				<MailPreview
+					key={message.id}
+					messageId={message.id}
+					firstMail={index === 0}
+				/>
+			));
+		}
+		return [];
+	}, [conversation]);
+
 	return (
 		<Container
 			orientation="vertical"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 		>
-			{ conversation && conversationLoaded && (
+			{ conversation && (
 				<>
 					<PreviewPanelHeader conversation={conversation} folderId={folderId} />
 					<PreviewPanelActions conversation={conversation} folderId={folderId} />
@@ -44,18 +66,7 @@ export default function ConversationPreviewPanel({ conversationInternalId, folde
 							mainAlignment="flex-start"
 							background="gray5"
 						>
-							{
-								map(
-									conversation.messages,
-									(message, index) => (
-										<MailPreview
-											key={message.id}
-											message={message}
-											firstMail={index === 0}
-										/>
-									)
-								)
-							}
+							{ messages }
 						</Container>
 					</Container>
 				</>

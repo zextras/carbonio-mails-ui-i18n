@@ -85,7 +85,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 	);
 
 	return (
-		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation._id}&message=${message._id}`}>
+		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation.id}&message=${message.id}`}>
 			<HoverContainer
 				background="gray6"
 				mainAlignment="space-between"
@@ -160,7 +160,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 											<Icon icon="ArrowUpward" color="error" />
 										</Padding>
 									)}
-									{messageFolder._id !== folderId && (
+									{messageFolder.id !== folderId && (
 										<Padding left="small">
 											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 										</Padding>

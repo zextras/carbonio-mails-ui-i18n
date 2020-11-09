@@ -34,36 +34,21 @@ import {
 	Dropdown
 } from '@zextras/zapp-ui';
 
-import { useMessage, useFolder } from '../hooks';
+import { useSelector } from 'react-redux';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
+import { selectMessages } from '../store/conversations-slice';
+import { selectFolders } from '../store/folders-slice';
 
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
+export default function MailPreview({ messageId, firstMail }) {
+	const messages = useSelector(selectMessages);
+	const message = messages[messageId] || null;
 
-const findAttachments = (parts, acc) => reduce(
-	parts,
-	(found, part) => {
-		if (part.disposition === 'attachment') {
-			found.push(part);
-		}
-		return findAttachments(part.parts, found);
-	},
-	acc
-);
+	// useEffect, if not message => download message
 
-function MailPreview({ message: messageData, firstMail }) {
-	const [message, loaded] = useMessage(messageData.id);
-
-	if (!loaded || !message) return null;
-
-	return (
+	return message && (
 		<MailPreviewLoaded
 			message={message}
 			firstMail={firstMail}
@@ -71,12 +56,10 @@ function MailPreview({ message: messageData, firstMail }) {
 	);
 }
 
-export default MailPreview;
-
 function MailPreviewLoaded({ message, firstMail }) {
 	const mailContainerRef = useRef(undefined);
 	const urlMessageId = useQueryParam('message');
-	const [open, setOpen] = useState(!urlMessageId ? firstMail : false);
+	const [open, setOpen] = useState(false);
 	const msgRender = useMemo(
 		() => <MailMessageRenderer key={message.id} onUnreadLoaded={() => {}} mailMsg={message} />,
 		[message]
@@ -84,9 +67,10 @@ function MailPreviewLoaded({ message, firstMail }) {
 	const attachments = useMemo(() => findAttachments(message.parts, []), [message]);
 
 	useLayoutEffect(() => {
-		if (typeof urlMessageId === 'undefined' && firstMail) return;
-		setOpen(urlMessageId === message._id);
-	}, [firstMail, message._id, urlMessageId]);
+		if (urlMessageId === message.id || (firstMail && typeof urlMessageId === 'undefined')) {
+			setOpen(true);
+		}
+	}, [firstMail, message.id, urlMessageId]);
 
 	return (
 		<Container
@@ -218,7 +202,8 @@ function MailPreviewBlock({
 	}, [message, t, replaceHistory, folderId, db]);
 
 	const { folderId: currentFolderId } = useParams();
-	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
+	const folders = useSelector(selectFolders);
+	const messageFolder = folders[message.parent];
 	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
 	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
 	return (
@@ -324,7 +309,7 @@ function MailPreviewBlock({
 						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : undefined }}
 					>
 						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
-						{ messageFolderLoaded && messageFolder._id !== currentFolderId && (
+						{ messageFolder.id !== currentFolderId && (
 							<Padding left="small">
 								<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 							</Padding>
@@ -333,6 +318,26 @@ function MailPreviewBlock({
 				</Container>
 			</Row>
 		</HoverContainer>
+	);
+}
+
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
+
+function findAttachments(parts, acc) {
+	return reduce(
+		parts,
+		(found, part) => {
+			if (part.disposition === 'attachment') {
+				found.push(part);
+			}
+			return findAttachments(part.parts, found);
+		},
+		acc
 	);
 }
 
