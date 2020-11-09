@@ -12,10 +12,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import {
-	reduce, isEmpty, forEach, filter,
+	reduce, isEmpty, forEach,
 } from 'lodash';
 import { MailsFolder } from '../types/mails-folder';
 import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
+import { selectCurrentFolder } from './conversations-slice';
 
 export function findFolders(folder: any): MailsFolderMap {
 	const toRet: MailsFolderMap = {};
@@ -125,16 +126,8 @@ export function selectFoldersStatus({ folders }: StateType): string {
 	return folders.status;
 }
 
-export function selectFolder({ folders }: StateType, id: string): MailsFolder {
-	return folders.folders[id];
-}
-
-export function selectFolderName({ folders }: StateType, id: string): string {
-	return folders.folders[id].name;
-}
-
-export function selectFolderPath({ folders }: StateType, id: string): string {
-	return folders.folders[id].path;
+export function selectFolderPath({ folders }: StateType, { folderId }: any): string|null {
+	return folders ? folders.folders[folderId].path : null;
 }
 
 export function selectFoldersLoaded({ folders }: StateType): boolean {

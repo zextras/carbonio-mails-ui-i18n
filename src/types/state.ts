@@ -10,6 +10,7 @@
  */
 
 import { MailConversationFromSoap } from '../db/mail-conversation';
+import { MailMessageFromSoap } from '../db/mail-message';
 import { MailsFolder } from './mails-folder';
 
 export interface StateType {
@@ -28,6 +29,7 @@ export interface FoldersStateType {
 export interface ConversationsStateType {
 	status: string;
 	conversations: ConversationMap;
+	messages: MessageMap;
 	currentFolder: {
 		id?: string;
 		hasMore?: boolean;
@@ -43,3 +45,5 @@ export interface SyncStateType {
 export type MailsFolderMap = Record<string, MailsFolder>;
 
 export type ConversationMap = Record<string, MailConversationFromSoap>;
+
+export type MessageMap = Record<string, MailMessageFromSoap>;

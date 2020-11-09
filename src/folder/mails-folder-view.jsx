@@ -29,34 +29,7 @@ import {
 	selectConversationsStatus,
 	selectFolderHasMoreConversations,
 } from '../store/conversations-slice';
-import { selectFolder, selectFoldersLoaded } from '../store/folders-slice';
-
-function Breadcrumbs({ folderPath, itemsCount }) {
-	return (
-		<Container
-			background="gray5"
-			height={49}
-			crossAlignment="flex-start"
-		>
-			<Row
-				height="100%"
-				width="100%"
-				padding={{ vertical: 'medium', horizontal: 'large' }}
-				mainAlignment="space-between"
-			>
-				<Row
-					mainAlignment="flex-start"
-					takeAvailableSpace
-					padding={{ right: 'medium' }}
-				>
-					<Text size="large">{ folderPath }</Text>
-				</Row>
-				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount > 0 && itemsCount }</Text>
-			</Row>
-			<Divider />
-		</Container>
-	);
-}
+import { selectFolders, selectFoldersLoaded } from '../store/folders-slice';
 
 export default function FolderView() {
 	const { folderId } = useParams();
@@ -70,9 +43,10 @@ export default function FolderView() {
 		});
 	}, [folderId]);
 
+	// It allows to anticipate the loading
 	const foldersAreLoaded = useSelector(selectFoldersLoaded);
 	useEffect(() => {
-		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId }));
+		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId, limit: 50 }));
 	}, [folderId, foldersAreLoaded]);
 
 	const screen = useScreenMode();
@@ -159,31 +133,27 @@ export default function FolderView() {
 	);
 }
 
-const LoadingIndicator = ({ style, index }) => (
-	<Container height={70} style={style} index={index}>
-		<Button loading disabled label="" type="ghost" />
-	</Container>
-);
-
 const ConversationList = ({ folderId }) => {
 	const dispatch = useDispatch();
 
 	const containerRef = useRef();
 	const listRef = useRef();
-	const folder = useSelector(selectFolder, folderId);
-	const conversations = useSelector(selectConversationList);
 
-	// TODO: complete this fallowing fields
+	const folder = useSelector(selectFolders)[folderId];
+	const conversations = useSelector(selectConversationList) || [];
+
 	const isLoading = useSelector(selectConversationsStatus) === 'pending';
 	const hasMore = useSelector(selectFolderHasMoreConversations);
 
-	const loadMore = useCallback(() => {
-		dispatch;
-	}, []);
+	const foldersAreLoaded = useSelector(selectFoldersLoaded);
+
+	const loadMore = useCallback((date) => {
+		const dateOrNull = date ? new Date(date) : null;
+		if (foldersAreLoaded) dispatch(fetchConversations({ folderId, before: dateOrNull, limit: 50 }));
+	}, [foldersAreLoaded]);
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);
-	const [lmConvsLength, setLmConvsLength] = useState(0);
 
 	const updateDisplayData = useCallback(
 		(index, id, v) => {
@@ -198,25 +168,20 @@ const ConversationList = ({ folderId }) => {
 
 	const rowRenderer = useCallback(
 		({ index, style }) => {
-			if (!conversations[index]) return <LoadingIndicator style={style} index={index} />;
-			if (!displayData[conversations[index].id]) {
-				setDisplayData((oldData) => ({
-					...oldData,
-					[conversations[index].id]: { open: false },
-				}));
-			}
+			const conversation = conversations[index];
+			if (!conversation) return <LoadingIndicator style={style} index={index} />;
 			return (
 				<ConversationListItem
 					style={style}
 					index={index}
-					conversation={conversations[index]}
+					conversation={conversation}
 					folderId={folderId}
-					displayData={displayData[conversations[index].id] || { open: false }}
+					displayData={displayData[conversation.id] || { open: false }}
 					updateDisplayData={updateDisplayData}
 				/>
 			);
 		},
-		[conversations, displayData, folderId, updateDisplayData],
+		[conversations, displayData, folderId],
 	);
 
 	const calcItemSize = useCallback(
@@ -236,16 +201,10 @@ const ConversationList = ({ folderId }) => {
 
 	const onItemsRendered = useCallback(({ overscanStopIndex }) => {
 		const conversationsLastIndex = conversations.length - 1;
-		if (!isLoading && lmConvsLength !== conversationsLastIndex
-			&& hasMore && loadMore && overscanStopIndex >= conversationsLastIndex) {
-			setLmConvsLength(conversationsLastIndex);
-			loadMore(conversations[conversationsLastIndex]);
+		if (overscanStopIndex >= conversationsLastIndex && !isLoading && hasMore) {
+			loadMore(conversations[conversationsLastIndex].date);
 		}
-	}, [conversations, hasMore, loadMore, isLoading, lmConvsLength]);
-
-	useEffect(() => {
-		!isLoading && hasMore && loadMore && conversations.length < 20 && loadMore();
-	}, [conversations, hasMore, isLoading, loadMore]);
+	}, [conversations, hasMore, isLoading]);
 
 	useEffect(() => {
 		if (typeof containerRef.current === 'undefined') return undefined;
@@ -258,7 +217,7 @@ const ConversationList = ({ folderId }) => {
 
 	return (
 		<>
-			{ folder && <Breadcrumbs folderPath={folder.path} itemsCount={conversations.length} /> }
+			{folder && <Breadcrumbs folderName={folder.name} itemsCount={conversations.length} /> }
 			<Row
 				ref={containerRef}
 				height="calc(100% - 49px)"
@@ -269,22 +228,55 @@ const ConversationList = ({ folderId }) => {
 				background="gray6"
 				borderRadius="none"
 			>
-				{ (isLoading || (conversations && conversations.length > 0)) && (
-					<VariableSizeList
-						ref={listRef}
-						height={containerHeight}
-						width="100%"
-						itemCount={(isLoading ? 1 : 0) + (conversations || []).length}
-						overscanCount={15}
-						style={{ outline: 'none' }}
-						itemSize={calcItemSize}
-						estimatedItemSize={57}
-						onItemsRendered={onItemsRendered}
-					>
-						{ rowRenderer }
-					</VariableSizeList>
-				) }
+				<VariableSizeList
+					ref={listRef}
+					height={containerHeight}
+					width="100%"
+					itemCount={(isLoading ? 1 : 0) + conversations.length}
+					overscanCount={15}
+					style={{ outline: 'none' }}
+					itemSize={calcItemSize}
+					estimatedItemSize={57}
+					onItemsRendered={onItemsRendered}
+				>
+					{ rowRenderer }
+				</VariableSizeList>
 			</Row>
 		</>
 	);
 };
+
+function Breadcrumbs({ folderName, itemsCount }) {
+	return (
+		<Container
+			background="gray5"
+			height={49}
+			crossAlignment="flex-start"
+		>
+			<Row
+				height="100%"
+				width="100%"
+				padding={{ vertical: 'medium', horizontal: 'large' }}
+				mainAlignment="space-between"
+			>
+				<Row
+					mainAlignment="flex-start"
+					takeAvailableSpace
+					padding={{ right: 'medium' }}
+				>
+					<Text size="large">{ folderName }</Text>
+				</Row>
+				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
+			</Row>
+			<Divider />
+		</Container>
+	);
+}
+
+function LoadingIndicator({ style, index }) {
+	return (
+		<Container height={70} style={style} index={index}>
+			<Button loading disabled label="" type="ghost" />
+		</Container>
+	);
+}

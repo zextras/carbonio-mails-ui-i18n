@@ -14,7 +14,6 @@ import produce from 'immer';
 import { network } from '@zextras/zapp-shell';
 import { SyncResponse } from '../soap';
 import { SyncStateType } from '../types/state';
-import { fetchConversations } from './conversations-slice';
 import { handleSyncData as handleFolderSyncData } from './folders-slice';
 
 const performSync = createAsyncThunk('sync/performSync', async (arg, { getState, dispatch }: any) => {
@@ -40,11 +39,7 @@ const performSync = createAsyncThunk('sync/performSync', async (arg, { getState,
 			dispatch({
 				type: 'conversations/handleSyncData',
 				payload: syncResponse,
-			},);
-
-			// await dispatch(handleAppointmentsSyncData({
-			// 	firstSync: !token, token: _token, folder, deleted, appt,
-			// }));
+			});
 		}
 		return ({
 			token: `${_token}`,

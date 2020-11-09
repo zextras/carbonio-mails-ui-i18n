@@ -123,9 +123,9 @@ type SyncResponseDeletedMapRow = {
 };
 
 export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
-	folder?: Array<SyncResponseDeletedMapRow>;
-	m?: Array<SyncResponseDeletedMapRow>;
-	c?: Array<SyncResponseDeletedMapRow>;
+	folder?: SyncResponseDeletedMapRow;
+	m?: SyncResponseDeletedMapRow;
+	c?: SyncResponseDeletedMapRow;
 };
 
 export type SyncRequest = {
@@ -138,7 +138,7 @@ export type SyncResponse = {
 	md: number;
 	token: string;
 	more: boolean;
-	deleted?: Array<SyncResponseDeletedMap>;
+	deleted?: SyncResponseDeletedMap;
 	folder?: Array<SyncResponseMailFolder>;
 	m?: Array<SyncResponseMail>;
 	c?: Array<SyncResponseConversation>;
@@ -303,8 +303,9 @@ export type GetMsgRequest = {
 export type GetConvRequest = {
 	c: Array<{
 		id: string;
-		html: string;
+		html?: string;
 		fetch: string;
+		needExp: number;
 	}>;
 };
 
@@ -415,7 +416,7 @@ export type SoapConvObj = {
 	/** Date (of the most recent message) */
 	d: number;
 	/** Messages */
-	m: SoapConvMsgObj[];
+	m: SoapEmailMessageObj[];
 	/** Email information for conversation participants */
 	e: SoapEmailInfoObj[];
 	/** Subject */
@@ -426,7 +427,7 @@ export type SoapConvObj = {
 
 export type SearchRequest = {
 	_jsns: 'urn:zimbraMail';
-	sortBy: 'dateDesc';
+	sortBy?: 'dateDesc';
 	types: 'conversation';
 	fullConversation: 0|1;
 	needExp: 0|1;
@@ -616,7 +617,7 @@ export function normalizeDraftToSoap(m: MailMessageFromDb, includeDraftId: boole
 }
 
 export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessageFromSoap {
-	const obj = new MailMessageFromSoap({
+	const obj = {
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -640,7 +641,7 @@ export function normalizeMailMessageFromSoap(m: SoapEmailMessageObj): MailMessag
 		attachment: /a/.test(m.f || ''),
 		flagged: /f/.test(m.f || ''),
 		urgent: /!/.test(m.f || '')
-	});
+	};
 
 	return obj;
 }

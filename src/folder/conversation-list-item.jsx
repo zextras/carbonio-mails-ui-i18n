@@ -18,9 +18,10 @@ import { hooks } from '@zextras/zapp-shell';
 import {
 	Avatar, Badge, Container, Divider, Icon, IconButton, Padding, Row, Text
 } from '@zextras/zapp-ui';
+import { useDispatch, useSelector } from 'react-redux';
 import MessageListItem from './message-list-item';
-import { useConversationMessages } from '../hooks';
 import { getTimeLabel, participantToString } from '../commons/utils';
+import { getOneConversation, selectMessages } from '../store/conversations-slice';
 
 const HoverContainer = styled(Container)`
 	cursor: pointer;
@@ -38,9 +39,10 @@ const CollapseElement = styled(Container)`
 `;
 
 export default function ConversationListItem({
-	index, conversation, folderId, style, displayData, updateDisplayData
+	index, conversation, folderId, style, displayData, updateDisplayData,
 }) {
 	const { t } = useTranslation();
+	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const accounts = hooks.useUserAccounts();
 	const [avatarLabel, avatarEmail] = useMemo(() => {
@@ -50,22 +52,26 @@ export default function ConversationListItem({
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
+			if (!displayData.open) dispatch(getOneConversation({ conversationId: conversation.id }));
 			updateDisplayData(index, conversation.id, { open: !displayData.open });
 		},
-		[conversation.id, displayData.open, index, updateDisplayData]
+		[conversation.id, displayData.open, index, updateDisplayData],
 	);
 
 	const _onClick = useCallback((e) => {
-		if (!e.isDefaultPrevented()) replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
-	}, [folderId, conversation, replaceHistory]);
+		if (!e.isDefaultPrevented()) {
+			dispatch(getOneConversation({ conversationId: conversation.id }));
+			replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
+		}
+	}, [replaceHistory, folderId, conversation._id]);
 	const date = useMemo(
 		() => getTimeLabel(conversation.date),
-		[conversation.date]
+		[conversation.date],
 	);
 	const participantsString = useMemo(() => reduce(
 		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
-		''
+		'',
 	),
 	[conversation.participants, t, accounts]);
 
@@ -105,24 +111,24 @@ export default function ConversationListItem({
 								size={conversation.read ? 'medium' : 'large'}
 								weight={conversation.read ? 'regular' : 'bold'}
 							>
-								{participantsString}
+								{ participantsString }
 							</Text>
 						</Row>
 						<Row>
-							{conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding>}
-							{conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding>}
-							<Padding left="small"><Text>{date}</Text></Padding>
+							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
+							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+							<Padding left="small"><Text>{ date }</Text></Padding>
 						</Row>
 					</Container>
 					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
-						{conversation.msgCount > 1
+						{ conversation.msgCount > 1
 						&& (
 							<Row>
 								<Padding right="extrasmall">
 									<Badge value={conversation.msgCount} type={conversation.read ? 'read' : 'unread'} />
 								</Padding>
 							</Row>
-						)}
+						) }
 						<Row
 							wrap="nowrap"
 							takeAvailableSpace
@@ -131,48 +137,49 @@ export default function ConversationListItem({
 						>
 							{
 								conversation.subject
-									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{conversation.subject}</Text>
+									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{ conversation.subject }</Text>
 									: (
 										<Text
 											weight={conversation.read ? 'regular' : 'bold'}
 											size="large"
 											color="secondary"
 										>
-											{`(${t('No Subject')})`}
+											{ `(${t('No Subject')})` }
 										</Text>
 									)
 							}
-							{!isEmpty(conversation.fragment) && (
+							{ !isEmpty(conversation.fragment) && (
 								<Row
 									takeAvailableSpace
 									mainAlignment="flex-start"
 									padding={{ left: 'extrasmall' }}
 								>
-									<Text>{` - ${conversation.fragment}`}</Text>
+									<Text>{ ` - ${conversation.fragment}` }</Text>
 								</Row>
-							)}
+							) }
 						</Row>
 						<Row>
-							{conversation.urgent
-							&& <Icon icon="ArrowUpward" color="error" />}
-							{isConversation
+							{ conversation.urgent && <Icon icon="ArrowUpward" color="error" /> }
+							{ isConversation
 							&& (
 								<IconButton
 									size="small"
 									icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
 									onClick={toggleOpen}
 								/>
-							)}
+							) }
 						</Row>
 					</Container>
 				</Row>
 			</HoverContainer>
-			{isConversation
+			{ isConversation
 			&& (
 				<CollapseElement
 					open={displayData.open}
+					padding={{ left: 'extralarge' }}
+					height="auto"
 				>
-					{displayData.open && (
+					{ displayData.open && (
 						<Container padding={{ left: 'extralarge' }} height="auto">
 							<ConversationMessagesList
 								toggleOpen={toggleOpen}
@@ -180,24 +187,27 @@ export default function ConversationListItem({
 								conversation={conversation}
 							/>
 						</Container>
-					)}
+					) }
 				</CollapseElement>
-			)}
+			) }
 
 			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
 	);
-};
+}
 
-const ConversationMessagesList = ({ conversation, folderId }) => {
+function ConversationMessagesList({ conversation, folderId }) {
+	const allMessages = useSelector(selectMessages);
+
 	const ids = useMemo(() => map(conversation.messages, (m) => m.id), [conversation.messages]);
 
-	const [messages, loaded] = useConversationMessages(ids);
+	const messages = ids
+		.filter((id) => id in allMessages)
+		.map((id) => allMessages[id]);
 
-	return (
+	return conversation && ids.length > 0 && (
 		<>
-			{loaded
-			&& map(
+			{ map(
 				messages,
 				(message, index) => (
 					<React.Fragment key={message.id}>
@@ -206,10 +216,10 @@ const ConversationMessagesList = ({ conversation, folderId }) => {
 							conversation={conversation}
 							folderId={folderId}
 						/>
-						{(messages.length - 1) > index && <Divider />}
+						{ (messages.length - 1) > index && <Divider /> }
 					</React.Fragment>
-				)
-			)}
+				),
+			) }
 		</>
 	);
-};
+}

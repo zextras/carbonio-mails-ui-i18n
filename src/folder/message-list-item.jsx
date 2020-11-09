@@ -25,9 +25,11 @@ import {
 	Text
 } from '@zextras/zapp-ui';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { getTimeLabel, participantToString } from '../commons/utils';
-import { useFolder } from '../hooks';
 import MailHoverBar from './mail-hover-bar';
+import { selectFolders } from '../store/folders-slice';
 
 const HoverBarContainer = styled(Container)`
 	display: none;
@@ -53,12 +55,10 @@ const InvisibleLink = styled(Link)`
 	}
 `;
 
-export default function MessageListItem({
-	message, folderId, conversation, forceUpdate
-}) {
+export default function MessageListItem({ message, folderId, conversation }) {
 	const { t } = useTranslation();
 	const accounts = hooks.useUserAccounts();
-	const [messageFolder, messageFolderLoaded] = useFolder(message.parent);
+	const messageFolder = useSelector(selectFolders)[message.parent];
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {
@@ -66,7 +66,7 @@ export default function MessageListItem({
 				return [
 					sender.displayName || sender.address || '.',
 					sender.address || '.',
-					getTimeLabel(message.date),
+					getTimeLabel(moment(message.date)),
 					reduce(
 						message.contacts,
 						(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
@@ -160,7 +160,7 @@ export default function MessageListItem({
 											<Icon icon="ArrowUpward" color="error" />
 										</Padding>
 									)}
-									{messageFolderLoaded && messageFolder._id !== folderId && (
+									{messageFolder._id !== folderId && (
 										<Padding left="small">
 											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 										</Padding>
@@ -172,7 +172,7 @@ export default function MessageListItem({
 				)}
 			</HoverContainer>
 			<HoverBarContainer>
-				<MailHoverBar folder={messageFolder} message={message} forceUpdate={forceUpdate} />
+				<MailHoverBar folder={messageFolder} message={message} />
 			</HoverBarContainer>
 		</InvisibleLink>
 	);
