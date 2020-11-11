@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
 import {
-	Button, Container, Divider, Responsive, Row, Text, useScreenMode
+	Button, Container, Divider, Responsive, Row, SnackbarManager, Text, useScreenMode,
 } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
 import useQueryParam from '../hooks/useQueryParam';
@@ -24,12 +24,11 @@ import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import {
-	fetchConversations,
+	search,
 	selectConversationList,
-	selectConversationsStatus,
-	selectFolderHasMoreConversations,
+	selectConversationStatus,
 } from '../store/conversations-slice';
-import { selectFolders, selectFoldersLoaded } from '../store/folders-slice';
+import { selectFolders } from '../store/folders-slice';
 
 export default function FolderView() {
 	const { folderId } = useParams();
@@ -43,11 +42,9 @@ export default function FolderView() {
 		});
 	}, [folderId]);
 
-	// It allows to anticipate the loading
-	const foldersAreLoaded = useSelector(selectFoldersLoaded);
 	useEffect(() => {
-		if (folderId && foldersAreLoaded) dispatch(fetchConversations({ folderId, limit: 100 }));
-	}, [folderId, foldersAreLoaded]);
+		if (folderId) dispatch(search({ folderId, limit: 100 }));
+	}, [folderId]);
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');
@@ -84,52 +81,54 @@ export default function FolderView() {
 	}, [editId, folderId, conversationId, screen]);
 
 	return (
-		<Container
-			orientation="row"
-			crossAlignment="flex-start"
-			mainAlignment="flex-start"
-			width="fill"
-			height="fill"
-			background="gray5"
-			borderRadius="none"
-			style={{
-				maxHeight: '100%',
-			}}
-		>
-			<Responsive mode="desktop" target={window.top}>
-				<Container
-					width="calc(40% - 4px)"
-					mainAlignment="flex-start"
-					crossAlignment="unset"
-					borderRadius="none"
-				>
-					<ConversationList
-						key={`ConversationList-${folderId}`}
-						folderId={folderId}
-					/>
-				</Container>
-				<VerticalDivider />
-				<Container
-					width="calc(60% - 4px)"
-					mainAlignment="flex-start"
-					crossAlignment="flex-start"
-					borderRadius="none"
-					style={{ maxHeight: '100%' }}
-				>
-					{ MemoPanel }
-				</Container>
-			</Responsive>
-			<Responsive mode="mobile" target={window.top}>
-				<Container
-					mainAlignment="flex-start"
-					crossAlignment="flex-start"
-					borderRadius="none"
-					height="fill"
-				>
-					{ MemoPanel }
-				</Container>
-			</Responsive>
-		</Container>
+		<SnackbarManager>
+			<Container
+				orientation="row"
+				crossAlignment="flex-start"
+				mainAlignment="flex-start"
+				width="fill"
+				height="fill"
+				background="gray5"
+				borderRadius="none"
+				style={{
+					maxHeight: '100%',
+				}}
+			>
+				<Responsive mode="desktop" target={window.top}>
+					<Container
+						width="calc(40% - 4px)"
+						mainAlignment="flex-start"
+						crossAlignment="unset"
+						borderRadius="none"
+					>
+						<ConversationList
+							key={`ConversationList-${folderId}`}
+							folderId={folderId}
+						/>
+					</Container>
+					<VerticalDivider />
+					<Container
+						width="calc(60% - 4px)"
+						mainAlignment="flex-start"
+						crossAlignment="flex-start"
+						borderRadius="none"
+						style={{ maxHeight: '100%' }}
+					>
+						{ MemoPanel }
+					</Container>
+				</Responsive>
+				<Responsive mode="mobile" target={window.top}>
+					<Container
+						mainAlignment="flex-start"
+						crossAlignment="flex-start"
+						borderRadius="none"
+						height="fill"
+					>
+						{ MemoPanel }
+					</Container>
+				</Responsive>
+			</Container>
+		</SnackbarManager>
 	);
 }
 
@@ -142,15 +141,14 @@ const ConversationList = ({ folderId }) => {
 	const folder = useSelector(selectFolders)[folderId];
 	const conversations = useSelector(selectConversationList) || [];
 
-	const isLoading = useSelector(selectConversationsStatus) === 'pending';
-	const hasMore = useSelector(selectFolderHasMoreConversations);
-
-	const foldersAreLoaded = useSelector(selectFoldersLoaded);
+	const status = useSelector(selectConversationStatus);
+	const hasMore = status === 'hasMore';
+	const isLoading = status === 'pending';
 
 	const loadMore = useCallback((date) => {
 		const dateOrNull = date ? new Date(date) : null;
-		if (foldersAreLoaded) dispatch(fetchConversations({ folderId, before: dateOrNull, limit: 50 }));
-	}, [foldersAreLoaded]);
+		dispatch(search({ folderId, before: dateOrNull, limit: 50 }));
+	}, [folderId]);
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);
@@ -163,7 +161,7 @@ const ConversationList = ({ folderId }) => {
 				[id]: v,
 			}));
 		},
-		[],
+		[listRef],
 	);
 
 	const rowRenderer = useCallback(

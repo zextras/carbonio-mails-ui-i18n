@@ -11,7 +11,7 @@
 
 import React, {
 	useLayoutEffect, useMemo,
-	useState, useRef, useCallback
+	useState, useRef, useCallback, useContext
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -31,22 +31,22 @@ import {
 	Padding,
 	IconButton,
 	Row,
-	Dropdown
+	Dropdown,
+	SnackbarManagerContext
 } from '@zextras/zapp-ui';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useQueryParam from '../hooks/useQueryParam';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
-import { selectMessages } from '../store/conversations-slice';
 import { selectFolders } from '../store/folders-slice';
+import { setFlag } from '../actions/message-actions';
+import { selectMessages } from '../store/messages-slice';
 
 export default function MailPreview({ messageId, firstMail }) {
 	const messages = useSelector(selectMessages);
 	const message = messages[messageId] || null;
-
-	// useEffect, if not message => download message
 
 	return message && (
 		<MailPreviewLoaded
@@ -118,6 +118,8 @@ function MailPreviewBlock({
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const { folderId } = useParams();
 	const { db } = hooks.useAppContext();
+	const createSnackbar = useContext(SnackbarManagerContext);
+	const dispatch = useDispatch();
 
 	const actions = useMemo(() => {
 		const arr = [];
@@ -163,7 +165,10 @@ function MailPreviewBlock({
 				label: t('Set as flagged'),
 				onActivate: (ev) => {
 					ev.preventDefault();
-					db.setFlag(message._id, true);
+					setFlag({ createSnackbar, t, dispatch, msgId: message.id });
+
+					// ev.preventDefault();
+					// db.setFlag(message._id, true);
 				}
 			});
 		}

@@ -89,6 +89,9 @@ export class MailMessage implements IMailMessage {
 
 	send?: boolean;
 
+	// TODO: tags (campi t e tn)
+	// TODO: rev, s
+
 	constructor({
 		_id,
 		id,

@@ -22,8 +22,8 @@ import {
 	IconCheckbox,
 	Padding,
 	RichTextEditor,
-	Row,
-	Tooltip
+	Row, SnackbarManager,
+	Tooltip,
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -124,115 +124,117 @@ export default function EditView({
 
 	return (
 		<Catcher>
-			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
-				<Container
-					crossAlignment="unset"
-					height="fit"
-				>
-					<Row
-						padding={{ all: 'medium' }}
-						orientation="horizontal"
-						mainAlignment="flex-end"
-						width="100%"
+			<SnackbarManager>
+				<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
+					<Container
+						crossAlignment="unset"
+						height="fit"
 					>
-						<Tooltip label={t('Toggle Rich Text')}>
-							<ResizedIconCheckbox
-								icon="Text"
-								value={!compositionData.richText}
-								onChange={actions.toggleRichText}
-							/>
-						</Tooltip>
-						<Tooltip label={t('Toggle Urgent')}>
-							<ResizedIconCheckbox
-								icon="ArrowUpward"
-								value={compositionData.urgent}
-								onChange={actions.toggleUrgent}
-							/>
-						</Tooltip>
-						<Tooltip label={t('Toggle Flagged')}>
-							<ResizedIconCheckbox
-								icon="FlagOutline"
-								value={compositionData.flagged}
-								onChange={actions.toggleFlagged}
-							/>
-						</Tooltip>
-						<Padding left="large">
-							<Button
-								onClick={actions.sendMail}
-								label={t('Send')}
-							/>
-						</Padding>
-					</Row>
-					<Container orientation="horizontal" width="fill" height="fit" crossAlignment="flex-start">
-						<Padding top="extrasmall">
-							<IconButton
-								size="large"
-								icon={open ? 'ChevronUp' : 'ChevronDown'}
-								onClick={toggleOpen}
-							/>
-						</Padding>
-						<Container>
-							<ChipInput
-								placeholder={t('To')}
-								onChange={(value) => actions.updateContacts('to', value)}
-								value={compositionData.to}
-							/>
-							<Divider />
-							<Collapse orientation="vertical" crossSize="100%" open={open}>
+						<Row
+							padding={{ all: 'medium' }}
+							orientation="horizontal"
+							mainAlignment="flex-end"
+							width="100%"
+						>
+							<Tooltip label={t('Toggle Rich Text')}>
+								<ResizedIconCheckbox
+									icon="Text"
+									value={!compositionData.richText}
+									onChange={actions.toggleRichText}
+								/>
+							</Tooltip>
+							<Tooltip label={t('Toggle Urgent')}>
+								<ResizedIconCheckbox
+									icon="ArrowUpward"
+									value={compositionData.urgent}
+									onChange={actions.toggleUrgent}
+								/>
+							</Tooltip>
+							<Tooltip label={t('Toggle Flagged')}>
+								<ResizedIconCheckbox
+									icon="FlagOutline"
+									value={compositionData.flagged}
+									onChange={actions.toggleFlagged}
+								/>
+							</Tooltip>
+							<Padding left="large">
+								<Button
+									onClick={actions.sendMail}
+									label={t('Send')}
+								/>
+							</Padding>
+						</Row>
+						<Container orientation="horizontal" width="fill" height="fit" crossAlignment="flex-start">
+							<Padding top="extrasmall">
+								<IconButton
+									size="large"
+									icon={open ? 'ChevronUp' : 'ChevronDown'}
+									onClick={toggleOpen}
+								/>
+							</Padding>
+							<Container>
 								<ChipInput
-									placeholderType="inline"
-									placeholder={t('Cc')}
-									onChange={(value) => actions.updateContacts('cc', value)}
-									value={compositionData.cc}
+									placeholder={t('To')}
+									onChange={(value) => actions.updateContacts('to', value)}
+									value={compositionData.to}
 								/>
 								<Divider />
-								<ChipInput
-									placeholderType="inline"
-									placeholder={t('Bcc')}
-									onChange={(value) => actions.updateContacts('bcc', value)}
-									value={compositionData.bcc}
-								/>
-								<Divider />
-							</Collapse>
+								<Collapse orientation="vertical" crossSize="100%" open={open}>
+									<ChipInput
+										placeholderType="inline"
+										placeholder={t('Cc')}
+										onChange={(value) => actions.updateContacts('cc', value)}
+										value={compositionData.cc}
+									/>
+									<Divider />
+									<ChipInput
+										placeholderType="inline"
+										placeholder={t('Bcc')}
+										onChange={(value) => actions.updateContacts('bcc', value)}
+										value={compositionData.bcc}
+									/>
+									<Divider />
+								</Collapse>
+							</Container>
 						</Container>
+						<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
+							<EmailComposerInput
+								onChange={(ev) => actions.updateSubject(ev.target.value)}
+								placeholder={t('Subject')}
+								placeholderType="default"
+								value={compositionData.subject}
+							/>
+						</Padding>
+						<Divider />
 					</Container>
-					<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
-						<EmailComposerInput
-							onChange={(ev) => actions.updateSubject(ev.target.value)}
-							placeholder={t('Subject')}
-							placeholderType="default"
-							value={compositionData.subject}
-						/>
-					</Padding>
+					{compositionData.richText
+						? (
+							<EditorWrapper>
+								<RichTextEditor
+									value={html}
+									onEditorChange={onEditorChange}
+									minHeight={150}
+								/>
+							</EditorWrapper>
+						)
+						: (
+							(
+								<TextArea
+									label=""
+									value={compositionData.body.text}
+									onChange={(ev) => {
+										// eslint-disable-next-line no-param-reassign
+										ev.target.style.height = 'auto';
+										// eslint-disable-next-line no-param-reassign
+										ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
+										actions.updateBody([ev.target.value, ev.target.value]);
+									}}
+								/>
+							)
+						)}
 					<Divider />
 				</Container>
-				{compositionData.richText
-					? (
-						<EditorWrapper>
-							<RichTextEditor
-								value={html}
-								onEditorChange={onEditorChange}
-								minHeight={150}
-							/>
-						</EditorWrapper>
-					)
-					: (
-						(
-							<TextArea
-								label=""
-								value={compositionData.body.text}
-								onChange={(ev) => {
-									// eslint-disable-next-line no-param-reassign
-									ev.target.style.height = 'auto';
-									// eslint-disable-next-line no-param-reassign
-									ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
-									actions.updateBody([ev.target.value, ev.target.value]);
-								}}
-							/>
-						)
-					)}
-				<Divider />
-			</Container>
+			</SnackbarManager>
 		</Catcher>
 	);
 }

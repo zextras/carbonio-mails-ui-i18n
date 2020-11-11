@@ -10,30 +10,33 @@
  */
 
 import React, { useMemo, useEffect } from 'react';
-import { map } from 'lodash';
 import { Container } from '@zextras/zapp-ui';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
-import { getOneConversation, selectConversations } from '../store/conversations-slice';
+import { searchConv } from '../store/conversations-slice';
+import useQueryParam from '../hooks/useQueryParam';
 
-export default function ConversationPreviewPanel({ conversationId, folderId }) {
+export default function ConversationPreviewPanel() {
+	return null;
 	const dispatch = useDispatch();
-	const conversations = useSelector(selectConversations);
+	const conversationId = useQueryParam('conversation');
+	const { folderId } = useParams();
+
+	const conversations = {};
 	const conversation = conversations[conversationId];
 
 	useEffect(() => {
 		if (!conversation) {
-			dispatch(getOneConversation({ conversationId }));
+			dispatch(searchConv({ conversationId }));
 		}
 	}, [conversationId]);
 
 	const messages = useMemo(() => {
 		if (conversation) {
-			const ms = conversation.messages.slice();
-			ms.reverse();
-			return ms.map((message, index) => (
+			return conversation.messages.map((message, index) => (
 				<MailPreview
 					key={message.id}
 					messageId={message.id}

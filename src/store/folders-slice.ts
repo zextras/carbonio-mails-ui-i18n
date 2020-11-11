@@ -14,9 +14,8 @@ import produce from 'immer';
 import {
 	reduce, isEmpty, forEach,
 } from 'lodash';
-import { MailsFolder } from '../types/mails-folder';
+import { Folder } from '../types/folder';
 import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
-import { selectCurrentFolder } from './conversations-slice';
 
 export function findFolders(folder: any): MailsFolderMap {
 	const toRet: MailsFolderMap = {};
@@ -32,7 +31,7 @@ export function findFolders(folder: any): MailsFolderMap {
 			size: folder.s || 0,
 			unreadCount: folder.u || 0,
 			synced: true,
-		} as MailsFolder;
+		} as Folder;
 	}
 	return reduce(
 		folder.folder || [],
@@ -79,7 +78,6 @@ function setFoldersReducer(state: FoldersStateType, { payload }: any): void {
 		},
 		state.folders,
 	);
-	state.loaded = true;
 }
 
 function updateFoldersReducer(state: FoldersStateType, { payload }: any): void {
@@ -103,7 +101,6 @@ function deleteFoldersReducer(state: FoldersStateType, { payload }: any): void {
 export const foldersSlice = createSlice({
 	name: 'folders',
 	initialState: {
-		loaded: false,
 		status: 'idle',
 		folders: {} as MailsFolderMap,
 	} as FoldersStateType,
@@ -124,12 +121,4 @@ export function selectFolders({ folders }: StateType): MailsFolderMap {
 
 export function selectFoldersStatus({ folders }: StateType): string {
 	return folders.status;
-}
-
-export function selectFolderPath({ folders }: StateType, { folderId }: any): string|null {
-	return folders ? folders.folders[folderId].path : null;
-}
-
-export function selectFoldersLoaded({ folders }: StateType): boolean {
-	return folders.loaded;
 }

@@ -9,31 +9,16 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailConversationFromSoap } from '../db/mail-conversation';
-import { MailMessageFromSoap } from '../db/mail-message';
-import { MailsFolder } from './mails-folder';
+import { MailMessage } from './mail-message';
+import { Conversation } from './conversation';
+import { Folder } from './folder';
 
 export interface StateType {
 	status: string;
 	folders: FoldersStateType;
 	conversations: ConversationsStateType;
 	sync: SyncStateType;
-}
-
-export interface FoldersStateType {
-	status: string;
-	loaded: boolean;
-	folders: MailsFolderMap;
-}
-
-export interface ConversationsStateType {
-	status: string;
-	conversations: ConversationMap;
-	messages: MessageMap;
-	currentFolder: {
-		id?: string;
-		hasMore?: boolean;
-	};
+	messages: MsgStateType;
 }
 
 export interface SyncStateType {
@@ -42,8 +27,29 @@ export interface SyncStateType {
 	token?: string;
 }
 
-export type MailsFolderMap = Record<string, MailsFolder>;
+export interface FoldersStateType {
+	status: string;
+	folders: MailsFolderMap;
+}
 
-export type ConversationMap = Record<string, MailConversationFromSoap>;
+export interface MsgStateType {
+	cache: MsgMap;
+}
 
-export type MessageMap = Record<string, MailMessageFromSoap>;
+export interface ConversationsStateType {
+	cache: FolderToConversationsMap;
+	currentFolder: string;
+}
+
+export type MailsFolderMap = Record<string, Folder>;
+
+export type MsgMap = Record<string, MailMessage>;
+
+export type FolderToConversationsMap = Record<string, ConversationsInFolderState>;
+
+export type ConversationsInFolderState = {
+	cache: Record<string, Conversation>;
+	status: ConversationsFolderStatus;
+}
+
+export type ConversationsFolderStatus = 'empty' | 'pending' | 'complete' | 'hasMore' | 'hasChange' | 'error';

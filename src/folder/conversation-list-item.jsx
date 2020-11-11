@@ -8,7 +8,9 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useCallback, useMemo } from 'react';
+import React, {
+	useCallback, useMemo, useEffect, useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
 	find, isEmpty, reduce, trimStart
@@ -21,7 +23,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
-import { getOneConversation, selectMessages } from '../store/conversations-slice';
+import { searchConv } from '../store/conversations-slice';
 
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
@@ -30,6 +32,7 @@ export default function ConversationListItem({
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const accounts = hooks.useUserAccounts();
+	const isConversation = conversation.msgCount > 1;
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
 		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
@@ -37,18 +40,17 @@ export default function ConversationListItem({
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (!displayData.open) dispatch(getOneConversation({ conversationId: conversation.id }));
-			updateDisplayData(index, conversation.id, { open: !displayData.open });
+			if (isConversation) updateDisplayData(index, conversation.id, { open: !displayData.open });
 		},
-		[conversation.id, displayData.open, index, updateDisplayData],
+		[conversation.id, displayData.open, index, updateDisplayData, isConversation],
 	);
 
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) {
-			dispatch(getOneConversation({ conversationId: conversation.id }));
+			dispatch(searchConv({ conversationId: conversation.id, folderId }));
 			replaceHistory(`/folder/${folderId}?conversation=${conversation.id}`);
 		}
-	}, [replaceHistory, folderId, conversation.id]);
+	}, [conversation.id, folderId, replaceHistory]);
 	const date = useMemo(
 		() => getTimeLabel(conversation.date),
 		[conversation.date],
@@ -58,8 +60,6 @@ export default function ConversationListItem({
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
 	), [conversation.participants, t, accounts]);
-
-	const isConversation = conversation.msgCount > 1;
 
 	return (
 		<OuterContainer
@@ -156,24 +156,21 @@ export default function ConversationListItem({
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ isConversation
+			{ isConversation && displayData.open
 			&& (
 				<CollapseElement
 					open={displayData.open}
 					padding={{ left: 'extralarge' }}
 					height="auto"
 				>
-					{ displayData.open && (
-						<Container padding={{ left: 'extralarge' }} height="auto">
-							<ConversationMessagesList
-								toggleOpen={toggleOpen}
-								folderId={folderId}
-								conversation={conversation}
-							/>
-						</Container>
-					) }
+					<Container padding={{ left: 'extralarge' }} height="auto">
+						<ConversationMessagesList
+							folderId={folderId}
+							conversation={conversation}
+						/>
+					</Container>
 				</CollapseElement>
-			) }
+			)}
 
 			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
@@ -181,29 +178,24 @@ export default function ConversationListItem({
 }
 
 function ConversationMessagesList({ conversation, folderId }) {
-	const allMessages = useSelector(selectMessages);
+	const dispatch = useDispatch();
 
-	const messages = useMemo(() => {
-		if (conversation && conversation.messages) {
-			const _messages = conversation.messages
-				.filter((m) => m.id in allMessages)
-				.map((m) => allMessages[m.id]);
-			_messages.sort((a, b) => b.date - a.date);
-			return _messages;
-		}
-		return [];
-	}, [conversation, allMessages]);
+	useEffect(() => {
+		dispatch(searchConv({ folderId, conversationId: conversation.id }));
+	}, [conversation.id, folderId]);
 
-	return conversation && messages.length > 0 && (
+	if (!conversation.messages[0].subject) return null;
+
+	return (
 		<>
-			{ messages.map((message, index) => (
+			{conversation.messages.map((message, index) => (
 				<React.Fragment key={message.id}>
 					<MessageListItem
 						message={message}
 						conversation={conversation}
 						folderId={folderId}
 					/>
-					{ (messages.length - 1) > index && <Divider /> }
+					{ (conversation.messages.length - 1) > index && <Divider /> }
 				</React.Fragment>
 			)) }
 		</>
