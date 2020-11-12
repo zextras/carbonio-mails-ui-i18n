@@ -9,26 +9,52 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React from 'react';
-import { map } from 'lodash';
+import React, { useMemo, useEffect } from 'react';
 import { Container } from '@zextras/zapp-ui';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
-import { useConversation } from '../hooks';
 import MailPreview from './mail-preview';
+import { selectConversationMap } from '../store/conversations-slice';
+import useQueryParam from '../hooks/useQueryParam';
+import { searchConv } from '../store/actions';
 
-export default function ConversationPreviewPanel({ conversationInternalId, folderId }) {
-	const [
-		conversation,
-		conversationLoaded
-	] = useConversation(conversationInternalId);
+export default function ConversationPreviewPanel() {
+	const conversationId = useQueryParam('conversation');
+	const messageId = useQueryParam('message');
+	const { folderId } = useParams();
+
+	const dispatch = useDispatch();
+	const fetch =	messageId || 'u!';
+	// expand the most recent one
+
+	dispatch(searchConv({ conversationId, folderId, fetch }));
+
+	const conversations = useSelector(selectConversationMap);
+	const conversation = conversations[conversationId];
+	// conversation will be undefined if fake id wil be passed
+
+	const messages = useMemo(() => {
+		if (conversation) {
+			return conversation.messages.map((message, index) => (
+				<MailPreview
+					key={`${message.id}-${messageId}`}
+					message={message}
+					expanded={messageId ? messageId === message.id : index === 0}
+				/>
+			));
+		}
+		return [];
+	}, [conversation, messageId]);
+
 	return (
 		<Container
 			orientation="vertical"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 		>
-			{ conversation && conversationLoaded && (
+			{ conversation && (
 				<>
 					<PreviewPanelHeader conversation={conversation} folderId={folderId} />
 					<PreviewPanelActions conversation={conversation} folderId={folderId} />
@@ -44,18 +70,7 @@ export default function ConversationPreviewPanel({ conversationInternalId, folde
 							mainAlignment="flex-start"
 							background="gray5"
 						>
-							{
-								map(
-									conversation.messages,
-									(message, index) => (
-										<MailPreview
-											key={message.id}
-											message={message}
-											firstMail={index === 0}
-										/>
-									)
-								)
-							}
+							{ messages }
 						</Container>
 					</Container>
 				</>

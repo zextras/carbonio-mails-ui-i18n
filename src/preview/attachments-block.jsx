@@ -10,10 +10,9 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { map } from 'lodash';
+import { map, reduce } from 'lodash';
 
 import {
 	Container,
@@ -24,30 +23,12 @@ import {
 	Row
 } from '@zextras/zapp-ui';
 
-const getSizeLabel = (size) => {
-	let value = '';
-	if (size < 1024000) {
-		value = `${Math.round((size / 1024) * 100) / 100} KB`;
-	}
-	else if (size < 1024000000) {
-		value = `${Math.round((size / 1024 / 1024) * 100) / 100} MB`;
-	}
-	else {
-		value = `${Math.round((size / 1024 / 1024 / 1024) * 100) / 100} GB`;
-	}
-	return value;
-};
-const getAttachmentsLink = (messageId, messageSubject, attachments) => {
-	if (attachments.length > 1) {
-		return `/service/home/~/?auth=co&id=${messageId}&filename=${messageSubject}&charset=UTF-8&part=${attachments.join(',')}&disp=a&fmt=zip`;
-	}
-	return `/service/home/~/?auth=co&id=${messageId}&part=${attachments.join(',')}&disp=a`;
-};
-
 const AttachmentsActions = styled(Row)``;
-function AttachmentsBlock({ message, attachments }) {
+
+export default function AttachmentsBlock({ message }) {
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
+	const attachments = useMemo(() => findAttachments(message.parts, []), [message]);
 
 	const attachmentsCount = useMemo(() => attachments.length, [attachments]);
 	const attachmentsParts = useMemo(() => map(attachments, 'name'), [attachments]);
@@ -121,7 +102,39 @@ function AttachmentsBlock({ message, attachments }) {
 	);
 }
 
-export default AttachmentsBlock;
+function findAttachments(parts, acc) {
+	return reduce(
+		parts,
+		(found, part) => {
+			if (part.disposition === 'attachment') {
+				found.push(part);
+			}
+			return findAttachments(part.parts, found);
+		},
+		acc
+	);
+}
+
+function getSizeLabel(size) {
+	let value = '';
+	if (size < 1024000) {
+		value = `${Math.round((size / 1024) * 100) / 100} KB`;
+	}
+	else if (size < 1024000000) {
+		value = `${Math.round((size / 1024 / 1024) * 100) / 100} MB`;
+	}
+	else {
+		value = `${Math.round((size / 1024 / 1024 / 1024) * 100) / 100} GB`;
+	}
+	return value;
+};
+
+function getAttachmentsLink(messageId, messageSubject, attachments) {
+	if (attachments.length > 1) {
+		return `/service/home/~/?auth=co&id=${messageId}&filename=${messageSubject}&charset=UTF-8&part=${attachments.join(',')}&disp=a&fmt=zip`;
+	}
+	return `/service/home/~/?auth=co&id=${messageId}&part=${attachments.join(',')}&disp=a`;
+};
 
 const AttachmentLink = styled.a`
 	text-decoration: none;
@@ -150,6 +163,7 @@ const AttachmentContainer = styled(Row)`
 		background-color: ${({ theme, background }) => theme.palette[background].focus};
 	}
 `;
+
 function Attachment({ filename, size, link }) {
 	const extension = filename.split('.').pop();
 	const sizeLabel = useMemo(() => getSizeLabel(size), [size]);

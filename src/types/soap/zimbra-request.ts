@@ -9,15 +9,6 @@
  * *** END LICENSE BLOCK *****
  */
 
-export interface MailsFolder {
-	id: string;
-	uuid: string;
-	name: string;
-	path: string;
-	parent: string;
-	parentUuid: string;
-	unreadCount: number;
-	size: number;
-	itemsCount: number;
-	synced: boolean;
+export type ZimbraRequest = {
+	_jsns: 'urn:zimbraMail';
 }

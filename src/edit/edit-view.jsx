@@ -25,8 +25,8 @@ import {
 	IconCheckbox,
 	Padding,
 	RichTextEditor,
-	Row,
-	Tooltip
+	Row, SnackbarManager,
+	Tooltip,
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
 import { filter, map } from 'lodash';
@@ -130,17 +130,18 @@ export default function EditView({
 	}
 	return (
 		<Catcher>
-			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
-				<Container
-					crossAlignment="unset"
-					height="fit"
-				>
-					<Row
-						padding={{ all: 'medium' }}
-						orientation="horizontal"
-						mainAlignment="flex-end"
-						width="100%"
+			<SnackbarManager>
+				<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
+					<Container
+						crossAlignment="unset"
+						height="fit"
 					>
+						<Row
+							padding={{ all: 'medium' }}
+							orientation="horizontal"
+							mainAlignment="flex-end"
+							width="100%"
+						>
 						<Tooltip label={t('Toggle Rich Text')}>
 							<ResizedIconCheckbox
 								icon="Text"
@@ -201,16 +202,16 @@ export default function EditView({
 								<Divider />
 								<ChipInput
 									placeholderType="inline"
-									placeholder={t('Bcc')}
+										placeholder={t('Bcc')}
 									onChange={(value) => actions.updateContactsCb('bcc', value)}
 									value={compositionData.bcc ?? []}
 								/>
 								<Divider />
-							</Collapse>
+								</Collapse>
+							</Container>
 						</Container>
-					</Container>
-					<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
-						<EmailComposerInput
+						<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
+							<EmailComposerInput
 							onChange={(ev) => actions.updateSubjectCb(ev.target.value)}
 							placeholder={t('Subject')}
 							placeholderType="default"
@@ -246,6 +247,7 @@ export default function EditView({
 					)}
 				<Divider />
 			</Container>
+			</SnackbarManager>
 		</Catcher>
 	);
 }

@@ -20,6 +20,7 @@ import foldersSliceReducer from './store/folders-slice';
 import editorsSliceReducer from './store/editor-slice';
 import SetMainMenuItems from './secondary-bar/set-main-menu-items';
 import conversationsSliceReducer from './store/conversations-slice';
+import messagesSliceReducer from './store/messages-slice';
 
 const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
 const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
@@ -38,7 +39,8 @@ export default function App() {
 				folders: foldersSliceReducer,
 				sync: syncSliceReducer,
 				conversations: conversationsSliceReducer,
-				editors: editorsSliceReducer
+				editors: editorsSliceReducer,
+				messages: messagesSliceReducer
 			}),
 		);
 	}, []);
@@ -76,52 +78,6 @@ export default function App() {
 				},
 			},
 		}]);
-	}, []);
-
-	useEffect(() => {
-		// const db = new MailsDb(network.soapFetch);
-		// const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
-		// db.registerSyncProtocol('soap-mails', syncProtocol);
-		// db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
-		//
-		// setAppContext({
-		// 	db,
-		// });
-
-		// db
-		// 	.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
-		// 	.subscribe((folders) => mainMenuItems(folders, db));
-
-		// setRoutes([
-		// 	{
-		// 		route: '/folder/:folderId',
-		// 		view: lazyFolderView,
-		// 	},
-		// 	{
-		// 		route: '/',
-		// 		view: lazyFolderView,
-		// 	},
-		// 	{
-		// 		route: '/edit/:id',
-		// 		view: lazyEditView,
-		// 	},
-		// 	{
-		// 		route: '/new',
-		// 		view: lazyEditView,
-		// 	},
-		// ]);
-		//
-		// setCreateOptions([{
-		// 	id: 'create-mail',
-		// 	label: 'New Mail',
-		// 	app: {
-		// 		boardPath: '/new',
-		// 		getPath: () => {
-		// 			const splittedLocation = window.top.location.pathname.split('/folder');
-		// 			return `${splittedLocation[1] ? `/folder${splittedLocation[1]}` : ''}?edit=new`;
-		// 		},
-		// 	},
-		// }]);
 	}, []);
 
 	return (

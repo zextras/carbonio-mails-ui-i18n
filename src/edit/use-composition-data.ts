@@ -17,7 +17,6 @@ import {
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { ParticipantType } from 'src/db/mail-db-types';
 import { CompositionData } from './composition-types';
 import { useMessage } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
@@ -113,14 +112,6 @@ const useCompositionData = (
 		() => dispatch(sendMail({ id: editorId })),
 		[dispatch, editorId]
 	);
-	useChangeLog('editorId', editorId);
-	useChangeLog('accounts', accounts);
-	useChangeLog('compositionData', compositionData);
-	useChangeLog('actionMail', actionMail);
-	useChangeLog('original', original);
-	useChangeLog('action', action);
-	useChangeLog('dispatch', dispatch);
-	useChangeLog('t', t);
 	return {
 		compositionData,
 		actions: {
@@ -137,7 +128,3 @@ const useCompositionData = (
 };
 
 export default useCompositionData;
-
-const useChangeLog = (l, v): void => {
-	useEffect(() => console.log(`*changed* ${l}`, v), [v, l]);
-};

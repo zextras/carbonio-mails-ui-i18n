@@ -14,7 +14,7 @@ import { setMainMenuItems } from '@zextras/zapp-shell';
 import { useSelector } from 'react-redux';
 import { reduce, map, filter } from 'lodash';
 import { selectFolders } from '../store/folders-slice';
-import { MailsFolder } from '../types/mails-folder';
+import { Folder } from '../types/folder';
 import { MailsFolderMap } from '../types/state';
 
 export default function SetMainMenuItems(): null {
@@ -25,7 +25,7 @@ export default function SetMainMenuItems(): null {
 function useSetMainMenuItems(): void {
 	const allFolders: MailsFolderMap = useSelector(selectFolders);
 
-	const folders = reduce(allFolders, (a: Array<any>, c: MailsFolder) => {
+	const folders = reduce(allFolders, (a: Array<any>, c: Folder) => {
 		a.push({
 			id: c.id,
 			parent: c.parent,

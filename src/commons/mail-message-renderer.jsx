@@ -129,13 +129,13 @@ const EmptyBody = () => {
 	);
 };
 
-const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
+const MailMessageRenderer = ({ mailMsg, setRead }) => {
 	const [body, parts] = getBodyToRender(mailMsg);
 	useEffect(() => {
 		if (!mailMsg.read) {
-			onUnreadLoaded();
+			setRead();
 		}
-	}, [mailMsg.read, onUnreadLoaded]);
+	}, [mailMsg.read, setRead]);
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;
 	}

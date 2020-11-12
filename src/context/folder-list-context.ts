@@ -9,9 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 import { createContext } from 'react';
-import { MailsFolder } from '../types/mails-folder';
+import { Folder } from '../types/folder';
 
-export type FolderListContextValue = [{ [key: string]: MailsFolder }, boolean];
+export type FolderListContextValue = [{ [key: string]: Folder }, boolean];
 
 const FolderListContext = createContext<FolderListContextValue>([{}, false]);
 

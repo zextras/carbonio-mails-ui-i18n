@@ -10,8 +10,7 @@
  */
 
 import React, {
-	useLayoutEffect, useMemo,
-	useState, useRef, useCallback
+	useMemo, useState, useRef, useCallback, useContext, useEffect,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -31,62 +30,40 @@ import {
 	Padding,
 	IconButton,
 	Row,
-	Dropdown
+	Dropdown,
+	SnackbarManagerContext
 } from '@zextras/zapp-ui';
 
-import { useMessage, useFolder } from '../hooks';
-import useQueryParam from '../hooks/useQueryParam';
+import { useDispatch, useSelector } from 'react-redux';
 import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
+import { selectFolders } from '../store/folders-slice';
+import { setFlag } from '../actions/message-actions';
+import { selectMessages } from '../store/messages-slice';
+import { getMsg } from '../store/actions';
 
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
-
-const findAttachments = (parts, acc) => reduce(
-	parts,
-	(found, part) => {
-		if (part.disposition === 'attachment') {
-			found.push(part);
-		}
-		return findAttachments(part.parts, found);
-	},
-	acc
-);
-
-function MailPreview({ message: messageData, firstMail }) {
-	const [message, loaded] = useMessage(messageData.id);
-
-	if (!loaded || !message) return null;
-
-	return (
-		<MailPreviewLoaded
-			message={message}
-			firstMail={firstMail}
-		/>
-	);
-}
-
-export default MailPreview;
-
-function MailPreviewLoaded({ message, firstMail }) {
+export default function MailPreview({ message, expanded }) {
+	const dispatch = useDispatch();
 	const mailContainerRef = useRef(undefined);
-	const urlMessageId = useQueryParam('message');
-	const [open, setOpen] = useState(!urlMessageId ? firstMail : false);
-	const msgRender = useMemo(
-		() => <MailMessageRenderer key={message.id} onUnreadLoaded={() => {}} mailMsg={message} />,
-		[message]
-	);
-	const attachments = useMemo(() => findAttachments(message.parts, []), [message]);
+	const [open, setOpen] = useState(expanded);
 
-	useLayoutEffect(() => {
-		if (typeof urlMessageId === 'undefined' && firstMail) return;
-		setOpen(urlMessageId === message._id);
-	}, [firstMail, message._id, urlMessageId]);
+	const msg = useSelector(selectMessages)[message.id] || {};
+
+	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
+
+	// this is necessary because if somebody click a message in the same conversation
+	// already open that message will not be expanded
+	useEffect(() => {
+		setOpen(expanded);
+	}, [expanded]);
+
+	useEffect(() => {
+		if (open && message.parts.length === 0) {
+			// check if the request of that message has already been requested
+			dispatch(getMsg({ msgId: message.id }));
+		}
+	}, [message, open, expanded]);
 
 	return (
 		<Container
@@ -94,7 +71,7 @@ function MailPreviewLoaded({ message, firstMail }) {
 			height="fit"
 		>
 			<MailPreviewBlock
-				onClick={() => setOpen(!open)}
+				onClick={() => setOpen((o) => !o)}
 				message={message}
 				open={open}
 			/>
@@ -106,16 +83,28 @@ function MailPreviewLoaded({ message, firstMail }) {
 				}}
 			>
 				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
-					<Container
-						width="100%"
-						height="fit"
-						crossAlignment="stretch"
-						padding={{ horizontal: 'medium', vertical: 'small' }}
-						background="gray6"
-					>
-						<AttachmentsBlock message={message} attachments={attachments} />
-						<Padding style={{ width: '100%' }} vertical="medium">{ msgRender }</Padding>
-					</Container>
+					{open
+					&& (
+						<Container
+							width="100%"
+							height="fit"
+							crossAlignment="stretch"
+							padding={{ horizontal: 'medium', vertical: 'small' }}
+							background="gray6"
+						>
+							<AttachmentsBlock message={aggregatedMessage} />
+							<Padding style={{ width: '100%' }} vertical="medium">
+								{aggregatedMessage.parts.length > 0
+								&& (
+									<MailMessageRenderer
+										key={message.id}
+										mailMsg={aggregatedMessage}
+										setRead={() => {}}
+									/>
+								)}
+							</Padding>
+						</Container>
+					)}
 				</Collapse>
 			</Container>
 			<Divider />
@@ -125,15 +114,14 @@ function MailPreviewLoaded({ message, firstMail }) {
 
 const fallbackContact = { address: '', displayName: '' };
 
-function MailPreviewBlock({
-	message,
-	open,
-	onClick
-}) {
+function MailPreviewBlock({ message, open, onClick }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const { folderId } = useParams();
 	const { db } = hooks.useAppContext();
+	const createSnackbar = useContext(SnackbarManagerContext);
+	const accounts = hooks.useUserAccounts();
+	const dispatch = useDispatch();
 
 	const actions = useMemo(() => {
 		const arr = [];
@@ -179,7 +167,12 @@ function MailPreviewBlock({
 				label: t('Set as flagged'),
 				onActivate: (ev) => {
 					ev.preventDefault();
-					db.setFlag(message._id, true);
+					setFlag({
+						createSnackbar, t, dispatch, msgId: message.id
+					});
+
+					// ev.preventDefault();
+					// db.setFlag(message._id, true);
 				}
 			});
 		}
@@ -215,11 +208,12 @@ function MailPreviewBlock({
 			});
 		}
 		return arr;
-	}, [message, t, replaceHistory, folderId, db]);
+	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, db]);
 
 	const { folderId: currentFolderId } = useParams();
-	const { folder: messageFolder, folderLoaded: messageFolderLoaded } = useFolder(message.parent);
-	const mainContact = find(message.contacts, ['type', 'f']) || fallbackContact;
+	const folders = useSelector(selectFolders);
+	const messageFolder = folders[message.parent];
+	const mainContact = find(message.participants, ['type', 'f']) || fallbackContact;
 	const _onClick = useCallback((e) => !e.isDefaultPrevented() && onClick(e), [onClick]);
 	return (
 		<HoverContainer
@@ -237,7 +231,7 @@ function MailPreviewBlock({
 				padding={{ all: 'small' }}
 			>
 				<Avatar
-					label={mainContact.displayName || mainContact.address}
+					label={mainContact.fullName || mainContact.address}
 					colorLabel={mainContact.address}
 				/>
 			</Container>
@@ -260,7 +254,7 @@ function MailPreviewBlock({
 						color={message.read ? 'text' : 'primary'}
 						weight={message.read ? 'normal' : 'bold'}
 					>
-						{participantToString(mainContact, t)}
+						{participantToString(mainContact, t, accounts)}
 					</Text>
 					<Container
 						orientation="horizontal"
@@ -324,7 +318,7 @@ function MailPreviewBlock({
 						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : undefined }}
 					>
 						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
-						{ messageFolderLoaded && messageFolder._id !== currentFolderId && (
+						{ messageFolder.id !== currentFolderId && (
 							<Padding left="small">
 								<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 							</Padding>
@@ -335,6 +329,13 @@ function MailPreviewBlock({
 		</HoverContainer>
 	);
 }
+
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
 
 const ContactsContainer = styled.div`
 	display: grid;
@@ -352,9 +353,9 @@ const ContactText = styled(Text)`
 function MessageContactsList({ message }) {
 	const { t } = useTranslation();
 	const accounts = hooks.useUserAccounts();
-	const toContacts = filter(message.contacts, ['type', 't']);
-	const ccContacts = filter(message.contacts, ['type', 'c']);
-	const bccContacts = filter(message.contacts, ['type', 'b']);
+	const toContacts = filter(message.participants, ['type', 't']);
+	const ccContacts = filter(message.participants, ['type', 'c']);
+	const bccContacts = filter(message.participants, ['type', 'b']);
 
 	return (
 		<ContactsContainer>

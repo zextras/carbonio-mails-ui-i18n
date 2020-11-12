@@ -8,35 +8,22 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import React, { useCallback, useMemo } from 'react';
+import React, {
+	useCallback, useMemo, useEffect, useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-	find, isEmpty, map, reduce, trimStart
+	find, isEmpty, reduce, trimStart
 } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 import {
-	Avatar, Badge, Container, Divider, Icon, IconButton, Padding, Row, Text
+	Avatar, Badge, Button, Container, Divider, Icon, IconButton, Padding, Row, Text,
 } from '@zextras/zapp-ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
-import { getOneConversation, selectMessages } from '../store/conversations-slice';
-
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
-
-const OuterContainer = styled(Container)`
-	min-height: 70px;
-`;
-
-const CollapseElement = styled(Container)`
-	display: ${({ open }) => (open ? 'block' : 'none')};
-`;
+import { searchConv } from '../store/actions';
 
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
@@ -45,25 +32,27 @@ export default function ConversationListItem({
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const accounts = hooks.useUserAccounts();
+	const isConversation = conversation.msgCount > 1;
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
-		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
+		return [sender.fullName || sender.name || sender.address || '.', sender.address];
 	}, [conversation.participants]);
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (!displayData.open) dispatch(getOneConversation({ conversationId: conversation.id }));
-			updateDisplayData(index, conversation.id, { open: !displayData.open });
+			if (isConversation) {
+				dispatch(searchConv({ folderId, conversationId: conversation.id, fetch: '0' }));
+				updateDisplayData(index, conversation.id, { open: !displayData.open });
+			}
 		},
-		[conversation.id, displayData.open, index, updateDisplayData],
+		[conversation.id, displayData.open, index, updateDisplayData, isConversation],
 	);
 
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) {
-			dispatch(getOneConversation({ conversationId: conversation.id }));
-			replaceHistory(`/folder/${folderId}?conversation=${conversation._id}`);
+			replaceHistory(`/folder/${folderId}?conversation=${conversation.id}`);
 		}
-	}, [replaceHistory, folderId, conversation._id]);
+	}, [conversation.id, folderId, replaceHistory]);
 	const date = useMemo(
 		() => getTimeLabel(conversation.date),
 		[conversation.date],
@@ -72,10 +61,7 @@ export default function ConversationListItem({
 		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
-	),
-	[conversation.participants, t, accounts]);
-
-	const isConversation = conversation.msgCount > 1;
+	), [conversation.participants, t, accounts]);
 
 	return (
 		<OuterContainer
@@ -172,24 +158,21 @@ export default function ConversationListItem({
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ isConversation
+			{ isConversation && displayData.open
 			&& (
 				<CollapseElement
 					open={displayData.open}
 					padding={{ left: 'extralarge' }}
 					height="auto"
 				>
-					{ displayData.open && (
-						<Container padding={{ left: 'extralarge' }} height="auto">
-							<ConversationMessagesList
-								toggleOpen={toggleOpen}
-								folderId={folderId}
-								conversation={conversation}
-							/>
-						</Container>
-					) }
+					<Container padding={{ left: 'extralarge' }} height="auto">
+						<ConversationMessagesList
+							folderId={folderId}
+							conversation={conversation}
+						/>
+					</Container>
 				</CollapseElement>
-			) }
+			)}
 
 			<Divider style={{ minHeight: '1px' }} />
 		</OuterContainer>
@@ -197,29 +180,41 @@ export default function ConversationListItem({
 }
 
 function ConversationMessagesList({ conversation, folderId }) {
-	const allMessages = useSelector(selectMessages);
+	if (!conversation.messages[0].subject) {
+		return (
+			<Container height={70 * conversation.messages.length}>
+				<Button loading disabled label="" type="ghost" />
+			</Container>
+		);
+	}
 
-	const ids = useMemo(() => map(conversation.messages, (m) => m.id), [conversation.messages]);
-
-	const messages = ids
-		.filter((id) => id in allMessages)
-		.map((id) => allMessages[id]);
-
-	return conversation && ids.length > 0 && (
+	return (
 		<>
-			{ map(
-				messages,
-				(message, index) => (
-					<React.Fragment key={message.id}>
-						<MessageListItem
-							message={message}
-							conversation={conversation}
-							folderId={folderId}
-						/>
-						{ (messages.length - 1) > index && <Divider /> }
-					</React.Fragment>
-				),
-			) }
+			{conversation.messages.map((message, index) => (
+				<React.Fragment key={message.id}>
+					<MessageListItem
+						message={message}
+						conversation={conversation}
+						folderId={folderId}
+					/>
+					{ (conversation.messages.length - 1) > index && <Divider /> }
+				</React.Fragment>
+			)) }
 		</>
 	);
 }
+
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
+
+const OuterContainer = styled(Container)`
+	min-height: 70px;
+`;
+
+const CollapseElement = styled(Container)`
+	display: ${({ open }) => (open ? 'block' : 'none')};
+`;

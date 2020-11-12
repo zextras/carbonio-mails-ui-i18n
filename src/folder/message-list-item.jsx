@@ -16,13 +16,7 @@ import {
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 import {
-	Avatar,
-	Badge,
-	Container,
-	Icon,
-	Padding,
-	Row,
-	Text
+	Avatar, Badge, Container, Icon, Padding, Row, Text
 } from '@zextras/zapp-ui';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -58,118 +52,117 @@ const InvisibleLink = styled(Link)`
 export default function MessageListItem({ message, folderId, conversation }) {
 	const { t } = useTranslation();
 	const accounts = hooks.useUserAccounts();
+
 	const messageFolder = useSelector(selectFolders)[message.parent];
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
 		() => {
 			if (message) {
-				const sender = find(message.contacts, ['type', 'f']);
+				const sender = find(message.participants, ['type', 'f']);
 				return [
-					sender.displayName || sender.address || '.',
+					sender.fullName || sender.address || '.',
 					sender.address || '.',
 					getTimeLabel(moment(message.date)),
 					reduce(
-						message.contacts,
+						message.participants,
 						(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
-						''
-					)
+						'',
+					),
 				];
 			}
 			return [
 				'.',
 				'.',
 				'',
-				''
+				'',
 			];
 		},
-		[message, t, accounts]
+		[message, t, accounts],
 	);
 
 	return (
-		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation._id}&message=${message._id}`}>
+		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation.id}&message=${message.id}`}>
 			<HoverContainer
 				background="gray6"
 				mainAlignment="space-between"
 			>
-				{message && (
-					<Container
-						height={69}
+				<Container
+					height={69}
+					orientation="horizontal"
+					mainAlignment="flex-start"
+					crossAlignment="unset"
+					padding={{ all: 'small' }}
+				>
+					<div style={{ alignSelf: 'center' }}>
+						<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
+					</div>
+					<Row
+						wrap="wrap"
 						orientation="horizontal"
-						mainAlignment="flex-start"
-						crossAlignment="unset"
-						padding={{ all: 'small' }}
+						padding={{ left: 'large' }}
+						height="auto"
+						takeAvailableSpace
 					>
-						<div style={{ alignSelf: 'center' }}>
-							<Avatar label={avatarLabel} colorLabel={avatarEmail} fallbackIcon="EmailOutline" />
-						</div>
-						<Row
-							wrap="wrap"
-							orientation="horizontal"
-							padding={{ left: 'large' }}
-							height="auto"
-							takeAvailableSpace
-						>
-							<Container orientation="horizontal" height="auto" width="fill">
-								<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
-									<Text
-										color={message.read ? 'text' : 'primary'}
-										size={message.read ? 'medium' : 'large'}
-										weight={message.read ? 'regular' : 'bold'}
-									>
-										{participantsString}
-									</Text>
-								</Row>
-								<Row>
-									{message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding>}
-									{message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding>}
-									<Padding left="small"><Text>{date}</Text></Padding>
-								</Row>
-							</Container>
-							<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
-								<Row
-									wrap="nowrap"
-									takeAvailableSpace
-									mainAlignment="flex-start"
-									crossAlignment="baseline"
+						<Container orientation="horizontal" height="auto" width="fill">
+							<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
+								<Text
+									color={message.read ? 'text' : 'primary'}
+									size={message.read ? 'medium' : 'large'}
+									weight={message.read ? 'regular' : 'bold'}
 								>
-									{
-										message.subject
-											? <Text weight={message.read ? 'regular' : 'bold'} size="large">{message.subject}</Text>
-											: (
-												<Text
-													weight={message.read ? 'regular' : 'bold'}
-													size="large"
-													color="secondary"
-												>
-													{`(${t('No Subject')})`}
-												</Text>
-											)
-									}
-									{!isEmpty(message.fragment) && (
-										<Row
-											takeAvailableSpace
-											mainAlignment="flex-start"
-											padding={{ left: 'extrasmall' }}
-										>
-											<Text>{` - ${message.fragment}`}</Text>
-										</Row>
-									)}
-								</Row>
-								<Row>
-									{message.urgent && (
-										<Padding left="extrasmall">
-											<Icon icon="ArrowUpward" color="error" />
-										</Padding>
-									)}
-									{messageFolder._id !== folderId && (
-										<Padding left="small">
-											<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
-										</Padding>
-									)}
-								</Row>
-							</Container>
-						</Row>
-					</Container>
-				)}
+									{ participantsString }
+								</Text>
+							</Row>
+							<Row>
+								{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
+								{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+								<Padding left="small"><Text>{ date }</Text></Padding>
+							</Row>
+						</Container>
+						<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
+							<Row
+								wrap="nowrap"
+								takeAvailableSpace
+								mainAlignment="flex-start"
+								crossAlignment="baseline"
+							>
+								{
+									message.subject
+										? <Text weight={message.read ? 'regular' : 'bold'} size="large">{ message.subject }</Text>
+										: (
+											<Text
+												weight={message.read ? 'regular' : 'bold'}
+												size="large"
+												color="secondary"
+											>
+												{ `(${t('No Subject')})` }
+											</Text>
+										)
+								}
+								{ !isEmpty(message.fragment) && (
+									<Row
+										takeAvailableSpace
+										mainAlignment="flex-start"
+										padding={{ left: 'extrasmall' }}
+									>
+										<Text>{ ` - ${message.fragment}` }</Text>
+									</Row>
+								) }
+							</Row>
+							<Row>
+								{ message.urgent && (
+									<Padding left="extrasmall">
+										<Icon icon="ArrowUpward" color="error" />
+									</Padding>
+								) }
+								{ messageFolder.id !== folderId && (
+									<Padding left="small">
+										<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
+									</Padding>
+								) }
+							</Row>
+						</Container>
+					</Row>
+				</Container>
 			</HoverContainer>
 			<HoverBarContainer>
 				<MailHoverBar folder={messageFolder} message={message} />

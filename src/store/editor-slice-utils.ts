@@ -1,8 +1,8 @@
 import { find } from 'lodash';
 import { Account } from '@zextras/zapp-shell';
-import { ParticipantType } from '../db/mail-db-types';
-import { MailMessageFromSoap, MailMessagePart } from '../db/mail-message';
 import { MailsEditor } from '../types/mails-editor';
+import { MailMessage, MailMessagePart } from '../types/mail-message';
+import { ParticipantRole } from '../types/participant';
 
 export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor => ({
 	richText: false,
@@ -16,11 +16,12 @@ export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor =
 		id: '',
 		parent: '6',
 		conversation: '',
-		contacts: accounts.length > 0 ? [
+		participants: accounts.length > 0 ? [
 			{
-				type: ParticipantType.FROM,
+				type: ParticipantRole.FROM,
 				address: accounts[0].name,
-				displayName: accounts[0].displayName
+				name: accounts[0].name,
+				fullName: accounts[0].displayName
 			}
 		] : [],
 		date: Date.now(),
@@ -32,19 +33,10 @@ export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor =
 		flagged: false,
 		urgent: false,
 		parts: [],
-		bodyPath: ''
+		bodyPath: '',
+		tags: []
 	}
 });
-
-export const extractBody = (draft: MailMessageFromSoap): { text: string; html: string } => {
-	const text = recursiveFindText(draft.parts);
-	const html = find(draft.parts, ['contentType', 'multipart/alternative']);
-	const htmlText = html ? find(html.parts, ['contentType', 'text/html']) : '';
-	return {
-		text: (text && text.content) ? text.content : '',
-		html: (htmlText && htmlText.content) ? htmlText.content : ''
-	};
-};
 
 export function isHtml(parts: Array<MailMessagePart>): boolean {
 	function subtreeContainsHtmlParts(part: MailMessagePart): boolean {
@@ -61,3 +53,13 @@ export function recursiveFindText(parts: Array<MailMessagePart>): MailMessagePar
 	}
 	return parts.find(findText);
 }
+
+export const extractBody = (draft: MailMessage): { text: string; html: string } => {
+	const text = recursiveFindText(draft.parts);
+	const html = find(draft.parts, ['contentType', 'multipart/alternative']);
+	const htmlText = html ? find(html.parts, ['contentType', 'text/html']) : '';
+	return {
+		text: (text && text.content) ? text.content : '',
+		html: (htmlText && htmlText.content) ? htmlText.content : ''
+	};
+};

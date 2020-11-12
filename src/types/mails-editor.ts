@@ -1,8 +1,8 @@
-import { MailMessageFromSoap } from "src/db/mail-message";
+import { MailMessage } from './mail-message';
 
-export type MailsEditor {
+export type MailsEditor = {
 	id: string;
-	draft: MailMessageFromSoap;
+	draft: MailMessage;
 	richText: boolean;
 	text: string;
 	html: string;

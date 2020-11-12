@@ -9,23 +9,24 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailConversationFromSoap } from '../db/mail-conversation';
-import { MailMessageFromSoap } from '../db/mail-message';
 import { MailsEditor } from './mails-editor';
-import { MailsFolder } from './mails-folder';
+import { MailMessage } from './mail-message';
+import { Conversation } from './conversation';
+import { Folder } from './folder';
 
-export interface StateType {
+export type StateType = {
 	status: string;
 	folders: FoldersStateType;
 	editors: EditorsStateType;
 	conversations: ConversationsStateType;
 	sync: SyncStateType;
+	messages: MsgStateType;
 }
 
-export interface FoldersStateType {
+export type SyncStateType = {
 	status: string;
-	loaded: boolean;
-	folders: MailsFolderMap;
+	intervalId: number;
+	token?: string;
 }
 
 export interface EditorsStateType {
@@ -33,26 +34,31 @@ export interface EditorsStateType {
 	editors: MailsEditorMap;
 }
 
-export interface ConversationsStateType {
+export type FoldersStateType = {
 	status: string;
-	conversations: ConversationMap;
-	messages: MessageMap;
-	currentFolder: {
-		id?: string;
-		hasMore?: boolean;
-	};
+	folders: MailsFolderMap;
 }
 
-export interface SyncStateType {
-	status: string;
-	intervalId: number;
-	token?: string;
+export type MsgStateType = {
+	cache: MsgMap;
 }
 
-export type MailsFolderMap = Record<string, MailsFolder>;
+export type ConversationsStateType = {
+	cache: FolderToConversationsMap;
+	currentFolder: string;
+}
+
+export type MailsFolderMap = Record<string, Folder>;
 
 export type MailsEditorMap = Record<string, MailsEditor>;
 
-export type ConversationMap = Record<string, MailConversationFromSoap>;
+export type MsgMap = Record<string, MailMessage>;
 
-export type MessageMap = Record<string, MailMessageFromSoap>;
+export type FolderToConversationsMap = Record<string, ConversationsInFolderState>;
+
+export type ConversationsInFolderState = {
+	cache: Record<string, Conversation>;
+	status: ConversationsFolderStatus;
+}
+
+export type ConversationsFolderStatus = 'empty' | 'pending' | 'complete' | 'hasMore' | 'hasChange' | 'error';

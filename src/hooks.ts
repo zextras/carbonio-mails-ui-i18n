@@ -23,9 +23,11 @@ import { MailConversationFromDb } from './db/mail-conversation';
 import { AppContext } from './app-context';
 import ConversationListContext from './context/conversation-list-context';
 import MessageListContext from './context/message-list-context';
-import FolderListContext from './context/folder-list-context';
-import { MailMessageFromDb, MailMessageFromSoap } from './db/mail-message';
-import { selectMessages } from './store/conversations-slice';
+import { MailMessageFromDb } from './db/mail-message';
+import { selectMessages } from './store/messages-slice';
+import { MailMessage } from './types/mail-message';
+import { selectFolders } from './store/folders-slice';
+import { Folder } from './types/folder';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -198,18 +200,10 @@ export function useConversation(conversationId: string): [MailConversationFromDb
 	return [conversation, loaded];
 }
 
-export function useMessage(messageId: string): MailMessageFromSoap {
-	const message = useSelector(createSelector([selectMessages], (m) => m[messageId]));
-	return message;
+export function useMessage(messageId: string): MailMessage {
+	return useSelector(createSelector([selectMessages], (m) => m[messageId]));
 }
 
-export function useFolder(folderId: string): null {
-	// TODO: substitute all occurrences with `selectorFromStore`
-	return null;
-	// const [_folders, folderLoaded] = useContext(FolderListContext);
-	// const folder = useMemo(
-	// 	() => find(_folders, ['id', folderId]),
-	// 	[_folders, folderId]
-	// );
-	// return [folder!, folderLoaded];
+export function useFolder(folderId: string): Folder {
+	return useSelector(createSelector([selectFolders], (f) => f[folderId]));
 }

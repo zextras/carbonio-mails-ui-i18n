@@ -12,7 +12,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { network } from '@zextras/zapp-shell';
-import { SyncResponse } from '../soap';
+import { SyncResponse } from '../types/soap';
 import { SyncStateType } from '../types/state';
 import { handleSyncData as handleFolderSyncData } from './folders-slice';
 
@@ -113,7 +113,7 @@ function startStopSyncFulfilled(state: SyncStateType, { payload }: any): void {
 	state.intervalId = intervalId;
 }
 
-function setStatusR(state: SyncStateType, { payload }: any): void {
+function setStatusReducer(state: SyncStateType, { payload }: any): void {
 	state.status = payload.status;
 }
 
@@ -125,7 +125,7 @@ export const syncSlice = createSlice({
 		token: undefined,
 	},
 	reducers: {
-		setStatus: produce(setStatusR),
+		setStatus: produce(setStatusReducer),
 	},
 	extraReducers: (builder) => {
 		builder.addCase(performSync.pending, produce(performSyncPending));
@@ -136,6 +136,6 @@ export const syncSlice = createSlice({
 	},
 });
 
-// export const {  } = syncSlice.actions;
+export const { setStatus } = syncSlice.actions;
 
 export default syncSlice.reducer;
