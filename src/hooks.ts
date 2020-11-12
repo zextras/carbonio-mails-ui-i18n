@@ -16,13 +16,16 @@ import {
 import {
 	sortBy, find, keyBy, pick, filter
 } from 'lodash';
+import { useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
 import { AppContext } from './app-context';
 import ConversationListContext from './context/conversation-list-context';
 import MessageListContext from './context/message-list-context';
 import FolderListContext from './context/folder-list-context';
-import { MailMessageFromDb } from './db/mail-message';
+import { MailMessageFromDb, MailMessageFromSoap } from './db/mail-message';
+import { selectMessages } from './store/conversations-slice';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -195,18 +198,9 @@ export function useConversation(conversationId: string): [MailConversationFromDb
 	return [conversation, loaded];
 }
 
-export function useMessage(messageId: string): [MailMessageFromDb | null, boolean] {
-	const [messages, loaded] = useContext(MessageListContext);
-	const message: MailMessageFromDb | null = useMemo(
-		() => {
-			if (loaded) {
-				return messages[messageId] || find(messages, ['id', messageId]);
-			}
-			return null;
-		},
-		[loaded, messageId, messages]
-	);
-	return [message, loaded];
+export function useMessage(messageId: string): MailMessageFromSoap {
+	const message = useSelector(createSelector([selectMessages], (m) => m[messageId]));
+	return message;
 }
 
 export function useFolder(folderId: string): null {

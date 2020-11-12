@@ -11,11 +11,13 @@
 
 import { MailConversationFromSoap } from '../db/mail-conversation';
 import { MailMessageFromSoap } from '../db/mail-message';
+import { MailsEditor } from './mails-editor';
 import { MailsFolder } from './mails-folder';
 
 export interface StateType {
 	status: string;
 	folders: FoldersStateType;
+	editors: EditorsStateType;
 	conversations: ConversationsStateType;
 	sync: SyncStateType;
 }
@@ -24,6 +26,11 @@ export interface FoldersStateType {
 	status: string;
 	loaded: boolean;
 	folders: MailsFolderMap;
+}
+
+export interface EditorsStateType {
+	status: string;
+	editors: MailsEditorMap;
 }
 
 export interface ConversationsStateType {
@@ -43,6 +50,8 @@ export interface SyncStateType {
 }
 
 export type MailsFolderMap = Record<string, MailsFolder>;
+
+export type MailsEditorMap = Record<string, MailsEditor>;
 
 export type ConversationMap = Record<string, MailConversationFromSoap>;
 

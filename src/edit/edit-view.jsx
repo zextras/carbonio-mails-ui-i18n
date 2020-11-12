@@ -9,7 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+	useCallback, useEffect, useState
+} from 'react';
+import { hooks } from '@zextras/zapp-shell';
 import {
 	Button,
 	Catcher,
@@ -26,7 +29,7 @@ import {
 	Tooltip
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
+import { filter, map } from 'lodash';
 import useCompositionData from './use-composition-data';
 
 const ResizedIconCheckbox = styled(IconCheckbox)`
@@ -95,7 +98,7 @@ export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
-	const { t } = useTranslation();
+	const { t } = hooks.useTranslation();
 
 	const {
 		compositionData,
@@ -110,18 +113,21 @@ export default function EditView({
 	);
 
 	useEffect(() => {
-		if (setHeader) setHeader(compositionData.subject);
-	}, [compositionData.subject, setHeader]);
+		if (setHeader) setHeader(compositionData?.draft?.subject ?? t('No Subject'));
+	}, [compositionData, setHeader, t]);
 
 	useEffect(() => {
-		setHtml(compositionData.body.html);
-	}, [compositionData.body.html]);
+		setHtml(compositionData?.html ?? '');
+	}, [compositionData]);
 
 	const onEditorChange = useCallback((change) => {
 		setHtml(change[1]);
-		actions.updateBody(change);
+		actions.updateBodyCb(change);
 	}, [actions]);
 
+	if (!compositionData) {
+		return null;
+	}
 	return (
 		<Catcher>
 			<Container mainAlignment="flex-start" height="100%" style={{ maxHeight: '100%' }}>
@@ -138,27 +144,34 @@ export default function EditView({
 						<Tooltip label={t('Toggle Rich Text')}>
 							<ResizedIconCheckbox
 								icon="Text"
-								value={!compositionData.richText}
-								onChange={actions.toggleRichText}
+								value={compositionData?.richText ?? false}
+								onChange={actions.toggleRichTextCb}
 							/>
 						</Tooltip>
 						<Tooltip label={t('Toggle Urgent')}>
 							<ResizedIconCheckbox
 								icon="ArrowUpward"
-								value={compositionData.urgent}
-								onChange={actions.toggleUrgent}
+								value={compositionData?.draft?.urgent ?? false}
+								onChange={actions.toggleUrgentCb}
 							/>
 						</Tooltip>
 						<Tooltip label={t('Toggle Flagged')}>
 							<ResizedIconCheckbox
 								icon="FlagOutline"
-								value={compositionData.flagged}
-								onChange={actions.toggleFlagged}
+								value={compositionData?.draft?.flagged ?? false}
+								onChange={actions.toggleFlaggedCb}
 							/>
 						</Tooltip>
 						<Padding left="large">
 							<Button
-								onClick={actions.sendMail}
+								type="outlined"
+								onClick={actions.savedraftCb}
+								label={t('Save')}
+							/>
+						</Padding>
+						<Padding left="large">
+							<Button
+								onClick={actions.sendMailCb}
 								label={t('Send')}
 							/>
 						</Padding>
@@ -174,23 +187,23 @@ export default function EditView({
 						<Container>
 							<ChipInput
 								placeholder={t('To')}
-								onChange={(value) => actions.updateContacts('to', value)}
-								value={compositionData.to}
+								onChange={(value) => actions.updateContactsCb('to', value)}
+								value={compositionData.to ?? []}
 							/>
 							<Divider />
 							<Collapse orientation="vertical" crossSize="100%" open={open}>
 								<ChipInput
 									placeholderType="inline"
 									placeholder={t('Cc')}
-									onChange={(value) => actions.updateContacts('cc', value)}
-									value={compositionData.cc}
+									onChange={(value) => actions.updateContactsCb('cc', value)}
+									value={compositionData.cc ?? []}
 								/>
 								<Divider />
 								<ChipInput
 									placeholderType="inline"
 									placeholder={t('Bcc')}
-									onChange={(value) => actions.updateContacts('bcc', value)}
-									value={compositionData.bcc}
+									onChange={(value) => actions.updateContactsCb('bcc', value)}
+									value={compositionData.bcc ?? []}
 								/>
 								<Divider />
 							</Collapse>
@@ -198,15 +211,15 @@ export default function EditView({
 					</Container>
 					<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
 						<EmailComposerInput
-							onChange={(ev) => actions.updateSubject(ev.target.value)}
+							onChange={(ev) => actions.updateSubjectCb(ev.target.value)}
 							placeholder={t('Subject')}
 							placeholderType="default"
-							value={compositionData.subject}
+							value={compositionData?.draft?.subject ?? ''}
 						/>
 					</Padding>
 					<Divider />
 				</Container>
-				{compositionData.richText
+				{compositionData?.richText
 					? (
 						<EditorWrapper>
 							<RichTextEditor
@@ -220,13 +233,13 @@ export default function EditView({
 						(
 							<TextArea
 								label=""
-								value={compositionData.body.text}
+								value={compositionData?.text}
 								onChange={(ev) => {
 									// eslint-disable-next-line no-param-reassign
 									ev.target.style.height = 'auto';
 									// eslint-disable-next-line no-param-reassign
 									ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
-									actions.updateBody([ev.target.value, ev.target.value]);
+									actions.updateBodyCb([ev.target.value, ev.target.value]);
 								}}
 							/>
 						)

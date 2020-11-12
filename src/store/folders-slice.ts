@@ -14,7 +14,7 @@ import produce from 'immer';
 import {
 	reduce, isEmpty, forEach,
 } from 'lodash';
-import { MailsFolder } from '../types/mails-folder';
+import MailsFolder from '../types/mails-folder';
 import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
 import { selectCurrentFolder } from './conversations-slice';
 

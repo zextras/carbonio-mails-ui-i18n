@@ -5,6 +5,7 @@ module.exports = {
     "tsconfigRootDir": "."
   },
   "env": {
+    "es2020": true,
     "browser": true,
     "jest/globals": true
   },
@@ -72,6 +73,7 @@ module.exports = {
     'react/jsx-indent-props': ['error', 'tab'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false, "variables": true }],
     'implicit-arrow-linebreak': 'off',
     'import/first': 'off',
@@ -85,7 +87,8 @@ module.exports = {
       // enable the rule specifically for TypeScript files
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "@typescript-eslint/explicit-function-return-type": ["error"]
+        "@typescript-eslint/explicit-function-return-type": ["error"],
+        '@typescript-eslint/explicit-module-boundary-types': ['error'],
       }
     }
   ]

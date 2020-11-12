@@ -13,6 +13,7 @@ import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit'
 import { network } from '@zextras/zapp-shell';
 import produce from 'immer';
 import { keyBy, map } from 'lodash';
+import MessageListContext from 'src/context/message-list-context';
 import { MailConversationFromSoap } from '../db/mail-conversation';
 import {
 	SearchRequest, SearchResponse, normalizeConversationFromSoap, SyncResponse, GetConvRequest,
