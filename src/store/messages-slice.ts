@@ -12,32 +12,47 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import produce from 'immer';
-import {
-	GetMsgResponse, MsgActionRequest, MsgActionResponse,
-	normalizeMailMessageFromSoap,
-} from '../soap';
 import { MailMessage } from '../types/mail-message';
-import { MsgMap, MsgStateType, StateType } from '../types/state';
+import {
+	GetMsgRequest, GetMsgResponse, MsgActionRequest, MsgActionResponse
+} from '../types/soap';
+import {
+	MsgMap, MsgStateType, StateType
+} from '../types/state';
+import { getMsg, searchConv, SearchConvReturn } from './actions';
 
-export const getMsg = createAsyncThunk<MailMessage | null, { msgId: string }>(
-	'messages/getMsg',
-	async ({ msgId }, { getState }: any) => {
-		if (msgId in selectMessages(getState())) {
-			return null;
-		}
-		const result = await network.soapFetch<any, GetMsgResponse>(
-			'GetMsg',
-			{
-				_jsns: 'urn:zimbraMail',
-				html: 1,
-				id: msgId,
-				needExp: 1,
-			},
-		);
-		const msg = result.m[0];
-		return normalizeMailMessageFromSoap(msg);
+export const messagesSlice = createSlice<MsgStateType, {}>({
+	name: 'messsages',
+	initialState: {
+		cache: {} as MsgMap,
+	} as MsgStateType,
+	reducers: {
 	},
-);
+	extraReducers: (builder) => {
+		builder.addCase(getMsg.fulfilled, produce(getMsgFulfilled));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFullFilled));
+	},
+});
+
+export default messagesSlice.reducer;
+
+function getMsgFulfilled(
+	{ cache }: MsgStateType,
+	{ payload }: { payload: MailMessage },
+): void {
+	cache[payload.id] = payload;
+}
+
+function searchConvFullFilled(
+	{ cache }: MsgStateType,
+	{ payload }: { payload: SearchConvReturn },
+): void {
+	payload.messages
+		.filter((m) => m.parts.length > 0)
+		.forEach((m) => {
+			cache[m.id] = m;
+		});
+}
 
 export const doMsgAction = createAsyncThunk<MsgActionResponse,
 	{ messageId: string; operation: 'move' | 'flag' | '!flag' | 'read' | '!read' | 'trash' | 'delete'; parent?: string }>(
@@ -58,31 +73,6 @@ export const doMsgAction = createAsyncThunk<MsgActionResponse,
 		},
 	);
 
-
-
-export const messagesSlice = createSlice<MsgStateType, {}>({
-	name: 'messsages',
-	initialState: {
-		cache: {} as MsgMap,
-	} as MsgStateType,
-	reducers: {
-	},
-	extraReducers: (builder) => {
-		builder.addCase(getMsg.fulfilled, produce(getMsgFulfilled));
-	},
-});
-
-export default messagesSlice.reducer;
-
 export function selectMessages(state: StateType): MsgMap {
 	return state.messages.cache;
-}
-
-function getMsgFulfilled(
-	{ cache }: MsgStateType,
-	{ payload }: { payload?: MailMessage | null },
-): void {
-	if (payload) {
-		cache[payload.id] = payload;
-	}
 }

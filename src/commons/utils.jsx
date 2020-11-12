@@ -31,5 +31,5 @@ export function participantToString(participant, t, accounts) {
 	if (me) {
 		return t('Me');
 	}
-	return participant.name || participant.address;
+	return participant.fullName || participant.name || participant.address;
 }

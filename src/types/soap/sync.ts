@@ -10,14 +10,14 @@
  */
 
 import { SoapConversation } from './soap-conversation';
-import ZimbraRequest from './zimbra-request';
+import { ZimbraRequest } from './zimbra-request';
 
-export interface SyncRequest extends ZimbraRequest {
+export type SyncRequest = ZimbraRequest & {
 	typed: 0|1;
 	token: string;
 };
 
-export interface SyncResponse extends ZimbraRequest {
+export type SyncResponse = ZimbraRequest & {
 	md: number;
 	token: string;
 	more: boolean;
@@ -27,7 +27,7 @@ export interface SyncResponse extends ZimbraRequest {
 	c?: Array<SoapConversation>;
 }
 
-export interface SyncResponseMailFolder extends ISoapSyncFolderObj {
+export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 	m: Array<{
 		ids: string; // Comma-separated values
 	}>;

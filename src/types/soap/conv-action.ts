@@ -9,9 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import ZimbraRequest from './zimbra-request';
+import { ZimbraRequest } from './zimbra-request';
 
-export interface ConvActionRequest extends ZimbraRequest {
+export type ConvActionRequest = ZimbraRequest & {
 	action: {
 		id: string;
 		op: 'move' | 'flag' | '!flag' | 'read' | '!read' | 'trash' | 'delete';
@@ -19,7 +19,7 @@ export interface ConvActionRequest extends ZimbraRequest {
 	};
 }
 
-export interface ConvActionResponse {
+export type ConvActionResponse = {
 	action: {
 		id: string;
 		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';

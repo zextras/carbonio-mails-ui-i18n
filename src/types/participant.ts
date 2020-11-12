@@ -20,7 +20,7 @@ export enum ParticipantRole {
 	RESENT_FROM = 'rf'
 }
 
-export interface Participant {
+export type Participant = {
 	type: ParticipantRole;
 	address: string;
 	name: string;

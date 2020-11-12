@@ -20,9 +20,9 @@ import {
 } from '@zextras/zapp-ui';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import MailHoverBar from './mail-hover-bar';
-import { useSelector } from 'react-redux';
 import { selectFolders } from '../store/folders-slice';
 
 const HoverBarContainer = styled(Container)`

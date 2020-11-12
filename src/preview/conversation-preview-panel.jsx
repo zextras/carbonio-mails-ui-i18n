@@ -16,36 +16,37 @@ import { useParams } from 'react-router-dom';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
-import { searchConv } from '../store/conversations-slice';
+import { selectConversationMap } from '../store/conversations-slice';
 import useQueryParam from '../hooks/useQueryParam';
+import { searchConv } from '../store/actions';
 
 export default function ConversationPreviewPanel() {
-	return null;
-	const dispatch = useDispatch();
 	const conversationId = useQueryParam('conversation');
+	const messageId = useQueryParam('message');
 	const { folderId } = useParams();
 
-	const conversations = {};
-	const conversation = conversations[conversationId];
+	const dispatch = useDispatch();
+	const fetch =	messageId || 'u!';
+	// expand the most recent one
 
-	useEffect(() => {
-		if (!conversation) {
-			dispatch(searchConv({ conversationId }));
-		}
-	}, [conversationId]);
+	dispatch(searchConv({ conversationId, folderId, fetch }));
+
+	const conversations = useSelector(selectConversationMap);
+	const conversation = conversations[conversationId];
+	// conversation will be undefined if fake id wil be passed
 
 	const messages = useMemo(() => {
 		if (conversation) {
 			return conversation.messages.map((message, index) => (
 				<MailPreview
-					key={message.id}
-					messageId={message.id}
-					firstMail={index === 0}
+					key={`${message.id}-${messageId}`}
+					message={message}
+					expanded={messageId ? messageId === message.id : index === 0}
 				/>
 			));
 		}
 		return [];
-	}, [conversation]);
+	}, [conversation, messageId]);
 
 	return (
 		<Container

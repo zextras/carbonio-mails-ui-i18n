@@ -11,7 +11,7 @@
 import { MailMessage } from './mail-message';
 import { Participant } from './participant';
 
-export interface Conversation {
+export type Conversation = {
 	readonly id: string;
 	date: number;
 	msgCount: number;

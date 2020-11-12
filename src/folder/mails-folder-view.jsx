@@ -24,11 +24,11 @@ import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
 import {
-	search,
 	selectConversationList,
 	selectConversationStatus,
 } from '../store/conversations-slice';
 import { selectFolders } from '../store/folders-slice';
+import { fetchConversations } from '../store/actions';
 
 export default function FolderView() {
 	const { folderId } = useParams();
@@ -43,7 +43,7 @@ export default function FolderView() {
 	}, [folderId]);
 
 	useEffect(() => {
-		if (folderId) dispatch(search({ folderId, limit: 100 }));
+		if (folderId) dispatch(fetchConversations({ folderId, limit: 100 }));
 	}, [folderId]);
 
 	const screen = useScreenMode();
@@ -62,11 +62,7 @@ export default function FolderView() {
 		}
 		if (conversationId) {
 			return (
-				<ConversationPreviewPanel
-					key={`conversationPreview-${conversationId}`}
-					conversationId={conversationId}
-					folderId={folderId}
-				/>
+				<ConversationPreviewPanel key={`conversationPreview-${conversationId}`} />
 			);
 		}
 		if (screen === 'mobile') {
@@ -147,7 +143,7 @@ const ConversationList = ({ folderId }) => {
 
 	const loadMore = useCallback((date) => {
 		const dateOrNull = date ? new Date(date) : null;
-		dispatch(search({ folderId, before: dateOrNull, limit: 50 }));
+		dispatch(fetchConversations({ folderId, before: dateOrNull, limit: 50 }));
 	}, [folderId]);
 
 	const [displayData, setDisplayData] = useState({});
@@ -239,6 +235,7 @@ const ConversationList = ({ folderId }) => {
 				>
 					{ rowRenderer }
 				</VariableSizeList>
+				{ /* TODO: insert text (look into mockups) */}
 			</Row>
 		</>
 	);
@@ -264,7 +261,7 @@ function Breadcrumbs({ folderPath, itemsCount }) {
 				>
 					<Text size="large">{ folderPath }</Text>
 				</Row>
-				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
+				<Text size="medium">{ itemsCount > 99 ? '99+' : itemsCount }</Text>
 			</Row>
 			<Divider />
 		</Container>

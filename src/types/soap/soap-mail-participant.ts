@@ -11,7 +11,7 @@
 
 export type SoapEmailParticipantRole = 'f' | 't' | 'c' | 'b' | 'r' | 's' | 'n' | 'rf';
 
-export interface SoapMailParticipant {
+export type SoapMailParticipant = {
 	/** Address */
 	a: string;
 	/** Display name */

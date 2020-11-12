@@ -11,7 +11,7 @@
 
 import { SoapMailParticipant } from './soap-mail-participant';
 
-export interface SoapMailMessage {
+export type SoapMailMessage = {
 	readonly id: string;
 	/** Conversation id */ cid: string;
 	/** Folder id */ l: string;
@@ -28,7 +28,7 @@ export interface SoapMailMessage {
 	/** TagNames */ tn: string;
 };
 
-export interface SoapMailMessagePart {
+export type SoapMailMessagePart = {
 	part?: string;
 	/**	Content Type  */ ct: 'multipart/alternative' | string;
 	/**	Size  */ s?: number;

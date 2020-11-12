@@ -13,7 +13,7 @@ import { MailMessage } from './mail-message';
 import { Conversation } from './conversation';
 import { Folder } from './folder';
 
-export interface StateType {
+export type StateType = {
 	status: string;
 	folders: FoldersStateType;
 	conversations: ConversationsStateType;
@@ -21,22 +21,22 @@ export interface StateType {
 	messages: MsgStateType;
 }
 
-export interface SyncStateType {
+export type SyncStateType = {
 	status: string;
 	intervalId: number;
 	token?: string;
 }
 
-export interface FoldersStateType {
+export type FoldersStateType = {
 	status: string;
 	folders: MailsFolderMap;
 }
 
-export interface MsgStateType {
+export type MsgStateType = {
 	cache: MsgMap;
 }
 
-export interface ConversationsStateType {
+export type ConversationsStateType = {
 	cache: FolderToConversationsMap;
 	currentFolder: string;
 }

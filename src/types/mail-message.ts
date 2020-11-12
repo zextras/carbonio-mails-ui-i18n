@@ -11,7 +11,7 @@
 
 import { Participant } from './participant';
 
-export interface IncompleteMessage {
+export type IncompleteMessage = {
 	id: string;
 	parent: string;
 	conversation: string;
@@ -30,13 +30,13 @@ export interface IncompleteMessage {
 	// TODO: rev, s
 }
 
-export interface MailMessage extends IncompleteMessage {
+export type MailMessage = IncompleteMessage & {
 	parts: Array<MailMessagePart>;
 	/** Defines the path inside the parts of the mail */ bodyPath: string;
 	parent: string;
 }
 
-export interface MailMessagePart {
+export type MailMessagePart = {
 	contentType: string;
 	size?: number;
 	content?: string;

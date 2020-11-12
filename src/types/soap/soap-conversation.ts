@@ -12,7 +12,7 @@
 import { SoapMailMessage } from './soap-mail-message';
 import { SoapMailParticipant } from './soap-mail-participant';
 
-export interface SoapConversation {
+export type SoapConversation = {
 	readonly id: string;
 	/** Number of the messages */
 	n: number;

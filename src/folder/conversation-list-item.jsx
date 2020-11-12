@@ -18,12 +18,12 @@ import {
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 import {
-	Avatar, Badge, Container, Divider, Icon, IconButton, Padding, Row, Text
+	Avatar, Badge, Button, Container, Divider, Icon, IconButton, Padding, Row, Text,
 } from '@zextras/zapp-ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
-import { searchConv } from '../store/conversations-slice';
+import { searchConv } from '../store/actions';
 
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
@@ -35,19 +35,21 @@ export default function ConversationListItem({
 	const isConversation = conversation.msgCount > 1;
 	const [avatarLabel, avatarEmail] = useMemo(() => {
 		const sender = find(conversation.participants, ['type', 'f']);
-		return [sender ? (sender.displayName || sender.address || '.', sender.address || '.') : ''];
+		return [sender.fullName || sender.name || sender.address || '.', sender.address];
 	}, [conversation.participants]);
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
-			if (isConversation) updateDisplayData(index, conversation.id, { open: !displayData.open });
+			if (isConversation) {
+				dispatch(searchConv({ folderId, conversationId: conversation.id, fetch: '0' }));
+				updateDisplayData(index, conversation.id, { open: !displayData.open });
+			}
 		},
 		[conversation.id, displayData.open, index, updateDisplayData, isConversation],
 	);
 
 	const _onClick = useCallback((e) => {
 		if (!e.isDefaultPrevented()) {
-			dispatch(searchConv({ conversationId: conversation.id, folderId }));
 			replaceHistory(`/folder/${folderId}?conversation=${conversation.id}`);
 		}
 	}, [conversation.id, folderId, replaceHistory]);
@@ -178,13 +180,13 @@ export default function ConversationListItem({
 }
 
 function ConversationMessagesList({ conversation, folderId }) {
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(searchConv({ folderId, conversationId: conversation.id }));
-	}, [conversation.id, folderId]);
-
-	if (!conversation.messages[0].subject) return null;
+	if (!conversation.messages[0].subject) {
+		return (
+			<Container height={70 * conversation.messages.length}>
+				<Button loading disabled label="" type="ghost" />
+			</Container>
+		);
+	}
 
 	return (
 		<>

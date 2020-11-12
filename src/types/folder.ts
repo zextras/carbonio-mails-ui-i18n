@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-export interface Folder {
+export type Folder = {
 	id: string;
 	uuid: string;
 	name: string;

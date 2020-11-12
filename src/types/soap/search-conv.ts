@@ -10,10 +10,11 @@
  */
 
 import { SoapMailMessage } from './soap-mail-message';
+import { ZimbraRequest } from './zimbra-request';
 
 // https://files.zimbra.com/docs/ soap_api/9.0.0/api-reference/zimbraMail/SearchConv.html
 
-export interface SearchConvRequest {
+export type SearchConvRequest = ZimbraRequest & {
 	offset: number;
 	sortBy: string;
 	limit: number;
@@ -26,7 +27,7 @@ export interface SearchConvRequest {
 	recip: '0' | '1' | '2' | 'false' | 'true';
 }
 
-export interface SearchConvResponse {
+export type SearchConvResponse = {
 	more: boolean;
 	offset: string;
 	m: Array<SoapMailMessage>;

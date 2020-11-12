@@ -10,8 +10,10 @@
  */
 
 export * from './conv-action';
+export * from './get-msg';
+export * from './msg-action';
 export * from './search';
-export * from './search-conv'
+export * from './search-conv';
 export * from './soap-conversation';
 export * from './soap-mail-message';
 export * from './soap-mail-participant';

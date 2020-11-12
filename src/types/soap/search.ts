@@ -10,9 +10,9 @@
  */
 
 import { SoapConversation } from './soap-conversation';
+import { ZimbraRequest } from './zimbra-request';
 
-export interface SearchRequest {
-	_jsns: 'urn:zimbraMail';
+export type SearchRequest = ZimbraRequest & {
 	sortBy?: 'dateDesc';
 	types: 'conversation';
 	fullConversation: 0|1;
@@ -24,7 +24,7 @@ export interface SearchRequest {
 	wantContent?: string;
 }
 
-export interface SearchResponse {
+export type SearchResponse = {
 	c: SoapConversation[];
 	more: boolean;
 }

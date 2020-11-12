@@ -12,82 +12,47 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import produce from 'immer';
-import { keyBy, map } from 'lodash';
 import { normalizeConversationFromSoap } from '../commons/normalize-conversation';
-import { normalizeMailMessageFromSoap } from '../commons/normalize-message';
 import { Conversation } from '../types/conversation';
-import { MailMessage } from '../types/mail-message';
 import {
 	ConvActionRequest,
 	ConvActionResponse,
-	SearchConvRequest,
-	SearchConvResponse,
-	SearchRequest,
-	SearchResponse,
 	SyncResponse,
 } from '../types/soap';
 import {
 	ConversationsFolderStatus,
 	ConversationsInFolderState, ConversationsStateType, FolderToConversationsMap, StateType,
 } from '../types/state';
+import { FetchConversationsReturn, fetchConversations, searchConv } from './actions';
 
 /* eslint no-param-reassign: "off" */
 
-interface FetchConversationParameters {
-	folderId: string;
-	limit: number;
-	before?: Date;
-}
-interface FetchConversationsReturn {
-	conversations: Record<string, Conversation>;
-	hasMore: boolean;
-	folderId: string;
-}
-export const search = createAsyncThunk<FetchConversationsReturn,
-	FetchConversationParameters>(
-		'conversations/search',
-		async ({ folderId, limit = 100, before }, { getState }: any) => {
-			const folder = folderId || selectCurrentFolder(getState());
-			const queryPart = [
-				`inId:"${folder}"`,
-			];
-			if (before) queryPart.push(`before:${before.getTime()}`);
-			const result = await network.soapFetch<SearchRequest, SearchResponse>(
-				'Search',
-				{
-					_jsns: 'urn:zimbraMail',
-					limit,
-					needExp: 1,
-					types: 'conversation',
-					fetch: 'all',
-					recip: 0,
-					fullConversation: 1,
-					wantContent: 'full',
-					sortBy: 'dateDesc',
-					query: queryPart.join(' '),
-				},
-			);
-			return {
-				conversations:
-				{ ...keyBy(map(result.c || [], normalizeConversationFromSoap), (e) => e.id) },
-				hasMore: result.more,
-				folderId: folder,
-			};
-		},
-		{
-			condition: ({ folderId, before }: FetchConversationParameters, { getState }: any) => {
-				const state = getState();
-				const folder = folderId || selectCurrentFolder(state);
-				const fetchStatus = state.conversations.cache[folderId].status;
-				if (fetchStatus === 'complete'
-					|| fetchStatus === 'pending'
-					|| (fetchStatus === 'hasMore' && typeof before === 'undefined')) {
-					return false;
-				}
-				return true;
+export const conversationsSlice = createSlice<ConversationsStateType, {}>({
+	name: 'conversations',
+	initialState: {
+		currentFolder: '2',
+		cache: {
+			2: {
+				cache: {},
+				status: 'empty',
 			}
-		}
-	);
+		} as FolderToConversationsMap,
+	} as ConversationsStateType,
+	reducers: {
+		handleSyncData: produce(handleSyncDataReducer),
+		setCurrentFolder: produce(setCurrentFolderReducer),
+	},
+	extraReducers: (builder) => {
+		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
+		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFullFilled));
+		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFullFilled));
+		// builder.addCase(doConversationAction.fulfilled, produce(doConversationActionFullFilled));
+		// builder.addCase(doMsgAction.fulfilled, produce(doMsgActionFullFilled));
+	},
+});
+
+export default conversationsSlice.reducer;
 
 function fetchConversationsPending(
 	state: ConversationsStateType,
@@ -99,13 +64,13 @@ function fetchConversationsPending(
 
 function fetchConversationsFullFilled(
 	state: ConversationsStateType,
-	{ payload }: { payload: FetchConversationsReturn },
+	{ payload, meta }: { payload: FetchConversationsReturn; meta: any },
 ): void {
-	state.cache[payload.folderId].cache = {
-		...state.cache[payload.folderId].cache,
+	state.cache[meta.arg.folderId].cache = {
+		...state.cache[meta.arg.folderId].cache,
 		...payload.conversations
 	};
-	state.cache[payload.folderId].status = payload.hasMore ? 'hasMore' : 'complete';
+	state.cache[meta.arg.folderId].status = payload.hasMore ? 'hasMore' : 'complete';
 }
 
 function fetchConversationsRejected(
@@ -116,54 +81,14 @@ function fetchConversationsRejected(
 	state.cache[folderId].status = 'error';
 }
 
-interface SearchConvParameters {
-	conversationId: string;
-	folderId: string;
-}
-
-interface SearchConvReturn {
-	hasMore: boolean;
-	offset: string;
-	messages: Array<MailMessage>;
-	orderBy: string;
-}
-
-// TODO: in messagesSlice: control id something is expanded and add it to the map
-export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameters>(
-	'conversations/searchConv',
-	async ({ conversationId, folderId }) => {
-		const result = await network.soapFetch<SearchConvRequest, SearchConvResponse>(
-			'SearchConv',
-			{
-				_jsns: 'urn:zimbraMail',
-				cid: conversationId,
-				query: `inId: ${folderId}`,
-				recip: '2',
-				sortBy: 'dateDesc',
-				offset: 0,
-				fetch: 'all',
-				needExp: 1,
-				limit: 250,
-				html: 1,
-				max: 250000,
-			},
-		);
-		return {
-			messages: (result.m || []).map(normalizeMailMessageFromSoap),
-			orderBy: result.orderBy,
-			hasMore: result.more,
-			offset: result.offset,
-		};
-	},
-	{
-		condition: ({ folderId, conversationId }: SearchConvParameters, { getState }: any) => {
-			const state = getState();
-			return !state.conversations.cache[folderId].cache[conversationId].messages[0].subject;
-		}
-	}
-);
-
 function searchConvFullFilled(
+	state: ConversationsStateType,
+	{ payload, meta }: any,
+): void {
+	state.cache[meta.arg.folderId].cache[meta.arg.conversationId].messages = payload.messages;
+}
+
+function getMsgFullFilled(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
@@ -328,33 +253,6 @@ function handleSyncDataReducer(
 	}
 }
 
-export const conversationsSlice = createSlice<ConversationsStateType, {}>({
-	name: 'conversations',
-	initialState: {
-		currentFolder: '2',
-		cache: {
-			2: {
-				cache: {},
-				status: 'empty',
-			}
-		} as FolderToConversationsMap,
-	} as ConversationsStateType,
-	reducers: {
-		handleSyncData: produce(handleSyncDataReducer),
-		setCurrentFolder: produce(setCurrentFolderReducer),
-	},
-	extraReducers: (builder) => {
-		builder.addCase(search.pending, produce(fetchConversationsPending));
-		builder.addCase(search.fulfilled, produce(fetchConversationsFullFilled));
-		builder.addCase(search.rejected, produce(fetchConversationsRejected));
-		builder.addCase(searchConv.fulfilled, produce(searchConvFullFilled));
-		// builder.addCase(doConversationAction.fulfilled, produce(doConversationActionFullFilled));
-		// builder.addCase(doMsgAction.fulfilled, produce(doMsgActionFullFilled));
-	},
-});
-
-export default conversationsSlice.reducer;
-
 function selectCache({ conversations }: StateType):
 	Record<string, ConversationsInFolderState> {
 	return conversations.cache;
@@ -367,6 +265,11 @@ export function selectCurrentFolder({ conversations }: StateType): string {
 export function selectConversationStatus(state: StateType): ConversationsFolderStatus {
 	const currentFolder = selectCurrentFolder(state);
 	return state.conversations.cache[currentFolder].status;
+}
+
+export function selectConversationMap(state: StateType): Record<string, Conversation> {
+	const currentFolder = selectCurrentFolder(state);
+	return state.conversations.cache[currentFolder].cache;
 }
 
 export const selectConversationList = createSelector(

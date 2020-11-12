@@ -9,6 +9,6 @@
  * *** END LICENSE BLOCK *****
  */
 
-export default interface ZimbraRequest {
+export type ZimbraRequest = {
 	_jsns: 'urn:zimbraMail';
 }
