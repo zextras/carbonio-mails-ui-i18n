@@ -142,111 +142,111 @@ export default function EditView({
 							mainAlignment="flex-end"
 							width="100%"
 						>
-						<Tooltip label={t('Toggle Rich Text')}>
-							<ResizedIconCheckbox
-								icon="Text"
-								value={compositionData?.richText ?? false}
-								onChange={actions.toggleRichTextCb}
-							/>
-						</Tooltip>
-						<Tooltip label={t('Toggle Urgent')}>
-							<ResizedIconCheckbox
-								icon="ArrowUpward"
-								value={compositionData?.draft?.urgent ?? false}
-								onChange={actions.toggleUrgentCb}
-							/>
-						</Tooltip>
-						<Tooltip label={t('Toggle Flagged')}>
-							<ResizedIconCheckbox
-								icon="FlagOutline"
-								value={compositionData?.draft?.flagged ?? false}
-								onChange={actions.toggleFlaggedCb}
-							/>
-						</Tooltip>
-						<Padding left="large">
-							<Button
-								type="outlined"
-								onClick={actions.savedraftCb}
-								label={t('Save')}
-							/>
-						</Padding>
-						<Padding left="large">
-							<Button
-								onClick={actions.sendMailCb}
-								label={t('Send')}
-							/>
-						</Padding>
-					</Row>
-					<Container orientation="horizontal" width="fill" height="fit" crossAlignment="flex-start">
-						<Padding top="extrasmall">
-							<IconButton
-								size="large"
-								icon={open ? 'ChevronUp' : 'ChevronDown'}
-								onClick={toggleOpen}
-							/>
-						</Padding>
-						<Container>
-							<ChipInput
-								placeholder={t('To')}
-								onChange={(value) => actions.updateContactsCb('to', value)}
-								value={compositionData.to ?? []}
-							/>
-							<Divider />
-							<Collapse orientation="vertical" crossSize="100%" open={open}>
+							<Tooltip label={t('Toggle Rich Text')}>
+								<ResizedIconCheckbox
+									icon="Text"
+									value={compositionData?.richText ?? false}
+									onChange={actions.toggleRichTextCb}
+								/>
+							</Tooltip>
+							<Tooltip label={t('Toggle Urgent')}>
+								<ResizedIconCheckbox
+									icon="ArrowUpward"
+									value={compositionData?.draft?.urgent ?? false}
+									onChange={actions.toggleUrgentCb}
+								/>
+							</Tooltip>
+							<Tooltip label={t('Toggle Flagged')}>
+								<ResizedIconCheckbox
+									icon="FlagOutline"
+									value={compositionData?.draft?.flagged ?? false}
+									onChange={actions.toggleFlaggedCb}
+								/>
+							</Tooltip>
+							<Padding left="large">
+								<Button
+									type="outlined"
+									onClick={actions.saveDraftCb}
+									label={t('Save')}
+								/>
+							</Padding>
+							<Padding left="large">
+								<Button
+									onClick={actions.sendMailCb}
+									label={t('Send')}
+								/>
+							</Padding>
+						</Row>
+						<Container orientation="horizontal" width="fill" height="fit" crossAlignment="flex-start">
+							<Padding top="extrasmall">
+								<IconButton
+									size="large"
+									icon={open ? 'ChevronUp' : 'ChevronDown'}
+									onClick={toggleOpen}
+								/>
+							</Padding>
+							<Container>
 								<ChipInput
-									placeholderType="inline"
-									placeholder={t('Cc')}
-									onChange={(value) => actions.updateContactsCb('cc', value)}
-									value={compositionData.cc ?? []}
+									placeholder={t('To')}
+									onChange={(value) => actions.updateContactsCb('to', value)}
+									value={compositionData.to ?? []}
 								/>
 								<Divider />
-								<ChipInput
-									placeholderType="inline"
+								<Collapse orientation="vertical" crossSize="100%" open={open}>
+									<ChipInput
+										placeholderType="inline"
+										placeholder={t('Cc')}
+										onChange={(value) => actions.updateContactsCb('cc', value)}
+										value={compositionData.cc ?? []}
+									/>
+									<Divider />
+									<ChipInput
+										placeholderType="inline"
 										placeholder={t('Bcc')}
-									onChange={(value) => actions.updateContactsCb('bcc', value)}
-									value={compositionData.bcc ?? []}
-								/>
-								<Divider />
+										onChange={(value) => actions.updateContactsCb('bcc', value)}
+										value={compositionData.bcc ?? []}
+									/>
+									<Divider />
 								</Collapse>
 							</Container>
 						</Container>
 						<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
 							<EmailComposerInput
-							onChange={(ev) => actions.updateSubjectCb(ev.target.value)}
-							placeholder={t('Subject')}
-							placeholderType="default"
-							value={compositionData?.draft?.subject ?? ''}
-						/>
-					</Padding>
+								onChange={(ev) => actions.updateSubjectCb(ev.target.value)}
+								placeholder={t('Subject')}
+								placeholderType="default"
+								value={compositionData?.draft?.subject ?? ''}
+							/>
+						</Padding>
+						<Divider />
+					</Container>
+					{compositionData?.richText
+						? (
+							<EditorWrapper>
+								<RichTextEditor
+									value={html}
+									onEditorChange={onEditorChange}
+									minHeight={150}
+								/>
+							</EditorWrapper>
+						)
+						: (
+							(
+								<TextArea
+									label=""
+									value={compositionData?.text}
+									onChange={(ev) => {
+									// eslint-disable-next-line no-param-reassign
+										ev.target.style.height = 'auto';
+										// eslint-disable-next-line no-param-reassign
+										ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
+										actions.updateBodyCb([ev.target.value, ev.target.value]);
+									}}
+								/>
+							)
+						)}
 					<Divider />
 				</Container>
-				{compositionData?.richText
-					? (
-						<EditorWrapper>
-							<RichTextEditor
-								value={html}
-								onEditorChange={onEditorChange}
-								minHeight={150}
-							/>
-						</EditorWrapper>
-					)
-					: (
-						(
-							<TextArea
-								label=""
-								value={compositionData?.text}
-								onChange={(ev) => {
-									// eslint-disable-next-line no-param-reassign
-									ev.target.style.height = 'auto';
-									// eslint-disable-next-line no-param-reassign
-									ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
-									actions.updateBodyCb([ev.target.value, ev.target.value]);
-								}}
-							/>
-						)
-					)}
-				<Divider />
-			</Container>
 			</SnackbarManager>
 		</Catcher>
 	);

@@ -17,6 +17,7 @@ import {
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+import { saveDraft } from '../store/actions/save-draft';
 import { CompositionData } from './composition-types';
 import { useMessage } from '../hooks';
 import useQueryParam from '../hooks/useQueryParam';
@@ -26,8 +27,6 @@ import {
 	updateEditor,
 	updateParticipants,
 	updateBody,
-	saveDraft,
-	sendMail,
 	openEditor
 } from '../store/editor-slice';
 
@@ -44,6 +43,8 @@ const useCompositionData = (
 	folderId: string,
 	t: (key: string) => string
 ): CompositionData => {
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const closeBoard = hooks.useRemoveCurrentBoard();
 	const action = useQueryParam('action');
 	const actionId = useQueryParam('actionId');
 	const accounts = hooks.useUserAccounts();
@@ -105,12 +106,23 @@ const useCompositionData = (
 		[dispatch, editorId]
 	);
 	const saveDraftCb = useCallback(
-		() => dispatch(saveDraft({ id: editorId })),
+		() => {
+			dispatch(saveDraft({ editorId, send: false }));
+		},
 		[dispatch, editorId]
 	);
 	const sendMailCb = useCallback(
-		() => dispatch(sendMail({ id: editorId })),
-		[dispatch, editorId]
+		() => {
+			dispatch(saveDraft({ editorId, send: true }));
+			console.log('navigation');
+			if (panel) {
+				replaceHistory(`/folder/${folderId}/`);
+			}
+			else {
+				closeBoard();
+			}
+		},
+		[closeBoard, dispatch, editorId, folderId, panel, replaceHistory]
 	);
 	return {
 		compositionData,

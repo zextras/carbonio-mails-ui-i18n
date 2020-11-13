@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Account } from '@zextras/zapp-shell';
 import produce from 'immer';
 import {
@@ -20,6 +20,7 @@ import { Participant, ParticipantRole } from '../types/participant';
 import { MailMessage } from '../types/mail-message';
 import { StateType, EditorsStateType, MailsEditorMap } from '../types/state';
 import { emptyEditor, extractBody, isHtml } from './editor-slice-utils';
+import { saveDraft } from './actions/save-draft';
 
 type OpenEditorPayload = {
 	id: string;
@@ -40,7 +41,7 @@ function openEditorReducer(
 	state: EditorsStateType,
 	{ payload }: { payload: OpenEditorPayload }
 ): void {
-	const editor = emptyEditor(payload.id, payload.accounts);
+	const editor = emptyEditor(payload.original?.id ?? 'new', payload.accounts);
 	if (payload.action && payload.actionMail) {
 		switch (payload.action) {
 			case 'editAsNew': {
@@ -49,17 +50,21 @@ function openEditorReducer(
 				editor.richText = isHtml(payload.actionMail.parts);
 				editor.text = body.text;
 				editor.html = body.html;
+				editor.draft.participants.push(...filter(
+					payload.actionMail.participants,
+					(c: Participant): boolean => (c.type !== ParticipantRole.FROM)
+				));
 				break;
 			}
 			case 'reply': {
 				let contactTo = filter(
 					payload.actionMail.participants,
-					(m) => m.type === ParticipantRole.REPLY_TO
+					(c) => c.type === ParticipantRole.REPLY_TO
 				);
 				if (contactTo.length < 1) {
 					contactTo = filter(
 						payload.actionMail.participants,
-						(m) => m.type === ParticipantRole.FROM
+						(c) => c.type === ParticipantRole.FROM
 					);
 				}
 				editor.draft.participants.push(
@@ -130,13 +135,17 @@ function openEditorReducer(
 				bodyText = bodyText.concat(`${payload.labels.cc}: ${headingCc}\n`);
 			}
 
+			editor.draft.parts = payload.actionMail.parts;
+			editor.draft.bodyPath = payload.actionMail.bodyPath;
+
 			editor.html = bodyHtml.concat(`<b>${payload.labels.sent}:</b> ${date} <br /> <b>${payload.labels.subject}:</b> ${payload.actionMail.subject} <br /><br />${html}`);
 			editor.text = bodyText.concat(`${payload.labels.sent}: ${date}\n${payload.labels.subject}: ${payload.actionMail.subject}\n\n${text}`);
+
+			editor.draft.participants = filter(
+				editor.draft.participants,
+				(c: Participant): boolean => (c.type !== ParticipantRole.FROM || !!find(payload.accounts, ['id', c.address]))
+			);
 		}
-		editor.draft.participants = filter(
-			editor.draft.participants,
-			(c: Participant): boolean => (c.type !== ParticipantRole.FROM || !!find(payload.accounts, ['id', c.address]))
-		);
 	}
 	else if (payload.original) {
 		editor.richText = isHtml(payload.original.parts);
@@ -213,21 +222,17 @@ function updateParticipantsReducer(
 	state.editors[payload.id][payload.type] = payload.contacts;
 }
 
-type SaveDraftPayload = {
-	id: string;
+type SaveDraftFulfilledPayload = {
+	send: boolean;
+	resp: any;
+	editorId: string;
 }
 
-function saveDraftReducer(
+function saveDraftFulfilledReducer(
 	state: EditorsStateType,
-	{ payload }: { payload: SaveDraftPayload }
+	{ payload }: { payload: SaveDraftFulFilledPayload }
 ): void {
-	console.log('gneeee', state, payload);
-}
-function sendMailReducer(
-	state: EditorsStateType,
-	{ payload }: { payload: SaveDraftPayload }
-): void {
-	console.log('gneeee', state, payload);
+	console.log(payload);
 }
 
 export const editorsSlice = createSlice({
@@ -243,11 +248,10 @@ export const editorsSlice = createSlice({
 		toggleRichText: produce(toggleRichTextReducer),
 		updateParticipants: produce(updateParticipantsReducer),
 		updateBody: produce(updateBodyReducer),
-		saveDraft: produce(saveDraftReducer),
-		sendMail: produce(sendMailReducer)
 	},
 	extraReducers: {
-	}
+		[saveDraft.fulfilled]: produce(saveDraftFulfilledReducer),
+	},
 });
 
 export const {
@@ -256,9 +260,7 @@ export const {
 	closeEditor,
 	toggleRichText,
 	updateParticipants,
-	updateBody,
-	saveDraft,
-	sendMail
+	updateBody
 } = editorsSlice.actions;
 
 export default editorsSlice.reducer;

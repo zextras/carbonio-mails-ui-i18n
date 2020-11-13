@@ -11,19 +11,18 @@ export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor =
 	to: [],
 	cc: [],
 	bcc: [],
+	from: {
+		type: ParticipantRole.FROM,
+		address: accounts[0].name,
+		name: accounts[0].name,
+		fullName: accounts[0].displayName
+	},
 	id,
 	draft: {
-		id: '',
+		id: 'new',
 		parent: '6',
 		conversation: '',
-		participants: accounts.length > 0 ? [
-			{
-				type: ParticipantRole.FROM,
-				address: accounts[0].name,
-				name: accounts[0].name,
-				fullName: accounts[0].displayName
-			}
-		] : [],
+		participants: [],
 		date: Date.now(),
 		read: true,
 		subject: '',
