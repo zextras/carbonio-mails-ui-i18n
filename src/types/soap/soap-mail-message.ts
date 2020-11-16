@@ -11,21 +11,29 @@
 
 import { SoapMailParticipant } from './soap-mail-participant';
 
-export type SoapMailMessage = {
+export type SoapIncompleteMessage = {
 	readonly id: string;
 	/** Conversation id */ cid: string;
 	/** Folder id */ l: string;
-	/** Contacts */ e: Array<SoapMailParticipant>;
-	/** Fragment */ fr: string;
-	/** Parts */ mp: Array<SoapMailMessagePart>;
-	/** Flags */ f: string;
+	/** Size */ s: number;
+	/** Date */ d: number;
 	// Flags. (u)nread, (f)lagged, has (a)ttachment, (r)eplied, (s)ent by me,
 	// for(w)arded, calendar in(v)ite, (d)raft, IMAP-\Deleted (x), (n)otification sent,
 	// urgent (!), low-priority (?), priority (+)
-	/** Size */ s: number;
+	/** Flags */ f?: string;
+	/** TagNames */ tn?: string;
+	/** Subject */ su?: string;
+	/** Fragment */ fr?: string;
+	/** Contacts */ e?: Array<SoapMailParticipant>;
+	/** Parts */ mp?: Array<SoapMailMessagePart>;
+}
+
+export type SoapMailMessage = SoapIncompleteMessage & {
+	/** Contacts */ e: Array<SoapMailParticipant>;
 	/** Subject */ su: string;
-	/** Date */ d: number;
-	/** TagNames */ tn: string;
+	/** Fragment */ fr: string;
+	/** Parts */ mp: Array<SoapMailMessagePart>;
+	/** Flags */ f: string;
 };
 
 export type SoapMailMessagePart = {

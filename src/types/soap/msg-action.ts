@@ -11,10 +11,18 @@
 
 import { ZimbraRequest } from './zimbra-request';
 
-export type MsgActionRequest = ZimbraRequest & {
+export type MsgActionOperation = 'move' |
+	'flag' | '!flag' |
+	'read' | '!read' |
+	'tag'	| '!tag'	|
+	'trash' |
+	'delete';
+
+export type ConvActionRequest = ZimbraRequest & {
 	action: {
 		id: string;
-		op: 'move' | 'flag' | '!flag' | 'read' | '!read' | 'trash' | 'delete';
+		op: MsgActionOperation;
+		tn?: string;
 		l?: string;
 	};
 }
@@ -22,7 +30,6 @@ export type MsgActionRequest = ZimbraRequest & {
 export type MsgActionResponse = {
 	action: {
 		id: string;
-		op: 'flag' | '!flag' | 'move' | 'trash' | 'read' | '!read' | 'delete';
-		l?: string;
+		op: MsgActionOperation;
 	};
 }

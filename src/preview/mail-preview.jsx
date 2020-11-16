@@ -39,7 +39,7 @@ import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
 import { selectFolders } from '../store/folders-slice';
-import { setFlag } from '../actions/message-actions';
+import { setMsgFlag } from '../actions/message-actions';
 import { selectMessages } from '../store/messages-slice';
 import { getMsg } from '../store/actions';
 
@@ -72,7 +72,7 @@ export default function MailPreview({ message, expanded }) {
 		>
 			<MailPreviewBlock
 				onClick={() => setOpen((o) => !o)}
-				message={message}
+				message={aggregatedMessage}
 				open={open}
 			/>
 			<Container
@@ -167,7 +167,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 				label: t('Set as flagged'),
 				onActivate: (ev) => {
 					ev.preventDefault();
-					setFlag({
+					setMsgFlag({
 						createSnackbar, t, dispatch, msgId: message.id
 					});
 

@@ -8,7 +8,7 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import { MailMessage } from './mail-message';
+import { IncompleteMessage, MailMessage } from './mail-message';
 import { Participant } from './participant';
 
 export type Conversation = {
@@ -16,7 +16,7 @@ export type Conversation = {
 	date: number;
 	msgCount: number;
 	unreadMsgCount: number;
-	messages: MailMessage[];
+	messages: IncompleteMessage[];
 	participants: Participant[];
 	subject: string;
 	fragment: string;

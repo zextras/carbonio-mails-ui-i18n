@@ -16,58 +16,37 @@ import {
 } from 'lodash';
 import { Folder } from '../types/folder';
 import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
+import { sync, SyncResult } from './actions';
 
-export function findFolders(folder: any): MailsFolderMap {
-	const toRet: MailsFolderMap = {};
-	if ((folder.view && folder.view === 'message') || folder.id === '3') {
-		toRet[folder.id] = {
-			id: folder.id,
-			uuid: folder.uuid,
-			name: folder.name,
-			path: folder.absFolderPath,
-			parent: folder.l,
-			parentUuid: folder.luuid,
-			itemsCount: folder.n || 0,
-			size: folder.s || 0,
-			unreadCount: folder.u || 0,
-			synced: true,
-		} as Folder;
-	}
-	return reduce(
-		folder.folder || [],
-		(r, f) => ({
-			...r,
-			...findFolders(f),
-		}),
-		toRet,
-	);
-}
-
-export const handleSyncData = createAsyncThunk('folders/handleSyncData', async ({
-	firstSync, token, folder, deleted,
-}: any, { dispatch }) => {
-	if (firstSync) {
-		await dispatch({
-			type: 'folders/setFolders',
-			payload: findFolders(folder[0]),
-		});
-	}
-	else {
-		const updatedFolders = findFolders(folder ? folder[0] : []);
-		if (!isEmpty(updatedFolders)) {
-			await dispatch({
-				type: 'folders/updateFolders',
-				payload: updatedFolders,
-			});
-		}
-		if (deleted) {
-			await dispatch({
-				type: 'folders/deleteFolders',
-				payload: deleted[0].ids.split(','),
-			});
-		}
-	}
+export const foldersSlice = createSlice({
+	name: 'folders',
+	initialState: {
+		status: 'idle',
+		folders: {} as MailsFolderMap,
+	} as FoldersStateType,
+	reducers: {
+		setFolders: produce(setFoldersReducer),
+		updateFolders: produce(updateFoldersReducer),
+		deleteFolders: produce(deleteFoldersReducer),
+	},
+	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
+	},
 });
+
+export default foldersSlice.reducer;
+
+function syncFulfilled(state: FoldersStateType, { payload }: { payload: SyncResult }): void {
+	reduce(
+		payload.folders,
+		(r, v, k) => {
+			r[k] = v;
+			return r;
+		},
+		state.folders,
+	);
+	payload.deleted.folders.forEach((id) => delete state.folders[id]);
+}
 
 function setFoldersReducer(state: FoldersStateType, { payload }: any): void {
 	reduce(
@@ -97,23 +76,6 @@ function deleteFoldersReducer(state: FoldersStateType, { payload }: any): void {
 		(id) => state.folders[id] && delete state.folders[id],
 	);
 }
-
-export const foldersSlice = createSlice({
-	name: 'folders',
-	initialState: {
-		status: 'idle',
-		folders: {} as MailsFolderMap,
-	} as FoldersStateType,
-	reducers: {
-		setFolders: produce(setFoldersReducer),
-		updateFolders: produce(updateFoldersReducer),
-		deleteFolders: produce(deleteFoldersReducer),
-	},
-	extraReducers: {
-	}
-});
-
-export default foldersSlice.reducer;
 
 export function selectFolders({ folders }: StateType): MailsFolderMap {
 	return folders ? folders.folders : {};
