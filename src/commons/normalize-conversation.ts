@@ -11,12 +11,12 @@
 
 import { map } from 'lodash';
 import { Conversation } from '../types/conversation';
-import { MailMessage } from '../types/mail-message';
-import { SoapConversation } from '../types/soap/soap-conversation';
+import { IncompleteMessage } from '../types/mail-message';
+import { SoapConversation } from '../types/soap';
 import { normalizeMailMessageFromSoap, normalizeParticipantsFromSoap } from './normalize-message';
 
 export function normalizeConversationFromSoap(c: SoapConversation): Conversation {
-	const messages: MailMessage[] = c.m.map(normalizeMailMessageFromSoap);
+	const messages: IncompleteMessage[] = c.m.map(normalizeMailMessageFromSoap);
 
 	return {
 		tags: [],

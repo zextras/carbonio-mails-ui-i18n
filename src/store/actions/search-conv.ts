@@ -12,7 +12,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
-import { MailMessage } from '../../types/mail-message';
+import { IncompleteMessage, MailMessage } from '../../types/mail-message';
 import { SearchConvRequest, SearchConvResponse } from '../../types/soap';
 
 export type SearchConvParameters = {
@@ -56,9 +56,8 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 		};
 	},
 	{
-		condition: ({ folderId, conversationId }: SearchConvParameters, { getState }: any) => {
-			const state = getState();
-			return !state.conversations.cache[folderId].cache[conversationId].messages[0].subject;
-		}
+		condition: ({ folderId, conversationId }: SearchConvParameters, { getState }: any) =>
+			!getState().conversations.cache[folderId].cache[conversationId].messages
+				.every((m: IncompleteMessage) => m.subject)
 	}
 );

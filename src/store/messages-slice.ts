@@ -8,33 +8,55 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { network } from '@zextras/zapp-shell';
+/* eslint no-param-reassign: "off" */
+import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { MailMessage } from '../types/mail-message';
+import { MsgMap, MsgStateType, StateType } from '../types/state';
 import {
-	GetMsgRequest, GetMsgResponse, MsgActionRequest, MsgActionResponse
-} from '../types/soap';
-import {
-	MsgMap, MsgStateType, StateType
-} from '../types/state';
-import { getMsg, searchConv, SearchConvReturn } from './actions';
+	getMsg, searchConv, SearchConvReturn, msgAction, MsgActionResult, ConvActionResult, convAction,
+	SyncResult, sync
+} from './actions';
 
 export const messagesSlice = createSlice<MsgStateType, {}>({
-	name: 'messsages',
+	name: 'messages',
 	initialState: {
 		cache: {} as MsgMap,
 	} as MsgStateType,
-	reducers: {
-	},
+	reducers: {},
 	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
 		builder.addCase(getMsg.fulfilled, produce(getMsgFulfilled));
-		builder.addCase(searchConv.fulfilled, produce(searchConvFullFilled));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
+		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
+		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
 	},
 });
 
 export default messagesSlice.reducer;
+
+function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }): void {
+	const {
+		messages, deleted,
+	} = payload;
+
+	messages.forEach((msg) => {
+		if (state.cache[msg.id]) {
+			if (msg.parent !== '6') {
+				state.cache[msg.id].flagged = msg.flagged;
+				state.cache[msg.id].read = msg.urgent;
+				state.cache[msg.id].tags = msg.tags;
+				state.cache[msg.id].parent = msg.parent;
+				state.cache[msg.id].isDeleted = msg.isDeleted;
+			}
+			else {
+				// TODO draft? the body can change and i don't know how to fetch
+			}
+		}
+	});
+
+	deleted.messages.forEach((msgId) => delete state.cache[msgId]);
+}
 
 function getMsgFulfilled(
 	{ cache }: MsgStateType,
@@ -43,7 +65,7 @@ function getMsgFulfilled(
 	cache[payload.id] = payload;
 }
 
-function searchConvFullFilled(
+function searchConvFulfilled(
 	{ cache }: MsgStateType,
 	{ payload }: { payload: SearchConvReturn },
 ): void {
@@ -54,24 +76,52 @@ function searchConvFullFilled(
 		});
 }
 
-export const doMsgAction = createAsyncThunk<MsgActionResponse,
-	{ messageId: string; operation: 'move' | 'flag' | '!flag' | 'read' | '!read' | 'trash' | 'delete'; parent?: string }>(
-		'conversations/doMsgAction',
-		async ({ messageId, operation, parent }) => {
-			const result = await network.soapFetch<MsgActionRequest, MsgActionResponse>(
-				'MsgAction',
-				{
-					_jsns: 'urn:zimbraMail',
-					action: {
-						id: messageId,
-						op: operation,
-						l: parent,
-					},
-				},
-			);
-			return result as MsgActionResponse;
-		},
-	);
+function msgActionFulfilled(
+	{ cache }: MsgStateType,
+	{ payload, meta }: { payload: MsgActionResult; meta: any },
+): void {
+	const { operation, ids } = payload;
+	ids.forEach((id) => {
+		const message = cache[id];
+		if (message) {
+			if (operation.includes('flag')) {
+				message.flagged = !operation.startsWith('!');
+			} else if (operation.includes('read')) {
+				message.read = !operation.startsWith('!');
+			} else if (operation === 'trash') {
+				message.parent = '3';
+			} else if (operation === 'delete') {
+				delete cache[id];
+			} else if (operation === 'move') {
+				message.parent = meta.arg.parent;
+			}
+		}
+	});
+}
+
+function convActionFulfilled(
+	{ cache }: MsgStateType,
+	{ payload, meta }: { payload: ConvActionResult; meta: any },
+): void {
+	const { operation, ids } = payload;
+	Object.values(cache)
+		.filter((m) => ids.includes(m.conversation))
+		.forEach((message) => {
+			if (message) {
+				if (operation.includes('flag')) {
+					message.flagged = !operation.startsWith('!');
+				} else if (operation.includes('read')) {
+					message.read = !operation.startsWith('!');
+				} else if (operation === 'trash') {
+					message.parent = '3';
+				} else if (operation === 'delete') {
+					delete cache[message.id];
+				} else if (operation === 'move') {
+					message.parent = meta.arg.parent;
+				}
+			}
+		});
+}
 
 export function selectMessages(state: StateType): MsgMap {
 	return state.messages.cache;

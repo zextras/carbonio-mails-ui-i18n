@@ -9,26 +9,57 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React from 'react';
-import { Container, IconButton, Padding } from '@zextras/zapp-ui';
+import React, { useContext } from 'react';
+import {
+	Container, Dropdown, IconButton, Padding, SnackbarManagerContext
+} from '@zextras/zapp-ui';
+import { map } from 'lodash';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { moveToTrash, moveTo } from '../actions/conversation-actions';
 
-function PreviewPanelActions({ conversation }) {
-	return <Container height="auto" padding={{ top: 'large' }} />;
-	// return (
-	// 	<Container
-	// 		orientation="horizontal"
-	// 		mainAlignment="flex-end"
-	// 		crossAlignment="center"
-	// 		height="auto"
-	// 		padding={ {horizontal: 'large', vertical: 'small'} }
-	// 	>
-	// 		<Padding left="extrasmall"><IconButton size="medium" icon="UndoOutline"/></Padding>
-	// 		<Padding left="extrasmall"><IconButton size="medium" icon="ArchiveOutline"/></Padding>
-	// 		<Padding left="extrasmall"><IconButton size="medium" icon="Trash2Outline"/></Padding>
-	// 		<Padding left="extrasmall"><IconButton size="medium" icon="PricetagsOutline"/></Padding>
-	// 		<Padding left="extrasmall"><IconButton size="medium" icon="MoreVertical"/></Padding>
-	// 	</Container>
-	// );
+export default function PreviewPanelActions({ conversation, folderId }) {
+	const { t } = useTranslation();
+	const createSnackbar = useContext(SnackbarManagerContext);
+	const dispatch = useDispatch();
+
+	return (
+		<Container
+			orientation="horizontal"
+			mainAlignment="flex-end"
+			crossAlignment="center"
+			height="auto"
+			padding={{ horizontal: 'large', vertical: 'small' }}
+		>
+			{/* <Padding left="extrasmall"><IconButton size="medium" icon="UndoOutline" /></Padding> */}
+			{/* <Padding left="extrasmall"><IconButton size="medium" icon="ArchiveOutline" /></Padding> */}
+			<Padding left="extrasmall">
+				<IconButton
+					size="medium"
+					icon="Trash2Outline"
+					onClick={() =>
+						moveToTrash({
+							t, createSnackbar, dispatch, ids: [conversation.id]
+						})}
+				/>
+			</Padding>
+			<Padding left="extrasmall"><IconButton size="medium" icon="PricetagsOutline" /></Padding>
+			<Padding left="extrasmall">
+				<Dropdown
+					placement="right-end"
+					items={map(
+						[],
+						(action) => ({
+							id: action.id,
+							icon: action.icon,
+							label: action.label,
+							click: action.onActivate
+						})
+					)}
+				>
+					<IconButton size="small" icon="MoreVertical" />
+				</Dropdown>
+			</Padding>
+		</Container>
+	);
 }
-
-export default PreviewPanelActions;

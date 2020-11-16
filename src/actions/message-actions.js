@@ -9,22 +9,30 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { doMsgAction } from '../store/messages-slice';
+import { msgAction } from '../store/actions';
 
-export function setFlag({
+export function setMsgFlag({
 	dispatch, createSnackbar, t, msgId
 }) {
 	dispatch(
-		doMsgAction({
+		msgAction({
 			operation: 'flag',
-			messageId: msgId,
+			ids: [msgId],
 		}),
-	).then(() => {
-		const ref = createSnackbar(
-			{ key: 1, type: 'success', label: t('The operation has been successfully completed') },
-		);
-	},).catch(() => {
-		const ref = createSnackbar({ key: 1, type: 'error', label: t('Operation failed') });
-		setTimeout(ref, 1000);
-	},);
+	).then((res) => {
+		if (res.type.includes('fulfilled')) {
+			const ref = createSnackbar(
+				{
+					key: String(Date.now()), replace: true, type: 'success', label: t('The operation has been successfully completed'), autoHideTimeout: 2000
+				},
+			);
+		}
+		else {
+			const ref = createSnackbar(
+				{
+					key: String(Date.now()), replace: true, type: 'error', label: t('Operation failed'), autoHideTimeout: 2000
+				},
+			);
+		}
+	});
 }

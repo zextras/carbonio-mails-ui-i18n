@@ -38,16 +38,18 @@ export type SyncResponseMailFolder = ISoapSyncFolderObj & {
 };
 
 export type SyncResponseMail = {
+	id: string;
+	s: number;
 	cid: string;
 	d: number;
-	id: string;
-	l?: string;
+	l: string;
 	md: number;
 	ms: number;
 	rev: number;
 	f?: string;
-	// t?: string; //tag
-	// tn?: string; //tagName
+	tn?: string;
+	e: undefined;
+	fr: undefined;
 };
 
 type SyncResponseDeletedMapRow = {

@@ -12,13 +12,14 @@
 import {
 	flattenDeep, map, reduce, trim
 } from 'lodash';
-import { MailMessage, MailMessagePart } from '../types/mail-message';
-import { SoapMailMessage, SoapMailMessagePart } from '../types/soap/soap-mail-message';
+import { IncompleteMessage, MailMessagePart } from '../types/mail-message';
+import {
+	SoapIncompleteMessage, SoapMailMessagePart, SoapMailParticipant, SoapEmailParticipantRole
+} from '../types/soap';
 import { Participant, ParticipantRole } from '../types/participant';
-import { SoapMailParticipant, SoapEmailParticipantRole } from '../types/soap/soap-mail-participant';
 
-export function normalizeMailMessageFromSoap(m: SoapMailMessage): MailMessage {
-	const obj = {
+export function normalizeMailMessageFromSoap(m: SoapIncompleteMessage): IncompleteMessage {
+	return {
 		conversation: m.cid,
 		id: m.id,
 		date: m.d,
@@ -35,15 +36,17 @@ export function normalizeMailMessageFromSoap(m: SoapMailMessage): MailMessage {
 		flagged: /f/.test(m.f || ''),
 		urgent: /!/.test(m.f || ''),
 		tags: m.tn ? m.tn.split(',') : [],
-		// TODO: maybe `deleted` flag
 		parts: map(
 			m.mp || [],
 			normalizeMailPartMapFn
 		),
+		isDeleted: /x/.test(m.f || ''),
+		isDraft: /d/.test(m.f || ''),
+		isForwarded: /f/.test(m.f || ''),
+		isSentByMe: /s/.test(m.f || ''),
+		isInvite: /v/.test(m.f || ''),
 		bodyPath: generateBodyPath(m.mp || []),
-	} as MailMessage;
-
-	return obj;
+	} as IncompleteMessage;
 }
 
 function normalizeMailPartMapFn(v: SoapMailMessagePart): MailMessagePart {

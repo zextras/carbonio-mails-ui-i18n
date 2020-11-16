@@ -9,21 +9,18 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
-import { network } from '@zextras/zapp-shell';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import produce from 'immer';
-import { normalizeConversationFromSoap } from '../commons/normalize-conversation';
 import { Conversation } from '../types/conversation';
-import {
-	ConvActionRequest,
-	ConvActionResponse,
-	SyncResponse,
-} from '../types/soap';
+import { MsgActionResponse } from '../types/soap';
 import {
 	ConversationsFolderStatus,
 	ConversationsInFolderState, ConversationsStateType, FolderToConversationsMap, StateType,
 } from '../types/state';
-import { FetchConversationsReturn, fetchConversations, searchConv } from './actions';
+import {
+	FetchConversationsReturn, fetchConversations, searchConv, ConvActionResult, SyncResult, sync,
+	convAction,
+} from './actions';
 
 /* eslint no-param-reassign: "off" */
 
@@ -35,20 +32,19 @@ export const conversationsSlice = createSlice<ConversationsStateType, {}>({
 			2: {
 				cache: {},
 				status: 'empty',
-			}
+			},
 		} as FolderToConversationsMap,
 	} as ConversationsStateType,
 	reducers: {
-		handleSyncData: produce(handleSyncDataReducer),
 		setCurrentFolder: produce(setCurrentFolderReducer),
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
-		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFullFilled));
+		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFulfilled));
 		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
-		builder.addCase(searchConv.fulfilled, produce(searchConvFullFilled));
-		// builder.addCase(doConversationAction.fulfilled, produce(doConversationActionFullFilled));
-		// builder.addCase(doMsgAction.fulfilled, produce(doMsgActionFullFilled));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
+		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
 	},
 });
 
@@ -62,13 +58,13 @@ function fetchConversationsPending(
 	state.cache[folderId].status = 'pending';
 }
 
-function fetchConversationsFullFilled(
+function fetchConversationsFulfilled(
 	state: ConversationsStateType,
 	{ payload, meta }: { payload: FetchConversationsReturn; meta: any },
 ): void {
 	state.cache[meta.arg.folderId].cache = {
 		...state.cache[meta.arg.folderId].cache,
-		...payload.conversations
+		...payload.conversations,
 	};
 	state.cache[meta.arg.folderId].status = payload.hasMore ? 'hasMore' : 'complete';
 }
@@ -81,135 +77,127 @@ function fetchConversationsRejected(
 	state.cache[folderId].status = 'error';
 }
 
-function searchConvFullFilled(
+function searchConvFulfilled(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
 	state.cache[meta.arg.folderId].cache[meta.arg.conversationId].messages = payload.messages;
 }
 
-function getMsgFullFilled(
+function getMsgFulfilled(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
 	state.cache[meta.arg.folderId].cache[meta.arg.conversationId].messages = payload.messages;
 }
 
-// TODO: add listener to this action on messages-slice
-export const doConversationAction = createAsyncThunk<ConvActionResponse,
-	{ conversationId: string; operation: 'move' | 'flag' | '!flag' | 'read' | '!read' | 'trash' | 'delete'; parent?: string }>(
-		'conversations/doConversationAction',
-		async ({ conversationId, operation, parent }) => {
-			const result = await network.soapFetch<ConvActionRequest, ConvActionResponse>(
-				'ConvAction',
-				{
-					_jsns: 'urn:zimbraMail',
-					action: {
-						id: conversationId,
-						op: operation,
-						l: parent,
-					},
-				},
-			);
-			return result as ConvActionResponse;
-		},
-	);
-
-function doConversationActionFullFilled(
+function convActionFulfilled(
 	{ cache }: ConversationsStateType,
-	{ payload, meta }: { payload: ConvActionResponse; meta: any },
+	{ payload, meta }: { payload: ConvActionResult; meta: any },
 ): void {
-	const { parent } = meta.arg;
-	const { id, op } = payload.action;
+	const { ids, operation } = payload;
 
-	// eslint-disable-next-line guard-for-in,no-restricted-syntax
-	for (const folder in cache) {
-		const conversations = cache[folder];
-		const conversation = conversations.cache[id];
+	ids.forEach((id: string) => {
+		// eslint-disable-next-line guard-for-in,no-restricted-syntax
+		for (const folder in cache) {
+			const conversations = cache[folder];
+			const conversation = conversations.cache[id];
 
-		if (op.includes('flag')) {
-			const newFlag = op.startsWith('!');
-			conversation.flagged = newFlag;
-			conversation.messages
-				.forEach((msg) => {
-					msg.flagged = newFlag;
-				});
+			if (conversation) {
+				if (operation.includes('flag')) {
+					const newFlag = operation.startsWith('!');
+					conversation.flagged = newFlag;
+					conversation.messages
+						.forEach((msg) => {
+							msg.flagged = newFlag;
+						});
+				} else if (operation.includes('read')) {
+					const newRead = operation.startsWith('!');
+					conversation.read = newRead;
+					conversation.messages
+						.forEach((msg) => {
+							msg.read = newRead;
+						});
+				} else if (operation === 'trash') {
+					if ('3' in cache) {
+						conversations.cache[id].messages.forEach((m) => {
+							m.parent = '3';
+						});
+						cache['3'].cache[id] = { ...conversations.cache[id] };
+					}
+					delete conversations.cache[id];
+				} else if (operation === 'delete') {
+					delete conversations.cache[id];
+				} else if (operation === 'move') {
+					const parent = meta.arg.payload;
+					if (parent in cache) {
+						conversations.cache[id].messages.forEach((m) => {
+							m.parent = parent;
+						});
+						cache[parent].cache[id] = { ...conversations.cache[id] };
+						// TODO: the view can be a little different, maybe it's better to resync
+					}
+					delete conversations.cache[id];
+				}
+			}
 		}
-		else if (op.includes('read')) {
-			const newRead = op.startsWith('!');
-			conversation.read = newRead;
-			conversation.messages
-				.forEach((msg) => {
-					msg.read = newRead;
-				});
-		}
-		else if (op === 'trash') {
-			// TODO: add side effect to Trash
-			cache['3'].status = 'hasChange';
-			delete conversations.cache[id];
-		}
-		else if (op === 'delete') {
-			delete conversations.cache[id];
-		}
-		else if (op === 'move') {
-			conversation.messages
-				.forEach((msg) => {
-					msg.parent = parent;
-				});
-			cache[parent].cache[id] = conversations.cache[id];
-			delete conversations.cache[id];
-		}
-	}
+	});
 }
 
-// function doMsgActionFullFilled(
-// 	{ conversations }: ConversationsStateType,
-// 	{ payload, meta }: { payload: MsgActionResponse; meta: any },
-// ): void {
-// 	const { parent } = meta.arg;
-// 	const { id, op } = payload.action;
-//
-// 	const message = messages[id];
-//
-// 	if (op.includes('flag')) {
-// 		const newFlag = op.startsWith('!');
-// 		message.flagged = newFlag;
-// 		conversations[message.conversation].flagged = newFlag;
-// 	}
-// 	else if (op.includes('read')) {
-// 		const newRead = op.startsWith('!');
-// 		message.read = newRead;
-// 		conversations[message.conversation].read = newRead;
-// 	}
-// 	else if (op === 'trash') {
-// 		message.parent = '3';
-// 	}
-// 	else if (op === 'delete') {
-// 		conversations[message.conversation].messages = conversations[message.conversation].messages
-// 			.filter((m) => m.id !== id);
-// 		conversations[message.conversation].parent = conversations[message.conversation].messages
-// 			.filter((m) => m.id !== id)
-// 			.map((m) => m.parent);
-// 		delete messages[id];
-// 	}
-// 	else if (op === 'move') {
-// 		message.parent = parent;
-//
-// 		conversations[message.conversation].messages
-// 			.filter((m) => m.id !== id)
-// 			.forEach((m) => {
-// 				m.parent = parent;
-// 			});
-//
-// 		conversations[message.conversation].parent = conversations[message.conversation].messages
-// 			.filter((m) => m.id !== id)
-// 			.map((m) => m.parent);
-// 	}
-// }
+function msgActionFulfilled(
+	{ cache }: ConversationsStateType,
+	{ payload, meta }: { payload: MsgActionResponse; meta: any },
+): void {
+	// TODO: think and do
+	// const { id, op } = payload.action;
+	//
+	// const msgConversation = null;
+	//
+	// // eslint-disable-next-line guard-for-in,no-restricted-syntax
+	// for (const folder in cache) {
+	//
+	// }
+	//
+	// if (op.includes('flag')) {
+	// 	const newFlag = op.startsWith('!');
+	// 	message.flagged = newFlag;
+	// 	conversations[message.conversation].flagged = newFlag;
+	// }
+	// else if (op.includes('read')) {
+	// 	const newRead = op.startsWith('!');
+	// 	message.read = newRead;
+	// 	conversations[message.conversation].read = newRead;
+	// }
+	// else if (op === 'trash') {
+	// 	message.parent = '3';
+	// }
+	// else if (op === 'delete') {
+	// 	conversations[message.conversation].messages = conversations[message.conversation].messages
+	// 		.filter((m) => m.id !== id);
+	// 	conversations[message.conversation].parent = conversations[message.conversation].messages
+	// 		.filter((m) => m.id !== id)
+	// 		.map((m) => m.parent);
+	// 	delete messages[id];
+	// }
+	// else if (op === 'move') {
+	// 	const { parent } = meta.arg;
+	// 	message.parent = parent;
+	//
+	// 	conversations[message.conversation].messages
+	// 		.filter((m) => m.id !== id)
+	// 		.forEach((m) => {
+	// 			m.parent = parent;
+	// 		});
+	//
+	// 	conversations[message.conversation].parent = conversations[message.conversation].messages
+	// 		.filter((m) => m.id !== id)
+	// 		.map((m) => m.parent);
+	// }
+}
 
 export function setCurrentFolderReducer(
 	state: ConversationsStateType,
-	{ payload }: { payload: string }
+	{ payload }: { payload: string },
 ):
 	void {
 	state.currentFolder = payload;
@@ -221,36 +209,36 @@ export function setCurrentFolderReducer(
 	}
 }
 
-function handleSyncDataReducer(
-	state: ConversationsStateType,
-	{ payload }: { payload: SyncResponse },
-): void {
-	const { m, c, deleted } = payload;
+function syncFulfilled(state: ConversationsStateType, { payload }: { payload: SyncResult }): void {
+	const {
+		messages, conversations, folders, deleted,
+	} = payload;
 
-	if (deleted && deleted.c) {
-		const deletedConversationIds = deleted.c.ids.split(',');
+	// delete cache for 'deleted folders'
+	deleted.folders.forEach((folderId) => delete state.cache[folderId]);
 
-		// eslint-disable-next-line guard-for-in,no-restricted-syntax
-		for (const folder in state.cache) {
-			deletedConversationIds.forEach((id) => delete state.cache[folder].cache[id]);
-		}
-	}
-	if (deleted && deleted.m) {
-		// TODO: handle
-	}
+	// delete deleted conversations
+	deleted.conversations.forEach((id) => {
+		Object.values(state.cache).forEach((folder) => {
+			delete folder.cache[id];
+		});
+	});
 
-	if (c) {
-		const updatedConversations = c.map(normalizeConversationFromSoap);
+	// Invalidate che cache of the folders that contains a edited conversation
+	// (it means new a new message is arrived or has been sent)
+	Object.keys(state.cache).forEach((folder) => {
+		if (conversations.map((c) => c.id)
+			.filter({}.hasOwnProperty.bind(state.cache[folder].cache))) state.cache[folder].status = 'hasChange';
+	});
 
-		// eslint-disable-next-line guard-for-in,no-restricted-syntax
-		for (const folder in state.cache) {
-			console.log('caio');
-		}
-		// TODO: use GetConversations of invalidate cache for each folder that contains it
-	}
-	if (m) {
-		// update
-	}
+	Object.values(state.cache).forEach((folder) => {
+		deleted.conversations.forEach((id) => delete folder.cache[id]);
+	});
+
+	Object.values(state.cache).forEach((folder) => {
+		deleted.messages.forEach((id) => delete folder.cache[id]);
+	});
+	// TODO: handle ... all edits
 }
 
 function selectCache({ conversations }: StateType):

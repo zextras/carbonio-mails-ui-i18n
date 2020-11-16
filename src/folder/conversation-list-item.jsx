@@ -180,7 +180,7 @@ export default function ConversationListItem({
 }
 
 function ConversationMessagesList({ conversation, folderId }) {
-	if (!conversation.messages[0].subject) {
+	if (!conversation.messages.every((m) => m.subject)) {
 		return (
 			<Container height={70 * conversation.messages.length}>
 				<Button loading disabled label="" type="ghost" />
