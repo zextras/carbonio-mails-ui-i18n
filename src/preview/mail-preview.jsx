@@ -43,76 +43,58 @@ import { setMsgFlag } from '../actions/message-actions';
 import { selectMessages } from '../store/messages-slice';
 import { getMsg } from '../store/actions';
 
-export default function MailPreview({ message, expanded }) {
-	const dispatch = useDispatch();
-	const mailContainerRef = useRef(undefined);
-	const [open, setOpen] = useState(expanded);
-
-	const msg = useSelector(selectMessages)[message.id] || {};
-
-	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
-
-	// this is necessary because if somebody click a message in the same conversation
-	// already open that message will not be expanded
-	useEffect(() => {
-		setOpen(expanded);
-	}, [expanded]);
-
-	useEffect(() => {
-		if (open && message.parts.length === 0) {
-			// check if the request of that message has already been requested
-			dispatch(getMsg({ msgId: message.id }));
+const ContactsContainer = styled.div`
+	display: grid;
+	grid-template-rows: auto;
+	grid-template-columns: repeat(3, auto);
+`;
+const ContactText = styled(Text)`
+	&:not(:first-child){
+		&:before {
+			content: '|';
+			padding: 0 4px;
 		}
-	}, [message, open, expanded, dispatch]);
+	}
+`;
+
+function MessageContactsList({ message }) {
+	const { t } = useTranslation();
+	const accounts = hooks.useUserAccounts();
+	const toContacts = filter(message.participants, ['type', 't']);
+	const ccContacts = filter(message.participants, ['type', 'c']);
+	const bccContacts = filter(message.participants, ['type', 'b']);
 
 	return (
-		<Container
-			ref={mailContainerRef}
-			height="fit"
-		>
-			<MailPreviewBlock
-				onClick={() => setOpen((o) => !o)}
-				message={aggregatedMessage}
-				open={open}
-			/>
-			<Container
-				width="fill"
-				height="fit"
-				style={{
-					overflowY: 'auto'
-				}}
-			>
-				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
-					{open
-					&& (
-						<Container
-							width="100%"
-							height="fit"
-							crossAlignment="stretch"
-							padding={{ horizontal: 'medium', vertical: 'small' }}
-							background="gray6"
-						>
-							<AttachmentsBlock message={aggregatedMessage} />
-							<Padding style={{ width: '100%' }} vertical="medium">
-								{aggregatedMessage.parts.length > 0
-								&& (
-									<MailMessageRenderer
-										key={message.id}
-										mailMsg={aggregatedMessage}
-										setRead={() => {}}
-									/>
-								)}
-							</Padding>
-						</Container>
-					)}
-				</Collapse>
-			</Container>
-			<Divider />
-		</Container>
+		<ContactsContainer>
+			{ toContacts.length > 0 && (
+				<ContactText color="gray1" size="small">
+					{ `${t('To')}: ` }
+					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
+				</ContactText>
+			)}
+			{ ccContacts.length > 0 && (
+				<ContactText color="gray1" size="small">
+					{ `${t('Cc')}: ` }
+					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
+				</ContactText>
+			)}
+			{ bccContacts.length > 0 && (
+				<ContactText color="gray1" size="small">
+					{ `${t('Bcc')}: ` }
+					{ map(bccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
+				</ContactText>
+			)}
+		</ContactsContainer>
 	);
 }
 
 const fallbackContact = { address: '', displayName: '' };
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
 
 function MailPreviewBlock({ message, open, onClick }) {
 	const { t } = useTranslation();
@@ -330,53 +312,71 @@ function MailPreviewBlock({ message, open, onClick }) {
 	);
 }
 
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
+export default function MailPreview({ message, expanded }) {
+	const dispatch = useDispatch();
+	const mailContainerRef = useRef(undefined);
+	const [open, setOpen] = useState(expanded);
 
-const ContactsContainer = styled.div`
-	display: grid;
-	grid-template-rows: auto;
-	grid-template-columns: repeat(3, auto);
-`;
-const ContactText = styled(Text)`
-	&:not(:first-child){
-		&:before {
-			content: '|';
-			padding: 0 4px;
+	const msg = useSelector(selectMessages)[message.id] || {};
+
+	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
+
+	// this is necessary because if somebody click a message in the same conversation
+	// already open that message will not be expanded
+	useEffect(() => {
+		setOpen(expanded);
+	}, [expanded]);
+
+	useEffect(() => {
+		if (open && message.parts.length === 0) {
+			// check if the request of that message has already been requested
+			dispatch(getMsg({ msgId: message.id }));
 		}
-	}
-`;
-function MessageContactsList({ message }) {
-	const { t } = useTranslation();
-	const accounts = hooks.useUserAccounts();
-	const toContacts = filter(message.participants, ['type', 't']);
-	const ccContacts = filter(message.participants, ['type', 'c']);
-	const bccContacts = filter(message.participants, ['type', 'b']);
+	}, [message, open, expanded, dispatch]);
 
 	return (
-		<ContactsContainer>
-			{ toContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ `${t('To')}: ` }
-					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
-				</ContactText>
-			)}
-			{ ccContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ `${t('Cc')}: ` }
-					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
-				</ContactText>
-			)}
-			{ bccContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ `${t('Bcc')}: ` }
-					{ map(bccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
-				</ContactText>
-			)}
-		</ContactsContainer>
+		<Container
+			ref={mailContainerRef}
+			height="fit"
+		>
+			<MailPreviewBlock
+				onClick={() => setOpen((o) => !o)}
+				message={aggregatedMessage}
+				open={open}
+			/>
+			<Container
+				width="fill"
+				height="fit"
+				style={{
+					overflowY: 'auto'
+				}}
+			>
+				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
+					{open
+					&& (
+						<Container
+							width="100%"
+							height="fit"
+							crossAlignment="stretch"
+							padding={{ horizontal: 'medium', vertical: 'small' }}
+							background="gray6"
+						>
+							<AttachmentsBlock message={aggregatedMessage} />
+							<Padding style={{ width: '100%' }} vertical="medium">
+								{aggregatedMessage.parts.length > 0
+								&& (
+									<MailMessageRenderer
+										key={message.id}
+										mailMsg={aggregatedMessage}
+										setRead={() => {}}
+									/>
+								)}
+							</Padding>
+						</Container>
+					)}
+				</Collapse>
+			</Container>
+			<Divider />
+		</Container>
 	);
 }

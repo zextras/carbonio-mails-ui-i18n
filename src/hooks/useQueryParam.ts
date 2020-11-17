@@ -11,6 +11,6 @@
 
 import { useLocation } from 'react-router-dom';
 
-export default function useQueryParam(name: string, defaultValue?: string): string | undefined {
+export function useQueryParam(name: string, defaultValue?: string): string | undefined {
 	return new URLSearchParams(useLocation().search).get(name) || defaultValue;
 }

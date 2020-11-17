@@ -11,5 +11,6 @@
 
 describe('Hooks', () => {
 	test.skip('', () => {
+		const _ = 'Only to remove Eslint error "no-empty-function"';
 	});
 });

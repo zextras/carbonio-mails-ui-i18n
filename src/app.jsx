@@ -15,12 +15,12 @@ import {
 } from '@zextras/zapp-shell';
 import { combineReducers } from '@reduxjs/toolkit';
 import { report } from './commons/report-exception';
-import syncSliceReducer, { startSync } from './store/sync-slice';
-import foldersSliceReducer from './store/folders-slice';
-import editorsSliceReducer from './store/editor-slice';
-import SetMainMenuItems from './secondary-bar/set-main-menu-items';
-import conversationsSliceReducer from './store/conversations-slice';
-import messagesSliceReducer from './store/messages-slice';
+import  { syncSliceReducer, startSync } from './store/sync-slice';
+import { folderSliceReducer } from './store/folders-slice';
+import { editorSliceRecucer } from './store/editor-slice';
+import { SetMainMenuItems } from './secondary-bar/set-main-menu-items';
+import { conversationsSliceReducer } from './store/conversations-slice';
+import { messageSliceReducer } from './store/messages-slice';
 
 const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
 const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
@@ -33,14 +33,13 @@ export default function App() {
 	};
 
 	useEffect(() => {
-		// TODO: add his type using typescript: https://react-redux.js.org/using-react-redux/static-typing
 		store.setReducer(
 			combineReducers({
-				folders: foldersSliceReducer,
+				folders: folderSliceReducer,
 				sync: syncSliceReducer,
 				conversations: conversationsSliceReducer,
-				editors: editorsSliceReducer,
-				messages: messagesSliceReducer
+				editors: editorSliceRecucer,
+				messages: messageSliceReducer
 			}),
 		);
 	}, []);

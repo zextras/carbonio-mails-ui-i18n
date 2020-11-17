@@ -19,10 +19,7 @@ export function setConvFlag({
 			operation: `${value ? '' : '!'}flag`,
 			ids: [ids],
 		}),
-	).then((res) => {
-		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
-		else fail({ createSnackbar, t });
-	});
+	);
 }
 
 export function setConvRead({
@@ -33,10 +30,7 @@ export function setConvRead({
 			operation: `${value ? '' : '!'}read`,
 			ids: [ids],
 		}),
-	).then((res) => {
-		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
-		else fail({ createSnackbar, t });
-	});
+	);
 }
 
 export function setConvTag({
@@ -48,10 +42,7 @@ export function setConvTag({
 			ids: [ids],
 			tn: tagName,
 		}),
-	).then((res) => {
-		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
-		else fail({ createSnackbar, t });
-	});
+	);
 }
 
 export function moveTo({
@@ -63,10 +54,7 @@ export function moveTo({
 			ids: [ids],
 			parent: folderId,
 		}),
-	).then((res) => {
-		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
-		else fail({ createSnackbar, t });
-	});
+	);
 }
 
 export function moveToTrash({
@@ -77,32 +65,6 @@ export function moveToTrash({
 			operation: 'trash',
 			ids: [ids],
 		}),
-	).then((res) => {
-		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
-		else fail({ createSnackbar, t });
-	});
-}
-
-function success({ createSnackbar, t }) {
-	const ref = createSnackbar(
-		{
-			key: String(Date.now()),
-			replace: true,
-			type: 'success',
-			label: t('The operation has been successfully completed'),
-			autoHideTimeout: 2000
-		},
 	);
 }
 
-function fail({ createSnackbar, t }) {
-	const ref = createSnackbar(
-		{
-			key: String(Date.now()),
-			replace: true,
-			type: 'error',
-			label: t('Operation failed'),
-			autoHideTimeout: 2000
-		},
-	);
-}

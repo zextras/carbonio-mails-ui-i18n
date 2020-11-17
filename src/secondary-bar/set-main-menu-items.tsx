@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { setMainMenuItems } from '@zextras/zapp-shell';
 import { useSelector } from 'react-redux';
 import { reduce, map, filter } from 'lodash';
@@ -17,9 +17,11 @@ import { selectFolders } from '../store/folders-slice';
 import { Folder } from '../types/folder';
 import { MailsFolderMap } from '../types/state';
 
-export default function SetMainMenuItems(): null {
-	useSetMainMenuItems();
-	return null;
+function nest(items: Array<any>, id: string): Array<any> {
+	return map(
+		filter(items, (item) => item.parent === id),
+		(item) => ({ ...item, children: nest(items, item.id) })
+	);
 }
 
 function useSetMainMenuItems(): void {
@@ -50,9 +52,7 @@ function useSetMainMenuItems(): void {
 	}, [folders]);
 }
 
-function nest(items: Array<any>, id: string): Array<any> {
-	return map(
-		filter(items, (item) => item.parent === id),
-		(item) => ({ ...item, children: nest(items, item.id) })
-	);
+export function SetMainMenuItems(): null {
+	useSetMainMenuItems();
+	return null;
 }

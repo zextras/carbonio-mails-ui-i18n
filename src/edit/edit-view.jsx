@@ -29,8 +29,7 @@ import {
 	Tooltip,
 } from '@zextras/zapp-ui';
 import styled from 'styled-components';
-import { filter, map } from 'lodash';
-import useCompositionData from './use-composition-data';
+import { useCompositionData } from './use-composition-data';
 
 const ResizedIconCheckbox = styled(IconCheckbox)`
 	[class^="Padding__Comp"] {

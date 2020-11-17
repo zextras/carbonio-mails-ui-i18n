@@ -17,10 +17,11 @@ import {
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+import { getMsg } from '../store/actions';
 import { saveDraft } from '../store/actions/save-draft';
+import { selectMessages } from '../store/messages-slice';
 import { CompositionData } from './composition-types';
-import { useMessage } from '../hooks';
-import useQueryParam from '../hooks/useQueryParam';
+import { useQueryParam } from '../hooks/useQueryParam';
 import {
 	selectEditors,
 	toggleRichText,
@@ -37,12 +38,14 @@ const getNewEditId = (id: string): string => {
 	return `${id}-${counter}`;
 };
 
-const useCompositionData = (
+export const useCompositionData = (
 	draftId: string,
 	panel: boolean,
 	folderId: string,
 	t: (key: string) => string
 ): CompositionData => {
+	const messages = useSelector(selectMessages)
+
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const closeBoard = hooks.useRemoveCurrentBoard();
 	const action = useQueryParam('action');
@@ -50,8 +53,12 @@ const useCompositionData = (
 	const accounts = hooks.useUserAccounts();
 	const dispatch = useDispatch();
 	const editorId = useMemo(() => getNewEditId(draftId), [draftId]);
-	const original = useMessage(draftId);
-	const actionMail = useMessage(actionId ?? '');
+	const original = messages[draftId];
+	const actionMail = messages[actionId || ''];
+
+	dispatch(getMsg({msgId: draftId}));
+	if(actionId) dispatch(getMsg({msgId: actionId}));
+
 	useEffect(() => {
 		dispatch(openEditor({
 			id: editorId,
@@ -138,5 +145,3 @@ const useCompositionData = (
 		}
 	};
 };
-
-export default useCompositionData;

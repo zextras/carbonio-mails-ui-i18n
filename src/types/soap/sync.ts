@@ -64,7 +64,7 @@ export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
 
 type ISoapSyncFolderObj = {
 	absFolderPath: string;
-	acl: {};
+	acl: any;
 	activesyncdisabled: boolean;
 	color: number;
 	deletable: boolean;
@@ -76,11 +76,11 @@ type ISoapSyncFolderObj = {
 	luuid: string;
 	md: number;
 	mdver: number;
-	meta: Array<{}>;
+	meta: Array<any>;
 	ms: number;
 	n: number;
 	name: string;
-	retentionPolicy: Array<{}>;
+	retentionPolicy: Array<any>;
 	rev: number;
 	s: number;
 	u: number;

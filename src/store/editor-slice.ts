@@ -263,7 +263,7 @@ export const {
 	updateBody
 } = editorsSlice.actions;
 
-export default editorsSlice.reducer;
+export const editorSliceRecucer = editorsSlice.reducer;
 
 export function selectEditors({ editors }: StateType): MailsEditorMap {
 	return editors ? editors.editors : {};

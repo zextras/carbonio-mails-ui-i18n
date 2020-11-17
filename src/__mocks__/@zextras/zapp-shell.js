@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /*
  * *** BEGIN LICENSE BLOCK *****
  * Copyright (C) 2011-2020 ZeXtras
@@ -26,38 +25,4 @@ export const hooks = {
 	useReplaceHistoryCallback: jest.fn(() => {
 		throw new Error('Mock \'useReplaceHistoryCallback\' is not implemented');
 	})
-};
-
-const MockedDb_version_stores = jest.fn(() => {
-	throw new Error('Mock \'MockedDb_version_stores\' not implemented.');
-});
-const MockedDb_version = jest.fn().mockImplementation(() => ({
-	stores: MockedDb_version_stores
-}));
-
-const MockedDb_table_mapToClass = jest.fn(() => {
-	throw new Error('Mock \'MockedDb_table_mapToClass\' not implemented.');
-});
-const MockedDb_table = jest.fn().mockImplementation(() => ({
-	mapToClass: MockedDb_table_mapToClass
-}));
-
-class MockedDb {
-	version = MockedDb_version;
-
-	table = MockedDb_table;
-
-	createUUID = jest.fn();
-}
-
-export const db = {
-	Database: MockedDb
-};
-
-export const _MOCKS_ = {
-	MockedDb,
-	MockedDb_version,
-	MockedDb_version_stores,
-	MockedDb_table,
-	MockedDb_table_mapToClass
 };

@@ -25,6 +25,46 @@ import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import { searchConv } from '../store/actions';
 
+function ConversationMessagesList({ conversation, folderId }) {
+	if (!conversation.messages.every((m) => m.subject)) {
+		return (
+			<Container height={70 * conversation.messages.length}>
+				<Button loading disabled label="" type="ghost" />
+			</Container>
+		);
+	}
+
+	return (
+		<>
+			{conversation.messages.map((message, index) => (
+				<React.Fragment key={message.id}>
+					<MessageListItem
+						message={message}
+						conversation={conversation}
+						folderId={folderId}
+					/>
+					{ (conversation.messages.length - 1) > index && <Divider /> }
+				</React.Fragment>
+			)) }
+		</>
+	);
+}
+
+const HoverContainer = styled(Container)`
+	cursor: pointer;
+	&:hover{
+		background: ${({ theme }) => theme.palette.highlight.regular};
+	}
+`;
+
+const OuterContainer = styled(Container)`
+	min-height: 70px;
+`;
+
+const CollapseElement = styled(Container)`
+	display: ${({ open }) => (open ? 'block' : 'none')};
+`;
+
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
 }) {
@@ -178,43 +218,3 @@ export default function ConversationListItem({
 		</OuterContainer>
 	);
 }
-
-function ConversationMessagesList({ conversation, folderId }) {
-	if (!conversation.messages.every((m) => m.subject)) {
-		return (
-			<Container height={70 * conversation.messages.length}>
-				<Button loading disabled label="" type="ghost" />
-			</Container>
-		);
-	}
-
-	return (
-		<>
-			{conversation.messages.map((message, index) => (
-				<React.Fragment key={message.id}>
-					<MessageListItem
-						message={message}
-						conversation={conversation}
-						folderId={folderId}
-					/>
-					{ (conversation.messages.length - 1) > index && <Divider /> }
-				</React.Fragment>
-			)) }
-		</>
-	);
-}
-
-const HoverContainer = styled(Container)`
-	cursor: pointer;
-	&:hover{
-		background: ${({ theme }) => theme.palette.highlight.regular};
-	}
-`;
-
-const OuterContainer = styled(Container)`
-	min-height: 70px;
-`;
-
-const CollapseElement = styled(Container)`
-	display: ${({ open }) => (open ? 'block' : 'none')};
-`;

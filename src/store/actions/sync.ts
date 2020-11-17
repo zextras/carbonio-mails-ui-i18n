@@ -35,6 +35,47 @@ export type SyncDeletedResult = {
 	folders: string[];
 }
 
+export function findFolders(folder: any): MailsFolderMap {
+	const toRet: MailsFolderMap = {};
+	if ((folder.view && folder.view === 'message') || folder.id === '3') {
+		toRet[folder.id] = {
+			id: folder.id,
+			uuid: folder.uuid,
+			name: folder.name,
+			path: folder.absFolderPath,
+			parent: folder.l,
+			parentUuid: folder.luuid,
+			itemsCount: folder.n || 0,
+			size: folder.s || 0,
+			unreadCount: folder.u || 0,
+			synced: true,
+		} as Folder;
+	}
+	return reduce(
+		folder.folder || [],
+		(r, f) => ({
+			...r,
+			...findFolders(f),
+		}),
+		toRet,
+	);
+}
+
+function normalizeDeleted(param?: SyncResponseDeletedMap): SyncDeletedResult {
+	if (param) {
+		return {
+			conversations: param.c ? param.c[0].ids.split(',') : [],
+			messages: param.m ? param.m[0].ids.split(',') : [],
+			folders: param.folder ? param.folder[0].ids.split(',') : [],
+		};
+	}
+	return {
+		conversations: [],
+		messages: [],
+		folders: [],
+	};
+}
+
 export const sync = createAsyncThunk<SyncResult, void>(
 	'sync',
 	async (arg, { getState, dispatch }: any) => {
@@ -104,44 +145,3 @@ export const sync = createAsyncThunk<SyncResult, void>(
 		condition: (arg: void, { getState }: any) => !(getState().sync.status === 'syncing'),
 	},
 );
-
-export function findFolders(folder: any): MailsFolderMap {
-	const toRet: MailsFolderMap = {};
-	if ((folder.view && folder.view === 'message') || folder.id === '3') {
-		toRet[folder.id] = {
-			id: folder.id,
-			uuid: folder.uuid,
-			name: folder.name,
-			path: folder.absFolderPath,
-			parent: folder.l,
-			parentUuid: folder.luuid,
-			itemsCount: folder.n || 0,
-			size: folder.s || 0,
-			unreadCount: folder.u || 0,
-			synced: true,
-		} as Folder;
-	}
-	return reduce(
-		folder.folder || [],
-		(r, f) => ({
-			...r,
-			...findFolders(f),
-		}),
-		toRet,
-	);
-}
-
-function normalizeDeleted(param?: SyncResponseDeletedMap): SyncDeletedResult {
-	if (param) {
-		return {
-			conversations: param.c ? param.c[0].ids.split(',') : [],
-			messages: param.m ? param.m[0].ids.split(',') : [],
-			folders: param.folder ? param.folder[0].ids.split(',') : [],
-		};
-	}
-	return {
-		conversations: [],
-		messages: [],
-		folders: [],
-	};
-}

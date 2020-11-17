@@ -91,4 +91,4 @@ export const syncSlice = createSlice({
 
 export const { setStatus } = syncSlice.actions;
 
-export default syncSlice.reducer;
+export const syncSliceReducer = syncSlice.reducer;

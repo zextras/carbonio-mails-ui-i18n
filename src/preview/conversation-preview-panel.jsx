@@ -17,7 +17,7 @@ import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
 import { selectConversationMap } from '../store/conversations-slice';
-import useQueryParam from '../hooks/useQueryParam';
+import { useQueryParam } from '../hooks/useQueryParam';
 import { searchConv } from '../store/actions';
 
 export default function ConversationPreviewPanel() {

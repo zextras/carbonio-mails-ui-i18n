@@ -19,7 +19,7 @@ import {
 	Button, Container, Divider, Responsive, Row, SnackbarManager, Text, useScreenMode,
 } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
-import useQueryParam from '../hooks/useQueryParam';
+import { useQueryParam } from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
@@ -30,101 +30,38 @@ import {
 import { selectFolders } from '../store/folders-slice';
 import { fetchConversations } from '../store/actions';
 
-export default function FolderView() {
-	const { folderId } = useParams();
-
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch({
-			type: 'conversations/setCurrentFolder',
-			payload: folderId,
-		});
-	}, [folderId]);
-
-	useEffect(() => {
-		if (folderId) dispatch(fetchConversations({ folderId, limit: 100 }));
-	}, [folderId]);
-
-	const screen = useScreenMode();
-	const conversationId = useQueryParam('conversation');
-	const editId = useQueryParam('edit');
-
-	const MemoPanel = useMemo(() => {
-		if (editId) {
-			return (
-				<ConversationEditPanel
-					key={`conversationEdit-${editId}`}
-					editPanelId={editId}
-					folderId={folderId}
-				/>
-			);
-		}
-		if (conversationId) {
-			return (
-				<ConversationPreviewPanel key={`conversationPreview-${conversationId}`} />
-			);
-		}
-		if (screen === 'mobile') {
-			return (
-				<ConversationList
-					key={`ConversationList-${folderId}`}
-					folderId={folderId}
-				/>
-			);
-		}
-		return <Container />;
-	}, [editId, folderId, conversationId, screen]);
-
+function Breadcrumbs({ folderPath, itemsCount }) {
 	return (
-		<SnackbarManager>
-			<Container
-				orientation="row"
-				crossAlignment="flex-start"
-				mainAlignment="flex-start"
-				width="fill"
-				height="fill"
-				background="gray5"
-				borderRadius="none"
-				style={{
-					maxHeight: '100%',
-				}}
+		<Container
+			background="gray5"
+			height={49}
+			crossAlignment="flex-start"
+		>
+			<Row
+				height="100%"
+				width="100%"
+				padding={{ vertical: 'medium', horizontal: 'large' }}
+				mainAlignment="space-between"
 			>
-				<Responsive mode="desktop" target={window.top}>
-					<Container
-						width="calc(40% - 4px)"
-						mainAlignment="flex-start"
-						crossAlignment="unset"
-						borderRadius="none"
-					>
-						<ConversationList
-							key={`ConversationList-${folderId}`}
-							folderId={folderId}
-						/>
-					</Container>
-					<VerticalDivider />
-					<Container
-						width="calc(60% - 4px)"
-						mainAlignment="flex-start"
-						crossAlignment="flex-start"
-						borderRadius="none"
-						style={{ maxHeight: '100%' }}
-					>
-						{ MemoPanel }
-					</Container>
-				</Responsive>
-				<Responsive mode="mobile" target={window.top}>
-					<Container
-						mainAlignment="flex-start"
-						crossAlignment="flex-start"
-						borderRadius="none"
-						height="fill"
-					>
-						{ MemoPanel }
-					</Container>
-				</Responsive>
-			</Container>
-		</SnackbarManager>
+				<Row
+					mainAlignment="flex-start"
+					takeAvailableSpace
+					padding={{ right: 'medium' }}
+				>
+					<Text size="large">{ folderPath }</Text>
+				</Row>
+				<Text size="medium">{ itemsCount > 99 ? '99+' : itemsCount }</Text>
+			</Row>
+			<Divider />
+		</Container>
+	);
+}
+
+function LoadingIndicator({ style, index }) {
+	return (
+		<Container height={70} style={style} index={index}>
+			<Button loading disabled label="" type="ghost" />
+		</Container>
 	);
 }
 
@@ -244,37 +181,100 @@ const ConversationList = ({ folderId }) => {
 	);
 };
 
-function Breadcrumbs({ folderPath, itemsCount }) {
-	return (
-		<Container
-			background="gray5"
-			height={49}
-			crossAlignment="flex-start"
-		>
-			<Row
-				height="100%"
-				width="100%"
-				padding={{ vertical: 'medium', horizontal: 'large' }}
-				mainAlignment="space-between"
-			>
-				<Row
-					mainAlignment="flex-start"
-					takeAvailableSpace
-					padding={{ right: 'medium' }}
-				>
-					<Text size="large">{ folderPath }</Text>
-				</Row>
-				<Text size="medium">{ itemsCount > 99 ? '99+' : itemsCount }</Text>
-			</Row>
-			<Divider />
-		</Container>
-	);
-}
+export default function FolderView() {
+	const { folderId } = useParams();
 
-function LoadingIndicator({ style, index }) {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch({
+			type: 'conversations/setCurrentFolder',
+			payload: folderId,
+		});
+	}, [folderId]);
+
+	useEffect(() => {
+		if (folderId) dispatch(fetchConversations({ folderId, limit: 100 }));
+	}, [folderId]);
+
+	const screen = useScreenMode();
+	const conversationId = useQueryParam('conversation');
+	const editId = useQueryParam('edit');
+
+	const MemoPanel = useMemo(() => {
+		if (editId) {
+			return (
+				<ConversationEditPanel
+					key={`conversationEdit-${editId}`}
+					editPanelId={editId}
+					folderId={folderId}
+				/>
+			);
+		}
+		if (conversationId) {
+			return (
+				<ConversationPreviewPanel key={`conversationPreview-${conversationId}`} />
+			);
+		}
+		if (screen === 'mobile') {
+			return (
+				<ConversationList
+					key={`ConversationList-${folderId}`}
+					folderId={folderId}
+				/>
+			);
+		}
+		return <Container />;
+	}, [editId, folderId, conversationId, screen]);
+
 	return (
-		<Container height={70} style={style} index={index}>
-			<Button loading disabled label="" type="ghost" />
-		</Container>
+		<SnackbarManager>
+			<Container
+				orientation="row"
+				crossAlignment="flex-start"
+				mainAlignment="flex-start"
+				width="fill"
+				height="fill"
+				background="gray5"
+				borderRadius="none"
+				style={{
+					maxHeight: '100%',
+				}}
+			>
+				<Responsive mode="desktop" target={window.top}>
+					<Container
+						width="calc(40% - 4px)"
+						mainAlignment="flex-start"
+						crossAlignment="unset"
+						borderRadius="none"
+					>
+						<ConversationList
+							key={`ConversationList-${folderId}`}
+							folderId={folderId}
+						/>
+					</Container>
+					<VerticalDivider />
+					<Container
+						width="calc(60% - 4px)"
+						mainAlignment="flex-start"
+						crossAlignment="flex-start"
+						borderRadius="none"
+						style={{ maxHeight: '100%' }}
+					>
+						{ MemoPanel }
+					</Container>
+				</Responsive>
+				<Responsive mode="mobile" target={window.top}>
+					<Container
+						mainAlignment="flex-start"
+						crossAlignment="flex-start"
+						borderRadius="none"
+						height="fill"
+					>
+						{ MemoPanel }
+					</Container>
+				</Responsive>
+			</Container>
+		</SnackbarManager>
 	);
 }

@@ -18,6 +18,78 @@ import {
 } from '../types/soap';
 import { Participant, ParticipantRole } from '../types/participant';
 
+function normalizeMailPartMapFn(v: SoapMailMessagePart): MailMessagePart {
+	const ret: MailMessagePart = {
+		contentType: v.ct,
+		size: v.s || 0,
+		name: v.part,
+	};
+	if (v.mp) {
+		ret.parts = map(
+			v.mp || [],
+			normalizeMailPartMapFn
+		);
+	}
+	if (v.filename) ret.filename = v.filename;
+	if (v.content) ret.content = v.content;
+	if (v.ci) ret.ci = v.ci;
+	if (v.cd) ret.disposition = v.cd;
+	return ret;
+}
+
+function bodyPathMapFn(v: SoapMailMessagePart, idx: number): Array<number> {
+	if (v.body) {
+		return [idx];
+	}
+	if (v.mp) {
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
+		const paths = recursiveBodyPath(v.mp);
+		if (paths.length > 0) {
+			paths.push(idx);
+			return paths;
+		}
+	}
+	return [];
+}
+
+function recursiveBodyPath(mp: Array<SoapMailMessagePart>): Array<number> {
+	return flattenDeep(map(mp, bodyPathMapFn));
+}
+
+export function generateBodyPath(mp: Array<SoapMailMessagePart>): string {
+	const indexes = recursiveBodyPath(mp);
+	const path = reduce(
+		indexes,
+		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
+		''
+	);
+	return trim(path, '.');
+}
+
+function participantTypeFromSoap(t: SoapEmailParticipantRole): ParticipantRole {
+	switch (t) {
+		case 'f': return ParticipantRole.FROM;
+		case 't': return ParticipantRole.TO;
+		case 'c': return ParticipantRole.CARBON_COPY;
+		case 'b': return ParticipantRole.BLIND_CARBON_COPY;
+		case 'r': return ParticipantRole.REPLY_TO;
+		case 's': return ParticipantRole.SENDER;
+		case 'n': return ParticipantRole.READ_RECEIPT_NOTIFICATION;
+		case 'rf': return ParticipantRole.RESENT_FROM;
+		default:
+			throw new Error(`Participant type not handled: '${t}'`);
+	}
+}
+
+export function normalizeParticipantsFromSoap(e: SoapMailParticipant): Participant {
+	return {
+		type: participantTypeFromSoap(e.t),
+		address: e.a,
+		name: e.d || e.a,
+		fullName: e.p,
+	};
+}
+
 export function normalizeMailMessageFromSoap(m: SoapIncompleteMessage): IncompleteMessage {
 	return {
 		conversation: m.cid,
@@ -47,75 +119,4 @@ export function normalizeMailMessageFromSoap(m: SoapIncompleteMessage): Incomple
 		isInvite: /v/.test(m.f || ''),
 		bodyPath: generateBodyPath(m.mp || []),
 	} as IncompleteMessage;
-}
-
-function normalizeMailPartMapFn(v: SoapMailMessagePart): MailMessagePart {
-	const ret: MailMessagePart = {
-		contentType: v.ct,
-		size: v.s || 0,
-		name: v.part,
-	};
-	if (v.mp) {
-		ret.parts = map(
-			v.mp || [],
-			normalizeMailPartMapFn
-		);
-	}
-	if (v.filename) ret.filename = v.filename;
-	if (v.content) ret.content = v.content;
-	if (v.ci) ret.ci = v.ci;
-	if (v.cd) ret.disposition = v.cd;
-	return ret;
-}
-
-export function generateBodyPath(mp: Array<SoapMailMessagePart>): string {
-	const indexes = recursiveBodyPath(mp);
-	const path = reduce(
-		indexes,
-		(partialPath: string, index: number): string => `parts[${index}].${partialPath}`,
-		''
-	);
-	return trim(path, '.');
-}
-
-function recursiveBodyPath(mp: Array<SoapMailMessagePart>): Array<number> {
-	return flattenDeep(map(mp, bodyPathMapFn));
-}
-
-function bodyPathMapFn(v: SoapMailMessagePart, idx: number): Array<number> {
-	if (v.body) {
-		return [idx];
-	}
-	if (v.mp) {
-		const paths = recursiveBodyPath(v.mp);
-		if (paths.length > 0) {
-			paths.push(idx);
-			return paths;
-		}
-	}
-	return [];
-}
-
-export function normalizeParticipantsFromSoap(e: SoapMailParticipant): Participant {
-	return {
-		type: participantTypeFromSoap(e.t),
-		address: e.a,
-		name: e.d || e.a,
-		fullName: e.p,
-	};
-}
-
-function participantTypeFromSoap(t: SoapEmailParticipantRole): ParticipantRole {
-	switch (t) {
-		case 'f': return ParticipantRole.FROM;
-		case 't': return ParticipantRole.TO;
-		case 'c': return ParticipantRole.CARBON_COPY;
-		case 'b': return ParticipantRole.BLIND_CARBON_COPY;
-		case 'r': return ParticipantRole.REPLY_TO;
-		case 's': return ParticipantRole.SENDER;
-		case 'n': return ParticipantRole.READ_RECEIPT_NOTIFICATION;
-		case 'rf': return ParticipantRole.RESENT_FROM;
-		default:
-			throw new Error(`Participant type not handled: '${t}'`);
-	}
 }

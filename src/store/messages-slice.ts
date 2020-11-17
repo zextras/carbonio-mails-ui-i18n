@@ -18,23 +18,7 @@ import {
 	SyncResult, sync, getConv
 } from './actions';
 
-export const messagesSlice = createSlice<MsgStateType, {}>({
-	name: 'messages',
-	initialState: {
-		cache: {} as MsgMap,
-	} as MsgStateType,
-	reducers: {},
-	extraReducers: (builder) => {
-		builder.addCase(sync.fulfilled, produce(syncFulfilled));
-		builder.addCase(getMsg.fulfilled, produce(getMsgFulfilled));
-		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
-		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
-		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
-		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
-	},
-});
 
-export default messagesSlice.reducer;
 
 function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }): void {
 	const {
@@ -140,6 +124,24 @@ function getConvFulfilled(
 		cache[m.id] = m as MailMessage;
 	});
 }
+
+export const messagesSlice = createSlice({
+	name: 'messages',
+	initialState: {
+		cache: {} as MsgMap,
+	} as MsgStateType,
+	reducers: {},
+	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
+		builder.addCase(getMsg.fulfilled, produce(getMsgFulfilled));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
+		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
+		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
+		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
+	},
+});
+
+export const messageSliceReducer = messagesSlice.reducer;
 
 export function selectMessages(state: StateType): MsgMap {
 	return state.messages.cache;

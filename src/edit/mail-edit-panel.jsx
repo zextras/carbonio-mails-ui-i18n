@@ -11,23 +11,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import EditView from './edit-view';
 
-export default function MailEditPanel({ editPanelId, folderId }) {
-	const [header, setHeader] = useState(undefined);
-	return (
-		<>
-			<MailEditHeader editPanelId={editPanelId} folderId={folderId} header={header} />
-			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)', flexGrow: '1' }} background="gray6">
-				<EditView
-					panel
-					editPanelId={editPanelId}
-					folderId={folderId}
-					setHeader={setHeader}
-				/>
-			</Container>
-		</>
-	);
-};
-
 const MailEditHeader = ({ folderId, header }) => {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
@@ -63,3 +46,20 @@ const MailEditHeader = ({ folderId, header }) => {
 		</Container>
 	);
 };
+
+export default function MailEditPanel({ editPanelId, folderId }) {
+	const [header, setHeader] = useState(undefined);
+	return (
+		<>
+			<MailEditHeader editPanelId={editPanelId} folderId={folderId} header={header} />
+			<Container mainAlignment="flex-start" height="fit" style={{ maxHeight: 'calc(100% - 49px)', flexGrow: '1' }} background="gray6">
+				<EditView
+					panel
+					editPanelId={editPanelId}
+					folderId={folderId}
+					setHeader={setHeader}
+				/>
+			</Container>
+		</>
+	);
+}

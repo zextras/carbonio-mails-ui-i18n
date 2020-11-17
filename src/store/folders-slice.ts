@@ -18,24 +18,6 @@ import { Folder } from '../types/folder';
 import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
 import { sync, SyncResult } from './actions';
 
-export const foldersSlice = createSlice({
-	name: 'folders',
-	initialState: {
-		status: 'idle',
-		folders: {} as MailsFolderMap,
-	} as FoldersStateType,
-	reducers: {
-		setFolders: produce(setFoldersReducer),
-		updateFolders: produce(updateFoldersReducer),
-		deleteFolders: produce(deleteFoldersReducer),
-	},
-	extraReducers: (builder) => {
-		builder.addCase(sync.fulfilled, produce(syncFulfilled));
-	},
-});
-
-export default foldersSlice.reducer;
-
 function syncFulfilled(state: FoldersStateType, { payload }: { payload: SyncResult }): void {
 	reduce(
 		payload.folders,
@@ -76,6 +58,24 @@ function deleteFoldersReducer(state: FoldersStateType, { payload }: any): void {
 		(id) => state.folders[id] && delete state.folders[id],
 	);
 }
+
+export const foldersSlice = createSlice({
+	name: 'folders',
+	initialState: {
+		status: 'idle',
+		folders: {} as MailsFolderMap,
+	} as FoldersStateType,
+	reducers: {
+		setFolders: produce(setFoldersReducer),
+		updateFolders: produce(updateFoldersReducer),
+		deleteFolders: produce(deleteFoldersReducer),
+	},
+	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
+	},
+});
+
+export const folderSliceReducer = foldersSlice.reducer;
 
 export function selectFolders({ folders }: StateType): MailsFolderMap {
 	return folders ? folders.folders : {};

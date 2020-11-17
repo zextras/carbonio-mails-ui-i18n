@@ -169,4 +169,4 @@ export default function MessageListItem({ message, folderId, conversation }) {
 			</HoverBarContainer>
 		</InvisibleLink>
 	);
-};
+}

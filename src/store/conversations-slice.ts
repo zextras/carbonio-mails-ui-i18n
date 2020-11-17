@@ -23,35 +23,6 @@ import {
 	convAction, getConv
 } from './actions';
 
-/* eslint no-param-reassign: "off" */
-
-export const conversationsSlice = createSlice<ConversationsStateType, {}>({
-	name: 'conversations',
-	initialState: {
-		currentFolder: '2',
-		cache: {
-			2: {
-				cache: {},
-				status: 'empty',
-			},
-		} as FolderToConversationsMap,
-	} as ConversationsStateType,
-	reducers: {
-		setCurrentFolder: produce(setCurrentFolderReducer),
-	},
-	extraReducers: (builder) => {
-		builder.addCase(sync.fulfilled, produce(syncFulfilled));
-		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
-		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFulfilled));
-		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
-		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
-		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
-		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
-	},
-});
-
-export default conversationsSlice.reducer;
-
 function fetchConversationsPending(
 	state: ConversationsStateType,
 	action: any,
@@ -110,22 +81,22 @@ function convActionFulfilled(
 					const newFlag = operation.startsWith('!');
 					conversation.flagged = newFlag;
 					conversation.messages
-						.forEach((msg) => {
-							msg.flagged = newFlag;
+						.forEach((message) => {
+							message.flagged = newFlag;
 						});
 				}
 				else if (operation.includes('read')) {
 					const newRead = operation.startsWith('!');
 					conversation.read = newRead;
 					conversation.messages
-						.forEach((msg) => {
-							msg.read = newRead;
+						.forEach((message) => {
+							message.read = newRead;
 						});
 				}
 				else if (operation === 'trash') {
 					if ('3' in cache) {
-						conversations.cache[id].messages.forEach((m) => {
-							m.parent = '3';
+						conversations.cache[id].messages.forEach((message) => {
+							message.parent = '3';
 						});
 						cache['3'].cache[id] = { ...conversations.cache[id] };
 					}
@@ -137,8 +108,8 @@ function convActionFulfilled(
 				else if (operation === 'move') {
 					const parent = meta.arg.payload;
 					if (parent in cache) {
-						conversations.cache[id].messages.forEach((m) => {
-							m.parent = parent;
+						conversations.cache[id].messages.forEach((message) => {
+							message.parent = parent;
 						});
 						cache[parent].cache[id] = { ...conversations.cache[id] };
 						// TODO: the view can be a little different, maybe it's better to resync
@@ -348,6 +319,33 @@ function getConvFulfilled(
 //
 //
 // }
+
+export const conversationsSlice = createSlice({
+	name: 'conversations',
+	initialState: {
+		currentFolder: '2',
+		cache: {
+			2: {
+				cache: {},
+				status: 'empty',
+			},
+		} as FolderToConversationsMap,
+	} as ConversationsStateType,
+	reducers: {
+		setCurrentFolder: produce(setCurrentFolderReducer),
+	},
+	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
+		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
+		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFulfilled));
+		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
+		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
+		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
+		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
+	},
+});
+
+export const conversationsSliceReducer = conversationsSlice.reducer;
 
 function selectCache({ conversations }: StateType):
 	Record<string, ConversationsInFolderState> {

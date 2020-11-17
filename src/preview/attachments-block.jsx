@@ -25,6 +25,89 @@ import {
 
 const AttachmentsActions = styled(Row)``;
 
+function findAttachments(parts, acc) {
+	return reduce(
+		parts,
+		(found, part) => {
+			if (part.disposition === 'attachment') {
+				found.push(part);
+			}
+			return findAttachments(part.parts, found);
+		},
+		acc
+	);
+}
+
+function getSizeLabel(size) {
+	let value = '';
+	if (size < 1024000) {
+		value = `${Math.round((size / 1024) * 100) / 100} KB`;
+	}
+	else if (size < 1024000000) {
+		value = `${Math.round((size / 1024 / 1024) * 100) / 100} MB`;
+	}
+	else {
+		value = `${Math.round((size / 1024 / 1024 / 1024) * 100) / 100} GB`;
+	}
+	return value;
+}
+
+function getAttachmentsLink(messageId, messageSubject, attachments) {
+	if (attachments.length > 1) {
+		return `/service/home/~/?auth=co&id=${messageId}&filename=${messageSubject}&charset=UTF-8&part=${attachments.join(',')}&disp=a&fmt=zip`;
+	}
+	return `/service/home/~/?auth=co&id=${messageId}&part=${attachments.join(',')}&disp=a`;
+}
+
+const AttachmentLink = styled.a`
+	text-decoration: none;
+	width: calc(50% - 4px);
+	margin-bottom: ${({ theme }) => theme.sizes.padding.small};
+`;
+const AttachmentExtension = styled(Text)`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 24px;
+	height: 24px;
+	border-radius: ${({ theme }) => theme.borderRadius};
+	background-color: ${({ theme }) => theme.palette.primary.regular};
+	color: ${({ theme }) => theme.palette.gray6.regular};
+	font-size: calc(${({ theme }) => theme.sizes.font.small} - 2px);
+	text-transform: uppercase;
+	margin-right: ${({ theme }) => theme.sizes.padding.small};
+`;
+const AttachmentContainer = styled(Row)`
+	transition: 0.2s ease-out;
+	&:hover {
+		background-color: ${({ theme, background }) => theme.palette[background].hover};
+	}
+	&:focus {
+		background-color: ${({ theme, background }) => theme.palette[background].focus};
+	}
+`;
+
+function Attachment({ filename, size, link }) {
+	const extension = filename.split('.').pop();
+	const sizeLabel = useMemo(() => getSizeLabel(size), [size]);
+	return (
+		<AttachmentLink
+			rel="noopener noreferrer"
+			target="_blank"
+			href={link}
+			download
+		>
+			<AttachmentContainer padding={{ all: 'small' }} background="gray5">
+				<AttachmentExtension>{ extension }</AttachmentExtension>
+				<Row orientation="vertical" crossAlignment="flex-start" takeAvailableSpace>
+					<Padding style={{ width: '100%' }} bottom="extrasmall"><Text>{ filename }</Text></Padding>
+					<Text color="gray1" size="small">{ sizeLabel }</Text>
+				</Row>
+			</AttachmentContainer>
+		</AttachmentLink>
+	);
+}
+
 export default function AttachmentsBlock({ message }) {
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
@@ -99,88 +182,5 @@ export default function AttachmentsBlock({ message }) {
 				</Link>
 			</AttachmentsActions>
 		</Container>
-	);
-}
-
-function findAttachments(parts, acc) {
-	return reduce(
-		parts,
-		(found, part) => {
-			if (part.disposition === 'attachment') {
-				found.push(part);
-			}
-			return findAttachments(part.parts, found);
-		},
-		acc
-	);
-}
-
-function getSizeLabel(size) {
-	let value = '';
-	if (size < 1024000) {
-		value = `${Math.round((size / 1024) * 100) / 100} KB`;
-	}
-	else if (size < 1024000000) {
-		value = `${Math.round((size / 1024 / 1024) * 100) / 100} MB`;
-	}
-	else {
-		value = `${Math.round((size / 1024 / 1024 / 1024) * 100) / 100} GB`;
-	}
-	return value;
-};
-
-function getAttachmentsLink(messageId, messageSubject, attachments) {
-	if (attachments.length > 1) {
-		return `/service/home/~/?auth=co&id=${messageId}&filename=${messageSubject}&charset=UTF-8&part=${attachments.join(',')}&disp=a&fmt=zip`;
-	}
-	return `/service/home/~/?auth=co&id=${messageId}&part=${attachments.join(',')}&disp=a`;
-};
-
-const AttachmentLink = styled.a`
-	text-decoration: none;
-	width: calc(50% - 4px);
-	margin-bottom: ${({ theme }) => theme.sizes.padding.small};
-`;
-const AttachmentExtension = styled(Text)`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 24px;
-	height: 24px;
-	border-radius: ${({ theme }) => theme.borderRadius};
-	background-color: ${({ theme }) => theme.palette.primary.regular};
-	color: ${({ theme }) => theme.palette.gray6.regular};
-	font-size: calc(${({ theme }) => theme.sizes.font.small} - 2px);
-	text-transform: uppercase;
-	margin-right: ${({ theme }) => theme.sizes.padding.small};
-`;
-const AttachmentContainer = styled(Row)`
-	transition: 0.2s ease-out;
-	&:hover {
-		background-color: ${({ theme, background }) => theme.palette[background].hover};
-	}
-	&:focus {
-		background-color: ${({ theme, background }) => theme.palette[background].focus};
-	}
-`;
-
-function Attachment({ filename, size, link }) {
-	const extension = filename.split('.').pop();
-	const sizeLabel = useMemo(() => getSizeLabel(size), [size]);
-	return (
-		<AttachmentLink
-			rel="noopener noreferrer"
-			target="_blank"
-			href={link}
-			download
-		>
-			<AttachmentContainer padding={{ all: 'small' }} background="gray5">
-				<AttachmentExtension>{ extension }</AttachmentExtension>
-				<Row orientation="vertical" crossAlignment="flex-start" takeAvailableSpace>
-					<Padding style={{ width: '100%' }} bottom="extrasmall"><Text>{ filename }</Text></Padding>
-					<Text color="gray1" size="small">{ sizeLabel }</Text>
-				</Row>
-			</AttachmentContainer>
-		</AttachmentLink>
 	);
 }
