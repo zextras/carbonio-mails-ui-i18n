@@ -11,11 +11,12 @@
 /* eslint no-param-reassign: "off" */
 import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
+import { Conversation } from '../types/conversation';
 import { MailMessage } from '../types/mail-message';
 import { MsgMap, MsgStateType, StateType } from '../types/state';
 import {
 	getMsg, searchConv, SearchConvReturn, msgAction, MsgActionResult, ConvActionResult, convAction,
-	SyncResult, sync
+	SyncResult, sync, getConv
 } from './actions';
 
 export const messagesSlice = createSlice<MsgStateType, {}>({
@@ -30,6 +31,7 @@ export const messagesSlice = createSlice<MsgStateType, {}>({
 		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
 		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
 		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
+		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
 	},
 });
 
@@ -129,6 +131,15 @@ function convActionFulfilled(
 				}
 			}
 		});
+}
+
+function getConvFulfilled(
+	{ cache }: MsgStateType,
+	{ payload, meta }: { payload: Conversation; meta: any },
+): void {
+	payload.messages.forEach((m) => {
+		cache[m.id] = m as MailMessage;
+	});
 }
 
 export function selectMessages(state: StateType): MsgMap {
