@@ -30,13 +30,8 @@ export type IncompleteMessage = {
 	subject?: string;
 	fragment?: string;
 	tags: string[];
-	parts?: Array<MailMessagePart>;
-	bodyPath?: string;
-}
-
-export type MailMessage = IncompleteMessage & {
 	parts: Array<MailMessagePart>;
-	/** Defines the path inside the parts of the mail */ bodyPath: string;
+	bodyPath: string;
 }
 
 export type MailMessagePart = {

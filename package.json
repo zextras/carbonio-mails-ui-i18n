@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.4.0",
+    "@types/react-redux": "^7.1.11",
     "@zextras/zapp-shell": ">=0.0.96 <2.0.0",
     "@zextras/zapp-ui": ">=0.0.45 <2.0.0",
     "core-js": "3.7.0",
@@ -68,6 +69,7 @@
     "react-i18next": "11.7.3",
     "react-redux": "7.2.2",
     "react-virtualized": "9.22.2",
+    "react-window": "^1.8.6",
     "styled-components": "5.2.1"
   }
 }
