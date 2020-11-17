@@ -11,6 +11,7 @@
 
 export * from './conv-action';
 export * from './fetch-conversations';
+export * from './get-conv';
 export * from './get-msg';
 export * from './msg-action';
 export * from './search-conv';

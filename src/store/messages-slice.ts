@@ -50,7 +50,7 @@ function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }
 				state.cache[msg.id].isDeleted = msg.isDeleted;
 			}
 			else {
-				// TODO draft? the body can change and i don't know how to fetch
+				delete state.cache[msg.id];
 			}
 		}
 	});
@@ -86,13 +86,17 @@ function msgActionFulfilled(
 		if (message) {
 			if (operation.includes('flag')) {
 				message.flagged = !operation.startsWith('!');
-			} else if (operation.includes('read')) {
+			}
+			else if (operation.includes('read')) {
 				message.read = !operation.startsWith('!');
-			} else if (operation === 'trash') {
+			}
+			else if (operation === 'trash') {
 				message.parent = '3';
-			} else if (operation === 'delete') {
+			}
+			else if (operation === 'delete') {
 				delete cache[id];
-			} else if (operation === 'move') {
+			}
+			else if (operation === 'move') {
 				message.parent = meta.arg.parent;
 			}
 		}
@@ -110,13 +114,17 @@ function convActionFulfilled(
 			if (message) {
 				if (operation.includes('flag')) {
 					message.flagged = !operation.startsWith('!');
-				} else if (operation.includes('read')) {
+				}
+				else if (operation.includes('read')) {
 					message.read = !operation.startsWith('!');
-				} else if (operation === 'trash') {
+				}
+				else if (operation === 'trash') {
 					message.parent = '3';
-				} else if (operation === 'delete') {
+				}
+				else if (operation === 'delete') {
 					delete cache[message.id];
-				} else if (operation === 'move') {
+				}
+				else if (operation === 'move') {
 					message.parent = meta.arg.parent;
 				}
 			}

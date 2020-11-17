@@ -9,27 +9,19 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { SoapConversation } from './soap-conversation';
 import { ZimbraRequest } from './zimbra-request';
 
-export type MsgActionOperation = 'move' |
-	'flag' | '!flag' |
-	'read' | '!read' |
-	'tag'	| '!tag'	|
-	'trash' |
-	'delete';
-
-export type MsgActionRequest = ZimbraRequest & {
-	action: {
+export type GetConvRequest = ZimbraRequest & {
+	c: {
 		id: string;
-		op: MsgActionOperation;
-		tn?: string;
-		l?: string;
+		fetch?: string;
+		html?: 0 | 1;
+		max?: number;
+		needExp: 0 | 1;
 	};
 }
 
-export type MsgActionResponse = {
-	action: {
-		id: string;
-		op: MsgActionOperation;
-	};
+export type GetConvResponse = {
+	c: Array<SoapConversation>;
 }

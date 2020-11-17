@@ -11,6 +11,7 @@
 
 export * from './conv-action';
 export * from './get-msg';
+export * from './get-conv';
 export * from './msg-action';
 export * from './search';
 export * from './search-conv';

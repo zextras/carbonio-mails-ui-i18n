@@ -21,7 +21,7 @@ export type SyncResponse = ZimbraRequest & {
 	md: number;
 	token: string;
 	more: boolean;
-	deleted?: SyncResponseDeletedMap;
+	deleted?: Array<SyncResponseDeletedMap>;
 	folder?: Array<SyncResponseMailFolder>;
 	m?: Array<SyncResponseMail>;
 	c?: Array<SoapConversation>;
@@ -57,9 +57,9 @@ type SyncResponseDeletedMapRow = {
 };
 
 export type SyncResponseDeletedMap = SyncResponseDeletedMapRow & {
-	folder?: SyncResponseDeletedMapRow;
-	m?: SyncResponseDeletedMapRow;
-	c?: SyncResponseDeletedMapRow;
+	folder?: Array<SyncResponseDeletedMapRow>;
+	m?: Array<SyncResponseDeletedMapRow>;
+	c?: Array<SyncResponseDeletedMapRow>;
 };
 
 type ISoapSyncFolderObj = {

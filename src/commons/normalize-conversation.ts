@@ -16,7 +16,7 @@ import { SoapConversation } from '../types/soap';
 import { normalizeMailMessageFromSoap, normalizeParticipantsFromSoap } from './normalize-message';
 
 export function normalizeConversationFromSoap(c: SoapConversation): Conversation {
-	const messages: IncompleteMessage[] = c.m.map(normalizeMailMessageFromSoap);
+	const messages: IncompleteMessage[] = (c.m || []).map(normalizeMailMessageFromSoap);
 
 	return {
 		tags: [],
