@@ -8,7 +8,6 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-/* eslint no-param-reassign: "off" */
 import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { MailMessage } from '../types/mail-message';
