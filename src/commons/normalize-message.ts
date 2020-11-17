@@ -39,7 +39,7 @@ export function normalizeMailMessageFromSoap(m: SoapIncompleteMessage): Incomple
 		parts: map(
 			m.mp || [],
 			normalizeMailPartMapFn
-		),
+		) as MailMessagePart[],
 		isDeleted: /x/.test(m.f || ''),
 		isDraft: /d/.test(m.f || ''),
 		isForwarded: /f/.test(m.f || ''),

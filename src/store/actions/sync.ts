@@ -18,7 +18,7 @@ import { Conversation } from '../../types/conversation';
 import { Folder } from '../../types/folder';
 import { IncompleteMessage } from '../../types/mail-message';
 import { SyncRequest, SyncResponse, SyncResponseDeletedMap } from '../../types/soap';
-import { MailsFolderMap } from '../../types/state';
+import { ConversationsInFolderState, MailsFolderMap } from '../../types/state';
 import { getConv } from './get-conv';
 
 export type SyncResult = {
@@ -69,7 +69,8 @@ export const sync = createAsyncThunk<SyncResult, void>(
 
 				if (folder.cache[receivedMsg.conversation]) {
 					const conversation = folder.cache[receivedMsg.conversation];
-					const indexMessage = conversation.messages.findIndex((msg) => msg.id === receivedMsg.id);
+					const indexMessage = conversation.messages
+						.findIndex((msg: IncompleteMessage) => msg.id === receivedMsg.id);
 
 					// It means it's a new message of an already present conversation
 					// or a moved message
@@ -86,7 +87,7 @@ export const sync = createAsyncThunk<SyncResult, void>(
 
 		const editedConversations = conversations
 			.map((co) => co.id)
-			.filter((id) => Object.values(getState().conversations.cache).some((f) => f.cache[id]));
+			.filter((id) => Object.values(getState().conversations.cache).some((f: any) => f.cache[id]));
 
 		conversationsToAsk = uniq(conversationsToAsk.concat(editedConversations));
 		conversationsToAsk.forEach((convId) => dispatch(getConv({ convId })));

@@ -319,7 +319,6 @@ function getConvFulfilled(
 			myConv.unreadMsgCount = myConv.messages.filter((m) => m.read).length;
 			myConv.date = Math.max(...myConv.messages.filter((m) => m.parent === folderId)
 				.map((m) => m.date));
-			// TODO: maybe edit participants
 
 			state.cache[folderId].cache[myConv.id] = myConv;
 		}
