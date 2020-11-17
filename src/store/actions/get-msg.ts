@@ -34,7 +34,7 @@ export const getMsg = createAsyncThunk<MailMessage, GetMsgParameters>(
 			},
 		);
 		const msg = result.m[0];
-		return normalizeMailMessageFromSoap(msg);
+		return normalizeMailMessageFromSoap(msg) as MailMessage;
 	},
 	{
 		condition: ({ msgId }, { getState }: any) => !(msgId in getState().messages.cache),

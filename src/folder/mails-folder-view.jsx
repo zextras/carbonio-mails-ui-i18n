@@ -145,9 +145,9 @@ const ConversationList = ({ folderId }) => {
 		const dateOrNull = date ? new Date(date) : null;
 		dispatch(fetchConversations({ folderId, before: dateOrNull, limit: 50 }));
 	}, [folderId]);
-	useEffect(() => {
-		dispatch(fetchConversations({ folderId, limit: 10 }));
-	},[status]);
+	// useEffect(() => {
+	// 	dispatch(fetchConversations({ folderId, limit: 10 }));
+	// },[status]);
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);

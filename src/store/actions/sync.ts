@@ -11,27 +11,28 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
-import { reduce } from 'lodash';
+import { reduce, uniq } from 'lodash';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { Conversation } from '../../types/conversation';
 import { Folder } from '../../types/folder';
 import { IncompleteMessage } from '../../types/mail-message';
 import { SyncRequest, SyncResponse, SyncResponseDeletedMap } from '../../types/soap';
-import { MailsFolderMap } from '../../types/state';
+import { ConversationsInFolderState, MailsFolderMap } from '../../types/state';
+import { getConv } from './get-conv';
 
 export type SyncResult = {
-	messages: IncompleteMessage[],
-	folders: MailsFolderMap,
-	conversations: Conversation[],
-	token: string,
-	deleted: SyncDeletedResult,
+	messages: IncompleteMessage[];
+	folders: MailsFolderMap;
+	conversations: Conversation[];
+	token: string;
+	deleted: SyncDeletedResult;
 }
 
 export type SyncDeletedResult = {
-	conversations: string[],
-	messages: string[],
-	folders: string[],
+	conversations: string[];
+	messages: string[];
+	folders: string[];
 }
 
 export const sync = createAsyncThunk<SyncResult, void>(
@@ -41,8 +42,8 @@ export const sync = createAsyncThunk<SyncResult, void>(
 
 		console.log('Perform a Sync!');
 		const {
-			token: _token, folder, deleted, m, c
-		} : SyncResponse = await network.soapFetch<SyncRequest, SyncResponse>(
+			token: _token, folder: folders, deleted, m, c
+		}: SyncResponse = await network.soapFetch<SyncRequest, SyncResponse>(
 			'Sync',
 			{
 				_jsns: 'urn:zimbraMail',
@@ -50,12 +51,53 @@ export const sync = createAsyncThunk<SyncResult, void>(
 				token,
 			},
 		);
+		const messages = (m || []).map(normalizeMailMessageFromSoap);
+		const conversations = (c || []).map(normalizeConversationFromSoap);
+		const del = deleted ? normalizeDeleted(deleted[0]) : normalizeDeleted(undefined);
+
+		let conversationsToAsk: string[] = [];
+
+		// check whether a conversation needs to be downloaded
+		messages.forEach((receivedMsg) => {
+			Object.keys(getState().conversations.cache).forEach((folderId) => {
+				const folder = getState().conversations.cache[folderId];
+
+				// It means it's a new message of a new conversation
+				if (!folder.cache[receivedMsg.conversation] && receivedMsg.parent === folderId) {
+					conversationsToAsk.push(receivedMsg.conversation);
+				}
+
+				if (folder.cache[receivedMsg.conversation]) {
+					const conversation = folder.cache[receivedMsg.conversation];
+					const indexMessage = conversation.messages
+						.findIndex((msg: IncompleteMessage) => msg.id === receivedMsg.id);
+
+					// It means it's a new message of an already present conversation
+					// or a moved message
+					// or a draft (so the body can have change so i must download it
+					if ((indexMessage !== -1
+						&& receivedMsg.parent === conversation.messages[indexMessage].parent)
+						|| receivedMsg.parent !== '6'
+					) {
+						conversationsToAsk.push(receivedMsg.conversation);
+					}
+				}
+			});
+		});
+
+		const editedConversations = conversations
+			.map((co) => co.id)
+			.filter((id) => Object.values(getState().conversations.cache).some((f: any) => f.cache[id]));
+
+		conversationsToAsk = uniq(conversationsToAsk.concat(editedConversations));
+		conversationsToAsk.forEach((convId) => dispatch(getConv({ convId })));
+
 		return ({
 			token: `${_token}`,
-			messages: (m || []).map(normalizeMailMessageFromSoap),
-			conversations: (c || []).map(normalizeConversationFromSoap),
-			folders: folder ? findFolders(folder[0]) : {},
-			deleted: normalizeDeleted(deleted),
+			messages,
+			conversations,
+			folders: folders ? findFolders(folders[0]) : {},
+			deleted: del,
 		});
 	},
 	{
@@ -90,12 +132,12 @@ export function findFolders(folder: any): MailsFolderMap {
 }
 
 function normalizeDeleted(param?: SyncResponseDeletedMap): SyncDeletedResult {
-	if(param) {
+	if (param) {
 		return {
-			conversations: param.c ? param.c.ids.split(',') : [],
-			messages: param.m ? param.m.ids.split(',') : [],
-			folders: param.folder ? param.folder.ids.split(',') : [],
-		}
+			conversations: param.c ? param.c[0].ids.split(',') : [],
+			messages: param.m ? param.m[0].ids.split(',') : [],
+			folders: param.folder ? param.folder[0].ids.split(',') : [],
+		};
 	}
 	return {
 		conversations: [],

@@ -11,15 +11,16 @@
 
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import produce from 'immer';
+import { uniq, cloneDeep } from 'lodash';
 import { Conversation } from '../types/conversation';
-import { MsgActionResponse } from '../types/soap';
+import { MsgActionResponse, SearchConvRequest, SearchConvResponse } from '../types/soap';
 import {
 	ConversationsFolderStatus,
 	ConversationsInFolderState, ConversationsStateType, FolderToConversationsMap, StateType,
 } from '../types/state';
 import {
 	FetchConversationsReturn, fetchConversations, searchConv, ConvActionResult, SyncResult, sync,
-	convAction,
+	convAction, getConv
 } from './actions';
 
 /* eslint no-param-reassign: "off" */
@@ -39,12 +40,13 @@ export const conversationsSlice = createSlice<ConversationsStateType, {}>({
 		setCurrentFolder: produce(setCurrentFolderReducer),
 	},
 	extraReducers: (builder) => {
+		builder.addCase(sync.fulfilled, produce(syncFulfilled));
 		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
 		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFulfilled));
 		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
 		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
 		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
-		builder.addCase(sync.fulfilled, produce(syncFulfilled));
+		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
 	},
 });
 
@@ -111,14 +113,16 @@ function convActionFulfilled(
 						.forEach((msg) => {
 							msg.flagged = newFlag;
 						});
-				} else if (operation.includes('read')) {
+				}
+				else if (operation.includes('read')) {
 					const newRead = operation.startsWith('!');
 					conversation.read = newRead;
 					conversation.messages
 						.forEach((msg) => {
 							msg.read = newRead;
 						});
-				} else if (operation === 'trash') {
+				}
+				else if (operation === 'trash') {
 					if ('3' in cache) {
 						conversations.cache[id].messages.forEach((m) => {
 							m.parent = '3';
@@ -126,9 +130,11 @@ function convActionFulfilled(
 						cache['3'].cache[id] = { ...conversations.cache[id] };
 					}
 					delete conversations.cache[id];
-				} else if (operation === 'delete') {
+				}
+				else if (operation === 'delete') {
 					delete conversations.cache[id];
-				} else if (operation === 'move') {
+				}
+				else if (operation === 'move') {
 					const parent = meta.arg.payload;
 					if (parent in cache) {
 						conversations.cache[id].messages.forEach((m) => {
@@ -213,33 +219,135 @@ function syncFulfilled(state: ConversationsStateType, { payload }: { payload: Sy
 	const {
 		messages, conversations, folders, deleted,
 	} = payload;
-
 	// delete cache for 'deleted folders'
 	deleted.folders.forEach((folderId) => delete state.cache[folderId]);
 
-	// delete deleted conversations
+	// delete deleted conversations (I've never seen this), should work
 	deleted.conversations.forEach((id) => {
 		Object.values(state.cache).forEach((folder) => {
 			delete folder.cache[id];
 		});
 	});
 
-	// Invalidate che cache of the folders that contains a edited conversation
-	// (it means new a new message is arrived or has been sent)
-	Object.keys(state.cache).forEach((folder) => {
-		if (conversations.map((c) => c.id)
-			.filter({}.hasOwnProperty.bind(state.cache[folder].cache))) state.cache[folder].status = 'hasChange';
+	// delete deleted messages: works
+	deleted.messages.forEach((id) => {
+		Object.values(state.cache).forEach((folder) => {
+			Object.keys(folder.cache).forEach((convId) => {
+				const conv = folder.cache[convId];
+				const index = conv.messages.findIndex((m) => m.id === id);
+				if (index > -1) {
+					delete conv.messages[index];
+					conv.msgCount = conv.messages.length;
+					if (conv.msgCount === 0) {
+						delete folder.cache[convId];
+					}
+					else {
+						conv.flagged = conv.messages.some((m) => m.flagged);
+						conv.unreadMsgCount = conv.messages.filter((m) => !m.read).length;
+						conv.urgent = conv.messages.some((m) => m.urgent);
+						conv.fragment = conv.messages[0].fragment || conv.fragment;
+						conv.subject = conv.messages[conv.msgCount - 1].subject || conv.subject;
+						conv.tags = uniq(conv.messages.flatMap((m) => m.tags));
+					}
+				}
+			});
+		});
 	});
 
-	Object.values(state.cache).forEach((folder) => {
-		deleted.conversations.forEach((id) => delete folder.cache[id]);
-	});
+	// edit edited messages
+	messages.forEach((receivedMsg) => {
+		Object.keys(state.cache).forEach((folderId) => {
+			const folder = state.cache[folderId];
 
-	Object.values(state.cache).forEach((folder) => {
-		deleted.messages.forEach((id) => delete folder.cache[id]);
+			if (folder.cache[receivedMsg.conversation]) {
+				const conversation = folder.cache[receivedMsg.conversation];
+				const indexMessage = conversation.messages.findIndex((msg) => msg.id === receivedMsg.id);
+
+				if (indexMessage !== -1
+					&& receivedMsg.parent === conversation.messages[indexMessage].parent
+					&& receivedMsg.parent !== '6'
+				) {
+					const msg = conversation.messages[indexMessage];
+					const {
+						flagged, urgent, isDeleted, read, tags
+					} = receivedMsg;
+					conversation.messages[indexMessage] = {
+						...msg, flagged, urgent, isDeleted, read, tags
+					};
+
+					// update its conversation
+					conversation.flagged = conversation.messages.some((m) => m.flagged);
+					conversation.unreadMsgCount = conversation.messages.filter((m) => !m.read).length;
+					conversation.urgent = conversation.messages.some((m) => m.urgent);
+					conversation.tags = uniq(conversation.messages.flatMap((m) => m.tags));
+				}
+			}
+		});
 	});
-	// TODO: handle ... all edits
 }
+
+function getConvFulfilled(
+	state: ConversationsStateType,
+	{ payload: conv }: { payload: Conversation }
+): void {
+	Object.keys(state.cache).forEach((folderId) => {
+		const folder = state.cache[folderId];
+
+		delete folder.cache[conv.id];
+
+		// the conversation can have a newId, so i must remove all conversations
+		// whose messages appears in the received conversation
+		Object.values(folder.cache)
+			.filter((c) => conv.messages.map((m) => m.id).includes(c.messages[0].id))
+			.forEach((c) => delete folder.cache[c.id]);
+
+		if (conv.messages.map((m) => m.parent).includes(folderId)) {
+			const myConv = cloneDeep(conv);
+
+			switch (folderId) {
+				case '3':
+					myConv.messages = myConv.messages.filter((m) => m.parent !== '4');
+					break;
+				case '4':
+					myConv.messages = myConv.messages.filter((m) => m.parent !== '3');
+					break;
+				default:
+					myConv.messages = myConv.messages.filter((m) => m.parent === folderId || !m.isDeleted);
+			}
+			myConv.messages = myConv.messages.sort((a, b) => b.date - a.date);
+			myConv.msgCount = myConv.messages.length;
+			myConv.unreadMsgCount = myConv.messages.filter((m) => m.read).length;
+			myConv.date = Math.max(...myConv.messages.filter((m) => m.parent === folderId)
+				.map((m) => m.date));
+
+			state.cache[folderId].cache[myConv.id] = myConv;
+		}
+	});
+}
+
+// function getConversation(conversationId: string): void {
+// 	// https://files.zimbra.com/docs/soap_api/9.0.0/api-reference/index.html
+// 	// https://files.zimbra.com/docs/soap_api/9.0.0/api-reference/zimbraMail/GetConv.html
+//
+// 	const result = await network.soapFetch<SearchConvRequest, SearchConvResponse>(
+// 		'SearchConv',
+// 		{
+// 			_jsns: 'urn:zimbraMail',
+// 			cid: conversationId,
+// 			query: `inId: ${folderId}`,
+// 			recip: '2',
+// 			sortBy: 'dateDesc',
+// 			offset: 0,
+// 			fetch,
+// 			needExp: 1,
+// 			limit: 250,
+// 			html: 1,
+// 			max: 250000,
+// 		},
+// 	);
+//
+//
+// }
 
 function selectCache({ conversations }: StateType):
 	Record<string, ConversationsInFolderState> {

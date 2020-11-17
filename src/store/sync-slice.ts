@@ -13,7 +13,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { SyncStateType } from '../types/state';
 import { sync } from './actions';
-import { handleSyncData as handleFolderSyncData } from './folders-slice';
 
 function performSyncPending(state: SyncStateType, action: any): void {
 	if (state.status === 'idle' || state.status === 'init') {

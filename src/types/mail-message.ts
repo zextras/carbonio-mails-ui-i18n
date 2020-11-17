@@ -29,7 +29,7 @@ export type IncompleteMessage = {
 	date: number;
 	subject?: string;
 	fragment?: string;
-	tags?: string[];
+	tags: string[];
 	parts?: Array<MailMessagePart>;
 	bodyPath?: string;
 }

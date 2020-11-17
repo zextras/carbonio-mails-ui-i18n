@@ -40,20 +40,20 @@ exports.config = {
 		await browser.get('http://localhost:9000');
 		await browser.waitForReact(100000, '#app');
 		await new Promise(function(resolve, reject) {
-				let interval;
-				let count = 0;
-				interval = setInterval(function() {
-					if (browser.executeScript("return typeof window.e2e !== 'undefined'")) {
-						clearInterval(interval);
-						resolve();
-					} else {
-						count++;
-						if (count > 100) {
-							reject('Timout on waiting e2e environment');
-						}
+			let interval;
+			let count = 0;
+			interval = setInterval(function() {
+				if (browser.executeScript("return typeof window.e2e !== 'undefined'")) {
+					clearInterval(interval);
+					resolve();
+				} else {
+					count++;
+					if (count > 100) {
+						reject('Timout on waiting e2e environment');
 					}
-				}, 100);
-			});
+				}
+			}, 100);
+		});
 		// await browser.executeAsyncScript(function() {
 		// 	var callback = arguments[arguments.length - 1];
 		// 	window.e2e.beforeEachTest()
@@ -62,4 +62,4 @@ exports.config = {
 		// 		});
 		// });
 	}
-}
+};

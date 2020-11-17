@@ -9,10 +9,8 @@
  * *** END LICENSE BLOCK *****
  */
 
-export * from './conv-action';
-export * from './fetch-conversations';
-export * from './get-conv';
-export * from './get-msg';
-export * from './msg-action';
-export * from './search-conv';
-export * from './sync';
+import { setupServer } from 'msw/node';
+import handlers from './handlers';
+
+const server = setupServer(...handlers);
+export default server;

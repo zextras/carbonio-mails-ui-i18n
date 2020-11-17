@@ -12,4 +12,10 @@ module.exports = {
 	// coverageDirectory: 'test/coverage',
 	coverageReporters: ['text'],
 	// testMatch: ['/test/**/*.js?(x)'],
+	setupFilesAfterEnv: [
+		"<rootDir>/src/jest-env-setup.js"
+	],
+	setupFiles: [
+		"<rootDir>/src/jest-polyfills.js"
+	]
 };

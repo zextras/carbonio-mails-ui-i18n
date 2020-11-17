@@ -9,10 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-export * from './conv-action';
-export * from './fetch-conversations';
-export * from './get-conv';
-export * from './get-msg';
-export * from './msg-action';
-export * from './search-conv';
-export * from './sync';
+import handlers from './handlers';
+
+window.__ZAPP_HANDLERS__(handlers);
+
+if (module.hot) {
+	module.hot.accept('./handlers.js', () => {
+		window.__ZAPP_HMR_HANDLERS__(handlers);
+	});
+}
