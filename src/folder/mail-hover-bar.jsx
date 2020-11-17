@@ -119,7 +119,7 @@ function Forward({ message, folder }) {
 			icon="Forward"
 			onClick={(ev) => {
 				ev.preventDefault();
-				replaceHistory(`/folder/${folder._id}?edit=new&action=forward&actionId=${message.id}`);
+				replaceHistory(`/folder/${folder.id}?edit=new&action=forward&actionId=${message.id}`);
 			}}
 		/>
 	);
@@ -134,7 +134,7 @@ function Reply({ message, folder }) {
 			icon="UndoOutline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				replaceHistory(`/folder/${folder._id}?edit=new&action=reply&actionId=${message.id}`);
+				replaceHistory(`/folder/${folder.id}?edit=new&action=reply&actionId=${message.id}`);
 			}}
 		/>
 	);
@@ -149,7 +149,7 @@ function ReplyAll({ message, folder }) {
 			icon="ReplyAll"
 			onClick={(ev) => {
 				ev.preventDefault();
-				replaceHistory(`/folder/${folder._id}?edit=new&action=replyAll&actionId=${message.id}`);
+				replaceHistory(`/folder/${folder.id}?edit=new&action=replyAll&actionId=${message.id}`);
 			}}
 		/>
 	);
@@ -164,7 +164,7 @@ function Edit({ message, folder }) {
 			icon="Edit2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				replaceHistory(`/folder/${folder._id}?edit=${message._id}`);
+				replaceHistory(`/folder/${folder.id}?edit=${message._id}`);
 			}}
 		/>
 	);

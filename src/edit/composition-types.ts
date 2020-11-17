@@ -9,43 +9,18 @@
  * *** END LICENSE BLOCK *****
  */
 
-export type CompositionState = {
-	to: Array<{ value: string}>;
-	cc: Array<{ value: string}>;
-	bcc: Array<{ value: string}>;
-	subject: string;
-	body: {
-		text: string;
-		html: string;
-	};
-	richText: boolean;
-	flagged: boolean;
-	urgent: boolean;
-};
+import { MailsEditor } from '../types/mails-editor';
 
 export type CompositionData = {
-	compositionData: CompositionState;
+	compositionData: MailsEditor;
 	actions: {
-		updateSubject: (value: string) => void;
-		updateContacts: (type: 'to' |	'cc' | 'bcc', value: Array<{ value: string }>) => void;
-		updateBody: (value: [string, string]) => void;
-		toggleRichText: (richText: boolean) => void;
-		toggleFlagged: (flagged: boolean) => void;
-		toggleUrgent: (urgent: boolean) => void;
-		sendMail: () => void;
+		updateSubjectCb: (value: string) => void;
+		updateContactsCb: (type: 'to' |	'cc' | 'bcc', value: Array<{ value: string }>) => void;
+		updateBodyCb: (value: [string, string]) => void;
+		toggleRichTextCb: (richText: boolean) => void;
+		toggleFlaggedCb: (flagged: boolean) => void;
+		toggleUrgentCb: (urgent: boolean) => void;
+		sendMailCb: () => void;
+		saveDraftCb: () => void;
 	};
-};
-
-export const emptyDraft: CompositionState = {
-	richText: true,
-	subject: '',
-	urgent: false,
-	flagged: false,
-	to: [],
-	cc: [],
-	bcc: [],
-	body: {
-		text: '',
-		html: ''
-	}
 };

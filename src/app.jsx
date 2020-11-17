@@ -17,6 +17,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { report } from './commons/report-exception';
 import syncSliceReducer, { startSync } from './store/sync-slice';
 import foldersSliceReducer from './store/folders-slice';
+import editorsSliceReducer from './store/editor-slice';
 import SetMainMenuItems from './secondary-bar/set-main-menu-items';
 import conversationsSliceReducer from './store/conversations-slice';
 import messagesSliceReducer from './store/messages-slice';
@@ -38,6 +39,7 @@ export default function App() {
 				folders: foldersSliceReducer,
 				sync: syncSliceReducer,
 				conversations: conversationsSliceReducer,
+				editors: editorsSliceReducer,
 				messages: messagesSliceReducer
 			}),
 		);

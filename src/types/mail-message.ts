@@ -49,3 +49,9 @@ export type MailMessagePart = {
 	ci?: string;
 	disposition?: 'inline'|'attachment';
 }
+
+export type MailMessage = IncompleteMessage & {
+	parts: Array<MailMessagePart>;
+	/** Defines the path inside the parts of the mail */ bodyPath: string;
+	parent: string;
+}

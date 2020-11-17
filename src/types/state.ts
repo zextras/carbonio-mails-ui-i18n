@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
+import { MailsEditor } from './mails-editor';
 import { MailMessage } from './mail-message';
 import { Conversation } from './conversation';
 import { Folder } from './folder';
@@ -16,6 +17,7 @@ import { Folder } from './folder';
 export type StateType = {
 	status: string;
 	folders: FoldersStateType;
+	editors: EditorsStateType;
 	conversations: ConversationsStateType;
 	sync: SyncStateType;
 	messages: MsgStateType;
@@ -25,6 +27,11 @@ export type SyncStateType = {
 	status: string;
 	intervalId: number;
 	token?: string;
+}
+
+export interface EditorsStateType {
+	status: string;
+	editors: MailsEditorMap;
 }
 
 export type FoldersStateType = {
@@ -42,6 +49,8 @@ export type ConversationsStateType = {
 }
 
 export type MailsFolderMap = Record<string, Folder>;
+
+export type MailsEditorMap = Record<string, MailsEditor>;
 
 export type MsgMap = Record<string, MailMessage>;
 

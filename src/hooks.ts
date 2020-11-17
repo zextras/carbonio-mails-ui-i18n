@@ -16,13 +16,18 @@ import {
 import {
 	sortBy, find, keyBy, pick, filter
 } from 'lodash';
+import { useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { MailsFolder, MailsFolderFromDb } from './db/mails-folder';
 import { MailConversationFromDb } from './db/mail-conversation';
 import { AppContext } from './app-context';
 import ConversationListContext from './context/conversation-list-context';
 import MessageListContext from './context/message-list-context';
-import FolderListContext from './context/folder-list-context';
 import { MailMessageFromDb } from './db/mail-message';
+import { selectMessages } from './store/messages-slice';
+import { MailMessage } from './types/mail-message';
+import { selectFolders } from './store/folders-slice';
+import { Folder } from './types/folder';
 
 type ConversationInFolderState = {
 	folder: MailsFolderFromDb | undefined;
@@ -195,27 +200,10 @@ export function useConversation(conversationId: string): [MailConversationFromDb
 	return [conversation, loaded];
 }
 
-export function useMessage(messageId: string): [MailMessageFromDb | null, boolean] {
-	const [messages, loaded] = useContext(MessageListContext);
-	const message: MailMessageFromDb | null = useMemo(
-		() => {
-			if (loaded) {
-				return messages[messageId] || find(messages, ['id', messageId]);
-			}
-			return null;
-		},
-		[loaded, messageId, messages]
-	);
-	return [message, loaded];
+export function useMessage(messageId: string): MailMessage {
+	return useSelector(createSelector([selectMessages], (m) => m[messageId]));
 }
 
-export function useFolder(folderId: string): null {
-	// TODO: substitute all occurrences with `selectorFromStore`
-	return null;
-	// const [_folders, folderLoaded] = useContext(FolderListContext);
-	// const folder = useMemo(
-	// 	() => find(_folders, ['id', folderId]),
-	// 	[_folders, folderId]
-	// );
-	// return [folder!, folderLoaded];
+export function useFolder(folderId: string): Folder {
+	return useSelector(createSelector([selectFolders], (f) => f[folderId]));
 }

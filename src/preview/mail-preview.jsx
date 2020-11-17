@@ -63,7 +63,7 @@ export default function MailPreview({ message, expanded }) {
 			// check if the request of that message has already been requested
 			dispatch(getMsg({ msgId: message.id }));
 		}
-	}, [message, open, expanded]);
+	}, [message, open, expanded, dispatch]);
 
 	return (
 		<Container
@@ -131,7 +131,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 				id: 'message-preview-edit-draft',
 				icon: 'Edit2Outline',
 				label: t('Edit Draft'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message._id}`)
+				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message.id}`)
 			});
 		}
 		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT

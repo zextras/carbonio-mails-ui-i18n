@@ -1,5 +1,6 @@
 {
   "Bcc": "",
+  "CC": "",
   "Cancelled": "",
   "Cc": "",
   "Delete Message": "",
@@ -15,6 +16,7 @@
   "Operation failed": "",
   "Reply": "",
   "Reply to All": "",
+  "Save": "",
   "Send": "",
   "Sent": "",
   "Set as flagged": "",
