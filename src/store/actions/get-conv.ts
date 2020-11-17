@@ -12,7 +12,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
-import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { Conversation } from '../../types/conversation';
 import { GetConvRequest, GetConvResponse } from '../../types/soap';
 

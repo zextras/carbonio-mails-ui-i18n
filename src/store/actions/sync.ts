@@ -74,8 +74,8 @@ export const sync = createAsyncThunk<SyncResult, void>(
 					// It means it's a new message of an already present conversation
 					// or a moved message
 					// or a draft (so the body can have change so i must download it
-					if (indexMessage !== -1
-						|| receivedMsg.parent === conversation.messages[indexMessage].parent
+					if ((indexMessage !== -1
+						&& receivedMsg.parent === conversation.messages[indexMessage].parent)
 						|| receivedMsg.parent !== '6'
 					) {
 						conversationsToAsk.push(receivedMsg.conversation);

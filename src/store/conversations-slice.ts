@@ -295,6 +295,12 @@ function getConvFulfilled(
 
 		delete folder.cache[conv.id];
 
+		// the conversation can have a newId, so i must remove all conversations
+		// whose messages appears in the received conversation
+		Object.values(folder.cache)
+			.filter((c) => conv.messages.map((m) => m.id).includes(c.messages[0].id))
+			.forEach((c) => delete folder.cache[c.id]);
+
 		if (conv.messages.map((m) => m.parent).includes(folderId)) {
 			const myConv = cloneDeep(conv);
 
@@ -308,6 +314,7 @@ function getConvFulfilled(
 				default:
 					myConv.messages = myConv.messages.filter((m) => m.parent === folderId || !m.isDeleted);
 			}
+			myConv.messages = myConv.messages.sort((a, b) => b.date - a.date);
 			myConv.msgCount = myConv.messages.length;
 			myConv.unreadMsgCount = myConv.messages.filter((m) => m.read).length;
 			myConv.date = Math.max(...myConv.messages.filter((m) => m.parent === folderId)
