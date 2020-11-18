@@ -39,7 +39,7 @@ import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
 import { selectFolders } from '../store/folders-slice';
-import { setMsgFlag } from '../actions/message-actions';
+import { moveMsgToTrash, setMsgFlag, setMsgRead } from '../actions/message-actions';
 import { selectMessages } from '../store/messages-slice';
 import { getMsg } from '../store/actions';
 
@@ -152,9 +152,6 @@ function MailPreviewBlock({ message, open, onClick }) {
 					setMsgFlag({
 						createSnackbar, t, dispatch, msgId: message.id
 					});
-
-					// ev.preventDefault();
-					// db.setFlag(message._id, true);
 				}
 			});
 		}
@@ -175,7 +172,8 @@ function MailPreviewBlock({ message, open, onClick }) {
 				icon: 'TrashOutline',
 				label: t('Delete Message'),
 				onActivate: () => {
-					db.deleteMessage(message);
+					// TODO
+					console.log('TODO');
 				}
 			});
 		}
@@ -184,8 +182,9 @@ function MailPreviewBlock({ message, open, onClick }) {
 				id: 'message-preview-trash',
 				icon: 'TrashOutline',
 				label: t('Move to Trash'),
-				onActivate: () => {
-					db.moveMessageToTrash(message._id);
+				onActivate: (ev) => {
+					ev.preventDefault();
+					moveMsgToTrash({ dispatch, msgId: message.id, t, createSnackbar })
 				}
 			});
 		}
@@ -368,7 +367,7 @@ export default function MailPreview({ message, expanded }) {
 									<MailMessageRenderer
 										key={message.id}
 										mailMsg={aggregatedMessage}
-										setRead={() => {}}
+										setRead={() => setMsgRead({ dispatch, msgId: msg.id})}
 									/>
 								)}
 							</Padding>

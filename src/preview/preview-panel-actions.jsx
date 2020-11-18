@@ -10,13 +10,11 @@
  */
 
 import React, { useContext } from 'react';
-import {
-	Container, Dropdown, IconButton, Padding, SnackbarManagerContext
-} from '@zextras/zapp-ui';
+import { Container, Dropdown, IconButton, Padding, SnackbarManagerContext } from '@zextras/zapp-ui';
 import { map } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { moveToTrash, moveTo } from '../actions/conversation-actions';
+import { moveToTrash } from '../actions/conversation-actions';
 
 export default function PreviewPanelActions({ conversation, folderId }) {
 	const { t } = useTranslation();

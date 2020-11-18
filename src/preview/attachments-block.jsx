@@ -14,14 +14,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { map, reduce } from 'lodash';
 
-import {
-	Container,
-	Icon,
-	Link,
-	Padding,
-	Text,
-	Row
-} from '@zextras/zapp-ui';
+import { Container, Icon, Link, Padding, Row, Text } from '@zextras/zapp-ui';
 
 const AttachmentsActions = styled(Row)``;
 

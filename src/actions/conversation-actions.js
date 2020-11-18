@@ -11,9 +11,7 @@
 
 import { convAction } from '../store/actions';
 
-export function setConvFlag({
-	dispatch, createSnackbar, t, ids, value = true
-}) {
+export function setConvFlag({ dispatch, ids, value = true }) {
 	dispatch(
 		convAction({
 			operation: `${value ? '' : '!'}flag`,
@@ -22,9 +20,7 @@ export function setConvFlag({
 	);
 }
 
-export function setConvRead({
-	dispatch, createSnackbar, t, ids, value
-}) {
+export function setConvRead({ dispatch, ids, value = true }) {
 	dispatch(
 		convAction({
 			operation: `${value ? '' : '!'}read`,
@@ -33,9 +29,7 @@ export function setConvRead({
 	);
 }
 
-export function setConvTag({
-	dispatch, createSnackbar, t, ids, value, tagName
-}) {
+export function setConvTag({ dispatch,  ids, value, tagName }) {
 	dispatch(
 		convAction({
 			operation: `${value ? '' : '!'}tag`,
@@ -45,9 +39,7 @@ export function setConvTag({
 	);
 }
 
-export function moveTo({
-	dispatch, createSnackbar, t, ids, folderId
-}) {
+export function moveTo({ dispatch, createSnackbar, t, ids, folderId }) {
 	dispatch(
 		convAction({
 			operation: 'move',
@@ -57,9 +49,7 @@ export function moveTo({
 	);
 }
 
-export function moveToTrash({
-	dispatch, createSnackbar, t, ids, folderId
-}) {
+export function moveToTrash({ dispatch, createSnackbar, t, ids, folderId }) {
 	dispatch(
 		convAction({
 			operation: 'trash',

@@ -12,6 +12,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
+import { filterMessages } from '../../commons/update-conversation';
 import { IncompleteMessage, MailMessage } from '../../types/mail-message';
 import { SearchConvRequest, SearchConvResponse } from '../../types/soap';
 
@@ -28,7 +29,6 @@ export type SearchConvReturn = {
 	orderBy: string;
 }
 
-// TODO: in messagesSlice: control id something is expanded and add it to the map
 export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameters>(
 	'conversations/searchConv',
 	async ({ conversationId, folderId, fetch = '0' }) => {
@@ -48,8 +48,11 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 				max: 250000,
 			},
 		);
+		let messages = (result.m || []).map(normalizeMailMessageFromSoap);
+		messages = filterMessages(messages, folderId);
+
 		return {
-			messages: (result.m || []).map(normalizeMailMessageFromSoap),
+			messages,
 			orderBy: result.orderBy,
 			hasMore: result.more,
 			offset: result.offset,

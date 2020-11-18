@@ -8,7 +8,7 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
-import { IncompleteMessage, MailMessage } from './mail-message';
+import { IncompleteMessage } from './mail-message';
 import { Participant } from './participant';
 
 export type Conversation = {

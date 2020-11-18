@@ -9,10 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IconButton, Row } from '@zextras/zapp-ui';
-import React, { useMemo } from 'react';
+import { IconButton, Row, SnackbarManagerContext } from '@zextras/zapp-ui';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { moveMsgToTrash, setMsgFlag, setMsgRead } from '../actions/message-actions';
 
 const ButtonBar = styled(Row)`
 	position: absolute;
@@ -20,33 +23,36 @@ const ButtonBar = styled(Row)`
 	top: 8px;
 `;
 
-function MoveToTrash({ message, db }) {
+function MoveToTrash({ message, dispatch }) {
+	const { t } = useTranslation();
+	const createSnackbar = useContext(SnackbarManagerContext);
+
 	return (
 		<IconButton
 			size="large"
 			icon="Trash2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				db.moveMessageToTrash(message._id);
+				moveMsgToTrash({ dispatch, msgId: message.id, t, createSnackbar })
 			}}
 		/>
 	);
 }
 
-function Delete({ message, db }) {
+function Delete({ message, dispatch }) {
 	return (
 		<IconButton
 			size="large"
 			icon="Trash2Outline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				db.deleteMessage(message);
+				console.log('TODO');
 			}}
 		/>
 	);
 }
 
-function FlagUnflag({ message, db }) {
+function FlagUnflag({ message, dispatch }) {
 	if (message.flagged) {
 		return (
 			<IconButton
@@ -54,7 +60,7 @@ function FlagUnflag({ message, db }) {
 				icon="FlagOutline"
 				onClick={(ev) => {
 					ev.preventDefault();
-					db.setFlag(message._id, false);
+					setMsgFlag({ dispatch, msgId: message.id, value: false });
 				}}
 			/>
 		);
@@ -65,13 +71,13 @@ function FlagUnflag({ message, db }) {
 			icon="Flag"
 			onClick={(ev) => {
 				ev.preventDefault();
-				db.setFlag(message._id, true);
+				setMsgFlag({ dispatch, msgId: message.id, value: true });
 			}}
 		/>
 	);
 }
 
-function ReadUnread({ message, db }) {
+function ReadUnread({ message, dispatch }) {
 	if (message.read) {
 		return (
 			<IconButton
@@ -79,7 +85,7 @@ function ReadUnread({ message, db }) {
 				icon="EmailOutline"
 				onClick={(ev) => {
 					ev.preventDefault();
-					db.setRead(message._id, false);
+					setMsgRead({ dispatch, msgId: message.id, value: false });
 				}}
 			/>
 		);
@@ -90,7 +96,7 @@ function ReadUnread({ message, db }) {
 			icon="EmailReadOutline"
 			onClick={(ev) => {
 				ev.preventDefault();
-				db.setRead(message._id, true);
+				setMsgRead({ dispatch, msgId: message.id, value: true });
 			}}
 		/>
 	);
@@ -171,7 +177,7 @@ function Edit({ message, folder }) {
 }
 
 export default function MailHoverBar({ message, folder }) {
-	const { db } = hooks.useAppContext();
+	const dispatch = useDispatch();
 
 	const buttons = useMemo(() => {
 		switch (folder.id) {
@@ -179,28 +185,28 @@ export default function MailHoverBar({ message, folder }) {
 			case '4': // JUNK - SPAM
 				return (
 					<>
-						<Delete message={message} db={db} />
-						<ReadUnread message={message} db={db} />
-						<Archive message={message} db={db} />
-						<FlagUnflag message={message} db={db} />
+						<Delete message={message} dispatch={dispatch} />
+						<ReadUnread message={message} dispatch={dispatch} />
+						<Archive message={message} dispatch={dispatch} />
+						<FlagUnflag message={message} dispatch={dispatch} />
 					</>
 				);
 			case '5': // SENT
 				return (
 					<>
-						<MoveToTrash message={message} db={db} />
-						<Archive message={message} db={db} />
+						<MoveToTrash message={message} dispatch={dispatch} />
+						<Archive message={message} dispatch={dispatch} />
 						<Forward message={message} folder={folder} />
-						<FlagUnflag message={message} db={db} />
+						<FlagUnflag message={message} dispatch={dispatch} />
 					</>
 				);
 			case '6': // DRAFT
 				return (
 					<>
-						<MoveToTrash message={message} db={db} />
+						<MoveToTrash message={message} dispatch={dispatch} />
 						<Edit message={message} folder={folder} />
-						<Archive message={message} db={db} />
-						<FlagUnflag message={message} db={db} />
+						<Archive message={message} dispatch={dispatch} />
+						<FlagUnflag message={message} dispatch={dispatch} />
 					</>
 				);
 			// TODO: discuss about Outbox and Archive folder
@@ -208,17 +214,17 @@ export default function MailHoverBar({ message, folder }) {
 			default:
 				return (
 					<>
-						<ReadUnread message={message} db={db} />
+						<ReadUnread message={message} dispatch={dispatch} />
 						<Reply message={message} folder={folder} />
 						<ReplyAll message={message} folder={folder} />
-						<FlagUnflag message={message} db={db} />
+						<FlagUnflag message={message} dispatch={dispatch} />
 						<Forward message={message} folder={folder} />
-						<Archive message={message} db={db} />
-						<MoveToTrash message={message} db={db} />
+						<Archive message={message} dispatch={dispatch} />
+						<MoveToTrash message={message} dispatch={dispatch} />
 					</>
 				);
 		}
-	}, [db, folder, message]);
+	}, [dispatch, folder, message]);
 
 	return (
 		<ButtonBar orientation="horizontal">

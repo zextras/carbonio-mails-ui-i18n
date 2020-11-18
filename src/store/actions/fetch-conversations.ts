@@ -33,7 +33,7 @@ export const fetchConversations = createAsyncThunk<
 	'fetchConversations',
 	async ({ folderId, limit = 100, before }, { getState }: any) => {
 		const queryPart = [
-			`inId:"${folderId}"`,
+			`inId:${folderId}`,
 		];
 		if (before) queryPart.push(`before:${before.getTime()}`);
 		const result = await network.soapFetch<SearchRequest, SearchResponse>(
@@ -43,17 +43,30 @@ export const fetchConversations = createAsyncThunk<
 				limit,
 				needExp: 1,
 				types: 'conversation',
-				fetch: 'all',
-				recip: 0,
+				recip: '0',
 				fullConversation: 1,
 				wantContent: 'full',
 				sortBy: 'dateDesc',
 				query: queryPart.join(' '),
 			},
 		);
+		const conversations = map(result.c || [], normalizeConversationFromSoap);
+		conversations.forEach(conversation => {
+			switch (folderId) {
+				case '3':
+					conversation.messages = conversation.messages.filter((m) => m.parent !== '4');
+					break;
+				case '4':
+					conversation.messages = conversation.messages.filter((m) => m.parent !== '3');
+					break;
+				default:
+					conversation.messages = conversation.messages.filter((m) => m.parent !== '3' && m.parent !== '4');
+			}
+			conversation.msgCount = conversation.messages.length;
+		});
 		return {
 			conversations:
-				{ ...keyBy(map(result.c || [], normalizeConversationFromSoap), (e) => e.id) },
+				{ ...keyBy(conversations, (e) => e.id) },
 			hasMore: result.more,
 		};
 	},

@@ -9,13 +9,10 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
-import {
-	reduce, isEmpty, forEach,
-} from 'lodash';
-import { Folder } from '../types/folder';
-import { StateType, FoldersStateType, MailsFolderMap } from '../types/state';
+import { forEach, reduce } from 'lodash';
+import { FoldersStateType, MailsFolderMap, StateType } from '../types/state';
 import { sync, SyncResult } from './actions';
 
 function syncFulfilled(state: FoldersStateType, { payload }: { payload: SyncResult }): void {

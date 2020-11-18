@@ -11,28 +11,56 @@
 
 import { msgAction } from '../store/actions';
 
-export function setMsgFlag({
-	dispatch, createSnackbar, t, msgId
-}) {
+function success({ createSnackbar, t }) {
+	const ref = createSnackbar(
+		{
+			key: String(Date.now()),
+			replace: true,
+			type: 'success',
+			label: t('The operation has been successfully completed'),
+			autoHideTimeout: 2000
+		},
+	);
+}
+
+function fail({ createSnackbar, t }) {
+	const ref = createSnackbar(
+		{
+			key: String(Date.now()),
+			replace: true,
+			type: 'error',
+			label: t('Operation failed'),
+			autoHideTimeout: 2000
+		},
+	);
+}
+
+export function setMsgRead({ dispatch, msgId, value = true }) {
 	dispatch(
 		msgAction({
-			operation: 'flag',
+			operation: `${value ? '': '!'}read`,
+			ids: [msgId],
+		}),
+	);
+}
+
+export function setMsgFlag({ dispatch, msgId, value = true }) {
+	dispatch(
+		msgAction({
+			operation: `${value ? '': '!'}flag`,
+			ids: [msgId],
+		}),
+	);
+}
+
+export function moveMsgToTrash({ dispatch, msgId, t, createSnackbar }) {
+	dispatch(
+		msgAction({
+			operation: `trash`,
 			ids: [msgId],
 		}),
 	).then((res) => {
-		if (res.type.includes('fulfilled')) {
-			const ref = createSnackbar(
-				{
-					key: String(Date.now()), replace: true, type: 'success', label: t('The operation has been successfully completed'), autoHideTimeout: 2000
-				},
-			);
-		}
-		else {
-			const ref = createSnackbar(
-				{
-					key: String(Date.now()), replace: true, type: 'error', label: t('Operation failed'), autoHideTimeout: 2000
-				},
-			);
-		}
+		if (res.type.includes('fulfilled')) success({ createSnackbar, t });
+		else fail({ createSnackbar, t });
 	});
 }

@@ -9,24 +9,17 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, {
-	useCallback, useEffect, useMemo, useRef, useState
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
-import {
-	Button, Container, Divider, Responsive, Row, SnackbarManager, Text, useScreenMode,
-} from '@zextras/zapp-ui';
+import { Button, Container, Divider, Responsive, Row, SnackbarManager, Text, useScreenMode } from '@zextras/zapp-ui';
 import { VerticalDivider } from '../commons/vertical-divider';
 import { useQueryParam } from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
 import ConversationListItem from './conversation-list-item';
-import {
-	selectConversationList,
-	selectConversationStatus,
-} from '../store/conversations-slice';
+import { selectConversationList, selectConversationStatus } from '../store/conversations-slice';
 import { selectFolders } from '../store/folders-slice';
 import { fetchConversations } from '../store/actions';
 
@@ -81,10 +74,7 @@ const ConversationList = ({ folderId }) => {
 	const loadMore = useCallback((date) => {
 		const dateOrNull = date ? new Date(date) : null;
 		dispatch(fetchConversations({ folderId, before: dateOrNull, limit: 50 }));
-	}, [folderId]);
-	// useEffect(() => {
-	// 	dispatch(fetchConversations({ folderId, limit: 10 }));
-	// },[status]);
+	}, [folderId, dispatch]);
 
 	const [displayData, setDisplayData] = useState({});
 	const [containerHeight, setContainerHeight] = useState(0);
@@ -97,7 +87,7 @@ const ConversationList = ({ folderId }) => {
 				[id]: v,
 			}));
 		},
-		[listRef],
+		[listRef, setDisplayData],
 	);
 
 	const rowRenderer = useCallback(
@@ -121,8 +111,8 @@ const ConversationList = ({ folderId }) => {
 	const calcItemSize = useCallback(
 		(index) => {
 			const conv = conversations[index];
-			if (conv && displayData[conv.id] && displayData[conv.id].open) {
-				return (conv.msgCount + 1) * 70 - 1;
+			if (conv && displayData[conv.id] && displayData[conv.id].open && conv.messages.length > 1) {
+				return (conv.messages.length + 1) * 70 - 1;
 			}
 			return 70;
 		},
@@ -138,7 +128,7 @@ const ConversationList = ({ folderId }) => {
 		if (overscanStopIndex >= conversationsLastIndex && !isLoading && hasMore) {
 			loadMore(conversations[conversationsLastIndex].date);
 		}
-	}, [conversations, hasMore, isLoading]);
+	}, [conversations, hasMore, isLoading, loadMore]);
 
 	useEffect(() => {
 		if (typeof containerRef.current === 'undefined') return undefined;
@@ -191,11 +181,11 @@ export default function FolderView() {
 			type: 'conversations/setCurrentFolder',
 			payload: folderId,
 		});
-	}, [folderId]);
+	}, [folderId, dispatch]);
 
 	useEffect(() => {
 		if (folderId) dispatch(fetchConversations({ folderId, limit: 100 }));
-	}, [folderId]);
+	}, [folderId, dispatch]);
 
 	const screen = useScreenMode();
 	const conversationId = useQueryParam('conversation');

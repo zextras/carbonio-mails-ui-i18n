@@ -12,14 +12,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { hooks } from '@zextras/zapp-shell';
-import {
-	Container,
-	Text,
-	IconButton,
-	Icon,
-	Row,
-	Divider
-} from '@zextras/zapp-ui';
+import { Container, Divider, Icon, IconButton, Row, Text } from '@zextras/zapp-ui';
 
 function PreviewPanelHeader({ conversation, folderId }) {
 	const { t } = useTranslation();

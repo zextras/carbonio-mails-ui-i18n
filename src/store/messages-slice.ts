@@ -14,10 +14,17 @@ import { Conversation } from '../types/conversation';
 import { MailMessage } from '../types/mail-message';
 import { MsgMap, MsgStateType, StateType } from '../types/state';
 import {
-	getMsg, searchConv, SearchConvReturn, msgAction, MsgActionResult, ConvActionResult, convAction,
-	SyncResult, sync, getConv
+	convAction,
+	ConvActionResult,
+	getConv,
+	getMsg,
+	msgAction,
+	MsgActionResult,
+	searchConv,
+	SearchConvReturn,
+	sync,
+	SyncResult,
 } from './actions';
-
 
 
 function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }): void {

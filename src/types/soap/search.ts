@@ -17,10 +17,11 @@ export type SearchRequest = ZimbraRequest & {
 	types: 'conversation';
 	fullConversation: 0|1;
 	needExp: 0|1;
-	recip: 0|1;
+	recip: '0'|'1';
+	offset?: number;
 	limit: number;
 	query: string;
-	fetch: 'all';
+	fetch?: string;
 	wantContent?: string;
 }
 

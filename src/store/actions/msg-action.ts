@@ -17,6 +17,7 @@ export type MsgActionParameters = {
 	ids: string[];
 	operation: MsgActionOperation;
 	parent?: string;
+	tag?: string;
 }
 
 export type MsgActionResult = {
@@ -26,7 +27,7 @@ export type MsgActionResult = {
 
 export const msgAction = createAsyncThunk<MsgActionResult, MsgActionParameters>(
 	'msgAction',
-	async ({ ids, operation, parent }) => {
+	async ({ ids, operation, parent, tag }, { getState }) => {
 		const { action } = await network.soapFetch<MsgActionRequest, MsgActionResponse>(
 			'MsgAction',
 			{
@@ -35,6 +36,7 @@ export const msgAction = createAsyncThunk<MsgActionResult, MsgActionParameters>(
 					id: ids.join(','),
 					op: operation,
 					l: parent,
+					tn: tag,
 				},
 			},
 		);

@@ -10,14 +10,10 @@
  */
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import {
-	find, isEmpty, reduce, trimStart
-} from 'lodash';
+import { find, isEmpty, reduce, trimStart } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
-import {
-	Avatar, Badge, Container, Icon, Padding, Row, Text
-} from '@zextras/zapp-ui';
+import { Avatar, Badge, Container, Icon, Padding, Row, Text } from '@zextras/zapp-ui';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
