@@ -11,7 +11,7 @@
 
 import { msgAction } from '../store/actions';
 
-function success({ createSnackbar, t }) {
+export function success(t, createSnackbar) {
 	const ref = createSnackbar(
 		{
 			key: String(Date.now()),
@@ -23,7 +23,7 @@ function success({ createSnackbar, t }) {
 	);
 }
 
-function fail({ createSnackbar, t }) {
+export function fail(t, createSnackbar) {
 	const ref = createSnackbar(
 		{
 			key: String(Date.now()),
@@ -35,7 +35,7 @@ function fail({ createSnackbar, t }) {
 	);
 }
 
-export function setMsgRead({ dispatch, messageId, t, value = true }) {
+export function setMsgRead(ids, value, t, dispatch)  {
 	return {
 		icon: value ? 'EmailOutline' : 'EmailReadOutline',
 		label: value ? t('Mark as read') : t('Mark as unread'),
@@ -43,14 +43,14 @@ export function setMsgRead({ dispatch, messageId, t, value = true }) {
 			dispatch(
 				msgAction({
 					operation: `${value ? '!': ''}read`,
-					ids: [messageId],
+					ids,
 				}),
 			);
 		}
 	}
 }
 
-export function setMsgFlag({ dispatch, messageId, t, value = true }) {
+export function setMsgFlag(ids, value, t, dispatch) {
 	return {
 		icon: value ? 'FlagOutline' : 'Flag',
 		label: value ? t('Unflag') : t('Flag'),
@@ -58,14 +58,14 @@ export function setMsgFlag({ dispatch, messageId, t, value = true }) {
 			dispatch(
 				msgAction({
 					operation: `${value ? '!': ''}flag`,
-					ids: [messageId],
+					ids,
 				}),
 			);
 		}
 	}
 }
 
-export function moveMsgToTrash({ dispatch, messageId, t, createSnackbar }) {
+export function moveMsgToTrash(ids, t, dispatch, createSnackbar) {
 	return {
 		icon: 'Trash2Outline',
 		label: t('Delete'),
@@ -73,17 +73,28 @@ export function moveMsgToTrash({ dispatch, messageId, t, createSnackbar }) {
 			dispatch(
 				msgAction({
 					operation: `trash`,
-					ids: [messageId],
+					ids,
 				}),
 			).then((res) => {
-				if (res.type.includes('fulfilled')) success({ createSnackbar, t });
+				if (res.type.includes('fulfilled')) success(t, createSnackbar);
 				else fail({ createSnackbar, t });
 			});
 		}
 	}
 }
 
-export function replyMsg({ replaceHistory, t, folderId, messageId }) {
+export function deleteMsg(ids, t, dispatch) {
+	return {
+		icon: 'Trash2Outline',
+		label: t('Delete'),
+		action: () => {
+			console.log('TODO');
+			// TODO
+		}
+	}
+}
+
+export function replyMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'UndoOutline',
 		label: t('Reply'),
@@ -93,7 +104,7 @@ export function replyMsg({ replaceHistory, t, folderId, messageId }) {
 	}
 }
 
-export function replyAllMsg({ replaceHistory, t, folderId, messageId }) {
+export function replyAllMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'ReplyAll',
 		label: t('Reply All'),
@@ -103,7 +114,7 @@ export function replyAllMsg({ replaceHistory, t, folderId, messageId }) {
 	}
 }
 
-export function forwardMsg({ replaceHistory, t, folderId, messageId }) {
+export function forwardMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Forward',
 		label: t('Forward'),
@@ -113,7 +124,7 @@ export function forwardMsg({ replaceHistory, t, folderId, messageId }) {
 	}
 }
 
-export function editAsNewMsg({ replaceHistory, t, folderId, messageId }) {
+export function editAsNewMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Edit2Outline',
 		label: t('Edit as new'),
@@ -123,23 +134,12 @@ export function editAsNewMsg({ replaceHistory, t, folderId, messageId }) {
 	}
 }
 
-export function editDraft({ replaceHistory, t, folderId, messageId }) {
+export function editDraft(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Edit2Outline',
 		label: 'Edit draft',
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=${messageId}`);
-		}
-	}
-}
-
-export function deleteMsg({ dispatch, t, messageId }) {
-	return {
-		icon: 'Trash2Outline',
-		label: t('Delete'),
-		action: () => {
-			console.log('TODO');
-			// TODO
 		}
 	}
 }

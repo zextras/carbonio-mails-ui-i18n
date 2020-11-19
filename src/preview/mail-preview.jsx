@@ -122,17 +122,17 @@ function MailPreviewBlock({ message, open, onClick }) {
 
 		}
 		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT
-			arr.push(replyMsg({ replaceHistory, t, messageId: message.id, folderId }));
-			arr.push(replyAllMsg({ replaceHistory, t, messageId: message.id, folderId }));
-			arr.push(forwardMsg({ replaceHistory, t, messageId: message.id, folderId }));
-			arr.push(editAsNewMsg({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(replyMsg(message.id, folderId, t, replaceHistory));
+			arr.push(replyAllMsg(message.id, folderId, t, replaceHistory));
+			arr.push(forwardMsg(message.id, folderId, t, replaceHistory));
+			arr.push(editAsNewMsg(message.id, folderId, t, replaceHistory));
 		}
-		arr.push(setMsgFlag({ dispatch, t, messageId: message.id, folderId, value: message.flagged }));
+		arr.push(setMsgFlag([message.id], message.flagged, t, dispatch));
 		if (message.parent !== '3' && message.parent !== '4') { // not in TRASH OR JUNK
-			arr.push(moveMsgToTrash({ dispatch, t, messageId: message.id, createSnackbar}));
+			arr.push(moveMsgToTrash([message.id], t, dispatch, createSnackbar));
 		}
 		else {
-			arr.push(deleteMsg({ dispatch, t, messageId: message.id}));
+			arr.push(deleteMsg([message.id], t, dispatch));
 		}
 		return arr;
 	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, message.flagged]);
@@ -317,9 +317,13 @@ export default function MailPreview({ message, expanded }) {
 									<MailMessageRenderer
 										key={message.id}
 										mailMsg={aggregatedMessage}
-										setRead={() => setMsgRead({ dispatch, msgId: msg.id, t}).action()}
+										setRead={() => {
+											if(msg.read === false)
+												setMsgRead([msg.id], false, t, dispatch).action();
+										}}
 									/>
-								)}
+								)
+								}
 							</Padding>
 						</Container>
 					)}

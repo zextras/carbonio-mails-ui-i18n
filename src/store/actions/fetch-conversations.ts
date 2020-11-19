@@ -13,7 +13,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { keyBy, map } from 'lodash';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
-import { updateConversation, updateIncreasedConversation } from '../../commons/update-conversation';
+import { filterMessages, updateConversation, updateIncreasedConversation } from '../../commons/update-conversation';
 import { Conversation } from '../../types/conversation';
 import { SearchRequest, SearchResponse } from '../../types/soap';
 
@@ -52,7 +52,11 @@ export const fetchConversations = createAsyncThunk<
 			},
 		);
 		const conversations = map(result.c || [], normalizeConversationFromSoap);
-		conversations.forEach(updateConversation); // filter the conversation removing Trashed messages
+		// filter the conversation removing Trashed or Junk messages
+		conversations.forEach(conversation => {
+			conversation.messages = filterMessages(conversation.messages, folderId);
+		});
+		conversations.forEach(updateConversation);
 		return {
 			conversations:
 				{ ...keyBy(conversations, (e) => e.id) },

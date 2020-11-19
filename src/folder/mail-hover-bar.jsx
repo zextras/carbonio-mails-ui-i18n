@@ -36,6 +36,7 @@ export default function MailHoverBar({ messageId, read, flag, folderId }) {
 	const { t } = useTranslation()
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const replaceHistory = hooks.useReplaceHistoryCallback();
+	const ids = [messageId];
 
 
 	const actions = useMemo(() => {
@@ -43,39 +44,39 @@ export default function MailHoverBar({ messageId, read, flag, folderId }) {
 			case '3': // TRASH
 			case '4': // JUNK - SPAM
 				return [
-					deleteMsg({ dispatch, t, messageId}),
-					setMsgRead({ dispatch, t, value: read, messageId}),
+					deleteMsg(ids, t, dispatch),
+					setMsgRead(ids, read, t, dispatch),
 					// archiveMsg(),
-					setMsgFlag({ dispatch, t, messageId, value: flag })
+					setMsgFlag(ids, flag, t, dispatch)
 				]
 			case '5': // SENT
 				return [
-					moveMsgToTrash({ dispatch, t, messageId, createSnackbar }),
+					moveMsgToTrash(ids, t, dispatch, createSnackbar),
 					// archiveMsg(),
-					forwardMsg({ replaceHistory, t, folderId, messageId}),
-					setMsgFlag({ dispatch, t, messageId, value: flag })
+					forwardMsg(messageId, folderId, t, replaceHistory),
+					setMsgFlag(ids, flag, t, dispatch)
 				]
 			case '6': // DRAFT
 				return [
-					moveMsgToTrash({ dispatch, messageId, createSnackbar, t}),
-					editDraft({ replaceHistory, t, messageId, folderId }),
+					moveMsgToTrash(ids, t, dispatch, createSnackbar),
+					editDraft(messageId, folderId, t, replaceHistory),
 					// archiveMsg(),
-					setMsgFlag({ dispatch, t, messageId, value: flag })
+					setMsgFlag(ids, flag, t, dispatch)
 				]
 			// TODO: discuss about Outbox and Archive folder
 			case '2':	// INBOX
 			default:
 				return [
-					setMsgRead({ dispatch, t, value: read, messageId}),
-					replyMsg({ replaceHistory, t, messageId, folderId }),
-					replyAllMsg({ replaceHistory, t, messageId, folderId }),
-					setMsgFlag({ dispatch, t, messageId, value: flag }),
-					forwardMsg({ replaceHistory, t, folderId, messageId}),
+					setMsgRead(ids, read, t, dispatch),
+					replyMsg(messageId, folderId, t, replaceHistory),
+					replyAllMsg(messageId, folderId, t, replaceHistory),
+					setMsgFlag(ids, flag, t, dispatch),
+					forwardMsg(messageId, folderId, t, replaceHistory),
 					// archiveMsg(),
-					moveMsgToTrash({ dispatch, messageId, createSnackbar, t}),
+					moveMsgToTrash(ids, t, dispatch, createSnackbar),
 				]
 		}
-	}, [dispatch, folderId, messageId, flag, read]);
+	}, [dispatch, folderId, messageId, ids, flag, read]);
 
 	return (
 		<ButtonBar orientation="horizontal">

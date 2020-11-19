@@ -10,51 +10,53 @@
  */
 
 import { convAction } from '../store/actions';
+import { fail, success } from './message-actions';
 
-export function setConvFlag({ dispatch, ids, value = true }) {
-	dispatch(
-		convAction({
-			operation: `${value ? '' : '!'}flag`,
-			ids: [ids],
-		}),
-	);
+export function setConversationsFlag(ids, value, t, dispatch) {
+	return {
+		icon: value ? 'FlagOutline' : 'Flag',
+		label: value ? t('Unflag') : t('Flag'),
+		action: () => {
+			dispatch(
+				convAction({
+					operation: `${value ? '!': ''}flag`,
+					ids,
+				}),
+			);
+		}
+	}
 }
 
-export function setConvRead({ dispatch, ids, value = true }) {
-	dispatch(
-		convAction({
-			operation: `${value ? '' : '!'}read`,
-			ids: [ids],
-		}),
-	);
+export function setConversationsRead(ids, value, t, dispatch) {
+	return {
+		icon: value ? 'EmailOutline' : 'EmailReadOutline',
+		label: value ? t('Mark as unread') : t('Mark as read'),
+		action: () => {
+			dispatch(
+				convAction({
+					operation: `${value ? '!': ''}read`,
+					ids,
+				}),
+			);
+		}
+	}
 }
 
-export function setConvTag({ dispatch,  ids, value, tagName }) {
-	dispatch(
-		convAction({
-			operation: `${value ? '' : '!'}tag`,
-			ids: [ids],
-			tn: tagName,
-		}),
-	);
-}
-
-export function moveTo({ dispatch, createSnackbar, t, ids, folderId }) {
-	dispatch(
-		convAction({
-			operation: 'move',
-			ids: [ids],
-			parent: folderId,
-		}),
-	);
-}
-
-export function moveToTrash({ dispatch, createSnackbar, t, ids, folderId }) {
-	dispatch(
-		convAction({
-			operation: 'trash',
-			ids: [ids],
-		}),
-	);
+export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
+	return {
+		icon: 'Trash2Outline',
+		label: t('Delete'),
+		action: () => {
+			dispatch(
+				convAction({
+					operation: `trash`,
+					ids,
+				}),
+			).then((res) => {
+				if (res.type.includes('fulfilled')) success({ createSnackbar, t });
+				else fail({ createSnackbar, t });
+			});
+		}
+	}
 }
 

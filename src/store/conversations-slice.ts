@@ -85,7 +85,7 @@ function convActionFulfilled(
 
 			if (conversation) {
 				if (operation.includes('flag')) {
-					const newFlag = operation.startsWith('!');
+					const newFlag = !operation.startsWith('!');
 					conversation.flagged = newFlag;
 					conversation.messages
 						.forEach((message) => {
@@ -93,7 +93,7 @@ function convActionFulfilled(
 						});
 				}
 				else if (operation.includes('read')) {
-					const newRead = operation.startsWith('!');
+					const newRead = !operation.startsWith('!');
 					conversation.read = newRead;
 					conversation.messages
 						.forEach((message) => {

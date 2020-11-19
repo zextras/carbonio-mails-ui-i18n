@@ -14,12 +14,64 @@ import { Container, Dropdown, IconButton, Padding, SnackbarManagerContext } from
 import { map } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { moveToTrash } from '../actions/conversation-actions';
+import { hooks } from '@zextras/zapp-shell';
+import { moveConversationToTrash, setConversationsFlag, setConversationsRead } from '../actions/conversation-actions';
+import { replyAllMsg, replyMsg } from '../actions/message-actions';
 
-export default function PreviewPanelActions({ conversation, folderId }) {
-	const { t } = useTranslation();
+export default function PreviewPanelActions({conversation, folderId}) {
+	const {t} = useTranslation();
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const dispatch = useDispatch();
+	const replaceHistory = hooks.useReplaceHistoryCallback();
+
+	const ids = [conversation.id];
+
+	const primaryActions = useMemo(() => {
+		switch (folderId) {
+			case '5': // SENT
+				return [
+					moveConversationToTrash(ids, t, dispatch, createSnackbar),
+				]
+			case '3': // TRASH
+			case '4': // JUNK
+				return [
+					// TODO: deleteConversation
+				];
+			case '2':
+			default:
+				return [
+					replyMsg(conversation.messages[0].id, folderId, t, replaceHistory),
+					moveConversationToTrash(ids, t, dispatch, createSnackbar),
+					// archiveMsg
+					// editTagsMsg
+				];
+		}
+	}, [conversation, folderId]);
+
+	const secondaryActions = useMemo(() => {
+		switch (folderId) {
+			case '5': // SENT
+				return [
+					setConversationsFlag(ids, conversation.flagged, t, dispatch),
+				]
+			case '3': // TRASH
+			case '4': // JUNK
+				return [
+					setConversationsRead(ids, conversation.read, t, dispatch),
+					setConversationsFlag(ids, conversation.flagged, t, dispatch),
+				];
+			default :
+			case '2': // INBOX
+				return [
+					replyAllMsg(conversation.messages[0].id, folderId, t, replaceHistory),
+					setConversationsRead(ids, conversation.read, t, dispatch),
+					setConversationsFlag(ids, conversation.flagged, t, dispatch),
+					// archiveMsg
+					// editTagsMsg
+				];
+		}
+	}, [conversation, folderId, conversation.flagged, conversation.read]);
+
 
 	return (
 		<Container
@@ -27,35 +79,40 @@ export default function PreviewPanelActions({ conversation, folderId }) {
 			mainAlignment="flex-end"
 			crossAlignment="center"
 			height="auto"
-			padding={{ horizontal: 'large', vertical: 'small' }}
+			padding={ {horizontal: 'large', vertical: 'small'} }
 		>
-			{/* <Padding left="extrasmall"><IconButton size="medium" icon="UndoOutline" /></Padding> */}
-			{/* <Padding left="extrasmall"><IconButton size="medium" icon="ArchiveOutline" /></Padding> */}
-			<Padding left="extrasmall">
-				<IconButton
-					size="medium"
-					icon="Trash2Outline"
-					onClick={() =>
-						moveToTrash({
-							t, createSnackbar, dispatch, ids: [conversation.id]
-						})}
-				/>
-			</Padding>
-			<Padding left="extrasmall"><IconButton size="medium" icon="PricetagsOutline" /></Padding>
+			{
+				primaryActions.map(action => (
+					<Padding left="extrasmall" key={ action.label }>
+						<IconButton
+							size="medium"
+							icon={ action.icon }
+							onClick={ (ev) => {
+								if (ev) ev.preventDefault();
+								action.action();
+							}
+							}
+						/>
+					</Padding>
+				))
+			}
 			<Padding left="extrasmall">
 				<Dropdown
 					placement="right-end"
-					items={map(
-						[],
+					items={ map(
+						secondaryActions,
 						(action) => ({
-							id: action.id,
+							id: action.label,
 							icon: action.icon,
 							label: action.label,
-							click: action.onActivate
+							click: (ev) => {
+								if (ev) ev.preventDefault();
+								action.action();
+							}
 						})
-					)}
+					) }
 				>
-					<IconButton size="small" icon="MoreVertical" />
+					<IconButton size="medium" icon="MoreVertical"/>
 				</Dropdown>
 			</Padding>
 		</Container>

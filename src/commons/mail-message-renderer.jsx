@@ -135,7 +135,7 @@ const MailMessageRenderer = ({ mailMsg, setRead }) => {
 		if (!mailMsg.read) {
 			setRead();
 		}
-	}, [mailMsg.read, setRead]);
+	}, []); // only the first time a message is opened it will be set as read
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;
 	}
