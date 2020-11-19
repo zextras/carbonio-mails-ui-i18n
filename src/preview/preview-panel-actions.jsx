@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Container, Dropdown, IconButton, Padding, SnackbarManagerContext } from '@zextras/zapp-ui';
 import { map } from 'lodash';
 import { useTranslation } from 'react-i18next';

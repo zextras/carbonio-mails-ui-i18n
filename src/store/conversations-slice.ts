@@ -66,8 +66,10 @@ function searchConvFulfilled(
 	{ payload, meta }: any,
 ): void {
 	const conversation = state.cache[meta.arg.folderId].cache[meta.arg.conversationId];
-	conversation.messages = payload.messages;
-	updateConversation(conversation);
+	if(conversation) {
+		conversation.messages = payload.messages;
+		updateConversation(conversation);
+	}
 }
 
 function convActionFulfilled(
@@ -216,7 +218,8 @@ function msgActionFulfilled(
 						}
 						// update conversation in source folder
 						conversation.messages = filterMessages(conversation.messages, folderId);
-						updateConversation(conversation);
+						if(conversation.messages.length === 0) delete folder.cache[conversation.id]
+						else updateConversation(conversation)
 					}
 				}
 			}

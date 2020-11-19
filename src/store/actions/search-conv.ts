@@ -60,7 +60,7 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 	},
 	{
 		condition: ({ folderId, conversationId }: SearchConvParameters, { getState }: any) =>
-			!getState().conversations.cache[folderId].cache[conversationId].messages
-				.every((m: IncompleteMessage) => m.subject)
+			!(getState().conversations.cache[folderId].cache[conversationId] &&
+				getState().conversations.cache[folderId].cache[conversationId].messages.every((m: IncompleteMessage) => m.subject))
 	}
 );

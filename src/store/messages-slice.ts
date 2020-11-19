@@ -36,7 +36,8 @@ function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }
 		if (state.cache[msg.id]) {
 			if (msg.parent !== '6') {
 				state.cache[msg.id].flagged = msg.flagged;
-				state.cache[msg.id].read = msg.urgent;
+				state.cache[msg.id].read = msg.read;
+				state.cache[msg.id].urgent = msg.urgent;
 				state.cache[msg.id].tags = msg.tags;
 				state.cache[msg.id].parent = msg.parent;
 				state.cache[msg.id].isDeleted = msg.isDeleted;

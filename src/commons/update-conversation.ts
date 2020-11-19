@@ -12,6 +12,7 @@
 import { uniq, uniqBy } from 'lodash';
 import { Conversation } from '../types/conversation';
 import { IncompleteMessage } from '../types/mail-message';
+import { Participant } from '../types/participant';
 
 export function filterMessages(messages: Array<IncompleteMessage>, folderId: string): Array<IncompleteMessage> {
 	switch (folderId) {
@@ -30,8 +31,10 @@ export function updateConversation(conversation: Conversation): void {
 	conversation.unreadMsgCount = conversation.messages.filter((m) => !m.read).length;
 	conversation.read = conversation.unreadMsgCount === 0;
 	conversation.urgent = conversation.messages.some((m) => m.urgent);
+	conversation.subject = conversation.messages[conversation.messages.length -1].subject || conversation.subject;
+	conversation.fragment = conversation.messages[0].fragment || conversation.fragment;
 	conversation.tags = uniq(conversation.messages.flatMap((m) => m.tags));
-
+	conversation.participants = uniqBy(conversation.participants, (p: Participant) => p.address);
 }
 
 export function updateIncreasedConversation(conversation: Conversation, parentId: string): void {
@@ -39,4 +42,5 @@ export function updateIncreasedConversation(conversation: Conversation, parentId
 	conversation.messages.sort((a, b) => b.date - a.date)
 	conversation.date = Math.max(...conversation.messages.filter((m) => m.parent === parentId)
 		.map((m) => m.date));
+	updateConversation(conversation);
 }

@@ -12,6 +12,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
+import { updateConversation } from '../../commons/update-conversation';
 import { Conversation } from '../../types/conversation';
 import { GetConvRequest, GetConvResponse } from '../../types/soap';
 
@@ -34,7 +35,8 @@ export const getConv = createAsyncThunk<Conversation, GetConvParameters>(
 				}
 			},
 		);
-		const conv = result.c[0];
-		return normalizeConversationFromSoap(conv);
+		const conversation = normalizeConversationFromSoap(result.c[0]);
+		updateConversation(conversation);
+		return conversation;
 	},
 );

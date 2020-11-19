@@ -48,6 +48,7 @@ const InvisibleLink = styled(Link)`
 export default function MessageListItem({ message, folderId, conversation }) {
 	const { t } = useTranslation();
 	const accounts = hooks.useUserAccounts();
+	console.log('Rendede message');
 
 	const messageFolder = useSelector(selectFolders)[message.parent];
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
@@ -150,7 +151,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 										<Icon icon="ArrowUpward" color="error" />
 									</Padding>
 								) }
-								{ messageFolder.id !== folderId && (
+								{ messageFolder && messageFolder.id !== folderId && (
 									<Padding left="small">
 										<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 									</Padding>
@@ -161,7 +162,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 				</Container>
 			</HoverContainer>
 			<HoverBarContainer>
-				<MailHoverBar folder={messageFolder} message={message} />
+				<MailHoverBar folderId={folderId} messageId={message.id} flag={message.flagged} read={message.read} />
 			</HoverBarContainer>
 		</InvisibleLink>
 	);

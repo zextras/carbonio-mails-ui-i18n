@@ -39,7 +39,17 @@ import MailMessageRenderer from '../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import AttachmentsBlock from './attachments-block';
 import { selectFolders } from '../store/folders-slice';
-import { moveMsgToTrash, setMsgFlag, setMsgRead } from '../actions/message-actions';
+import {
+	deleteMsg,
+	editAsNewMsg,
+	editDraft,
+	forwardMsg,
+	moveMsgToTrash,
+	replyAllMsg,
+	replyMsg,
+	setMsgFlag,
+	setMsgRead,
+} from '../actions/message-actions';
 import { selectMessages } from '../store/messages-slice';
 import { getMsg } from '../store/actions';
 
@@ -100,7 +110,6 @@ function MailPreviewBlock({ message, open, onClick }) {
 	const { t } = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const { folderId } = useParams();
-	const { db } = hooks.useAppContext();
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const accounts = hooks.useUserAccounts();
 	const dispatch = useDispatch();
@@ -109,87 +118,24 @@ function MailPreviewBlock({ message, open, onClick }) {
 		const arr = [];
 
 		if (message.parent === '6') {	// DRAFT
-			arr.push({
-				id: 'message-preview-edit-draft',
-				icon: 'Edit2Outline',
-				label: t('Edit Draft'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=${message.id}`)
-			});
+			arr.push(editDraft({ replaceHistory, t, messageId: message.id, folderId }));
+
 		}
 		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT
-			arr.push({
-				id: 'message-preview-reply',
-				icon: 'UndoOutline',
-				label: t('Reply'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=reply&actionId=${message.id}`)
-			});
-			arr.push({
-				id: 'message-preview-reply-all',
-				icon: 'ReplyAll',
-				label: t('Reply to All'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=replyAll&actionId=${message.id}`)
-			});
-			arr.push({
-				id: 'message-preview-forward',
-				icon: 'Forward',
-				label: t('Forward'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=forward&actionId=${message.id}`)
-			});
-			arr.push({
-				id: 'message-preview-edit-as-new',
-				icon: 'Edit2Outline',
-				label: t('Edit as new'),
-				onActivate: () => replaceHistory(`/folder/${folderId}?edit=new&action=editAsNew&actionId=${message.id}`)
-			});
+			arr.push(replyMsg({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(replyAllMsg({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(forwardMsg({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(editAsNewMsg({ replaceHistory, t, messageId: message.id, folderId }));
 		}
-		if (!message.flagged) {
-			arr.push({
-				id: 'message-preview-flag',
-				icon: 'FlagOutline',
-				label: t('Set as flagged'),
-				onActivate: (ev) => {
-					ev.preventDefault();
-					setMsgFlag({
-						createSnackbar, t, dispatch, msgId: message.id
-					});
-				}
-			});
+		arr.push(setMsgFlag({ dispatch, t, messageId: message.id, folderId, value: message.flagged }));
+		if (message.parent !== '3' && message.parent !== '4') { // not in TRASH OR JUNK
+			arr.push(moveMsgToTrash({ dispatch, t, messageId: message.id, createSnackbar}));
 		}
 		else {
-			arr.push({
-				id: 'message-preview-not-flag',
-				icon: 'Flag',
-				label: t('Set as not flagged'),
-				onActivate: (ev) => {
-					ev.preventDefault();
-					db.setFlag(message._id, false);
-				}
-			});
-		}
-		if (message.parent === '3' || message.parent === '4') { // TRASH OR JUNK
-			arr.push({
-				id: 'message-preview-delete',
-				icon: 'TrashOutline',
-				label: t('Delete Message'),
-				onActivate: () => {
-					// TODO
-					console.log('TODO');
-				}
-			});
-		}
-		else {
-			arr.push({
-				id: 'message-preview-trash',
-				icon: 'TrashOutline',
-				label: t('Move to Trash'),
-				onActivate: (ev) => {
-					ev.preventDefault();
-					moveMsgToTrash({ dispatch, msgId: message.id, t, createSnackbar })
-				}
-			});
+			arr.push(deleteMsg({ dispatch, t, messageId: message.id}));
 		}
 		return arr;
-	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, db]);
+	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, message.flagged]);
 
 	const { folderId: currentFolderId } = useParams();
 	const folders = useSelector(selectFolders);
@@ -252,10 +198,13 @@ function MailPreviewBlock({ message, open, onClick }) {
 									items={map(
 										actions,
 										(action) => ({
-											id: action.id,
+											id: action.label,
 											icon: action.icon,
 											label: action.label,
-											click: action.onActivate
+											click: (ev) => {
+												if(ev) ev.preventDefault();
+												action.action();
+											},
 										})
 									)}
 								>
@@ -312,6 +261,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 }
 
 export default function MailPreview({ message, expanded }) {
+	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const mailContainerRef = useRef(undefined);
 	const [open, setOpen] = useState(expanded);
@@ -367,7 +317,7 @@ export default function MailPreview({ message, expanded }) {
 									<MailMessageRenderer
 										key={message.id}
 										mailMsg={aggregatedMessage}
-										setRead={() => setMsgRead({ dispatch, msgId: msg.id})}
+										setRead={() => setMsgRead({ dispatch, msgId: msg.id, t}).action()}
 									/>
 								)}
 							</Padding>
