@@ -65,11 +65,26 @@ function searchConvFulfilled(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
+	delete state.pendingConversation[meta.arg.conversationId];
 	const conversation = state.cache[meta.arg.folderId].cache[meta.arg.conversationId];
 	if(conversation) {
 		conversation.messages = payload.messages;
 		updateConversation(conversation);
 	}
+}
+
+function searchConvPending(
+	state: ConversationsStateType,
+	{ payload, meta }: any,
+): void {
+	state.pendingConversation[meta.arg.conversationId] = true;
+}
+
+function searchConvRejected(
+	state: ConversationsStateType,
+	{ payload, meta }: any,
+): void {
+	delete state.pendingConversation[meta.arg.conversationId];
 }
 
 function convActionFulfilled(
@@ -327,6 +342,7 @@ export const conversationsSlice = createSlice({
 	name: 'conversations',
 	initialState: {
 		currentFolder: '2',
+		pendingConversation: {},
 		cache: {
 			2: {
 				cache: {},
@@ -342,7 +358,9 @@ export const conversationsSlice = createSlice({
 		builder.addCase(fetchConversations.pending, produce(fetchConversationsPending));
 		builder.addCase(fetchConversations.fulfilled, produce(fetchConversationsFulfilled));
 		builder.addCase(fetchConversations.rejected, produce(fetchConversationsRejected));
+		builder.addCase(searchConv.pending, produce(searchConvPending));
 		builder.addCase(searchConv.fulfilled, produce(searchConvFulfilled));
+		builder.addCase(searchConv.rejected, produce(searchConvRejected));
 		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
 		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
 		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));

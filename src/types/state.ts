@@ -45,6 +45,7 @@ export type MsgStateType = {
 
 export type ConversationsStateType = {
 	cache: FolderToConversationsMap;
+	pendingConversation: Record<string, boolean>;
 	currentFolder: string;
 }
 

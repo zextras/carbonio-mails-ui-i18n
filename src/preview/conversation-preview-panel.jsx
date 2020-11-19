@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Container } from '@zextras/zapp-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -29,7 +29,9 @@ export default function ConversationPreviewPanel() {
 	const fetch =	messageId || 'u!';
 	// expand the most recent one
 
-	dispatch(searchConv({ conversationId, folderId, fetch }));
+	useEffect(() => {
+		dispatch(searchConv({ conversationId, folderId, fetch }));
+	}, [dispatch, conversationId, folderId]);
 
 	const conversations = useSelector(selectConversationMap);
 	const conversation = conversations[conversationId];
@@ -42,6 +44,8 @@ export default function ConversationPreviewPanel() {
 					key={`${message.id}-${messageId}`}
 					message={message}
 					expanded={messageId ? messageId === message.id : index === 0}
+					downloadedMsg={!conversation.messages.every(m => m.subject)
+													&& (messageId || conversation.messages[0].id)}
 				/>
 			));
 		}

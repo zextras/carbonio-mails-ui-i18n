@@ -48,7 +48,6 @@ const InvisibleLink = styled(Link)`
 export default function MessageListItem({ message, folderId, conversation }) {
 	const { t } = useTranslation();
 	const accounts = hooks.useUserAccounts();
-	console.log('Rendede message');
 
 	const messageFolder = useSelector(selectFolders)[message.parent];
 	const [avatarLabel, avatarEmail, date, participantsString] = useMemo(
