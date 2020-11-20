@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { msgAction } from '../store/actions';
+import { convAction, msgAction } from '../store/actions';
 
 export function success(t, createSnackbar) {
 	const ref = createSnackbar(
@@ -65,20 +65,67 @@ export function setMsgFlag(ids, value, t, dispatch) {
 	}
 }
 
-export function moveMsgToTrash(ids, t, dispatch, createSnackbar) {
+export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 	return {
 		icon: 'Trash2Outline',
 		label: t('Delete'),
 		action: () => {
-			dispatch(
-				msgAction({
-					operation: `trash`,
-					ids,
-				}),
-			).then((res) => {
-				if (res.type.includes('fulfilled')) success(t, createSnackbar);
-				else fail({ createSnackbar, t });
-			});
+			let notCanceled = true;
+
+			const infoSnackbar = (remainingTime, hideButton = false) => {
+				const ref = createSnackbar(
+					{
+						key: `trash-${ids}`,
+						replace: true,
+						type: 'info',
+						label: t(`This e-mail will be deleted in ${remainingTime} seconds`),
+						autoHideTimeout: 2000,
+						hideButton,
+						actionLabel: 'Undo',
+						onActionClick: () => {
+							notCanceled = false;
+						}
+					},
+				);
+			}
+			infoSnackbar(3);
+
+			setTimeout(() => notCanceled && infoSnackbar(2), 1000);
+			setTimeout(() => notCanceled && infoSnackbar(1), 2000);
+
+			setTimeout(() => {
+				if(notCanceled) {
+					dispatch(
+						convAction({
+							operation: `trash`,
+							ids,
+						}),
+					).then((res) => {
+						if (res.type.includes('fulfilled')) {
+							const ref = createSnackbar(
+								{
+									key: `trash-${ids}`,
+									replace: true,
+									type: 'success',
+									label: t('E-mail successfully deleted!'),
+									autoHideTimeout: 3000,
+								},
+							);
+						}
+						else {
+							const ref = createSnackbar(
+								{
+									key: `trash-${ids}`,
+									replace: true,
+									type: 'error',
+									label: t('Something went wrong, this conversation has not be deleted, please retry'),
+									autoHideTimeout: 3000,
+								},
+							);
+						}
+					});
+				}
+			}, 3000);
 		}
 	}
 }

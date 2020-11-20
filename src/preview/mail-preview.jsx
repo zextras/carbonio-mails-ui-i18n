@@ -283,6 +283,28 @@ export default function MailPreview({ message, expanded, downloadedMsg }) {
 			dispatch(getMsg({ msgId: message.id }));
 		}
 	}, [message, open, expanded, dispatch]);
+	
+	const collapsedContent = useMemo(() => (
+		<Container
+			width="100%"
+			height="fit"
+			crossAlignment="stretch"
+			padding={{ horizontal: 'medium', vertical: 'small' }}
+			background="gray6"
+		>
+			<AttachmentsBlock message={aggregatedMessage} />
+			<Padding style={{ width: '100%' }} vertical="medium">
+				<MailMessageRenderer
+					key={message.id}
+					mailMsg={aggregatedMessage}
+					setRead={() => {
+						if(msg.read === false)
+							setMsgRead([msg.id], false, t, dispatch).action();
+					}}
+				/>
+			</Padding>
+		</Container>
+	), [aggregatedMessage.parts]);
 
 	return (
 		<Container
@@ -302,32 +324,7 @@ export default function MailPreview({ message, expanded, downloadedMsg }) {
 				}}
 			>
 				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
-					{open
-					&& (
-						<Container
-							width="100%"
-							height="fit"
-							crossAlignment="stretch"
-							padding={{ horizontal: 'medium', vertical: 'small' }}
-							background="gray6"
-						>
-							<AttachmentsBlock message={aggregatedMessage} />
-							<Padding style={{ width: '100%' }} vertical="medium">
-								{aggregatedMessage.parts.length > 0
-								&& (
-									<MailMessageRenderer
-										key={message.id}
-										mailMsg={aggregatedMessage}
-										setRead={() => {
-											if(msg.read === false)
-												setMsgRead([msg.id], false, t, dispatch).action();
-										}}
-									/>
-								)
-								}
-							</Padding>
-						</Container>
-					)}
+					{aggregatedMessage.parts.length > 0 && collapsedContent}
 				</Collapse>
 			</Container>
 			<Divider />

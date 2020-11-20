@@ -55,7 +55,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 						key: `trash-${ids}`,
 						replace: true,
 						type: 'info',
-						label: t(`This e-mail will be deleted in ${remainingTime} seconds`),
+						label: t(`This conversation will be deleted in ${remainingTime} seconds`),
 						autoHideTimeout: 2000,
 						hideButton,
 						actionLabel: 'Undo',
@@ -84,7 +84,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'success',
-									label: t('E-mail successfully deleted!'),
+									label: t('Conversation successfully deleted!'),
 									autoHideTimeout: 3000,
 								},
 							);
@@ -95,7 +95,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'error',
-									label: t('Something went wrong, this e-mail has not be deleted, please retry'),
+									label: t('Something went wrong, this conversation has not be deleted, please retry'),
 									autoHideTimeout: 3000,
 								},
 							);
