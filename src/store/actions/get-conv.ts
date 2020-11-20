@@ -14,24 +14,27 @@ import { network } from '@zextras/zapp-shell';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
 import { updateConversation } from '../../commons/update-conversation';
 import { Conversation } from '../../types/conversation';
+import { IncompleteMessage } from '../../types/mail-message';
 import { GetConvRequest, GetConvResponse } from '../../types/soap';
 
 export type GetConvParameters = {
-	convId: string;
+	conversationId: string;
+	fetch?: string;
+	folderId?: string
 }
 
 export const getConv = createAsyncThunk<Conversation, GetConvParameters>(
 	'messages/getConv',
-	async ({ convId }, { getState }: any) => {
+	async ({ conversationId, fetch = 'all' }, { getState }: any) => {
 		const result = await network.soapFetch<GetConvRequest, GetConvResponse>(
 			'GetConv',
 			{
 				_jsns: 'urn:zimbraMail',
 				c: {
-					id: convId,
+					id: conversationId,
 					html: 1,
 					needExp: 1,
-					fetch: 'all',
+					fetch,
 				}
 			},
 		);
@@ -39,4 +42,14 @@ export const getConv = createAsyncThunk<Conversation, GetConvParameters>(
 		updateConversation(conversation);
 		return conversation;
 	},
+	{
+		condition: ({ folderId, conversationId }: GetConvParameters, { getState }: any) => {
+			if(!folderId) return true;
+			if(getState().conversations.cache[folderId].cache[conversationId]
+				&& getState().conversations.cache[folderId].cache[conversationId].messages
+					.every((m: IncompleteMessage) => m.subject))
+				return false;
+			return getState().conversations.pendingConversation[conversationId] !== true;
+		}
+	}
 );

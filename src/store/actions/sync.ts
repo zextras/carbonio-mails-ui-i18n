@@ -127,7 +127,7 @@ export const sync = createAsyncThunk<SyncResult, void>(
 			.filter((id) => Object.values(getState().conversations.cache).some((f: any) => f.cache[id]));
 
 		conversationsToAsk = uniq(conversationsToAsk.concat(editedConversations));
-		conversationsToAsk.forEach((convId) => dispatch(getConv({ convId })));
+		conversationsToAsk.forEach((convId) => dispatch(getConv({ conversationId: convId })));
 
 		return ({
 			token: `${_token}`,

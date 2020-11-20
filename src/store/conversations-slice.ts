@@ -47,8 +47,8 @@ function fetchConversationsFulfilled(
 	{ payload, meta }: { payload: FetchConversationsReturn; meta: any },
 ): void {
 	state.cache[meta.arg.folderId].cache = {
-		...state.cache[meta.arg.folderId].cache,
 		...payload.conversations,
+		...state.cache[meta.arg.folderId].cache,
 	};
 	state.cache[meta.arg.folderId].status = payload.hasMore ? 'hasMore' : 'complete';
 }
@@ -314,7 +314,7 @@ function syncFulfilled(state: ConversationsStateType, { payload }: { payload: Sy
 
 function getConvFulfilled(
 	state: ConversationsStateType,
-	{ payload: conv }: { payload: Conversation },
+	{ payload: conv, meta }: { payload: Conversation, meta: any },
 ): void {
 	Object.keys(state.cache).forEach((folderId) => {
 		const folder = state.cache[folderId];
@@ -336,6 +336,21 @@ function getConvFulfilled(
 			state.cache[folderId].cache[myConv.id] = myConv;
 		}
 	});
+	if(meta.arg.folderId) state.cache[meta.arg.folderId].cache[conv.id] = conv;
+}
+
+function getConvPending(
+	state: ConversationsStateType,
+	{ payload, meta }: any,
+): void {
+	state.pendingConversation[meta.arg.conversationId] = true;
+}
+
+function getConvRejected(
+	state: ConversationsStateType,
+	{ payload, meta }: any,
+): void {
+	delete state.pendingConversation[meta.arg.conversationId];
 }
 
 export const conversationsSlice = createSlice({
@@ -363,7 +378,9 @@ export const conversationsSlice = createSlice({
 		builder.addCase(searchConv.rejected, produce(searchConvRejected));
 		builder.addCase(convAction.fulfilled, produce(convActionFulfilled));
 		builder.addCase(msgAction.fulfilled, produce(msgActionFulfilled));
+		builder.addCase(getConv.pending, produce(getConvPending));
 		builder.addCase(getConv.fulfilled, produce(getConvFulfilled));
+		builder.addCase(getConv.rejected, produce(getConvRejected));
 	},
 });
 

@@ -18,7 +18,7 @@ import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
 import { selectConversationMap } from '../store/conversations-slice';
 import { useQueryParam } from '../hooks/useQueryParam';
-import { searchConv } from '../store/actions';
+import { getConv } from '../store/actions';
 
 export default function ConversationPreviewPanel() {
 	const conversationId = useQueryParam('conversation');
@@ -26,12 +26,12 @@ export default function ConversationPreviewPanel() {
 	const { folderId } = useParams();
 
 	const dispatch = useDispatch();
-	const fetch =	messageId || 'u!';
+	const fetch =	messageId || '1';
 	// expand the most recent one
 
 	useEffect(() => {
-		dispatch(searchConv({ conversationId, folderId, fetch }));
-	}, [dispatch, conversationId, folderId]);
+		dispatch(getConv({ conversationId, fetch, folderId }));
+	}, [conversationId]);
 
 	const conversations = useSelector(selectConversationMap);
 	const conversation = conversations[conversationId];

@@ -64,9 +64,7 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 				&& getState().conversations.cache[folderId].cache[conversationId].messages
 					.every((m: IncompleteMessage) => m.subject))
 				return false;
-			if(getState().conversations.pendingConversation[conversationId] === true)
-				return false;
-			return true;
+			return getState().conversations.pendingConversation[conversationId] !== true;
 		}
 	}
 );

@@ -128,7 +128,7 @@ function getConvFulfilled(
 	{ cache }: MsgStateType,
 	{ payload, meta }: { payload: Conversation; meta: any },
 ): void {
-	payload.messages.forEach((m) => {
+	payload.messages.filter( m => m.parts.length > 0).forEach((m) => {
 		cache[m.id] = m as MailMessage;
 	});
 }
