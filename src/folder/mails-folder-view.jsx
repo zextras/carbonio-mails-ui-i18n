@@ -41,9 +41,9 @@ function Breadcrumbs({ folderPath, itemsCount }) {
 					takeAvailableSpace
 					padding={{ right: 'medium' }}
 				>
-					<Text size="large">{ folderPath }</Text>
+					<Text size="large">{ folderPath.split('/').join(' / ') }</Text>
 				</Row>
-				<Text size="medium">{ itemsCount > 99 ? '99+' : itemsCount }</Text>
+				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
 			</Row>
 			<Divider />
 		</Container>
@@ -184,7 +184,7 @@ export default function FolderView() {
 	}, [folderId, dispatch]);
 
 	useEffect(() => {
-		if (folderId) dispatch(fetchConversations({ folderId, limit: 100 }));
+		if (folderId) dispatch(fetchConversations({ folderId, limit: 101 }));
 	}, [folderId, dispatch]);
 
 	const screen = useScreenMode();
