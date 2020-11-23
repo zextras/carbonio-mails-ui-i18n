@@ -9,38 +9,38 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { uniq, uniqBy } from 'lodash';
+import { filter, flatMap, map, uniq, uniqBy } from 'lodash';
 import { Conversation } from '../types/conversation';
 import { IncompleteMessage } from '../types/mail-message';
-import { Participant } from '../types/participant';
 
 export function filterMessages(messages: Array<IncompleteMessage>, folderId: string): Array<IncompleteMessage> {
 	switch (folderId) {
 		case '3':
-			return  messages.filter((m) => m.parent !== '4');
+			return  filter(messages, m => m.parent !== '4');
 		case '4':
-			return messages.filter((m) => m.parent !== '3');
+			return filter(messages, m => m.parent !== '3');
 		default:
-			return messages.filter((m) => m.parent !== '3' && m.parent !== '4');
+			return filter(messages, m => m.parent !== '3' && m.parent !== '4');
 	}
 }
 
 export function updateConversation(conversation: Conversation): void {
 	conversation.msgCount = conversation.messages.length;
 	conversation.flagged = conversation.messages.some((m) => m.flagged);
-	conversation.unreadMsgCount = conversation.messages.filter((m) => !m.read).length;
+	conversation.unreadMsgCount = filter(conversation.messages, m => !m.read).length;
 	conversation.read = conversation.unreadMsgCount === 0;
 	conversation.urgent = conversation.messages.some((m) => m.urgent);
 	conversation.subject = conversation.messages[conversation.messages.length -1].subject || conversation.subject;
 	conversation.fragment = conversation.messages[0].fragment || conversation.fragment;
-	conversation.tags = uniq(conversation.messages.flatMap((m) => m.tags));
-	conversation.participants = uniqBy(conversation.participants, (p: Participant) => p.address);
+	conversation.tags = uniq(flatMap(conversation.messages, ((m) => m.tags)));
 }
 
 export function updateIncreasedConversation(conversation: Conversation, parentId: string): void {
 	conversation.messages = uniqBy(conversation.messages, (m: IncompleteMessage) => m.id)
 	conversation.messages.sort((a, b) => b.date - a.date)
-	conversation.date = Math.max(...conversation.messages.filter((m) => m.parent === parentId)
-		.map((m) => m.date));
+	conversation.date = Math.max(...map(
+		filter(conversation.messages,(m) => m.parent === parentId),
+		(m: IncompleteMessage) => m.date)
+	);
 	updateConversation(conversation);
 }

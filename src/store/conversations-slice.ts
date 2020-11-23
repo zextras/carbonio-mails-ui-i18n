@@ -9,9 +9,9 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
-import { cloneDeep, uniq } from 'lodash';
+import { cloneDeep, filter, forEach, keysIn, map, uniq, valuesIn } from 'lodash';
 import { filterMessages, updateConversation, updateIncreasedConversation } from '../commons/update-conversation';
 import { Conversation } from '../types/conversation';
 import {
@@ -65,7 +65,7 @@ function searchConvFulfilled(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
-	delete state.pendingConversation[meta.arg.conversationId];
+	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'complete';
 	const conversation = state.cache[meta.arg.folderId].cache[meta.arg.conversationId];
 	if(conversation) {
 		conversation.messages = payload.messages;
@@ -77,14 +77,14 @@ function searchConvPending(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
-	state.pendingConversation[meta.arg.conversationId] = true;
+	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'pending';
 }
 
 function searchConvRejected(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
-	delete state.pendingConversation[meta.arg.conversationId];
+	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'error';
 }
 
 function convActionFulfilled(
@@ -93,8 +93,8 @@ function convActionFulfilled(
 ): void {
 	const { ids, operation } = payload;
 
-	ids.forEach((id: string) => {
-		Object.keys(cache).forEach(folderId => {
+	forEach(ids, (id: string) => {
+		forEach(keysIn(cache), folderId => {
 			const conversations = cache[folderId];
 			const conversation = conversations.cache[id];
 
@@ -102,18 +102,16 @@ function convActionFulfilled(
 				if (operation.includes('flag')) {
 					const newFlag = !operation.startsWith('!');
 					conversation.flagged = newFlag;
-					conversation.messages
-						.forEach((message) => {
-							message.flagged = newFlag;
-						});
+					forEach(conversation.messages, (message) => {
+						message.flagged = newFlag;
+					});
 				}
 				else if (operation.includes('read')) {
 					const newRead = !operation.startsWith('!');
 					conversation.read = newRead;
-					conversation.messages
-						.forEach((message) => {
-							message.read = newRead;
-						});
+					forEach(conversation.messages, (message) => {
+						message.read = newRead;
+					});
 				}
 				else if (operation === 'delete') {
 					delete conversations.cache[id];
@@ -124,9 +122,10 @@ function convActionFulfilled(
 						cache[destination] = {
 							status: 'empty',
 							cache: {},
+							expandedStatus: {},
 						}
 					}
-					conversation.messages.forEach(message => {
+					forEach(conversation.messages, message => {
 						message.parent = destination;
 					});
 					// this conversation is already in Destination folder
@@ -155,44 +154,43 @@ function msgActionFulfilled(
 ): void {
 	const { ids, operation } = payload;
 
-	Object.keys(cache).forEach((folderId) => {
+	forEach(keysIn(cache), (folderId) => {
 		const folder = cache[folderId];
-		Object.values(folder.cache).forEach((conversation) => {
+		forEach(valuesIn(folder.cache), (conversation) => {
 			if (conversation.messages.some((m) => ids.includes(m.id))) {
-				const involvedMessages = conversation.messages.filter(m => ids.includes(m.id));
+				const involvedMessages = filter(conversation.messages, m => ids.includes(m.id));
 				if (operation.includes('flag')) {
 					const newFlag = !operation.startsWith('!');
-					involvedMessages.forEach(message => {
+					forEach(involvedMessages, message => {
 						message.flagged = newFlag;
 					});
 					conversation.flagged = conversation.messages.some(m => m.flagged);
 				}
 				else if (operation.includes('read')) {
 					const newRead = !operation.startsWith('!');
-					involvedMessages
-						.forEach(message => {
-							message.read = newRead;
-						});
+					forEach(involvedMessages, message => {
+						message.read = newRead;
+					});
 					updateConversation(conversation);
 				}
 				else if (operation.includes('tag')) {
 					const { tag } = meta.arg;
 					const action = !operation.startsWith('!');
 					if (action) {
-						involvedMessages.forEach(message => {
+						forEach(involvedMessages, message => {
 							message.tags.push(tag);
 							message.tags = uniq(message.tags);
 						});
 					}
 					else {
-						involvedMessages.forEach(message => {
-							message.tags = message.tags.filter(t => t !== tag);
+						forEach(involvedMessages, message => {
+							message.tags =  filter(message.tags, t => t !== tag);
 						});
 					}
 					updateConversation(conversation);
 				}
 				else if (operation === 'delete') {
-					conversation.messages = conversation.messages.filter(m => !ids.includes(m.id));
+					conversation.messages = filter(conversation.messages, m => !ids.includes(m.id));
 
 					if (!conversation.messages.some(m => m.parent === folderId))
 						delete folder.cache[conversation.id];
@@ -202,14 +200,18 @@ function msgActionFulfilled(
 				else if (operation === 'trash' || operation === 'move') {
 					const destination = operation === 'trash' ? '3' : meta.arg.p;
 
-					conversation.messages.filter(m => ids.includes(m.id)).forEach(message => {
-						message.parent = destination;
-					});
+					forEach(
+						filter(conversation.messages,
+							m => ids.includes(m.id)
+						),
+						message => {
+							message.parent = destination;
+						});
 
 					if (folderId !== destination) {
 						// if Destination folder is not downloaded, create it
 						if (typeof cache[destination] === 'undefined')
-							cache[destination] = { cache: {}, status: 'empty' };
+							cache[destination] = { cache: {}, status: 'empty', expandedStatus: {} };
 
 						// i have to add this message / conversation to Destination
 
@@ -217,7 +219,7 @@ function msgActionFulfilled(
 						if (cache[destination].cache[conversation.id]) {
 							// i should update the message
 							const destinationConv = cache[destination].cache[conversation.id];
-							involvedMessages.forEach(message => {
+							forEach(involvedMessages, message => {
 								message.parent = destination;
 							});
 							destinationConv.messages.concat(cloneDeep(involvedMessages));
@@ -251,6 +253,7 @@ export function setCurrentFolderReducer(
 	if (!(payload in state.cache)) {
 		state.cache[payload] = {
 			cache: {},
+			expandedStatus: {},
 			status: 'empty',
 		};
 	}
@@ -261,23 +264,23 @@ function syncFulfilled(state: ConversationsStateType, { payload }: { payload: Sy
 		messages, conversations, folders, deleted,
 	} = payload;
 	// delete cache for 'deleted folders'
-	deleted.folders.forEach((folderId) => delete state.cache[folderId]);
+	forEach(deleted.folders,(folderId) => delete state.cache[folderId]);
 
 	// delete deleted conversations (I've never seen this), should work
-	deleted.conversations.forEach((id) => {
-		Object.values(state.cache).forEach((folder) => {
+	forEach(deleted.conversations, (id) => {
+		forEach(valuesIn(state.cache), (folder) => {
 			delete folder.cache[id];
 		});
 	});
 
 	// delete deleted messages: works
 	if(deleted.messages.length > 0) {
-		Object.values(state.cache).forEach((folder) => {
-			Object.keys(folder.cache).forEach((convId) => {
+		forEach(valuesIn(state.cache), (folder) => {
+			forEach(keysIn(folder.cache), (convId) => {
 				const conversation = folder.cache[convId];
 
 				if(conversation.messages.some(m => deleted.messages.includes(m.id))) {
-					conversation.messages = conversation.messages.filter(m => !deleted.messages.includes(m.id));
+					conversation.messages = filter(conversation.messages, m => !deleted.messages.includes(m.id));
 
 					if(conversation.messages.length === 0) delete folder.cache[convId];
 					else updateConversation(conversation);
@@ -288,8 +291,8 @@ function syncFulfilled(state: ConversationsStateType, { payload }: { payload: Sy
 
 
 	// edit edited messages
-	messages.forEach((receivedMsg) => {
-		Object.keys(state.cache).forEach((folderId) => {
+	forEach(messages, (receivedMsg) => {
+		forEach(keysIn(state.cache), (folderId) => {
 			const folder = state.cache[folderId];
 
 			if (folder.cache[receivedMsg.conversation]) {
@@ -316,41 +319,43 @@ function getConvFulfilled(
 	state: ConversationsStateType,
 	{ payload: conv, meta }: { payload: Conversation, meta: any },
 ): void {
-	Object.keys(state.cache).forEach((folderId) => {
+	forEach(keysIn(state.cache), (folderId) => {
 		const folder = state.cache[folderId];
 
 		delete folder.cache[conv.id];
 
 		// the conversation can have a newId, so i must remove all conversations
 		// whose messages appears in the received conversation
-		Object.values(folder.cache)
-			.filter((c) => conv.messages.map((m) => m.id).includes(c.messages[0].id))
-			.forEach((c) => delete folder.cache[c.id]);
+		forEach(
+			filter(valuesIn(folder.cache),
+				(c) => map(conv.messages, (m) => m.id).includes(c.messages[0].id)
+			),(c) => delete folder.cache[c.id]);
 
-		if (conv.messages.map((m) => m.parent).includes(folderId)) {
+		if (map(conv.messages, (m) => m.parent).includes(folderId)) {
 			const myConv = cloneDeep(conv);
 
 			myConv.messages = filterMessages(myConv.messages, folderId)
 			updateIncreasedConversation(myConv, folderId);
+			myConv.fragment = myConv.messages[0].fragment || '';
 
 			state.cache[folderId].cache[myConv.id] = myConv;
+			state.cache[folderId].expandedStatus[myConv.id] = 'complete';
 		}
 	});
-	if(meta.arg.folderId) state.cache[meta.arg.folderId].cache[conv.id] = conv;
 }
 
 function getConvPending(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
-	state.pendingConversation[meta.arg.conversationId] = true;
+	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'pending';
 }
 
 function getConvRejected(
 	state: ConversationsStateType,
 	{ payload, meta }: any,
 ): void {
-	delete state.pendingConversation[meta.arg.conversationId];
+	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'error';
 }
 
 export const conversationsSlice = createSlice({
@@ -361,6 +366,7 @@ export const conversationsSlice = createSlice({
 		cache: {
 			2: {
 				cache: {},
+				expandedStatus: {},
 				status: 'empty',
 			},
 		} as FolderToConversationsMap,
@@ -389,6 +395,16 @@ export const conversationsSliceReducer = conversationsSlice.reducer;
 function selectCache({ conversations }: StateType):
 	Record<string, ConversationsInFolderState> {
 	return conversations.cache;
+}
+
+export function selectCurrentFolderCache({ conversations }: StateType):
+	Record<string, Conversation> {
+	return conversations.cache[conversations.currentFolder].cache;
+}
+
+export function selectCurrentFolderExpandedStatus({ conversations }: StateType):
+	Record<string, string> {
+	return conversations.cache[conversations.currentFolder].expandedStatus;
 }
 
 export function selectCurrentFolder({ conversations }: StateType): string {

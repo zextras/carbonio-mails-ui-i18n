@@ -9,6 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
+// eslint-disable-next-line no-shadow
 export enum ParticipantRole {
 	FROM = 'f',
 	TO = 't',

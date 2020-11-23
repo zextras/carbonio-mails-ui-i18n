@@ -18,10 +18,10 @@ import { VerticalDivider } from '../commons/vertical-divider';
 import { useQueryParam } from '../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
-import ConversationListItem from './conversation-list-item';
 import { selectConversationList, selectConversationStatus } from '../store/conversations-slice';
 import { selectFolders } from '../store/folders-slice';
 import { fetchConversations } from '../store/actions';
+import ConversationListItem from './conversation-list-item';
 
 function Breadcrumbs({ folderPath, itemsCount }) {
 	return (
@@ -165,7 +165,6 @@ const ConversationList = ({ folderId }) => {
 				>
 					{ rowRenderer }
 				</VariableSizeList>
-				{ /* TODO: insert text (look into mockups) */}
 			</Row>
 		</>
 	);

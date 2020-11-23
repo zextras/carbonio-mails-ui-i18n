@@ -10,6 +10,7 @@
  */
 import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
+import { filter, forEach, valuesIn } from 'lodash';
 import { Conversation } from '../types/conversation';
 import { MailMessage } from '../types/mail-message';
 import { MsgMap, MsgStateType, StateType } from '../types/state';
@@ -32,7 +33,7 @@ function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }
 		messages, deleted,
 	} = payload;
 
-	messages.forEach((msg) => {
+	forEach(messages,(msg) => {
 		if (state.cache[msg.id]) {
 			if (msg.parent !== '6') {
 				state.cache[msg.id].flagged = msg.flagged;
@@ -48,25 +49,28 @@ function syncFulfilled(state: MsgStateType, { payload }: { payload: SyncResult }
 		}
 	});
 
-	deleted.messages.forEach((msgId) => delete state.cache[msgId]);
+	forEach(deleted.messages, (msgId) => delete state.cache[msgId]);
 }
 
 function getMsgFulfilled(
-	{ cache }: MsgStateType,
+	{ cache, status }: MsgStateType,
 	{ payload }: { payload: MailMessage },
 ): void {
+	status[payload.id] = 'complete';
 	cache[payload.id] = payload;
 }
 
 function searchConvFulfilled(
-	{ cache }: MsgStateType,
+	{ cache, status }: MsgStateType,
 	{ payload }: { payload: SearchConvReturn },
 ): void {
-	payload.messages
-		.filter((m) => m.parts.length > 0)
-		.forEach((m) => {
+	forEach(
+		filter(payload.messages, (m) => m.parts.length > 0),
+		(m) => {
+			status[m.id] = 'complete';
 			cache[m.id] = m;
-		});
+		}
+	);
 }
 
 function msgActionFulfilled(
@@ -74,26 +78,28 @@ function msgActionFulfilled(
 	{ payload, meta }: { payload: MsgActionResult; meta: any },
 ): void {
 	const { operation, ids } = payload;
-	ids.forEach((id) => {
-		const message = cache[id];
-		if (message) {
-			if (operation.includes('flag')) {
-				message.flagged = !operation.startsWith('!');
-			}
-			else if (operation.includes('read')) {
-				message.read = !operation.startsWith('!');
-			}
-			else if (operation === 'trash') {
-				message.parent = '3';
-			}
-			else if (operation === 'delete') {
-				delete cache[id];
-			}
-			else if (operation === 'move') {
-				message.parent = meta.arg.parent;
+	forEach(ids,
+		(id) => {
+			const message = cache[id];
+			if (message) {
+				if (operation.includes('flag')) {
+					message.flagged = !operation.startsWith('!');
+				}
+				else if (operation.includes('read')) {
+					message.read = !operation.startsWith('!');
+				}
+				else if (operation === 'trash') {
+					message.parent = '3';
+				}
+				else if (operation === 'delete') {
+					delete cache[id];
+				}
+				else if (operation === 'move') {
+					message.parent = meta.arg.parent;
+				}
 			}
 		}
-	});
+	);
 }
 
 function convActionFulfilled(
@@ -101,9 +107,12 @@ function convActionFulfilled(
 	{ payload, meta }: { payload: ConvActionResult; meta: any },
 ): void {
 	const { operation, ids } = payload;
-	Object.values(cache)
-		.filter((m) => ids.includes(m.conversation))
-		.forEach((message) => {
+	forEach(
+		filter(
+			valuesIn(cache),
+			(m) => ids.includes(m.conversation)
+		),
+		(message) => {
 			if (message) {
 				if (operation.includes('flag')) {
 					message.flagged = !operation.startsWith('!');
@@ -125,18 +134,22 @@ function convActionFulfilled(
 }
 
 function getConvFulfilled(
-	{ cache }: MsgStateType,
+	{ cache, status }: MsgStateType,
 	{ payload, meta }: { payload: Conversation; meta: any },
 ): void {
-	payload.messages.filter( m => m.parts.length > 0).forEach((m) => {
-		cache[m.id] = m as MailMessage;
-	});
+	forEach(
+		filter(payload.messages, m => m.parts.length > 0),
+		(m) => {
+			cache[m.id] = m as MailMessage;
+			status[m.id] = 'complete';
+		});
 }
 
 export const messagesSlice = createSlice({
 	name: 'messages',
 	initialState: {
 		cache: {} as MsgMap,
+		status: {},
 	} as MsgStateType,
 	reducers: {},
 	extraReducers: (builder) => {

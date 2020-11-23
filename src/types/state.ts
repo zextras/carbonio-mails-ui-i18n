@@ -41,11 +41,11 @@ export type FoldersStateType = {
 
 export type MsgStateType = {
 	cache: MsgMap;
+	status: Record<string, Status>;
 }
 
 export type ConversationsStateType = {
 	cache: FolderToConversationsMap;
-	pendingConversation: Record<string, boolean>;
 	currentFolder: string;
 }
 
@@ -59,7 +59,9 @@ export type FolderToConversationsMap = Record<string, ConversationsInFolderState
 
 export type ConversationsInFolderState = {
 	cache: Record<string, Conversation>;
+	expandedStatus: Record<string, Status>;
 	status: ConversationsFolderStatus;
 }
 
 export type ConversationsFolderStatus = 'empty' | 'pending' | 'complete' | 'hasMore' | 'hasChange' | 'error';
+export type Status = 'pending' | 'error' | 'complete';

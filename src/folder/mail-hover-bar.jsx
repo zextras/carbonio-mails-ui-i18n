@@ -11,6 +11,7 @@
 
 import { IconButton, Row, SnackbarManagerContext } from '@zextras/zapp-ui';
 import React, { useContext, useMemo } from 'react';
+import { map } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 import { useDispatch } from 'react-redux';
@@ -81,7 +82,7 @@ export default function MailHoverBar({ messageId, read, flag, folderId }) {
 	return (
 		<ButtonBar orientation="horizontal">
 			{
-				actions.map(action => 
+				map(actions, action =>
 					<IconButton
 						key={`${messageId}-${action.icon}`}
 						size="large"

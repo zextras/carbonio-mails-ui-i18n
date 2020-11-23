@@ -24,7 +24,7 @@ function syncFulfilled(state: FoldersStateType, { payload }: { payload: SyncResu
 		},
 		state.folders,
 	);
-	payload.deleted.folders.forEach((id) => delete state.folders[id]);
+	forEach(payload.deleted.folders, (id) => delete state.folders[id]);
 }
 
 function setFoldersReducer(state: FoldersStateType, { payload }: any): void {

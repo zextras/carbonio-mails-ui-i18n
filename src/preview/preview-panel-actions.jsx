@@ -82,7 +82,7 @@ export default function PreviewPanelActions({conversation, folderId}) {
 			padding={ {horizontal: 'large', vertical: 'small'} }
 		>
 			{
-				primaryActions.map(action => (
+				map(primaryActions, action => (
 					<Padding left="extrasmall" key={ action.label }>
 						<IconButton
 							size="medium"

@@ -13,10 +13,11 @@ import React, { useMemo, useEffect } from 'react';
 import { Container } from '@zextras/zapp-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { map } from 'lodash';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
-import { selectConversationMap } from '../store/conversations-slice';
+import { selectConversationMap, selectCurrentFolderExpandedStatus } from '../store/conversations-slice';
 import { useQueryParam } from '../hooks/useQueryParam';
 import { getConv } from '../store/actions';
 
@@ -26,6 +27,12 @@ export default function ConversationPreviewPanel() {
 	const { folderId } = useParams();
 
 	const dispatch = useDispatch();
+
+	const conversations = useSelector(selectConversationMap);
+	const conversation = conversations[conversationId];
+	const conversationStatus = useSelector(selectCurrentFolderExpandedStatus)[conversationId];
+	// conversation will be undefined if fake id wil be passed
+
 	const fetch =	messageId || '1';
 	// expand the most recent one
 
@@ -33,19 +40,13 @@ export default function ConversationPreviewPanel() {
 		dispatch(getConv({ conversationId, fetch, folderId }));
 	}, [conversationId]);
 
-	const conversations = useSelector(selectConversationMap);
-	const conversation = conversations[conversationId];
-	// conversation will be undefined if fake id wil be passed
-
 	const messages = useMemo(() => {
-		if (conversation) {
-			return conversation.messages.map((message, index) => (
+		if (conversationStatus === 'complete') {
+			return map(conversation.messages, (message, index) => (
 				<MailPreview
 					key={`${message.id}-${messageId}`}
 					message={message}
 					expanded={messageId ? messageId === message.id : index === 0}
-					downloadedMsg={!conversation.messages.every(m => m.subject)
-													&& (messageId || conversation.messages[0].id)}
 				/>
 			));
 		}

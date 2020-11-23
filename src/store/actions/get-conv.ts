@@ -24,7 +24,7 @@ export type GetConvParameters = {
 }
 
 export const getConv = createAsyncThunk<Conversation, GetConvParameters>(
-	'messages/getConv',
+	'conversations/getConv',
 	async ({ conversationId, fetch = 'all' }, { getState }: any) => {
 		const result = await network.soapFetch<GetConvRequest, GetConvResponse>(
 			'GetConv',
@@ -38,18 +38,13 @@ export const getConv = createAsyncThunk<Conversation, GetConvParameters>(
 				}
 			},
 		);
-		const conversation = normalizeConversationFromSoap(result.c[0]);
-		updateConversation(conversation);
-		return conversation;
+		return normalizeConversationFromSoap(result.c[0]);
 	},
 	{
-		condition: ({ folderId, conversationId }: GetConvParameters, { getState }: any) => {
+		condition: ({ folderId, conversationId, fetch }: GetConvParameters, { getState }: any) => {
 			if(!folderId) return true;
-			if(getState().conversations.cache[folderId].cache[conversationId]
-				&& getState().conversations.cache[folderId].cache[conversationId].messages
-					.every((m: IncompleteMessage) => m.subject))
-				return false;
-			return getState().conversations.pendingConversation[conversationId] !== true;
+			return getState().conversations?.cache[folderId]?.expandedStatus[conversationId] !== 'complete'
+				&& getState().conversations?.cache[folderId]?.expandedStatus[conversationId] !== 'pending';
 		}
 	}
 );

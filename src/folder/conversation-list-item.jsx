@@ -9,24 +9,29 @@
  * *** END LICENSE BLOCK *****
  */
 import React, {
-	useCallback, useMemo, useEffect, useState
+	useCallback, useMemo,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-	find, isEmpty, reduce, trimStart
+	isEmpty, reduce, trimStart, filter, map
 } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
 import {
 	Avatar, Badge, Button, Container, Divider, Icon, IconButton, Padding, Row, Text,
 } from '@zextras/zapp-ui';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../commons/utils';
 import { searchConv } from '../store/actions';
+import { ParticipantRole } from '../types/participant';
+import { selectCurrentFolderExpandedStatus } from '../store/conversations-slice';
 
 function ConversationMessagesList({ conversation, folderId }) {
-	if (!conversation.messages.every((m) => m.subject)) {
+	const conversationStatus = useSelector(selectCurrentFolderExpandedStatus)[conversation.id];
+
+	if (conversationStatus !== 'complete') {
 		return (
 			<Container height={70 * conversation.messages.length}>
 				<Button loading disabled label="" type="ghost" />
@@ -36,7 +41,7 @@ function ConversationMessagesList({ conversation, folderId }) {
 
 	return (
 		<>
-			{conversation.messages.map((message, index) => (
+			{map(conversation.messages, (message, index) => (
 				<React.Fragment key={message.id}>
 					<MessageListItem
 						message={message}
@@ -72,9 +77,13 @@ export default function ConversationListItem({
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const accounts = hooks.useUserAccounts();
+
+	const targetParticipants = folderId === '5' ? ParticipantRole.TO : ParticipantRole.FROM;
 	const isConversation = conversation.msgCount > 1;
 	const [avatarLabel, avatarEmail] = useMemo(() => {
-		const sender = find(conversation.participants, ['type', 'f']);
+		let sender = conversation.participants.find(p => p.type === targetParticipants);
+		if(!sender)
+			[sender] = conversation.participants;
 		return [sender.fullName || sender.name || sender.address || '.', sender.address];
 	}, [conversation.participants]);
 	const toggleOpen = useCallback(
@@ -98,7 +107,7 @@ export default function ConversationListItem({
 		[conversation.date],
 	);
 	const participantsString = useMemo(() => reduce(
-		conversation.participants,
+		filter(conversation.participants, p => p.type === targetParticipants),
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
 	), [conversation.participants, t, accounts]);

@@ -260,8 +260,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 	);
 }
 
-// the property `downloadedMsg` is used to avoid to download the message already fetched with the conversation
-export default function MailPreview({ message, expanded, downloadedMsg }) {
+export default function MailPreview({ message, expanded }) {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const mailContainerRef = useRef(undefined);
@@ -278,11 +277,10 @@ export default function MailPreview({ message, expanded, downloadedMsg }) {
 	}, [expanded]);
 
 	useEffect(() => {
-		if (open && message.parts.length === 0 && message.id !== downloadedMsg) {
-			// check if the request of that message has already been requested
+		if (open) {
 			dispatch(getMsg({ msgId: message.id }));
 		}
-	}, [message, open, expanded, dispatch]);
+	}, [message, open, dispatch]);
 	
 	const collapsedContent = useMemo(() => (
 		<Container

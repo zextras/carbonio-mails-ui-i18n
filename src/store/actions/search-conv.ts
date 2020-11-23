@@ -11,6 +11,7 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
+import { map } from 'lodash';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { filterMessages } from '../../commons/update-conversation';
 import { IncompleteMessage, MailMessage } from '../../types/mail-message';
@@ -48,7 +49,7 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 				max: 250000,
 			},
 		);
-		let messages = (result.m || []).map(normalizeMailMessageFromSoap);
+		let messages = map(result.m || [], normalizeMailMessageFromSoap);
 		messages = filterMessages(messages, folderId);
 
 		return {
@@ -60,11 +61,8 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 	},
 	{
 		condition: ({ folderId, conversationId }: SearchConvParameters, { getState }: any) => {
-			if(getState().conversations.cache[folderId].cache[conversationId]
-				&& getState().conversations.cache[folderId].cache[conversationId].messages
-					.every((m: IncompleteMessage) => m.subject))
-				return false;
-			return getState().conversations.pendingConversation[conversationId] !== true;
+			return getState().conversations?.cache[folderId]?.expandedStatus[conversationId] !== 'complete'
+				&& getState().conversations?.cache[folderId]?.expandedStatus[conversationId] !== 'pending';
 		}
 	}
 );

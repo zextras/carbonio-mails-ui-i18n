@@ -11,9 +11,9 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
-import { keyBy, map } from 'lodash';
+import { forEach, keyBy, map } from 'lodash';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
-import { filterMessages, updateConversation, updateIncreasedConversation } from '../../commons/update-conversation';
+import { filterMessages, updateConversation } from '../../commons/update-conversation';
 import { Conversation } from '../../types/conversation';
 import { SearchRequest, SearchResponse } from '../../types/soap';
 
@@ -30,46 +30,46 @@ export type FetchConversationsReturn = {
 
 export const fetchConversations = createAsyncThunk<
 	FetchConversationsReturn, FetchConversationsParameters
->(
-	'fetchConversations',
-	async ({ folderId, limit = 100, before }, { getState }: any) => {
-		const queryPart = [
-			`inId:${folderId}`,
-		];
-		if (before) queryPart.push(`before:${before.getTime()}`);
-		const result = await network.soapFetch<SearchRequest, SearchResponse>(
-			'Search',
-			{
-				_jsns: 'urn:zimbraMail',
-				limit,
-				needExp: 1,
-				types: 'conversation',
-				recip: '0',
-				fullConversation: 1,
-				wantContent: 'full',
-				sortBy: 'dateDesc',
-				query: queryPart.join(' '),
-			},
-		);
-		const conversations = map(result.c || [], normalizeConversationFromSoap);
-		// filter the conversation removing Trashed or Junk messages
-		conversations.forEach(conversation => {
-			conversation.messages = filterMessages(conversation.messages, folderId);
-		});
-		conversations.forEach(updateConversation);
-		return {
-			conversations:
+	>(
+		'fetchConversations',
+		async ({ folderId, limit = 100, before }, { getState }: any) => {
+			const queryPart = [
+				`inId:${folderId}`,
+			];
+			if (before) queryPart.push(`before:${before.getTime()}`);
+			const result = await network.soapFetch<SearchRequest, SearchResponse>(
+				'Search',
+				{
+					_jsns: 'urn:zimbraMail',
+					limit,
+					needExp: 1,
+					types: 'conversation',
+					recip: '2',
+					fullConversation: 1,
+					wantContent: 'full',
+					sortBy: 'dateDesc',
+					query: queryPart.join(' '),
+				},
+			);
+			const conversations = map(result.c || [], normalizeConversationFromSoap);
+			// filter the conversation removing Trashed or Junk messages
+			forEach(conversations, conversation => {
+				conversation.messages = filterMessages(conversation.messages, folderId);
+			});
+			forEach(conversations, updateConversation);
+			return {
+				conversations:
 				{ ...keyBy(conversations, (e) => e.id) },
-			hasMore: result.more,
-		};
-	},
-	{
-		condition: ({ folderId, before }: FetchConversationsParameters, { getState }: any) => {
-			const state = getState();
-			const fetchStatus = state.conversations.cache[folderId].status;
-			return !(fetchStatus === 'complete'
+				hasMore: result.more,
+			};
+		},
+		{
+			condition: ({ folderId, before }: FetchConversationsParameters, { getState }: any) => {
+				const state = getState();
+				const fetchStatus = state.conversations.cache[folderId].status;
+				return !(fetchStatus === 'complete'
 				|| fetchStatus === 'pending'
 				|| (fetchStatus === 'hasMore' && typeof before === 'undefined'));
+			}
 		}
-	}
-);
+	);

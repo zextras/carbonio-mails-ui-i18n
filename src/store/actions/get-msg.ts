@@ -37,6 +37,7 @@ export const getMsg = createAsyncThunk<MailMessage, GetMsgParameters>(
 		return normalizeMailMessageFromSoap(msg) as MailMessage;
 	},
 	{
-		condition: ({ msgId }, { getState }: any) => !(msgId in getState().messages.cache),
+		condition: ({ msgId }, { getState }: any) =>
+			getState().messages.status[msgId] !== 'pending' && getState().messages.status[msgId] !== 'complete',
 	}
 );

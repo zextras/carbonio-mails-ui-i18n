@@ -11,14 +11,14 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
-import { reduce, uniq } from 'lodash';
+import { filter, forEach, keysIn, map, reduce, uniq, valuesIn } from 'lodash';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { Conversation } from '../../types/conversation';
 import { Folder } from '../../types/folder';
 import { IncompleteMessage } from '../../types/mail-message';
-import { SyncRequest, SyncResponse, SyncResponseDeletedMap } from '../../types/soap';
-import { ConversationsInFolderState, MailsFolderMap } from '../../types/state';
+import { SyncRequest, SyncResponse, SyncResponseDeletedMap, SyncResponseMail } from '../../types/soap';
+import { MailsFolderMap } from '../../types/state';
 import { getConv } from './get-conv';
 
 export type SyncResult = {
@@ -92,15 +92,15 @@ export const sync = createAsyncThunk<SyncResult, void>(
 				token,
 			},
 		);
-		const messages = (m || []).map(normalizeMailMessageFromSoap);
-		const conversations = (c || []).map(normalizeConversationFromSoap);
+		const messages = map<SyncResponseMail, IncompleteMessage>( m || [], normalizeMailMessageFromSoap);
+		const conversations = map(c || [], normalizeConversationFromSoap);
 		const del = deleted ? normalizeDeleted(deleted[0]) : normalizeDeleted(undefined);
 
 		let conversationsToAsk: string[] = [];
 
 		// check whether a conversation needs to be downloaded
-		messages.forEach((receivedMsg) => {
-			Object.keys(getState().conversations.cache).forEach((folderId) => {
+		forEach(messages, (receivedMsg: IncompleteMessage) => {
+			forEach(keysIn(getState().conversations.cache), (folderId) => {
 				const folder = getState().conversations.cache[folderId];
 
 				// It means it's a new message of a new conversation
@@ -122,12 +122,13 @@ export const sync = createAsyncThunk<SyncResult, void>(
 			});
 		});
 
-		const editedConversations = conversations
-			.map((co) => co.id)
-			.filter((id) => Object.values(getState().conversations.cache).some((f: any) => f.cache[id]));
+		const editedConversations = filter(
+			map(conversations, (co) => co.id),
+			(id) => valuesIn(getState().conversations.cache).some((f: any) => f.cache[id])
+		);
 
 		conversationsToAsk = uniq(conversationsToAsk.concat(editedConversations));
-		conversationsToAsk.forEach((convId) => dispatch(getConv({ conversationId: convId })));
+		forEach(conversationsToAsk, (convId) => dispatch(getConv({ conversationId: convId })));
 
 		return ({
 			token: `${_token}`,
