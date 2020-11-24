@@ -9,10 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["state", "conversation", "message", "cache", "folder"] }] */
+
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { cloneDeep, filter, forEach, keysIn, map, uniq, valuesIn } from 'lodash';
-import { filterMessages, updateConversation, updateIncreasedConversation } from '../commons/update-conversation';
+import { filterVisibleMessages, updateConversation, updateIncreasedConversation } from '../commons/update-conversation';
 import { Conversation } from '../types/conversation';
 import {
 	ConversationsFolderStatus,
@@ -198,7 +200,7 @@ function msgActionFulfilled(
 						updateConversation(conversation);
 				}
 				else if (operation === 'trash' || operation === 'move') {
-					const destination = operation === 'trash' ? '3' : meta.arg.p;
+					const destination = operation === 'trash' ? '3' : meta.arg.parent;
 
 					forEach(
 						filter(conversation.messages,
@@ -217,7 +219,7 @@ function msgActionFulfilled(
 
 						// this conversation is already in Destination folder
 						if (cache[destination].cache[conversation.id]) {
-							// i should update the message
+							// i should update the messages
 							const destinationConv = cache[destination].cache[conversation.id];
 							forEach(involvedMessages, message => {
 								message.parent = destination;
@@ -228,13 +230,13 @@ function msgActionFulfilled(
 						else {
 							// this conversation is not in Destination folder
 							const newConv = cloneDeep(conversation);
-							newConv.messages = filterMessages(newConv.messages, destination);
+							newConv.messages = filterVisibleMessages(newConv.messages, destination);
 							updateConversation(newConv);
 
 							cache[destination].cache[newConv.id] = newConv;
 						}
 						// update conversation in source folder
-						conversation.messages = filterMessages(conversation.messages, folderId);
+						conversation.messages = filterVisibleMessages(conversation.messages, folderId);
 						if(conversation.messages.length === 0) delete folder.cache[conversation.id]
 						else updateConversation(conversation)
 					}
@@ -261,7 +263,7 @@ export function setCurrentFolderReducer(
 
 function syncFulfilled(state: ConversationsStateType, { payload }: { payload: SyncResult }): void {
 	const {
-		messages, conversations, folders, deleted,
+		messages, deleted,
 	} = payload;
 	// delete cache for 'deleted folders'
 	forEach(deleted.folders,(folderId) => delete state.cache[folderId]);
@@ -317,7 +319,7 @@ function syncFulfilled(state: ConversationsStateType, { payload }: { payload: Sy
 
 function getConvFulfilled(
 	state: ConversationsStateType,
-	{ payload: conv, meta }: { payload: Conversation, meta: any },
+	{ payload: conv }: { payload: Conversation },
 ): void {
 	forEach(keysIn(state.cache), (folderId) => {
 		const folder = state.cache[folderId];
@@ -334,7 +336,7 @@ function getConvFulfilled(
 		if (map(conv.messages, (m) => m.parent).includes(folderId)) {
 			const myConv = cloneDeep(conv);
 
-			myConv.messages = filterMessages(myConv.messages, folderId)
+			myConv.messages = filterVisibleMessages(myConv.messages, folderId)
 			updateIncreasedConversation(myConv, folderId);
 			myConv.fragment = myConv.messages[0].fragment || '';
 
@@ -346,14 +348,15 @@ function getConvFulfilled(
 
 function getConvPending(
 	state: ConversationsStateType,
-	{ payload, meta }: any,
+	{ meta }: any,
 ): void {
-	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'pending';
+	if(state.cache[meta.arg.folderId])
+		state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'pending';
 }
 
 function getConvRejected(
 	state: ConversationsStateType,
-	{ payload, meta }: any,
+	{ meta }: any,
 ): void {
 	state.cache[meta.arg.folderId].expandedStatus[meta.arg.conversationId] = 'error';
 }
@@ -427,4 +430,5 @@ export const selectConversationList = createSelector(
 		? Object.values(conversations[folder].cache)
 			.sort((a, b) => b.date - a.date)
 		: []),
+	// builtin `sort` is much faster than `lodash`'s one
 );

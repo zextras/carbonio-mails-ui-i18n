@@ -13,7 +13,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { map } from 'lodash';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
-import { filterMessages } from '../../commons/update-conversation';
+import { filterVisibleMessages } from '../../commons/update-conversation';
 import { IncompleteMessage, MailMessage } from '../../types/mail-message';
 import { SearchConvRequest, SearchConvResponse } from '../../types/soap';
 
@@ -50,7 +50,7 @@ export const searchConv = createAsyncThunk<SearchConvReturn, SearchConvParameter
 			},
 		);
 		let messages = map(result.m || [], normalizeMailMessageFromSoap);
-		messages = filterMessages(messages, folderId);
+		messages = filterVisibleMessages(messages, folderId);
 
 		return {
 			messages,

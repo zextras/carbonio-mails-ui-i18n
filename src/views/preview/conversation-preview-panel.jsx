@@ -17,9 +17,9 @@ import { map } from 'lodash';
 import PreviewPanelHeader from './preview-panel-header';
 import PreviewPanelActions from './preview-panel-actions';
 import MailPreview from './mail-preview';
-import { selectConversationMap, selectCurrentFolderExpandedStatus } from '../store/conversations-slice';
-import { useQueryParam } from '../hooks/useQueryParam';
-import { getConv } from '../store/actions';
+import { selectConversationMap, selectCurrentFolderExpandedStatus } from '../../store/conversations-slice';
+import { useQueryParam } from '../../hooks/useQueryParam';
+import { getConv } from '../../store/actions';
 
 export default function ConversationPreviewPanel() {
 	const conversationId = useQueryParam('conversation');
@@ -41,7 +41,7 @@ export default function ConversationPreviewPanel() {
 	}, [conversationId]);
 
 	const messages = useMemo(() => {
-		if (conversationStatus === 'complete') {
+		if (conversation && conversationStatus === 'complete') {
 			return map(conversation.messages, (message, index) => (
 				<MailPreview
 					key={`${message.id}-${messageId}`}

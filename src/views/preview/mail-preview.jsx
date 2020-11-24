@@ -35,10 +35,10 @@ import {
 } from '@zextras/zapp-ui';
 
 import { useDispatch, useSelector } from 'react-redux';
-import MailMessageRenderer from '../commons/mail-message-renderer';
-import { getTimeLabel, participantToString } from '../commons/utils';
+import MailMessageRenderer from '../../commons/mail-message-renderer';
+import { getTimeLabel, participantToString } from '../../commons/utils';
 import AttachmentsBlock from './attachments-block';
-import { selectFolders } from '../store/folders-slice';
+import { selectFolders } from '../../store/folders-slice';
 import {
 	deleteMsg,
 	editAsNewMsg,
@@ -49,9 +49,9 @@ import {
 	replyMsg,
 	setMsgFlag,
 	setMsgRead,
-} from '../actions/message-actions';
-import { selectMessages } from '../store/messages-slice';
-import { getMsg } from '../store/actions';
+} from '../../ui-actions/message-actions';
+import { selectMessages } from '../../store/messages-slice';
+import { getMsg } from '../../store/actions';
 
 const ContactsContainer = styled.div`
 	display: grid;

@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { MailsEditor } from '../types/mails-editor';
+import { MailsEditor } from '../../types/mails-editor';
 
 export type CompositionData = {
 	compositionData: MailsEditor;

@@ -24,7 +24,7 @@ import {
 	replyMsg,
 	setMsgFlag,
 	setMsgRead,
-} from '../actions/message-actions';
+} from '../../ui-actions/message-actions';
 
 const ButtonBar = styled(Row)`
 	position: absolute;

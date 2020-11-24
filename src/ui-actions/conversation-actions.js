@@ -10,7 +10,6 @@
  */
 
 import { convAction } from '../store/actions';
-import { fail, success } from './message-actions';
 
 export function setConversationsFlag(ids, value, t, dispatch) {
 	return {

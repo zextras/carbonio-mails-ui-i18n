@@ -13,9 +13,9 @@ import { setMainMenuItems } from '@zextras/zapp-shell';
 import { filter, map, reduce } from 'lodash';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectFolders } from '../store/folders-slice';
-import { Folder } from '../types/folder';
-import { MailsFolderMap } from '../types/state';
+import { selectFolders } from '../../store/folders-slice';
+import { Folder } from '../../types/folder';
+import { MailsFolderMap } from '../../types/state';
 
 function nest(items: Array<any>, id: string): Array<any> {
 	return map(

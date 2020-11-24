@@ -9,11 +9,13 @@
  * *** END LICENSE BLOCK *****
  */
 
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["conversation"] }] */
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { network } from '@zextras/zapp-shell';
 import { forEach, keyBy, map } from 'lodash';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
-import { filterMessages, updateConversation } from '../../commons/update-conversation';
+import { filterVisibleMessages, updateConversation } from '../../commons/update-conversation';
 import { Conversation } from '../../types/conversation';
 import { SearchRequest, SearchResponse } from '../../types/soap';
 
@@ -54,7 +56,7 @@ export const fetchConversations = createAsyncThunk<
 			const conversations = map(result.c || [], normalizeConversationFromSoap);
 			// filter the conversation removing Trashed or Junk messages
 			forEach(conversations, conversation => {
-				conversation.messages = filterMessages(conversation.messages, folderId);
+				conversation.messages = filterVisibleMessages(conversation.messages, folderId);
 			});
 			forEach(conversations, updateConversation);
 			return {

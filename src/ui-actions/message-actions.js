@@ -9,31 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { convAction, msgAction } from '../store/actions';
-
-export function success(t, createSnackbar) {
-	const ref = createSnackbar(
-		{
-			key: String(Date.now()),
-			replace: true,
-			type: 'success',
-			label: t('The operation has been successfully completed'),
-			autoHideTimeout: 2000
-		},
-	);
-}
-
-export function fail(t, createSnackbar) {
-	const ref = createSnackbar(
-		{
-			key: String(Date.now()),
-			replace: true,
-			type: 'error',
-			label: t('Operation failed'),
-			autoHideTimeout: 2000
-		},
-	);
-}
+import { msgAction } from '../store/actions';
 
 export function setMsgRead(ids, value, t, dispatch)  {
 	return {
@@ -96,7 +72,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 			setTimeout(() => {
 				if(notCanceled) {
 					dispatch(
-						convAction({
+						msgAction({
 							operation: `trash`,
 							ids,
 						}),

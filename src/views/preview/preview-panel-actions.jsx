@@ -15,8 +15,8 @@ import { map } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { hooks } from '@zextras/zapp-shell';
-import { moveConversationToTrash, setConversationsFlag, setConversationsRead } from '../actions/conversation-actions';
-import { replyAllMsg, replyMsg } from '../actions/message-actions';
+import { moveConversationToTrash, setConversationsFlag, setConversationsRead } from '../../ui-actions/conversation-actions';
+import { replyAllMsg, replyMsg } from '../../ui-actions/message-actions';
 
 export default function PreviewPanelActions({conversation, folderId}) {
 	const {t} = useTranslation();

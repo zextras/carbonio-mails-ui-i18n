@@ -13,7 +13,9 @@ import { filter, flatMap, map, uniq, uniqBy } from 'lodash';
 import { Conversation } from '../types/conversation';
 import { IncompleteMessage } from '../types/mail-message';
 
-export function filterMessages(messages: Array<IncompleteMessage>, folderId: string): Array<IncompleteMessage> {
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["conversation"] }] */
+
+export function filterVisibleMessages(messages: Array<IncompleteMessage>, folderId: string): Array<IncompleteMessage> {
 	switch (folderId) {
 		case '3':
 			return  filter(messages, m => m.parent !== '4');

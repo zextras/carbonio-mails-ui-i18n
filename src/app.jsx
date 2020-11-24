@@ -18,12 +18,12 @@ import { report } from './commons/report-exception';
 import  { syncSliceReducer, startSync } from './store/sync-slice';
 import { folderSliceReducer } from './store/folders-slice';
 import { editorSliceRecucer } from './store/editor-slice';
-import { SetMainMenuItems } from './secondary-bar/set-main-menu-items';
+import { SetMainMenuItems } from './views/secondary-bar/set-main-menu-items';
 import { conversationsSliceReducer } from './store/conversations-slice';
 import { messageSliceReducer } from './store/messages-slice';
 
-const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
-const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
+const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './views/folder/mails-folder-view')));
+const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './views/edit/edit-view')));
 
 export default function App() {
 	console.log('Hello from mails');

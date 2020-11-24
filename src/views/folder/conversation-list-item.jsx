@@ -23,10 +23,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import MessageListItem from './message-list-item';
-import { getTimeLabel, participantToString } from '../commons/utils';
-import { searchConv } from '../store/actions';
-import { ParticipantRole } from '../types/participant';
-import { selectCurrentFolderExpandedStatus } from '../store/conversations-slice';
+import { getTimeLabel, participantToString } from '../../commons/utils';
+import { searchConv } from '../../store/actions';
+import { ParticipantRole } from '../../types/participant';
+import { selectCurrentFolderExpandedStatus } from '../../store/conversations-slice';
 
 function ConversationMessagesList({ conversation, folderId }) {
 	const conversationStatus = useSelector(selectCurrentFolderExpandedStatus)[conversation.id];

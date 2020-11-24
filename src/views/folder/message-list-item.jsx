@@ -17,9 +17,9 @@ import { Avatar, Badge, Container, Icon, Padding, Row, Text } from '@zextras/zap
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { getTimeLabel, participantToString } from '../commons/utils';
+import { getTimeLabel, participantToString } from '../../commons/utils';
 import MailHoverBar from './mail-hover-bar';
-import { selectFolders } from '../store/folders-slice';
+import { selectFolders } from '../../store/folders-slice';
 
 const HoverBarContainer = styled(Container)`
 	display: none;

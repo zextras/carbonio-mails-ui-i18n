@@ -8,6 +8,9 @@
  * http://www.zextras.com/zextras-eula.html
  * *** END LICENSE BLOCK *****
  */
+
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["state", conversation", "message", "cache", "status"] }] */
+
 import { createSlice } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { filter, forEach, valuesIn } from 'lodash';

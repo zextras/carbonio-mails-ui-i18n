@@ -17,11 +17,11 @@ import {
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMsg } from '../store/actions';
-import { saveDraft } from '../store/actions/save-draft';
-import { selectMessages } from '../store/messages-slice';
+import { getMsg } from '../../store/actions';
+import { saveDraft } from '../../store/actions/save-draft';
+import { selectMessages } from '../../store/messages-slice';
 import { CompositionData } from './composition-types';
-import { useQueryParam } from '../hooks/useQueryParam';
+import { useQueryParam } from '../../hooks/useQueryParam';
 import {
 	selectEditors,
 	toggleRichText,
@@ -29,7 +29,7 @@ import {
 	updateParticipants,
 	updateBody,
 	openEditor
-} from '../store/editor-slice';
+} from '../../store/editor-slice';
 
 let counter = 0;
 

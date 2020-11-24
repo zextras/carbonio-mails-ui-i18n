@@ -14,13 +14,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
 import { Button, Container, Divider, Responsive, Row, SnackbarManager, Text, useScreenMode } from '@zextras/zapp-ui';
-import { VerticalDivider } from '../commons/vertical-divider';
-import { useQueryParam } from '../hooks/useQueryParam';
+import { VerticalDivider } from '../../commons/vertical-divider';
+import { useQueryParam } from '../../hooks/useQueryParam';
 import ConversationEditPanel from '../edit/mail-edit-panel';
 import ConversationPreviewPanel from '../preview/conversation-preview-panel';
-import { selectConversationList, selectConversationStatus } from '../store/conversations-slice';
-import { selectFolders } from '../store/folders-slice';
-import { fetchConversations } from '../store/actions';
+import { selectConversationList, selectConversationStatus } from '../../store/conversations-slice';
+import { selectFolders } from '../../store/folders-slice';
+import { fetchConversations } from '../../store/actions';
 import ConversationListItem from './conversation-list-item';
 
 function Breadcrumbs({ folderPath, itemsCount }) {
