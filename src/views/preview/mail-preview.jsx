@@ -248,7 +248,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 						width="fit"
 						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : undefined }}
 					>
-						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
+						{ message.urgent && <Icon data-testid="UrgentIcon" color="error" icon="ArrowUpward" /> }
 						{ messageFolder.id !== currentFolderId && (
 							<Padding left="small">
 								<Badge data-testid="FolderBadge" value={messageFolder.name} type={message.read ? 'read' : 'unread'} />

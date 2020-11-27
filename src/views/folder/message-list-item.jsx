@@ -45,7 +45,7 @@ const InvisibleLink = styled(Link)`
 	}
 `;
 
-export default function MessageListItem({ message, folderId, conversation }) {
+export default function MessageListItem({ message, folderId, conversationId }) {
 	const [ t ] = useTranslation();
 	const accounts = hooks.useUserAccounts();
 
@@ -58,11 +58,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 					sender.fullName || sender.address || '.',
 					sender.address || '.',
 					getTimeLabel(moment(message.date)),
-					reduce(
-						message.participants,
-						(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
-						'',
-					),
+					participantToString(sender, t, accounts),
 				];
 			}
 			return [
@@ -76,7 +72,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 	);
 
 	return (
-		<InvisibleLink to={`/folder/${folderId}?conversation=${conversation.id}&message=${message.id}`}>
+		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message.id}`}>
 			<HoverContainer
 				background="gray6"
 				mainAlignment="space-between"
@@ -101,6 +97,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 						<Container orientation="horizontal" height="auto" width="fill">
 							<Row wrap="nowrap" takeAvailableSpace mainAlignment="flex-start">
 								<Text
+									data-testid="SenderText"
 									color={message.read ? 'text' : 'primary'}
 									size={message.read ? 'medium' : 'large'}
 									weight={message.read ? 'regular' : 'bold'}
@@ -109,9 +106,9 @@ export default function MessageListItem({ message, folderId, conversation }) {
 								</Text>
 							</Row>
 							<Row>
-								{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-								{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-								<Padding left="small"><Text>{ date }</Text></Padding>
+								{ message.attachment && <Padding left="small"><Icon data-testid="AttachmentIcon" icon="AttachOutline" /></Padding> }
+								{ message.flagged && <Padding left="small"><Icon data-testid="FlagIcon" color="error" icon="Flag" /></Padding> }
+								<Padding left="small"><Text data-testid="DateLabel">{ date }</Text></Padding>
 							</Row>
 						</Container>
 						<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
@@ -121,38 +118,38 @@ export default function MessageListItem({ message, folderId, conversation }) {
 								mainAlignment="flex-start"
 								crossAlignment="baseline"
 							>
-								{
-									message.subject
-										? <Text weight={message.read ? 'regular' : 'bold'} size="large">{ message.subject }</Text>
-										: (
-											<Text
-												weight={message.read ? 'regular' : 'bold'}
-												size="large"
-												color="secondary"
-											>
-												{ `(${t('No Subject')})` }
-											</Text>
-										)
-								}
+								{/*{*/}
+								{/*	message.subject*/}
+								{/*		? <Text weight={message.read ? 'regular' : 'bold'} size="large">{ message.subject }</Text>*/}
+								{/*		: (*/}
+								{/*			<Text*/}
+								{/*				weight={message.read ? 'regular' : 'bold'}*/}
+								{/*				size="large"*/}
+								{/*				color="secondary"*/}
+								{/*			>*/}
+								{/*				{ `(${t('No Subject')})` }*/}
+								{/*			</Text>*/}
+								{/*		)*/}
+								{/*}*/}
 								{ !isEmpty(message.fragment) && (
 									<Row
 										takeAvailableSpace
 										mainAlignment="flex-start"
 										padding={{ left: 'extrasmall' }}
 									>
-										<Text>{ ` - ${message.fragment}` }</Text>
+										<Text data-testid="Fragment">{message.fragment}</Text>
 									</Row>
 								) }
 							</Row>
 							<Row>
 								{ message.urgent && (
 									<Padding left="extrasmall">
-										<Icon icon="ArrowUpward" color="error" />
+										<Icon data-testid="UrgentIcon" icon="ArrowUpward" color="error" />
 									</Padding>
 								) }
 								{ messageFolder && messageFolder.id !== folderId && (
 									<Padding left="small">
-										<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
+										<Badge data-testid="FolderBadge" value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 									</Padding>
 								) }
 							</Row>

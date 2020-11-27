@@ -35,6 +35,7 @@ export function generateMessage({
 	isRead = faker.random.boolean(),
 	isUrgent = faker.random.boolean(),
 	isSentByMe = faker.random.boolean(),
+	hasAttachments = faker.random.boolean(),
 }) {
 	const participants = [
 		{
@@ -75,7 +76,7 @@ export function generateMessage({
 		"rev": faker.random.number(),
 		"id": messageId,
 		"fr": content.length > 50 ? `${content.substr(0, 50)}...` : content,
-		"f": `${isFlagged ? 'f' : ''}${isRead ? '' : 'u'}${isSentByMe ? 's' : ''}${isUrgent ? '!' : ''}`,
+		"f": `${isFlagged ? 'f' : ''}${isRead ? '' : 'u'}${isSentByMe ? 's' : ''}${isUrgent ? '!' : ''}${hasAttachments ? 'a' : ''}`,
 		"e": participants,
 		"su": subject,
 		"sd": faker.time.recent(),

@@ -22,6 +22,7 @@ import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { getTimeLabel } from '../../commons/utils';
 import { selectFolders } from '../../store/folders-slice';
 import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
+import MessageListItem from '../folder/message-list-item';
 
 describe('MailPreview', () => {
 	test('Contains sender', async () => {
@@ -250,6 +251,44 @@ describe('MailPreview', () => {
 		expect(mailPreview).toBeDefined();
 
 		expect(screen.queryByTestId('FolderBadge')).toBeNull();
+	});
+
+	test('Contains `urgent` icon if message is important', async () => {
+		const ctx = {};
+
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', isUrgent: true }));
+
+		await testUtils.render(
+			<Route path="/folder/:folderId">
+				<MailPreview message={message} expanded={false} />
+			</Route>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				initialRouterEntries: [`/folder/3`],
+				preloadedState: generateState({ messages: [message], currentFolder: '3' }),
+			},
+		);
+		expect(screen.getByTestId('UrgentIcon')).toBeInTheDocument();
+	});
+
+	test('Doesn\'t contain `urgent` icon if message is not important', async () => {
+		const ctx = {};
+
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', isUrgent: false }));
+
+		await testUtils.render(
+			<Route path="/folder/:folderId">
+				<MailPreview message={message} expanded={false} />
+			</Route>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				initialRouterEntries: [`/folder/3`],
+				preloadedState: generateState({ messages: [message], currentFolder: '3' }),
+			},
+		);
+		await expect(screen.queryByTestId('UrgentIcon')).toBeNull();
 	});
 
 	test('Contains fragment if not expanded', async () => {

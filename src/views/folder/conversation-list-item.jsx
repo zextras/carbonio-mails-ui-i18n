@@ -45,7 +45,7 @@ function ConversationMessagesList({ conversation, folderId }) {
 				<React.Fragment key={message.id}>
 					<MessageListItem
 						message={message}
-						conversation={conversation}
+						conversationId={conversation.id}
 						folderId={folderId}
 					/>
 					{ (conversation.messages.length - 1) > index && <Divider /> }
