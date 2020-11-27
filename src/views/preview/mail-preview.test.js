@@ -11,19 +11,17 @@
 import React from 'react';
 import { testUtils } from '@zextras/zapp-shell';
 import { Route } from 'react-router-dom';
-import { getByText, waitFor } from '@testing-library/dom';
 import { screen } from '@testing-library/react';
 import { filter, find, map, get } from 'lodash';
 import faker from "faker";
 import reducers from '../../store/reducers';
 
-import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
 import MailPreview from './mail-preview';
 import { generateMessage, generateState } from '../../mocks/generators';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { getTimeLabel } from '../../commons/utils';
 import { selectFolders } from '../../store/folders-slice';
-import { fulfilledWhen } from '../../commons/test-utils';
+import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
 
 describe('MailPreview', () => {
 	test('Contains sender', async () => {
@@ -134,16 +132,19 @@ describe('MailPreview', () => {
 	test('Contains CC section', async () => {
 		const ctx = {};
 
-		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
-
-		message.participants.push(
+		const cc = [
 			{
-				"a": faker.internet.email(),
-				"d": faker.name.lastName(),
-				"p": faker.name.findName(),
-				"t": "c"
+				name: faker.name.findName(),
+				email: faker.internet.email(),
+			},
+			{
+				name: faker.name.findName(),
+				email: faker.internet.email(),
 			}
-		);
+		];
+
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', cc }));
+
 
 		await testUtils.render(
 			<Route path="/folder/:folderId">
@@ -164,7 +165,7 @@ describe('MailPreview', () => {
 		expect(ccSection).toContainHTML(`Cc: ${ccContacts.map(c => c.fullName).join(', ')}`);
 	});
 
-	test('Contains flag if message is flagged', async () => {
+	test('Contains `flag` if message is flagged', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', isFlagged: true }));
@@ -183,7 +184,7 @@ describe('MailPreview', () => {
 		expect(screen.getByTestId('FlagIcon')).toBeInTheDocument();
 	});
 
-	test('Don\t contain flag if message is not flagged', async () => {
+	test('Don\'t contain `flag` if message is not flagged', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', isFlagged: false }));
@@ -199,10 +200,10 @@ describe('MailPreview', () => {
 				preloadedState: generateState({ messages: [message] }),
 			},
 		);
-		expect(screen.queryByTestId('FlagIcon')).toBe;
+		expect(screen.queryByTestId('FlagIcon')).toBeNull();
 	});
 
-	test('Show folder chip', async () => {
+	test('Shows folder badge if message don\'t belong to current folder', async () => {
 		const ctx = {};
 
 		const folderId = '3';
@@ -220,47 +221,64 @@ describe('MailPreview', () => {
 			},
 		);
 
-		// not downloaded since already present
-		expect(selectMessages(ctx.current.store.getState())[message.id]).toBe(message);
-
 		const mailPreview = screen.getByTestId(`MailPreview-${message.id}`);
 		expect(mailPreview).toBeDefined();
 
 		const {name} = selectFolders(ctx.current.store.getState())[folderId];
-		expect(mailPreview.querySelector(`span[class^="Badge"]`)).toContainHTML(name);
-
-		if(message.flagged)
-			expect(mailPreview.querySelector("path [data-name='flag']")).toBeDefined();
-		else
-			expect(mailPreview.querySelector("path [data-name='flag']")).toBeNull();
-
-		expect(mailPreview).toContainHTML(getTimeLabel(message.date));
-
-		// sender and read/unread
-
-
-		if(message.read) {
-			expect(mailPreview.querySelector(`div [color='text']`)).toContainHTML(sender.fullName);
-		}
-		else
-			expect(mailPreview.querySelector(`div [color='primary']`)).toContainHTML(sender.fullName);
-
-		message.participants.forEach(p => {
-			expect(mailPreview).toContainHTML(sender.fullName);
-		});
-
-		// fragment considering that the message is not expanded
-		expect(getByText(mailPreview, message.fragment)).toBeDefined();
+		expect(screen.getByTestId('FolderBadge')).toContainHTML(name);
 	});
 
-	test('Download message if expanded and not saved', async () => {
+	test('Doesn\'t show folder badge if message belong to current folder', async () => {
 		const ctx = {};
 
-		let message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
+		const folderId = '3';
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId, isRead: true, isFlagged: true }));
 
 		await testUtils.render(
 			<Route path="/folder/:folderId">
-				<MailPreview message={message} expanded />
+				<MailPreview message={message} expanded={false} />
+			</Route>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				initialRouterEntries: [`/folder/3`],
+				preloadedState: generateState({ messages: [message], currentFolder: '3' }),
+			},
+		);
+
+		const mailPreview = screen.getByTestId(`MailPreview-${message.id}`);
+		expect(mailPreview).toBeDefined();
+
+		expect(screen.queryByTestId('FolderBadge')).toBeNull();
+	});
+
+	test('Contains fragment if not expanded', async () => {
+		const ctx = {};
+
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
+
+		await testUtils.render(
+			<Route path="/folder/:folderId">
+				<MailPreview message={message} expanded={false} />
+			</Route>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				initialRouterEntries: [`/folder/2`],
+				preloadedState: generateState({ messages: [message] }),
+			},
+		);
+		expect(screen.queryByText(message.fragment)).not.toBeNull();
+	});
+
+	test('Downloads message if expanded and not saved', async () => {
+		const ctx = {};
+
+		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
+
+		await testUtils.render(
+			<Route path="/folder/:folderId">
+				<MailPreview message={message} expanded={true} />
 			</Route>,
 			{
 				ctxt: ctx,
@@ -270,17 +288,8 @@ describe('MailPreview', () => {
 			},
 		);
 
-		await waitFor(() => fulfilledWhen(() => selectMessagesStatus(ctx.current.store.getState())[message.id] === 'complete'));
+		await screen.findByTestId('MessageBody');
 
 		expect(selectMessages(ctx.current.store.getState())[message.id]).not.toBe(message);
-
-		message = selectMessages(ctx.current.store.getState())[message.id];
-
-		const mailPreview = screen.getByTestId(`MailPreview-${message.id}`);
-
-		expect(mailPreview).toBeDefined();
-
-		// contains date of new message
-		expect(mailPreview).toContainHTML(getTimeLabel(message.date));
 	});
 });

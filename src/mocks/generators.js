@@ -168,7 +168,7 @@ export function generateState({
 	conversations = [],
 	currentFolder = '3',
 }) {
-	const state = {...preloadedState};
+	const state = cloneDeep(preloadedState);
 	state.conversations.currentFolder = currentFolder;
 
 	messages.forEach(m => {

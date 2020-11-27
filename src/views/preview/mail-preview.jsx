@@ -251,7 +251,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
 						{ messageFolder.id !== currentFolderId && (
 							<Padding left="small">
-								<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
+								<Badge data-testid="FolderBadge" value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 							</Padding>
 						) }
 					</Container>
@@ -286,6 +286,7 @@ export default function MailPreview({ message, expanded }) {
 	
 	const collapsedContent = useMemo(() => (
 		<Container
+			data-testid="MessageBody"
 			width="100%"
 			height="fit"
 			crossAlignment="stretch"
@@ -324,7 +325,7 @@ export default function MailPreview({ message, expanded }) {
 					overflowY: 'auto'
 				}}
 			>
-				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
+				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition data-testid="MailMessageRendererCollapse">
 					{messageStatus === 'complete' && collapsedContent}
 				</Collapse>
 			</Container>

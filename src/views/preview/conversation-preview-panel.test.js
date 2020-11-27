@@ -43,8 +43,6 @@ describe('ConversationPreviewPanel', () => {
 			},
 		);
 
-		await screen.findByText(conversation.subject)
-
 		const conversation = selectConversationMap(ctx.current.store.getState())[conversationId];
 		const firstMessage = selectMessages(ctx.current.store.getState())[conversation.messages[0].id];
 
