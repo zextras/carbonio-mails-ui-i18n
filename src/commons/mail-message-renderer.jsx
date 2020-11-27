@@ -127,7 +127,7 @@ const EmptyBody = () => {
 	return (
 		<Container padding={{ bottom: 'medium' }}>
 			<Text>
-				{ `(${t('This message has no text content')}.)` }
+				{ `(${t('messages.message_no_text_content')}.)` }
 			</Text>
 		</Container>
 	);

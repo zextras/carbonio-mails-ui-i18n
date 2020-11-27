@@ -155,7 +155,7 @@ export default function AttachmentsBlock({ message }) {
 							<Row onClick={() => setExpanded(true)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
 									<Text color="primary">
-										{ t('Show all') }
+										{ t('label.show', { count: attachmentsCount }) }
 										{' '}
 										{ t('label.attachment', { count: attachmentsCount }) }
 									</Text>
