@@ -107,7 +107,7 @@ export default function ConversationListItem({
 		[conversation.date],
 	);
 	const participantsString = useMemo(() => reduce(
-		filter(conversation.participants, p => p.type === targetParticipants),
+		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
 	), [conversation.participants, t, accounts]);
@@ -142,6 +142,7 @@ export default function ConversationListItem({
 							mainAlignment="flex-start"
 						>
 							<Text
+								data-testid="ParticipantLabel"
 								color={conversation.read ? 'text' : 'primary'}
 								size={conversation.read ? 'medium' : 'large'}
 								weight={conversation.read ? 'regular' : 'bold'}
@@ -152,7 +153,7 @@ export default function ConversationListItem({
 						<Row>
 							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
 							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-							<Padding left="small"><Text>{ date }</Text></Padding>
+							<Padding left="small" data-testid="DateLabel"><Text>{ date }</Text></Padding>
 						</Row>
 					</Container>
 					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
