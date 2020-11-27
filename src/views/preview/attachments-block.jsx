@@ -110,7 +110,7 @@ export default function AttachmentsBlock({ message }) {
 	const attachmentsParts = useMemo(() => map(attachments, 'name'), [attachments]);
 	const actionsDownloadLink = useMemo(() =>
 		getAttachmentsLink(message.id, message.subject, attachmentsParts), [message, attachmentsParts]);
-	const attachmentLabel = useMemo(() => (attachmentsCount === 1 ? t('attachment') : t('attachments')), [attachmentsCount, t]);
+	const attachmentCountAndLabel = `${attachmentsCount} ${t('attachment', { count: attachmentsCount })}`;
 
 	return attachmentsCount > 0 && (
 		<Container crossAlignment="flex-start">
@@ -136,9 +136,7 @@ export default function AttachmentsBlock({ message }) {
 						attachmentsCount < 3
 						&& (
 							<Text color="gray1">
-								{ attachmentsCount }
-								{' '}
-								{ attachmentLabel }
+								{ attachmentCountAndLabel }
 							</Text>
 						)
 					}
@@ -147,9 +145,7 @@ export default function AttachmentsBlock({ message }) {
 							<Row onClick={() => setExpanded(false)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
 									<Text color="primary">
-										{ attachmentsCount }
-										{' '}
-										{ attachmentLabel }
+										{ attachmentCountAndLabel }
 									</Text>
 								</Padding>
 								<Icon icon="ArrowIosUpward" color="primary" />
@@ -160,9 +156,7 @@ export default function AttachmentsBlock({ message }) {
 									<Text color="primary">
 										{ t('Show all') }
 										{' '}
-										{ attachmentsCount }
-										{' '}
-										{ attachmentLabel }
+										{ attachmentCountAndLabel }
 									</Text>
 								</Padding>
 								<Icon icon="ArrowIosDownward" color="primary" />
