@@ -12,7 +12,7 @@
 import React, {
 	useCallback, useEffect, useState
 } from 'react';
-import { hooks } from '@zextras/zapp-shell';
+import { useTranslation } from 'react-i18next';
 import {
 	Button,
 	Catcher,
@@ -97,7 +97,7 @@ export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
-	const { t } = hooks.useTranslation();
+	const { t } = useTranslation();
 
 	const {
 		compositionData,
