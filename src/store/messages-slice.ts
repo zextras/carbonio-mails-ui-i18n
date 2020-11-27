@@ -170,3 +170,7 @@ export const messageSliceReducer = messagesSlice.reducer;
 export function selectMessages(state: StateType): MsgMap {
 	return state.messages.cache;
 }
+
+export function selectMessagesStatus(state: StateType): Record<string, string> {
+	return state.messages.status;
+}

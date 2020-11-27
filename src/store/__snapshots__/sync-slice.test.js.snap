@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sync Slice Mocked handler for Sync 1`] = `
+"{
+  \\"token\\": \\"0\\",
+  \\"folder\\": [
+    {
+      \\"id\\": \\"11\\",
+      \\"folder\\": [
+        {
+          \\"id\\": \\"1\\",
+          \\"l\\": \\"11\\",
+          \\"absFolderPath\\": \\"/\\",
+          \\"name\\": \\"USER_ROOT\\",
+          \\"folder\\": [
+            {
+              \\"id\\": \\"7\\",
+              \\"l\\": \\"1\\",
+              \\"absFolderPath\\": \\"/Contacts\\",
+              \\"name\\": \\"Contacts\\",
+              \\"cn\\": [
+                {
+                  \\"ids\\": \\"1000\\"
+                }
+              ],
+              \\"view\\": \\"contact\\"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}"
+`;
+
+exports[`Sync Slice Mocked handler for Sync 2`] = `
+"{
+  \\"token\\": \\"1\\"
+}"
+`;

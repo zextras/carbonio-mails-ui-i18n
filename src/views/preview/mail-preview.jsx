@@ -50,7 +50,7 @@ import {
 	setMsgFlag,
 	setMsgRead,
 } from '../../ui-actions/message-actions';
-import { selectMessages } from '../../store/messages-slice';
+import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
 import { getMsg } from '../../store/actions';
 
 const ContactsContainer = styled.div`
@@ -77,13 +77,13 @@ function MessageContactsList({ message }) {
 	return (
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
+				<ContactText color="gray1" size="small" data-testid="ToParticipants">
 					{ `${t('To')}: ` }
 					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
+				<ContactText color="gray1" size="small" data-testid="CcParticipants">
 					{ `${t('Cc')}: ` }
 					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
@@ -177,6 +177,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 					width="fill"
 				>
 					<Text
+						data-testid="SenderText"
 						size={message.read ? 'medium' : 'large'}
 						color={message.read ? 'text' : 'primary'}
 						weight={message.read ? 'normal' : 'bold'}
@@ -189,8 +190,8 @@ function MailPreviewBlock({ message, open, onClick }) {
 						height="24px"
 					>
 						{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-						<Padding left="small"><Text color="gray1">{ getTimeLabel(message.date) }</Text></Padding>
+						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" data-testid="FlagIcon" /></Padding> }
+						<Padding left="small"><Text color="gray1" data-testid="DateLabel">{ getTimeLabel(message.date) }</Text></Padding>
 						{ open && (
 							<Padding left="small">
 								<Dropdown
@@ -266,6 +267,7 @@ export default function MailPreview({ message, expanded }) {
 	const mailContainerRef = useRef(undefined);
 	const [open, setOpen] = useState(expanded);
 
+	const messageStatus = useSelector(selectMessagesStatus)[message.id];
 	const msg = useSelector(selectMessages)[message.id] || {};
 
 	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
@@ -308,6 +310,7 @@ export default function MailPreview({ message, expanded }) {
 		<Container
 			ref={mailContainerRef}
 			height="fit"
+			data-testid={`MailPreview-${message.id}`}
 		>
 			<MailPreviewBlock
 				onClick={() => setOpen((o) => !o)}
@@ -322,7 +325,7 @@ export default function MailPreview({ message, expanded }) {
 				}}
 			>
 				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
-					{aggregatedMessage.parts.length > 0 && collapsedContent}
+					{messageStatus === 'complete' && collapsedContent}
 				</Collapse>
 			</Container>
 			<Divider />
