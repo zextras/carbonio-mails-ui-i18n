@@ -73,7 +73,7 @@ const CollapseElement = styled(Container)`
 export default function ConversationListItem({
 	index, conversation, folderId, style, displayData, updateDisplayData,
 }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const accounts = hooks.useUserAccounts();

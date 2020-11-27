@@ -54,7 +54,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 						key: `trash-${ids}`,
 						replace: true,
 						type: 'info',
-						label: t(`This e-mail will be deleted in ${remainingTime} seconds`),
+						label: t('message_will_be_deleted_in_time', { remainingTime }),
 						autoHideTimeout: 2000,
 						hideButton,
 						actionLabel: 'Undo',

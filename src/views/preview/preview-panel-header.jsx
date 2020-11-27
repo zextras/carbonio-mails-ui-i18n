@@ -15,7 +15,7 @@ import { hooks } from '@zextras/zapp-shell';
 import { Container, Divider, Icon, IconButton, Row, Text } from '@zextras/zapp-ui';
 
 function PreviewPanelHeader({ conversation, folderId }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	return (
 		<>

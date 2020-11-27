@@ -122,7 +122,7 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 };
 
 const EmptyBody = () => {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 
 	return (
 		<Container padding={{ bottom: 'medium' }}><Text>{ `(${t('This message has no text content')}.)` }</Text></Container>
