@@ -68,7 +68,7 @@ const ContactText = styled(Text)`
 `;
 
 function MessageContactsList({ message }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const accounts = hooks.useUserAccounts();
 	const toContacts = filter(message.participants, ['type', 't']);
 	const ccContacts = filter(message.participants, ['type', 'c']);
@@ -107,7 +107,7 @@ const HoverContainer = styled(Container)`
 `;
 
 function MailPreviewBlock({ message, open, onClick }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const { folderId } = useParams();
 	const createSnackbar = useContext(SnackbarManagerContext);
@@ -261,7 +261,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 }
 
 export default function MailPreview({ message, expanded }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const dispatch = useDispatch();
 	const mailContainerRef = useRef(undefined);
 	const [open, setOpen] = useState(expanded);

@@ -46,7 +46,7 @@ const InvisibleLink = styled(Link)`
 `;
 
 export default function MessageListItem({ message, folderId, conversation }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const accounts = hooks.useUserAccounts();
 
 	const messageFolder = useSelector(selectFolders)[message.parent];

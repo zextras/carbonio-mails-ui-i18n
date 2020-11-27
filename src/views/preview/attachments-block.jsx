@@ -102,7 +102,7 @@ function Attachment({ filename, size, link }) {
 }
 
 export default function AttachmentsBlock({ message }) {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const attachments = useMemo(() => findAttachments(message.parts, []), [message]);
 

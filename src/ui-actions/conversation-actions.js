@@ -54,7 +54,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 						key: `trash-${ids}`,
 						replace: true,
 						type: 'info',
-						label: t(`This conversation will be deleted in ${remainingTime} seconds`),
+						label: t('conversation_will_be_deleted_in_time', { remainingTime }),
 						autoHideTimeout: 2000,
 						hideButton,
 						actionLabel: 'Undo',

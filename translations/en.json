@@ -31,5 +31,7 @@
     "Toggle Urgent": "",
     "Unflag": "",
     "attachment": "",
-    "attachments": ""
+    "attachments": "",
+    "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds",
+    "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds"
 }

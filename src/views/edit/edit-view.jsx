@@ -97,7 +97,7 @@ export default function EditView({
 	panel, editPanelId, folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 
 	const {
 		compositionData,

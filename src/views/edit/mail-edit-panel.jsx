@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import EditView from './edit-view';
 
 const MailEditHeader = ({ folderId, header }) => {
-	const { t } = useTranslation();
+	const [ t ] = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 
 	const onClose = useCallback(
