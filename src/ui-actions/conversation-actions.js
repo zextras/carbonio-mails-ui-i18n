@@ -14,7 +14,7 @@ import { convAction } from '../store/actions';
 export function setConversationsFlag(ids, value, t, dispatch) {
 	return {
 		icon: value ? 'FlagOutline' : 'Flag',
-		label: value ? t('Unflag') : t('Flag'),
+		label: value ? t('action.unflag') : t('action.flag'),
 		action: () => {
 			dispatch(
 				convAction({
@@ -29,7 +29,7 @@ export function setConversationsFlag(ids, value, t, dispatch) {
 export function setConversationsRead(ids, value, t, dispatch) {
 	return {
 		icon: value ? 'EmailOutline' : 'EmailReadOutline',
-		label: value ? t('Mark as unread') : t('Mark as read'),
+		label: value ? t('action.mark_as_unread') : t('action.mark_as_read'),
 		action: () => {
 			dispatch(
 				convAction({
@@ -44,7 +44,7 @@ export function setConversationsRead(ids, value, t, dispatch) {
 export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 	return {
 		icon: 'Trash2Outline',
-		label: t('Delete'),
+		label: t('action.delete'),
 		action: () => {
 			let notCanceled = true;
 
@@ -54,7 +54,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 						key: `trash-${ids}`,
 						replace: true,
 						type: 'info',
-						label: t('conversation_will_be_deleted_in_time', { remainingTime }),
+						label: t('messages.snackbar.conversation_will_be_deleted_in_time', { remainingTime }),
 						autoHideTimeout: 2000,
 						hideButton,
 						actionLabel: 'Undo',
@@ -83,7 +83,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'success',
-									label: t('Conversation successfully deleted!'),
+									label: t('messages.snackbar.conversation_deleted'),
 									autoHideTimeout: 3000,
 								},
 							);
@@ -94,7 +94,7 @@ export function moveConversationToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'error',
-									label: t('Something went wrong, this conversation has not be deleted, please retry'),
+									label: t('messages.snackbar.conversation_delete_error'),
 									autoHideTimeout: 3000,
 								},
 							);

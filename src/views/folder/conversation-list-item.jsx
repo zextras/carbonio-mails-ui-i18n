@@ -179,7 +179,7 @@ export default function ConversationListItem({
 											size="large"
 											color="secondary"
 										>
-											{ `(${t('No Subject')})` }
+											{ t('label.no_subject') }
 										</Text>
 									)
 							}

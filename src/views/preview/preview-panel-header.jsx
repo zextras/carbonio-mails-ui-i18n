@@ -34,7 +34,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 					padding={{ left: 'large' }}
 					takeAvailableSpace
 				>
-					<Text size="large">{ conversation.subject || `(${t('No Subject')})` }</Text>
+					<Text size="large">{ conversation.subject || t('header.no_subject') }</Text>
 				</Row>
 				<IconButton icon="Close" onClick={() => replaceHistory(`/folder/${folderId}`)} />
 			</Container>

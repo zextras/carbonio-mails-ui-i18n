@@ -125,7 +125,11 @@ const EmptyBody = () => {
 	const [ t ] = useTranslation();
 
 	return (
-		<Container padding={{ bottom: 'medium' }}><Text>{ `(${t('This message has no text content')}.)` }</Text></Container>
+		<Container padding={{ bottom: 'medium' }}>
+			<Text>
+				{ `(${t('This message has no text content')}.)` }
+			</Text>
+		</Container>
 	);
 };
 

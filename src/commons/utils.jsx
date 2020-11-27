@@ -29,7 +29,7 @@ export function getTimeLabel(date) {
 export function participantToString(participant, t, accounts) {
 	const me = find(accounts, ['name', participant.address]);
 	if (me) {
-		return t('Me');
+		return t('label.me');
 	}
 	return participant.fullName || participant.name || participant.address;
 }

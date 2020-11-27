@@ -37,7 +37,7 @@ const MailEditHeader = ({ folderId, header }) => {
 					padding={{ left: 'large' }}
 				>
 					<Text size="large">
-						{ header || t('Edit Draft') }
+						{ header || t('header.edit_draft') }
 					</Text>
 				</Row>
 				<IconButton icon="Close" onClick={onClose} />

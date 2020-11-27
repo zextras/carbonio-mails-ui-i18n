@@ -14,7 +14,7 @@ import { msgAction } from '../store/actions';
 export function setMsgRead(ids, value, t, dispatch)  {
 	return {
 		icon: value ? 'EmailOutline' : 'EmailReadOutline',
-		label: value ? t('Mark as read') : t('Mark as unread'),
+		label: value ? t('action.mark_as_unread') : t('action.mark_as_read'),
 		action: () => {
 			dispatch(
 				msgAction({
@@ -29,7 +29,7 @@ export function setMsgRead(ids, value, t, dispatch)  {
 export function setMsgFlag(ids, value, t, dispatch) {
 	return {
 		icon: value ? 'FlagOutline' : 'Flag',
-		label: value ? t('Unflag') : t('Flag'),
+		label: value ? t('action.unflag') : t('action.flag'),
 		action: () => {
 			dispatch(
 				msgAction({
@@ -44,7 +44,7 @@ export function setMsgFlag(ids, value, t, dispatch) {
 export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 	return {
 		icon: 'Trash2Outline',
-		label: t('Delete'),
+		label: t('action.delete'),
 		action: () => {
 			let notCanceled = true;
 
@@ -54,7 +54,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 						key: `trash-${ids}`,
 						replace: true,
 						type: 'info',
-						label: t('message_will_be_deleted_in_time', { remainingTime }),
+						label: t('messages.snackbar.message_will_be_deleted_in_time', { remainingTime }),
 						autoHideTimeout: 2000,
 						hideButton,
 						actionLabel: 'Undo',
@@ -83,7 +83,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'success',
-									label: t('E-mail successfully deleted!'),
+									label: t('messages.snackbar.message_deleted'),
 									autoHideTimeout: 3000,
 								},
 							);
@@ -94,7 +94,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 									key: `trash-${ids}`,
 									replace: true,
 									type: 'error',
-									label: t('Something went wrong, this conversation has not be deleted, please retry'),
+									label: t('messages.snackbar.message_delete_error'),
 									autoHideTimeout: 3000,
 								},
 							);
@@ -109,7 +109,7 @@ export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
 export function deleteMsg(ids, t, dispatch) {
 	return {
 		icon: 'Trash2Outline',
-		label: t('Delete'),
+		label: t('action.delete'),
 		action: () => {
 			console.log('TODO');
 			// TODO
@@ -120,7 +120,7 @@ export function deleteMsg(ids, t, dispatch) {
 export function replyMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'UndoOutline',
-		label: t('Reply'),
+		label: t('action.reply'),
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=new&action=reply&actionId=${messageId}`);
 		}
@@ -130,7 +130,7 @@ export function replyMsg(messageId, folderId, t, replaceHistory) {
 export function replyAllMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'ReplyAll',
-		label: t('Reply All'),
+		label: t('action.reply_all'),
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=new&action=replyAll&actionId=${messageId}`);
 		}
@@ -140,7 +140,7 @@ export function replyAllMsg(messageId, folderId, t, replaceHistory) {
 export function forwardMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Forward',
-		label: t('Forward'),
+		label: t('action.forward'),
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=new&action=forward&actionId=${messageId}`);
 		}
@@ -150,7 +150,7 @@ export function forwardMsg(messageId, folderId, t, replaceHistory) {
 export function editAsNewMsg(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Edit2Outline',
-		label: t('Edit as new'),
+		label: t('action.edit_as_new'),
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=new&action=editAsNew&actionId=${messageId}`)
 		}
@@ -160,7 +160,7 @@ export function editAsNewMsg(messageId, folderId, t, replaceHistory) {
 export function editDraft(messageId, folderId, t, replaceHistory) {
 	return {
 		icon: 'Edit2Outline',
-		label: 'Edit draft',
+		label: t('action.edit_as_draft'),
 		action: () => {
 			replaceHistory(`/folder/${folderId}?edit=${messageId}`);
 		}

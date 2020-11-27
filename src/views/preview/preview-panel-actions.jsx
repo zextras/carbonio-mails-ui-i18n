@@ -19,7 +19,7 @@ import { moveConversationToTrash, setConversationsFlag, setConversationsRead } f
 import { replyAllMsg, replyMsg } from '../../ui-actions/message-actions';
 
 export default function PreviewPanelActions({conversation, folderId}) {
-	const {t} = useTranslation();
+	const [ t ] = useTranslation();
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();

@@ -130,7 +130,7 @@ export default function MessageListItem({ message, folderId, conversation }) {
 												size="large"
 												color="secondary"
 											>
-												{ `(${t('No Subject')})` }
+												{ t('label.no_subject') }
 											</Text>
 										)
 								}
