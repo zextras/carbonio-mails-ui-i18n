@@ -317,7 +317,7 @@ describe('MailPreview', () => {
 
 		await testUtils.render(
 			<Route path="/folder/:folderId">
-				<MailPreview message={message} expanded={true} />
+				<MailPreview message={message} expanded />
 			</Route>,
 			{
 				ctxt: ctx,

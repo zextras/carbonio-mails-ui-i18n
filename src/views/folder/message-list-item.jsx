@@ -119,19 +119,19 @@ export default function MessageListItem({ message, folderId, conversationId }) {
 								mainAlignment="flex-start"
 								crossAlignment="baseline"
 							>
-								{/*{*/}
-								{/*	message.subject*/}
-								{/*		? <Text weight={message.read ? 'regular' : 'bold'} size="large">{ message.subject }</Text>*/}
-								{/*		: (*/}
-								{/*			<Text*/}
-								{/*				weight={message.read ? 'regular' : 'bold'}*/}
-								{/*				size="large"*/}
-								{/*				color="secondary"*/}
-								{/*			>*/}
-								{/*				{ `(${t('No Subject')})` }*/}
-								{/*			</Text>*/}
-								{/*		)*/}
-								{/*}*/}
+								{/* { */}
+								{/*	message.subject */}
+								{/*		? <Text weight={message.read ? 'regular' : 'bold'} size="large">{ message.subject }</Text> */}
+								{/*		: ( */}
+								{/*			<Text */}
+								{/*				weight={message.read ? 'regular' : 'bold'} */}
+								{/*				size="large" */}
+								{/*				color="secondary" */}
+								{/*			> */}
+								{/*				{ `(${t('No Subject')})` } */}
+								{/*			</Text> */}
+								{/*		) */}
+								{/* } */}
 								{ !isEmpty(message.fragment) && (
 									<Row
 										takeAvailableSpace

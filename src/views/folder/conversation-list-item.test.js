@@ -34,9 +34,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({}));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -45,8 +42,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -69,9 +66,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: false }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -80,8 +74,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -101,9 +95,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -112,8 +103,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -133,9 +124,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -144,8 +132,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -164,9 +152,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isFlagged: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -175,8 +160,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -193,9 +178,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isFlagged: false }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -204,8 +186,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -222,9 +204,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({}));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -233,8 +212,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -253,9 +232,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({}));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -264,8 +240,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -284,9 +260,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -295,8 +268,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -315,9 +288,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isUrgent: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -326,8 +296,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -345,9 +315,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isUrgent: false }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -356,8 +323,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -375,9 +342,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ hasAttachments: true }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -386,8 +350,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -405,9 +369,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ hasAttachments: false }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -416,8 +377,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -435,9 +396,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ length: 1 }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -446,8 +404,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -465,9 +423,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ length: 3 }));
 
-		const displayData = {};
-		const updateDisplayData = (index, id, v) => displayData[id] = v;
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -476,8 +431,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,
@@ -495,9 +450,6 @@ describe('ConversationListItem', () => {
 
 		const conversation = normalizeConversationFromSoap(generateConversation({}));
 
-		const displayData = {};
-		const updateDisplayData =  jest.fn((index, id, v) => displayData[id] = v);
-
 		const folderId = '3';
 
 		await testUtils.render(
@@ -506,8 +458,8 @@ describe('ConversationListItem', () => {
 				index={1}
 				conversation={conversation}
 				folderId={folderId}
-				displayData={displayData[conversation.id] || { open: false }}
-				updateDisplayData={updateDisplayData}
+				displayData={{ open: false }}
+				updateDisplayData={jest.fn()}
 			/>,
 			{
 				ctxt: ctx,

@@ -202,7 +202,7 @@ describe('MessageListItem', () => {
 		expect(screen.getByTestId('UrgentIcon')).toBeInTheDocument();
 	});
 
-	test('Doesn\`t contain `urgent` icon if message is not important', async () => {
+	test('Doesn\'t contain `urgent` icon if message is not important', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', isUrgent: false }));
@@ -234,7 +234,7 @@ describe('MessageListItem', () => {
 		expect(screen.getByTestId('AttachmentIcon')).toBeInTheDocument();
 	});
 
-	test('Doesn\`t contain `attachment` icon if message have no attachments', async () => {
+	test('Doesn\'t contain `attachment` icon if message have no attachments', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2', hasAttachments: false }));
