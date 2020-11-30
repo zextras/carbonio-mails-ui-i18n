@@ -74,6 +74,7 @@ export default function MessageListItem({ message, folderId, conversationId }) {
 	return (
 		<InvisibleLink to={`/folder/${folderId}?conversation=${conversationId}&message=${message.id}`}>
 			<HoverContainer
+				data-testid={`MessageListItem-${message.id}`}
 				background="gray6"
 				mainAlignment="space-between"
 			>

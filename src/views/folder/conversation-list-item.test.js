@@ -14,6 +14,7 @@ import { Route } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import { filter, find, map, get } from 'lodash';
 import faker from "faker";
+import { fireEvent } from '@testing-library/dom';
 import reducers from '../../store/reducers';
 
 import { generateConversation, generateMessage, generateState } from '../../mocks/generators';
@@ -161,7 +162,7 @@ describe('ConversationListItem', () => {
 	test('Contains `flag` if message is flagged', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ isFlagged: true }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -190,7 +191,7 @@ describe('ConversationListItem', () => {
 	test('Don\'t contain `flag` if message is not flagged', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ isFlagged: false }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -216,7 +217,69 @@ describe('ConversationListItem', () => {
 		expect(screen.queryByTestId('FlagIcon')).toBeNull();
 	});
 
-	test('Contains fragment', async () => {
+	test('Contains subject if subject is not empty', async () => {
+		const ctx = {};
+
+		const conversation = normalizeConversationFromSoap(generateConversation({}));
+
+		const displayData = {};
+		const updateDisplayData = (index, id, v) => displayData[id] = v;
+
+		const folderId = '3';
+
+		await testUtils.render(
+			<ConversationListItem
+				style={{}}
+				index={1}
+				conversation={conversation}
+				folderId={folderId}
+				displayData={displayData[conversation.id] || { open: false }}
+				updateDisplayData={updateDisplayData}
+			/>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				preloadedState: generateState({ conversations: [conversation]}),
+				initialRouterEntries: [`/folder/${folderId}`],
+			},
+		);
+
+		expect(screen.getByTestId('Subject')).toContainHTML(conversation.subject);
+		expect(screen.queryByTestId('NoSubject')).toBeNull();
+	});
+
+	test('Contains NoSubject if subject is empty', async () => {
+		const ctx = {};
+
+		const conversation = normalizeConversationFromSoap(generateConversation({}));
+
+		const displayData = {};
+		const updateDisplayData = (index, id, v) => displayData[id] = v;
+
+		const folderId = '3';
+
+		await testUtils.render(
+			<ConversationListItem
+				style={{}}
+				index={1}
+				conversation={conversation}
+				folderId={folderId}
+				displayData={displayData[conversation.id] || { open: false }}
+				updateDisplayData={updateDisplayData}
+			/>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				preloadedState: generateState({ conversations: [conversation]}),
+				initialRouterEntries: [`/folder/${folderId}`],
+			},
+		);
+
+		expect(screen.getByTestId('Subject')).toContainHTML(conversation.subject);
+		expect(screen.queryByTestId('NoSubject')).toBeNull();
+	});
+
+	test('Contains fragment if not empty', async () => {
 		const ctx = {};
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
@@ -243,13 +306,14 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		expect(screen.getByTestId('Fragment')).toContainHTML(message.fragment);
+		if(conversation.fragment)
+			expect(screen.getByTestId('Fragment')).toContainHTML(conversation.fragment);
 	});
 
 	test('Contains `urgent` icon if message is important', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ isUrgent: true }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -279,7 +343,7 @@ describe('ConversationListItem', () => {
 	test('Doesn\'t contain `urgent` icon if message is not important', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ isUrgent: false }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -309,7 +373,7 @@ describe('ConversationListItem', () => {
 	test('Contains `attachment` icon if message have attachments', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ hasAttachments: true }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -336,10 +400,10 @@ describe('ConversationListItem', () => {
 		expect(screen.getByTestId('AttachmentIcon')).toBeInTheDocument();
 	});
 
-	test('Doesn\`t contain `attachment` icon if message have no attachments', async () => {
+	test('Doesn\'t contain `attachment` icon if message have no attachments', async () => {
 		const ctx = {};
 
-		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
+		const conversation = normalizeConversationFromSoap(generateConversation({ hasAttachments: false }));
 
 		const displayData = {};
 		const updateDisplayData = (index, id, v) => displayData[id] = v;
@@ -366,5 +430,95 @@ describe('ConversationListItem', () => {
 		expect(screen.queryByTestId('AttachmentIcon')).toBeNull();
 	});
 
-	// missing Tags and avatar
+	test('Doesn\'t contain expand if contains 1 message', async () => {
+		const ctx = {};
+
+		const conversation = normalizeConversationFromSoap(generateConversation({ length: 1 }));
+
+		const displayData = {};
+		const updateDisplayData = (index, id, v) => displayData[id] = v;
+
+		const folderId = '3';
+
+		await testUtils.render(
+			<ConversationListItem
+				style={{}}
+				index={1}
+				conversation={conversation}
+				folderId={folderId}
+				displayData={displayData[conversation.id] || { open: false }}
+				updateDisplayData={updateDisplayData}
+			/>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				preloadedState: generateState({ conversations: [conversation]}),
+				initialRouterEntries: [`/folder/${folderId}`],
+			},
+		);
+
+		expect(screen.queryByTestId('ToggleExpand')).toBeNull();
+	});
+
+	test('Contains expand if contains 1 message', async () => {
+		const ctx = {};
+
+		const conversation = normalizeConversationFromSoap(generateConversation({ length: 3 }));
+
+		const displayData = {};
+		const updateDisplayData = (index, id, v) => displayData[id] = v;
+
+		const folderId = '3';
+
+		await testUtils.render(
+			<ConversationListItem
+				style={{}}
+				index={1}
+				conversation={conversation}
+				folderId={folderId}
+				displayData={displayData[conversation.id] || { open: false }}
+				updateDisplayData={updateDisplayData}
+			/>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				preloadedState: generateState({ conversations: [conversation]}),
+				initialRouterEntries: [`/folder/${folderId}`],
+			},
+		);
+
+		expect(screen.getByTestId('ToggleExpand')).toBeDefined();
+	});
+
+	test('Click on conversation navigate to `?conversation={id}`', async () => {
+		const ctx = {};
+
+		const conversation = normalizeConversationFromSoap(generateConversation({}));
+
+		const displayData = {};
+		const updateDisplayData =  jest.fn((index, id, v) => displayData[id] = v);
+
+		const folderId = '3';
+
+		await testUtils.render(
+			<ConversationListItem
+				style={{}}
+				index={1}
+				conversation={conversation}
+				folderId={folderId}
+				displayData={displayData[conversation.id] || { open: false }}
+				updateDisplayData={updateDisplayData}
+			/>,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				preloadedState: generateState({ conversations: [conversation]}),
+				initialRouterEntries: [`/folder/${folderId}`],
+			},
+		);
+
+		const expandButton = screen.getByTestId('ParticipantLabel');
+		fireEvent.click(expandButton);
+		expect(ctx.current.history.location.search).toEqual(`?conversation=${conversation.id}`)
+	});
 });

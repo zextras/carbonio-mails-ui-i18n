@@ -113,7 +113,9 @@ export function generateConversation({
 	subject = faker.lorem.sentence(),
 	isRead = faker.random.boolean(),
 	isFlagged = faker.random.boolean(),
+	isUrgent = faker.random.boolean(),
 	date = faker.time.recent(),
+	hasAttachments = faker.random.boolean(),
 }) {
 	if(length < 1) throw new Error('`length` must be greater than 0');
 	const messages = [];
@@ -133,6 +135,8 @@ export function generateConversation({
 					cc: myRole === 2 ? [me] : undefined,
 					isFlagged: isFlagged ? undefined : false,
 					isRead: isRead ? true : undefined,
+					isUrgent: isUrgent ? undefined : false,
+					hasAttachments: hasAttachments ? undefined : false,
 					messageId,
 					conversationId,
 					date: faker.random.number(date),
@@ -143,7 +147,7 @@ export function generateConversation({
 	);
 
 	messages[0].d = date;
-	messages[0].f = `${isFlagged ? 'f' : ''}${isRead ? '' : 'u'}`;
+	messages[0].f = `${isFlagged ? 'f' : ''}${isRead ? '' : 'u'}${hasAttachments ? 'a' : ''}${isUrgent ? '!' : ''}`;
 	messages[0].l = folderId;
 
 	messages.sort((a, b) => b.d - a.d);

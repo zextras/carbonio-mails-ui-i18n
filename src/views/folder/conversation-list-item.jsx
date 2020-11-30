@@ -117,6 +117,7 @@ export default function ConversationListItem({
 			style={style}
 			background="gray6"
 			mainAlignment="flex-start"
+			data-testid={`ConversationListItem-${conversation.id}`}
 		>
 			<HoverContainer
 				height={69}
@@ -151,8 +152,8 @@ export default function ConversationListItem({
 							</Text>
 						</Row>
 						<Row>
-							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+							{ conversation.attachment && <Padding left="small"><Icon data-testid="AttachmentIcon" icon="AttachOutline" /></Padding> }
+							{ conversation.flagged && <Padding left="small"><Icon data-testid="FlagIcon" color="error" icon="Flag" /></Padding> }
 							<Padding left="small" data-testid="DateLabel"><Text>{ date }</Text></Padding>
 						</Row>
 					</Container>
@@ -173,9 +174,10 @@ export default function ConversationListItem({
 						>
 							{
 								conversation.subject
-									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{ conversation.subject }</Text>
+									? <Text data-testid="Subject" weight={conversation.read ? 'regular' : 'bold'} size="large">{ conversation.subject }</Text>
 									: (
 										<Text
+											data-testid="NoSubject"
 											weight={conversation.read ? 'regular' : 'bold'}
 											size="large"
 											color="secondary"
@@ -190,15 +192,16 @@ export default function ConversationListItem({
 									mainAlignment="flex-start"
 									padding={{ left: 'extrasmall' }}
 								>
-									<Text>{ ` - ${conversation.fragment}` }</Text>
+									<Text data-testid="Fragment">{ ` - ${conversation.fragment}` }</Text>
 								</Row>
 							) }
 						</Row>
 						<Row>
-							{ conversation.urgent && <Icon icon="ArrowUpward" color="error" /> }
+							{ conversation.urgent && <Icon data-testid="UrgentIcon" icon="ArrowUpward" color="error" /> }
 							{ isConversation
 							&& (
 								<IconButton
+									data-testid="ToggleExpand"
 									size="small"
 									icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
 									onClick={toggleOpen}
