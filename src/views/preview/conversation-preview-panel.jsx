@@ -33,10 +33,10 @@ export default function ConversationPreviewPanel() {
 	const conversationStatus = useSelector(selectCurrentFolderExpandedStatus)[conversationId];
 	// conversation will be undefined if fake id wil be passed
 
-	const fetch =	messageId || '1';
-	// expand the most recent one
-
 	useEffect(() => {
+		let fetch = messageId || '1';
+		if(conversation)
+			fetch = messageId || conversation.messages[0].id || '1';
 		dispatch(getConv({ conversationId, fetch, folderId }));
 	}, [conversationId]);
 
