@@ -120,6 +120,7 @@ export default function ConversationListItem({
 			data-testid={`ConversationListItem-${conversation.id}`}
 		>
 			<HoverContainer
+				data-testid={`ConversationRow`}
 				height={69}
 				orientation="horizontal"
 				mainAlignment="flex-start"
@@ -211,9 +212,10 @@ export default function ConversationListItem({
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ isConversation && displayData.open
+			{isConversation
 			&& (
 				<CollapseElement
+					data-testid="ConversationExpander"
 					open={displayData.open}
 					padding={{ left: 'extralarge' }}
 					height="auto"

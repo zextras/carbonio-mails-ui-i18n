@@ -11,10 +11,10 @@
 import React from 'react';
 import { testUtils } from '@zextras/zapp-shell';
 import { Route } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { queryByTestId, screen } from '@testing-library/react';
 import { filter, find, map, get } from 'lodash';
 import faker from "faker";
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, getByTestId } from '@testing-library/dom';
 import reducers from '../../store/reducers';
 
 import { generateConversation, generateMessage, generateState } from '../../mocks/generators';
@@ -53,11 +53,12 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		const label = screen.getByTestId('ParticipantLabel');
+		const conversationRow = screen.getByTestId('ConversationRow');
+		const label = getByTestId(conversationRow, 'ParticipantLabel');
 
 		expect(label).toBeDefined();
 
-		conversation.participants.map(p => participantToString(p, str => str, [{ name: 'john.red@colors.com' }]))
+		conversation.participants.map(p => participantToString(p, str => str, []))
 			.forEach(p => expect(label).toContainHTML(p));
 	});
 
@@ -84,13 +85,14 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
+		const conversationRow = screen.getByTestId('ConversationRow');
 
-		const label = screen.getByTestId('ParticipantLabel');
+		const label = getByTestId(conversationRow, 'ParticipantLabel');
 
-		expect(screen.getByTestId('ParticipantLabel')).toHaveAttribute('color', 'primary');
+		expect(label).toHaveAttribute('color', 'primary');
 	});
 
-	test('Particpants is colored `text` if message is read', async () => {
+	test('Participants is colored `text` if message is read', async () => {
 		const ctx = {};
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ isRead: true }));
@@ -142,9 +144,10 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
-
-		expect(screen.getByTestId('DateLabel')).toBeVisible();
-		expect(screen.getByTestId('DateLabel')).toContainHTML(getTimeLabel(conversation.date));
+		const conversationRow = screen.getByTestId('ConversationRow');
+		const dateLabel = getByTestId(conversationRow, 'DateLabel');
+		expect(dateLabel).toBeVisible();
+		expect(dateLabel.innerHTML).toMatch(getTimeLabel(conversation.date));
 	});
 
 	test('Contains `flag` if message is flagged', async () => {
@@ -170,7 +173,8 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
-		expect(screen.getByTestId('FlagIcon')).toBeInTheDocument();
+		const conversationRow = screen.getByTestId('ConversationRow');
+		expect(getByTestId( conversationRow, 'FlagIcon')).toBeDefined();
 	});
 
 	test('Don\'t contain `flag` if message is not flagged', async () => {
@@ -196,7 +200,8 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
-		expect(screen.queryByTestId('FlagIcon')).toBeNull();
+		const conversationRow = screen.getByTestId('ConversationRow');
+		expect(queryByTestId( conversationRow, 'FlagIcon')).toBeNull();
 	});
 
 	test('Contains subject if subject is not empty', async () => {
@@ -223,14 +228,17 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		expect(screen.getByTestId('Subject')).toContainHTML(conversation.subject);
-		expect(screen.queryByTestId('NoSubject')).toBeNull();
+		const conversationRow = screen.getByTestId('ConversationRow');
+
+		expect(getByTestId(conversationRow,'Subject').innerHTML).toMatch(conversation.subject);
+		expect(queryByTestId(conversationRow,'NoSubject')).toBeNull();
 	});
 
 	test('Contains NoSubject if subject is empty', async () => {
 		const ctx = {};
 
 		const conversation = normalizeConversationFromSoap(generateConversation({}));
+		conversation.subject = '';
 
 		const folderId = '3';
 
@@ -251,8 +259,10 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		expect(screen.getByTestId('Subject')).toContainHTML(conversation.subject);
-		expect(screen.queryByTestId('NoSubject')).toBeNull();
+		const conversationRow = screen.getByTestId('ConversationRow');
+
+		expect(queryByTestId(conversationRow,'Subject')).toBeNull();
+		expect(queryByTestId(conversationRow,'NoSubject').innerHTML).toBeDefined();
 	});
 
 	test('Contains fragment if not empty', async () => {
@@ -279,8 +289,10 @@ describe('ConversationListItem', () => {
 			},
 		);
 
+		const conversationRow = screen.getByTestId('ConversationRow');
+
 		if(conversation.fragment)
-			expect(screen.getByTestId('Fragment')).toContainHTML(conversation.fragment);
+			expect(getByTestId(conversationRow, 'Fragment')).toContainHTML(conversation.fragment);
 	});
 
 	test('Contains `urgent` icon if message is important', async () => {
@@ -307,7 +319,9 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		expect(screen.getByTestId('UrgentIcon')).toBeInTheDocument();
+		const conversationRow = screen.getByTestId('ConversationRow');
+
+		expect(getByTestId(conversationRow, 'UrgentIcon')).toBeInTheDocument();
 	});
 
 	test('Doesn\'t contain `urgent` icon if message is not important', async () => {
@@ -334,7 +348,9 @@ describe('ConversationListItem', () => {
 			},
 		);
 
-		await expect(screen.queryByTestId('UrgentIcon')).toBeNull();
+		const conversationRow = screen.getByTestId('ConversationRow');
+
+		expect(queryByTestId(conversationRow, 'UrgentIcon')).toBeNull();
 	});
 
 	test('Contains `attachment` icon if message have attachments', async () => {
@@ -360,8 +376,9 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
+		const conversationRow = screen.getByTestId('ConversationRow');
 
-		expect(screen.getByTestId('AttachmentIcon')).toBeInTheDocument();
+		expect(getByTestId(conversationRow, 'AttachmentIcon')).toBeInTheDocument();
 	});
 
 	test('Doesn\'t contain `attachment` icon if message have no attachments', async () => {
@@ -387,8 +404,8 @@ describe('ConversationListItem', () => {
 				initialRouterEntries: [`/folder/${folderId}`],
 			},
 		);
-
-		expect(screen.queryByTestId('AttachmentIcon')).toBeNull();
+		const conversationRow = screen.getByTestId('ConversationRow');
+		expect(queryByTestId(conversationRow, 'AttachmentIcon')).toBeNull();
 	});
 
 	test('Doesn\'t contain expand if contains 1 message', async () => {
@@ -418,7 +435,7 @@ describe('ConversationListItem', () => {
 		expect(screen.queryByTestId('ToggleExpand')).toBeNull();
 	});
 
-	test('Contains expand if contains 1 message', async () => {
+	test('Contains expand if contains more than 1 message', async () => {
 		const ctx = {};
 
 		const conversation = normalizeConversationFromSoap(generateConversation({ length: 3 }));

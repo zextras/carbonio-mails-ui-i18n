@@ -23,7 +23,7 @@ import { selectFolders } from '../../store/folders-slice';
 import { fetchConversations } from '../../store/actions';
 import ConversationListItem from './conversation-list-item';
 
-function Breadcrumbs({ folderPath, itemsCount }) {
+export function Breadcrumbs({ folderPath, itemsCount }) {
 	return (
 		<Container
 			background="gray5"
@@ -41,9 +41,9 @@ function Breadcrumbs({ folderPath, itemsCount }) {
 					takeAvailableSpace
 					padding={{ right: 'medium' }}
 				>
-					<Text size="large">{ folderPath.split('/').join(' / ') }</Text>
+					<Text size="large" data-testid="BreadcrumbPath">{ folderPath.split('/').join(' / ') }</Text>
 				</Row>
-				<Text size="medium">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
+				<Text size="medium" data-testid="BreadcrumbCount">{ itemsCount > 100 ? '100+' : itemsCount }</Text>
 			</Row>
 			<Divider />
 		</Container>

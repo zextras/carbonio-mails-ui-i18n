@@ -168,6 +168,14 @@ export function generateConversation({
 	};
 }
 
+export function generateConversations(folder, length = faker.random.number(110)+1) {
+	const conversations = [];
+
+	for(let i=0; i<length; i += 1)
+		conversations.push(generateConversation({ folderId: folder }));
+	return conversations;
+}
+
 export function generateState({
 	messages = [],
 	conversations = [],
@@ -192,8 +200,8 @@ export function generateState({
 	});
 
 	conversations.forEach(c => {
-		forEach(keysIn(state.cache), (folderId) => {
-			const folder = state.cache[folderId];
+		forEach(keysIn(state.conversations.cache), (folderId) => {
+			const folder = state.conversations.cache[folderId];
 
 			if (map(c.messages, (m) => m.parent).includes(folderId)) {
 				const myConv = cloneDeep(c);

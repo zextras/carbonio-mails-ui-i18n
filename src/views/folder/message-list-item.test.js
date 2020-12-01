@@ -14,13 +14,16 @@ import { Route } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import { filter, find, map, get } from 'lodash';
 import faker from "faker";
+import { fireEvent } from '@testing-library/dom';
 import reducers from '../../store/reducers';
 
-import { generateMessage, generateState } from '../../mocks/generators';
+import { generateConversation, generateMessage, generateState } from '../../mocks/generators';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { getTimeLabel } from '../../commons/utils';
 import { selectFolders } from '../../store/folders-slice';
 import MessageListItem from './message-list-item';
+import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';
+import ConversationListItem from './conversation-list-item';
 
 
 describe('MessageListItem', () => {
@@ -248,6 +251,25 @@ describe('MessageListItem', () => {
 			},
 		);
 		expect(screen.queryByTestId('AttachmentIcon')).toBeNull();
+	});
+
+	test('Click on message navigate to `?conversation={id}&message={id}`', async () => {
+		const ctx = {};
+
+		const message = normalizeMailMessageFromSoap(generateMessage({}));
+
+		await testUtils.render(
+			<MessageListItem message={message} folderId="2" conversationId={message.conversation} />,
+			{
+				ctxt: ctx,
+				reducer: reducers,
+				initialRouterEntries: [`/folder/2`],
+			},
+		);
+
+		const expandButton = screen.getByTestId('SenderText');
+		fireEvent.click(expandButton);
+		expect(ctx.current.history.location.search).toEqual(`?conversation=${message.conversation}&message=${message.id}`);
 	});
 
 	// missing Tags and avatar
