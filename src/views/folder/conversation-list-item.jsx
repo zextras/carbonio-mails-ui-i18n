@@ -45,7 +45,7 @@ function ConversationMessagesList({ conversation, folderId }) {
 				<React.Fragment key={message.id}>
 					<MessageListItem
 						message={message}
-						conversation={conversation}
+						conversationId={conversation.id}
 						folderId={folderId}
 					/>
 					{ (conversation.messages.length - 1) > index && <Divider /> }
@@ -107,7 +107,7 @@ export default function ConversationListItem({
 		[conversation.date],
 	);
 	const participantsString = useMemo(() => reduce(
-		filter(conversation.participants, p => p.type === targetParticipants),
+		conversation.participants,
 		(acc, part) => trimStart(`${acc}, ${participantToString(part, t, accounts)}`, ', '),
 		'',
 	), [conversation.participants, t, accounts]);
@@ -117,8 +117,10 @@ export default function ConversationListItem({
 			style={style}
 			background="gray6"
 			mainAlignment="flex-start"
+			data-testid={`ConversationListItem-${conversation.id}`}
 		>
 			<HoverContainer
+				data-testid={`ConversationRow`}
 				height={69}
 				orientation="horizontal"
 				mainAlignment="flex-start"
@@ -142,6 +144,7 @@ export default function ConversationListItem({
 							mainAlignment="flex-start"
 						>
 							<Text
+								data-testid="ParticipantLabel"
 								color={conversation.read ? 'text' : 'primary'}
 								size={conversation.read ? 'medium' : 'large'}
 								weight={conversation.read ? 'regular' : 'bold'}
@@ -150,9 +153,9 @@ export default function ConversationListItem({
 							</Text>
 						</Row>
 						<Row>
-							{ conversation.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-							{ conversation.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-							<Padding left="small"><Text>{ date }</Text></Padding>
+							{ conversation.attachment && <Padding left="small"><Icon data-testid="AttachmentIcon" icon="AttachOutline" /></Padding> }
+							{ conversation.flagged && <Padding left="small"><Icon data-testid="FlagIcon" color="error" icon="Flag" /></Padding> }
+							<Padding left="small" data-testid="DateLabel"><Text>{ date }</Text></Padding>
 						</Row>
 					</Container>
 					<Container orientation="horizontal" height="auto" width="fill" crossAlignment="center">
@@ -172,9 +175,10 @@ export default function ConversationListItem({
 						>
 							{
 								conversation.subject
-									? <Text weight={conversation.read ? 'regular' : 'bold'} size="large">{ conversation.subject }</Text>
+									? <Text data-testid="Subject" weight={conversation.read ? 'regular' : 'bold'} size="large">{ conversation.subject }</Text>
 									: (
 										<Text
+											data-testid="NoSubject"
 											weight={conversation.read ? 'regular' : 'bold'}
 											size="large"
 											color="secondary"
@@ -189,15 +193,16 @@ export default function ConversationListItem({
 									mainAlignment="flex-start"
 									padding={{ left: 'extrasmall' }}
 								>
-									<Text>{ ` - ${conversation.fragment}` }</Text>
+									<Text data-testid="Fragment">{ ` - ${conversation.fragment}` }</Text>
 								</Row>
 							) }
 						</Row>
 						<Row>
-							{ conversation.urgent && <Icon icon="ArrowUpward" color="error" /> }
+							{ conversation.urgent && <Icon data-testid="UrgentIcon" icon="ArrowUpward" color="error" /> }
 							{ isConversation
 							&& (
 								<IconButton
+									data-testid="ToggleExpand"
 									size="small"
 									icon={displayData.open ? 'ArrowIosUpward' : 'ArrowIosDownward'}
 									onClick={toggleOpen}
@@ -207,9 +212,10 @@ export default function ConversationListItem({
 					</Container>
 				</Row>
 			</HoverContainer>
-			{ isConversation && displayData.open
+			{isConversation
 			&& (
 				<CollapseElement
+					data-testid="ConversationExpander"
 					open={displayData.open}
 					padding={{ left: 'extralarge' }}
 					height="auto"

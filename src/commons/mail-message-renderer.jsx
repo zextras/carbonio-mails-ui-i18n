@@ -75,7 +75,7 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
 		iframeRef.current.style.display = 'block';
-		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.querySelector('div').scrollHeight}px`;
+		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.querySelector('div')?.scrollHeight}px`;
 	}, []);
 
 	useEffect(() => {

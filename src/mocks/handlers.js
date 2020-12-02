@@ -9,8 +9,14 @@
  * *** END LICENSE BLOCK *****
  */
 import { rest } from 'msw';
+import { handleSyncRequest } from './handle-sync';
+import { handleGetMsgRequest } from './handle-get-msg';
+import { handleGetConvRequest } from './handle-get-conv';
 
 const handlers = [
+	rest.post('/service/soap/SyncRequest', handleSyncRequest),
+	rest.post('/service/soap/GetMsgRequest', handleGetMsgRequest),
+	rest.post('/service/soap/GetConvRequest', handleGetConvRequest),
 ];
 
 export default handlers;

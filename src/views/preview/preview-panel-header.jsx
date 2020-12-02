@@ -20,6 +20,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 	return (
 		<>
 			<Container
+				data-testid="PreviewPanelHeader"
 				orientation="horizontal"
 				height="48px"
 				background="gray5"
@@ -28,15 +29,18 @@ function PreviewPanelHeader({ conversation, folderId }) {
 				padding={{ left: 'large', right: 'extrasmall' }}
 				style={{ minHeight: '48px' }}
 			>
-				<Icon size="large" icon={conversation.read ? 'EmailReadOutline' : 'EmailOutline'} />
+				{conversation.read
+					? <Icon size="large" icon="EmailReadOutline" data-testid="EmailReadIcon" />
+					: <Icon size="large" icon="EmailReadOutline" data-testid="EmailUnreadIcon" />
+				}
 				<Row
 					mainAlignment="flex-start"
 					padding={{ left: 'large' }}
 					takeAvailableSpace
 				>
-					<Text size="large">{ conversation.subject || t('header.no_subject') }</Text>
+					<Text size="large" data-testid="Subject">{ conversation.subject || `(${t('header.no_subject')})` }</Text>
 				</Row>
-				<IconButton icon="Close" onClick={() => replaceHistory(`/folder/${folderId}`)} />
+				<IconButton data-testid="PreviewPanelCloseIcon" icon="Close" onClick={() => replaceHistory(`/folder/${folderId}`)} />
 			</Container>
 			<Divider />
 		</>

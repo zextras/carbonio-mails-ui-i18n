@@ -50,7 +50,7 @@ import {
 	setMsgFlag,
 	setMsgRead,
 } from '../../ui-actions/message-actions';
-import { selectMessages } from '../../store/messages-slice';
+import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
 import { getMsg } from '../../store/actions';
 
 const ContactsContainer = styled.div`
@@ -77,14 +77,14 @@ function MessageContactsList({ message }) {
 	return (
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ t('label.to') }
+				<ContactText color="gray1" size="small" data-testid="ToParticipants">
+					{ `${t('label.to')}: ` }
 					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
-				<ContactText color="gray1" size="small">
-					{ t('label.cc') }
+				<ContactText color="gray1" size="small" data-testid="CcParticipants">
+					{ `${t('label.cc')}: ` }
 					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
@@ -177,6 +177,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 					width="fill"
 				>
 					<Text
+						data-testid="SenderText"
 						size={message.read ? 'medium' : 'large'}
 						color={message.read ? 'text' : 'primary'}
 						weight={message.read ? 'normal' : 'bold'}
@@ -189,8 +190,8 @@ function MailPreviewBlock({ message, open, onClick }) {
 						height="24px"
 					>
 						{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-						<Padding left="small"><Text color="gray1">{ getTimeLabel(message.date) }</Text></Padding>
+						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" data-testid="FlagIcon" /></Padding> }
+						<Padding left="small"><Text color="gray1" data-testid="DateLabel">{ getTimeLabel(message.date) }</Text></Padding>
 						{ open && (
 							<Padding left="small">
 								<Dropdown
@@ -247,10 +248,10 @@ function MailPreviewBlock({ message, open, onClick }) {
 						width="fit"
 						padding={{ left: 'extrasmall', right: open ? 'extrasmall' : undefined }}
 					>
-						{ message.urgent && <Icon color="error" icon="ArrowUpward" /> }
+						{ message.urgent && <Icon data-testid="UrgentIcon" color="error" icon="ArrowUpward" /> }
 						{ messageFolder.id !== currentFolderId && (
 							<Padding left="small">
-								<Badge value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
+								<Badge data-testid="FolderBadge" value={messageFolder.name} type={message.read ? 'read' : 'unread'} />
 							</Padding>
 						) }
 					</Container>
@@ -266,6 +267,7 @@ export default function MailPreview({ message, expanded }) {
 	const mailContainerRef = useRef(undefined);
 	const [open, setOpen] = useState(expanded);
 
+	const messageStatus = useSelector(selectMessagesStatus)[message.id];
 	const msg = useSelector(selectMessages)[message.id] || {};
 
 	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
@@ -284,6 +286,7 @@ export default function MailPreview({ message, expanded }) {
 	
 	const collapsedContent = useMemo(() => (
 		<Container
+			data-testid="MessageBody"
 			width="100%"
 			height="fit"
 			crossAlignment="stretch"
@@ -308,6 +311,7 @@ export default function MailPreview({ message, expanded }) {
 		<Container
 			ref={mailContainerRef}
 			height="fit"
+			data-testid={`MailPreview-${message.id}`}
 		>
 			<MailPreviewBlock
 				onClick={() => setOpen((o) => !o)}
@@ -321,8 +325,8 @@ export default function MailPreview({ message, expanded }) {
 					overflowY: 'auto'
 				}}
 			>
-				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition>
-					{aggregatedMessage.parts.length > 0 && collapsedContent}
+				<Collapse open={open} crossSize="100%" orientation="vertical" disableTransition data-testid="MailMessageRendererCollapse">
+					{messageStatus === 'complete' && collapsedContent}
 				</Collapse>
 			</Container>
 			<Divider />
