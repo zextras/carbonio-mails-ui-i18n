@@ -190,8 +190,8 @@ function MailPreviewBlock({ message, open, onClick }) {
 						height="24px"
 					>
 						{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
-						<Padding left="small"><Text color="gray1">{ getTimeLabel(message.date) }</Text></Padding>
+						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" data-testid="FlagIcon" /></Padding> }
+						<Padding left="small"><Text color="gray1" data-testid="DateLabel">{ getTimeLabel(message.date) }</Text></Padding>
 						{ open && (
 							<Padding left="small">
 								<Dropdown

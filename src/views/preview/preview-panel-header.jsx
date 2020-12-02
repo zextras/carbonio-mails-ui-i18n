@@ -20,6 +20,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 	return (
 		<>
 			<Container
+				data-testid="PreviewPanelHeader"
 				orientation="horizontal"
 				height="48px"
 				background="gray5"
@@ -37,7 +38,7 @@ function PreviewPanelHeader({ conversation, folderId }) {
 					padding={{ left: 'large' }}
 					takeAvailableSpace
 				>
-					<Text size="large">{ conversation.subject || `(${t('header.no_subject')})` }</Text>
+					<Text size="large" data-testid="Subject">{ conversation.subject || `(${t('header.no_subject')})` }</Text>
 				</Row>
 				<IconButton data-testid="PreviewPanelCloseIcon" icon="Close" onClick={() => replaceHistory(`/folder/${folderId}`)} />
 			</Container>
