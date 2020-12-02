@@ -47,7 +47,7 @@ describe('PreviewPanelHeader', () => {
 				reducer: reducers,
 			},
 		);
-		expect(screen.getByTestId('Subject')).toContainHTML('(No Subject)');
+		expect(screen.getByTestId('Subject')).toContainHTML('(header.no_subject)');
 	});
 
 	test('Contains Read icon if conversation read', async () => {

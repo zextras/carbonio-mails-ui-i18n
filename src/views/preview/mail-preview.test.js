@@ -127,7 +127,7 @@ describe('MailPreview', () => {
 
 		const toSection = screen.getByTestId('ToParticipants');
 		expect(toSection).toBeVisible();
-		expect(toSection).toContainHTML(`To: ${toContacts.fullName}`);
+		expect(toSection).toContainHTML(`label.to: ${toContacts.fullName}`);
 	});
 
 	test('Contains CC section', async () => {
@@ -163,7 +163,7 @@ describe('MailPreview', () => {
 
 		const ccSection = screen.getByTestId('CcParticipants');
 		expect(ccSection).toBeVisible();
-		expect(ccSection).toContainHTML(`Cc: ${ccContacts.map(c => c.fullName).join(', ')}`);
+		expect(ccSection).toContainHTML(`label.cc: ${ccContacts.map(c => c.fullName).join(', ')}`);
 	});
 
 	test('Contains `flag` if message is flagged', async () => {

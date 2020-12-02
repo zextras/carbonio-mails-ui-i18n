@@ -34,7 +34,7 @@ const ButtonBar = styled(Row)`
 
 export default function MailHoverBar({ messageId, read, flag, folderId }) {
 	const dispatch = useDispatch()
-	const { t } = useTranslation()
+	const [ t ] = useTranslation()
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 	const ids = [messageId];
