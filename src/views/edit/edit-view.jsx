@@ -112,7 +112,7 @@ export default function EditView({
 	);
 
 	useEffect(() => {
-		if (setHeader) setHeader(compositionData?.draft?.subject ?? t('No Subject'));
+		if (setHeader) setHeader(compositionData?.draft?.subject ?? t('messages.no_subject'));
 	}, [compositionData, setHeader, t]);
 
 	useEffect(() => {
@@ -141,38 +141,31 @@ export default function EditView({
 							mainAlignment="flex-end"
 							width="100%"
 						>
-							<Tooltip label={t('Toggle Rich Text')}>
+							<Tooltip label={t('tooltip.enable_disable_rich_text')}>
 								<ResizedIconCheckbox
 									icon="Text"
 									value={compositionData?.richText ?? false}
 									onChange={actions.toggleRichTextCb}
 								/>
 							</Tooltip>
-							<Tooltip label={t('Toggle Urgent')}>
+							<Tooltip label={t('tooltip.enable_disable_urgent')}>
 								<ResizedIconCheckbox
 									icon="ArrowUpward"
 									value={compositionData?.draft?.urgent ?? false}
 									onChange={actions.toggleUrgentCb}
 								/>
 							</Tooltip>
-							<Tooltip label={t('Toggle Flagged')}>
-								<ResizedIconCheckbox
-									icon="FlagOutline"
-									value={compositionData?.draft?.flagged ?? false}
-									onChange={actions.toggleFlaggedCb}
-								/>
-							</Tooltip>
 							<Padding left="large">
 								<Button
 									type="outlined"
 									onClick={actions.saveDraftCb}
-									label={t('Save')}
+									label={t('label.save')}
 								/>
 							</Padding>
 							<Padding left="large">
 								<Button
 									onClick={actions.sendMailCb}
-									label={t('Send')}
+									label={t('label.send')}
 								/>
 							</Padding>
 						</Row>
@@ -186,7 +179,7 @@ export default function EditView({
 							</Padding>
 							<Container>
 								<ChipInput
-									placeholder={t('To')}
+									placeholder={t('placeholder.to')}
 									onChange={(value) => actions.updateContactsCb('to', value)}
 									value={compositionData.to ?? []}
 								/>
@@ -194,14 +187,14 @@ export default function EditView({
 								<Collapse orientation="vertical" crossSize="100%" open={open}>
 									<ChipInput
 										placeholderType="inline"
-										placeholder={t('Cc')}
+										placeholder={t('placeholder.cc')}
 										onChange={(value) => actions.updateContactsCb('cc', value)}
 										value={compositionData.cc ?? []}
 									/>
 									<Divider />
 									<ChipInput
 										placeholderType="inline"
-										placeholder={t('Bcc')}
+										placeholder={t('placeholder.bcc')}
 										onChange={(value) => actions.updateContactsCb('bcc', value)}
 										value={compositionData.bcc ?? []}
 									/>
@@ -212,7 +205,7 @@ export default function EditView({
 						<Padding value="0 0 0 48px" style={{ width: 'auto' }}>
 							<EmailComposerInput
 								onChange={(ev) => actions.updateSubjectCb(ev.target.value)}
-								placeholder={t('Subject')}
+								placeholder={t('placeholder.subject')}
 								placeholderType="default"
 								value={compositionData?.draft?.subject ?? ''}
 							/>
@@ -235,7 +228,7 @@ export default function EditView({
 									label=""
 									value={compositionData?.text}
 									onChange={(ev) => {
-									// eslint-disable-next-line no-param-reassign
+										// eslint-disable-next-line no-param-reassign
 										ev.target.style.height = 'auto';
 										// eslint-disable-next-line no-param-reassign
 										ev.target.style.height = `${25 + ev.target.scrollHeight}px`;

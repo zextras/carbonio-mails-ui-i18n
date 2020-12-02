@@ -67,7 +67,11 @@ export const useCompositionData = (
 			actionMail,
 			accounts,
 			labels: {
-				to: t('To'), from: t('From'), cc: t('CC'), subject: t('Subject'), sent: t('Sent')
+				to: t('label.to'),
+				from: t('label.from'),
+				cc: t('label.cc'),
+				subject: t('label.subject'),
+				sent: t('label.sent')
 			}
 		}));
 	}, [accounts, action, actionMail, dispatch, editorId, original, t]);

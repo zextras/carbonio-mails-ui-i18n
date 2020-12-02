@@ -78,19 +78,19 @@ function MessageContactsList({ message }) {
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small" data-testid="ToParticipants">
-					{ `${t('To')}: ` }
+					{ `${t('label.to')}: ` }
 					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small" data-testid="CcParticipants">
-					{ `${t('Cc')}: ` }
+					{ `${t('label.cc')}: ` }
 					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
-					{ `${t('Bcc')}: ` }
+					{ t('label.bcc') }
 					{ map(bccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
@@ -190,8 +190,8 @@ function MailPreviewBlock({ message, open, onClick }) {
 						height="24px"
 					>
 						{ message.attachment && <Padding left="small"><Icon icon="AttachOutline" /></Padding> }
-						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" data-testid="FlagIcon" /></Padding> }
-						<Padding left="small"><Text color="gray1" data-testid="DateLabel">{ getTimeLabel(message.date) }</Text></Padding>
+						{ message.flagged && <Padding left="small"><Icon color="error" icon="Flag" /></Padding> }
+						<Padding left="small"><Text color="gray1">{ getTimeLabel(message.date) }</Text></Padding>
 						{ open && (
 							<Padding left="small">
 								<Dropdown

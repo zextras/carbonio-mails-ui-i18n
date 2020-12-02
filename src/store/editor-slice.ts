@@ -127,19 +127,19 @@ function openEditorReducer(
 
 			const date = moment(payload.actionMail.date).format('LLLL');
 
-			let bodyHtml = `<br /><br /><hr><b>${payload.labels.from}:</b> ${headingFrom} <br /> <b>${payload.labels.to}:</b> ${headingTo} <br />`;
-			let bodyText = `\n\n---------------------------\n${payload.labels.from}: ${headingFrom}\n${payload.labels.to}: ${headingTo}\n`;
+			let bodyHtml = `<br /><br /><hr><b>${payload.labels.from}</b> ${headingFrom} <br /> <b>${payload.labels.to}</b> ${headingTo} <br />`;
+			let bodyText = `\n\n---------------------------\n${payload.labels.from} ${headingFrom}\n${payload.labels.to} ${headingTo}\n`;
 
 			if (headingCc.length > 0) {
 				bodyHtml = bodyHtml.concat(`<b>${payload.labels.cc}</b> ${headingCc}<br />`);
-				bodyText = bodyText.concat(`${payload.labels.cc}: ${headingCc}\n`);
+				bodyText = bodyText.concat(`${payload.labels.cc} ${headingCc}\n`);
 			}
 
 			editor.draft.parts = payload.actionMail.parts;
 			editor.draft.bodyPath = payload.actionMail.bodyPath;
 
-			editor.html = bodyHtml.concat(`<b>${payload.labels.sent}:</b> ${date} <br /> <b>${payload.labels.subject}:</b> ${payload.actionMail.subject} <br /><br />${html}`);
-			editor.text = bodyText.concat(`${payload.labels.sent}: ${date}\n${payload.labels.subject}: ${payload.actionMail.subject}\n\n${text}`);
+			editor.html = bodyHtml.concat(`<b>${payload.labels.sent}</b> ${date} <br /> <b>${payload.labels.subject}</b> ${payload.actionMail.subject} <br /><br />${html}`);
+			editor.text = bodyText.concat(`${payload.labels.sent} ${date}\n${payload.labels.subject} ${payload.actionMail.subject}\n\n${text}`);
 
 			editor.draft.participants = filter(
 				editor.draft.participants,

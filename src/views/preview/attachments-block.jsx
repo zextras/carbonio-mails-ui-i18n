@@ -108,9 +108,10 @@ export default function AttachmentsBlock({ message }) {
 
 	const attachmentsCount = useMemo(() => attachments.length, [attachments]);
 	const attachmentsParts = useMemo(() => map(attachments, 'name'), [attachments]);
-	const actionsDownloadLink = useMemo(() =>
-		getAttachmentsLink(message.id, message.subject, attachmentsParts), [message, attachmentsParts]);
-	const attachmentLabel = useMemo(() => (attachmentsCount === 1 ? t('attachment') : t('attachments')), [attachmentsCount, t]);
+	const actionsDownloadLink = useMemo(
+		() => getAttachmentsLink(message.id, message.subject, attachmentsParts),
+		[message, attachmentsParts]
+	);
 
 	return attachmentsCount > 0 && (
 		<Container crossAlignment="flex-start">
@@ -136,9 +137,7 @@ export default function AttachmentsBlock({ message }) {
 						attachmentsCount < 3
 						&& (
 							<Text color="gray1">
-								{ attachmentsCount }
-								{' '}
-								{ attachmentLabel }
+								{ t('label.attachment', { count: attachmentsCount }) }
 							</Text>
 						)
 					}
@@ -147,9 +146,7 @@ export default function AttachmentsBlock({ message }) {
 							<Row onClick={() => setExpanded(false)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
 									<Text color="primary">
-										{ attachmentsCount }
-										{' '}
-										{ attachmentLabel }
+										{ t('label.attachment', { count: attachmentsCount }) }
 									</Text>
 								</Padding>
 								<Icon icon="ArrowIosUpward" color="primary" />
@@ -158,11 +155,9 @@ export default function AttachmentsBlock({ message }) {
 							<Row onClick={() => setExpanded(true)} style={{ cursor: 'pointer' }}>
 								<Padding right="small">
 									<Text color="primary">
-										{ t('Show all') }
+										{ t('label.show', { count: attachmentsCount }) }
 										{' '}
-										{ attachmentsCount }
-										{' '}
-										{ attachmentLabel }
+										{ t('label.attachment', { count: attachmentsCount }) }
 									</Text>
 								</Padding>
 								<Icon icon="ArrowIosDownward" color="primary" />
@@ -171,7 +166,7 @@ export default function AttachmentsBlock({ message }) {
 					)}
 				</Padding>
 				<Link size="medium" href={actionsDownloadLink}>
-					{ attachmentsCount > 1 ? t('Download all') : t('Download') }
+					{  t('label.download', { count: attachmentsCount }) }
 				</Link>
 			</AttachmentsActions>
 		</Container>
