@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { filter, forEach, get, reduce } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
@@ -51,8 +51,12 @@ const _TextMessageRenderer = ({ body }) => {
 
 const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 	const iframeRef = useRef();
-	const onIframeLoad = useCallback((ev) => {
-		ev.persist();
+
+	useLayoutEffect(() => {
+		iframeRef.current.contentDocument.open();
+		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
+		iframeRef.current.contentDocument.close();
+
 		const styleTag = document.createElement('style');
 		const styles = `
 			body {
@@ -72,14 +76,8 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		`;
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
-		iframeRef.current.style.display = 'block';
-		iframeRef.current.style.height = iframeRef.current.contentDocument.body.querySelector('div').scrollHeight + 'px';
-	}, []);
+		iframeRef.current.style.height = iframeRef.current.contentDocument.body.scrollHeight + 'px';
 
-	useEffect(() => {
-		iframeRef.current.contentDocument.open();
-		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
-		iframeRef.current.contentDocument.close();
 		const imgMap = reduce(
 			parts,
 			(r, v, k) => {
@@ -113,8 +111,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		<iframe
 			title={msgId}
 			ref={iframeRef}
-			onLoad={onIframeLoad}
-			style={{ border: 'none', width: '100%', display: 'none' }}
+			style={{ border: 'none', width: '100%', display: 'block' }}
 		/>
 	);
 };
