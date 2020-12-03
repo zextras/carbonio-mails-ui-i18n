@@ -233,25 +233,6 @@ function saveDraftFulfilledReducer(state: any, action: any): void {
 	state.editors[action.meta.arg.editorId].draft.id = action.payload.resp.m[0].id;
 }
 
-function saveDraftPendingReducer(...args: any): void {
-	console.log(args);
-}
-
-function saveDraftRejectedReducer(...args: any): void {
-	console.log(args);
-}
-
-function sendMsgPendingReducer(...args: any): void {
-	console.log(args);
-}
-
-function sendMsgFulfilledReducer(state: any, action: any): void {
-	delete state.editors[action.meta.arg.editorId];
-}
-
-function sendMsgRejectedReducer(...args: any): void {
-	console.log(args);
-}
 export const editorsSlice = createSlice({
 	name: 'editors',
 	initialState: {
@@ -267,12 +248,7 @@ export const editorsSlice = createSlice({
 		updateBody: produce(updateBodyReducer),
 	},
 	extraReducers: (builder) => {
-		builder.addCase(saveDraft.pending, produce(saveDraftPendingReducer));
 		builder.addCase(saveDraft.fulfilled, produce(saveDraftFulfilledReducer));
-		builder.addCase(saveDraft.rejected, produce(saveDraftRejectedReducer));
-		builder.addCase(sendMsg.pending, produce(sendMsgPendingReducer));
-		builder.addCase(sendMsg.fulfilled, produce(sendMsgFulfilledReducer));
-		builder.addCase(sendMsg.rejected, produce(sendMsgRejectedReducer));
 	},
 });
 

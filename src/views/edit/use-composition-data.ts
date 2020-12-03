@@ -12,7 +12,8 @@
 import {
 	useCallback,
 	useEffect,
-	useMemo
+	useMemo,
+	useState
 } from 'react';
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
@@ -69,23 +70,26 @@ export const useCompositionData = (
 			dispatch(getMsg({msgId: actionId}));
 		}
 	}, [actionId, dispatch, draftId])
-
+	const [editorCreated, setEditorCreated] = useState(false);
 	useEffect(() => {
-		dispatch(openEditor({
-			id: editorId,
-			original,
-			action,
-			actionMail,
-			accounts,
-			labels: {
-				to: t('label.to'),
-				from: t('label.from'),
-				cc: t('label.cc'),
-				subject: t('label.subject'),
-				sent: t('label.sent')
-			}
-		}));
-	}, [accounts, action, actionMail, dispatch, editorId, original, t]);
+		if (!editorCreated) {
+			dispatch(openEditor({
+				id: editorId,
+				original,
+				action,
+				actionMail,
+				accounts,
+				labels: {
+					to: t('label.to'),
+					from: t('label.from'),
+					cc: t('label.cc'),
+					subject: t('label.subject'),
+					sent: t('label.sent')
+				}
+			}));
+			setEditorCreated(true);
+		}
+	}, [accounts, action, actionMail, dispatch, editorCreated, editorId, original, t]);
 
 	const compositionData = useSelector(
 		createSelector([selectEditors], (editors) => editors[editorId])

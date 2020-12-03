@@ -1,10 +1,23 @@
-import { dropRight, find, join, map, set, split } from 'lodash';
+import { dropRight, find, forEach, get, join, map, set, split } from 'lodash';
 import { Account } from '@zextras/zapp-shell';
-import { MailsEditor } from '../types/mails-editor';
+import { DraftMailMessage, MailsEditor } from '../types/mails-editor';
 import { MailMessage, MailMessagePart } from '../types/mail-message';
 import { Participant, ParticipantRole } from '../types/participant';
 import { SoapDraftMessageObj, SoapEmailMessagePartObj } from '../types/soap';
 
+const messagePartToSoap = (parts: Array<MailMessagePart>): SoapEmailMessagePartObj[] => map(
+	parts,
+	(part) => ({
+		ct: part.contentType,
+		s: part.size,
+		ci: part.ci,
+		content: part.content ? { _content: part.content } : undefined,
+		filename: part.filename,
+		cd: part.disposition,
+		part: part.name,
+		mp: (part.parts && part.parts.length > 0) ? messagePartToSoap(part.parts) : undefined,
+	})
+)
 
 export const generateRequest = (editor: MailsEditor): SoapDraftMessageObj => ({
 	id: editor.draft.id === 'new' ? undefined : editor.draft.id,
@@ -24,38 +37,25 @@ export const generateRequest = (editor: MailsEditor): SoapDraftMessageObj => ({
 				?? undefined
 		})
 	),
-	// e: map(editor.draft.participants ?? [], (p) => ({
-	// 	t: p.type,
-	// 	a: p.address,
-	// 	d: p.fullName
-	// 		?? p.name
-	// 		?? undefined
-	// })),
-	mp: ((): SoapEmailMessagePartObj[] => {
-		const part = (editor.richText ? {
-			ct: 'multipart/alternative',
-			mp: [
-				{
-					ct: 'text/html',
-					content: { _content: editor.html }
-				},
-				{
-					ct: 'text/plain',
-					content: { _content: editor.text }
-				}
-			]
-		} : {
-			ct: 'text/plain',
-			body: true,
-			content: { _content: editor.text }
-		}) as SoapEmailMessagePartObj;
-		if (editor.draft.id !== 'new' && editor.draft.bodyPath !== '') {
-			return set<SoapEmailMessagePartObj[]>(editor.draft.parts, join(dropRight(split(editor.draft.bodyPath, '.')), '.'), part);
-		}
-		return [part];
-	})()
+	mp: [(editor.richText ? {
+		ct: 'multipart/alternative',
+		mp: [
+			{
+				ct: 'text/html',
+				body: true,
+				content: { _content: editor.html }
+			},
+			{
+				ct: 'text/plain',
+				content: { _content: editor.text }
+			}
+		]
+	} : {
+		ct: 'text/plain',
+		body: true,
+		content: { _content: editor.text }
+	})]
 });
-
 
 export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor => ({
 	richText: false,
