@@ -10,12 +10,15 @@
  */
 
 import { MailsEditor } from '../../types/mails-editor';
+import { Participant } from '../../types/participant';
 
 export type CompositionData = {
 	compositionData: MailsEditor;
 	actions: {
 		updateSubjectCb: (value: string) => void;
-		updateContactsCb: (type: 'to' |	'cc' | 'bcc', value: Array<{ value: string }>) => void;
+		updateContactsToCb: (value: Array<Participant>) => void;
+		updateContactsCcCb: (value: Array<Participant>) => void;
+		updateContactsBccCb: (value: Array<Participant>) => void;
 		updateBodyCb: (value: [string, string]) => void;
 		toggleRichTextCb: (richText: boolean) => void;
 		toggleFlaggedCb: (flagged: boolean) => void;

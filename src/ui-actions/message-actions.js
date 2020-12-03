@@ -41,7 +41,7 @@ export function setMsgFlag(ids, value, t, dispatch) {
 	}
 }
 
-export function moveMsgToTrash(ids, t, dispatch, createSnackbar)  {
+export function moveMsgToTrash(ids, t, dispatch, createSnackbar) {
 	return {
 		icon: 'Trash2Outline',
 		label: t('action.delete'),

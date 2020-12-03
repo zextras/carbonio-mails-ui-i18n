@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { hooks } from '@zextras/zapp-shell';
 import {
 	Container,
@@ -14,6 +14,9 @@ import EditView from './edit-view';
 const MailEditHeader = ({ folderId, header }) => {
 	const [ t ] = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
+	useEffect(() => {
+		console.log(t);
+	}, [t]);
 
 	const onClose = useCallback(
 		() => replaceHistory(`/folder/${folderId}`),

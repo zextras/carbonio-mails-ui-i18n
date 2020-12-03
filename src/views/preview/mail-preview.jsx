@@ -118,7 +118,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 		const arr = [];
 
 		if (message.parent === '6') {	// DRAFT
-			arr.push(editDraft({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(editDraft(message.id, folderId , t, replaceHistory));
 
 		}
 		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT

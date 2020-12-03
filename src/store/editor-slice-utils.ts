@@ -1,8 +1,61 @@
-import { find } from 'lodash';
+import { dropRight, find, join, map, set, split } from 'lodash';
 import { Account } from '@zextras/zapp-shell';
 import { MailsEditor } from '../types/mails-editor';
 import { MailMessage, MailMessagePart } from '../types/mail-message';
-import { ParticipantRole } from '../types/participant';
+import { Participant, ParticipantRole } from '../types/participant';
+import { SoapDraftMessageObj, SoapEmailMessagePartObj } from '../types/soap';
+
+
+export const generateRequest = (editor: MailsEditor): SoapDraftMessageObj => ({
+	id: editor.draft.id === 'new' ? undefined : editor.draft.id,
+	su: { _content: editor.draft.subject ?? '' },
+	e: map(
+		[
+			editor.from,
+			...editor.to,
+			...editor.cc,
+			...editor.bcc
+		],
+		(c) => ({
+			t: c.type,
+			a: c.address,
+			d: (c as unknown as Participant).fullName
+				?? (c as unknown as Participant).name
+				?? undefined
+		})
+	),
+	// e: map(editor.draft.participants ?? [], (p) => ({
+	// 	t: p.type,
+	// 	a: p.address,
+	// 	d: p.fullName
+	// 		?? p.name
+	// 		?? undefined
+	// })),
+	mp: ((): SoapEmailMessagePartObj[] => {
+		const part = (editor.richText ? {
+			ct: 'multipart/alternative',
+			mp: [
+				{
+					ct: 'text/html',
+					content: { _content: editor.html }
+				},
+				{
+					ct: 'text/plain',
+					content: { _content: editor.text }
+				}
+			]
+		} : {
+			ct: 'text/plain',
+			body: true,
+			content: { _content: editor.text }
+		}) as SoapEmailMessagePartObj;
+		if (editor.draft.id !== 'new' && editor.draft.bodyPath !== '') {
+			return set<SoapEmailMessagePartObj[]>(editor.draft.parts, join(dropRight(split(editor.draft.bodyPath, '.')), '.'), part);
+		}
+		return [part];
+	})()
+});
+
 
 export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor => ({
 	richText: false,
@@ -33,7 +86,12 @@ export const emptyEditor = (id: string, accounts: Array<Account>): MailsEditor =
 		urgent: false,
 		parts: [],
 		bodyPath: '',
-		tags: []
+		tags: [],
+		isDeleted: false,
+		isDraft: true,
+		isInvite: false,
+		isSentByMe: true,
+		isForwarded: false
 	}
 });
 

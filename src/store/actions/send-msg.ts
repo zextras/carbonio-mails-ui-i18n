@@ -17,16 +17,16 @@ import { generateRequest } from '../editor-slice-utils';
 import { getConv } from './get-conv';
 import { getMsg } from './get-msg';
 
-export type SaveDraftParameters = {
+export type SendMsgParameters = {
 	editorId: string;
 }
 
-export const saveDraft = createAsyncThunk<any, SaveDraftParameters>(
-	'saveDraft',
+export const sendMsg = createAsyncThunk<any, SendMsgParameters>(
+	'sendMsg',
 	async ({ editorId }, { getState, dispatch }) => {
 		const editor = (getState() as StateType).editors.editors[editorId];
 		const resp = await network.soapFetch<SaveDraftRequest, SaveDraftResponse>(
-			'SaveDraft',
+			'SendMsg',
 			{
 				_jsns: 'urn:zimbraMail',
 				m: generateRequest(editor)
@@ -38,6 +38,7 @@ export const saveDraft = createAsyncThunk<any, SaveDraftParameters>(
 		if (resp?.m[0]?.cid) {
 			dispatch(getConv({ conversationId: resp.m[0].cid }));
 		}
+
 		return { resp, editor };
 	}
 );

@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 import React, {
-	useCallback, useMemo,
+	useCallback, useMemo, useEffect
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
