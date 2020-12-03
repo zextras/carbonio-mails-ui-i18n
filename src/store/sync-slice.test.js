@@ -9,8 +9,41 @@
  * *** END LICENSE BLOCK *****
  */
 
-describe('Hooks', () => {
-	test.skip('', () => {
-		const _ = 'Only to remove Eslint error "no-empty-function"';
+// jest.useFakeTimers();
+import { configureStore } from '@reduxjs/toolkit';
+import { network } from '@zextras/zapp-shell';
+import { performSync, startSync } from './sync-slice';
+import { sync } from './actions';
+import reducers from './reducers';
+
+describe('Sync Slice', () => {
+	test('Mocked handler for Sync', async () => {
+		const obj1 = await network.soapFetch('Sync', {
+			_jsns: 'urn:zimbraMail',
+		});
+		expect(JSON.stringify(obj1, null, 2)).toMatchSnapshot();
+		const obj2 = await network.soapFetch('Sync', {
+			_jsns: 'urn:zimbraMail',
+			token: '0'
+		});
+		expect(JSON.stringify(obj2, null, 2)).toMatchSnapshot();
+	});
+
+	test('Perform first sync', async () => {
+		const store = configureStore({
+			reducer: reducers
+		});
+
+		expect(store.getState().sync.status).toEqual('init');
+		expect(store.getState().sync.token).toBeUndefined();
+		await store.dispatch(
+			startSync()
+		);
+		expect(store.getState().sync.status).toEqual('idle');
+		expect(store.getState().sync.token).toEqual('0');
+		await store.dispatch(
+			sync()
+		);
+		expect(store.getState().sync.token).toEqual('1');
 	});
 });

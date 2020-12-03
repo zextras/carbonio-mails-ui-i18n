@@ -46,12 +46,8 @@ If the user expands a conversation the App dispatches a `searchConv` (`SearchCon
 participants, fragment and subject of the messages).
 
 If the user click on a conversation, the App will navigate to `${mail_address}/${folder_id}/?conversation={conversation_id}`.
-In this case the App dispatches the `getConv` (`GetConv` Soap request) to download the conversations (required if the user is
-navigating directly, so it's data are not already in the store) and the body of a message:
-- if the url contains the parameters `message` then that message will be downloaded,
-- else the oldest message in that conversation (`GetConv` have only the options: nothing, oldest, given_id or all). In this
-case the expanded message (the newer message in the conversation) is not included, so the App send also a `getMsg` to
-retrieve it.
+In this case the App dispatches the `getConv` (`GetConv` Soap request) that downloads the conversations and the most
+recent message in it.
 
 When the used expand a message the app dispatches the action `getMsg` (`GetMsg` Soap request), that downloads the body
 and the attachments of the message.

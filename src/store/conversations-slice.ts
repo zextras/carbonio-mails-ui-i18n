@@ -325,6 +325,7 @@ function getConvFulfilled(
 		const folder = state.cache[folderId];
 
 		delete folder.cache[conv.id];
+		delete folder.expandedStatus[conv.id];
 
 		// the conversation can have a newId, so i must remove all conversations
 		// whose messages appears in the received conversation
@@ -365,7 +366,6 @@ export const conversationsSlice = createSlice({
 	name: 'conversations',
 	initialState: {
 		currentFolder: '2',
-		pendingConversation: {},
 		cache: {
 			2: {
 				cache: {},
@@ -407,7 +407,7 @@ export function selectCurrentFolderCache({ conversations }: StateType):
 
 export function selectCurrentFolderExpandedStatus({ conversations }: StateType):
 	Record<string, string> {
-	return conversations.cache[conversations.currentFolder].expandedStatus;
+	return conversations.cache[conversations.currentFolder]?.expandedStatus;
 }
 
 export function selectCurrentFolder({ conversations }: StateType): string {
