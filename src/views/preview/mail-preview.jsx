@@ -34,6 +34,7 @@ import {
 	SnackbarManagerContext
 } from '@zextras/zapp-ui';
 
+import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import MailMessageRenderer from '../../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../../commons/utils';
@@ -135,7 +136,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 			arr.push(deleteMsg([message.id], t, dispatch));
 		}
 		return arr;
-	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, message.flagged]);
+	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch]);
 
 	const { folderId: currentFolderId } = useParams();
 	const folders = useSelector(selectFolders);
@@ -268,7 +269,7 @@ export default function MailPreview({ message, expanded }) {
 	const [open, setOpen] = useState(expanded);
 
 	const messageStatus = useSelector(selectMessagesStatus)[message.id];
-	const msg = useSelector(selectMessages)[message.id] || {};
+	const msg = useSelector(createSelector([selectMessages], (msgs) => msgs[message.id] ?? {}));
 
 	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
 

@@ -72,7 +72,7 @@ export const useCompositionData = (
 	}, [actionId, dispatch, draftId])
 	const [editorCreated, setEditorCreated] = useState(false);
 	useEffect(() => {
-		if (!editorCreated) {
+		if (!editorCreated && (original || actionMail)) {
 			dispatch(openEditor({
 				id: editorId,
 				original,
@@ -109,7 +109,6 @@ export const useCompositionData = (
 	);
 	const updateContactsToCb = useCallback(
 		(value: Array<PartialParticipant>): void => {
-			console.log(value)
 			dispatch(updateParticipants(
 				{
 					id: editorId,

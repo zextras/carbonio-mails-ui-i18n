@@ -42,7 +42,7 @@ function openEditorReducer(
 	state: EditorsStateType,
 	{ payload }: { payload: OpenEditorPayload }
 ): void {
-	const editor = emptyEditor(payload.original?.id ?? 'new', payload.accounts);
+	const editor = state.editors[payload.id] ?? emptyEditor(payload.original?.id ?? 'new', payload.accounts);
 	if (payload.action && payload.actionMail) {
 		switch (payload.action) {
 			case 'editAsNew': {
