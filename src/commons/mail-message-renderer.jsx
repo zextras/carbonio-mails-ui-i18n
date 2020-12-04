@@ -9,8 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { filter, forEach, get, reduce } from 'lodash';
+import React, {
+	useCallback, useEffect, useLayoutEffect, useRef
+} from 'react';
+import {
+	filter, forEach, get, reduce
+} from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
 
@@ -40,9 +44,9 @@ export function getBodyToRender(msg) {
 const _TextMessageRenderer = ({ body }) => {
 	const containerRef = useRef();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		containerRef.current.innerText = body.content;
-	}, [containerRef.current, body]);
+	}, [body]);
 
 	return (
 		<div style={{ fontFamily: 'monospace' }} ref={containerRef} />
@@ -52,9 +56,13 @@ const _TextMessageRenderer = ({ body }) => {
 const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 	const iframeRef = useRef();
 
+	const calculateHeight = useCallback(() => {
+		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
+	}, [iframeRef]);
+
 	useLayoutEffect(() => {
 		iframeRef.current.contentDocument.open();
-		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
+		iframeRef.current.contentDocument.write(body.content);
 		iframeRef.current.contentDocument.close();
 
 		const styleTag = document.createElement('style');
@@ -76,7 +84,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		`;
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
-		iframeRef.current.style.height = iframeRef.current.contentDocument.body.scrollHeight + 'px';
+		calculateHeight();
 
 		const imgMap = reduce(
 			parts,
@@ -111,7 +119,10 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		<iframe
 			title={msgId}
 			ref={iframeRef}
-			style={{ border: 'none', width: '100%', display: 'block' }}
+			onLoad={calculateHeight}
+			style={{
+				border: 'none', width: '100%', display: 'block', height: '0px'
+			}}
 		/>
 	);
 };
@@ -130,18 +141,17 @@ const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 		if (!mailMsg.read) {
 			onUnreadLoaded();
 		}
-	}, []);
+	}, [mailMsg.read, onUnreadLoaded]);
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;
 	}
 	if (body.contentType === 'text/html') {
 		return (<_HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
 	}
-	else if (body.contentType === 'text/plain') {
+	if (body.contentType === 'text/plain') {
 		return (<_TextMessageRenderer body={body} />);
 	}
-	else {
-		throw new Error(`Cannot render '${body.contentType}'`);
-	}
+
+	throw new Error(`Cannot render '${body.contentType}'`);
 };
 export default MailMessageRenderer;
