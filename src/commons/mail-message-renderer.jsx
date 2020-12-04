@@ -17,6 +17,7 @@ import {
 } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
+import ResizeObserver from 'resize-observer-polyfill';
 
 const _CI_REGEX = /^<(.*)>$/;
 const _CI_SRC_REGEX = /^cid:(.*)$/;
@@ -54,11 +55,14 @@ const _TextMessageRenderer = ({ body }) => {
 };
 
 const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
+	const divRef = useRef();
 	const iframeRef = useRef();
 
-	const calculateHeight = useCallback(() => {
-		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
-	}, [iframeRef]);
+	const calculateHeight = () => {
+		iframeRef.current.style.height = '0px';
+		const height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
+		iframeRef.current.style.height = height;
+	};
 
 	useLayoutEffect(() => {
 		iframeRef.current.contentDocument.open();
@@ -113,17 +117,24 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 				}
 			}
 		);
+
+		const resizeObserver = new ResizeObserver(calculateHeight);
+		resizeObserver.observe(divRef.current);
+
+		return () => resizeObserver.disconnect();
 	}, [body, parts, msgId]);
 
 	return (
-		<iframe
-			title={msgId}
-			ref={iframeRef}
-			onLoad={calculateHeight}
-			style={{
-				border: 'none', width: '100%', display: 'block', height: '0px'
-			}}
-		/>
+		<div ref={divRef}>
+			<iframe
+				title={msgId}
+				ref={iframeRef}
+				onLoad={calculateHeight}
+				style={{
+					border: 'none', width: '100%', display: 'block'
+				}}
+			/>
+		</div>
 	);
 };
 
