@@ -11,7 +11,7 @@
 
 import { msgAction } from '../store/actions';
 
-export function setMsgRead(ids, value, t, dispatch)  {
+export function setMsgRead(ids, value, t, dispatch) {
 	return {
 		icon: value ? 'EmailOutline' : 'EmailReadOutline',
 		label: value ? t('action.mark_as_unread') : t('action.mark_as_read'),

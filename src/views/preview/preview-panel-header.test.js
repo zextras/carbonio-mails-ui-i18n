@@ -11,9 +11,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react'
 import { testUtils } from '@zextras/zapp-shell';
-import userEvent from '@testing-library/user-event';
 import reducers from '../../store/reducers';
-import preloadedState from '../../mocks/states/folder-3-conversation-17736.json';
 import PreviewPanelHeader from './preview-panel-header';
 import { generateConversation } from '../../mocks/generators';
 import { normalizeConversationFromSoap } from '../../commons/normalize-conversation';

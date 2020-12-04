@@ -9,11 +9,11 @@
  * *** END LICENSE BLOCK *****
  */
 import React, {
-	useCallback, useMemo, useEffect
+	useCallback, useMemo
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-	isEmpty, reduce, trimStart, filter, map
+	isEmpty, reduce, trimStart, map
 } from 'lodash';
 import styled from 'styled-components';
 import { hooks } from '@zextras/zapp-shell';
@@ -21,7 +21,6 @@ import {
 	Avatar, Badge, Button, Container, Divider, Icon, IconButton, Padding, Row, Text,
 } from '@zextras/zapp-ui';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import MessageListItem from './message-list-item';
 import { getTimeLabel, participantToString } from '../../commons/utils';
 import { searchConv } from '../../store/actions';
@@ -85,7 +84,7 @@ export default function ConversationListItem({
 		if(!sender)
 			[sender] = conversation.participants;
 		return [sender.fullName || sender.name || sender.address || '.', sender.address];
-	}, [conversation.participants]);
+	}, [conversation.participants, targetParticipants]);
 	const toggleOpen = useCallback(
 		(e) => {
 			e.preventDefault();
@@ -94,7 +93,7 @@ export default function ConversationListItem({
 				updateDisplayData(index, conversation.id, { open: !displayData.open });
 			}
 		},
-		[conversation.id, displayData.open, index, updateDisplayData, isConversation],
+		[isConversation, dispatch, folderId, conversation.id, updateDisplayData, index, displayData.open],
 	);
 
 	const _onClick = useCallback((e) => {

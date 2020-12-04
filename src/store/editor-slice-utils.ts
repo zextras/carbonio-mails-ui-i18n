@@ -1,6 +1,6 @@
-import { dropRight, find, forEach, get, join, map, set, split } from 'lodash';
+import { find, map } from 'lodash';
 import { Account } from '@zextras/zapp-shell';
-import { DraftMailMessage, MailsEditor } from '../types/mails-editor';
+import { MailsEditor } from '../types/mails-editor';
 import { MailMessage, MailMessagePart } from '../types/mail-message';
 import { Participant, ParticipantRole } from '../types/participant';
 import { SoapDraftMessageObj, SoapEmailMessagePartObj } from '../types/soap';

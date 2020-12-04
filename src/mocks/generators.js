@@ -10,7 +10,7 @@
  */
 
 import faker from "faker";
-import { forEach, uniq, map, flatMap, cloneDeep, keysIn, filter, valuesIn } from 'lodash';
+import { forEach, uniq, map, flatMap, cloneDeep, keysIn } from 'lodash';
 // eslint-disable-next-line import/no-named-default
 import {default as preloadedState} from "./states/folder-3-conversation-17736.json";
 import { filterVisibleMessages, updateIncreasedConversation } from '../commons/update-conversation';

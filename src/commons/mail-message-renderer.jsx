@@ -84,7 +84,7 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		iframeRef.current.contentDocument.close();
 		const imgMap = reduce(
 			parts,
-			(r, v, k) => {
+			(r, v) => {
 				if (!_CI_REGEX.test(v.ci)) return r;
 				r[_CI_REGEX.exec(v.ci)[1]] = v;
 				return r;
@@ -96,7 +96,7 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 
 		forEach(
 			images,
-			(p, k) => {
+			(p) => {
 				if (p.hasAttribute('dfsrc')) {
 					p.setAttribute('src', p.getAttribute('dfsrc'));
 				}
@@ -139,6 +139,7 @@ const MailMessageRenderer = ({ mailMsg, setRead }) => {
 		if (!mailMsg.read) {
 			setRead();
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []); // only the first time a message is opened it will be set as read
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;

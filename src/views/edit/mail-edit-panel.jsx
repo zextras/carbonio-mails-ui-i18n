@@ -14,9 +14,6 @@ import EditView from './edit-view';
 const MailEditHeader = ({ folderId, header }) => {
 	const [ t ] = useTranslation();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
-	useEffect(() => {
-		console.log(t);
-	}, [t]);
 
 	const onClose = useCallback(
 		() => replaceHistory(`/folder/${folderId}`),

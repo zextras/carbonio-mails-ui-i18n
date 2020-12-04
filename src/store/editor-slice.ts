@@ -21,7 +21,6 @@ import { MailMessage } from '../types/mail-message';
 import { StateType, EditorsStateType, MailsEditorMap } from '../types/state';
 import { emptyEditor, extractBody, isHtml } from './editor-slice-utils';
 import { saveDraft } from './actions/save-draft';
-import { sendMsg } from './actions/send-msg';
 
 type OpenEditorPayload = {
 	id: string;

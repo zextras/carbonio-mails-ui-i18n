@@ -41,7 +41,6 @@ const getNewEditId = (id: string): string => {
 	counter += 1;
 	return `${id}-${counter}`;
 };
-const useChangeLog = (l: string, v: any): void => useEffect(() => console.log(`${l} changed: `, v), [l, v]);
 
 type PartialParticipant = Partial<Participant> & { address: string };
 

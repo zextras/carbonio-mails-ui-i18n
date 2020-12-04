@@ -38,7 +38,7 @@ export default function ConversationPreviewPanel() {
 		if(conversation)
 			fetch = messageId || conversation.messages[0].id || '1';
 		dispatch(getConv({ conversationId, fetch, folderId }));
-	}, [conversationId]);
+	}, [conversation, conversationId, dispatch, folderId, messageId]);
 
 	const messages = useMemo(() => {
 		if (conversation && conversationStatus === 'complete') {
@@ -51,7 +51,7 @@ export default function ConversationPreviewPanel() {
 			));
 		}
 		return [];
-	}, [conversation, messageId]);
+	}, [conversation, conversationStatus, messageId]);
 
 	return (
 		<Container

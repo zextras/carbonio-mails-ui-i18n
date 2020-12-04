@@ -15,7 +15,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
-	find, map, reduce, filter
+	find, map, filter
 } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import { useParams } from 'react-router-dom';
@@ -306,7 +306,7 @@ export default function MailPreview({ message, expanded }) {
 				/>
 			</Padding>
 		</Container>
-	), [aggregatedMessage.parts]);
+	), [aggregatedMessage, dispatch, message.id, msg.id, msg.read, t]);
 
 	return (
 		<Container
