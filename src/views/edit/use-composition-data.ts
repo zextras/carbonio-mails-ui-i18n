@@ -39,7 +39,7 @@ let counter = 0;
 
 const getNewEditId = (id: string): string => {
 	counter += 1;
-	return `${id}-${counter}`;
+	return `${id ?? 'new'}-${counter}`;
 };
 
 type PartialParticipant = Partial<Participant> & { address: string };
@@ -71,7 +71,7 @@ export const useCompositionData = (
 	}, [actionId, dispatch, draftId])
 	const [editorCreated, setEditorCreated] = useState(false);
 	useEffect(() => {
-		if (!editorCreated && (original || actionMail)) {
+		if (!editorCreated && (original || actionMail || draftId === 'new')) {
 			dispatch(openEditor({
 				id: editorId,
 				original,

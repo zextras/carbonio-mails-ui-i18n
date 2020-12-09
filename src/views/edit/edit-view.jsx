@@ -95,7 +95,7 @@ const EditorWrapper = styled.div`
 const getChipLabel = (participant) => participant.fullName ?? participant.name ?? participant.address;
 
 export default function EditView({
-	panel, editPanelId, folderId, setHeader
+	panel = false, editPanelId = 'new', folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
 	const [ t ] = useTranslation();
@@ -103,7 +103,7 @@ export default function EditView({
 	const {
 		compositionData,
 		actions
-	} = useCompositionData(editPanelId, panel || false, folderId, t);
+	} = useCompositionData(editPanelId, panel, folderId, t);
 
 	const [open, setOpen] = useState(false);
 
