@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import { IconButton, Row, SnackbarManagerContext } from '@zextras/zapp-ui';
+import { IconButton, Row, SnackbarManagerContext, Tooltip } from '@zextras/zapp-ui';
 import React, { useContext, useMemo } from 'react';
 import { map } from 'lodash';
 import styled from 'styled-components';
@@ -37,7 +37,7 @@ export default function MailHoverBar({ messageId, read, flag, folderId }) {
 	const [ t ] = useTranslation()
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const replaceHistory = hooks.useReplaceHistoryCallback();
-	const ids = [messageId];
+	const ids = useMemo(() => [messageId], [messageId]);
 
 
 	const actions = useMemo(() => {
@@ -77,21 +77,25 @@ export default function MailHoverBar({ messageId, read, flag, folderId }) {
 					moveMsgToTrash(ids, t, dispatch, createSnackbar),
 				]
 		}
-	}, [dispatch, folderId, messageId, ids, flag, read]);
+	}, [folderId, ids, t, dispatch, read, flag, createSnackbar, messageId, replaceHistory]);
 
 	return (
 		<ButtonBar orientation="horizontal">
 			{
 				map(actions, action =>
-					<IconButton
+					<Tooltip 
 						key={`${messageId}-${action.icon}`}
-						size="large"
-						icon={ action.icon }
-						onClick={(ev) => {
-							ev.preventDefault();
-							action.action();
-						}}
-					/>)
+						label={action.label}
+					>
+						<IconButton
+							size="medium"
+							icon={ action.icon }
+							onClick={(ev) => {
+								ev.preventDefault();
+								action.action();
+							}}
+						/>
+					</Tooltip>)
 			}
 		</ButtonBar>
 	);

@@ -12,7 +12,7 @@ import React from 'react';
 import { testUtils } from '@zextras/zapp-shell';
 import { Route } from 'react-router-dom';
 import { screen } from '@testing-library/react';
-import { filter, find, map, get } from 'lodash';
+import { filter, find } from 'lodash';
 import faker from "faker";
 import reducers from '../../store/reducers';
 
@@ -21,8 +21,7 @@ import { generateMessage, generateState } from '../../mocks/generators';
 import { normalizeMailMessageFromSoap } from '../../commons/normalize-message';
 import { getTimeLabel } from '../../commons/utils';
 import { selectFolders } from '../../store/folders-slice';
-import { selectMessages, selectMessagesStatus } from '../../store/messages-slice';
-import MessageListItem from '../folder/message-list-item';
+import { selectMessages } from '../../store/messages-slice';
 
 describe('MailPreview', () => {
 	test('Contains sender', async () => {

@@ -18,13 +18,13 @@ import { hooks } from '@zextras/zapp-shell';
 import { moveConversationToTrash, setConversationsFlag, setConversationsRead } from '../../ui-actions/conversation-actions';
 import { replyAllMsg, replyMsg } from '../../ui-actions/message-actions';
 
-export default function PreviewPanelActions({conversation, folderId}) {
+export default function PreviewPanelActions({ conversation, folderId }) {
 	const [ t ] = useTranslation();
 	const createSnackbar = useContext(SnackbarManagerContext);
 	const dispatch = useDispatch();
 	const replaceHistory = hooks.useReplaceHistoryCallback();
 
-	const ids = [conversation.id];
+	const ids = useMemo(() => [conversation.id], [conversation.id]);
 
 	const primaryActions = useMemo(() => {
 		switch (folderId) {
@@ -46,7 +46,7 @@ export default function PreviewPanelActions({conversation, folderId}) {
 					// editTagsMsg
 				];
 		}
-	}, [conversation, folderId]);
+	}, [conversation.messages, createSnackbar, dispatch, folderId, ids, replaceHistory, t]);
 
 	const secondaryActions = useMemo(() => {
 		switch (folderId) {
@@ -70,7 +70,7 @@ export default function PreviewPanelActions({conversation, folderId}) {
 					// editTagsMsg
 				];
 		}
-	}, [conversation, folderId, conversation.flagged, conversation.read]);
+	}, [folderId, ids, conversation.flagged, conversation.read, conversation.messages, t, dispatch, replaceHistory]);
 
 
 	return (

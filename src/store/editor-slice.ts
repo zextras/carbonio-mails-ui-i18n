@@ -41,11 +41,11 @@ function openEditorReducer(
 	state: EditorsStateType,
 	{ payload }: { payload: OpenEditorPayload }
 ): void {
-	const editor = emptyEditor(payload.original?.id ?? 'new', payload.accounts);
+	const editor = state.editors[payload.id] ?? emptyEditor(payload.original?.id ?? 'new', payload.accounts);
 	if (payload.action && payload.actionMail) {
 		switch (payload.action) {
 			case 'editAsNew': {
-				editor.draft.subject = payload.actionMail.subject;
+				editor.draft.subject = payload.actionMail.subject ?? '';
 				const body = extractBody(payload.actionMail);
 				editor.richText = isHtml(payload.actionMail.parts);
 				editor.text = body.text;
@@ -73,7 +73,7 @@ function openEditorReducer(
 						(c: Participant): Participant => ({ ...c, type: ParticipantRole.TO })
 					)
 				);
-				if (payload.actionMail.subject.startsWith('Re:')) editor.draft.subject = `${payload.actionMail.subject}`;
+				if (payload.actionMail.subject?.startsWith('Re:')) editor.draft.subject = `${payload.actionMail.subject}`;
 				else editor.draft.subject = `Re: ${payload.actionMail.subject}`;
 				break;
 			}
@@ -96,7 +96,7 @@ function openEditorReducer(
 					...map(contactTo, (c) => ({ ...c, type: ParticipantRole.TO })),
 					...map(contactCc, (c) => ({ ...c, type: ParticipantRole.CARBON_COPY }))
 				);
-				if (payload.actionMail.subject.startsWith('Re:')) editor.draft.subject = `${payload.actionMail.subject}`;
+				if (payload.actionMail.subject?.startsWith('Re:')) editor.draft.subject = `${payload.actionMail.subject}`;
 				else editor.draft.subject = `Re: ${payload.actionMail.subject}`;
 				break;
 			}
@@ -152,11 +152,16 @@ function openEditorReducer(
 		const { text, html } = extractBody(payload.original);
 		editor.html = html;
 		editor.text = text;
-		editor.draft = payload.original;
+		const draft = {
+			...payload.original,
+			participants: payload.original.participants ?? [],
+			subject: payload.original.subject ?? ''
+		};
+		editor.draft = draft;
 	}
-	editor.to = map(filter(editor.draft.participants, ['type', ParticipantRole.TO]), (c) => ({ value: c.address }));
-	editor.cc = map(filter(editor.draft.participants, ['type', ParticipantRole.CARBON_COPY]), (c) => ({ value: c.address }));
-	editor.bcc = map(filter(editor.draft.participants, ['type', ParticipantRole.BLIND_CARBON_COPY]), (c) => ({ value: c.address }));
+	editor.to = filter(editor.draft.participants, ['type', ParticipantRole.TO]);
+	editor.cc = filter(editor.draft.participants, ['type', ParticipantRole.CARBON_COPY]);
+	editor.bcc = filter(editor.draft.participants, ['type', ParticipantRole.BLIND_CARBON_COPY]);
 	state.editors[payload.id] = editor;
 }
 
@@ -212,7 +217,7 @@ function updateBodyReducer(
 type UpdateParticipantsPayload = {
 	id: string;
 	type: 'to' | 'cc' | 'bcc';
-	contacts: Array<{ value: string }>;
+	contacts: Array<Participant>;
 }
 
 function updateParticipantsReducer(
@@ -222,17 +227,9 @@ function updateParticipantsReducer(
 	state.editors[payload.id][payload.type] = payload.contacts;
 }
 
-type SaveDraftFulfilledPayload = {
-	send: boolean;
-	resp: any;
-	editorId: string;
-}
-
-function saveDraftFulfilledReducer(
-	state: EditorsStateType,
-	{ payload }: { payload: SaveDraftFulFilledPayload }
-): void {
-	console.log(payload);
+function saveDraftFulfilledReducer(state: any, action: any): void {
+	state.editors[action.meta.arg.editorId].id = action.payload.resp.m[0].id;
+	state.editors[action.meta.arg.editorId].draft.id = action.payload.resp.m[0].id;
 }
 
 export const editorsSlice = createSlice({
@@ -249,8 +246,8 @@ export const editorsSlice = createSlice({
 		updateParticipants: produce(updateParticipantsReducer),
 		updateBody: produce(updateBodyReducer),
 	},
-	extraReducers: {
-		[saveDraft.fulfilled]: produce(saveDraftFulfilledReducer),
+	extraReducers: (builder) => {
+		builder.addCase(saveDraft.fulfilled, produce(saveDraftFulfilledReducer));
 	},
 });
 

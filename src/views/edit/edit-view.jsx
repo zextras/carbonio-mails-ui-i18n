@@ -23,8 +23,7 @@ import {
 	EmailComposerInput,
 	IconButton,
 	IconCheckbox,
-	Padding,
-	RichTextEditor,
+	Padding, RichTextEditor,
 	Row, SnackbarManager,
 	Tooltip,
 } from '@zextras/zapp-ui';
@@ -93,8 +92,10 @@ const EditorWrapper = styled.div`
 	}
 `;
 
+const getChipLabel = (participant) => participant.fullName ?? participant.name ?? participant.address;
+
 export default function EditView({
-	panel, editPanelId, folderId, setHeader
+	panel = false, editPanelId = 'new', folderId, setHeader
 }) {
 	const [html, setHtml] = useState('');
 	const [ t ] = useTranslation();
@@ -102,7 +103,7 @@ export default function EditView({
 	const {
 		compositionData,
 		actions
-	} = useCompositionData(editPanelId, panel || false, folderId, t);
+	} = useCompositionData(editPanelId, panel, folderId, t);
 
 	const [open, setOpen] = useState(false);
 
@@ -123,7 +124,7 @@ export default function EditView({
 		setHtml(change[1]);
 		actions.updateBodyCb(change);
 	}, [actions]);
-
+	
 	if (!compositionData) {
 		return null;
 	}
@@ -180,23 +181,29 @@ export default function EditView({
 							<Container>
 								<ChipInput
 									placeholder={t('placeholder.to')}
-									onChange={(value) => actions.updateContactsCb('to', value)}
-									value={compositionData.to ?? []}
+									onChange={actions.updateContactsToCb}
+									defaultValue={compositionData.to ?? []}
+									valueKey="address"
+									getChipLabel={getChipLabel}
 								/>
 								<Divider />
 								<Collapse orientation="vertical" crossSize="100%" open={open}>
 									<ChipInput
 										placeholderType="inline"
 										placeholder={t('placeholder.cc')}
-										onChange={(value) => actions.updateContactsCb('cc', value)}
-										value={compositionData.cc ?? []}
+										onChange={actions.updateContactsCcCb}
+										defaultValue={compositionData.cc ?? []}
+										valueKey="address"
+										getChipLabel={getChipLabel}
 									/>
 									<Divider />
 									<ChipInput
 										placeholderType="inline"
 										placeholder={t('placeholder.bcc')}
-										onChange={(value) => actions.updateContactsCb('bcc', value)}
-										value={compositionData.bcc ?? []}
+										onChange={actions.updateContactsBccCb}
+										defaultValue={compositionData.bcc ?? []}
+										valueKey="address"
+										getChipLabel={getChipLabel}
 									/>
 									<Divider />
 								</Collapse>
@@ -223,19 +230,17 @@ export default function EditView({
 							</EditorWrapper>
 						)
 						: (
-							(
-								<TextArea
-									label=""
-									value={compositionData?.text}
-									onChange={(ev) => {
-										// eslint-disable-next-line no-param-reassign
-										ev.target.style.height = 'auto';
-										// eslint-disable-next-line no-param-reassign
-										ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
-										actions.updateBodyCb([ev.target.value, ev.target.value]);
-									}}
-								/>
-							)
+							<TextArea
+								label=""
+								value={compositionData?.text}
+								onChange={(ev) => {
+								// eslint-disable-next-line no-param-reassign
+									ev.target.style.height = 'auto';
+									// eslint-disable-next-line no-param-reassign
+									ev.target.style.height = `${25 + ev.target.scrollHeight}px`;
+									actions.updateBodyCb([ev.target.value, ev.target.value]);
+								}}
+							/>
 						)}
 					<Divider />
 				</Container>

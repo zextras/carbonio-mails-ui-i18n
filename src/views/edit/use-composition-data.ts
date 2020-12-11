@@ -12,11 +12,13 @@
 import {
 	useCallback,
 	useEffect,
-	useMemo
+	useMemo,
+	useState
 } from 'react';
 import { hooks } from '@zextras/zapp-shell';
 import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+import { map } from 'lodash';
 import { getMsg } from '../../store/actions';
 import { saveDraft } from '../../store/actions/save-draft';
 import { selectMessages } from '../../store/messages-slice';
@@ -30,13 +32,17 @@ import {
 	updateBody,
 	openEditor
 } from '../../store/editor-slice';
+import { sendMsg } from '../../store/actions/send-msg';
+import { Participant, ParticipantRole } from '../../types/participant';
 
 let counter = 0;
 
 const getNewEditId = (id: string): string => {
 	counter += 1;
-	return `${id}-${counter}`;
+	return `${id ?? 'new'}-${counter}`;
 };
+
+type PartialParticipant = Partial<Participant> & { address: string };
 
 export const useCompositionData = (
 	draftId: string,
@@ -55,26 +61,34 @@ export const useCompositionData = (
 	const editorId = useMemo(() => getNewEditId(draftId), [draftId]);
 	const original = messages[draftId];
 	const actionMail = messages[actionId || ''];
-
-	dispatch(getMsg({msgId: draftId}));
-	if(actionId) dispatch(getMsg({msgId: actionId}));
-
 	useEffect(() => {
-		dispatch(openEditor({
-			id: editorId,
-			original,
-			action,
-			actionMail,
-			accounts,
-			labels: {
-				to: t('label.to'),
-				from: t('label.from'),
-				cc: t('label.cc'),
-				subject: t('label.subject'),
-				sent: t('label.sent')
-			}
-		}));
-	}, [accounts, action, actionMail, dispatch, editorId, original, t]);
+		if (draftId !== 'new') {
+			dispatch(getMsg({msgId: draftId}));
+		}
+		if(actionId) {
+			dispatch(getMsg({msgId: actionId}));
+		}
+	}, [actionId, dispatch, draftId])
+	const [editorCreated, setEditorCreated] = useState(false);
+	useEffect(() => {
+		if (!editorCreated && (original || actionMail || draftId === 'new')) {
+			dispatch(openEditor({
+				id: editorId,
+				original,
+				action,
+				actionMail,
+				accounts,
+				labels: {
+					to: t('label.to'),
+					from: t('label.from'),
+					cc: t('label.cc'),
+					subject: t('label.subject'),
+					sent: t('label.sent')
+				}
+			}));
+			setEditorCreated(true);
+		}
+	}, [accounts, action, actionMail, dispatch, editorCreated, editorId, original, t]);
 
 	const compositionData = useSelector(
 		createSelector([selectEditors], (editors) => editors[editorId])
@@ -92,9 +106,57 @@ export const useCompositionData = (
 		},
 		[dispatch, editorId]
 	);
-	const updateContactsCb = useCallback(
-		(type: 'to' | 'cc' | 'bcc', value: Array<{ value: string }>): void => {
-			dispatch(updateParticipants({ id: editorId, type, contacts: value }));
+	const updateContactsToCb = useCallback(
+		(value: Array<PartialParticipant>): void => {
+			dispatch(updateParticipants(
+				{
+					id: editorId,
+					type: 'to',
+					contacts: map(
+						value,
+						(participant: PartialParticipant): Participant => ({
+							...participant,
+							type: ParticipantRole.TO
+						}) as Participant
+					)
+				}
+			));
+		},
+		[dispatch, editorId]
+	);
+	const updateContactsCcCb = useCallback(
+		(value: Array<PartialParticipant>): void => {
+			dispatch(updateParticipants(
+				{
+					id: editorId,
+					type: 'cc',
+					contacts: map(
+						value,
+						(participant: PartialParticipant): Participant => ({
+							...participant,
+							type: ParticipantRole.CARBON_COPY
+						}) as Participant
+					)
+				}
+			));
+		},
+		[dispatch, editorId]
+	);
+	const updateContactsBccCb = useCallback(
+		(value: Array<PartialParticipant>): void => {
+			dispatch(updateParticipants(
+				{
+					id: editorId,
+					type: 'bcc',
+					contacts: map(
+						value,
+						(participant: PartialParticipant): Participant => ({
+							...participant,
+							type: ParticipantRole.BLIND_CARBON_COPY
+						}) as Participant
+					)
+				}
+			));
 		},
 		[dispatch, editorId]
 	);
@@ -118,14 +180,13 @@ export const useCompositionData = (
 	);
 	const saveDraftCb = useCallback(
 		() => {
-			dispatch(saveDraft({ editorId, send: false }));
+			dispatch(saveDraft({ editorId }));
 		},
 		[dispatch, editorId]
 	);
 	const sendMailCb = useCallback(
 		() => {
-			dispatch(saveDraft({ editorId, send: true }));
-			console.log('navigation');
+			dispatch(sendMsg({ editorId }));
 			if (panel) {
 				replaceHistory(`/folder/${folderId}/`);
 			}
@@ -139,7 +200,9 @@ export const useCompositionData = (
 		compositionData,
 		actions: {
 			updateSubjectCb,
-			updateContactsCb,
+			updateContactsToCb,
+			updateContactsCcCb,
+			updateContactsBccCb,
 			updateBodyCb,
 			toggleRichTextCb,
 			toggleUrgentCb,

@@ -10,6 +10,7 @@
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { VariableSizeList } from 'react-window';
@@ -65,7 +66,10 @@ const ConversationList = ({ folderId }) => {
 	const listRef = useRef();
 
 	const folder = useSelector(selectFolders)[folderId];
-	const conversations = useSelector(selectConversationList) || [];
+	const conversations = useSelector(createSelector(
+		[selectConversationList],
+		(conversationList) => conversationList ?? [])
+	);
 
 	const status = useSelector(selectConversationStatus);
 	const hasMore = status === 'hasMore';
@@ -105,7 +109,7 @@ const ConversationList = ({ folderId }) => {
 				/>
 			);
 		},
-		[conversations, displayData, folderId],
+		[conversations, displayData, folderId, updateDisplayData],
 	);
 
 	const calcItemSize = useCallback(

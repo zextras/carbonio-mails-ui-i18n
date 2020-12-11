@@ -15,7 +15,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
-	find, map, reduce, filter
+	find, map, filter
 } from 'lodash';
 import { hooks } from '@zextras/zapp-shell';
 import { useParams } from 'react-router-dom';
@@ -34,6 +34,7 @@ import {
 	SnackbarManagerContext
 } from '@zextras/zapp-ui';
 
+import { createSelector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import MailMessageRenderer from '../../commons/mail-message-renderer';
 import { getTimeLabel, participantToString } from '../../commons/utils';
@@ -118,7 +119,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 		const arr = [];
 
 		if (message.parent === '6') {	// DRAFT
-			arr.push(editDraft({ replaceHistory, t, messageId: message.id, folderId }));
+			arr.push(editDraft(message.id, folderId , t, replaceHistory));
 
 		}
 		if (message.parent === '2' || message.parent === '5') { // INBOX OR SENT
@@ -135,7 +136,7 @@ function MailPreviewBlock({ message, open, onClick }) {
 			arr.push(deleteMsg([message.id], t, dispatch));
 		}
 		return arr;
-	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch, message.flagged]);
+	}, [message, t, replaceHistory, folderId, createSnackbar, dispatch]);
 
 	const { folderId: currentFolderId } = useParams();
 	const folders = useSelector(selectFolders);
@@ -268,7 +269,7 @@ export default function MailPreview({ message, expanded }) {
 	const [open, setOpen] = useState(expanded);
 
 	const messageStatus = useSelector(selectMessagesStatus)[message.id];
-	const msg = useSelector(selectMessages)[message.id] || {};
+	const msg = useSelector(createSelector([selectMessages], (msgs) => msgs[message.id] ?? {}));
 
 	const aggregatedMessage = useMemo(() => ({ ...message, ...msg }), [message, msg]);
 
@@ -305,7 +306,7 @@ export default function MailPreview({ message, expanded }) {
 				/>
 			</Padding>
 		</Container>
-	), [aggregatedMessage.parts]);
+	), [aggregatedMessage, dispatch, message.id, msg.id, msg.read, t]);
 
 	return (
 		<Container
