@@ -1,5 +1,58 @@
 {
+    "This message has no text content": "",
+    "action": {
+        "delete": "Delete",
+        "edit_as_draft": "Edit as draft",
+        "edit_as_new": "Edit as new",
+        "flag": "Add flag",
+        "forward": "Forward",
+        "mark_as_read": "Mark as read",
+        "mark_as_unread": "Mark as unread",
+        "reply": "Reply",
+        "reply_all": "Reply all",
+        "unflag": "Remove flag"
+    },
+    "header": {
+        "edit_draft": "Edit draft",
+        "no_subject": "No subject"
+    },
+    "label": {
+        "attachment": "Attachment",
+        "attachment_plural": "{{count}} Attachments",
+        "bcc": "BCC:",
+        "cc": "CC:",
+        "download": "Download",
+        "download_plural": "Download all",
+        "from": "From:",
+        "me": "Me",
+        "no_subject": "(No subject)",
+        "save": "Save",
+        "send": "Send",
+        "sent": "Sent",
+        "show": "Show",
+        "show_plural": "Show all",
+        "subject": "Subject:",
+        "to": "To:"
+    },
     "messages": {
-        "message_no_text_content": "This message has no text content"
+        "no_subject": "No Subject.",
+        "snackbar": {
+            "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
+            "conversation_deleted": "Conversation successfully deleted.",
+            "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
+            "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
+            "message_deleted": "Message successfully deleted.",
+            "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
+        }
+    },
+    "placeholder": {
+        "bcc": "BCC",
+        "cc": "CC",
+        "subject": "Subject",
+        "to": "To"
+    },
+    "tooltip": {
+        "enable_disable_rich_text": "Enable/Disable rich text editor",
+        "enable_disable_urgent": "Enable/Disable urgent"
     }
 }
