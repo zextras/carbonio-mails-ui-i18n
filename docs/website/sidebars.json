@@ -4,7 +4,8 @@
       "architecture/architecture",
     ],
     "Main": [
-      "main"
+      "main",
+      "CHANGELOG"
     ]
   }
 }
