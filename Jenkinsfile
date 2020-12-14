@@ -40,7 +40,7 @@ def executeNpmLogin() {
 		).trim()
 		sh(
 				script: """
-				    touch .npmrc;
+					touch .npmrc;
 					echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
 					""",
 				returnStdout: true
@@ -264,17 +264,17 @@ pipeline {
 					}
 				}
 				stage('Linting') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v2'
-                        }
-                    }
-                    steps {
-                        executeNpmLogin()
+					agent {
+						node {
+							label 'nodejs-agent-v2'
+						}
+					}
+					steps {
+						executeNpmLogin()
 						nodeCmd 'npm install'
 						nodeCmd 'npm run lint'
-                    }
-                }
+					}
+				}
 			}
 		}
 
@@ -356,35 +356,53 @@ pipeline {
 			}
 		}
 
+		stage('Version Bump for DEB/RPM') {
+			steps {
+				script {
+					currentVersion = getCurrentVersion()
+					containerId1 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} ubuntu:18.04').trim()
+				}
+				sh "docker cp ${WORKSPACE} ${containerId1}:/u"
+				sh "docker exec -t ${containerId1} bash -c \"cd /u; ./build-pkgs.sh bump v${currentVersion} ${BRANCH_NAME} mails\""
+				sh "docker cp ${containerId1}:/u/. ${WORKSPACE}"
+
+				// BEGIN: Stashes for deb and rpm generation
+				stash(
+					includes: ".git,build-pkgs.sh,*.spec,debian/**",
+					name: "debrpm_workspace"
+				)
+				// END: Stashes for deb and rpm generation
+			}
+			post {
+				always {
+					sh "docker kill ${containerId1}"
+				}
+			}
+		}
+
 		stage('Build DEB/RPM packages') {
 			parallel {
-				stage('Ubuntu') {
+				stage("Ubuntu") {
 					agent {
 						node {
-							label 'base-agent-v1'
+							label "base-agent-v1"
 						}
 					}
-					when {
-						beforeAgent true
-						not {
-							allOf {
-								expression { BRANCH_NAME ==~ /(devel)/ }
-								environment name: 'COMMIT_PARENTS_COUNT', value: '2'
-							}
-						}
+					options {
+						skipDefaultCheckout(true)
 					}
 					steps {
-						unstash 'zimlet_package'
+						unstash "zimlet_package"
+						unstash "debrpm_workspace"
 						script {
-							env.CONTAINER1_ID = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} ubuntu:18.04').trim()
+							containerId2 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} ubuntu:18.04').trim()
 						}
-						sh "docker cp ${WORKSPACE} ${env.CONTAINER1_ID}:/u"
-						sh "docker exec -t ${env.CONTAINER1_ID} bash -c \"cd /u; ./build-pkgs.sh mails\""
-						sh "docker cp ${env.CONTAINER1_ID}:/u/artifacts/. ${WORKSPACE}"
+						sh "docker cp ${WORKSPACE} ${containerId2}:/u"
+						sh "docker exec -t ${containerId2} bash -c \"cd /u; ./build-pkgs.sh build mails\""
+						sh "docker cp ${containerId2}:/u/artifacts/. ${WORKSPACE}"
 						script {
 							def server = Artifactory.server 'zextras-artifactory'
 							def buildInfo = Artifactory.newBuildInfo()
-
 							def uploadSpec = """{
 								"files": [
 									{
@@ -403,37 +421,31 @@ pipeline {
 							archiveArtifacts artifacts: "*.deb", fingerprint: true
 						}
 						always {
-							sh "docker kill ${env.CONTAINER1_ID}"
+							sh "docker kill ${containerId2}"
 						}
 					}
 				}
-				stage('CentOS') {
+				stage("CentOS") {
 					agent {
 						node {
-							label 'base-agent-v1'
+							label "base-agent-v1"
 						}
 					}
-					when {
-						beforeAgent true
-						not {
-							allOf {
-								expression { BRANCH_NAME ==~ /(devel)/ }
-								environment name: 'COMMIT_PARENTS_COUNT', value: '2'
-							}
-						}
+					options {
+						skipDefaultCheckout(true)
 					}
 					steps {
-						unstash 'zimlet_package'
+						unstash "zimlet_package"
+						unstash "debrpm_workspace"
 						script {
-							env.CONTAINER2_ID = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} centos:7').trim()
+							containerId3 = sh(returnStdout: true, script: 'docker run -dt ${NETWORK_OPTS} centos:7').trim()
 						}
-						sh "docker cp ${WORKSPACE} ${env.CONTAINER2_ID}:/r"
-						sh "docker exec -t ${env.CONTAINER2_ID} bash -c \"cd /r; ./build-pkgs.sh mails\""
-						sh "docker cp ${env.CONTAINER2_ID}:/r/artifacts/. ${WORKSPACE}"
+						sh "docker cp ${WORKSPACE} ${containerId3}:/r"
+						sh "docker exec -t ${containerId3} bash -c \"cd /r; ./build-pkgs.sh build mails\""
+						sh "docker cp ${containerId3}:/r/artifacts/. ${WORKSPACE}"
 						script {
 							def server = Artifactory.server 'zextras-artifactory'
 							def buildInfo = Artifactory.newBuildInfo()
-
 							def uploadSpec = """{
 								"files": [
 									{
@@ -452,7 +464,7 @@ pipeline {
 							archiveArtifacts artifacts: "*.rpm", fingerprint: true
 						}
 						always {
-							sh "docker kill ${env.CONTAINER2_ID}"
+							sh "docker kill ${containerId3}"
 						}
 					}
 				}
