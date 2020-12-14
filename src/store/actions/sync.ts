@@ -37,7 +37,7 @@ export type SyncDeletedResult = {
 
 export function findFolders(folder: any): MailsFolderMap {
 	const toRet: MailsFolderMap = {};
-	if ((folder.view && folder.view === 'message') || folder.id === '3') {
+	if ((folder.view && folder.view === 'message' && folder.id !== '14') || folder.id === '3') {
 		toRet[folder.id] = {
 			id: folder.id,
 			uuid: folder.uuid,

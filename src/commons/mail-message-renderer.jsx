@@ -9,7 +9,7 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import {
 	filter, forEach, get, reduce
 } from 'lodash';
@@ -39,10 +39,10 @@ export function getBodyToRender(msg) {
 	return [body, (parent && parent.parts) ? filter(parent.parts, (p) => !!p.ci) : []];
 }
 
-const TextMessageRenderer = ({ body }) => {
+const _TextMessageRenderer = ({ body }) => {
 	const containerRef = useRef();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		containerRef.current.innerText = body.content;
 	}, [body]);
 
@@ -51,10 +51,20 @@ const TextMessageRenderer = ({ body }) => {
 	);
 };
 
-const HtmlMessageRenderer = ({ msgId, body, parts }) => {
+const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
+	const divRef = useRef();
 	const iframeRef = useRef();
-	const onIframeLoad = useCallback((ev) => {
-		ev.persist();
+
+	const calculateHeight = () => {
+		iframeRef.current.style.height = '0px';
+		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
+	};
+
+	useLayoutEffect(() => {
+		iframeRef.current.contentDocument.open();
+		iframeRef.current.contentDocument.write(body.content);
+		iframeRef.current.contentDocument.close();
+
 		const styleTag = document.createElement('style');
 		const styles = `
 			body {
@@ -74,17 +84,11 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 		`;
 		styleTag.textContent = styles;
 		iframeRef.current.contentDocument.head.append(styleTag);
-		iframeRef.current.style.display = 'block';
-		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.querySelector('div')?.scrollHeight}px`;
-	}, []);
+		calculateHeight();
 
-	useEffect(() => {
-		iframeRef.current.contentDocument.open();
-		iframeRef.current.contentDocument.write(`<div>${body.content}</div>`);
-		iframeRef.current.contentDocument.close();
 		const imgMap = reduce(
 			parts,
-			(r, v) => {
+			(r, v, k) => {
 				if (!_CI_REGEX.test(v.ci)) return r;
 				r[_CI_REGEX.exec(v.ci)[1]] = v;
 				return r;
@@ -102,53 +106,57 @@ const HtmlMessageRenderer = ({ msgId, body, parts }) => {
 				}
 				if (!_CI_SRC_REGEX.test(p.src)) return;
 				const ci = _CI_SRC_REGEX.exec(p.getAttribute('src'))[1];
-				if (Object.prototype.hasOwnProperty.call(imgMap, ci)) {
+				if (imgMap[ci]) {
 					const part = imgMap[ci];
 					p.setAttribute('pnsrc', p.getAttribute('src'));
 					p.setAttribute('src', `/service/home/~/?auth=co&id=${msgId}&part=${part.name}`);
 				}
 			}
 		);
+
+		const resizeObserver = new ResizeObserver(calculateHeight);
+		resizeObserver.observe(divRef.current);
+
+		return () => resizeObserver.disconnect();
 	}, [body, parts, msgId]);
 
 	return (
-		<iframe
-			title={msgId}
-			ref={iframeRef}
-			onLoad={onIframeLoad}
-			style={{ border: 'none', width: '100%', display: 'none' }}
-		/>
+		<div ref={divRef}>
+			<iframe
+				title={msgId}
+				ref={iframeRef}
+				onLoad={calculateHeight}
+				style={{
+					border: 'none', width: '100%', display: 'block'
+				}}
+			/>
+		</div>
 	);
 };
 
 const EmptyBody = () => {
-	const [ t ] = useTranslation();
+	const { t } = useTranslation();
 
 	return (
-		<Container padding={{ bottom: 'medium' }}>
-			<Text>
-				{ `(${t('messages.message_no_text_content')}.)` }
-			</Text>
-		</Container>
+		<Container padding={{ bottom: 'medium' }}><Text>{ `(${t('This message has no text content')}.)` }</Text></Container>
 	);
 };
 
-const MailMessageRenderer = ({ mailMsg, setRead }) => {
+const MailMessageRenderer = ({ mailMsg, onUnreadLoaded }) => {
 	const [body, parts] = getBodyToRender(mailMsg);
 	useEffect(() => {
 		if (!mailMsg.read) {
-			setRead();
+			onUnreadLoaded();
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []); // only the first time a message is opened it will be set as read
+	}, [mailMsg.read, onUnreadLoaded]);
 	if (typeof mailMsg.fragment === 'undefined') {
 		return <EmptyBody />;
 	}
 	if (body.contentType === 'text/html') {
-		return (<HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
+		return (<_HtmlMessageRenderer msgId={mailMsg.id} body={body} parts={parts} />);
 	}
 	if (body.contentType === 'text/plain') {
-		return (<TextMessageRenderer body={body} />);
+		return (<_TextMessageRenderer body={body} />);
 	}
 
 	throw new Error(`Cannot render '${body.contentType}'`);

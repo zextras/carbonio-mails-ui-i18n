@@ -79,19 +79,19 @@ function MessageContactsList({ message }) {
 		<ContactsContainer>
 			{ toContacts.length > 0 && (
 				<ContactText color="gray1" size="small" data-testid="ToParticipants">
-					{ `${t('label.to')}: ` }
+					{ `${t('label.to')} ` }
 					{ map(toContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ ccContacts.length > 0 && (
 				<ContactText color="gray1" size="small" data-testid="CcParticipants">
-					{ `${t('label.cc')}: ` }
+					{ `${t('label.cc')} ` }
 					{ map(ccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
 			{ bccContacts.length > 0 && (
 				<ContactText color="gray1" size="small">
-					{ t('label.bcc') }
+					{ `${t('label.bcc')} ` }
 					{ map(bccContacts, (contact) => participantToString(contact, t, accounts)).join(', ') }
 				</ContactText>
 			)}
