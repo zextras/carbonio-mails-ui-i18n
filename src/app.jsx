@@ -11,52 +11,59 @@
 
 import React, { lazy, useEffect } from 'react';
 import {
-	setRoutes,
-	setCreateOptions,
-	setAppContext,
-	network
+	setCreateOptions, setRoutes, store
 } from '@zextras/zapp-shell';
-import { MailsDb } from './db/mails-db';
-import { MailsDbSoapSyncProtocol } from './db/mails-db-soap-sync-protocol';
-import mainMenuItems from './main-menu-items';
+import { combineReducers } from '@reduxjs/toolkit';
+import { report } from './commons/report-exception';
+import  { syncSliceReducer, startSync } from './store/sync-slice';
+import { folderSliceReducer } from './store/folders-slice';
+import { editorSliceRecucer } from './store/editor-slice';
+import { SetMainMenuItems } from './views/secondary-bar/set-main-menu-items';
+import { conversationsSliceReducer } from './store/conversations-slice';
+import { messageSliceReducer } from './store/messages-slice';
 
-const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './folder/mails-folder-view')));
-const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './edit/edit-view')));
+const lazyFolderView = lazy(() => (import(/* webpackChunkName: "mails-folder-view" */ './views/folder/mails-folder-view')));
+const lazyEditView = lazy(() => (import(/* webpackChunkName: "mails-edit-view" */ './views/edit/edit-view')));
 
 export default function App() {
 	console.log('Hello from mails');
 
+	window.onerror = (msg, url, lineNo, columnNo, error) => {
+		report(error);
+	};
+
 	useEffect(() => {
-		const db = new MailsDb(network.soapFetch);
-		const syncProtocol = new MailsDbSoapSyncProtocol(db, network.soapFetch);
-		db.registerSyncProtocol('soap-mails', syncProtocol);
-		db.syncable.connect('soap-mails', '/service/soap/SyncRequest');
+		store.setReducer(
+			combineReducers({
+				folders: folderSliceReducer,
+				sync: syncSliceReducer,
+				conversations: conversationsSliceReducer,
+				editors: editorSliceRecucer,
+				messages: messageSliceReducer
+			}),
+		);
+	}, []);
 
-		setAppContext({
-			db
-		});
-
-		db
-			.observe(() => db.folders.where({ parent: '1' }).sortBy('name'))
-			.subscribe((folders) => mainMenuItems(folders, db));
+	useEffect(() => {
+		store.store.dispatch(startSync());
 
 		setRoutes([
 			{
 				route: '/folder/:folderId',
-				view: lazyFolderView
+				view: lazyFolderView,
 			},
 			{
 				route: '/',
-				view: lazyFolderView
+				view: lazyFolderView,
 			},
 			{
 				route: '/edit/:id',
-				view: lazyEditView
+				view: lazyEditView,
 			},
 			{
 				route: '/new',
-				view: lazyEditView
-			}
+				view: lazyEditView,
+			},
 		]);
 
 		setCreateOptions([{
@@ -68,9 +75,11 @@ export default function App() {
 					const splittedLocation = window.top.location.pathname.split('/folder');
 					return `${splittedLocation[1] ? `/folder${splittedLocation[1]}` : ''}?edit=new`;
 				},
-			}
+			},
 		}]);
 	}, []);
 
-	return null;
+	return (
+		<SetMainMenuItems />
+	);
 }

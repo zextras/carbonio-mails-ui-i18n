@@ -9,15 +9,12 @@
  * *** END LICENSE BLOCK *****
  */
 
-import React, {
-	useCallback, useEffect, useLayoutEffect, useRef
-} from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import {
 	filter, forEach, get, reduce
 } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Container, Text } from '@zextras/zapp-ui';
-import ResizeObserver from 'resize-observer-polyfill';
 
 const _CI_REGEX = /^<(.*)>$/;
 const _CI_SRC_REGEX = /^cid:(.*)$/;
@@ -60,8 +57,7 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 
 	const calculateHeight = () => {
 		iframeRef.current.style.height = '0px';
-		const height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
-		iframeRef.current.style.height = height;
+		iframeRef.current.style.height = `${iframeRef.current.contentDocument.body.scrollHeight}px`;
 	};
 
 	useLayoutEffect(() => {
@@ -104,13 +100,13 @@ const _HtmlMessageRenderer = ({ msgId, body, parts }) => {
 
 		forEach(
 			images,
-			(p, k) => {
+			(p) => {
 				if (p.hasAttribute('dfsrc')) {
 					p.setAttribute('src', p.getAttribute('dfsrc'));
 				}
 				if (!_CI_SRC_REGEX.test(p.src)) return;
 				const ci = _CI_SRC_REGEX.exec(p.getAttribute('src'))[1];
-				if (imgMap.hasOwnProperty(ci)) {
+				if (imgMap[ci]) {
 					const part = imgMap[ci];
 					p.setAttribute('pnsrc', p.getAttribute('src'));
 					p.setAttribute('src', `/service/home/~/?auth=co&id=${msgId}&part=${part.name}`);
