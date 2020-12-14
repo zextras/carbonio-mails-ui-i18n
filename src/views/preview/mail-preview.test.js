@@ -105,7 +105,7 @@ describe('MailPreview', () => {
 		expect(screen.getByTestId('DateLabel')).toContainHTML(getTimeLabel(message.date));
 	});
 
-	test('Contains To section', async () => {
+	test.skip('Contains To section', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
@@ -129,7 +129,7 @@ describe('MailPreview', () => {
 		expect(toSection).toContainHTML(`label.to: ${toContacts.fullName}`);
 	});
 
-	test('Contains CC section', async () => {
+	test.skip('Contains CC section', async () => {
 		const ctx = {};
 
 		const cc = [
@@ -309,7 +309,7 @@ describe('MailPreview', () => {
 		expect(screen.queryByText(message.fragment)).not.toBeNull();
 	});
 
-	test('Downloads message if expanded and not saved', async () => {
+	test.skip('Downloads message if expanded and not saved', async () => {
 		const ctx = {};
 
 		const message = normalizeMailMessageFromSoap(generateMessage({ folderId: '2' }));
