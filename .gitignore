@@ -1,7 +1,0 @@
-/node_modules/
-/pkg/
-/build/
-/.idea/workspace.xml
-/.idea/compiler.xml
-/e2e/output/
-.idea/jsLibraryMappings.xml
