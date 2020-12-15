@@ -37,10 +37,10 @@
     "messages": {
         "no_subject": "No Subject.",
         "snackbar": {
-            "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
+            "conversation_delete_error": "Something went wrong, this conversation was not deleted, please try again.",
             "conversation_deleted": "Conversation successfully deleted.",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
-            "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
+            "message_delete_error": "Something went wrong, this message was not deleted, please try again.",
             "message_deleted": "Message successfully deleted.",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
