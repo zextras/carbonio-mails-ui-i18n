@@ -1,1 +1,57 @@
-{}
+{
+    "messages": {
+        "snackbar": {
+            "conversation_delete_error": "Qualcosa è andato storto, questa conversazione non è stata eliminata, riprova.",
+            "message_delete_error": "Qualcosa è andato storto, questo messaggio non è stato eliminato, riprova.",
+            "message_will_be_deleted_in_time": "Questo messaggio verrà eliminato in {{remainingTime}} secondi.",
+            "message_deleted": "Messaggio eliminato con successo.",
+            "conversation_will_be_deleted_in_time": "Questa conversazione verrà eliminata in {{remainingTime}} secondi.",
+            "conversation_deleted": "Conversazione eliminata con successo."
+        },
+        "no_subject": "Nessun Oggetto."
+    },
+    "label": {
+        "cc": "CC:",
+        "bcc": "BCC:",
+        "to": "A:",
+        "subject": "Oggetto:",
+        "show": "Mostra",
+        "show_plural": "Mostra tutto",
+        "sent": "Inviato",
+        "send": "Invia",
+        "save": "Salva",
+        "no_subject": "(Nessun oggetto)",
+        "me": "Me stesso",
+        "from": "Da:",
+        "download": "Scarica",
+        "download_plural": "Scarica tutto",
+        "attachment": "Allegato",
+        "attachment_plural": "{{count}} Allegati"
+    },
+    "tooltip": {
+        "enable_disable_urgent": "Attiva/Disattiva importante",
+        "enable_disable_rich_text": "Attiva/Disattiva Editor avanzato"
+    },
+    "placeholder": {
+        "to": "A",
+        "subject": "Oggetto",
+        "cc": "CC",
+        "bcc": "BCC"
+    },
+    "header": {
+        "no_subject": "Nessun oggetto",
+        "edit_draft": "Modifica bozza"
+    },
+    "action": {
+        "unflag": "Rimuovi contrassegno",
+        "flag": "Contrassegno",
+        "reply_all": "Rispondi a tutti",
+        "reply": "Rispondi",
+        "mark_as_unread": "Segna come non letto",
+        "mark_as_read": "Segna come letto",
+        "forward": "Inoltra",
+        "edit_as_new": "Modifica come nuovo",
+        "edit_as_draft": "Modifica come bozza",
+        "delete": "Elimina"
+    }
+}
