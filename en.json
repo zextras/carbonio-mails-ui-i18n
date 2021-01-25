@@ -1,6 +1,6 @@
 {
-    "This message has no text content": "",
     "action": {
+        "cancel": "Cancel",
         "delete": "Delete",
         "edit_as_draft": "Edit as draft",
         "edit_as_new": "Edit as new",
@@ -8,11 +8,13 @@
         "forward": "Forward",
         "mark_as_read": "Mark as read",
         "mark_as_unread": "Mark as unread",
+        "ok": "Ok",
         "reply": "Reply",
         "reply_all": "Reply all",
         "unflag": "Remove flag"
     },
     "header": {
+        "delete_email": "Delete email",
         "edit_draft": "Edit draft",
         "no_subject": "No subject"
     },
@@ -35,7 +37,14 @@
         "to": "To:"
     },
     "messages": {
+        "modal": {
+            "delete": {
+                "if_delete_lost_forever": "If you delete the email, it will be lost forever.",
+                "sure_delete_email": "Are you sure to delete the email selected?"
+            }
+        },
         "no_subject": "No Subject.",
+        "no_text_content": "This message has no text content",
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
             "conversation_deleted": "Conversation successfully deleted.",
