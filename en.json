@@ -1,4 +1,5 @@
 {
+    "This message has no text content": "",
     "action": {
         "back": "Back",
         "cancel": "Cancel",
@@ -19,6 +20,7 @@
         "unflag": "Remove flag"
     },
     "header": {
+        "delete_email": "Delete email",
         "edit_draft": "Edit draft",
         "message_not_sent": "Error - Message not sent",
         "no_subject": "No subject",
@@ -47,6 +49,10 @@
         "invalid_address": "The following address appears to be invalid",
         "invalid_address_plural": "The following addresses appear to be invalid",
         "modal": {
+          "delete": {
+            "if_delete_lost_forever": "If you delete the email, it will be lost forever.",
+            "sure_delete_email": "Are you sure to delete the email selected?"
+          },
             "redirect": {
                 "first": "This email will be sent on to a new recipient while preserving the email address of the original sender.",
                 "second": "This means that it'll looks to the new recipient as if the email was originally sent to him or to her."
@@ -54,6 +60,7 @@
         },
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
+        "no_text_content": "This message has no text content",
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
             "conversation_deleted": "Conversation successfully deleted.",
