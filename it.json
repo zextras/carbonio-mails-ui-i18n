@@ -30,7 +30,7 @@
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
-        "enable_disable_rich_text": "Attiva/Disattiva Editor avanzato"
+        "enable_disable_rich_text": "Attiva/Disattiva editor avanzato"
     },
     "placeholder": {
         "to": "A",
