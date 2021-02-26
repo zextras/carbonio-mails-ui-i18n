@@ -52,6 +52,7 @@
         "forward": "Inoltra",
         "edit_as_new": "Modifica come nuovo",
         "edit_as_draft": "Modifica come bozza",
-        "delete": "Elimina"
+        "delete": "Elimina",
+        "hide_details": "Nascondi dettagli"
     }
 }
