@@ -1,20 +1,30 @@
 {
-    "This message has no text content": "",
     "action": {
+        "back": "Back",
+        "cancel": "Cancel",
         "delete": "Delete",
         "edit_as_draft": "Edit as draft",
         "edit_as_new": "Edit as new",
         "flag": "Add flag",
         "forward": "Forward",
+        "hide_details": "Hide details",
         "mark_as_read": "Mark as read",
         "mark_as_unread": "Mark as unread",
+        "ok": "Ok",
+        "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
+        "send_anyway": "Send anyway",
+        "show_details": "Show details",
         "unflag": "Remove flag"
     },
     "header": {
+        "delete_email": "Delete email",
         "edit_draft": "Edit draft",
-        "no_subject": "No subject"
+        "message_not_sent": "Error - Message not sent",
+        "no_subject": "No subject",
+        "redirect_email": "Redirect e-mail",
+        "warning": "Warning"
     },
     "label": {
         "attachment": "Attachment",
@@ -40,6 +50,19 @@
         "to": "To:"
     },
     "messages": {
+        "invalid_address": "The following address appears to be invalid",
+        "invalid_address_plural": "The following addresses appear to be invalid",
+        "modal": {
+            "delete": {
+                "if_delete_lost_forever": "If you delete the email, it will be lost forever.",
+                "sure_delete_email": "Are you sure to delete the email selected?"
+            },
+            "redirect": {
+                "first": "This email will be sent on to a new recipient while preserving the email address of the original sender.",
+                "second": "This means that it'll looks to the new recipient as if the email was originally sent to him or to her."
+            }
+        },
+        "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
@@ -47,10 +70,12 @@
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
             "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
             "message_deleted": "Message successfully deleted.",
+            "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
     },
     "placeholder": {
+        "add_new_recipients": "Add new recipients",
         "bcc": "BCC",
         "cc": "CC",
         "subject": "Subject",
