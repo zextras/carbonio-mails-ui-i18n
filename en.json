@@ -18,6 +18,38 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
+    "folder": {
+        "action": {
+            "delete": "",
+            "delete_permanently": "",
+            "edit": "",
+            "empty": {
+                "folder": "",
+                "trash": ""
+            },
+            "move": "",
+            "new": ""
+        },
+        "modal": {
+            "footer": {
+                "cancel": ""
+            },
+            "item": {
+                "empty": ""
+            },
+            "new": {
+                "body": {
+                    "message1": "",
+                    "message2": ""
+                },
+                "footer": "",
+                "input": {
+                    "name": ""
+                },
+                "title": ""
+            }
+        }
+    },
     "header": {
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
