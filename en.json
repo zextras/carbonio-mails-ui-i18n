@@ -101,6 +101,13 @@
         "sent": "Sent",
         "trash": "Trash"
     },
+    "composer": {
+        "attachment": {
+            "contactsMod": "Add Contact Card",
+            "drive": "Add from drive",
+            "local": "Add from local"
+        }
+    },
     "header": {
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
@@ -121,6 +128,8 @@
         "mailSelected_plural": "{{count}} emails selected",
         "me": "Me",
         "no_subject": "(No subject)",
+        "remove": "Delete",
+        "remove_plural": "Delete All",
         "save": "Save",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
@@ -177,6 +186,7 @@
         "to": "To"
     },
     "tooltip": {
+        "add_attachments": "Add attachments",
         "enable_disable_rich_text": "Enable/Disable rich text editor",
         "enable_disable_urgent": "Enable/Disable urgent"
     }
