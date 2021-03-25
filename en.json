@@ -18,6 +18,13 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
+    "composer": {
+        "attachment": {
+            "contactsMod": "Add Contact Card",
+            "drive": "Add from drive",
+            "local": "Add from local"
+        }
+    },
     "folder": {
         "action": {
             "delete": "Delete folder",
@@ -101,13 +108,6 @@
         "sent": "Sent",
         "trash": "Trash"
     },
-    "composer": {
-        "attachment": {
-            "contactsMod": "Add Contact Card",
-            "drive": "Add from drive",
-            "local": "Add from local"
-        }
-    },
     "header": {
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
@@ -127,6 +127,9 @@
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "me": "Me",
+        "messageSelected": "1 message selected",
+        "messageSelected_plural": "{{count}} messages selected",
+        "message_select_1": "Select a message to read it",
         "no_subject": "(No subject)",
         "remove": "Delete",
         "remove_plural": "Delete All",
