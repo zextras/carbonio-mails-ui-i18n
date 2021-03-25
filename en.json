@@ -18,6 +18,13 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
+    "composer": {
+        "attachment": {
+            "contactsMod": "Add Contact Card",
+            "drive": "Add from drive",
+            "local": "Add from local"
+        }
+    },
     "folder": {
         "action": {
             "delete": "Delete folder",
@@ -101,13 +108,6 @@
         "sent": "Sent",
         "trash": "Trash"
     },
-    "composer": {
-        "attachment": {
-            "contactsMod": "Add Contact Card",
-            "drive": "Add from drive",
-            "local": "Add from local"
-        }
-    },
     "header": {
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
@@ -173,7 +173,7 @@
             "folder_will_be_deleted_in_time": "This folder will be deleted in {{remainingTime}} seconds.",
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
-            "message_deleted": "Message deleted successfully.",
+            "message_deleted": "Message successfully deleted.",
             "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
