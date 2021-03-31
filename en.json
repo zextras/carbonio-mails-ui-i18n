@@ -3,6 +3,7 @@
         "back": "Back",
         "cancel": "Cancel",
         "delete": "Delete",
+        "download": "Download",
         "edit_as_draft": "Edit as draft",
         "edit_as_new": "Edit as new",
         "flag": "Add flag",
@@ -20,8 +21,6 @@
     },
     "composer": {
         "attachment": {
-            "contactsMod": "Add Contact Card",
-            "drive": "Add from drive",
             "local": "Add from local"
         }
     },
