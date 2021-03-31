@@ -35,7 +35,7 @@
             },
             "move": "Move folder",
             "new": "New folder",
-            "restore": "Restore Folder"
+            "restore": "Restore folder"
         },
         "item": {
             "root": "/Root"
@@ -172,7 +172,7 @@
             "folder_will_be_deleted_in_time": "This folder will be deleted in {{remainingTime}} seconds.",
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
-            "message_deleted": "Message successfully deleted.",
+            "message_deleted": "Message deleted successfully.",
             "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
