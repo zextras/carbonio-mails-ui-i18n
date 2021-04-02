@@ -16,6 +16,7 @@
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
+        "send": "Send",
         "send_anyway": "Send anyway",
         "show_details": "Show details",
         "unflag": "Remove flag"
