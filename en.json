@@ -22,8 +22,6 @@
     },
     "composer": {
         "attachment": {
-            "contactsMod": "Add Contact Card",
-            "drive": "Add from drive",
             "local": "Add from local"
         }
     },
@@ -37,7 +35,7 @@
             },
             "move": "Move folder",
             "new": "New folder",
-            "restore": "Restore folder",
+            "restore": "Restore Folder",
             "wipe": {
                 "folder": "Wipe folder"
             }
@@ -135,6 +133,7 @@
         "cc": "CC:",
         "download": "Download",
         "download_plural": "Download all",
+        "draft_folder": "[DRAFT]",
         "from": "From:",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
