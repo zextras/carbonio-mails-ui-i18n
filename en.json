@@ -12,6 +12,7 @@
         "mark_as_read": "Mark as read",
         "mark_as_unread": "Mark as unread",
         "ok": "Ok",
+        "preview": "Click to preview in another tab",
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
@@ -21,8 +22,6 @@
     },
     "composer": {
         "attachment": {
-            "contactsMod": "Add Contact Card",
-            "drive": "Add from drive",
             "local": "Add from local"
         }
     },
@@ -37,10 +36,7 @@
             },
             "move": "Move folder",
             "new": "New folder",
-            "restore": "Restore folder",
-            "wipe": {
-                "folder": "Wipe folder"
-            }
+            "restore": "Restore folder"
         },
         "item": {
             "root": "/Root"
@@ -102,14 +98,6 @@
                     "position": "Folder Position"
                 },
                 "title": "Create a new folder"
-            },
-            "wipe": {
-                "body": {
-                    "message1": "Do you want to wipe the selected folder?",
-                    "message2": "If you wipe it, all the related content will be deleted permanently."
-                },
-                "footer": "Wipe",
-                "title": "Wipe"
             }
         }
     },
@@ -184,8 +172,6 @@
             "folder_moved": "Folder moved successfully",
             "folder_will_be_deleted_in_time": "This folder will be deleted in {{remainingTime}} seconds.",
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
-            "folder_will_be_wiped_in_time": "This message will be wiped in {{remainingTime}} seconds.",
-            "folder_wiped": "Folder wiped successfully",
             "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
             "message_deleted": "Message deleted successfully.",
             "message_redirected": "The message has been redirected",
