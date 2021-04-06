@@ -18,6 +18,96 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
+    "folder": {
+        "action": {
+            "delete": "Delete folder",
+            "delete_permanently": "Delete folder permanently",
+            "edit": "Edit folder properties",
+            "empty": {
+                "folder": "Empty folder",
+                "trash": "Empty trash"
+            },
+            "move": "Move folder",
+            "new": "New folder",
+            "restore": "Restore Folder"
+        },
+        "item": {
+            "root": "/Root"
+        },
+        "modal": {
+            "delete": {
+                "body": {
+                    "message1": "Do you want to delete the folder selected ?",
+                    "message2": "Do you want to delete the selected folder permanently ?",
+                    "message3": "If you delete it, all the related content will be moved to Trash folder and the folder will no longer be visible.",
+                    "message4": "If you delete it, all the related content will be permanently removed and the folder will no longer be recoverable."
+                },
+                "footer": "Ok",
+                "title": "Delete"
+            },
+            "edit": {
+                "folder_type": "Mail Folder",
+                "footer": "Edit",
+                "messages": "Messages",
+                "rename_warning": "You cannot rename a folder as a system one",
+                "retention_msg": "Messages in this folder which fall within the retention range will require explicit confirmation bfore being deleted",
+                "retention_properties": "Retention properties",
+                "rtn_dur_warning": "The retention duration must be a positive number",
+                "size": "Size",
+                "threshold_msg": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion.",
+                "title": "Edit",
+                "type": "Type"
+            },
+            "empty": {
+                "body": {
+                    "message1": "Do you want to empty the selected folder?",
+                    "message2": "If you empty it, all the related content will be deleted permanently."
+                },
+                "footer": "Empty",
+                "title": "Empty"
+            },
+            "footer": {
+                "cancel": "Cancel"
+            },
+            "item": {
+                "empty": ""
+            },
+            "move": {
+                "body": {
+                    "message1": "Select a folder to move the considered one to:"
+                },
+                "footer": "Move",
+                "input": {
+                    "filter": "Filter Folders"
+                },
+                "new": "New Folder",
+                "title": "Move"
+            },
+            "new": {
+                "footer": "Create",
+                "input": {
+                    "name": "Folder Name",
+                    "name_exist": "",
+                    "position": "Folder Position"
+                },
+                "title": "Create a new folder"
+            }
+        }
+    },
+    "folders": {
+        "drafts": "Drafts",
+        "inbox": "Inbox",
+        "junk": "Junk",
+        "sent": "Sent",
+        "trash": "Trash"
+    },
+    "composer": {
+        "attachment": {
+            "contactsMod": "Add Contact Card",
+            "drive": "Add from drive",
+            "local": "Add from local"
+        }
+    },
     "header": {
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
@@ -38,6 +128,8 @@
         "mailSelected_plural": "{{count}} emails selected",
         "me": "Me",
         "no_subject": "(No subject)",
+        "remove": "Delete",
+        "remove_plural": "Delete All",
         "save": "Save",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
@@ -68,6 +160,18 @@
             "conversation_delete_error": "Something went wrong, this conversation was not deleted, please try again.",
             "conversation_deleted": "Conversation successfully deleted.",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
+            "folder_created": "New folder successfully created",
+            "folder_created_error": "Something went wrong,new folder were not created, please retry.",
+            "folder_delete_error": "Something went wrong, this folder was not deleted, please retry.",
+            "folder_deleted": "Folder deleted successfully.",
+            "folder_edited": "Folder edit successfully",
+            "folder_edited_error": "Something went wrong, changes were not made, please retry.",
+            "folder_empty": "Trash clean successfully",
+            "folder_empty_error": "Something went wrong, changes were not made, please retry.",
+            "folder_move_error": "Something went wrong, this folder was not moved, please retry.",
+            "folder_moved": "Folder moved successfully",
+            "folder_will_be_deleted_in_time": "This folder will be deleted in {{remainingTime}} seconds.",
+            "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "message_delete_error": "Something went wrong, this message was not deleted, please try again.",
             "message_deleted": "Message successfully deleted.",
             "message_redirected": "The message has been redirected",
@@ -82,6 +186,7 @@
         "to": "To"
     },
     "tooltip": {
+        "add_attachments": "Add attachments",
         "enable_disable_rich_text": "Enable/Disable rich text editor",
         "enable_disable_urgent": "Enable/Disable urgent"
     }
