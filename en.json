@@ -22,6 +22,8 @@
     },
     "composer": {
         "attachment": {
+            "contactsMod": "",
+            "drive": "",
             "local": "Add from local"
         }
     },
