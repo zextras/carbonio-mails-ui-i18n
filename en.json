@@ -108,9 +108,6 @@
                     "name_exist": "",
                     "position": "Folder Position"
                 },
-                "name_": "",
-                "name_exist": "",
-                "name_exist_": "",
                 "name_exist_warning": "Name already exist",
                 "rename_warning": "",
                 "title": "Create a new folder"
