@@ -1,4 +1,5 @@
 {
+    "": "",
     "action": {
         "back": "Back",
         "cancel": "Cancel",
@@ -13,6 +14,7 @@
         "mark_as_read": "Mark as read",
         "mark_as_spam": "Mark as spam",
         "mark_as_unread": "Mark as unread",
+        "move": "Move",
         "ok": "Ok",
         "preview": "Click to preview in another tab",
         "redirect": "Redirect",
@@ -88,7 +90,8 @@
             },
             "move": {
                 "body": {
-                    "message1": "Select a folder to move the considered one to:"
+                    "message1": "Select a folder to move the considered one to:",
+                    "message2": "Select a destination folder"
                 },
                 "footer": "Move",
                 "input": {
@@ -99,11 +102,17 @@
             },
             "new": {
                 "footer": "Create",
+                "go_back": "Go Back",
                 "input": {
                     "name": "Folder Name",
                     "name_exist": "",
                     "position": "Folder Position"
                 },
+                "name_": "",
+                "name_exist": "",
+                "name_exist_": "",
+                "name_exist_warning": "Name already exist",
+                "rename_warning": "",
                 "title": "Create a new folder"
             },
             "wipe": {
@@ -177,6 +186,8 @@
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
             "conversation_deleted": "Conversation successfully deleted.",
+            "conversation_move": "Conversation successfully moved",
+            "conversation_move_error": "Something went wrong,move conversation not completed, please retry.",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
             "folder_created": "New folder successfully created",
             "folder_created_error": "Something went wrong,new folder were not created, please retry.",
