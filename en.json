@@ -1,5 +1,4 @@
 {
-    "": "",
     "action": {
         "back": "Back",
         "cancel": "Cancel",
@@ -109,7 +108,6 @@
                     "position": "Folder Position"
                 },
                 "name_exist_warning": "Name already exist",
-                "rename_warning": "",
                 "title": "Create a new folder"
             },
             "wipe": {
