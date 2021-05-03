@@ -9,7 +9,7 @@
         "flag": "Add flag",
         "forward": "Forward",
         "hide_details": "Hide details",
-        "mark_as_non_spam": "Not a spam",
+        "mark_as_non_spam": "Not spam",
         "mark_as_read": "Mark as read",
         "mark_as_spam": "Mark as spam",
         "mark_as_unread": "Mark as unread",
@@ -52,9 +52,9 @@
         "modal": {
             "delete": {
                 "body": {
-                    "message1": "Do you want to delete the folder selected ?",
-                    "message2": "Do you want to delete the selected folder permanently ?",
-                    "message3": "If you delete it, all the related content will be moved to Trash folder and the folder will no longer be visible.",
+                    "message1": "Do you want to delete the selected folder?",
+                    "message2": "Do you want to delete the selected folder permanently?",
+                    "message3": "If you delete it, all the related content will be moved to Trash and the folder will no longer be visible.",
                     "message4": "If you delete it, all the related content will be permanently removed and the folder will no longer be recoverable."
                 },
                 "footer": "Ok",
@@ -169,20 +169,20 @@
         "modal": {
             "delete": {
                 "if_delete_lost_forever": "If you delete the email, it will be lost forever.",
-                "sure_delete_email": "Are you sure to delete the email selected?"
+                "sure_delete_email": "Are you sure to delete the selected email?"
             },
             "redirect": {
                 "first": "This email will be sent on to a new recipient while preserving the email address of the original sender.",
-                "second": "This means that it'll looks to the new recipient as if the email was originally sent to him or to her."
+                "second": "This means that it'll look to the new recipient as if the email was originally sent to him or to her."
             }
         },
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "snackbar": {
-            "conversation_delete_error": "Something went wrong, this conversation has not be deleted, please retry.",
+            "conversation_delete_error": "Something went wrong, this conversation was not deleted, please retry.",
             "conversation_deleted": "Conversation successfully deleted.",
             "conversation_move": "Conversation successfully moved",
-            "conversation_move_error": "Something went wrong,move conversation not completed, please retry.",
+            "conversation_move_error": "Something went wrong, conversation move was not completed, please retry.",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
             "folder_created": "New folder successfully created",
             "folder_created_error": "Something went wrong,new folder were not created, please retry.",
@@ -198,7 +198,7 @@
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "folder_will_be_wiped_in_time": "This message will be wiped in {{remainingTime}} seconds.",
             "folder_wiped": "Folder wiped successfully",
-            "message_delete_error": "Something went wrong, this message has not be deleted, please retry.",
+            "message_delete_error": "Something went wrong, this message was not deleted, please retry.",
             "message_deleted": "Message deleted successfully.",
             "message_move": "Message successfully moved",
             "message_move_error": "Something went wrong,move message not completed, please retry.",
