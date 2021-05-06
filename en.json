@@ -100,6 +100,7 @@
                 "title": "Move"
             },
             "new": {
+                "create_footer": "Create and Move",
                 "footer": "Create",
                 "go_back": "Go Back",
                 "input": {
@@ -200,6 +201,8 @@
             "folder_wiped": "Folder wiped successfully",
             "message_delete_error": "Something went wrong, this message was not deleted, please retry.",
             "message_deleted": "Message deleted successfully.",
+            "message_move": "Message successfully moved",
+            "message_move_error": "Something went wrong,move message not completed, please retry.",
             "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
