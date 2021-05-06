@@ -216,6 +216,20 @@
             "html": "As HTML(When Possible)",
             "text": "As text"
         },
+        "label": {
+            "always_dsp_received_time": "Always display received time in email list",
+            "check_new_mail": "Check new email",
+            "dbl_click_opens_msg": "Double-click opens message in new window",
+            "dflt_mail_search": "Default Mail Search",
+            "disp_messages": "Displaying Messages",
+            "display_mail": "Display mail",
+            "dsp_external_imgs": "Display extrenal images automatically in HTML Email",
+            "dsp_msg_snpt": "Display snippets of messages in mail list",
+            "msg_color": "Message Color",
+            "msg_prv_title": "Message preview and Images",
+            "msg_selection": "Message Selection",
+            "set_msg_color_acc_tag": "Set colour of messages and conversations according to tag colour."
+        },
         "msg_from_optn": {
             "discard": "Discard message automatically",
             "inbox": "Place in inbox",
@@ -233,7 +247,6 @@
             "when_arrive": "As new mail arrives"
         },
         "notify_folder_optn": {
-            "new_message": "",
             "new_message_folder": "Display notifications for new messages in any folder",
             "new_message_inbox": "Display notifications for new messages in inbox"
         },
