@@ -65,7 +65,7 @@
                 "footer": "Edit",
                 "messages": "Messages",
                 "rename_warning": "You cannot rename a folder as a system one",
-                "retention_msg": "Messages in this folder which fall within the retention range will require explicit confirmation bfore being deleted",
+                "retention_msg": "Messages in this folder which fall within the retention range will require explicit confirmation before being deleted",
                 "retention_properties": "Retention properties",
                 "rtn_dur_warning": "The retention duration must be a positive number",
                 "size": "Size",
@@ -186,7 +186,7 @@
             "conversation_move_error": "Something went wrong, conversation move was not completed, please retry.",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
             "folder_created": "New folder successfully created",
-            "folder_created_error": "Something went wrong,new folder were not created, please retry.",
+            "folder_created_error": "Something went wrong, new folder was not created, please retry.",
             "folder_delete_error": "Something went wrong, this folder was not deleted, please retry.",
             "folder_deleted": "Folder deleted successfully.",
             "folder_edited": "Folder edit successfully",
@@ -202,7 +202,7 @@
             "message_delete_error": "Something went wrong, this message was not deleted, please try again.",
             "message_deleted": "Message successfully deleted.",
             "message_move": "Message successfully moved",
-            "message_move_error": "Something went wrong,move message not completed, please retry.",
+            "message_move_error": "Something went wrong, this message was not moved, please try again.",
             "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
@@ -216,7 +216,7 @@
     },
     "settings": {
         "dspl_mail_optn": {
-            "html": "As HTML(When Possible)",
+            "html": "As HTML (when possible)",
             "text": "As text"
         },
         "label": {
@@ -226,7 +226,7 @@
             "dflt_mail_search": "Default Mail Search",
             "disp_messages": "Displaying Messages",
             "display_mail": "Display mail",
-            "dsp_external_imgs": "Display extrenal images automatically in HTML Email",
+            "dsp_external_imgs": "Display external images automatically in HTML Email",
             "dsp_msg_snpt": "Display snippets of messages in mail list",
             "msg_color": "Message Color",
             "msg_prv_title": "Message preview and Images",
@@ -239,9 +239,9 @@
             "inbox_if_cc": "Place in inbox if I'm in To: or Cc:"
         },
         "msg_selection_optn": {
-            "above_deleted": "Select messages above the deleted or moved  messages",
+            "above_deleted": "Select messages above the deleted or moved messages",
             "based_on_previous": "Select next message based on previous selections",
-            "below_deleted": "Select messages below the deleted or moved  messages"
+            "below_deleted": "Select messages below the deleted or moved messages"
         },
         "new_mail_optn": {
             "manually": "Manually",
