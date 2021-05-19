@@ -177,7 +177,7 @@
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "snackbar": {
-            "conversation_delete_error": "Something went wrong, this conversation was not deleted, please retry.",
+            "conversation_delete_error": "Something went wrong, this conversation was not deleted, please try again.",
             "conversation_deleted": "Conversation successfully deleted.",
             "conversation_move": "Conversation successfully moved",
             "conversation_move_error": "Something went wrong, conversation move was not completed, please retry.",
@@ -196,8 +196,8 @@
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "folder_will_be_wiped_in_time": "This message will be wiped in {{remainingTime}} seconds.",
             "folder_wiped": "Folder wiped successfully",
-            "message_delete_error": "Something went wrong, this message was not deleted, please retry.",
-            "message_deleted": "Message deleted successfully.",
+            "message_delete_error": "Something went wrong, this message was not deleted, please try again.",
+            "message_deleted": "Message successfully deleted.",
             "message_redirected": "The message has been redirected",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
