@@ -254,9 +254,9 @@
             "new_message_inbox": "Display notifications for new messages in inbox"
         },
         "read_rcpt_optn": {
-            "always": "Always send a read reciept",
+            "always": "Always send a read receipt",
             "ask_me": "Ask me",
-            "never": "Never send a read reciept"
+            "never": "Never send a read receipt"
         }
     },
     "tooltip": {
