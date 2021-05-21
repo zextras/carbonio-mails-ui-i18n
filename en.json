@@ -177,6 +177,7 @@
                 "second": "This means that it'll look to the new recipient as if the email was originally sent to him or to her."
             }
         },
+        "new_email": "New email",
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "snackbar": {
