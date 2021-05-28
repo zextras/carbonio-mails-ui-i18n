@@ -19,6 +19,7 @@
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
+        "restore": "Restore",
         "send": "Send",
         "send_anyway": "Send anyway",
         "show_details": "Show details",
@@ -90,14 +91,16 @@
             "move": {
                 "body": {
                     "message1": "Select a folder to move the considered one to:",
-                    "message2": "Select a destination folder"
+                    "message2": "Select a destination folder",
+                    "message_restore": "Select a folder to restore the considered one to:"
                 },
                 "footer": "Move",
                 "input": {
                     "filter": "Filter Folders"
                 },
                 "new": "New Folder",
-                "title": "Move"
+                "title": "Move",
+                "title_modal": "Move Conversation"
             },
             "new": {
                 "create_footer": "Create and Move",
@@ -109,7 +112,12 @@
                     "position": "Folder Position"
                 },
                 "name_exist_warning": "Name already exist",
+                "restore_create_footer": "Create and Restore",
                 "title": "Create a new folder"
+            },
+            "restore": {
+                "footer": "Restore",
+                "title_modal": "Restore"
             },
             "wipe": {
                 "body": {
@@ -129,6 +137,7 @@
         "trash": "Trash"
     },
     "header": {
+        "confirm_permanent_delete": "Are you sure to delete permanently this element?",
         "delete_email": "Delete email",
         "edit_draft": "Edit draft",
         "message_not_sent": "Error - Message not sent",
@@ -180,11 +189,16 @@
         "new_email": "New email",
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
+        "permanent_delete_body": "By delete permanently this element you will not be able to recover it anymore, continue?",
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation was not deleted, please retry.",
             "conversation_deleted": "Conversation successfully deleted.",
+            "conversation_deleted_permanently": "Permanent deletion completed successfully",
+            "conversation_deleted_permanently_error": "Something went wrong, retry the action",
             "conversation_move": "Conversation successfully moved",
             "conversation_move_error": "Something went wrong, conversation move was not completed, please retry.",
+            "conversation_restore_error": "Something went wrong, restore conversation not completed, please retry.",
+            "conversation_restored": "This conversation has been successfully restore in {{folderName}}",
             "conversation_will_be_deleted_in_time": "This conversation will be deleted in {{remainingTime}} seconds.",
             "folder_created": "New folder successfully created",
             "folder_created_error": "Something went wrong,new folder were not created, please retry.",
@@ -205,6 +219,8 @@
             "message_move": "Message successfully moved",
             "message_move_error": "Something went wrong,move message not completed, please retry.",
             "message_redirected": "The message has been redirected",
+            "message_restore": "This message has been successfully restore in {{folderName}}",
+            "message_restore_error": "Something went wrong, restore message not completed, please retry.",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
         }
     },
