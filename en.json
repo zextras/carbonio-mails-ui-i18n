@@ -25,6 +25,7 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
+    "automatically_delete_duplicates": "",
     "composer": {
         "attachment": {
             "contactsMod": "",
@@ -32,6 +33,7 @@
             "local": "Add from local"
         }
     },
+    "flash_browser_title": "",
     "folder": {
         "action": {
             "delete": "Delete folder",
@@ -144,31 +146,39 @@
         "redirect_email": "Redirect e-mail",
         "warning": "Warning"
     },
+    "highlight_tab": "",
     "label": {
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
+        "automatically_delete_duplicates": "Automatically delete duplicate copies of the same message when received",
         "bcc": "BCC:",
         "cancel": "Cancel",
         "cc": "CC:",
         "download": "Download",
         "download_plural": "Download all",
         "draft_folder": "[DRAFT]",
+        "flash_browser_title": "Flash the browser title",
         "from": "From:",
+        "highlight_tab": "Highlight the Mail tab",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_subject": "(No subject)",
+        "receive_message": "Receiving Messages",
         "remove": "Delete",
         "remove_plural": "Delete All",
         "save": "Save",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
         "select_3": "to write a new email.",
+        "select_folder": "Select Folder",
         "send": "Send",
+        "send_notification": "Send a notification message to",
         "sent": "Sent",
         "show": "Show",
         "show_plural": "Show all",
+        "show_popup": "Show a popup notification",
         "subject": "Subject:",
         "to": "To:"
     },
@@ -231,6 +241,11 @@
         "subject": "Subject",
         "to": "To"
     },
+    "receive_message": "",
+    "select_folder": "",
+    "select_signature": "",
+    "send_notification": "",
+    "set_default_signatures": "",
     "settings": {
         "dspl_mail_optn": {
             "html": "As HTML(When Possible)",
@@ -276,6 +291,7 @@
             "never": "Never send a read reciept"
         }
     },
+    "show_popup": "",
     "tooltip": {
         "add_attachments": "Add attachments",
         "enable_disable_rich_text": "Enable/Disable rich text editor",
