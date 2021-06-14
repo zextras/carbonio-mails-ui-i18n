@@ -25,7 +25,6 @@
         "show_details": "Show details",
         "unflag": "Remove flag"
     },
-    "automatically_delete_duplicates": "",
     "composer": {
         "attachment": {
             "contactsMod": "",
@@ -33,7 +32,6 @@
             "local": "Add from local"
         }
     },
-    "flash_browser_title": "",
     "folder": {
         "action": {
             "delete": "Delete folder",
@@ -146,7 +144,6 @@
         "redirect_email": "Redirect e-mail",
         "warning": "Warning"
     },
-    "highlight_tab": "",
     "label": {
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
@@ -164,6 +161,7 @@
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
+        "no_signature": "No signature",
         "no_subject": "(No subject)",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
@@ -241,10 +239,7 @@
         "subject": "Subject",
         "to": "To"
     },
-    "receive_message": "",
-    "select_folder": "",
     "select_signature": "",
-    "send_notification": "",
     "set_default_signatures": "",
     "settings": {
         "dspl_mail_optn": {
@@ -291,7 +286,6 @@
             "never": "Never send a read reciept"
         }
     },
-    "show_popup": "",
     "tooltip": {
         "add_attachments": "Add attachments",
         "enable_disable_rich_text": "Enable/Disable rich text editor",
