@@ -28,6 +28,10 @@
     "composer": {
         "attachment": {
             "contactsMod": "",
+            "draganddrop": {
+                "content": "Drop here your attachments to quick-add them to this e-mail",
+                "title": "Drag&Drop Mode"
+            },
             "drive": "",
             "local": "Add from local"
         }
