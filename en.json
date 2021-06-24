@@ -86,9 +86,6 @@
                 "footer": "Empty",
                 "title": "Empty"
             },
-            "footer": {
-                "cancel": "Cancel"
-            },
             "item": {
                 "empty": ""
             },
@@ -201,6 +198,7 @@
         "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "permanent_delete_body": "By delete permanently this element you will not be able to recover it anymore, continue?",
+        "permanent_delete_confirm": "Delete permanently",
         "permanent_delete_title": "Are you sure to delete permanently this element?",
         "snackbar": {
             "conversation_delete_error": "Something went wrong, this conversation was not deleted, please retry.",
