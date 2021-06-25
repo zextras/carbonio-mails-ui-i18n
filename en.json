@@ -162,7 +162,6 @@
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
-        "no_signature": "No signature",
         "no_subject": "(No subject)",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
@@ -260,6 +259,7 @@
             "msg_color": "Message Color",
             "msg_prv_title": "Message preview and Images",
             "msg_selection": "Message Selection",
+            "search_query": "Default query",
             "set_msg_color_acc_tag": "Set colour of messages and conversations according to tag colour."
         },
         "msg_from_optn": {
