@@ -240,8 +240,8 @@
         "subject": "Subject",
         "to": "To"
     },
-    "select_signature": "",
-    "set_default_signatures": "",
+    "select_signature": "Select signature",
+    "set_default_signatures": "Set default signature",
     "settings": {
         "dspl_mail_optn": {
             "html": "As HTML(When Possible)",
@@ -287,6 +287,10 @@
             "ask_me": "Ask me",
             "never": "Never send a read reciept"
         }
+    },
+    "title": {
+        "new_messages": "New Messages",
+        "replies_forwards": "Replies & Forwards"
     },
     "tooltip": {
         "add_attachments": "Add attachments",
