@@ -230,7 +230,8 @@
             "message_redirected": "The message has been redirected",
             "message_restore": "This message has been successfully restore in {{folderName}}",
             "message_restore_error": "Something went wrong, restore message not completed, please retry.",
-            "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds."
+            "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds.",
+            "message_will_be_send_in_time": "This message will be send in {{remainingTime}} seconds."
         }
     },
     "placeholder": {
