@@ -146,10 +146,13 @@
         "warning": "Warning"
     },
     "label": {
+        "add_custom_message": "Add a custom message",
+        "allowed_actions": "Allowed Actions : ",
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
         "automatically_delete_duplicates": "Automatically delete duplicate copies of the same message when received",
         "bcc": "BCC:",
+        "calendar_color": "Calendar Color",
         "cancel": "Cancel",
         "cc": "CC:",
         "download": "Download",
@@ -157,15 +160,19 @@
         "draft_folder": "[DRAFT]",
         "flash_browser_title": "Flash the browser title",
         "from": "From:",
+        "grantee": "Grantee : ",
+        "hide_more_info": "Hide More Info",
         "highlight_tab": "Highlight the Mail tab",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_subject": "(No subject)",
+        "owner": "Owner : ",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
         "remove_plural": "Delete All",
+        "role": "Role : ",
         "save": "Save",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
@@ -174,11 +181,25 @@
         "send": "Send",
         "send_notification": "Send a notification message to",
         "sent": "Sent",
+        "shared_item": "Shared Item : ",
         "show": "Show",
+        "show_more_info": "Show More Info",
         "show_plural": "Show all",
         "show_popup": "Show a popup notification",
         "subject": "Subject:",
-        "to": "To:"
+        "to": "To:",
+        "type_name_here": "Calendar name",
+        "with_you": "with you",
+        "would_like_to_share": "would like to share"
+    },
+    "message": {
+        "snackbar": {
+            "share": {
+                "accepted": "You have replied as Accepted for the share",
+                "declined": "You have replied as Declined for the share",
+                "error": "Something went wrong,Please retry"
+            }
+        }
     },
     "messages": {
         "invalid_address": "The following address appears to be invalid",
@@ -287,6 +308,21 @@
             "always": "Always send a read reciept",
             "ask_me": "Ask me",
             "never": "Never send a read reciept"
+        }
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "none": "None",
+                "viewer": "Viewer"
+            },
+            "share_calendar_with": {
+                "external_guests": "External guests (view only)",
+                "internal_users_groups": "Internal Users or Groups",
+                "public": "Public (view only, no password required)"
+            }
         }
     },
     "tooltip": {
