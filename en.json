@@ -262,8 +262,8 @@
         "subject": "Subject",
         "to": "To"
     },
-    "select_signature": "",
-    "set_default_signatures": "",
+    "select_signature": "Select signature",
+    "set_default_signatures": "Set default signature",
     "settings": {
         "dspl_mail_optn": {
             "html": "As HTML(When Possible)",
@@ -324,6 +324,10 @@
                 "public": "Public (view only, no password required)"
             }
         }
+    },
+    "title": {
+        "new_messages": "New Messages",
+        "replies_forwards": "Replies & Forwards"
     },
     "tooltip": {
         "add_attachments": "Add attachments",
