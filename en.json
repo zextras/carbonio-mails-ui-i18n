@@ -27,12 +27,12 @@
     },
     "composer": {
         "attachment": {
-            "contactsMod": "",
+            "contactsMod": "Add Contact Card",
             "draganddrop": {
                 "content": "Drop here your attachments to quick-add them to this e-mail",
                 "title": "Drag&Drop Mode"
             },
-            "drive": "",
+            "drive": "Add from Drive",
             "local": "Add from local"
         }
     },
@@ -195,6 +195,15 @@
     "message": {
         "snackbar": {
             "share": {
+                "accepted": "",
+                "declined": "",
+                "error": ""
+            }
+        }
+    },
+    "message": {
+        "snackbar": {
+            "share": {
                 "accepted": "You have replied as Accepted for the share",
                 "declined": "You have replied as Declined for the share",
                 "error": "Something went wrong,Please retry"
@@ -331,7 +340,9 @@
     },
     "tooltip": {
         "add_attachments": "Add attachments",
-        "enable_disable_rich_text": "Enable/Disable rich text editor",
-        "enable_disable_urgent": "Enable/Disable urgent"
+        "disable_rich_text": "Disable rich text editor",
+        "disable_urgent": "Disable urgent",
+        "enable_rich_text": "Enable rich text editor",
+        "enable_urgent": "Enable urgent"
     }
 }
