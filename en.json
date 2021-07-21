@@ -265,6 +265,10 @@
     "select_signature": "Select signature",
     "set_default_signatures": "Set default signature",
     "settings": {
+        "conv_sort_optn": {
+            "asc": "From old to new",
+            "desc": "From new to old"
+        },
         "dspl_mail_optn": {
             "html": "As HTML(When Possible)",
             "text": "As text"
@@ -272,6 +276,7 @@
         "label": {
             "always_dsp_received_time": "Always display received time in email list",
             "check_new_mail": "Check new email",
+            "conv_sorting": "Conversation ordering",
             "dbl_click_opens_msg": "Double-click opens message in new window",
             "dflt_mail_search": "Default Mail Search",
             "disp_messages": "Displaying Messages",
