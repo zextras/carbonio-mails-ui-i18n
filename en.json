@@ -195,15 +195,6 @@
     "message": {
         "snackbar": {
             "share": {
-                "accepted": "",
-                "declined": "",
-                "error": ""
-            }
-        }
-    },
-    "message": {
-        "snackbar": {
-            "share": {
                 "accepted": "You have replied as Accepted for the share",
                 "declined": "You have replied as Declined for the share",
                 "error": "Something went wrong,Please retry"
