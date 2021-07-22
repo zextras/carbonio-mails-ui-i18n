@@ -41,7 +41,7 @@
     },
     "create": "Create",
     "delete": "Delete",
-    "find_calendar_shares": "Find Folder Shares",
+    "find_mail_shares": "Find shared folders",
     "find_shares": "Find shares",
     "folder": {
         "action": {
@@ -136,8 +136,7 @@
                 "footer": "Wipe",
                 "title": "Wipe"
             }
-        },
-        "share_info": "Share Info"
+        }
     },
     "folders": {
         "drafts": "Drafts",
@@ -169,7 +168,7 @@
         "download": "Download",
         "download_plural": "Download all",
         "draft_folder": "[DRAFT]",
-        "filter_sharer_user": "Filter sharer user",
+        "filter_user": "Filter users",
         "find_shares": "Select which folders you want to see in folders’ tree",
         "flash_browser_title": "Flash the browser title",
         "from": "From:",
@@ -195,7 +194,7 @@
         "send_notification": "Send a notification message to",
         "sent": "Sent",
         "shared_item": "Shared Item : ",
-        "shares_items": "{{value}}'s shared calendars",
+        "shares_items": "{{value}}'s shared folders",
         "show": "Show",
         "show_more_info": "Show More Info",
         "show_plural": "Show all",
@@ -206,6 +205,7 @@
         "with_you": "with you",
         "would_like_to_share": "would like to share"
     },
+    "mail_folder": "Mail folder",
     "message": {
         "snackbar": {
             "share": {
@@ -267,11 +267,6 @@
             "message_restore_error": "Something went wrong, restore message not completed, please retry.",
             "message_will_be_deleted_in_time": "This message will be deleted in {{remainingTime}} seconds.",
             "message_will_be_send_in_time": "This message will be send in {{remainingTime}} seconds."
-        }
-    },
-    "modal": {
-        "edit": {
-            "messages": ""
         }
     },
     "of": "of",
@@ -350,8 +345,8 @@
         }
     },
     "shared_folders": "Shared Folders",
-    "shared_items": "Shared items",
-    "shares_info": "Shares Info",
+    "shared_item": "Shared item",
+    "shares_info": "Shared folder's info",
     "title": {
         "new_messages": "New Messages",
         "replies_forwards": "Replies & Forwards"
