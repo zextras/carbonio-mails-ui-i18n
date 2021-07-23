@@ -54,6 +54,9 @@
         "edit_as_draft": "Modifica come bozza",
         "delete": "Elimina",
         "hide_details": "Nascondi dettagli",
-        "back": "Indietro"
+        "back": "Indietro",
+        "cancel": "Annulla",
+        "download": "Scarica",
+        "preview": "Clicca per l'anteprima in altra scheda"
     }
 }
