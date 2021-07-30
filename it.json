@@ -6,9 +6,39 @@
             "message_will_be_deleted_in_time": "Questo messaggio verrà eliminato in {{remainingTime}} secondi.",
             "message_deleted": "Messaggio eliminato con successo.",
             "conversation_will_be_deleted_in_time": "Questa conversazione verrà eliminata in {{remainingTime}} secondi.",
-            "conversation_deleted": "Conversazione eliminata con successo."
+            "conversation_deleted": "Conversazione eliminata con successo.",
+            "conversation_move": "Conversazione spostata con successo",
+            "conversation_move_error": "Qualcosa è andato storto, questa conversazione non è stata spostata, riprova.",
+            "folder_created": "Nuova cartella creata con successo",
+            "folder_deleted": "Cartella eliminata con successo.",
+            "folder_edited": "Cartella modificata con successo",
+            "folder_empty": "Pulizia cestino completata",
+            "folder_delete_error": "Qualcosa è andato storto, questa cartella non è stata eliminata, riprova.",
+            "message_move_error": "Qualcosa è andato storto, questo messaggio non è stato spostato, riprova.",
+            "folder_created_error": "Qualcosa è andato storto, la nuova cartella non è stata creata, riprova.",
+            "folder_edited_error": "Qualcosa è andato storto, i cambiamenti non sono stati applicati, riprova.",
+            "folder_move_error": "Qualcosa è andato storto, questa cartella non è stata spostata, riprova.",
+            "folder_moved": "Cartella spostata con successo",
+            "folder_empty_error": "Qualcosa è andato storto, i cambiamenti non sono stati applicati, riprova.",
+            "folder_will_be_deleted_in_time": "Questa cartella sarà eliminata in {{remainingTime}} secondi.",
+            "folder_will_be_moved_in_time": "Questa cartella sarà spostata in {{remainingTime}}",
+            "folder_will_be_wiped_in_time": "Questo messaggio verrà eliminato in {{remainingTime}} secondi.",
+            "folder_wiped": "Cartella eliminata con successo",
+            "message_move": "Messaggio spostato con successo"
         },
-        "no_subject": "Nessun Oggetto."
+        "no_subject": "Nessun Oggetto.",
+        "modal": {
+            "delete": {
+                "if_delete_lost_forever": "Se elimini l'email, sarà persa per sempre.",
+                "sure_delete_email": "Sei sicuro di voler eliminare l'email selezionata?"
+            },
+            "redirect": {
+                "first": "Questa email sarà inviata ad un nuovo destinatario, conservando l'indirizzo email del mittente originale."
+            }
+        },
+        "invalid_address": "Il seguente indirizzo sembra essere non valido",
+        "invalid_address_plural": "I seguenti indirizzi sembrano essere non validi",
+        "new_email": "Nuova email"
     },
     "label": {
         "cc": "CC:",
@@ -21,12 +51,22 @@
         "send": "Invia",
         "save": "Salva",
         "no_subject": "(Nessun oggetto)",
-        "me": "Me stesso",
+        "me": "Io",
         "from": "Da:",
         "download": "Scarica",
         "download_plural": "Scarica tutto",
         "attachment": "Allegato",
-        "attachment_plural": "{{count}} Allegati"
+        "attachment_plural": "{{count}} Allegati",
+        "mailSelected": "1 email selezionata",
+        "mailSelected_plural": "{{count}} email selezionate",
+        "select_1": "Seleziona una email per leggerla",
+        "select_2": "o fai click sul pulsante \"Nuovo\"",
+        "select_3": "per comporre una email.",
+        "cancel": "Annulla",
+        "draft_folder": "[BOZZA]",
+        "mail_setting": "Impostazioni Posta",
+        "remove": "Elimina",
+        "remove_plural": "Elimina Tutto"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -40,7 +80,10 @@
     },
     "header": {
         "no_subject": "Nessun oggetto",
-        "edit_draft": "Modifica bozza"
+        "edit_draft": "Modifica bozza",
+        "delete_email": "Elimina email",
+        "message_not_sent": "Errore - Messaggio non inviato",
+        "warning": "Attenzione"
     },
     "action": {
         "unflag": "Rimuovi contrassegno",
@@ -57,6 +100,94 @@
         "back": "Indietro",
         "cancel": "Annulla",
         "download": "Scarica",
-        "preview": "Clicca per l'anteprima in altra scheda"
+        "preview": "Clicca per l'anteprima in altra scheda",
+        "redirect": "Reindirizzamento",
+        "send_anyway": "Invia comunque",
+        "show_details": "Mostra dettagli",
+        "ok": "Ok",
+        "send": "Invia",
+        "move": "Sposta"
+    },
+    "folder": {
+        "action": {
+            "wipe": {
+                "folder": "Cancella cartella"
+            },
+            "delete_permanently": "Elimina definitivamente cartella",
+            "edit": "Modifica proprietà cartella",
+            "empty": {
+                "trash": "Svuota cestino"
+            },
+            "move": "Sposta cartella",
+            "new": "Nuova cartella",
+            "delete": "Elimina cartella",
+            "restore": "Ripristina Cartella"
+        },
+        "modal": {
+            "move": {
+                "footer": "Sposta",
+                "input": {
+                    "filter": "Filtra Cartelle"
+                },
+                "new": "Nuova Cartella",
+                "title": "Sposta",
+                "body": {
+                    "message2": "Seleziona cartella di destinazione"
+                }
+            },
+            "new": {
+                "footer": "Crea",
+                "create_footer": "Crea e Sposta",
+                "go_back": "Torna Indietro",
+                "input": {
+                    "name": "Nome Cartella",
+                    "position": "Posizione Cartella"
+                },
+                "title": "Crea una nuova cartella",
+                "name_exist_warning": "Nome già esistente"
+            },
+            "edit": {
+                "retention_properties": "Proprietà di Memorizzazione",
+                "rtn_dur_warning": "La durata di memorizzazione deve essere un numero positivo",
+                "size": "Dimensione",
+                "title": "Modifica",
+                "messages": "Messaggi",
+                "folder_type": "Cartella Posta",
+                "footer": "Modifica",
+                "type": "Tipo",
+                "rename_warning": "Non puoi rinominare una cartella come una di sistema",
+                "retention_msg": "I messaggi in questa cartella che rientrano nell'intervallo di memorizzazione richiederanno una conferma esplicita prima di essere eliminati"
+            },
+            "footer": {
+                "cancel": "Annulla"
+            },
+            "wipe": {
+                "body": {
+                    "message1": "Vuoi eliminare la cartella selezionata?"
+                }
+            },
+            "delete": {
+                "body": {
+                    "message1": "Vuoi eliminare la cartella selezionata?",
+                    "message2": "Vuoi eliminare il messaggio in modo definitivo?"
+                },
+                "footer": "Ok",
+                "title": "Elimina"
+            },
+            "empty": {
+                "footer": "Svuota",
+                "title": "Svuota"
+            }
+        },
+        "item": {
+            "root": "/Root"
+        }
+    },
+    "folders": {
+        "drafts": "Bozze",
+        "inbox": "In arrivo",
+        "junk": "Spam",
+        "sent": "Inviati",
+        "trash": "Cestino"
     }
 }
