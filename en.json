@@ -17,6 +17,7 @@
         "move": "Move",
         "ok": "Ok",
         "preview": "Click to preview in another tab",
+        "print": "Print",
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
@@ -24,6 +25,7 @@
         "send": "Send",
         "send_anyway": "Send anyway",
         "show_details": "Show details",
+        "show_original": "Show original",
         "unflag": "Remove flag"
     },
     "add": "Add",
