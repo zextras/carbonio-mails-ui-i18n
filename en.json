@@ -85,7 +85,6 @@
                 "rtn_dur_warning": "The retention duration must be a positive number",
                 "size": "Size",
                 "threshold_msg": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion.",
-                "title": "Edit",
                 "type": "Type"
             },
             "empty": {
@@ -172,6 +171,7 @@
         "draft_folder": "[DRAFT]",
         "edit": "Edit",
         "edit_access": "Edit {{name}}'s access",
+        "edit_folder_properties": "Edit {{name}}'s properties",
         "filter_user": "Filter users",
         "find_shares": "Select which folders you want to see in folders’ tree",
         "flash_browser_title": "Flash the browser title",
@@ -190,6 +190,7 @@
         "resend": "Resend",
         "retention_policy": "Retention properties",
         "revoke": "Revoke",
+        "revoke_access_tooltip": "Revoke access without sending a notification",
         "revoke_share": "Revoke {{title}}'s share",
         "role": "Role : ",
         "save": "Save",
@@ -257,7 +258,7 @@
             "folder_created_error": "Something went wrong,new folder were not created, please retry.",
             "folder_delete_error": "Something went wrong, this folder was not deleted, please retry.",
             "folder_deleted": "Folder deleted successfully.",
-            "folder_edited": "Folder edit successfully",
+            "folder_edited": "Folder edited successfully",
             "folder_edited_error": "Something went wrong, changes were not made, please retry.",
             "folder_empty": "Trash clean successfully",
             "folder_empty_error": "Something went wrong, changes were not made, please retry.",
