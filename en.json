@@ -18,6 +18,7 @@
         "move": "Move",
         "ok": "Ok",
         "preview": "Click to preview in another tab",
+        "print": "Print",
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
@@ -26,6 +27,7 @@
         "send_anyway": "Send anyway",
         "share_folder": "Share folder",
         "show_details": "Show details",
+        "show_original": "Show original",
         "unflag": "Remove flag"
     },
     "add": "Add",
