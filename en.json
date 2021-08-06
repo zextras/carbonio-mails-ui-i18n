@@ -4,7 +4,6 @@
         "cancel": "Cancel",
         "delete": "Delete",
         "delete_permanently": "Delete Permanently",
-        "download": "Download",
         "edit_as_draft": "Edit",
         "edit_as_new": "Edit as new",
         "flag": "Add flag",
@@ -149,43 +148,31 @@
     "freebusy": "FreeBusy",
     "header": {
         "delete_email": "Delete email",
-        "edit_draft": "Edit draft",
         "message_not_sent": "Error - Message not sent",
-        "no_subject": "No subject",
         "redirect_email": "Redirect e-mail",
         "warning": "Warning"
     },
     "insert": "Insert",
     "label": {
-        "add_custom_message": "Add a custom message",
-        "allowed_actions": "Allowed Actions : ",
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
         "automatically_delete_duplicates": "Automatically delete duplicate copies of the same message when received",
-        "bcc": "BCC:",
-        "calendar_color": "Calendar Color",
         "cancel": "Cancel",
         "cc": "CC:",
-        "download": "Download",
-        "download_plural": "Download all",
         "draft_folder": "[DRAFT]",
         "filter_user": "Filter users",
         "find_shares": "Select which folders you want to see in folders’ tree",
         "flash_browser_title": "Flash the browser title",
         "from": "From:",
-        "grantee": "Grantee : ",
-        "hide_more_info": "Hide More Info",
         "highlight_tab": "Highlight the Mail tab",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_subject": "(No subject)",
-        "owner": "Owner : ",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
         "remove_plural": "Delete All",
-        "role": "Role : ",
         "save": "Save",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
@@ -194,28 +181,14 @@
         "send": "Send",
         "send_notification": "Send a notification message to",
         "sent": "Sent",
-        "shared_item": "Shared Item : ",
         "shares_items": "{{value}}'s shared folders",
         "show": "Show",
-        "show_more_info": "Show More Info",
         "show_plural": "Show all",
         "show_popup": "Show a popup notification",
         "subject": "Subject:",
-        "to": "To:",
-        "type_name_here": "Calendar name",
-        "with_you": "with you",
-        "would_like_to_share": "would like to share"
+        "to": "To:"
     },
     "mail_folder": "Mail folder",
-    "message": {
-        "snackbar": {
-            "share": {
-                "accepted": "You have replied as Accepted for the share",
-                "declined": "You have replied as Declined for the share",
-                "error": "Something went wrong,Please retry"
-            }
-        }
-    },
     "messages": {
         "invalid_address": "The following address appears to be invalid",
         "invalid_address_plural": "The following addresses appear to be invalid",
@@ -230,7 +203,6 @@
             }
         },
         "new_email": "New email",
-        "no_content": "This message has no text content",
         "no_subject": "No Subject.",
         "permanent_delete_body": "By delete permanently this element you will not be able to recover it anymore, continue?",
         "permanent_delete_confirm": "Delete permanently",
@@ -283,7 +255,7 @@
     "read": "Read",
     "remove_from_this_list": "Remove from this list",
     "search": {
-      "results_for": "Results for:"
+        "results_for": "Results for:"
     },
     "select_signature": "Select signature",
     "set_default_signatures": "Set default signature",
@@ -338,21 +310,6 @@
             "never": "Never send a read reciept"
         }
     },
-    "share": {
-        "options": {
-            "share_calendar_role": {
-                "admin": "Admin",
-                "manager": "Manager",
-                "none": "None",
-                "viewer": "Viewer"
-            },
-            "share_calendar_with": {
-                "external_guests": "External guests (view only)",
-                "internal_users_groups": "Internal Users or Groups",
-                "public": "Public (view only, no password required)"
-            }
-        }
-    },
     "shared_folders": "Shared Folders",
     "shared_item": "Shared item",
     "shares_info": "Shared folder's info",
@@ -364,8 +321,6 @@
         "add_attachments": "Add attachments",
         "disable_rich_text": "Disable rich text editor",
         "disable_urgent": "Disable urgent",
-        "enable_disable_rich_text": "Enable/Disable rich text editor",
-        "enable_disable_urgent": "Enable/Disable urgent",
         "enable_rich_text": "Enable rich text editor",
         "enable_urgent": "Enable urgent"
     },
