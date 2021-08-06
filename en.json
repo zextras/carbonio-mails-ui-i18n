@@ -283,7 +283,7 @@
     "read": "Read",
     "remove_from_this_list": "Remove from this list",
     "search": {
-      "results_for": "Results for:"
+        "results_for": "Results for:"
     },
     "select_signature": "Select signature",
     "set_default_signatures": "Set default signature",
@@ -364,8 +364,6 @@
         "add_attachments": "Add attachments",
         "disable_rich_text": "Disable rich text editor",
         "disable_urgent": "Disable urgent",
-        "enable_disable_rich_text": "Enable/Disable rich text editor",
-        "enable_disable_urgent": "Enable/Disable urgent",
         "enable_rich_text": "Enable rich text editor",
         "enable_urgent": "Enable urgent"
     },
