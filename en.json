@@ -192,7 +192,7 @@
         "resend": "Resend",
         "retention_policy": "Retention properties",
         "revoke": "Revoke",
-        "revoke_access_tooltip": "Revoke access without sending a notification",
+        "revoke_access_tooltip": "Revoke access sending a standard notification",
         "revoke_share": "Revoke {{title}}'s share",
         "role": "Role : ",
         "save": "Save",
@@ -374,7 +374,7 @@
     "snackbar": {
         "folder_shared": "Folder shared",
         "folder_shared_error": "Something went wrong,please retry",
-        "share_resend": "Share invite resend",
+        "share_resend": "Share invite resent",
         "share_revoke": "Share access revoked",
         "share_updated": "Access rights updated"
     },
