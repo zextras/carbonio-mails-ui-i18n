@@ -7,7 +7,7 @@
         "download": "Download",
         "edit_as_draft": "Edit",
         "edit_as_new": "Edit as new",
-        "edit_share": "Edit Share",
+        "edit_share": "Edit Access",
         "flag": "Add flag",
         "forward": "Forward",
         "goto_drafts": "Go to drafts",
@@ -194,7 +194,9 @@
         "resend": "Resend",
         "retention_policy": "Retention properties",
         "revoke": "Revoke",
-        "revoke_access_tooltip": "Revoke access without sending a notification",
+        "revoke_access_tooltip": "Revoke access sending a standard notification",
+        "revoke_access_without_notification": "Revoke access without sending a notification",
+        "revoke_send_standard_msg": "Revoke access sending a custom notification",
         "revoke_share": "Revoke {{title}}'s share",
         "role": "Role : ",
         "save": "Save",
@@ -381,7 +383,7 @@
     "snackbar": {
         "folder_shared": "Folder shared",
         "folder_shared_error": "Something went wrong,please retry",
-        "share_resend": "Share invite resend",
+        "share_resend": "Share invite resent",
         "share_revoke": "Share access revoked",
         "share_updated": "Access rights updated"
     },
