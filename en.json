@@ -224,6 +224,7 @@
     "mail_folder": "Mail folder",
     "message": {
         "snackbar": {
+            "settings_saved": "Edits saved correctly",
             "share": {
                 "accepted": "You have replied as Accepted for the share",
                 "declined": "You have replied as Declined for the share",
