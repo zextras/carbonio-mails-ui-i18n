@@ -24,7 +24,9 @@
         "redirect": "Redirect",
         "reply": "Reply",
         "reply_all": "Reply all",
+        "reset": "Reset Filters",
         "restore": "Restore",
+        "search": "Search",
         "send": "Send",
         "send_anyway": "Send anyway",
         "share_folder": "Share folder",
@@ -162,6 +164,8 @@
     "insert": "Insert",
     "label": {
         "add_custom_message": "Add a custom message",
+        "advance_filters": "Advanced filters",
+        "advance_filters_plural": "{{count}} Advanced filters",
         "allowed_actions": "Allowed Actions : ",
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
@@ -200,6 +204,7 @@
         "revoke_share": "Revoke {{title}}'s share",
         "role": "Role : ",
         "save": "Save",
+        "search_hint": "Search hints!",
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
         "select_3": "to write a new email.",
@@ -223,6 +228,7 @@
     },
     "mail_folder": "Mail folder",
     "message": {
+        "search_hints": "Search hints we need to discuss about",
         "snackbar": {
             "settings_saved": "Edits saved correctly",
             "share": {
@@ -386,6 +392,7 @@
         "share_updated": "Access rights updated"
     },
     "title": {
+        "advanced_filters": "Advanced Filters",
         "new_messages": "New Messages",
         "replies_forwards": "Replies & Forwards"
     },
