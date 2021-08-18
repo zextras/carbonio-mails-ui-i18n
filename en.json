@@ -164,7 +164,7 @@
     "insert": "Insert",
     "label": {
         "add_custom_message": "Add a custom message",
-        "advance_filters": "Advanced filters",
+        "advance_filters": "1 Advanced filter",
         "advance_filters_plural": "{{count}} Advanced filters",
         "allowed_actions": "Allowed Actions : ",
         "attachment": "Attachment",
@@ -219,6 +219,7 @@
         "show": "Show",
         "show_plural": "Show all",
         "show_popup": "Show a popup notification",
+        "single_advance_fillter": "Advanced Filters",
         "subject": "Subject:",
         "to": "To:",
         "type": "Type:",
