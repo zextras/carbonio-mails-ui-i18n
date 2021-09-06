@@ -312,6 +312,7 @@
     "search": {
         "attachment": "Attachment",
         "attachment_note": "Search for all e-mail items that have an attachment.",
+        "choose_folder": "Choose Folder",
         "flagged": "Flagged",
         "flagged_note": "Search for all e-mail items that are flagged.",
         "unread": "Unread",
@@ -371,6 +372,8 @@
         }
     },
     "share": {
+        "filter_folder_message": "Select a folder in which you want to start you advanced search",
+        "is_contained_in": "Is contained in",
         "options": {
             "share_calendar_role": {
                 "admin": "Admin",
