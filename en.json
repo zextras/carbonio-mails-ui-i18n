@@ -145,6 +145,92 @@
             }
         }
     },
+    "folder-panel": {
+        "action": {
+            "delete": "",
+            "delete_permanently": "",
+            "edit": "",
+            "edit_properties": "",
+            "empty": {
+                "trash": ""
+            },
+            "move": "",
+            "new": "",
+            "restore": "",
+            "wipe": {
+                "folder-panel": ""
+            }
+        },
+        "lists-item": {
+            "root": ""
+        },
+        "modal": {
+            "delete": {
+                "body": {
+                    "message1": "",
+                    "message2": "",
+                    "message3": "",
+                    "message4": ""
+                },
+                "footer": "",
+                "title": ""
+            },
+            "edit": {
+                "messages": "",
+                "rename_warning": ""
+            },
+            "empty": {
+                "body": {
+                    "message1": "",
+                    "message2": ""
+                },
+                "footer": "",
+                "title": ""
+            },
+            "lists-item": {
+                "empty": ""
+            },
+            "move": {
+                "body": {
+                    "message1": "",
+                    "message2": "",
+                    "message_restore": ""
+                },
+                "footer": "",
+                "input": {
+                    "filter": ""
+                },
+                "new": "",
+                "title": "",
+                "title_modal": ""
+            },
+            "new": {
+                "create_footer": "",
+                "footer": "",
+                "go_back": "",
+                "input": {
+                    "name": "",
+                    "name_exist": "",
+                    "position": ""
+                },
+                "name_exist_warning": "",
+                "restore_create_footer": "",
+                "title": ""
+            },
+            "restore": {
+                "footer": "",
+                "title_modal": ""
+            },
+            "wipe": {
+                "body": {
+                    "message1": "",
+                    "message2": ""
+                },
+                "footer": "",
+                "title": ""
+            }
+        }
+    },
     "folders": {
         "drafts": "Drafts",
         "inbox": "Inbox",
@@ -210,6 +296,7 @@
         "select_1": "Select an email to read it",
         "select_2": "or click \"New\" button",
         "select_3": "to write a new email.",
+        "select_all": "",
         "select_folder": "Select Folder",
         "send": "Send",
         "send_notification": "Send a notification message to",
