@@ -284,6 +284,7 @@
             "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}",
             "folder_wiped": "Folder wiped successfully",
             "folder_wiped_error": "Something went wrong, please try again",
+            "mail_saved_to_draft": "",
             "mail_sent": "Message sent",
             "marked_as_non_spam": "You’ve marked this e-mail as Not Spam",
             "marked_as_spam": "You’ve marked this e-mail as Spam",
@@ -314,6 +315,10 @@
         "choose_folder": "Choose Folder",
         "flagged": "Flagged",
         "flagged_note": "Search for all e-mail items that are flagged.",
+        "sent_after": "Sent after",
+        "sent_before": "Sent before",
+        "sent_on": "Sent on",
+        "tag": "Tag",
         "unread": "Unread",
         "unread_note": "Search for all unread e-mail items."
     },
