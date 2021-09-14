@@ -1,1 +1,95 @@
-{}
+{
+    "action": {
+        "forward": "Weiterleiten",
+        "back": "Zurück",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "download": "Download",
+        "edit_as_draft": "Bearbeiten",
+        "mark_as_read": "Als gelesen markieren",
+        "mark_as_unread": "Als Ungelesen markieren",
+        "move": "Verschieben",
+        "ok": "Ok",
+        "reply": "Antworten",
+        "restore": "Wiederherstellen",
+        "search": "Suchen",
+        "send": "Senden"
+    },
+    "add": "Hinzufügen",
+    "folder": {
+        "modal": {
+            "edit": {
+                "size": "Größe",
+                "type": "Typ",
+                "footer": "Bearbeiten"
+            },
+            "restore": {
+                "title_modal": "Wiederherstellen",
+                "footer": "Wiederherstellen"
+            },
+            "delete": {
+                "footer": "Ok",
+                "title": "Löschen"
+            },
+            "move": {
+                "footer": "Verschieben",
+                "new": "Neuer Ordner",
+                "title": "Verschieben"
+            },
+            "new": {
+                "footer": "Erstellen"
+            }
+        },
+        "action": {
+            "new": "Neuer Ordner"
+        }
+    },
+    "header": {
+        "warning": "Warnung"
+    },
+    "label": {
+        "me": "Ich",
+        "remove": "Löschen",
+        "remove_plural": "",
+        "attachment": "Anhang",
+        "attachment_plural": "",
+        "cancel": "Abbrechen",
+        "download": "Download",
+        "download_plural": "",
+        "edit": "Bearbeiten",
+        "save": "Speichern",
+        "search_subject": "Betreff",
+        "send": "Senden",
+        "share": "Teilen"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "none": "Keine"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "Neue Nachrichten"
+    },
+    "create": "Erstellen",
+    "delete": "Löschen",
+    "folders": {
+        "trash": "Papierkorb"
+    },
+    "messages": {
+        "permanent_delete_confirm": "Endgültig löschen"
+    },
+    "of": "von",
+    "owner": "Besitzer",
+    "placeholder": {
+        "subject": "Betreff"
+    },
+    "read": "Gelesen",
+    "search": {
+        "attachment": "Anhang",
+        "unread": "Ungelesen"
+    },
+    "type": "Typ"
+}
