@@ -28,7 +28,11 @@
         "show_original": "Afficher l'original",
         "back": "Retour",
         "delete_permanently": "Supprimer définitivement",
-        "mark_as_unread": "Marqué comme non lu"
+        "mark_as_unread": "Marqué comme non lu",
+        "reset": "Réinitialiser les filtres",
+        "goto_drafts": "Aller aux brouillons",
+        "goto_folder": "ALLER AU DOSSIER",
+        "search": "Recherche"
     },
     "add": "Ajouter",
     "administer": "Administrer",
@@ -188,7 +192,7 @@
         "resend": "Renvoyer",
         "retention_policy": "Propriétés de sauvegarde",
         "revoke": "Révoquer",
-        "revoke_access_tooltip": "Révoquer les accès sans envoyer de notification",
+        "revoke_access_tooltip": "Révoquer les accès en envoyant une notification",
         "revoke_share": "Révoquer le partage de {{title}}",
         "role": "Rôle : ",
         "save": "Enregistrer",
@@ -212,7 +216,15 @@
         "with_you": "avec vous",
         "would_like_to_share": "partagé son",
         "automatically_delete_duplicates": "Supprimer automatiquement les doublons du même message lorsqu'il est reçu",
-        "select_1": "Sélectionnez un e-mail pour le lire"
+        "select_1": "Sélectionnez un e-mail pour le lire",
+        "advance_filters": "1 Filtre avancé",
+        "advance_filters_plural": "{{count}} Filtres avancés",
+        "keywords": "Mots clés",
+        "search_hint": "Recherche d'indices !",
+        "revoke_access_without_notification": "Révoquer les accès sans envoyer de notification",
+        "revoke_send_standard_msg": "Révoquer les accès en envoyant une notification personnalisée",
+        "search_subject": "Sujet",
+        "single_advance_fillter": "Filtres avancés"
     },
     "mail_folder": "dossier Mail",
     "message": {
@@ -221,8 +233,11 @@
                 "accepted": "Vous avez répondu comme Accepté pour le partage",
                 "error": "Quelque chose s'est mal passé, recommencez s'il vous plaît",
                 "declined": "Vous avez répondu comme Refusé pour le partage"
-            }
-        }
+            },
+            "settings_saved": "Les modifications sont enregistrées correctement"
+        },
+        "sending_mail_to_self": "Il semblerait que vous soyez sur le point de vous envoyer un email",
+        "search_hints": "Les indices de recherche dont nous devons discuter"
     },
     "messages": {
         "invalid_address": "L'adresse suivante semble être invalide",
@@ -246,25 +261,25 @@
         "snackbar": {
             "conversation_delete_error": "Quelque chose s'est mal passé, cette conversation n'a pas été supprimée, recommencez s'il vous plaît.",
             "conversation_deleted": "Conversation supprimée avec succès.",
-            "conversation_deleted_permanently_error": "Quelque chose s'est mal passé, recommencez l'action",
+            "conversation_deleted_permanently_error": "Quelque chose s'est mal passé, veuillez recommencer",
             "conversation_move": "La conversation a été déplacée avec succès",
-            "conversation_move_error": "Quelque chose s'est mal passé, le déplacement de la conversation a échoué, recommencez s'il vous plaît.",
+            "conversation_move_error": "Quelque chose s'est mal passé, le déplacement de la conversation a échoué, veuillez recommencer.",
             "conversation_restored": "Cette conversation a été restaurée avec succès dans {{folderName}}",
             "conversation_will_be_deleted_in_time": "Cette conversation sera supprimée dans {{remainingTime}} secondes.",
-            "folder_created": "Nouveau dossier créé avec succès",
+            "folder_created": "Nouveau dossier créé",
             "folder_delete_error": "Quelque chose s'est mal passé, ce dossier n'a pas été supprimé, recommencez s'il vous plaît.",
             "folder_deleted": "Dossier supprimé avec succès.",
             "folder_edited": "Dossier modifié avec succès",
-            "folder_empty": "La corbeille a été nettoyée avec succès",
-            "folder_edited_error": "Quelque chose s'est mal passé, les changements n'ont pas été appliqués, recommencez s'il vous plaît.",
-            "folder_empty_error": "Quelque chose s'est mal passé, les changements n'ont pas été appliqués, recommencez s'il vous plaît.",
-            "folder_move_error": "Quelque chose s'est mal passé, ce dossier n'a pas été déplacé, recommencez s'il vous plaît.",
+            "folder_empty": "La corbeille a été vidée avec succès",
+            "folder_edited_error": "Quelque chose s'est mal passé, les changements n'ont pas été appliqués, veuillez recommencer.",
+            "folder_empty_error": "Quelque chose s'est mal passé, les changements n'ont pas été appliqués, veuillez recommencer.",
+            "folder_move_error": "Quelque chose s'est mal passé, ce dossier n'a pas été déplacé, veuillez recommencer.",
             "folder_moved": "Dossier déplacé avec succès",
             "folder_will_be_deleted_in_time": "Ce dossier sera supprimé dans {{remainingTime}} secondes.",
             "folder_will_be_moved_in_time": "Ce dossier sera déplacé dans {{remainingTime}}",
             "folder_will_be_wiped_in_time": "Ce message sera nettoyé dans {{remainingTime}} secondes.",
             "folder_wiped": "Dossier nettoyé avec succès",
-            "message_delete_error": "Quelque chose s'est mal passé, ce message n'a pas été supprimé, recommencez s'il vous plaît.",
+            "message_delete_error": "Quelque chose s'est mal passé, ce message n'a pas été supprimé, veuillez recommencer.",
             "message_deleted": "Message supprimé avec succès.",
             "message_move": "Message déplacé avec succès",
             "message_move_error": "Quelque chose s'est mal passé, ce message n'a pas été déplacé, recommencez s'il vous plaît.",
@@ -273,9 +288,18 @@
             "message_restore_error": "Quelque chose s'est mal passé, la restauration du message n'est pas complète, recommencez s'il vous plaît.",
             "message_will_be_deleted_in_time": "Ce message sera supprimé dans {{remainingTime}} secondes.",
             "message_will_be_send_in_time": "Ce message sera envoyé dans {{remainingTime}} secondes.",
-            "conversation_deleted_permanently": "La suppression définitive s'est déroulée avec succès",
+            "conversation_deleted_permanently": "Email supprimé définitivement",
             "conversation_restore_error": "Quelque chose s'est mal passé, la restauration de la conversation n'est pas complète, recommencez s'il vous plaît.",
-            "folder_created_error": "Quelque chose s'est mal passé, le nouveau dossier n'a pas été créé, recommencez s'il vous plaît."
+            "folder_created_error": "Quelque chose s'est mal passé, veuillez recommencer.",
+            "folder_wiped_error": "Quelque chose s'est mal passé, veuillez recommencer",
+            "mail_sent": "Message envoyé",
+            "marked_as_non_spam": "Vous avez marqué cet email comme n'étant pas un spam",
+            "email_move_error": "Quelque chose s'est mal passé, veuillez recommencer",
+            "email_moved_to_trash": "Email déplacé dans la corbeille",
+            "email_restore_error": "Quelque chose s'est mal passé, veuillez recommencer",
+            "email_restored": "E-mail restauré dans le dossier de destination",
+            "folder_moved_to_trash": "Dossier déplacé dans la corbeille",
+            "marked_as_spam": "Vous avez marqué cet email comme étant un spam"
         }
     },
     "of": "de",
