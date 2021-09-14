@@ -1,1 +1,97 @@
-{}
+{
+    "action": {
+        "back": "Achterkant",
+        "cancel": "Annuleren",
+        "delete": "Openen met",
+        "delete_permanently": "Permanent Verwijderen",
+        "download": "Downloaden",
+        "edit_as_draft": "Bewerken",
+        "forward": "Doorsturen",
+        "mark_as_read": "Als gelezen markeren",
+        "mark_as_unread": "Markeren als niet geşezen",
+        "move": "Verplaatsen",
+        "ok": "OK",
+        "reply": "Antwoorden",
+        "restore": "Herstellen",
+        "search": "Zoeken",
+        "send": "Versturen"
+    },
+    "add": "Toevoegen",
+    "create": "Creëren",
+    "delete": "Openen met",
+    "folder": {
+        "action": {
+            "new": "Nieuwe map"
+        },
+        "modal": {
+            "delete": {
+                "footer": "OK",
+                "title": "Openen met"
+            },
+            "edit": {
+                "footer": "Bewerken",
+                "size": "Grootte",
+                "type": "Type"
+            },
+            "move": {
+                "footer": "Verplaatsen",
+                "new": "Nieuwe map",
+                "title": "Verplaatsen"
+            },
+            "new": {
+                "footer": "Creëren"
+            },
+            "restore": {
+                "footer": "Herstellen",
+                "title_modal": "Herstellen"
+            }
+        }
+    },
+    "folders": {
+        "trash": "Prullenbak"
+    },
+    "header": {
+        "warning": "Waarschuwing"
+    },
+    "label": {
+        "attachment": "Bijlage",
+        "attachment_plural": "",
+        "cancel": "Annuleren",
+        "download": "Downloaden",
+        "download_plural": "",
+        "edit": "Bewerken",
+        "me": "Me",
+        "remove": "Openen met",
+        "remove_plural": "",
+        "save": "Opslaan",
+        "search_subject": "Onderwerp",
+        "send": "Versturen",
+        "share": "Delen"
+    },
+    "messages": {
+        "permanent_delete_confirm": "Permanent verwijderen"
+    },
+    "of": "van",
+    "owner": "Eigenaar",
+    "placeholder": {
+        "subject": "Onderwerp"
+    },
+    "read": "Gelezen",
+    "search": {
+        "attachment": "Bijlage",
+        "unread": "Niet meer gelezen"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "manager": "Beheren",
+                "none": "Geen"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "Nieuwe berichten"
+    },
+    "type": "Type"
+}
