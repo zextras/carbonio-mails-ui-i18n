@@ -94,8 +94,8 @@
         "mark_as_read": "Segna come letto",
         "forward": "Inoltra",
         "edit_as_new": "Modifica come nuovo",
-        "edit_as_draft": "Modifica come bozza",
-        "delete": "Elimina",
+        "edit_as_draft": "Modifica",
+        "delete": "Cancella",
         "hide_details": "Nascondi dettagli",
         "back": "Indietro",
         "cancel": "Annulla",
@@ -106,7 +106,19 @@
         "show_details": "Mostra dettagli",
         "ok": "Ok",
         "send": "Invia",
-        "move": "Sposta"
+        "move": "Sposta",
+        "search": "Cerca",
+        "goto_drafts": "Vai alle bozze",
+        "mark_as_non_spam": "Non spam",
+        "mark_as_spam": "Segna come spam",
+        "delete_permanently": "Elimina definitivamente",
+        "edit_share": "Modifica Accesso",
+        "restore": "Ripristina",
+        "share_folder": "Condividi cartella",
+        "print": "Stampa",
+        "show_original": "Mostra originale",
+        "goto_folder": "VAI ALLA CARTELLA",
+        "reset": "Ripristina Filtri"
     },
     "folder": {
         "action": {
@@ -189,5 +201,28 @@
         "junk": "Spam",
         "sent": "Inviati",
         "trash": "Cestino"
-    }
+    },
+    "composer": {
+        "attachment": {
+            "contactsMod": "Aggiungi Scheda di contatto",
+            "local": "Aggiungi da locale",
+            "drive": "Aggiungi da Drive",
+            "draganddrop": {
+                "title": "Modalità Drag&Drop",
+                "content": "Trascina qui gli allegati per aggiungerli velocemente all'email"
+            }
+        }
+    },
+    "message": {
+        "snackbar": {
+            "settings_saved": "Modifiche salvate correttamente"
+        }
+    },
+    "add": "Aggiungi",
+    "allowed_actions": "Azioni consentite",
+    "create": "Crea",
+    "delete": "Elimina",
+    "administer": "Gestisci",
+    "find_mail_shares": "Trova cartelle condivise",
+    "find_shares": "Trova condivisioni"
 }
