@@ -1,1 +1,95 @@
-{}
+{
+    "folder": {
+        "modal": {
+            "edit": {
+                "size": "साइज़",
+                "footer": "बदलाव करें",
+                "type": "टाइप करें"
+            },
+            "delete": {
+                "footer": "ठीक है",
+                "title": "डिलीट करें"
+            },
+            "move": {
+                "footer": "ले जाएँ",
+                "new": "नया फोल्डर",
+                "title": "ले जाएँ"
+            },
+            "new": {
+                "footer": "बनाएँ"
+            },
+            "restore": {
+                "footer": "वापस लाएँ",
+                "title_modal": "वापस लाएँ"
+            }
+        },
+        "action": {
+            "new": "नया फोल्डर"
+        }
+    },
+    "label": {
+        "save": "सेव करें",
+        "attachment": "अटैचमेंट",
+        "attachment_plural": "",
+        "cancel": "कैंसल करें",
+        "download": "डाऊनलोड करें",
+        "download_plural": "",
+        "edit": "बदलाव करें",
+        "me": "मैं",
+        "remove": "डिलीट करें",
+        "remove_plural": "",
+        "search_subject": "विषय",
+        "send": "भेजें",
+        "share": "शेयर करें"
+    },
+    "messages": {
+        "permanent_delete_confirm": "हमेशा के लिए डिलीट करें"
+    },
+    "action": {
+        "back": "वापस",
+        "cancel": "कैंसल करें",
+        "delete": "डिलीट करें",
+        "download": "डाऊनलोड करें",
+        "edit_as_draft": "बदलाव करें",
+        "forward": "फॉरवर्ड करें",
+        "mark_as_read": "पढ़ा गया मार्क करें",
+        "mark_as_unread": "बिना पढ़ा मार्क करें",
+        "move": "ले जाएँ",
+        "ok": "ठीक है",
+        "reply": "रिप्लाई करें",
+        "restore": "वापस लाएँ",
+        "search": "सर्च करें",
+        "send": "भेजें"
+    },
+    "add": "जोड़ें",
+    "create": "बनाएँ",
+    "delete": "डिलीट करें",
+    "folders": {
+        "trash": "रद्दी"
+    },
+    "header": {
+        "warning": "चेतावनी"
+    },
+    "of": "में से",
+    "owner": "ओनर",
+    "placeholder": {
+        "subject": "विषय"
+    },
+    "read": "पढ़ें",
+    "search": {
+        "attachment": "अटैचमेंट",
+        "unread": "अनरीड करें"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "एडमिन",
+                "none": "कोई नहीं"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "नए मैसेज"
+    },
+    "type": "टाइप करें"
+}
