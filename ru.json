@@ -83,9 +83,9 @@
         "save": "Сохранить",
         "no_subject": "(без темы)",
         "from": "От:",
-        "attachment_0": "Вложение",
-        "attachment_1": "Вложения",
-        "attachment_2": "Вложений",
+        "attachment_0": "{{count}}Вложение",
+        "attachment_1": "{{count}} Вложения",
+        "attachment_2": "{{count}} Вложений",
         "download_0": "Скачать",
         "download_1": "Скачать",
         "download_2": "Скачать",
@@ -423,7 +423,7 @@
     "snackbar": {
         "folder_shared_error": "Что-то пошло не так, попробуйте еще раз",
         "share_updated": "Права доступа обновлены",
-        "error": "Что-то пошло не так, попробуйте еще раз",
+        "error": "Что-то пошло не так, повторите попытку",
         "share_revoke": "Общий доступ отменен",
         "folder_shared": "Общая папка"
     },
