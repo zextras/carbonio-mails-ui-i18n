@@ -91,7 +91,7 @@
                 "retention_properties": "Retention properties",
                 "rtn_dur_warning": "The retention duration must be a positive number",
                 "size": "Size",
-                "threshold_msg": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion.",
+                "threshold_msg": "In this folder, messages that are older than the disposal threshold will be subject to automated cleanup and deletion.",
                 "type": "Type"
             },
             "empty": {
