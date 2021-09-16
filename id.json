@@ -1,1 +1,92 @@
-{}
+{
+    "action": {
+        "back": "Belakang",
+        "cancel": "Batal",
+        "delete": "Hapus",
+        "download": "Unduh",
+        "edit_as_draft": "Edit",
+        "forward": "Teruskan",
+        "mark_as_read": "Tandai sebagai dibaca",
+        "mark_as_unread": "Tandai sebagai belum dibaca",
+        "move": "Pindahkan",
+        "ok": "Ok",
+        "reply": "Balas",
+        "restore": "Pulihkan",
+        "search": "Cari",
+        "send": "Kirim"
+    },
+    "folder": {
+        "action": {
+            "new": "Folder baru"
+        },
+        "modal": {
+            "move": {
+                "title": "Pindahkan",
+                "footer": "Pindahkan",
+                "new": "Folder Baru"
+            },
+            "restore": {
+                "title_modal": "Pulihkan",
+                "footer": "Pulihkan"
+            },
+            "delete": {
+                "footer": "Ok",
+                "title": "Hapus"
+            },
+            "edit": {
+                "footer": "Edit",
+                "size": "Ukuran",
+                "type": "Jenis"
+            },
+            "new": {
+                "footer": "Buat"
+            }
+        }
+    },
+    "folders": {
+        "trash": "Sampah"
+    },
+    "header": {
+        "warning": "Peringatan"
+    },
+    "label": {
+        "me": "Saya",
+        "save": "Simpan",
+        "attachment": "Lampiran",
+        "cancel": "Batal",
+        "download": "Unduh",
+        "edit": "Edit",
+        "remove": "Hapus",
+        "search_subject": "Subjek",
+        "send": "Kirim",
+        "share": "Bagikan"
+    },
+    "messages": {
+        "permanent_delete_confirm": "Hapus secara permanen"
+    },
+    "of": "dari",
+    "add": "Tambahkan",
+    "create": "Buat",
+    "delete": "Hapus",
+    "owner": "Pemilik",
+    "placeholder": {
+        "subject": "Subjek"
+    },
+    "read": "Dibaca",
+    "search": {
+        "attachment": "Lampiran",
+        "unread": "Belum dibaca"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "none": "Tidak ada"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "Pesan Baru"
+    },
+    "type": "Jenis"
+}
