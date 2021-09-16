@@ -66,7 +66,18 @@
         "draft_folder": "[BOZZA]",
         "mail_setting": "Impostazioni Posta",
         "remove": "Elimina",
-        "remove_plural": "Elimina Tutto"
+        "remove_plural": "Elimina Tutto",
+        "advance_filters": "1 Filtro avanzato",
+        "advance_filters_plural": "{{count}} Filtri avanzati",
+        "resend": "Invia di nuovo",
+        "find_shares": "Selezione le cartelle da visualizzare nella lista delle cartelle",
+        "add_custom_message": "Aggiungi un messaggio personalizzato",
+        "allowed_actions": "Azioni consentite: ",
+        "automatically_delete_duplicates": "Elimina automaticamente alla ricezione duplicati di uno stesso messaggio",
+        "calendar_color": "Colore elemento",
+        "edit": "Modifica",
+        "filter_user": "Filtra utenti",
+        "revoke": "Revoca"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -133,7 +144,8 @@
             "move": "Sposta cartella",
             "new": "Nuova cartella",
             "delete": "Elimina cartella",
-            "restore": "Ripristina Cartella"
+            "restore": "Ripristina Cartella",
+            "edit_properties": "Modifica proprietà"
         },
         "modal": {
             "move": {
@@ -189,6 +201,9 @@
             "empty": {
                 "footer": "Svuota",
                 "title": "Svuota"
+            },
+            "restore": {
+                "footer": "Ripristina"
             }
         },
         "item": {
@@ -224,5 +239,9 @@
     "delete": "Elimina",
     "administer": "Gestisci",
     "find_mail_shares": "Trova cartelle condivise",
-    "find_shares": "Trova condivisioni"
+    "find_shares": "Trova condivisioni",
+    "snackbar": {
+        "error": "Qualcosa è andato storto. riprova"
+    },
+    "insert": "Inserisci"
 }
