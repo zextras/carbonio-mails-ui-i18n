@@ -1,1 +1,92 @@
-{}
+{
+    "add": "追加する",
+    "create": "作成する",
+    "folder": {
+        "modal": {
+            "edit": {
+                "size": "サイズ",
+                "type": "タイプ",
+                "footer": "編集する"
+            },
+            "delete": {
+                "footer": "Ok",
+                "title": "削除する"
+            },
+            "move": {
+                "footer": "移動",
+                "new": "新規フォルダ",
+                "title": "移動"
+            },
+            "new": {
+                "footer": "作成する"
+            },
+            "restore": {
+                "footer": "復元する",
+                "title_modal": "復元する"
+            }
+        },
+        "action": {
+            "new": "新規フォルダ"
+        }
+    },
+    "header": {
+        "warning": "警告"
+    },
+    "title": {
+        "new_messages": "新しいメッセージ"
+    },
+    "type": "タイプ",
+    "action": {
+        "back": "戻る",
+        "cancel": "キャンセル",
+        "delete": "削除する",
+        "download": "ダウンロード",
+        "edit_as_draft": "編集する",
+        "forward": "転送する",
+        "mark_as_read": "既読にする",
+        "mark_as_unread": "未読にする",
+        "move": "移動",
+        "ok": "Ok",
+        "reply": "返信する",
+        "restore": "復元する",
+        "search": "検索する",
+        "send": "送信"
+    },
+    "delete": "削除する",
+    "folders": {
+        "trash": "ゴミ箱"
+    },
+    "label": {
+        "attachment": "添付ファイル",
+        "cancel": "キャンセル",
+        "download": "ダウンロード",
+        "edit": "編集する",
+        "me": "私",
+        "remove": "削除する",
+        "save": "保存する",
+        "search_subject": "件名",
+        "send": "送信",
+        "share": "シェアする"
+    },
+    "messages": {
+        "permanent_delete_confirm": "完全に削除する"
+    },
+    "of": "の",
+    "owner": "オーナ",
+    "placeholder": {
+        "subject": "件名"
+    },
+    "read": "既読",
+    "search": {
+        "attachment": "添付ファイル",
+        "unread": "未読"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "管理者",
+                "none": "なし"
+            }
+        }
+    }
+}
