@@ -1,1 +1,92 @@
-{}
+{
+    "folder": {
+        "modal": {
+            "delete": {
+                "footer": "OK",
+                "title": "删除"
+            },
+            "edit": {
+                "footer": "编辑",
+                "size": "大小",
+                "type": "类型"
+            },
+            "move": {
+                "footer": "移动",
+                "new": "新文件夹",
+                "title": "移动"
+            },
+            "new": {
+                "footer": "创建"
+            },
+            "restore": {
+                "footer": "恢复",
+                "title_modal": "恢复"
+            }
+        },
+        "action": {
+            "new": "新文件夹"
+        }
+    },
+    "messages": {
+        "permanent_delete_confirm": "永久删除"
+    },
+    "of": "的",
+    "placeholder": {
+        "subject": "主题"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "管理员",
+                "none": "无"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "新消息"
+    },
+    "type": "类型",
+    "action": {
+        "back": "返回",
+        "cancel": "取消",
+        "delete": "删除",
+        "download": "下载",
+        "edit_as_draft": "编辑",
+        "forward": "转发",
+        "mark_as_read": "标记为已读",
+        "mark_as_unread": "标记为未读",
+        "move": "移动",
+        "ok": "OK",
+        "reply": "回复",
+        "restore": "恢复",
+        "search": "搜索",
+        "send": "发送"
+    },
+    "add": "添加",
+    "create": "创建",
+    "delete": "删除",
+    "folders": {
+        "trash": "回收站"
+    },
+    "header": {
+        "warning": "警告"
+    },
+    "label": {
+        "attachment": "附件",
+        "cancel": "取消",
+        "download": "下载",
+        "edit": "编辑",
+        "me": "我",
+        "remove": "删除",
+        "save": "保存",
+        "search_subject": "主题",
+        "send": "发送",
+        "share": "分享"
+    },
+    "owner": "所有者",
+    "read": "读取",
+    "search": {
+        "attachment": "附件",
+        "unread": "未读"
+    }
+}
