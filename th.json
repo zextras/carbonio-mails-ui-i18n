@@ -1,1 +1,92 @@
-{}
+{
+    "folder": {
+        "action": {
+            "new": "โฟลเดอร์ใหม่"
+        },
+        "modal": {
+            "delete": {
+                "footer": "ตกลง",
+                "title": "ลบ"
+            },
+            "edit": {
+                "footer": "แก้ไข",
+                "size": "ขนาด",
+                "type": "รูปแบบ"
+            },
+            "move": {
+                "footer": "ย้าย",
+                "new": "โฟลเดอร์ใหม่",
+                "title": "ย้าย"
+            },
+            "new": {
+                "footer": "สร้าง"
+            },
+            "restore": {
+                "footer": "การกู้คืนข้อมูล (Restore)",
+                "title_modal": "การกู้คืนข้อมูล (Restore)"
+            }
+        }
+    },
+    "action": {
+        "back": "ด้านหลัง",
+        "cancel": "ยกเลิก",
+        "delete": "ลบ",
+        "download": "ดาวน์โหลด",
+        "edit_as_draft": "แก้ไข",
+        "forward": "ส่งต่อ",
+        "mark_as_read": "ทำเครื่องหมายว่าอ่านแล้ว",
+        "mark_as_unread": "ทำเครื่องหมายว่ายังไม่ได้อ่าน",
+        "move": "ย้าย",
+        "ok": "ตกลง",
+        "reply": "ตอบกลับ",
+        "restore": "การกู้คืนข้อมูล (Restore)",
+        "search": "ค้นหา",
+        "send": "ส่ง"
+    },
+    "add": "เพิ่ม",
+    "create": "สร้าง",
+    "delete": "ลบ",
+    "folders": {
+        "trash": "ถังขยะ"
+    },
+    "header": {
+        "warning": "คำเตือน"
+    },
+    "label": {
+        "attachment": "สิ่งที่แนบมา",
+        "cancel": "ยกเลิก",
+        "download": "ดาวน์โหลด",
+        "edit": "แก้ไข",
+        "me": "ฉัน",
+        "remove": "ลบ",
+        "save": "บันทึก",
+        "search_subject": "หัวข้อ",
+        "send": "ส่ง",
+        "share": "แชร์"
+    },
+    "messages": {
+        "permanent_delete_confirm": "ลบอย่างถาวร"
+    },
+    "of": "ของ",
+    "owner": "เจ้าของ",
+    "placeholder": {
+        "subject": "หัวข้อ"
+    },
+    "read": "อ่าน",
+    "search": {
+        "attachment": "สิ่งที่แนบมา",
+        "unread": "ไม่ได้อ่าน"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "ผู้ดูแลระบบ",
+                "none": "ไม่มี"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "ข้อความใหม่"
+    },
+    "type": "รูปแบบ"
+}
