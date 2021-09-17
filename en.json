@@ -4,7 +4,7 @@
         "cancel": "Cancel",
         "delete": "Delete",
         "delete_permanently": "Delete Permanently",
-        "download": "Download",
+        "download": "",
         "edit_as_draft": "Edit",
         "edit_as_new": "Edit as new",
         "edit_share": "Edit Access",
@@ -53,35 +53,7 @@
     "find_mail_shares": "Find shared folders",
     "find_shares": "Find shares",
     "folder": {
-        "action": {
-            "delete": "Delete folder",
-            "delete_permanently": "Delete folder permanently",
-            "edit": "Edit folder properties",
-            "edit_properties": "Edit properties",
-            "empty": {
-                "trash": "Empty trash"
-            },
-            "move": "Move folder",
-            "new": "New folder",
-            "restore": "Restore Folder",
-            "wipe": {
-                "folder": "Wipe folder"
-            }
-        },
-        "item": {
-            "root": "/Root"
-        },
         "modal": {
-            "delete": {
-                "body": {
-                    "message1": "Do you want to delete the selected folder?",
-                    "message2": "Do you want to delete the selected folder permanently?",
-                    "message3": "If you delete it, all the related content will be moved to Trash and the folder will no longer be visible.",
-                    "message4": "If you delete it, all the related content will be permanently removed and the folder will no longer be recoverable."
-                },
-                "footer": "Ok",
-                "title": "Delete"
-            },
             "edit": {
                 "folder_type": "Mail Folder",
                 "footer": "Edit",
@@ -93,55 +65,99 @@
                 "threshold_msg": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion.",
                 "type": "Type"
             },
+            "move": {
+                "input": {
+                    "filter": ""
+                }
+            },
+            "new": {
+                "go_back": "Go Back"
+            }
+        }
+    },
+    "folder-panel": {
+        "action": {
+            "delete": "",
+            "delete_permanently": "",
+            "edit": "",
+            "edit_properties": "",
+            "empty": {
+                "trash": ""
+            },
+            "move": "",
+            "new": "",
+            "restore": "",
+            "wipe": {
+                "folder-panel": ""
+            }
+        },
+        "lists-item": {
+            "root": ""
+        },
+        "modal": {
+            "delete": {
+                "body": {
+                    "message1": "",
+                    "message2": "",
+                    "message3": "",
+                    "message4": ""
+                },
+                "footer": "",
+                "title": ""
+            },
+            "edit": {
+                "messages": "",
+                "rename_warning": ""
+            },
             "empty": {
                 "body": {
-                    "message1": "Do you want to empty the selected folder?",
-                    "message2": "If you empty it, all the related content will be deleted permanently."
+                    "message1": "",
+                    "message2": ""
                 },
-                "footer": "Empty",
-                "title": "Empty"
+                "footer": "",
+                "title": ""
             },
-            "item": {
+            "lists-item": {
                 "empty": ""
             },
             "move": {
                 "body": {
-                    "message1": "Select a folder to move the considered one to:",
-                    "message2": "Select a destination folder",
-                    "message_restore": "Select a folder to restore the considered one to:"
+                    "message1": "",
+                    "message2": "",
+                    "message_restore": ""
                 },
-                "footer": "Move",
+                "footer": "",
                 "input": {
-                    "filter": "Filter Folders"
+                    "filter": ""
                 },
-                "new": "New Folder",
-                "title": "Move",
-                "title_modal": "Move Conversation"
+                "new": "",
+                "title": "",
+                "title_modal": ""
             },
             "new": {
-                "create_footer": "Create and Move",
-                "footer": "Create",
-                "go_back": "Go Back",
+                "create_footer": "",
+                "footer": "",
+                "go_back": "",
                 "input": {
-                    "name": "Folder Name",
+                    "name": "",
                     "name_exist": "",
-                    "position": "Folder Position"
+                    "position": ""
                 },
-                "name_exist_warning": "Name already exist",
-                "restore_create_footer": "Create and Restore",
-                "title": "Create a new folder"
+                "name_exist_warning": "",
+                "restore_create_footer": "",
+                "title": ""
             },
             "restore": {
-                "footer": "Restore",
-                "title_modal": "Restore"
+                "footer": "",
+                "title_modal": ""
             },
             "wipe": {
                 "body": {
-                    "message1": "Do you want to wipe the selected folder?",
-                    "message2": "If you wipe it, all the related content will be deleted permanently."
+                    "message1": "",
+                    "message2": ""
                 },
-                "footer": "Wipe",
-                "title": "Wipe"
+                "footer": "",
+                "title": ""
             }
         }
     },
@@ -163,19 +179,19 @@
     },
     "insert": "Insert",
     "label": {
-        "add_custom_message": "Add a custom message",
+        "add_custom_message": "",
         "advance_filters": "1 Advanced filter",
         "advance_filters_plural": "{{count}} Advanced filters",
-        "allowed_actions": "Allowed Actions : ",
+        "allowed_actions": "",
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
         "automatically_delete_duplicates": "Automatically delete duplicate copies of the same message when received",
         "bcc": "BCC:",
-        "calendar_color": "Item's Color",
+        "calendar_color": "",
         "cancel": "Cancel",
         "cc": "CC:",
-        "download": "Download",
-        "download_plural": "Download all",
+        "download": "",
+        "download_plural": "",
         "draft_folder": "[DRAFT]",
         "edit": "Edit",
         "edit_access": "Edit {{name}}'s access",
@@ -184,15 +200,16 @@
         "find_shares": "Select which folders you want to see in folders’ tree",
         "flash_browser_title": "Flash the browser title",
         "from": "From:",
-        "grantee": "Grantee : ",
+        "grantee": "",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
+        "mailDeselected": "Select an email to read it\n or click \"New\" button\n to write a new email.",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_subject": "(No subject)",
-        "owner": "Owner : ",
+        "owner": "",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
         "remove_plural": "Delete All",
@@ -203,19 +220,16 @@
         "revoke_access_without_notification": "Revoke access without sending a notification",
         "revoke_send_standard_msg": "Revoke access sending a custom notification",
         "revoke_share": "Revoke {{title}}'s share",
-        "role": "Role : ",
+        "role": "",
         "save": "Save",
         "search_hint": "Search hints!",
         "search_subject": "Subject",
-        "select_1": "Select an email to read it",
-        "select_2": "or click \"New\" button",
-        "select_3": "to write a new email.",
         "select_folder": "Select Folder",
         "send": "Send",
         "send_notification": "Send a notification message to",
         "sent": "Sent",
         "share": "Share",
-        "shared_item": "Shared Item : ",
+        "shared_item": "",
         "shares_folder_edit": "Sharing of this folder",
         "shares_items": "{{value}}'s shared folders",
         "show": "Show",
@@ -224,10 +238,10 @@
         "single_advance_fillter": "Advanced Filters",
         "subject": "Subject:",
         "to": "To:",
-        "type": "Type:",
-        "type_name_here": "Item's Name",
-        "with_you": "with you",
-        "would_like_to_share": "shared his"
+        "type": "",
+        "type_name_here": "",
+        "with_you": "",
+        "would_like_to_share": ""
     },
     "mail_folder": "Mail folder",
     "message": {
@@ -236,9 +250,9 @@
         "snackbar": {
             "settings_saved": "Edits saved correctly",
             "share": {
-                "accepted": "You have replied as Accepted for the share",
-                "declined": "You have replied as Declined for the share",
-                "error": "Something went wrong,Please retry"
+                "accepted": "",
+                "declined": "",
+                "error": ""
             }
         }
     },
@@ -256,17 +270,17 @@
             }
         },
         "new_email": "New email",
-        "no_content": "This message has no text content",
+        "no_content": "",
         "no_subject": "No Subject.",
-        "permanent_delete_body": "By delete permanently this element you will not be able to recover it anymore, continue?",
-        "permanent_delete_confirm": "Delete permanently",
-        "permanent_delete_title": "Are you sure to delete permanently this element?",
+        "permanent_delete_body": "",
+        "permanent_delete_confirm": "",
+        "permanent_delete_title": "",
         "snackbar": {
             "conversation_deleted": "Conversation successfully deleted.",
             "conversation_deleted_permanently": "E-mail permanently deleted",
             "conversation_deleted_permanently_error": "Something went wrong, please try again",
             "conversation_move": "Conversation successfully moved",
-            "conversation_move_error": "Something went wrong, conversation move was not completed, please retry.",
+            "conversation_move_error": "",
             "email_move_error": "Something went wrong, please try again",
             "email_moved_to_trash": "E-mail moved to trash",
             "email_restore_error": "Something went wrong, please try again",
@@ -293,7 +307,7 @@
             "message_deleted_permanently": "E-mail permanently deleted",
             "message_deleted_permanently_error": "Something went wrong, please try again",
             "message_move": "Message successfully moved",
-            "message_move_error": "Something went wrong,move message not completed, please retry.",
+            "message_move_error": "",
             "message_redirected": "The message has been redirected"
         }
     },
