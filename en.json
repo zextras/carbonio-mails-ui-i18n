@@ -37,6 +37,19 @@
     "add": "Add",
     "administer": "Administer",
     "allowed_actions": "Allowed actions",
+    "attachment_type": {
+        "application": "Application",
+        "email": "Email",
+        "excel": "Excel",
+        "html": "HTML",
+        "image": "Image",
+        "pdf": "PDF",
+        "powerpoint": "Powerpoint",
+        "text_document": "Text Document",
+        "video": "Video",
+        "word": "Word",
+        "zipped_file": "Zipped File"
+    },
     "composer": {
         "attachment": {
             "contactsMod": "Add Contact Card",
@@ -50,6 +63,31 @@
     },
     "create": "Create",
     "delete": "Delete",
+    "email_status": {
+        "anywhere": "in all the folders",
+        "ccme": "in copy to me",
+        "draft": "draft",
+        "flagged": "flagged",
+        "forwarded": "forwarded",
+        "fromccme": "from me or in copy to me",
+        "fromme": "from me",
+        "invitations": "invitations",
+        "local": "on my folders",
+        "read": "read",
+        "recevided": "recevided by me",
+        "remote": "on a folder shared by me",
+        "replied": "answered by me",
+        "sent": "sent by me",
+        "solo": "conversations with a single message",
+        "toccme": "to me or in copy to me",
+        "tofromccme": "to me, from me or in copy to me",
+        "tofromme": "to me OR from me",
+        "tome": "to me",
+        "unflagged": "not flagged",
+        "unforwarded": "not forwarded",
+        "unread": "unread",
+        "unreplied": "not answered by me"
+    },
     "find_mail_shares": "Find shared folders",
     "find_shares": "Find shares",
     "folder": {
@@ -248,6 +286,9 @@
         "warning": "Warning"
     },
     "insert": "Insert",
+    "item": {
+        "label": ""
+    },
     "label": {
         "add_custom_message": "Add a custom message",
         "advance_filters": "1 Advanced filter",
