@@ -399,7 +399,7 @@
     "search": {
         "attachment": "Attachment",
         "attachment_note": "Search for all e-mail items that have an attachment.",
-        "choose_folder": "",
+        "choose_folder": "Choose Folder",
         "flagged": "Flagged",
         "flagged_note": "Search for all e-mail items that are flagged.",
         "sent_after": "Sent after",
