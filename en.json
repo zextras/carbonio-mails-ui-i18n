@@ -162,6 +162,92 @@
             }
         }
     },
+    "folder-panel": {
+        "action": {
+            "delete": "",
+            "delete_permanently": "",
+            "edit": "",
+            "edit_properties": "",
+            "empty": {
+                "trash": ""
+            },
+            "move": "",
+            "new": "",
+            "restore": "",
+            "wipe": {
+                "folder-panel": ""
+            }
+        },
+        "lists-item": {
+            "root": ""
+        },
+        "modal": {
+            "delete": {
+                "body": {
+                    "message1": "",
+                    "message2": "",
+                    "message3": "",
+                    "message4": ""
+                },
+                "footer": "",
+                "title": ""
+            },
+            "edit": {
+                "messages": "",
+                "rename_warning": ""
+            },
+            "empty": {
+                "body": {
+                    "message1": "",
+                    "message2": ""
+                },
+                "footer": "",
+                "title": ""
+            },
+            "lists-item": {
+                "empty": ""
+            },
+            "move": {
+                "body": {
+                    "message1": "",
+                    "message2": "",
+                    "message_restore": ""
+                },
+                "footer": "",
+                "input": {
+                    "filter": ""
+                },
+                "new": "",
+                "title": "",
+                "title_modal": ""
+            },
+            "new": {
+                "create_footer": "",
+                "footer": "",
+                "go_back": "",
+                "input": {
+                    "name": "",
+                    "name_exist": "",
+                    "position": ""
+                },
+                "name_exist_warning": "",
+                "restore_create_footer": "",
+                "title": ""
+            },
+            "restore": {
+                "footer": "",
+                "title_modal": ""
+            },
+            "wipe": {
+                "body": {
+                    "message1": "",
+                    "message2": ""
+                },
+                "footer": "",
+                "title": ""
+            }
+        }
+    },
     "folders": {
         "drafts": "Drafts",
         "inbox": "Inbox",
@@ -197,6 +283,7 @@
         "edit": "Edit",
         "edit_access": "Edit {{name}}'s access",
         "edit_folder_properties": "Edit {{name}}'s properties",
+        "error_address": "a valid email address is required",
         "filter_user": "Filter users",
         "find_shares": "Select which folders you want to see in folders’ tree",
         "flash_browser_title": "Flash the browser title",
@@ -204,12 +291,14 @@
         "grantee": "Grantee : ",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
+        "mailDeselected": "Select an email to read it\n or click \"New\" button\n to write a new email.",
         "mailSelected": "1 email selected",
         "mailSelected_plural": "{{count}} emails selected",
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_subject": "(No subject)",
         "owner": "Owner : ",
+        "rec_from_address": "Received from (address)",
         "receive_message": "Receiving Messages",
         "remove": "Delete",
         "remove_plural": "Delete All",
@@ -231,6 +320,7 @@
         "send": "Send",
         "send_notification": "Send a notification message to",
         "sent": "Sent",
+        "sent_to_address": "Sent to (address)",
         "share": "Share",
         "shared_item": "Shared Item : ",
         "shares_folder_edit": "Sharing of this folder",
@@ -329,8 +419,13 @@
     "search": {
         "attachment": "Attachment",
         "attachment_note": "Search for all e-mail items that have an attachment.",
+        "choose_folder": "",
         "flagged": "Flagged",
         "flagged_note": "Search for all e-mail items that are flagged.",
+        "sent_after": "Sent after",
+        "sent_before": "Sent before",
+        "sent_on": "Sent on",
+        "tag": "Tag",
         "unread": "Unread",
         "unread_note": "Search for all unread e-mail items."
     },
@@ -388,6 +483,8 @@
         }
     },
     "share": {
+        "filter_folder_message": "",
+        "is_contained_in": "Is contained in",
         "options": {
             "share_calendar_role": {
                 "admin": "Admin",
