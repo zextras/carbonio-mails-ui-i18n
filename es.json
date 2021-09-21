@@ -1,1 +1,95 @@
-{}
+{
+    "action": {
+        "back": "Volver",
+        "send": "Enviar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "download": "Download",
+        "edit_as_draft": "Editar",
+        "forward": "Reenviar",
+        "mark_as_read": "Marcar como leído",
+        "mark_as_unread": "Marcar como no leído",
+        "move": "Mover",
+        "ok": "Ok",
+        "reply": "Responder",
+        "restore": "Restaurar",
+        "search": "Búsqueda"
+    },
+    "folder": {
+        "modal": {
+            "delete": {
+                "footer": "Ok",
+                "title": "Eliminar"
+            },
+            "edit": {
+                "footer": "Editar",
+                "size": "Tamaño",
+                "type": "Tipo"
+            },
+            "move": {
+                "footer": "Mover",
+                "new": "Nueva carpeta",
+                "title": "Mover"
+            },
+            "new": {
+                "footer": "Crear"
+            },
+            "restore": {
+                "footer": "Restaurar",
+                "title_modal": "Restaurar"
+            }
+        },
+        "action": {
+            "new": "Nueva carpeta"
+        }
+    },
+    "type": "Tipo",
+    "add": "Agregar",
+    "create": "Crear",
+    "delete": "Eliminar",
+    "folders": {
+        "trash": "Papelera"
+    },
+    "header": {
+        "warning": "Advertencia"
+    },
+    "label": {
+        "attachment": "Adjunto",
+        "attachment_plural": "",
+        "cancel": "Cancelar",
+        "download": "Download",
+        "download_plural": "",
+        "edit": "Editar",
+        "me": "Yo",
+        "remove": "Eliminar",
+        "remove_plural": "",
+        "save": "Guardar",
+        "search_subject": "Asunto",
+        "send": "Enviar",
+        "share": "Compartir"
+    },
+    "messages": {
+        "permanent_delete_confirm": "Eliminar permanentemente"
+    },
+    "of": "d",
+    "owner": "Propietario",
+    "placeholder": {
+        "subject": "Asunto"
+    },
+    "read": "Leido",
+    "search": {
+        "attachment": "Adjunto",
+        "unread": "No leido"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "none": "None"
+            }
+        }
+    },
+    "title": {
+        "new_messages": "Mensajes nuevos"
+    }
+}
