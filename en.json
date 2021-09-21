@@ -37,6 +37,19 @@
     "add": "Add",
     "administer": "Administer",
     "allowed_actions": "Allowed actions",
+    "attachment_type": {
+        "application": "Application",
+        "email": "Email",
+        "excel": "Excel",
+        "html": "HTML",
+        "image": "Image",
+        "pdf": "PDF",
+        "powerpoint": "Powerpoint",
+        "text_document": "Text Document",
+        "video": "Video",
+        "word": "Word",
+        "zipped_file": "Zipped File"
+    },
     "composer": {
         "attachment": {
             "contactsMod": "Add Contact Card",
@@ -66,6 +79,31 @@
         "outgoing_message_filters": "Outgoing Message Filters",
         "remove": "Remove",
         "run": "Run"
+    },
+    "email_status": {
+        "anywhere": "in all the folders",
+        "ccme": "in copy to me",
+        "draft": "draft",
+        "flagged": "flagged",
+        "forwarded": "forwarded",
+        "fromccme": "from me or in copy to me",
+        "fromme": "from me",
+        "invitations": "invitations",
+        "local": "on my folders",
+        "read": "read",
+        "recevided": "recevided by me",
+        "remote": "on a folder shared by me",
+        "replied": "answered by me",
+        "sent": "sent by me",
+        "solo": "conversations with a single message",
+        "toccme": "to me or in copy to me",
+        "tofromccme": "to me, from me or in copy to me",
+        "tofromme": "to me OR from me",
+        "tome": "to me",
+        "unflagged": "not flagged",
+        "unforwarded": "not forwarded",
+        "unread": "unread",
+        "unreplied": "not answered by me"
     },
     "find_mail_shares": "Find shared folders",
     "find_shares": "Find shares",
@@ -265,6 +303,9 @@
         "warning": "Warning"
     },
     "insert": "Insert",
+    "item": {
+        "label": ""
+    },
     "label": {
         "add_custom_message": "Add a custom message",
         "advance_filters": "1 Advanced filter",
@@ -272,6 +313,8 @@
         "allowed_actions": "Allowed Actions : ",
         "attachment": "Attachment",
         "attachment_plural": "{{count}} Attachments",
+        "attachment_status": "Status of e-mail item",
+        "attachment_type": "Attachment type",
         "automatically_delete_duplicates": "Automatically delete duplicate copies of the same message when received",
         "bcc": "BCC:",
         "calendar_color": "Item's Color",
@@ -329,6 +372,8 @@
         "show_plural": "Show all",
         "show_popup": "Show a popup notification",
         "single_advance_fillter": "Advanced Filters",
+        "size_larger": "Size larger than (MB)",
+        "size_smaller": "Size smaller than (MB)",
         "subject": "Subject:",
         "to": "To:",
         "type": "Type:",
@@ -419,7 +464,7 @@
     "search": {
         "attachment": "Attachment",
         "attachment_note": "Search for all e-mail items that have an attachment.",
-        "choose_folder": "",
+        "choose_folder": "Choose Folder",
         "flagged": "Flagged",
         "flagged_note": "Search for all e-mail items that are flagged.",
         "sent_after": "Sent after",
