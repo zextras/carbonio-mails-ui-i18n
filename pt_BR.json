@@ -1,1 +1,95 @@
-{}
+{
+    "action": {
+        "restore": "Restaurar",
+        "back": "Traseira",
+        "cancel": "Cancelar",
+        "delete": "Excluir",
+        "download": "Download",
+        "edit_as_draft": "Editar",
+        "forward": "Encaminhar",
+        "mark_as_read": "Marcar como lído",
+        "mark_as_unread": "Marcar como não lído",
+        "move": "Mover",
+        "ok": "Ok",
+        "reply": "Responder",
+        "search": "Buscar",
+        "send": "Enviar"
+    },
+    "folder": {
+        "modal": {
+            "delete": {
+                "title": "Excluir",
+                "footer": "Ok"
+            },
+            "edit": {
+                "footer": "Editar",
+                "size": "Tamanho",
+                "type": "Tipo"
+            },
+            "move": {
+                "footer": "Mover",
+                "new": "Nova pasta",
+                "title": "Mover"
+            },
+            "new": {
+                "footer": "Criar"
+            },
+            "restore": {
+                "footer": "Restaurar",
+                "title_modal": "Restaurar"
+            }
+        },
+        "action": {
+            "new": "Nova pasta"
+        }
+    },
+    "label": {
+        "attachment": "Anexo",
+        "attachment_plural": "{{count}}Anexos",
+        "cancel": "Cancelar",
+        "download": "Download",
+        "download_plural": "",
+        "send": "Enviar",
+        "share": "Compartilhar",
+        "edit": "Editar",
+        "me": "Eu",
+        "remove": "Excluir",
+        "remove_plural": "",
+        "save": "Salvar",
+        "search_subject": "Assunto"
+    },
+    "of": "de",
+    "owner": "Proprietário",
+    "read": "Lida",
+    "title": {
+        "new_messages": "Novas mensagens"
+    },
+    "add": "Adicionar",
+    "create": "Criar",
+    "delete": "Excluir",
+    "folders": {
+        "trash": "Lixeira"
+    },
+    "header": {
+        "warning": "Atenção"
+    },
+    "messages": {
+        "permanent_delete_confirm": "Excluir permanentemente"
+    },
+    "placeholder": {
+        "subject": "Assunto"
+    },
+    "search": {
+        "attachment": "Anexo",
+        "unread": "Não lida"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "none": "None"
+            }
+        }
+    },
+    "type": "Tipo"
+}
