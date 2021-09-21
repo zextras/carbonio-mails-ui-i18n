@@ -93,5 +93,13 @@
     "title": {
         "new_messages": "Nieuwe berichten"
     },
-    "type": "Type"
+    "type": "Type",
+    "snackbar": {
+        "error": "Er is iets misgegaan, probeer het opnieuw"
+    },
+    "message": {
+        "snackbar": {
+            "settings_saved": "Bewerkingen correct opgeslagen"
+        }
+    }
 }
