@@ -77,7 +77,25 @@
         "calendar_color": "Colore elemento",
         "edit": "Modifica",
         "filter_user": "Filtra utenti",
-        "revoke": "Revoca"
+        "revoke": "Revoca",
+        "revoke_access_tooltip": "Revoca accesso e invia una notifica standard",
+        "search_subject": "Oggetto",
+        "shared_item": "Elemento Condiviso: ",
+        "edit_access": "Modifica l'accesso di {{name}}",
+        "edit_folder_properties": "Modifica proprietà di {{name}}",
+        "revoke_access_without_notification": "Revoca accesso e non inviare notifica",
+        "revoke_send_standard_msg": "Revoca accesso e invia una notifica personalizzata",
+        "revoke_share": "Revoca condivisone di {{title}}",
+        "search_hint": "Cerca suggerimenti!",
+        "share": "Condividi",
+        "single_advance_fillter": "Filtri Avanzati",
+        "grantee": "Beneficiario",
+        "highlight_tab": "Evidenzia il pannello Email",
+        "keywords": "Parole chiave",
+        "owner": "Proprietario:",
+        "role": "Ruolo: ",
+        "select_folder": "Seleziona Cartella",
+        "send_notification": "Invia un messaggio di notifica a"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -94,7 +112,8 @@
         "edit_draft": "Modifica bozza",
         "delete_email": "Elimina email",
         "message_not_sent": "Errore - Messaggio non inviato",
-        "warning": "Attenzione"
+        "warning": "Attenzione",
+        "redirect_email": "Reindirizza e-mail"
     },
     "action": {
         "unflag": "Rimuovi contrassegno",
@@ -156,8 +175,11 @@
                 "new": "Nuova Cartella",
                 "title": "Sposta",
                 "body": {
-                    "message2": "Seleziona cartella di destinazione"
-                }
+                    "message2": "Seleziona cartella di destinazione",
+                    "message1": "Seleziona una cartella in cui spostare quella selezionata:",
+                    "message_restore": "Seleziona una cartella in cui ripristinare quella selezionata:"
+                },
+                "title_modal": "Sposta Conversazione"
             },
             "new": {
                 "footer": "Crea",
@@ -168,7 +190,8 @@
                     "position": "Posizione Cartella"
                 },
                 "title": "Crea una nuova cartella",
-                "name_exist_warning": "Nome già esistente"
+                "name_exist_warning": "Nome già esistente",
+                "restore_create_footer": "Crea e Ripristina"
             },
             "edit": {
                 "retention_properties": "Proprietà di Memorizzazione",
@@ -180,15 +203,19 @@
                 "footer": "Modifica",
                 "type": "Tipo",
                 "rename_warning": "Non puoi rinominare una cartella come una di sistema",
-                "retention_msg": "I messaggi in questa cartella che rientrano nell'intervallo di memorizzazione richiederanno una conferma esplicita prima di essere eliminati"
+                "retention_msg": "I messaggi in questa cartella che rientrano nell'intervallo di memorizzazione richiederanno una conferma esplicita prima di essere eliminati",
+                "threshold_msg": "In questa cartella, i messaggi più vecchi del periodo stabilito verranno cancellati automaticamente."
             },
             "footer": {
                 "cancel": "Annulla"
             },
             "wipe": {
                 "body": {
-                    "message1": "Vuoi eliminare la cartella selezionata?"
-                }
+                    "message1": "Vuoi eliminare la cartella selezionata?",
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                },
+                "footer": "Pulisci",
+                "title": "Pulisci"
             },
             "delete": {
                 "body": {
@@ -200,10 +227,15 @@
             },
             "empty": {
                 "footer": "Svuota",
-                "title": "Svuota"
+                "title": "Svuota",
+                "body": {
+                    "message1": "Vuoi svoutare la cartella selezionata?",
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                }
             },
             "restore": {
-                "footer": "Ripristina"
+                "footer": "Ripristina",
+                "title_modal": "Ripristina"
             }
         },
         "item": {
@@ -241,7 +273,26 @@
     "find_mail_shares": "Trova cartelle condivise",
     "find_shares": "Trova condivisioni",
     "snackbar": {
-        "error": "Qualcosa è andato storto. riprova"
+        "error": "Qualcosa è andato storto. riprova",
+        "folder_shared_error": "Qualcosa è andato storto. Riprova",
+        "share_resend": "Invito condivisione inviato",
+        "share_revoke": "Condivisione accesso revocata",
+        "share_updated": "Diritti di accesso aggiornati"
     },
-    "insert": "Inserisci"
+    "insert": "Inserisci",
+    "share": {
+        "options": {
+            "share_calendar_with": {
+                "public": "Pubblico (solo visualizzazione, password non richiesta)",
+                "external_guests": "Invitati Esterni (solo visualizzazione)",
+                "internal_users_groups": "Utenti Interni o Gruppi"
+            }
+        },
+        "recipients_address": "Indirizzi e-mail dei destinatari",
+        "send_notification": "Invia notifica per questa condivisione",
+        "standard_message": "Aggiungi nota a messaggio predefinito"
+    },
+    "title": {
+        "advanced_filters": "Filtri Avanzati"
+    }
 }
