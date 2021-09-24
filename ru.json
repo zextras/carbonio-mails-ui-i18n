@@ -112,7 +112,7 @@
         "find_shares": "Выберите, какие папки вы хотите видеть в списке папок",
         "flash_browser_title": "Мигающий заголовок браузера",
         "highlight_tab": "Выделите вкладку Почта",
-        "owner": "Владелец",
+        "owner": "Владелец:",
         "resend": "Отправить повторно",
         "retention_policy": "Свойства удерживания",
         "revoke": "Отозвать",
@@ -143,7 +143,7 @@
         "revoke_access_without_notification": "Отменить доступ без отправки уведомления",
         "search_subject": "Тема",
         "revoke_share": "Отозвать доступ {{title}}",
-        "grantee": "Получатель"
+        "grantee": "Получатель:"
     },
     "header": {
         "warning": "Предупреждение",
