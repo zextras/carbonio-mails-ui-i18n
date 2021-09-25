@@ -13,7 +13,9 @@
         "ok": "Ok",
         "reply": "Responder",
         "restore": "Restaurar",
-        "search": "Búsqueda"
+        "search": "Búsqueda",
+        "delete_permanently": "Borrar permanentemente",
+        "preview": "Clic para previsualizar en otra pestaña"
     },
     "folder": {
         "modal": {
@@ -66,7 +68,12 @@
         "save": "Guardar",
         "search_subject": "Asunto",
         "send": "Enviar",
-        "share": "Compartir"
+        "share": "Compartir",
+        "edit_access": "Editar acceso de {{name}}",
+        "resend": "Reenviar",
+        "revoke": "Revocar",
+        "show": "Mostrar",
+        "show_plural": "Mostrar todo"
     },
     "messages": {
         "permanent_delete_confirm": "Eliminar permanentemente"
@@ -91,5 +98,26 @@
     },
     "title": {
         "new_messages": "Mensajes nuevos"
+    },
+    "administer": "Administrar",
+    "allowed_actions": "Acciones permitidas",
+    "composer": {
+        "attachment": {
+            "draganddrop": {
+                "title": "Modo Arrastrar y Soltar"
+            },
+            "drive": "Añadir desde Drive",
+            "local": "Añadir desde local"
+        }
+    },
+    "find_shares": "Encontrar compartidos",
+    "freebusy": "FreeBusy",
+    "insert": "Insertar",
+    "private": "Privado",
+    "remove_from_this_list": "Quitar de esta lista",
+    "message": {
+        "snackbar": {
+            "settings_saved": "Ediciones guardadas correctamente"
+        }
     }
 }
