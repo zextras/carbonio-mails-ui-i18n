@@ -93,6 +93,11 @@
             "share_calendar_role": {
                 "admin": "Admin",
                 "none": "None"
+            },
+            "share_calendar_with": {
+                "internal_users_groups": "Usuarios o grupos internos",
+                "external_guests": "Invitados externos (ver solo)",
+                "public": "Público (ver solo, no se necesita contraseña)"
             }
         }
     },
@@ -119,5 +124,13 @@
         "snackbar": {
             "settings_saved": "Ediciones guardadas correctamente"
         }
-    }
+    },
+    "snackbar": {
+        "error": "Algo fue mal, por favor, prueba de nuevo"
+    },
+    "tooltip": {
+        "add_attachments": "Añadir adjuntos"
+    },
+    "workflow": "Flujo de trabajo",
+    "write": "Escribir"
 }
