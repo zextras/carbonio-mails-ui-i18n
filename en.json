@@ -356,6 +356,7 @@
         "sent_after": "Sent after",
         "sent_before": "Sent before",
         "sent_on": "Sent on",
+        "size_error": "Only numbers are allowed",
         "tag": "Tag",
         "unread": "Unread",
         "unread_note": "Search for all unread e-mail items."
