@@ -14,14 +14,19 @@
         "reply": "Antwoorden",
         "restore": "Herstellen",
         "search": "Zoeken",
-        "send": "Versturen"
+        "send": "Versturen",
+        "edit_share": "Toegang bewerken",
+        "share_folder": "Map delen"
     },
     "add": "Toevoegen",
     "create": "Creëren",
     "delete": "Openen met",
     "folder": {
         "action": {
-            "new": "Nieuwe map"
+            "new": "Nieuwe map",
+            "empty": {
+                "trash": "Prullenbak leegmaken"
+            }
         },
         "modal": {
             "delete": {
