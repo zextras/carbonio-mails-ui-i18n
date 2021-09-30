@@ -91,7 +91,7 @@
                 "retention_msg": "Les messages de ce dossier qui tombent dans la période de sauvegarde nécessiteront une confirmation explicite avant d'être supprimés",
                 "rtn_dur_warning": "La durée de sauvegarde doit être un nombre positif",
                 "size": "Taille",
-                "threshold_msg": "Les messages dans ce dossier qui sont plus anciens que le seuil de suppression seront sujets à un nettoyage et une suppression automatique.",
+                "threshold_msg": "Dans ce dossier, les messages qui sont plus anciens que le seuil de suppression seront sujets à un nettoyage et une suppression automatique.",
                 "type": "Type"
             },
             "empty": {
@@ -217,8 +217,8 @@
         "would_like_to_share": "partagé son",
         "automatically_delete_duplicates": "Supprimer automatiquement les doublons du même message lorsqu'il est reçu",
         "select_1": "Sélectionnez un e-mail pour le lire",
-        "advance_filters": "1 Filtre avancé",
-        "advance_filters_plural": "{{count}} Filtres avancés",
+        "advance_filters": "1 filtre avancé",
+        "advance_filters_plural": "{{count}} filtres avancés",
         "keywords": "Mots clés",
         "search_hint": "Recherche d'indices !",
         "revoke_access_without_notification": "Révoquer les accès sans envoyer de notification",
@@ -282,7 +282,7 @@
             "message_delete_error": "Quelque chose s'est mal passé, ce message n'a pas été supprimé, veuillez recommencer.",
             "message_deleted": "Message supprimé avec succès.",
             "message_move": "Message déplacé avec succès",
-            "message_move_error": "Quelque chose s'est mal passé, ce message n'a pas été déplacé, recommencez s'il vous plaît.",
+            "message_move_error": "Quelque chose s'est mal passé, ce message n'a pas été déplacé, veuillez recommencer.",
             "message_redirected": "Ce message a été redirigé",
             "message_restore": "Ce message a été restauré avec succès dans {{folderName}}",
             "message_restore_error": "Quelque chose s'est mal passé, la restauration du message n'est pas complète, recommencez s'il vous plaît.",
@@ -299,7 +299,9 @@
             "email_restore_error": "Quelque chose s'est mal passé, veuillez recommencer",
             "email_restored": "E-mail restauré dans le dossier de destination",
             "folder_moved_to_trash": "Dossier déplacé dans la corbeille",
-            "marked_as_spam": "Vous avez marqué cet email comme étant un spam"
+            "marked_as_spam": "Vous avez marqué cet email comme étant un spam",
+            "message_deleted_permanently": "Email supprimé définitivement",
+            "message_deleted_permanently_error": "Quelque chose s'est mal passé, veuillez recommencer"
         }
     },
     "of": "de",
@@ -315,7 +317,13 @@
     "read": "Lire",
     "remove_from_this_list": "Retirer de cette liste",
     "search": {
-        "results_for": "Résultats pour :"
+        "results_for": "Résultats pour :",
+        "attachment": "Pièce jointe",
+        "unread": "Non lu",
+        "flagged": "Marqué",
+        "flagged_note": "Recherchez tous les éléments d'email qui sont marqués.",
+        "unread_note": "Recherche de tous les éléments d'emails non lus.",
+        "attachment_note": "Recherchez tous les éléments de courrier électronique qui ont une pièce jointe."
     },
     "select_signature": "Sélectionner la signature",
     "set_default_signatures": "Mettre la signature par défaut",
@@ -394,14 +402,16 @@
     "shares_info": "Information du dossier partagé",
     "snackbar": {
         "folder_shared": "Dossier partagé",
-        "folder_shared_error": "Quelque chose s'est mal passé, recommencez s'il vous plaît",
-        "share_resend": "Invitation de partage renvoyé",
+        "folder_shared_error": "Quelque chose s'est mal passé, veuillez réessayer",
+        "share_resend": "Invitation à partager renvoyée",
         "share_revoke": "Accès au partage révoqués",
-        "share_updated": "Droits d'accès mis à jour"
+        "share_updated": "Droits d'accès mis à jour",
+        "error": "Quelque chose s'est mal passé, veuillez réessayer"
     },
     "title": {
         "new_messages": "Nouveaux messages",
-        "replies_forwards": "Réponses & Transferts"
+        "replies_forwards": "Réponses & Transferts",
+        "advanced_filters": "Filtres avancés"
     },
     "tooltip": {
         "add_attachments": "Ajouter pièces jointes",
