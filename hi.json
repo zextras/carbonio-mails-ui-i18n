@@ -40,7 +40,12 @@
         "remove_plural": "",
         "search_subject": "विषय",
         "send": "भेजें",
-        "share": "शेयर करें"
+        "share": "शेयर करें",
+        "resend": "दोबारा भेजें",
+        "revoke": "वापस लेना",
+        "show": "दिखाएं",
+        "show_plural": "सभी दिखाएं",
+        "edit_access": "{{name}} के ऐक्सेस में संशोधन"
     },
     "messages": {
         "permanent_delete_confirm": "हमेशा के लिए डिलीट करें"
@@ -59,7 +64,9 @@
         "reply": "रिप्लाई करें",
         "restore": "वापस लाएँ",
         "search": "सर्च करें",
-        "send": "भेजें"
+        "send": "भेजें",
+        "delete_permanently": "सदा के लिए मिटाएँ",
+        "preview": "दूसरे टैब में झलक देखने के लिए क्लिक करें"
     },
     "add": "जोड़ें",
     "create": "बनाएँ",
@@ -91,5 +98,19 @@
     "title": {
         "new_messages": "नए मैसेज"
     },
-    "type": "टाइप करें"
+    "type": "टाइप करें",
+    "administer": "प्रशासन",
+    "allowed_actions": "अनुमत्त क्रियाएँ",
+    "composer": {
+        "attachment": {
+            "draganddrop": {
+                "title": "उठा के गिराएं"
+            },
+            "drive": "ड्राइव से लाएँ",
+            "local": "लोकल से लगाएँ"
+        }
+    },
+    "find_shares": "सहभाजी खोजें",
+    "freebusy": "ख़ाली व्यस्त",
+    "insert": "सम्मिलित करना"
 }
