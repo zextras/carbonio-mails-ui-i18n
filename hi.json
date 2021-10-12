@@ -16,15 +16,21 @@
                 "title": "ले जाएँ"
             },
             "new": {
-                "footer": "बनाएँ"
+                "footer": "बनाएँ",
+                "restore_create_footer": "बनाएँ और वापस लाएँ"
             },
             "restore": {
                 "footer": "वापस लाएँ",
                 "title_modal": "वापस लाएँ"
+            },
+            "empty": {
+                "footer": "रिक्त",
+                "title": "रिक्त"
             }
         },
         "action": {
-            "new": "नया फोल्डर"
+            "new": "नया फोल्डर",
+            "edit_properties": "प्रॉपर्टीज़ संशोधन"
         }
     },
     "label": {
@@ -45,7 +51,10 @@
         "revoke": "वापस लेना",
         "show": "दिखाएं",
         "show_plural": "सभी दिखाएं",
-        "edit_access": "{{name}} के ऐक्सेस में संशोधन"
+        "edit_access": "{{name}} के ऐक्सेस में संशोधन",
+        "sent": "प्रेषित",
+        "edit_folder_properties": "{{name}} के गुण में संशोधन",
+        "shares_folder_edit": "इस फ़ोल्डर का साझाकरण"
     },
     "messages": {
         "permanent_delete_confirm": "हमेशा के लिए डिलीट करें"
@@ -66,21 +75,30 @@
         "search": "सर्च करें",
         "send": "भेजें",
         "delete_permanently": "सदा के लिए मिटाएँ",
-        "preview": "दूसरे टैब में झलक देखने के लिए क्लिक करें"
+        "preview": "दूसरे टैब में झलक देखने के लिए क्लिक करें",
+        "mark_as_spam": "अवांछनीय चिन्हित करें",
+        "unflag": "चिन्ह हटाएं"
     },
     "add": "जोड़ें",
     "create": "बनाएँ",
     "delete": "डिलीट करें",
     "folders": {
-        "trash": "रद्दी"
+        "trash": "रद्दी",
+        "drafts": "अर्धलिखित",
+        "inbox": "इन्बॉक्स",
+        "junk": "कबाड़",
+        "sent": "प्रेषित"
     },
     "header": {
-        "warning": "चेतावनी"
+        "warning": "चेतावनी",
+        "no_subject": "कोई विषय नहीं",
+        "delete_email": "ई-मैल डिलीट करें"
     },
     "of": "में से",
     "owner": "ओनर",
     "placeholder": {
-        "subject": "विषय"
+        "subject": "विषय",
+        "to": "इन्हें भेजें"
     },
     "read": "पढ़ें",
     "search": {
@@ -91,9 +109,12 @@
         "options": {
             "share_calendar_role": {
                 "admin": "एडमिन",
-                "none": "कोई नहीं"
+                "none": "कोई नहीं",
+                "manager": "प्रबंधक",
+                "viewer": "दर्शक"
             }
-        }
+        },
+        "share_note": "आदर्श संदेश आपका नाम, साझा वस्तु का नाम, प्राप्तकर्ताओं को प्रदान अनुमतियाँ, और अगर आवश्यक हुआ तो साइन इन जानकारी प्रदर्शित करता है।"
     },
     "title": {
         "new_messages": "नए मैसेज"
@@ -112,5 +133,16 @@
     },
     "find_shares": "सहभाजी खोजें",
     "freebusy": "ख़ाली व्यस्त",
-    "insert": "सम्मिलित करना"
+    "insert": "सम्मिलित करना",
+    "settings": {
+        "conv_sort_optn": {
+            "asc": "पुराना से नया",
+            "desc": "पुराना से नया"
+        }
+    },
+    "shared_item": "साझा वस्तु",
+    "private": "निजी",
+    "tooltip": {
+        "edit": "शेयर गुणों में संशोधन"
+    }
 }
