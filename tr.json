@@ -1,1 +1,59 @@
-{}
+{
+    "action": {
+        "delete": "Sil",
+        "back": "Geri",
+        "cancel": "İptal",
+        "edit_share": "Erişimi Düzenle",
+        "move": "Taşı",
+        "download": "İndir",
+        "edit_as_draft": "Düzenle",
+        "restore": "Geri yükle",
+        "edit_as_new": "Yeni olarak düzenle",
+        "search": "Ara",
+        "preview": "Başka sekmede görüntülemek için tıklayın",
+        "send": "Gönder",
+        "delete_permanently": "Kalıcı olarak sil"
+    },
+    "add": "Ekle",
+    "administer": "Yönet",
+    "allowed_actions": "İzin verilen eylemler",
+    "create": "Oluştur",
+    "composer": {
+        "attachment": {
+            "draganddrop": {
+                "title": "Sürükle ve Bırak Modu"
+            },
+            "drive": "Drive'dan ekle",
+            "local": "Lokalden ekle"
+        }
+    },
+    "delete": "Sil",
+    "find_shares": "Paylaşımları bul",
+    "folder": {
+        "modal": {
+            "delete": {
+                "title": "Sil"
+            },
+            "restore": {
+                "title_modal": "Geri yükle",
+                "footer": "Geri yükle"
+            },
+            "new": {
+                "footer": "Oluştur"
+            },
+            "move": {
+                "title": "Taşı"
+            }
+        }
+    },
+    "insert": "Ekle",
+    "message": {
+        "snackbar": {
+            "settings_saved": "Değişiklikler başarıyla kaydedildi"
+        }
+    },
+    "snackbar": {
+        "error": "Bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "freebusy": "Serbest/Meşgul"
+}
