@@ -299,7 +299,7 @@
         },
         "recipients_address": "Direcciones de correo electrónico de los destinatarios",
         "send_notification": "Enviar notificación sobre esta compartición",
-        "share_note": "El mensaje estándar muestra tu nombre, el nombre del elemento compartido, los permisos otorgados a los destinatarios y la información de registro, si fuera necesario.",
+        "share_note": "El mensaje estándar muestra tu nombre, el nombre del elemento compartido, los permisos otorgados a los destinatarios y la información de registro.",
         "standard_message": "Añadir nota al mensaje estándar"
     },
     "title": {
@@ -331,7 +331,7 @@
             "share": {
                 "accepted": "Has respondido Aceptado a la compartición",
                 "declined": "Has respondido Rechazado a la compartición",
-                "error": "Algo fue mal, por favor, reinténtalo"
+                "error": "Algo fue mal. Por favor, reinténtalo"
             }
         },
         "sending_mail_to_self": "parece que vas a enviarte un correo a ti mismo",
@@ -352,7 +352,7 @@
         "edit": "Editar propiedades de compartición",
         "enable_rich_text": "Activar editor de texto enriquecido",
         "enable_urgent": "Activar urgente",
-        "resend": "Reenviar notificación por correo de esta compartición",
+        "resend": "Enviar notificación por correo de esta compartición",
         "revoke": "Revocar acceso"
     },
     "workflow": "Flujo de trabajo",
