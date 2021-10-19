@@ -361,7 +361,6 @@
         "unread_note": "Search for all unread e-mail items."
     },
     "select_signature": "Select signature",
-    "set_default_signatures": "Set default signature",
     "settings": {
         "conv_sort_optn": {
             "asc": "From old to new",
@@ -437,6 +436,12 @@
     "shared_folders": "Shared Folders",
     "shared_item": "Shared item",
     "shares_info": "Shared folder's info",
+    "signatures": {
+        "add_signatures": "Add Signature",
+        "delete": "DELETE",
+        "name": "Name",
+        "signature_heading": "Signatures"
+    },
     "snackbar": {
         "error": "Something went wrong, please try again",
         "folder_shared": "Folder shared",
