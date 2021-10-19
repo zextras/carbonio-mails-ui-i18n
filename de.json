@@ -73,18 +73,21 @@
                 "title_modal": "Unterhaltung verschieben",
                 "body": {
                     "message2": "Wählen Sie einen Zielordner aus",
-                    "message_restore": "Einen Ordner als Ziel zum Wiederherstellen aussuchen:"
+                    "message_restore": "Einen Ordner als Ziel zum Wiederherstellen aussuchen:",
+                    "message1": "Einen Ordner als Ziel zum Verschieben aussuchen:"
                 }
             },
             "new": {
                 "footer": "Erstellen",
                 "create_footer": "Erstellen und verschieben",
                 "input": {
-                    "position": "Ordnerposition"
+                    "position": "Ordnerposition",
+                    "name": "Ordnernname"
                 },
                 "name_exist_warning": "Der Name existiert bereits",
                 "restore_create_footer": "Erstellen und wiederherstellen",
-                "title": "Einen neuen Ordner erstellen"
+                "title": "Einen neuen Ordner erstellen",
+                "go_back": "Zurück"
             },
             "empty": {
                 "body": {
@@ -183,7 +186,14 @@
         "shared_item": "Geteiltes Element: ",
         "shares_folder_edit": "Teilen dieses Ordners",
         "to": "An:",
-        "with_you": "mit Ihnen"
+        "with_you": "mit Ihnen",
+        "advance_filters": "1 Fortgeschrittener filter",
+        "advance_filters_plural": "{{count}} Fortgeschrittene filter",
+        "edit_folder_properties": "{{name}}'s Eigenschaften bearbeiten",
+        "revoke_access_tooltip": "Zugriff widerrufen mit einer Standardbenachrichtigung",
+        "revoke_access_without_notification": "Zugriff widerrufen ohne eine Benachrichtigung zu senden",
+        "revoke_send_standard_msg": "Zugriff widerrufen mit einer benutzerdefinierten Benachrichtigung",
+        "single_advance_fillter": "Fortgeschrittene Filter"
     },
     "share": {
         "options": {
@@ -264,6 +274,7 @@
     "administer": "Verwalten",
     "snackbar": {
         "folder_shared_error": "Etwas ist schiefgegangen,bitte versuchen Sie es erneut",
-        "share_updated": "Zugriffsrechte aktualisiert"
+        "share_updated": "Zugriffsrechte aktualisiert",
+        "error": "Etwas ist schiefgegangen, bitte versuchen Sie es erneut"
     }
 }
