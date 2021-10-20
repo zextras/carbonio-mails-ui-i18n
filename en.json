@@ -367,9 +367,6 @@
     },
     "select_signature": "Select signature",
     "set_default_signatures": "Set default signature",
-    "setting": {
-        "filter_folder_message": "Select a folder to apply your filter, you can choose multiple folders by click on them while pressing the SHIFT key:"
-    },
     "settings": {
         "actions": "Actions",
         "active_filter": "Active filter",
@@ -406,7 +403,6 @@
         "does_not_exists": "does not exist",
         "does_not_match_exactly": "does not match exactly",
         "does_not_match_wildcard_condition": "does not match wildcard condition",
-        "does_not_matche_wildcard_condition": "does not matche wildcard condition",
         "domain": "domain",
         "dspl_mail_optn": {
             "html": "As HTML(When Possible)",
@@ -415,6 +411,8 @@
         "exists": "exists",
         "facebook_notification": "Facebook notification",
         "field": "Field",
+        "filter_folder_message": "type the name to filter the list",
+        "filter_folders": "Filter folders",
         "filter_name": "Filter Name",
         "flagged": "flagged",
         "from": "From",
@@ -433,6 +431,7 @@
         "is_not_me": "is not me",
         "kb": "KB",
         "keep_in_inbox": "Keep in Inbox",
+        "keyword": "Keyword",
         "label": {
             "always_dsp_received_time": "Always display received time in email list",
             "check_new_mail": "Check new email",
