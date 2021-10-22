@@ -234,6 +234,7 @@
         },
         "mail_setting": "Mail's Settings",
         "me": "Me",
+        "no_search_results_found": "No results found",
         "no_subject": "No subject",
         "owner": "Owner : ",
         "read": "Read",
@@ -242,6 +243,8 @@
         "remove": "",
         "remove_plural": "",
         "resend": "Resend",
+        "results_for": "Results for: ",
+        "results_for_error": "Unable to parse the search query, clear it and retry",
         "retention_policy": "Retention properties",
         "revoke": "Revoke",
         "revoke_access_tooltip": "Revoke access sending a standard notification",
@@ -250,7 +253,7 @@
         "revoke_share": "",
         "role": "Role : ",
         "save": "Save",
-        "search_hint": "",
+        "search_hint": "Search hints!",
         "search_subject": "Subject",
         "select_folder": "Select Folder",
         "send": "Send",
@@ -277,7 +280,8 @@
     },
     "mail_folder": "",
     "message": {
-        "search_hints": "",
+        "invalid_search_message": "Seems that you’ve used a bad query, we didn’t find anything that mach it.",
+        "search_hints": "Search hints we need to discuss about",
         "sending_mail_to_self": "It looks like you're about to send an email to yourself",
         "snackbar": {
             "settings_saved": "Edits saved correctly",
@@ -354,7 +358,6 @@
     "private": "Private",
     "read": "Read",
     "remove_from_this_list": "Remove from this list",
-    "results_for": "Results for:",
     "search": {
         "attachment": "Attachment",
         "attachment_note": "Search for all e-mail items that have an attachment.",
