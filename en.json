@@ -226,9 +226,12 @@
         "grantee": "Grantee : ",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
-        "mailDeselected": "Select an email to read it\n or click \"New\" button\n to write a new email.",
         "mailSelected": "",
         "mailSelected_plural": "",
+        "mail_deselected": {
+            "subtitle": "or click \"New\" button to write a new one",
+            "title": "Select an email to read it"
+        },
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_search_results_found": "No results found",
