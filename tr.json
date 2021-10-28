@@ -12,7 +12,27 @@
         "search": "Ara",
         "preview": "Başka sekmede görüntülemek için tıklayın",
         "send": "Gönder",
-        "delete_permanently": "Kalıcı olarak sil"
+        "delete_permanently": "Kalıcı olarak sil",
+        "flag": "Bayrak ekle",
+        "forward": "İlet",
+        "goto_drafts": "Taslaklara git",
+        "goto_folder": "KLASÖRE GİT",
+        "hide_details": "Detayları gizle",
+        "mark_as_read": "Okundu olarak işaretle",
+        "mark_as_non_spam": "İstenmeyen posta değil",
+        "mark_as_spam": "İstenmeyen olarak işaretle",
+        "mark_as_unread": "Okunmadı olarak işaretle",
+        "ok": "Tamam",
+        "print": "Yazdır",
+        "redirect": "Yönlendir",
+        "reply": "Yanıtla",
+        "reply_all": "Hepsini yanıtla",
+        "reset": "Filtreleri sıfırla",
+        "send_anyway": "Yine de gönder",
+        "share_folder": "Klasörü paylaş",
+        "show_details": "Detayları göster",
+        "show_original": "Orijinal hali göster",
+        "unflag": "Bayrağı kaldır"
     },
     "add": "Ekle",
     "administer": "Yönet",
@@ -21,10 +41,12 @@
     "composer": {
         "attachment": {
             "draganddrop": {
-                "title": "Sürükle ve Bırak Modu"
+                "title": "Sürükle ve Bırak Modu",
+                "content": "E-postaya hızlı eklemek için eklerinizi buraya bırakın"
             },
             "drive": "Drive'dan ekle",
-            "local": "Lokalden ekle"
+            "local": "Lokalden ekle",
+            "contactsMod": "Kişi Kartı Ekle"
         }
     },
     "delete": "Sil",
@@ -44,6 +66,17 @@
             "move": {
                 "title": "Taşı"
             }
+        },
+        "action": {
+            "delete": "Klasörü sil",
+            "delete_permanently": "Klasörü kalıcı olarak sil",
+            "edit": "Klasör özelliklerini düzenle",
+            "edit_properties": "Özellikleri düzenle",
+            "empty": {
+                "trash": "Çöp kutusunu boşalt"
+            },
+            "move": "Klasörü taşı",
+            "new": "Yeni klasör"
         }
     },
     "insert": "Ekle",
@@ -55,5 +88,21 @@
     "snackbar": {
         "error": "Bir hata oluştu, lütfen tekrar deneyin"
     },
-    "freebusy": "Serbest/Meşgul"
+    "freebusy": "Serbest/Meşgul",
+    "find_mail_shares": "Paylaşılan klasörleri bul",
+    "label": {
+        "cancel": "İptal",
+        "download": "İndir",
+        "download_plural": "Hepsini İndir",
+        "edit": "Düzenle",
+        "edit_access": "{{name}}'in erişimini düzenle",
+        "save": "Kaydet",
+        "show": "Göster",
+        "show_plural": "Hepsini göster",
+        "attachment": "Ek",
+        "attachment_plural": "{{count}} Ek",
+        "resend": "Yeniden gönder",
+        "revoke": "İptal et",
+        "share": "Paylaş"
+    }
 }
