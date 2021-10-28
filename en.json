@@ -332,7 +332,7 @@
         "label": {
             "always_dsp_received_time": "Always display received time in email list",
             "check_new_mail": "Check new email",
-            "conv_sorting": "Conversation ordering",
+            "conv_sorting": "Conversations order",
             "dbl_click_opens_msg": "Double-click opens message in new window",
             "dflt_mail_search": "Default Mail Search",
             "disp_messages": "Displaying Messages",
