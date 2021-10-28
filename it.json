@@ -120,7 +120,8 @@
         "type_name_here": "Nome Elemento",
         "with_you": "con te",
         "flash_browser_title": "Alterna con il titolo del browser",
-        "retention_policy": "Proprietà di memorizzazione"
+        "retention_policy": "Proprietà di memorizzazione",
+        "shares_items": "cartelle condivise di {{value}}"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
