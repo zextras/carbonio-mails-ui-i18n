@@ -37,6 +37,9 @@
     "add": "Add",
     "administer": "Administer",
     "allowed_actions": "Allowed actions",
+    "board": {
+        "show": "Show board"
+    },
     "composer": {
         "attachment": {
             "contactsMod": "Add Contact Card",
@@ -196,6 +199,7 @@
     },
     "insert": "Insert",
     "label": {
+        "activate_selection_mode": "Activate selection mode",
         "add_custom_message": "Add a custom message",
         "advance_filters": "",
         "advance_filters_plural": "",
@@ -218,12 +222,14 @@
         "edit_access": "",
         "edit_folder_properties": "",
         "error_address": "A valid email is required",
+        "expand": "Expand",
         "filter_user": "Filter users",
         "find_shares": "Find shares",
         "flagged": "Flagged",
         "flash_browser_title": "Flash the browser title",
         "from": "From:",
         "grantee": "Grantee : ",
+        "hide": "Hide",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
         "mailSelected": "",
@@ -264,8 +270,7 @@
         "shared_item": "Shared item",
         "shares_folder_edit": "Sharing of this folder",
         "shares_items": "",
-        "show": "",
-        "show_plural": "",
+        "show_all": "Show all",
         "show_popup": "Show a popup notification",
         "single_advance_fillter": "Advanced Filters",
         "size_larger": "Size larger than (MB)",
