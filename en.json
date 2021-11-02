@@ -37,6 +37,9 @@
     "add": "Add",
     "administer": "Administer",
     "allowed_actions": "Allowed actions",
+    "board": {
+        "show": "Show board"
+    },
     "composer": {
         "attachment": {
             "contactsMod": "Add Contact Card",
@@ -264,8 +267,7 @@
         "shared_item": "Shared item",
         "shares_folder_edit": "Sharing of this folder",
         "shares_items": "",
-        "show": "",
-        "show_plural": "",
+        "show_all": "Show all",
         "show_popup": "Show a popup notification",
         "single_advance_fillter": "Advanced Filters",
         "size_larger": "Size larger than (MB)",
