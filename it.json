@@ -353,7 +353,8 @@
             "dsp_external_imgs": "Visualizza immagini esterne direttamente per le e-mail in HTML",
             "dsp_msg_snpt": "Mostra una parte del messaggio nella lista delle e-mail",
             "msg_color": "Colore Messaggio",
-            "search_query": "Richiesta predefinita"
+            "search_query": "Richiesta predefinita",
+            "conv_sorting": "Ordine delle conversazioni"
         },
         "new_mail_optn": {
             "manually": "Manualmente",
