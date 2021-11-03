@@ -54,17 +54,33 @@
     "folder": {
         "modal": {
             "delete": {
-                "title": "Sil"
+                "title": "Sil",
+                "body": {
+                    "message1": "Seçili klasörü silmek istediğinizden emin misiniz?",
+                    "message2": "Seçili klasörü kalıcı olarak silmek istediğinizden emin misiniz?"
+                }
             },
             "restore": {
                 "title_modal": "Geri yükle",
                 "footer": "Geri yükle"
             },
             "new": {
-                "footer": "Oluştur"
+                "footer": "Oluştur",
+                "input": {
+                    "position": "Klasör Yeri"
+                },
+                "create_footer": "Oluştur ve Taşı"
             },
             "move": {
-                "title": "Taşı"
+                "title": "Taşı",
+                "footer": "Taşı"
+            },
+            "edit": {
+                "footer": "Düzenle"
+            },
+            "empty": {
+                "footer": "Boşalt",
+                "title": "Boşalt"
             }
         },
         "action": {
@@ -76,14 +92,22 @@
                 "trash": "Çöp kutusunu boşalt"
             },
             "move": "Klasörü taşı",
-            "new": "Yeni klasör"
+            "new": "Yeni klasör",
+            "restore": "Klasörü geri yükle",
+            "wipe": {
+                "folder": "Klasörü temizle"
+            }
+        },
+        "item": {
+            "root": "/Root"
         }
     },
     "insert": "Ekle",
     "message": {
         "snackbar": {
             "settings_saved": "Değişiklikler başarıyla kaydedildi"
-        }
+        },
+        "search_hints": "Search hints we need to discuss about"
     },
     "snackbar": {
         "error": "Bir hata oluştu, lütfen tekrar deneyin"
@@ -103,6 +127,39 @@
         "attachment_plural": "{{count}} Ek",
         "resend": "Yeniden gönder",
         "revoke": "İptal et",
-        "share": "Paylaş"
-    }
+        "share": "Paylaş",
+        "advance_filters": "1 Gelişmiş filtre",
+        "advance_filters_plural": "{{count}} Gelişmiş filtre",
+        "edit_folder_properties": "{{name}}'in özelliklerini düzenle",
+        "flash_browser_title": "Tarayıcı başlığında flaş uyarısı",
+        "revoke_access_tooltip": "Standart bildirim göndererek erişim yetkisini kaldır",
+        "revoke_access_without_notification": "Bildirim göndermeden erişim yetkisini kaldır",
+        "revoke_send_standard_msg": "Özel bildirim göndererek erişim yetkisini kaldır",
+        "revoke_share": "{{title}} paylaşımını iptal et",
+        "search_hint": "İpuçlarında ara!",
+        "single_advance_fillter": "Gelişmiş Filtreler"
+    },
+    "of": "—",
+    "owner": "Sahibi",
+    "private": "Özel",
+    "read": "Okunmuş",
+    "remove_from_this_list": "Bu listeden kaldır",
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "none": "Hiçbiri"
+            },
+            "share_calendar_with": {
+                "external_guests": "Dışarıdan misafir (sadece görüntüler)",
+                "internal_users_groups": "İçeriden Kullanıcılar veya Gruplar",
+                "public": "Genel (sadece görüntüler, parola gerekmez)"
+            }
+        }
+    },
+    "tooltip": {
+        "add_attachments": "Eklenti ekle"
+    },
+    "type": "Tür",
+    "workflow": "İş Akışı",
+    "write": "Yazı"
 }
