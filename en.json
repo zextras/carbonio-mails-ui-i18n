@@ -486,8 +486,8 @@
         "new_folder": "New Folder",
         "new_mail_optn": {
             "manually": "Manually",
-            "minute": "",
-            "minute_plural": "",
+            "minute": "{{count}} minute",
+            "minute_plural": "{{count}} minutes",
             "when_arrive": "As new mail arrives"
         },
         "not_after": "not after",
