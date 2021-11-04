@@ -201,8 +201,8 @@
     "label": {
         "activate_selection_mode": "Activate selection mode",
         "add_custom_message": "Add a custom message",
-        "advance_filters": "",
-        "advance_filters_plural": "",
+        "advance_filters": "1 advanced filter",
+        "advance_filters_plural": "{{count}} advanced filters",
         "all": "all",
         "allowed_actions": "Allowed Actions : ",
         "any": "any",
