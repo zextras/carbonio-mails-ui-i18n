@@ -351,6 +351,10 @@
             "message_redirected": "The message has been redirected"
         }
     },
+    "notification": {
+        "new_message": "New Message",
+        "no_content": "Message without content"
+    },
     "of": "of",
     "owner": "Owner : ",
     "placeholder": {
