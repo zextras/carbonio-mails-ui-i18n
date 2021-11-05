@@ -57,8 +57,11 @@
                 "title": "Sil",
                 "body": {
                     "message1": "Seçili klasörü silmek istediğinizden emin misiniz?",
-                    "message2": "Seçili klasörü kalıcı olarak silmek istediğinizden emin misiniz?"
-                }
+                    "message2": "Seçili klasörü kalıcı olarak silmek istediğinizden emin misiniz?",
+                    "message3": "Silerseniz, ilgili içerik çöp kutusuna taşınacak ve klasör artık görüntülenmeyecek.",
+                    "message4": "Silerseniz, ilgili tüm içerik kalıcı olarak silinecek ve klasör artık kullanılamayacak."
+                },
+                "footer": "Ok"
             },
             "restore": {
                 "title_modal": "Geri yükle",
@@ -67,20 +70,56 @@
             "new": {
                 "footer": "Oluştur",
                 "input": {
-                    "position": "Klasör Yeri"
+                    "position": "Klasör Yeri",
+                    "name": "Klasör Adı"
                 },
-                "create_footer": "Oluştur ve Taşı"
+                "create_footer": "Oluştur ve Taşı",
+                "go_back": "Geriye git",
+                "name_exist_warning": "Ad önceden kullanılmış",
+                "restore_create_footer": "Oluştur ve Geri Yükle",
+                "title": "Yeni klasör oluştur"
             },
             "move": {
                 "title": "Taşı",
-                "footer": "Taşı"
+                "footer": "Taşı",
+                "body": {
+                    "message1": "İçine taşınmasını istediğiniz bir klasör seçin:",
+                    "message2": "Hedef klasör seçin",
+                    "message_restore": "İçine geri yüklemek istediğiniz bir klasör seçin:"
+                },
+                "input": {
+                    "filter": "Klasörleri filtrele"
+                },
+                "new": "Yeni Klasör",
+                "title_modal": "Görüşmeyi taşı"
             },
             "edit": {
-                "footer": "Düzenle"
+                "footer": "Düzenle",
+                "folder_type": "E-Posta Klasörü",
+                "messages": "Mesajlar",
+                "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz",
+                "retention_msg": "Bu klasördeki koruma döneminde olan dosyaları silmek için ayrıca onaylamanız gerekecek",
+                "retention_properties": "Koruma dönemi özellikleri",
+                "rtn_dur_warning": "Koruma dönemi süresi positif bir sayı olmalıdır",
+                "size": "Boyut",
+                "type": "Tür",
+                "threshold_msg": "Bu klasörde, çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir."
             },
             "empty": {
                 "footer": "Boşalt",
-                "title": "Boşalt"
+                "title": "Boşalt",
+                "body": {
+                    "message1": "Seçili klasörü boşaltmak istiyor musunuz?",
+                    "message2": "Eğer boşaltırsanız, ilgili tüm içerik kalıcı olarak silinecek."
+                }
+            },
+            "wipe": {
+                "body": {
+                    "message1": "Seçili klasörü temizlemek istiyor musunuz?",
+                    "message2": "Eğer temizlerseniz, ilgili tüm içerik kalıcı olarak silinecek."
+                },
+                "footer": "Temizle",
+                "title": "Temizle"
             }
         },
         "action": {
@@ -110,7 +149,9 @@
         "search_hints": "Search hints we need to discuss about"
     },
     "snackbar": {
-        "error": "Bir hata oluştu, lütfen tekrar deneyin"
+        "error": "Bir hata oluştu, lütfen tekrar deneyin",
+        "folder_shared_error": "Bir hata oluştu, lütfen tekrar deneyin",
+        "share_resend": "Paylaşım davetini yeniden gönder"
     },
     "freebusy": "Serbest/Meşgul",
     "find_mail_shares": "Paylaşılan klasörleri bul",
@@ -137,7 +178,31 @@
         "revoke_send_standard_msg": "Özel bildirim göndererek erişim yetkisini kaldır",
         "revoke_share": "{{title}} paylaşımını iptal et",
         "search_hint": "İpuçlarında ara!",
-        "single_advance_fillter": "Gelişmiş Filtreler"
+        "single_advance_fillter": "Gelişmiş Filtreler",
+        "add_custom_message": "Özel mesaj ekle",
+        "allowed_actions": "İzin verilen eylemler: ",
+        "bcc": "BCC:",
+        "calendar_color": "Öğenin rengi",
+        "cc": "CC:",
+        "draft_folder": "[TASLAK]",
+        "find_shares": "Klasör listesinde hangi klasörleri göstermek istediğinizi seçin",
+        "from": "Kimden:",
+        "keywords": "Anahtar kelimeler",
+        "mail_setting": "E-Posta Ayarları",
+        "me": "Ben",
+        "no_subject": "(Konu yok)",
+        "owner": "Sahibi:",
+        "remove": "Sil",
+        "remove_plural": "Hepsini Sil",
+        "role": "Rol: ",
+        "search_subject": "Konu",
+        "select_1": "Okumak için bir e-posta seçin",
+        "select_2": "veya \"Yeni\" tuşuna taıklayın",
+        "select_3": "yeni bir e-posta yazmak için.",
+        "select_folder": "Klasör seçin",
+        "send": "Gönder",
+        "grantee": "Paylaşan:",
+        "retention_policy": "Koruma dönemi özellikleri"
     },
     "of": "—",
     "owner": "Sahibi",
@@ -154,12 +219,31 @@
                 "internal_users_groups": "İçeriden Kullanıcılar veya Gruplar",
                 "public": "Genel (sadece görüntüler, parola gerekmez)"
             }
-        }
+        },
+        "recipients_address": "Alıcıların e-posta adresleri",
+        "send_notification": "Bu paylaşım hakkında bildirim gönder",
+        "share_note": "Standart mesajda adınız, paylaşılan öğenin adı, alıcıya verilen izinler ve giriş bilgisi gösterilir.",
+        "standard_message": "Standart mesaja bir not ekle"
     },
     "tooltip": {
         "add_attachments": "Eklenti ekle"
     },
     "type": "Tür",
     "workflow": "İş Akışı",
-    "write": "Yazı"
+    "write": "Yazı",
+    "folders": {
+        "drafts": "Taslaklar",
+        "inbox": "Gelen Kutusu",
+        "junk": "İstenmeyen Posta",
+        "sent": "Gönderilenler",
+        "trash": "Çöp Kutusu"
+    },
+    "header": {
+        "delete_email": "E-postayı sil",
+        "edit_draft": "Taslağı düzenle",
+        "message_not_sent": "Hata - Mesaj gönderilmedi",
+        "no_subject": "Konu yok",
+        "redirect_email": "E-postayı yönlendir",
+        "warning": "Uyarı"
+    }
 }
