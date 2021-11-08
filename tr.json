@@ -144,14 +144,22 @@
     "insert": "Ekle",
     "message": {
         "snackbar": {
-            "settings_saved": "Değişiklikler başarıyla kaydedildi"
+            "settings_saved": "Değişiklikler başarıyla kaydedildi",
+            "share": {
+                "accepted": "Bu paylaşım için Kabul Edildi olarak yanıtladınız",
+                "declined": "Bu paylaşım için Reddedildi olarak yanıtladınız",
+                "error": "Bir hata oluştu, lütfen tekrar deneyin"
+            }
         },
-        "search_hints": "Search hints we need to discuss about"
+        "search_hints": "Search hints we need to discuss about",
+        "sending_mail_to_self": "Kendinize e-posta göndermek üzeresiniz"
     },
     "snackbar": {
         "error": "Bir hata oluştu, lütfen tekrar deneyin",
         "folder_shared_error": "Bir hata oluştu, lütfen tekrar deneyin",
-        "share_resend": "Paylaşım davetini yeniden gönder"
+        "share_resend": "Paylaşım davetini yeniden gönder",
+        "share_revoke": "Paylaşım erişimi iptal edildi",
+        "share_updated": "Erişim hakları güncellendi"
     },
     "freebusy": "Serbest/Meşgul",
     "find_mail_shares": "Paylaşılan klasörleri bul",
@@ -202,7 +210,25 @@
         "select_folder": "Klasör seçin",
         "send": "Gönder",
         "grantee": "Paylaşan:",
-        "retention_policy": "Koruma dönemi özellikleri"
+        "retention_policy": "Koruma dönemi özellikleri",
+        "automatically_delete_duplicates": "Aynı mesajın duplike kopyalarını otomatik olarak sil",
+        "filter_user": "Kullanıcıları filtrele",
+        "highlight_tab": "E-posta sekmesini vurgula",
+        "mailSelected": "1 e-posta seçildi",
+        "mailSelected_plural": "{{count}} e-posta seçildi",
+        "receive_message": "Mesajlar alınıyor",
+        "send_notification": "Bildirim mesajı gönder:",
+        "sent": "Gönderildi",
+        "shared_item": "Paylaşılan öğe : ",
+        "shares_folder_edit": "Bu klasörün paylaşımı",
+        "shares_items": "{{value}}'in paylaşılan klasörleri",
+        "show_popup": "Açılan bildirim göster",
+        "subject": "Konu:",
+        "to": "Kime:",
+        "type": "Tür:",
+        "type_name_here": "Öğenin adı",
+        "with_you": "sizinle",
+        "would_like_to_share": "paylaştı"
     },
     "of": "—",
     "owner": "Sahibi",
@@ -226,7 +252,9 @@
         "standard_message": "Standart mesaja bir not ekle"
     },
     "tooltip": {
-        "add_attachments": "Eklenti ekle"
+        "add_attachments": "Eklenti ekle",
+        "resend": "Bu paylaşım hakkında e-posta bildirimi gönder",
+        "revoke": "Erişimi iptal et"
     },
     "type": "Tür",
     "workflow": "İş Akışı",
@@ -245,5 +273,78 @@
         "no_subject": "Konu yok",
         "redirect_email": "E-postayı yönlendir",
         "warning": "Uyarı"
+    },
+    "mail_folder": "E-Posta Klasörü",
+    "messages": {
+        "modal": {
+            "delete": {
+                "if_delete_lost_forever": "E-postayı silerseniz tamamen yok olacak.",
+                "sure_delete_email": "Seçili e-postayı silmek istediğinizden emin misiniz?"
+            },
+            "redirect": {
+                "first": "Bu e-posta asıl gönderenin e-posta adresi korunarak, yeni bir alıcıya gönderilecek.",
+                "second": "Bunun anlamı, yeni alıcı e-postayı orjinal olarak kendisine gönderilmiş gibi görecek."
+            }
+        },
+        "new_email": "Yeni e-posta",
+        "no_content": "Bu mesajda metin içeriği yok",
+        "no_subject": "Konu Yok.",
+        "permanent_delete_confirm": "Kalıcı olarak sil",
+        "permanent_delete_title": "Bu öğeyi kalıcı olarak silmek istediğinizden emin misiniz?",
+        "snackbar": {
+            "conversation_delete_error": "Bir hata oluştu, bu görüşme silinmedi, lütfen tekrar deneyin.",
+            "conversation_deleted": "Görüşme başarıyla silindi.",
+            "conversation_deleted_permanently": "E-posta kalıcı olarak silindi",
+            "conversation_deleted_permanently_error": "Bir sorun oluştu, lütfen tekrar deneyin",
+            "conversation_move": "Görüşme başarıyla taşındı",
+            "email_move_error": "Bir hata oluştu, lütfen tekrar deneyin",
+            "email_moved_to_trash": "E-posta çöp kutusuna taşındı",
+            "email_restore_error": "Bir hata oluştu, lütfen tekrar deneyin",
+            "email_restored": "E-posta hedef klasöre geri yüklendi",
+            "folder_created": "Yeni klasör oluşturuldu",
+            "folder_created_error": "Bir hata oluştu, lütfen tekrar deneyin.",
+            "folder_deleted": "Klasör başarıyla silindi.",
+            "folder_edited_error": "Bir hata oluştu, değişiklikler uygulanmadı, lütfen tekrar deneyin.",
+            "folder_empty": "Çöp Kutusu başarıyla temizlendi",
+            "folder_move_error": "Bir hata oluştu, bu klasör taşınmadı, lütfen tekrar deneyin.",
+            "folder_moved": "Klasör başarıyla taşındı",
+            "folder_moved_to_trash": "Klasör çöp kutusuna taşındı",
+            "folder_will_be_moved_in_time": "Bu klasör taşınacak {{remainingTime}}",
+            "folder_wiped": "Klasör başarıyla temizlendi",
+            "folder_wiped_error": "Bir hata oluştu, lütfen tekrar deneyin",
+            "mail_sent": "Mesaj gönderildi",
+            "marked_as_non_spam": "Bu e-postayı Spam Değil olarak işaretlediniz",
+            "marked_as_spam": "Bu e-postayı Spam olarak işaretlediniz",
+            "message_delete_error": "Bir hata oluştu, bu mesaj silinmedi, lütfen tekrar deneyin.",
+            "message_deleted": "Mesaj başarıyla silindi.",
+            "message_deleted_permanently": "E-posta kalıcı olarak silindi",
+            "message_deleted_permanently_error": "Bir hata oluştu, lütfen tekrar deneyin",
+            "message_move": "Mesaj başarıyla taşındı",
+            "message_move_error": "Bir hata oluştu, mesaj taşıma işlemi tamamlanmadı, lütfen tekrar deneyin.",
+            "message_redirected": "Bu mesaj yeniden yönlendirildi",
+            "conversation_move_error": "Bir hata oluştu, görüşme taşıma işlemi tamamlanmadı, lütfen tekrar deneyin.",
+            "folder_edited": "Klasör başarıyla düzenlendi",
+            "folder_empty_error": "Bir hata oluştu, değişiklikler uygulanmadı, lütfen tekrar deneyin."
+        },
+        "invalid_address": "Şu adres geçersiz görünüyor",
+        "invalid_address_plural": "Şu adresler geçersiz görünüyor",
+        "permanent_delete_body": "Bu öğeyi kalıcı olarak silerseniz geri alamazsınız, devam edilsin mi?"
+    },
+    "placeholder": {
+        "add_new_recipients": "Yeni alıcılar ekle",
+        "bcc": "BCC",
+        "cc": "CC",
+        "subject": "Konu",
+        "to": "Kime"
+    },
+    "search": {
+        "attachment": "Ek",
+        "attachment_note": "Ek bulunan bütün mesajları ara.",
+        "flagged": "Bayraklı",
+        "flagged_note": "Bayraklı olan tüm e-posta öğelerini ara.",
+        "unread": "Okunmamış"
+    },
+    "title": {
+        "advanced_filters": "Gelişmiş Filtreler"
     }
 }
