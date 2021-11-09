@@ -57,7 +57,7 @@
                 "title": "Sil",
                 "body": {
                     "message1": "Seçili klasörü silmek istediğinizden emin misiniz?",
-                    "message2": "Seçili klasörü kalıcı olarak silmek istediğinizden emin misiniz?",
+                    "message2": "Seçili klasörü kalıcı olarak silmek istiyor musunuz?",
                     "message3": "Silerseniz, ilgili içerik çöp kutusuna taşınacak ve klasör artık görüntülenmeyecek.",
                     "message4": "Silerseniz, ilgili tüm içerik kalıcı olarak silinecek ve klasör artık kullanılamayacak."
                 },
@@ -159,7 +159,8 @@
         "folder_shared_error": "Bir hata oluştu, lütfen tekrar deneyin",
         "share_resend": "Paylaşım davetini yeniden gönder",
         "share_revoke": "Paylaşım erişimi iptal edildi",
-        "share_updated": "Erişim hakları güncellendi"
+        "share_updated": "Erişim hakları güncellendi",
+        "folder_shared": "Klasör paylaşıldı"
     },
     "freebusy": "Serbest/Meşgul",
     "find_mail_shares": "Paylaşılan klasörleri bul",
@@ -238,7 +239,10 @@
     "share": {
         "options": {
             "share_calendar_role": {
-                "none": "Hiçbiri"
+                "none": "Hiçbiri",
+                "admin": "Admin",
+                "manager": "Yönetici",
+                "viewer": "Görüntüleyen"
             },
             "share_calendar_with": {
                 "external_guests": "Dışarıdan misafir (sadece görüntüler)",
@@ -254,7 +258,12 @@
     "tooltip": {
         "add_attachments": "Eklenti ekle",
         "resend": "Bu paylaşım hakkında e-posta bildirimi gönder",
-        "revoke": "Erişimi iptal et"
+        "revoke": "Erişimi iptal et",
+        "disable_rich_text": "Gelişmiş metin düzenleyici kullanma",
+        "disable_urgent": "Acil kullanım dışı",
+        "edit": "Paylaşım özelliklerini düzenle",
+        "enable_rich_text": "Gelişmiş metin düzenleyici kullan",
+        "enable_urgent": "Acil kullanılabilir"
     },
     "type": "Tür",
     "workflow": "İş Akışı",
@@ -342,9 +351,62 @@
         "attachment_note": "Ek bulunan bütün mesajları ara.",
         "flagged": "Bayraklı",
         "flagged_note": "Bayraklı olan tüm e-posta öğelerini ara.",
-        "unread": "Okunmamış"
+        "unread": "Okunmamış",
+        "unread_note": "Okunmamış tüm e-posta öğelerinde ara."
     },
     "title": {
-        "advanced_filters": "Gelişmiş Filtreler"
-    }
+        "advanced_filters": "Gelişmiş Filtreler",
+        "new_messages": "Yeni Mesajlar",
+        "replies_forwards": "Yanıtlar ve İletilenler"
+    },
+    "select_signature": "İmza seç",
+    "set_default_signatures": "Varsaılan imza olarak belirle",
+    "settings": {
+        "conv_sort_optn": {
+            "asc": "Eskiden yeniye",
+            "desc": "Yeniden eskiye"
+        },
+        "dspl_mail_optn": {
+            "html": "HTML olarak (mümkün olduğunda)",
+            "text": "Metin olarak"
+        },
+        "label": {
+            "always_dsp_received_time": "E-posta listesinde alma zamanını sürekli göster",
+            "check_new_mail": "Yeni e-postaları kontrol et",
+            "dbl_click_opens_msg": "Çift tıkladığınızda mesajlar yeni pencerede açılır",
+            "dflt_mail_search": "Varsayılan E-posta araması",
+            "disp_messages": "Mesajlar gösteriliyor",
+            "display_mail": "E-posta göster",
+            "dsp_external_imgs": "HTML e-postada dışarıdan resimleri otomatik olarak göster",
+            "dsp_msg_snpt": "E-posta listesinde mesajların bir bölümünü göster",
+            "msg_color": "Mesaj Rengi",
+            "msg_selection": "Mesaj Seçimi",
+            "search_query": "Varsayılan sorgu",
+            "conv_sorting": "Görüşme sıralaması",
+            "set_msg_color_acc_tag": "Mesajların ve görüşmelerin rengini etiket rengine göre belirle."
+        },
+        "msg_from_optn": {
+            "discard": "Mesajı otomatik olarak at",
+            "inbox": "Gelen kutusuna gönder",
+            "inbox_if_cc": "Eğer Kime: veya Cc: bölümündeysem gelen kutusuna gönder"
+        },
+        "new_mail_optn": {
+            "manually": "Manuel olarak",
+            "minute": "1 dakika",
+            "minute_plural": "{{count}} dakika",
+            "when_arrive": "Yeni e-posta gelince"
+        },
+        "notify_folder_optn": {
+            "new_message_folder": "Bütün klasörlerdeki yeni mesajlar için bildirim göster",
+            "new_message_inbox": "Gelen kutusundaki yeni mesajlar için bildirim göster"
+        },
+        "read_rcpt_optn": {
+            "always": "Okundu bilgisi her zaman gönder",
+            "ask_me": "Bana sor",
+            "never": "Hiçbir zaman okundu bilgisi gönderme"
+        }
+    },
+    "shared_folders": "Paylaşılan Klasörler",
+    "shared_item": "Paylaşılan öğe",
+    "shares_info": "Paylaşılan klasör bilgisi"
 }
