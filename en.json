@@ -446,6 +446,7 @@
         "is_not_me": "is not me",
         "kb": "KB",
         "keep_in_inbox": "Keep in Inbox",
+        "keep_in_sent": "Keep in Sent",
         "keyword": "Keyword",
         "label": {
             "always_dsp_received_time": "Always display received time in email list",
