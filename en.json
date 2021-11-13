@@ -471,6 +471,7 @@
         "matches_wildcard_condition": "matches wildcard condition",
         "mb": "MB",
         "message": "Message",
+        "modify": "Modify",
         "move_into_folder": "Move Into Folder",
         "msg_from_optn": {
             "discard": "Discard message automatically",
