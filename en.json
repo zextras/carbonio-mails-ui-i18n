@@ -423,6 +423,7 @@
             "html": "As HTML(When Possible)",
             "text": "As text"
         },
+        "edit": "Edit",
         "exists": "exists",
         "facebook_notification": "Facebook notification",
         "field": "Field",
