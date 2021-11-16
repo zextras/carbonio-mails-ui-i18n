@@ -121,7 +121,8 @@
         "with_you": "con te",
         "flash_browser_title": "Alterna con il titolo del browser",
         "retention_policy": "Proprietà di memorizzazione",
-        "shares_items": "cartelle condivise di {{value}}"
+        "shares_items": "cartelle condivise di {{value}}",
+        "would_like_to_share": "ha condiviso"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -299,7 +300,9 @@
         "snackbar": {
             "settings_saved": "Modifiche salvate correttamente",
             "share": {
-                "error": "Qualcosa è andato storto, riprova"
+                "error": "Qualcosa è andato storto, riprova",
+                "accepted": "Hai accettato la condivisione",
+                "declined": "Hai rifiutato la condivisione"
             }
         },
         "sending_mail_to_self": "Ti stai auto inviando una e-mail"
