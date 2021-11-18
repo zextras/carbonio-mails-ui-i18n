@@ -132,7 +132,9 @@
         "edit": "Modifica proprietà di condivisione",
         "enable_rich_text": "Attiva editor avanzato",
         "resend": "Invia notifica per questa condivisione",
-        "revoke": "Revoca accesso"
+        "revoke": "Revoca accesso",
+        "disable_urgent": "Disabilita Urgente",
+        "enable_urgent": "Abilita Urgente"
     },
     "placeholder": {
         "to": "A",
