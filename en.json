@@ -29,7 +29,7 @@
         "search": "Search",
         "send": "Send",
         "send_anyway": "Send anyway",
-        "share_folder": "",
+        "share_folder": "Share folder",
         "show_details": "Show details",
         "show_original": "Show original",
         "unflag": "Remove flag"
@@ -75,8 +75,9 @@
     "folder": {
         "modal": {
             "edit": {
+                "add_share": "Add Share",
                 "folder_type": "Mail Folder",
-                "footer": "",
+                "footer": "Edit",
                 "messages": "Messages",
                 "rename_warning": "You cannot rename a folder as a system one",
                 "retention_msg": "Messages in this folder which fall within the retention range will require explicit confirmation bfore being deleted",
@@ -126,8 +127,7 @@
                 "title": ""
             },
             "edit": {
-                "messages": "",
-                "rename_warning": ""
+                "messages": ""
             },
             "empty": {
                 "body": {
@@ -156,16 +156,16 @@
             },
             "new": {
                 "create_footer": "",
-                "footer": "",
+                "footer": "Create",
                 "go_back": "",
                 "input": {
-                    "name": "",
-                    "name_exist": "",
-                    "position": ""
+                    "name": "Insert Folder name",
+                    "name_exist": "Name already exists in this path",
+                    "position": "Parent Folder"
                 },
                 "name_exist_warning": "",
                 "restore_create_footer": "",
-                "title": ""
+                "title": "Create new folder"
             },
             "restore": {
                 "footer": "Restore",
@@ -220,7 +220,7 @@
         "draft_folder": "[DRAFT]",
         "edit": "Edit",
         "edit_access": "",
-        "edit_folder_properties": "",
+        "edit_folder_properties": "Edit {{name}}'s properties",
         "error_address": "A valid email is required",
         "expand": "Expand",
         "filter_user": "Filter users",
