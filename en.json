@@ -430,6 +430,8 @@
         "exists": "exists",
         "facebook_notification": "Facebook notification",
         "field": "Field",
+        "filter_delete_error": "Something went wrong, please try again",
+        "filter_deleted": "Filter deleted successfully",
         "filter_folder_message": "type the name to filter the list",
         "filter_folders": "Filter folders",
         "filter_name": "Filter Name",
