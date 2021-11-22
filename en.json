@@ -159,7 +159,7 @@
                 "footer": "Create",
                 "go_back": "",
                 "input": {
-                    "name": "Insert Folder name",
+                    "name": "Enter Folder name",
                     "name_exist": "Name already exists in this path",
                     "position": "Parent Folder"
                 },
