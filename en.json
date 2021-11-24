@@ -415,7 +415,6 @@
         "delete": "Delete",
         "delete_filter": "Filter deletion",
         "delete_filter_text": "Are you sure to delete filter ",
-        "delete_filter_text_filter_name": " “{{filterName}}”",
         "discard": "Discard",
         "do_not_process_additional_filters": "Do not process additional filters",
         "does_not_contain": "does not contain",
