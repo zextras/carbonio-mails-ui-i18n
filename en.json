@@ -340,7 +340,7 @@
             "dsp_external_imgs": "Display external images automatically in HTML Email",
             "dsp_msg_snpt": "Display snippets of messages in mail list",
             "msg_color": "Message Color",
-            "msg_prv_title": "Message preview and Images",
+            "msg_prv_title": "Message and Images preview",
             "msg_selection": "Message Selection",
             "search_query": "Default query",
             "set_msg_color_acc_tag": "Set colour of messages and conversations according to tag colour."
