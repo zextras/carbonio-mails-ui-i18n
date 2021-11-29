@@ -432,7 +432,7 @@
         "field": "Field",
         "filter_delete_error": "Something went wrong, please try again",
         "filter_deleted": "Filter deleted successfully",
-        "filter_folder_message": "type the name to filter the list",
+        "filter_folder_message": "Select a folder to apply your filter :",
         "filter_folders": "Filter folders",
         "filter_name": "Filter Name",
         "flagged": "flagged",
