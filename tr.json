@@ -360,7 +360,7 @@
         "replies_forwards": "Yanıtlar ve İletilenler"
     },
     "select_signature": "İmza seç",
-    "set_default_signatures": "Varsaılan imza olarak belirle",
+    "set_default_signatures": "Varsayılan imza olarak belirle",
     "settings": {
         "conv_sort_optn": {
             "asc": "Eskiden yeniye",
@@ -383,7 +383,8 @@
             "msg_selection": "Mesaj Seçimi",
             "search_query": "Varsayılan sorgu",
             "conv_sorting": "Görüşme sıralaması",
-            "set_msg_color_acc_tag": "Mesajların ve görüşmelerin rengini etiket rengine göre belirle."
+            "set_msg_color_acc_tag": "Mesajların ve görüşmelerin rengini etiket rengine göre belirle.",
+            "msg_prv_title": "Mesaj ve Resim önizleme"
         },
         "msg_from_optn": {
             "discard": "Mesajı otomatik olarak at",
