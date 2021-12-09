@@ -53,6 +53,38 @@
     },
     "create": "Create",
     "delete": "Delete",
+    "displayer": {
+        "archive_title1": "Save an email in the archive so you can review it later.",
+        "archive_title2": "Select an archived email to review it.",
+        "description2": "Send documents, images, and more by composing a new email.",
+        "description3": "Write a new email by clicking the “NEW” button and then send it.",
+        "description4": "You can flag it, reply or forward it to other users.",
+        "description5": "Check out what other users want to talk with you about.",
+        "description6": "Reply to this email or forward it to other users.",
+        "description7": "Select an email to reply.",
+        "draft_title1": "Saving an email as a draft allows you to keep messages that you’d like to send later.",
+        "draft_title2": "Select and edit an email to send it to other users.",
+        "junk_title1": "How lucky! There are no spam emails you have to worry about.",
+        "junk_title2": "Click the trash icon to delete a spam email.",
+        "list_draft_title": "There are no saved drafts",
+        "list_folder_title": "It looks like there are no emails yet",
+        "list_junk_title": "There are no spam emails",
+        "list_sent_title": "You haven’t sent any email yet",
+        "list_trash_title": "The trash is empty",
+        "sent_description1": "Write a new email by clicking the “NEW” button.",
+        "sent_title1": "Stay in touch with other users.",
+        "sent_title2": "Select an email to display what you’ve sent.",
+        "title1": "Compose a new email by clicking the “NEW” button.",
+        "title2": "Click the “NEW” button",
+        "title3": "Stay in touch with other users.",
+        "title4": "Select an email to read it",
+        "title5": "Select an email to read it",
+        "title6": "Select an email to read it",
+        "title7": "Stay in touch with other users",
+        "title8": "Select an email to read or delete it.",
+        "trash_title1": "Click the trash icon to delete an email.",
+        "trash_title2": "Select and restore emails from the trash."
+    },
     "filters": {
         "active_filters": "Active Filters",
         "activity_stream_filters": "Activity Stream Filters",
@@ -232,12 +264,6 @@
         "hide": "Hide",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
-        "mailSelected": "",
-        "mailSelected_plural": "",
-        "mail_deselected": {
-            "subtitle": "or click \"New\" button to write a new one",
-            "title": "Select an email to read it"
-        },
         "mail_setting": "Mail's Settings",
         "me": "Me",
         "no_search_results_found": "No results found",
@@ -282,6 +308,10 @@
         "type_name_here": "Item's Name",
         "with_you": "with you",
         "would_like_to_share": "shared his"
+    },
+    "mail": {
+        "multiple_selected": "{{count}} emails selected",
+        "single_selected": "1 email selected"
     },
     "mail_folder": "",
     "message": {
