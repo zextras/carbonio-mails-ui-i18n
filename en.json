@@ -53,6 +53,17 @@
     },
     "create": "Create",
     "delete": "Delete",
+    "displayer": {
+        "search_description1": "Or select “Advanced Filters” to refine your search.",
+        "search_description2": "Try to start another search.",
+        "search_description3": "Check the spelling and the filters' options or try with another keyword.",
+        "search_list_title1": "It looks like there are no results. Keep searching!",
+        "search_list_title2": "None of your items matches your search.",
+        "search_title1": "Start another search",
+        "search_title2": "We’re sorry but there are no results for your search",
+        "search_title3": "There are no results for your search.",
+        "search_title4": "Select one or more results to perform actions or display details."
+    },
     "filters": {
         "active_filters": "Active Filters",
         "activity_stream_filters": "Activity Stream Filters",
@@ -259,7 +270,6 @@
         "revoke_share": "",
         "role": "Role : ",
         "save": "Save",
-        "search_hint": "Search hints!",
         "search_subject": "Subject",
         "select_folder": "Select Folder",
         "send": "Send",
@@ -286,7 +296,6 @@
     "mail_folder": "",
     "message": {
         "invalid_search_message": "Seems that you’ve used a bad query, we didn’t find anything that mach it.",
-        "search_hints": "Search hints we need to discuss about",
         "sending_mail_to_self": "It looks like you're about to send an email to yourself",
         "snackbar": {
             "settings_saved": "Edits saved correctly",
