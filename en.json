@@ -242,6 +242,7 @@
         "me": "Me",
         "no_search_results_found": "No results found",
         "no_subject": "No subject",
+        "on_behalf_of": "on be half of",
         "owner": "Owner : ",
         "read": "Read",
         "rec_from_address": "Received from (address)",
@@ -361,6 +362,7 @@
         "add_new_recipients": "Add new recipients",
         "bcc": "BCC",
         "cc": "CC",
+        "from": "From",
         "subject": "Subject",
         "to": "To"
     },
