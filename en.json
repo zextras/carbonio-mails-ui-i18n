@@ -243,6 +243,7 @@
         "hide": "Hide",
         "highlight_tab": "Highlight the Mail tab",
         "keywords": "Keywords",
+        "loading_results": "Loading Results...",
         "mailSelected": "",
         "mailSelected_plural": "",
         "mail_deselected": {
