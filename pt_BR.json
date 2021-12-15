@@ -323,7 +323,7 @@
         "label": {
             "always_dsp_received_time": "Sempre exibir a hora de recebimento na lista de e-mails",
             "check_new_mail": "Verificar novo e-mail",
-            "conv_sorting": "Ordenamento de conversas",
+            "conv_sorting": "Ordem de conversas",
             "dflt_mail_search": "Busca de E-mail Padrão",
             "disp_messages": "Exibindo Mensagens",
             "display_mail": "Exibir e-mail",
