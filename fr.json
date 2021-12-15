@@ -14,7 +14,7 @@
         "mark_as_spam": "Marqué comme spam",
         "move": "Déplacer",
         "ok": "Ok",
-        "preview": "Cliquez pour prévisualiser dans un autre onglet",
+        "preview": "Cliquer pour prévisualiser dans un autre onglet",
         "print": "Imprimer",
         "redirect": "Rediriger",
         "reply": "Répondre",
@@ -27,7 +27,7 @@
         "show_details": "Afficher les détails",
         "show_original": "Afficher l'original",
         "back": "Retour",
-        "delete_permanently": "Supprimer définitivement",
+        "delete_permanently": "Supprimer de manière permanente",
         "mark_as_unread": "Marqué comme non lu",
         "reset": "Réinitialiser les filtres",
         "goto_drafts": "Aller aux brouillons",
@@ -42,16 +42,16 @@
             "contactsMod": "Ajouter une carte de contact",
             "draganddrop": {
                 "content": "Déposez vos pièces jointes ici pour les ajouter rapidement à cet e-mail",
-                "title": "Mode Glisser&Déposer"
+                "title": "Mode glisser déposer"
             },
             "drive": "Ajouter depuis le Drive",
-            "local": "Ajouter depuis votre poste local"
+            "local": "Ajouter un fichier depuis le disque local"
         }
     },
-    "create": "Créer",
-    "delete": "Supprimer",
+    "create": "Création",
+    "delete": "Suppression",
     "find_mail_shares": "Trouver les dossiers partagés",
-    "find_shares": "Trouver les partages",
+    "find_shares": "Rechercher les partages",
     "folder": {
         "action": {
             "delete": "Supprimer le dossier",
@@ -149,7 +149,7 @@
         "trash": "Corbeille",
         "junk": "Spam"
     },
-    "freebusy": "Libre Occupé",
+    "freebusy": "Disponibilité",
     "header": {
         "delete_email": "Supprimer email",
         "edit_draft": "Modifier le brouillon",
@@ -163,7 +163,7 @@
         "add_custom_message": "Ajouter un message personnalisé",
         "allowed_actions": "Actions autorisées : ",
         "attachment": "Pièce jointe",
-        "attachment_plural": "{{count}} Pièces jointes",
+        "attachment_plural": "{{count}} pièces jointes",
         "bcc": "CCI :",
         "calendar_color": "Couleur de l'objet",
         "cancel": "Annuler",
