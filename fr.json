@@ -231,7 +231,7 @@
         "snackbar": {
             "share": {
                 "accepted": "Vous avez répondu comme Accepté pour le partage",
-                "error": "Quelque chose s'est mal passé, recommencez s'il vous plaît",
+                "error": "Quelque chose s'est mal passé, veuillez réessayer",
                 "declined": "Vous avez répondu comme Refusé pour le partage"
             },
             "settings_saved": "Les modifications sont enregistrées correctement"
@@ -347,7 +347,7 @@
             "dsp_external_imgs": "Afficher automatiquement les images externes dans les e-mails HTML",
             "dsp_msg_snpt": "Afficher des fragments des messages dans la liste des e-mails",
             "msg_color": "Couleur du message",
-            "msg_prv_title": "Aperçu du message et Images",
+            "msg_prv_title": "Aperçu du message et images",
             "msg_selection": "Sélection du message",
             "search_query": "Requête par défaut",
             "set_msg_color_acc_tag": "Mettre la couleur des messages et des conversations en fonction de la couleur de l'étiquette."
@@ -370,7 +370,7 @@
         },
         "notify_folder_optn": {
             "new_message_inbox": "Afficher les notifications pour les nouveaux messages dans Réception",
-            "new_message_folder": "Afficher les notifications pour les nouveaux messages dans n'importe quel dossier"
+            "new_message_folder": "Afficher les notifications pour les nouveaux messages qui arrivent dans n'importe quel dossier"
         },
         "read_rcpt_optn": {
             "always": "Toujours envoyer un accusé de réception",
@@ -395,7 +395,7 @@
         "recipients_address": "Adresses e-mail des destinataires",
         "send_notification": "Envoyer une notification de ce partage",
         "standard_message": "Ajouter une note au message standard",
-        "share_note": "Ce message standard affiche votre nom, le nom de l'objet partagé, les permissions accordées aux destinataires, et les informations de connexion, si nécessaire."
+        "share_note": "Le message standard affiche votre nom, le nom de l'élément partagé, les autorisations accordées aux destinataires, et les informations de connexion, si nécessaire."
     },
     "shared_folders": "Dossiers partagés",
     "shared_item": "Objet partagé",
@@ -419,7 +419,7 @@
         "disable_urgent": "Désactiver urgent",
         "edit": "Modifier les propriétés du partage",
         "enable_urgent": "Activer urgent",
-        "resend": "Renvoyer la notification d'e-mail à propos de ce partage",
+        "resend": "Renvoyez la notification d'e-mail de ce partage",
         "revoke": "Révoquer les accès",
         "enable_rich_text": "Activer l'éditeur de texte riche"
     },
