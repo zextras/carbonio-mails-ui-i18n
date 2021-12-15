@@ -359,7 +359,8 @@
             "dsp_msg_snpt": "Mostra una parte del messaggio nella lista delle e-mail",
             "msg_color": "Colore Messaggio",
             "search_query": "Richiesta predefinita",
-            "conv_sorting": "Ordine delle conversazioni"
+            "conv_sorting": "Ordine delle conversazioni",
+            "msg_prv_title": "Anteprima messaggi e immagini"
         },
         "new_mail_optn": {
             "manually": "Manualmente",
