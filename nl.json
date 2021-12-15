@@ -299,7 +299,7 @@
         "recipients_address": "E-mailadressen van de ontvangers",
         "send_notification": "Bericht over dit aandeel verzenden",
         "standard_message": "Een opmerking aan een standaardbericht toevoegen",
-        "share_note": "Het standaardbericht toont uw naam, de naam van het gedeelde item, de machtigingen die aan de ontvangers zijn verleend en, indien nodig, de aanmeldingsinformatie."
+        "share_note": "Het standaardbericht toont uw naam, de naam van het gedeelde item, de machtigingen die aan de ontvangers zijn verleend en, indien nodig."
     },
     "title": {
         "new_messages": "Nieuwe Berichten",
@@ -321,7 +321,7 @@
             "share": {
                 "accepted": "U hebt geantwoord als Geaccepteerd voor het deel",
                 "declined": "U hebt geantwoord als Geweigerd voor het deel",
-                "error": "Er is iets misgegaan. Probeer het opnieuw"
+                "error": "Er is iets misgegaan, probeer het opnieuw"
             }
         },
         "search_hints": "Hints zoeken waar we het over moeten hebben",
