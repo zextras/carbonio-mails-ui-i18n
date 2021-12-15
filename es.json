@@ -265,7 +265,7 @@
         "invalid_address": "La siguiente dirección parece ser inválida",
         "invalid_address_plural": "Las siguientes direcciones parecen ser inválidas"
     },
-    "of": "d",
+    "of": "de",
     "owner": "Propietario",
     "placeholder": {
         "subject": "Asunto",
@@ -377,11 +377,11 @@
             "display_mail": "Mostrar correo",
             "dsp_msg_snpt": "Mostrar fragmentos de los mensajes en la lista de correos",
             "msg_color": "Color del mensaje",
-            "msg_prv_title": "Vista previa e imágenes del mensaje",
+            "msg_prv_title": "Vista previa de imágenes y mensajes",
             "msg_selection": "Selección de mensajes",
             "search_query": "Consulta por defecto",
             "check_new_mail": "Comprobar correo electrónico nuevo",
-            "conv_sorting": "Ordenación de conversaciones",
+            "conv_sorting": "Orden de conversaciones",
             "dbl_click_opens_msg": "Doble clic abre el mensaje en una nueva ventana",
             "dsp_external_imgs": "Mostrar imágenes externas automáticamente en correo electrónico HTML",
             "set_msg_color_acc_tag": "Configurar color de los mensajes y conversaciones según el color de la etiqueta."
