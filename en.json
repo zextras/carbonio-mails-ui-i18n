@@ -447,7 +447,7 @@
 		"label": {
 			"always_display_received_time": "Always display received time in e-mail list",
 			"check_new_mail": "Check new e-mail",
-			"conversation_sorting": "Conversation ordering",
+			"conversation_ordering": "Conversation ordering",
 			"default_mail_search": "Default Mail Search",
 			"display_external_images": "Automatically display external images in HTML e-mail",
 			"display_mail": "Display mail",
