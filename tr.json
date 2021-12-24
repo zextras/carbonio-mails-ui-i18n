@@ -10,7 +10,7 @@
         "restore": "Geri yükle",
         "edit_as_new": "Yeni olarak düzenle",
         "search": "Ara",
-        "preview": "Başka sekmede görüntülemek için tıklayın",
+        "preview": "Önizleme",
         "send": "Gönder",
         "delete_permanently": "Kalıcı olarak sil",
         "flag": "Bayrak ekle",
@@ -27,12 +27,13 @@
         "redirect": "Yönlendir",
         "reply": "Yanıtla",
         "reply_all": "Hepsini yanıtla",
-        "reset": "Filtreleri sıfırla",
+        "reset": "Sıfırla",
         "send_anyway": "Yine de gönder",
         "share_folder": "Klasörü paylaş",
         "show_details": "Detayları göster",
         "show_original": "Orijinal hali göster",
-        "unflag": "Bayrağı kaldır"
+        "unflag": "Bayrağı kaldır",
+        "preview_new_tab": "Başka sekmede görüntülemek için tıklayın"
     },
     "add": "Ekle",
     "administer": "Yönet",
@@ -46,7 +47,12 @@
             },
             "drive": "Drive'dan ekle",
             "local": "Lokalden ekle",
-            "contactsMod": "Kişi Kartı Ekle"
+            "contactsMod": "Kişi Kartı Ekle",
+            "drag_and_drop": {
+                "content": "E-postaya hızlı eklemek için eklerinizi buraya bırakın",
+                "title": "Sürükle ve Bırak Modu"
+            },
+            "contacts_mod": "Kişi Kartı Ekle"
         }
     },
     "delete": "Sil",
@@ -97,13 +103,16 @@
                 "footer": "Düzenle",
                 "folder_type": "E-Posta Klasörü",
                 "messages": "Mesajlar",
-                "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz",
+                "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz.",
                 "retention_msg": "Bu klasördeki koruma döneminde olan dosyaları silmek için ayrıca onaylamanız gerekecek",
                 "retention_properties": "Koruma dönemi özellikleri",
                 "rtn_dur_warning": "Koruma dönemi süresi positif bir sayı olmalıdır",
                 "size": "Boyut",
                 "type": "Tür",
-                "threshold_msg": "Bu klasörde, çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir."
+                "threshold_msg": "Bu klasörde, çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir.",
+                "retention_message": "Bu klasördeki koruma döneminde olan dosyaları silmek için ayrıca onaylamanız gerekecek",
+                "add_share": "Paylaşım ekle",
+                "retention_duration_warning": "Koruma dönemi süresi positif bir sayı olmalıdır"
             },
             "empty": {
                 "footer": "Boşalt",
@@ -226,10 +235,17 @@
         "show_popup": "Açılan bildirim göster",
         "subject": "Konu:",
         "to": "Kime:",
-        "type": "Tür:",
+        "type": "Tür",
         "type_name_here": "Öğenin adı",
         "with_you": "sizinle",
-        "would_like_to_share": "paylaştı"
+        "would_like_to_share": "paylaştı",
+        "create": "Oluştur",
+        "activate_selection_mode": "Seçim modunu aktive et",
+        "delete": "Sil",
+        "error_try_again": "Bir sorun oluştu, lütfen tekrar deneyin",
+        "move": "Taşı",
+        "restore": "Geri al",
+        "of": "—"
     },
     "of": "—",
     "owner": "Sahibi",
@@ -409,5 +425,58 @@
     },
     "shared_folders": "Paylaşılan Klasörler",
     "shared_item": "Paylaşılan öğe",
-    "shares_info": "Paylaşılan klasör bilgisi"
+    "shares_info": "Paylaşılan klasör bilgisi",
+    "displayer": {
+        "description3": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun ve sonra da gönderin.",
+        "description6": "Bue-postayı yanıtlayın veya diğer kullanıcılara yönlendirin.",
+        "junk_title1": "Ne güzel! Hiç istenmeyen e-posta yok.",
+        "trash_title1": "E-postayı silmek için çöp kutusu simgesine tıklayın.",
+        "archive_title1": "E-postayı arşive kaydedip daha sonra görüntüleyebilirsiniz.",
+        "archive_title2": "Görüntülemek için arşivlenmiş bir e-postayı seçin.",
+        "description2": "Yeni bir e-posta oluşturup dokümanlar, resimler vb gönderebilirsiniz.",
+        "description4": "Bayrak ekleyebilir, yanıtlayabilir veya başka kullanıcılara yönlendirebilirsiniz.",
+        "description5": "Diğer kullanıcıların sizinle ne hakkında konuşmak istediğini kontrol edin.",
+        "description7": "Yanıtlamak için bir e-posta seçin.",
+        "draft_title1": "Daha sonra göndermek istediğiniz bir e-postayı taslak olarak kaydedebilirsiniz.",
+        "draft_title2": "Diğer kullanıcılara göndermek için bir e-postayı seçin ve düzenleyin.",
+        "junk_title2": "İstenmeyen bir e-postayı silmek için çöp kutusu simgesine tıklayın.",
+        "list_draft_title": "Kaydedilmiş taslak yok",
+        "list_folder_title": "Henüz hiç e-posta gelmemiş görünüyor",
+        "list_junk_title": "İstenmeyen e-posta yok",
+        "list_sent_title": "Henüz hiç e-posta göndermediniz",
+        "list_trash_title": "Çöp kutusu boş",
+        "search_description1": "Veya aramanızı detaylandırmak için “Gelişmiş Filtreler”i seçin.",
+        "search_description2": "Başka bir arama yapmayı deneyin.",
+        "search_description3": "Yazım hatalarını ve filtre seçeneklerini kontrol edin veya farklı kelimeler ile deneyin.",
+        "search_list_title1": "Sonuç bulunamadı. Yeniden aramayı deneyin!",
+        "search_list_title2": "Aramanız ile uyumlu öğe bulunamadı.",
+        "search_title1": "Farklı arama başlat",
+        "search_title2": "Üzgünüz, aramanız için sonuç bulunamadı",
+        "search_title3": "Aramanız için sonuç bulunamadı.",
+        "search_title4": "Detayları görüntülemek veya işlem yapmak için bir veya daha fazla sonuç seçin.",
+        "sent_description1": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun.",
+        "sent_title2": "Ne gönderdiğinizi görüntülemek için bir e-posta seçin.",
+        "title1": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun.",
+        "title2": "“YENİ” tuşuna tıklayın",
+        "title3": "Diğer kullanıcılar ile iletişimde olun.",
+        "title4": "Okumak için bir e-posta seçin",
+        "title8": "Okumak veya silmek için bir e-posta seçin.",
+        "trash_title2": "Çöp kutusundan e-postaları seçin ve geri alın."
+    },
+    "filters": {
+        "activity_stream_msg": "Kurallar oluşturarak; önemli olmayan bir mesaj geldiğinde Gelen kutunuzdan Aktivite Listesi klasörüne taşıyabilir ve daha uygun bir zamanda bu mesajları inceleyebilirsiniz.",
+        "active_filters": "Geçerli Filtreler",
+        "activity_stream_filters": "Aktivite Listesi Filtreleri",
+        "activity_stream_settings": "AKTİVİTE LİSTESİ AYARLARI",
+        "available_filters": "Kullanılabilir Filtreler",
+        "filter_note": "Not: filtre kurallarında yapılan değişiklikler hemen kaydedilir",
+        "filters": "Filtreler",
+        "incoming_msg_filters": "Gelen Mesaj Filtreleri",
+        "outgoing_message_filters": "Giden Mesaj Filtreleri",
+        "run": "Çalıştır"
+    },
+    "board": {
+        "show": "Panoyu göster"
+    },
+    "filter_folders": "Klasörleri filtrele"
 }
