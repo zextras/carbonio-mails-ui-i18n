@@ -234,7 +234,7 @@
                 "error": "Quelque chose s'est mal passé, veuillez réessayer",
                 "declined": "Vous avez répondu comme Refusé pour le partage"
             },
-            "settings_saved": "Les modifications sont enregistrées correctement"
+            "settings_saved": "Modifications sauvées correctement"
         },
         "sending_mail_to_self": "Il semblerait que vous soyez sur le point de vous envoyer un email",
         "search_hints": "Les indices de recherche dont nous devons discuter"
