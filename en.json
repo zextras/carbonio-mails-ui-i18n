@@ -354,7 +354,7 @@
             "message_move": "Message successfully moved",
             "message_redirected": "The message has been redirected",
             "sending_mail_in_count": "Sending your message in {{count}} second",
-            "sending_mail_in_count_plural": ""
+            "sending_mail_in_count_plural": "Sending your message in {{count}} seconds"
         }
     },
     "notification": {
