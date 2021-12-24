@@ -217,6 +217,7 @@
         "create": "Create",
         "delete": "Delete",
         "delete_permanently": "Delete Permanently",
+        "discard_changes": "DISCARD CHANGES",
         "download": "Download",
         "download_plural": "",
         "draft_folder": "[DRAFT]",
