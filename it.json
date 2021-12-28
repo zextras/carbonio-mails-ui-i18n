@@ -80,7 +80,7 @@
         "select_1": "Seleziona una email per leggerla",
         "select_2": "o fai click sul pulsante \"Nuovo\"",
         "select_3": "per comporre una email.",
-        "cancel": "Annulla",
+        "cancel": "Cancella",
         "draft_folder": "[BOZZA]",
         "mail_setting": "Impostazioni Posta",
         "remove": "Elimina",
@@ -122,7 +122,11 @@
         "flash_browser_title": "Alterna con il titolo del browser",
         "retention_policy": "Proprietà di memorizzazione",
         "shares_items": "cartelle condivise di {{value}}",
-        "would_like_to_share": "ha condiviso"
+        "would_like_to_share": "ha condiviso",
+        "create": "Crea",
+        "error_try_again": "Qualcosa è andato storto, riprova",
+        "move": "Sposta",
+        "restore": "Ripristina"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -166,7 +170,7 @@
         "back": "Indietro",
         "cancel": "Annulla",
         "download": "Scarica",
-        "preview": "Clicca per l'anteprima in altra scheda",
+        "preview": "Anteprima",
         "redirect": "Reindirizzamento",
         "send_anyway": "Invia comunque",
         "show_details": "Mostra dettagli",
@@ -184,7 +188,8 @@
         "print": "Stampa",
         "show_original": "Mostra originale",
         "goto_folder": "VAI ALLA CARTELLA",
-        "reset": "Ripristina Filtri"
+        "reset": "Ripristina Filtri",
+        "preview_new_tab": "Clicca per l'anteprima in altra scheda"
     },
     "folder": {
         "action": {
