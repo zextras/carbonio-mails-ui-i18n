@@ -1,7 +1,7 @@
 {
     "action": {
         "edit_as_new": "Edit as new",
-        "edit_share": "",
+        "edit_share": "Edit Share",
         "flag": "Add flag",
         "forward": "Forward",
         "goto_drafts": "Go to drafts",
@@ -77,12 +77,8 @@
         "trash_title1": "Click the trash icon to delete an email.",
         "trash_title2": "Select and restore emails from the trash."
     },
-    "filter_folders": "Filter folders",
     "filters": {
         "active_filters": "Active Filters",
-        "activity_stream_filters": "Activity Stream Filters",
-        "activity_stream_msg": "Rules may be set so when you receive less important messages, they are moved out of your Inbox and into an Activity Stream folder that you can check at your convenience.",
-        "activity_stream_settings": "ACTIVITY STREAM SETTINGS",
         "available_filters": "Available Filters",
         "filter_note": "Note: changes to filter rules are saved immediately",
         "filters": "Filters",
@@ -94,14 +90,10 @@
         "modal": {
             "edit": {
                 "add_share": "Add Share",
-                "messages": "Messages",
                 "rename_warning": "You cannot rename a folder as a system one.",
                 "retention_duration_warning": "The retention duration must be a positive number",
                 "retention_message": "Messages in this folder which fall within the retention range will require explicit confirmation before being deleted",
                 "threshold_message": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion."
-            },
-            "new": {
-                "go_back": "Go Back"
             }
         }
     },
@@ -111,72 +103,54 @@
             "empty": {
                 "trash": "Empty Trash"
             },
-            "new": "New Folder",
             "wipe": {
                 "folder_panel": "Wipe Folder"
             }
         },
         "lists_item": {
-            "root": ""
+            "root": "/Root"
         },
         "modal": {
             "delete": {
                 "body": {
-                    "message1": "",
-                    "message2": "",
-                    "message3": "",
-                    "message4": ""
-                },
-                "footer": "",
-                "title": ""
-            },
-            "edit": {
-                "messages": ""
+                    "message1": "Do you want to empty the selected folder?",
+                    "message2": "Do you want to delete the selected folder permanently?",
+                    "message3": "If you delete it, all the related content will be moved to Trash and the folder will no longer be visible.",
+                    "message4": "If you delete it, all the related content will be permanently removed and the folder will no longer be recoverable."
+                }
             },
             "empty": {
                 "body": {
-                    "message1": "",
-                    "message2": ""
-                },
-                "footer": "",
-                "title": ""
+                    "message1": "Do you want to empty the selected folder?",
+                    "message2": "If you empty it, all the related content will be deleted permanently."
+                }
             },
             "lists-item": {
                 "empty": ""
             },
             "move": {
                 "body": {
-                    "message1": "",
-                    "message2": "",
-                    "message_restore": ""
+                    "message1": "Select a folder to move the considered one to:",
+                    "message2": "Select a folder to restore to:"
                 },
-                "footer": "",
-                "input": {
-                    "filter": ""
-                },
-                "new": "",
-                "title": "",
                 "title_modal": "Move Conversation"
             },
             "new": {
-                "create_footer": "",
-                "go_back": "",
+                "create_footer": "Create and Move",
                 "input": {
                     "name": "Enter Folder Name",
                     "name_exist": "Name already exists in this path",
                     "position": "Parent Folder"
                 },
-                "name_exist_warning": "",
-                "restore_create_footer": "",
-                "title": ""
+                "name_exist_warning": "Name already exist",
+                "restore_create_footer": "Create and Restore",
+                "title": "Create a new folder"
             },
             "wipe": {
                 "body": {
                     "message1": "",
-                    "message2": ""
-                },
-                "footer": "",
-                "title": ""
+                    "message2": "If you wipe it, all the related content will be deleted permanently."
+                }
             }
         }
     },
@@ -222,9 +196,10 @@
         "download_plural": "",
         "draft_folder": "[DRAFT]",
         "edit": "Edit",
-        "edit_access": "",
+        "edit_access": "Edit {{name}}'s access",
         "edit_folder_properties": "",
         "email_perm_deleted": "E-mail permanently deleted",
+        "empty": "Empty",
         "error_address": "A valid e-mail is required",
         "error_try_again": "Something went wrong, please try again",
         "expand": "Expand",
@@ -236,6 +211,7 @@
         "flash_browser_title": "Flash the browser title",
         "freebusy": "FreeBusy",
         "from": "From",
+        "go_back": "Go Back",
         "grantee": "Grantee: ",
         "hide": "Hide",
         "highlight_tab": "Highlight the Mail tab",
@@ -247,6 +223,7 @@
         "mail_selected_plural": "",
         "mail_settings": "Mails settings",
         "me": "Me",
+        "messages": "Messages",
         "move": "Move",
         "new_folder": "New Folder",
         "no_search_results_found": "No results found",
@@ -269,7 +246,7 @@
         "revoke": "Revoke",
         "revoke_access_tooltip": "Revoke access sending a standard notification",
         "revoke_access_without_notification": "Revoke access without sending a notification",
-        "revoke_share": "",
+        "revoke_share": "Revoke {{title}}'s share",
         "revoke_with_custom_message": "Revoke access sending a custom notification",
         "role": "Role: ",
         "save": "Save",
@@ -285,7 +262,7 @@
         "shared_item": "Shared item",
         "shares_folder_edit": "Sharing of this folder",
         "shares_info": "Shared folder's info",
-        "shares_items": "",
+        "shares_items": "{{value}}'s shared folders",
         "show_all": "Show all",
         "show_popup": "Show a popup notification",
         "signature_required": "Signature information is required.",
@@ -298,6 +275,7 @@
         "to": "To",
         "type": "Type",
         "type_name_here": "Item name",
+        "wipe": "Wipe",
         "with_you": "with you",
         "workflow": "WorkFlow",
         "would_like_to_share": "shared his",
@@ -355,7 +333,7 @@
             "message_move": "Message successfully moved",
             "message_redirected": "The message has been redirected",
             "sending_mail_in_count": "Sending your message in {{count}} second",
-            "sending_mail_in_count_plural": "Sending your message in {{count}} seconds"
+            "sending_mail_in_count_plural": ""
         }
     },
     "notification": {
@@ -363,8 +341,7 @@
         "no_content": "Message without content"
     },
     "placeholder": {
-        "add_new_recipients": "Add new recipients",
-        "from": "From"
+        "add_new_recipients": "Add new recipients"
     },
     "search": {
         "attachment_note": "Search for all e-mail items that have an attachment.",
@@ -438,17 +415,12 @@
         "keep_in_sent": "Keep in Sent",
         "keyword": "Keyword",
         "label": {
-            "always_display_received_time": "Always display received time in e-mail list",
             "check_new_mail": "Check new e-mail",
             "conversation_ordering": "Conversation ordering",
             "default_mail_search": "Default Mail Search",
-            "display_external_images": "Automatically display external images in HTML e-mail",
             "display_mail": "Display mail",
-            "display_message_snippet": "Display snippets of messages in mail list",
             "display_messages": "Displaying Messages",
-            "double_click": "Double-click opens message in new window",
             "message_color": "Message Color",
-            "message_preview_title": "Message preview and Images",
             "message_selection": "Message Selection",
             "search_query": "Default query",
             "set_message_color": "Set color of messages and conversations according to tag color."
@@ -537,8 +509,8 @@
         "share_updated": "\"Access rights updated\""
     },
     "title": {
-        "new_messages": "",
-        "replies_forwards": ""
+        "new_messages": "New Messages",
+        "replies_forwards": "Replies & Forwards"
     },
     "tooltip": {
         "add_attachments": "Add attachments",
