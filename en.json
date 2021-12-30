@@ -191,7 +191,7 @@
         "delete_permanently": "Delete Permanently",
         "discard_changes": "DISCARD CHANGES",
         "download": "Download",
-        "download_plural": "Download all",
+        "download_plural": "",
         "draft_folder": "[DRAFT]",
         "edit": "Edit",
         "edit_access": "Edit {{name}}'s access",
@@ -517,7 +517,7 @@
         "edit": "Edit share properties",
         "enable_rich_text": "Enable rich text editor",
         "enable_urgent": "Enable urgent",
-        "resend": "Send mail notification about this share",
+        "resend": "Resend mail notification about this share",
         "revoke": "Revoke access"
     }
 }
