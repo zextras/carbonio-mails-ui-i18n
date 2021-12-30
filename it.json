@@ -126,7 +126,9 @@
         "create": "Crea",
         "error_try_again": "Qualcosa è andato storto, riprova",
         "move": "Sposta",
-        "restore": "Ripristina"
+        "restore": "Ripristina",
+        "delete": "Cancella",
+        "of": "di"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -188,7 +190,7 @@
         "print": "Stampa",
         "show_original": "Mostra originale",
         "goto_folder": "VAI ALLA CARTELLA",
-        "reset": "Ripristina Filtri",
+        "reset": "Ripristina",
         "preview_new_tab": "Clicca per l'anteprima in altra scheda"
     },
     "folder": {
@@ -300,6 +302,10 @@
             "draganddrop": {
                 "title": "Modalità Drag&Drop",
                 "content": "Trascina qui gli allegati per aggiungerli velocemente all'email"
+            },
+            "contacts_mod": "Aggiungi Scheda di contatto",
+            "drag_and_drop": {
+                "title": "Modalità Drag&Drop"
             }
         }
     },
@@ -417,5 +423,48 @@
     "shared_folders": "Cartelle condivise",
     "type": "Tipo",
     "workflow": "Flusso di lavoro",
-    "write": "Scrivi"
+    "write": "Scrivi",
+    "displayer": {
+        "draft_title1": "Salvare una e-mail come bozza ti permetterà di tenere i messaggi che vuoi inviare più tardi.",
+        "search_description1": "O seleziona \"Filtri Avanzati\" per rifinire la tua ricerca.",
+        "search_list_title2": "Nessun elemento corrisponde alla tua ricerca.",
+        "search_title4": "Seleziona uno o più risultati per completare delle azioni o visualizzare i dettagli.",
+        "title8": "Seleziona una e-mail per leggerla o cancellarla.",
+        "archive_title1": "Salva un e-mail nell'archivio così da poterla revisionare in seguito.",
+        "archive_title2": "Seleziona una e-mail archiviata per revisionarla.",
+        "description2": "Invia documenti, immagini e altro scrivendo una nuova e-mail.",
+        "description3": "Scrivi e invia una nuova e-mail usando il pulsante \"NUOVO\".",
+        "description4": "Puoi contrassegnare, rispondere o inoltrare il messaggio ad altri utenti.",
+        "description6": "Rispondi a questa e-mail o inoltrala ad altri utenti.",
+        "description7": "Seleziona una e-mail per rispondere.",
+        "draft_title2": "Seleziona e modifica una e-mail per inviarla ad altri utenti.",
+        "junk_title1": "Che fortuna! Non ci sono e-mail in spam.",
+        "junk_title2": "Seleziona l'icona del cestino per eliminare un messaggio spam.",
+        "list_draft_title": "Non ci sono bozze salvate",
+        "list_folder_title": "Sembra che non ci sia ancora alcuna e-mail",
+        "list_junk_title": "Non ci sono messaggi spam",
+        "list_sent_title": "Non hai inviato ancora alcuna e-mail",
+        "list_trash_title": "Il cestino è vuoto",
+        "search_description2": "Prova a iniziare una nuova ricerca.",
+        "search_description3": "Controlla l'ortografia e i filtri oppure prova con un'altra parola chiave.",
+        "search_list_title1": "Nessun risultato trovato. Continua a cercare!",
+        "search_title1": "Inizia una nuova ricerca",
+        "search_title2": "Nessun risultato per la tua ricerca",
+        "search_title3": "Nessun risultato per la tua ricerca.",
+        "sent_description1": "Scrivi una nuova e-mail selezionando il pulsante \"NUOVO\".",
+        "sent_title2": "Seleziona una e-mail per vedere cosa hai inviato.",
+        "title1": "Componi una nuova e-mail selezionando il pulsante \"NUOVO\".",
+        "title2": "Clicca il pulsante \"NUOVO\"",
+        "title3": "Rimani in contatto con gli altri utenti.",
+        "title4": "Seleziona una e-mail per leggerla",
+        "trash_title1": "Seleziona l'icona del cestino per eliminare un messaggio.",
+        "trash_title2": "Seleziona e ripristina messaggi dal cestino."
+    },
+    "board": {
+        "show": "Mostra finestra"
+    },
+    "filter_folders": "Filtra cartelle",
+    "filters": {
+        "active_filters": "Filtri Attivi"
+    }
 }
