@@ -128,7 +128,37 @@
         "move": "Sposta",
         "restore": "Ripristina",
         "delete": "Cancella",
-        "of": "di"
+        "of": "di",
+        "advanced_filters": "Filtro avanzato",
+        "advanced_filters_plural": "",
+        "delete_permanently": "Elimina Definitivamente",
+        "discard_changes": "ELIMINA MODIFICHE",
+        "email_perm_deleted": "E-mail eliminata definitivamente",
+        "empty": "Vuoto",
+        "expand": "Espandi",
+        "new_folder": "Nuova Cartella",
+        "no_search_results_found": "Nessun risultato trovato",
+        "private": "Privato",
+        "read": "Letto",
+        "remove_from_this_list": "Rimuovi da questa lista",
+        "revoke_with_custom_message": "Revoca accesso e invia una notifica personalizzata",
+        "shared_folders": "Cartelle condivise",
+        "shares_info": "Informazioni Cartella condivisa",
+        "single_advanced_filter": "Filtri Avanzati",
+        "size": "Dimensione",
+        "tag": "Tag",
+        "wipe": "Pulisci",
+        "workflow": "Flusso di lavoro",
+        "write": "Scrivi",
+        "add": "Aggiungi",
+        "administer": "Gestisci",
+        "back": "Retro",
+        "choose_folder": "Scegli cartella",
+        "freebusy": "LiberoOccupato",
+        "insert": "Inserisci",
+        "filter_folders": "Filtra cartelle",
+        "find_mail_shares": "Trova cartelle condivise",
+        "flagged": "Contrassegnato"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
@@ -371,7 +401,8 @@
             "msg_color": "Colore Messaggio",
             "search_query": "Richiesta predefinita",
             "conv_sorting": "Ordine delle conversazioni",
-            "msg_prv_title": "Anteprima messaggi e immagini"
+            "msg_prv_title": "Anteprima messaggi e immagini",
+            "message_color": "Colore Messaggio"
         },
         "new_mail_optn": {
             "manually": "Manualmente",
@@ -400,7 +431,22 @@
         "notify_folder_optn": {
             "new_message_folder": "Mostra notifiche per ogni nuovo messaggio",
             "new_message_inbox": "Mostra notifiche per i nuovi messaggi nella cartella posta in arrivo"
-        }
+        },
+        "actions": "Azioni",
+        "after": "dopo",
+        "contacts": "contatti",
+        "conv_sort_option": {
+            "asc": "Da vecchio a nuovo",
+            "desc": "Da nuovo a vecchio"
+        },
+        "date": "Data",
+        "discard": "Abbandona",
+        "message": "Messaggio",
+        "browse": "Sfoglia",
+        "display_mail_options": {
+            "text": "Come testo"
+        },
+        "calendar": "Calendario"
     },
     "mail_folder": "Cartella Posta",
     "of": "di",
@@ -465,6 +511,50 @@
     },
     "filter_folders": "Filtra cartelle",
     "filters": {
-        "active_filters": "Filtri Attivi"
+        "active_filters": "Filtri Attivi",
+        "filters": "Filtri"
+    },
+    "folder_panel": {
+        "modal": {
+            "new": {
+                "create_footer": "Crea e Sposta",
+                "restore_create_footer": "Crea e Ripristina",
+                "input": {
+                    "name_exist": "Il nome esiste già in questo percorso"
+                }
+            },
+            "wipe": {
+                "body": {
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                }
+            },
+            "delete": {
+                "body": {
+                    "message4": "Eliminando l'oggetto, i relativi contenuti saranno saranno eliminati definitivamente e non sarà. possibile ripristinare la cartella.",
+                    "message1": "Vuoi svoutare la cartella selezionata?",
+                    "message3": "Eliminando l'oggetto, i relativi contenuti saranno spostati nel cestino e la cartella non sarà più visibile."
+                }
+            },
+            "empty": {
+                "body": {
+                    "message1": "Vuoi svoutare la cartella selezionata?",
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                }
+            },
+            "move": {
+                "title_modal": "Sposta Conversazione",
+                "body": {
+                    "message1": "Seleziona una cartella in cui spostare quella selezionata:"
+                }
+            }
+        },
+        "action": {
+            "empty": {
+                "trash": "Svuota cestino"
+            }
+        }
+    },
+    "signatures": {
+        "name": "Nome"
     }
 }
