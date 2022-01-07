@@ -3,7 +3,7 @@
         "delete": "Sil",
         "back": "Geri",
         "cancel": "İptal",
-        "edit_share": "Erişimi Düzenle",
+        "edit_share": "Paylaşımı düzenle",
         "move": "Taşı",
         "download": "İndir",
         "edit_as_draft": "Düzenle",
@@ -163,7 +163,7 @@
         },
         "search_hints": "Search hints we need to discuss about",
         "sending_mail_to_self": "Kendinize e-posta göndermek üzeresiniz",
-        "invalid_search_message": "Hatalı sorgu kullanıldı, eşleşen hiçbir öğe bulunamadı"
+        "invalid_search_message": "Eşleşen hiçbir öğe bulunamadı"
     },
     "snackbar": {
         "error": "Bir hata oluştu, lütfen tekrar deneyin",
@@ -185,7 +185,7 @@
         "show": "Göster",
         "show_plural": "Hepsini göster",
         "attachment": "Ek",
-        "attachment_plural": "Ek",
+        "attachment_plural": "Ekler",
         "resend": "Yeniden gönder",
         "revoke": "İptal et",
         "share": "Paylaş",
@@ -213,7 +213,7 @@
         "no_subject": "Konu yok",
         "owner": "Sahibi: ",
         "remove": "Kaldır",
-        "remove_plural": "Kaldır",
+        "remove_plural": "Hepsini Kaldır",
         "role": "Rol: ",
         "search_subject": "Konu",
         "select_1": "Okumak için bir e-posta seçin",
@@ -281,7 +281,7 @@
         "received_from_address": "Gönderen (adres)",
         "remove_from_this_list": "Bu listeden kaldır",
         "results_for": "Sonuçlar: ",
-        "results_for_error": "Arama sorgusu çözümlenemedi, silip yeniden deneyin: ",
+        "results_for_error": "Arama sorgusu başlatılamadı, silip yeniden deneyin: ",
         "select_signature": "İmza seçin",
         "sent_to_address": "Gönderilen (adres)",
         "shared_folders": "Paylaşılan Klasörler",
@@ -293,7 +293,15 @@
         "size_larger": "Bu değerden büyük boyutlu (MB)",
         "tag": "Etiket",
         "workflow": "İş Akışı",
-        "write": "Yaz"
+        "write": "Yaz",
+        "discard_changes": "DEĞİŞİKLİKLERİ UYGULAMA",
+        "empty": "Boşalt",
+        "go_back": "Geriye git",
+        "messages": "Mesajlar",
+        "sending": "Gönderiliyor",
+        "wipe": "Temizle",
+        "advanced_filters": "Gelişmiş Filtreleme",
+        "advanced_filters_plural": "Gelişmiş Filtreler"
     },
     "of": "—",
     "owner": "Sahibi",
@@ -400,7 +408,9 @@
             "conversation_move_error": "Bir hata oluştu, görüşme taşıma işlemi tamamlanmadı. Lütfen tekrar deneyin.",
             "folder_edited": "Değişiklikler başarıyla kaydedildi",
             "folder_empty_error": "Bir hata oluştu, değişiklikler uygulanmadı. Lütfen tekrar deneyin.",
-            "mail_saved_to_drafts": "E-posta taslaklara kaydedildi"
+            "mail_saved_to_drafts": "E-posta taslaklara kaydedildi",
+            "sending_mail_in_count": "Mesajınız {{count}} saniye içinde gönderiliyor",
+            "sending_mail_in_count_plural": "Mesajınız {{count}} saniye içinde gönderiliyor"
         },
         "invalid_address": "Şu adres geçersiz görünüyor",
         "invalid_address_plural": "Şu adres geçersiz görünüyor",
@@ -416,9 +426,9 @@
     },
     "search": {
         "attachment": "Ek",
-        "attachment_note": "Eki bulunan bütün e-posta öğelerini ara.",
+        "attachment_note": "Eki bulunan bütün e-postaları ara.",
         "flagged": "Bayraklı",
-        "flagged_note": "Bayrak işaretli olan tüm e-posta öğelerini ara.",
+        "flagged_note": "Bayrak işaretli olan tüm e-postaları ara.",
         "unread": "Okunmamış",
         "unread_note": "Okunmamış tüm e-posta öğelerini ara.",
         "sent_after": "Sonra gönder",
@@ -481,8 +491,8 @@
             "when_arrive": "Yeni e-posta gelince"
         },
         "notify_folder_optn": {
-            "new_message_folder": "Herhangi bir klasörlerdeki yeni mesajlar için bildirim göster",
-            "new_message_inbox": "Gelen kutusundaki yeni mesajlar için bildirim göster"
+            "new_message_folder": "Herhangi bir klasörlere gelen yeni mesajlar için bildirim göster",
+            "new_message_inbox": "Gelen kutusuna gelen yeni mesajlar için bildirim göster"
         },
         "read_rcpt_optn": {
             "always": "Her zaman okundu bilgisi gönder",
@@ -515,7 +525,7 @@
         },
         "create_new_filter": "Yeni Filtre oluştur",
         "date": "Tarih",
-        "delete_filter": "Filtre silme",
+        "delete_filter": "Filtreyi sil",
         "discard": "At",
         "display_mail_options": {
             "html": "HTML olarak (mümkün olduğunda)",
@@ -579,18 +589,18 @@
     "shares_info": "Paylaşılan klasör bilgisi",
     "displayer": {
         "description3": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun ve sonra da gönderin.",
-        "description6": "Bue-postayı yanıtlayın veya diğer kullanıcılara yönlendirin.",
-        "junk_title1": "Ne güzel! Hiç istenmeyen e-posta yok.",
-        "trash_title1": "E-postayı silmek için çöp kutusu simgesine tıklayın.",
+        "description6": "Bu e-postayı yanıtlayın veya diğer kullanıcılara yönlendirin.",
+        "junk_title1": "Ne güzel! Hiç istenmeyen e-posta yok",
+        "trash_title1": "E-postayı silmek için çöp kutusu simgesine tıklayın",
         "archive_title1": "E-postayı arşive kaydedip daha sonra görüntüleyebilirsiniz.",
-        "archive_title2": "Görüntülemek için arşivlenmiş bir e-postayı seçin.",
+        "archive_title2": "Görüntülemek için arşivlenmiş bir e-posta seçin.",
         "description2": "Yeni bir e-posta oluşturup dokümanlar, resimler vb gönderebilirsiniz.",
         "description4": "Bayrak ekleyebilir, yanıtlayabilir veya başka kullanıcılara yönlendirebilirsiniz.",
         "description5": "Diğer kullanıcıların sizinle ne hakkında konuşmak istediğini kontrol edin.",
         "description7": "Yanıtlamak için bir e-posta seçin.",
         "draft_title1": "Daha sonra göndermek istediğiniz bir e-postayı taslak olarak kaydedebilirsiniz.",
         "draft_title2": "Diğer kullanıcılara göndermek için bir e-postayı seçin ve düzenleyin.",
-        "junk_title2": "İstenmeyen bir e-postayı silmek için çöp kutusu simgesine tıklayın.",
+        "junk_title2": "İstenmeyen bir e-postayı silmek için çöp kutusu simgesine tıklayın",
         "list_draft_title": "Kaydedilmiş taslak yok",
         "list_folder_title": "Henüz hiç e-posta gelmemiş görünüyor",
         "list_junk_title": "İstenmeyen e-posta yok",
@@ -607,7 +617,7 @@
         "search_title4": "Detayları görüntülemek veya işlem yapmak için bir veya daha fazla sonuç seçin.",
         "sent_description1": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun.",
         "sent_title2": "Ne gönderdiğinizi görüntülemek için bir e-posta seçin.",
-        "title1": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun.",
+        "title1": "\"YENİ\" tuşuna tıklayıp yeni bir e-posta oluşturun",
         "title2": "“YENİ” tuşuna tıklayın",
         "title3": "Diğer kullanıcılar ile iletişimde olun.",
         "title4": "Okumak için bir e-posta seçin",
@@ -637,10 +647,37 @@
                     "name_exist": "Bu ad zaten kullanılıyor",
                     "name": "Klasör Adı girin",
                     "position": "Üst Klasör"
-                }
+                },
+                "create_footer": "Oluştur ve Taşı",
+                "name_exist_warning": "Ad önceden kullanılmış",
+                "restore_create_footer": "Oluştur ve Geri Yükle",
+                "title": "Yeni klasör oluştur"
             },
             "move": {
-                "title_modal": "Görüşmeyi taşı"
+                "title_modal": "Görüşmeyi taşı",
+                "body": {
+                    "message1": "İçine taşınmasını istediğiniz bir klasör seçin:",
+                    "message2": "İçine geri yüklemek istediğiniz bir klasör seçin:"
+                }
+            },
+            "delete": {
+                "body": {
+                    "message1": "Seçili klasörü boşaltmak istiyor musunuz?",
+                    "message2": "Seçili klasörü kalıcı olarak silmek istiyor musunuz?",
+                    "message3": "Silerseniz, ilgili içerik çöp kutusuna taşınacak ve klasör artık görüntülenmeyecek.",
+                    "message4": "Silerseniz, ilgili tüm içerik kalıcı olarak silinecek ve klasör artık kullanılamayacak."
+                }
+            },
+            "empty": {
+                "body": {
+                    "message1": "Seçili klasörü boşaltmak istiyor musunuz?",
+                    "message2": "Eğer boşaltırsanız, ilgili tüm içerik kalıcı olarak silinecek."
+                }
+            },
+            "wipe": {
+                "body": {
+                    "message2": "Eğer temizlerseniz, ilgili tüm içerik kalıcı olarak silinecek."
+                }
             }
         },
         "action": {
@@ -652,6 +689,9 @@
             "wipe": {
                 "folder_panel": "Klasörü temizle"
             }
+        },
+        "lists_item": {
+            "root": "/Kök"
         }
     },
     "notification": {
