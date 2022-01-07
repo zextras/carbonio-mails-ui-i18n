@@ -171,7 +171,8 @@
         "share_resend": "Paylaşım davetini yeniden gönder",
         "share_revoke": "Paylaşım erişimi iptal edildi",
         "share_updated": "\"Erişim hakları güncellendi\"",
-        "folder_shared": "Klasör paylaşıldı"
+        "folder_shared": "Klasör paylaşıldı",
+        "email_moved_to_trash": "E-posta Çöp Kutusuna taşındı"
     },
     "freebusy": "Serbest/Meşgul",
     "find_mail_shares": "Paylaşılan klasörleri bul",
@@ -301,7 +302,10 @@
         "sending": "Gönderiliyor",
         "wipe": "Temizle",
         "advanced_filters": "Gelişmiş Filtreleme",
-        "advanced_filters_plural": "Gelişmiş Filtreler"
+        "advanced_filters_plural": "Gelişmiş Filtreler",
+        "search_activate_selection_mode": "Arama sonuçlarında seçme modu henüz kullanılamıyor",
+        "addresses_not_accepted": "Bir veya daha fazla adres kabul edilmedi. Reddedilen adresler:",
+        "undo": "Geri Al"
     },
     "of": "—",
     "owner": "Sahibi",
@@ -347,7 +351,8 @@
         "inbox": "Gelen Kutusu",
         "junk": "İstenmeyen Posta",
         "sent": "Gönderilenler",
-        "trash": "Çöp Kutusu"
+        "trash": "Çöp Kutusu",
+        "spam": "Spam"
     },
     "header": {
         "delete_email": "E-postayı sil",
@@ -410,7 +415,8 @@
             "folder_empty_error": "Bir hata oluştu, değişiklikler uygulanmadı. Lütfen tekrar deneyin.",
             "mail_saved_to_drafts": "E-posta taslaklara kaydedildi",
             "sending_mail_in_count": "Mesajınız {{count}} saniye içinde gönderiliyor",
-            "sending_mail_in_count_plural": "Mesajınız {{count}} saniye içinde gönderiliyor"
+            "sending_mail_in_count_plural": "Mesajınız {{count}} saniye içinde gönderiliyor",
+            "folder_restored": "Klasör geri alındı"
         },
         "invalid_address": "Şu adres geçersiz görünüyor",
         "invalid_address_plural": "Şu adres geçersiz görünüyor",
@@ -622,7 +628,10 @@
         "title3": "Diğer kullanıcılar ile iletişimde olun.",
         "title4": "Okumak için bir e-posta seçin",
         "title8": "Okumak veya silmek için bir e-posta seçin.",
-        "trash_title2": "Çöp kutusundan e-postaları seçin ve geri alın."
+        "trash_title2": "Çöp kutusundan e-postaları seçin ve geri alın.",
+        "list_spam_title": "İstenmeyen e-posta yok",
+        "spam_title1": "Ne güzel! Hiç istenmeyen e-posta yok",
+        "spam_title2": "İstenmeyen bir e-postayı silmek için çöp kutusu simgesine tıklayın."
     },
     "filters": {
         "activity_stream_msg": "Kurallar oluşturarak; önemli olmayan bir mesaj geldiğinde Gelen kutunuzdan Aktivite Listesi klasörüne taşıyabilir ve daha uygun bir zamanda bu mesajları inceleyebilirsiniz.",
