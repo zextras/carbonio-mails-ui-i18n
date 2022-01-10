@@ -158,7 +158,8 @@
         "insert": "Inserisci",
         "filter_folders": "Filtra cartelle",
         "find_mail_shares": "Trova cartelle condivise",
-        "flagged": "Contrassegnato"
+        "flagged": "Contrassegnato",
+        "undo": "Annulla"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
