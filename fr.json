@@ -287,7 +287,8 @@
         "size_smaller": "Taille inférieure à (MB)",
         "tag": "Étiquette",
         "workflow": "Flux de travail",
-        "write": "Ecrire"
+        "write": "Ecrire",
+        "undo": "Annuler"
     },
     "mail_folder": "dossier Mail",
     "message": {
