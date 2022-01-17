@@ -537,7 +537,11 @@
         "matches_wildcard_condition": "соответствует условию подстановочного знака",
         "b": "В",
         "localpart": "локальная часть",
-        "over": "Превышение"
+        "over": "Выше",
+        "gb": "GB",
+        "kb": "KB",
+        "mass_marketing": "mass marketing (bulk)",
+        "mb": "MB"
     },
     "add": "Добавить",
     "administer": "Администрирование",
