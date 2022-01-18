@@ -5,7 +5,7 @@
         "download": "Télécharger",
         "edit_as_draft": "Modifier",
         "edit_as_new": "Modifier comme nouveau",
-        "edit_share": "Modifier Partager",
+        "edit_share": "Modifier le partage",
         "flag": "Ajouter marqueur",
         "forward": "Transférer",
         "hide_details": "Cacher les détails",
@@ -299,7 +299,7 @@
                 "error": "Quelque chose s'est mal passé, veuillez réessayer",
                 "declined": "Vous avez décliné la demande de partage"
             },
-            "settings_saved": "Modifications sauvées correctement"
+            "settings_saved": "Modifications enregistrées correctement"
         },
         "sending_mail_to_self": "Il semblerait que vous soyez sur le point de vous envoyer un email",
         "search_hints": "Les indices de recherche dont nous devons discuter",
@@ -604,7 +604,7 @@
         "title1": "Composer un nouvel email en cliquant sur le bouton \"NOUVEAU\".",
         "title2": "Cliquer sur le bouton \"NOUVEAU\"",
         "trash_title1": "Cliquer sur l'icône de la corbeille pour supprimer un courriel.",
-        "archive_title2": "Sélectionner un email archivé pour le consulter.",
+        "archive_title2": "Sélectionnez un email archivé pour le consulter.",
         "description2": "Envoyer des documents, des images et bien plus encore en composant un nouvel email.",
         "description3": "Rédiger un nouvel e-mail en cliquant sur le bouton \"NOUVEAU\", puis l'envoyer.",
         "description4": "Vous pouvez le signaler, y répondre ou le transmettre à d'autres utilisateurs.",
@@ -612,7 +612,7 @@
         "description7": "Sélectionner un email à répondre.",
         "draft_title2": "Sélectionner et modifier un email pour l'envoyer à d'autres utilisateurs.",
         "junk_title1": "Quelle chance ! Vous n'avez pas à vous soucier de spams.",
-        "junk_title2": "Cliquer sur l'icône de la corbeille pour supprimer un email indésirable.",
+        "junk_title2": "Cliquez sur l'icône de la corbeille pour supprimer un email indésirable.",
         "list_draft_title": "Il n'y a pas de brouillons enregistrés",
         "list_folder_title": "Il semble qu'il n'y ait pas encore d'emails",
         "list_junk_title": "Il n'y a pas de spams",
