@@ -576,7 +576,7 @@
         "send_notification": "Envoyer une notification de ce partage",
         "standard_message": "Ajouter une note au message standard",
         "share_note": "Le message standard affiche votre nom, le nom de l'élément partagé, les autorisations accordées aux destinataires, et les informations de connexion.",
-        "filter_folder_message": "Sélectionnez un dossier dans lequel vous souhaitez lancer votre recherche avancée",
+        "filter_folder_message": "Sélectionnez un dossier dans lequel vous souhaitez lancer votre recherche avancée.",
         "is_contained_in": "Est contenu dans"
     },
     "shared_folders": "Dossiers partagés",
