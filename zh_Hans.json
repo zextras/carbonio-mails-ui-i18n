@@ -117,7 +117,7 @@
             "folder_moved_to_trash": "文件夹已移动至垃圾箱",
             "marked_as_spam": "您已将此邮件标记为垃圾信息",
             "message_delete_error": "出现错误，此消息夹未删除，请重试。",
-            "message_deleted": "消息已删除成功。",
+            "message_deleted": "消息已删除",
             "conversation_move": "会话已成功移动",
             "email_move_error": "出现了一些错误，请重试",
             "email_moved_to_trash": "邮件已移动至回收站",
