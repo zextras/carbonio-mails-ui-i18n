@@ -221,8 +221,8 @@
         "create": "Crear",
         "delete": "Borrar",
         "email_perm_deleted": "Correo electrónico borrado permanentemente",
-        "empty": "Vacía",
-        "error_try_again": "Algo fue mal, por favor, inténtalo de nuevo",
+        "empty": "Vacío",
+        "error_try_again": "Algo ha salido mal. Por favor intente de nuevo",
         "expand": "Expandir",
         "filter_folders": "Filtrar carpetas",
         "find_mail_shares": "Encontrar las carpetas compartidas",
@@ -396,7 +396,7 @@
                 "content": "Suelta aquí tus archivos adjuntos para añadirlos rápidamente a este correo electrónico"
             },
             "drive": "Añadir desde Drive",
-            "local": "Añadir desde local",
+            "local": "Añadir desde Mi PC",
             "contactsMod": "Añadir tarjeta de contacto",
             "contacts_mod": "Añadir tarjeta de contacto",
             "drag_and_drop": {
