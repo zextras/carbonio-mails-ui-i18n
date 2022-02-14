@@ -489,7 +489,7 @@
         },
         "new_mail_optn": {
             "manually": "Manuell",
-            "minute": "1 Minute",
+            "minute": "{{count}} Minute",
             "minute_plural": "{{count}} Minuten",
             "when_arrive": "Sobald eine neue E-Mail ankommt"
         },
