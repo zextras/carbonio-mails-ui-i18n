@@ -305,7 +305,11 @@
         "advanced_filters_plural": "Gelişmiş Filtreler",
         "search_activate_selection_mode": "Arama sonuçlarında seçme modu henüz kullanılamıyor",
         "addresses_not_accepted": "Bir veya daha fazla adres kabul edilmedi. Reddedilen adresler:",
-        "undo": "Geri Al"
+        "undo": "Geri Al",
+        "attachement_unknown": "Bilinmeyen <{{mimeType}}>",
+        "draft": "Taslak",
+        "forwarded": "İletildi",
+        "replied": "Yanıtlandı"
     },
     "of": "—",
     "owner": "Sahibi",
