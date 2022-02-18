@@ -486,7 +486,7 @@
             "set_message_color": "Mesajların ve görüşmelerin rengini etiket rengine göre belirle."
         },
         "msg_from_optn": {
-            "discard": "Mesajı otomatik olarak at",
+            "discard": "Mesajı otomatik olarak çöpe at",
             "inbox": "Gelen kutusuna gönder",
             "inbox_if_cc": "Eğer Kime: veya Cc: bölümündeysem gelen kutusuna gönder"
         },
@@ -532,7 +532,7 @@
         "create_new_filter": "Yeni Filtre oluştur",
         "date": "Tarih",
         "delete_filter": "Filtreyi sil",
-        "discard": "At",
+        "discard": "Çöpe At",
         "display_mail_options": {
             "html": "HTML olarak (mümkün olduğunda)",
             "text": "Metin olarak"
