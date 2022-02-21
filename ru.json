@@ -215,7 +215,9 @@
         "undo": "Отменить",
         "search_activate_selection_mode": "Режим выбора пока недоступен в результатах поиска",
         "addresses_not_accepted": "Один или несколько адресов были отклонены:",
-        "of": "из"
+        "of": "из",
+        "attachement_unknown": "Неизвестно <{{mimeType}}>",
+        "draft": "Черновик"
     },
     "header": {
         "warning": "Предупреждение",
