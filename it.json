@@ -191,7 +191,10 @@
         "activate_selection_mode": "Attiva modalità selezione",
         "all": "tutto",
         "search_activate_selection_mode": "La Modalità Selezione non è ancora disponibile nei risultati di ricerca",
-        "receive_message": "Messaggi Ricevuti"
+        "receive_message": "Messaggi Ricevuti",
+        "replied": "Risposto",
+        "draft": "Bozza",
+        "forwarded": "Inoltrato"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
