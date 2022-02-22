@@ -382,7 +382,7 @@
         "no_content": "Bu mesajda metin içeriği yok",
         "no_subject": "Konu Yok.",
         "permanent_delete_confirm": "Kalıcı olarak sil",
-        "permanent_delete_title": "Bu öğeyi kalıcı olarak silmek istediğinizden emin misiniz?",
+        "permanent_delete_title": "Bu öğeyi tamamen silmek istiyor musunuz?",
         "snackbar": {
             "conversation_delete_error": "Bir hata oluştu, bu görüşme silinmedi, lütfen tekrar deneyin.",
             "conversation_deleted": "Görüşme silindi",
