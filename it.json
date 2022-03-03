@@ -194,7 +194,8 @@
         "receive_message": "Messaggi Ricevuti",
         "replied": "Risposto",
         "draft": "Bozza",
-        "forwarded": "Inoltrato"
+        "forwarded": "Inoltrato",
+        "attachement_unknown": "Sconosciuto <{{mimeType}}>"
     },
     "tooltip": {
         "enable_disable_urgent": "Attiva/Disattiva importante",
