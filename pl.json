@@ -1,7 +1,7 @@
 {
     "displayer": {
         "archive_title1": "Zarchiwizuj e-mail, aby móc go póżniej zobaczyć.",
-        "search_description1": "Lub wybierz \"Zaawansowane filtry\", aby urozmaicić wyniki wyszukiwania.",
+        "search_description1": "Lub wybierz \"Zaawansowane filtry\", aby udoskonalić wyniki wyszukiwania.",
         "spam_title2": "Kliknij ikonkę kosza, aby usunąć e-mail będacy spamem.",
         "title3": "Pozostań w kontakcie z innymi użytkownikami.",
         "archive_title2": "Wybierz zarchiwizowany e-mail aby go przeglądnąć.",
@@ -21,7 +21,7 @@
         "list_spam_title": "Nie ma żadnego spamu",
         "list_trash_title": "Kosz jest pusty",
         "search_description2": "Spróbuj rozpocząć kolejne wyszukiwanie.",
-        "search_description3": "Sprawdź pisownię i ustawienia filtrów lub spróbuj wpisać inne słowo kluczowe.",
+        "search_description3": "Sprawdź poprawność pisowni oraz ustawienia filtrów lub spróbuj wpisać inne słowo kluczowe.",
         "search_list_title1": "Wygląda na to, że nie ma żadnych wyników wyszukiwania. Nie poddawaj się!",
         "search_list_title2": "Żaden z twoich przedmiotów nie pasuje do kryteriów wyszukiwania.",
         "search_title1": "Rozpocznij kolejne wyszukiwanie",
