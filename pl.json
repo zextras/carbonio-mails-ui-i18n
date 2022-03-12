@@ -35,7 +35,7 @@
         "title4": "Wybierz e-mail, aby go przeczytać",
         "title8": "Wybierz e-mail, aby go przeczytać lub usunąć.",
         "trash_title1": "Kliknij w ikonkę kosza, aby usunąć e-mail",
-        "trash_title2": "Wybierz i odzyskaj e-maile z kosza."
+        "trash_title2": "Wybierz i przywróć e-maile z kosza."
     },
     "folder": {
         "modal": {
@@ -121,7 +121,7 @@
         "no_subject": "Bez tematu",
         "private": "Prywatny",
         "resend": "Wyślij ponownie",
-        "restore": "Odzyskaj",
+        "restore": "Przywróć",
         "revoke": "Odbierz",
         "save": "Zapisz",
         "share": "Udostępnij",
@@ -305,7 +305,7 @@
                 "title_modal": "Przenieś Konwersację",
                 "body": {
                     "message1": "Wybierz folder, do którego chcesz przenieść wybrany element:",
-                    "message2": "Wybierz folder, do którego trafią odzyskane elementy:"
+                    "message2": "Wybierz folder, do którego trafią przywrócone elementy:"
                 }
             },
             "new": {
@@ -316,7 +316,7 @@
                     "name_exist": "Wybrana nazwa już istnieje w tej ścieżce"
                 },
                 "name_exist_warning": "Wybrana nazwa już istnieje",
-                "restore_create_footer": "Stwórz i Odzyskaj",
+                "restore_create_footer": "Stwórz i Przywróć",
                 "title": "Stwórz nowy folder"
             },
             "wipe": {
@@ -357,14 +357,14 @@
             "conversation_move": "Konwersacja została przeniesiona pomyślnie",
             "conversation_move_error": "Coś poszło nie tak, przeniesienie konwersacji nie zostało wykonane. Spróbuj ponownie.",
             "email_moved_to_trash": "E-mail został przeniesiony do Kosza",
-            "email_restored": "E-mail został odzyskany do wyznaczonego folderu",
+            "email_restored": "E-mail został przywrócony w wyznaczonym folderze",
             "folder_created": "Nowy folder został stworzony",
             "folder_deleted": "Folder został usunięty.",
             "folder_empty": "Kosz został opróżniony pomyślnie",
             "folder_empty_error": "Coś poszło nie tak, zmiany nie zostały wprowadzone. Spróbuj ponownie.",
             "folder_moved": "Folder został przeniesiony pomyślnie",
             "folder_moved_to_trash": "Folder został przeniesiony do kosza",
-            "folder_restored": "Folder został odzyskany",
+            "folder_restored": "Folder został przywrócony",
             "folder_wiped": "Folder został wyczyszczony pomyślnie",
             "mail_saved_to_drafts": "E-mail został zapisany jako wersja robocza",
             "mail_sent": "Wiadomość została wysłana",
