@@ -219,7 +219,7 @@
         "attachement_unknown": "Неизвестно <{{mimeType}}>",
         "draft": "Черновик",
         "forwarded": "Переадресовано",
-        "replied": "Ответил"
+        "replied": "Отвечено"
     },
     "header": {
         "warning": "Предупреждение",
