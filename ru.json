@@ -75,7 +75,7 @@
         "invalid_address_2": "Эти адресов недействительны",
         "new_email": "Новое письмо",
         "permanent_delete_confirm": "Удалить навсегда",
-        "permanent_delete_title": "Вы уверены, что навсегда удалите этот элемент?",
+        "permanent_delete_title": "Вы уверены, что хотите навсегда удалить этот элемент?",
         "permanent_delete_body": "Удалив этот элемент навсегда вы больше не сможете его восстановить, продолжить?"
     },
     "label": {
@@ -225,7 +225,8 @@
         "send_email": "Отправить",
         "set_default_signatures": "Установить подписи по умолчанию",
         "show_quoted_text": "Показать цитируемый текст",
-        "from_identity": "От:{{identity}}"
+        "from_identity": "От:{{identity}}",
+        "cc_bcc": "Cc Bcc"
     },
     "header": {
         "warning": "Предупреждение",
