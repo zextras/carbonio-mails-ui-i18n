@@ -43,7 +43,7 @@
                 "retention_message": "Wiadomości z tego folderu, zawierające się w czasie zachowywania wymagają wyraźnego potwierdzenia, zanim zostaną usunięte",
                 "add_share": "Dodaj udostępnienie",
                 "rename_warning": "Nie możesz zmienić nazwy folderu na nazwę znajdującą się już w systemie.",
-                "retention_duration_warning": "Czas zachowywania musi być liczbą większą od zera.",
+                "retention_duration_warning": "Czas przechowywania musi być liczbą większą od zera",
                 "threshold_message": "Wiadomości z tego folderu, wykraczające poza czas zachowywania będą poddawane automatycznemu usunięciu."
             }
         }
@@ -408,7 +408,7 @@
             "message_selection": "Wybór Wiadomości",
             "search_query": "Domyślne kryterium"
         },
-        "actions": "Akcje",
+        "actions": "Czynności",
         "active_filter": "Aktywny filtr",
         "add_condition": "Dodaj nowy warunek",
         "address_in": "Adres w",
@@ -456,7 +456,7 @@
         "filter_deleted": "Filtr został usunięty",
         "filter_folder_message": "Wybierz folder, do którego zastosujesz ten filtr:",
         "filter_name": "Nazwa Filtra",
-        "from_distribution_list": "z listy podziału",
+        "from_distribution_list": "z listi dystrybucyjnej",
         "gb": "GB",
         "header_name": "Nagłowek nazwany",
         "if": "Jeśli",
