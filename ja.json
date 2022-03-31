@@ -157,7 +157,7 @@
     "label": {
         "attachment": "添付ファイル",
         "cancel": "キャンセル",
-        "download": "",
+        "download": "ダウンロード",
         "edit": "編集する",
         "me": "私",
         "remove": "すべて削除する",
@@ -294,7 +294,15 @@
         "new_email": "新規メール",
         "notify_organizer": "主催者に通知する",
         "retention_range": "保持範囲",
-        "select_color": "色を選択してください"
+        "select_color": "色を選択してください",
+        "accept": "許可",
+        "decline": "拒否する",
+        "folder_name": "フォルダー名",
+        "select": "選択",
+        "send_email": "メールを送信する",
+        "share_with": "シェア先",
+        "draft": "下書き",
+        "forwarded": "転送済み"
     },
     "messages": {
         "permanent_delete_confirm": "完全に削除する",
