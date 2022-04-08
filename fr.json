@@ -320,7 +320,13 @@
         "notify_organizer": "Notifier l'organisateur",
         "retention_range": "Plage de rétention",
         "set_default_signatures": "Définir les signatures par défaut",
-        "show_quoted_text": "Afficher le texte cité"
+        "show_quoted_text": "Afficher le texte cité",
+        "folder_name": "Nom du dossier",
+        "select": "Sélectionner",
+        "send_email": "Envoyer un email",
+        "share_with": "Partager avec",
+        "accept": "Accepter",
+        "decline": "Refuser"
     },
     "mail_folder": "dossier Mail",
     "message": {
