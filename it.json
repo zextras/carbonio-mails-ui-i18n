@@ -592,7 +592,8 @@
         "address_in": "Indirizzo in",
         "tag_with": "Contrassegna con",
         "does_not_match_wildcard_condition": "non corrisponde alle condizioni dei caratteri jolly",
-        "social": "Social"
+        "social": "Social",
+        "localpart": "localpart"
     },
     "mail_folder": "Cartella Posta",
     "of": "di",
