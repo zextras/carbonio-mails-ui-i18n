@@ -305,7 +305,11 @@
         "edit_tag_name": "แก้ไขแท็ก \"{{name}}\"",
         "no_special_char_allowed": "ชื่อไม่ควรมีอักขระพิเศษใดๆ",
         "tag_name": "ชื่อแท็ก",
-        "tag_max_length": "อนุญาตให้ใช้อักขระได้สูงสุด 128 ตัว"
+        "tag_max_length": "อนุญาตให้ใช้อักขระได้สูงสุด 128 ตัว",
+        "behalf_of": "ในนามของ",
+        "spam": "ขยะ",
+        "preview": "ดูตัวอย่าง",
+        "tags": "แท็ก"
     },
     "messages": {
         "permanent_delete_confirm": "ลบอย่างถาวร",
