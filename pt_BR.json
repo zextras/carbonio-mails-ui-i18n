@@ -294,7 +294,11 @@
         "edit_tag": "Editar Etiqueta",
         "no_special_char_allowed": "O nome não deve conter nenhum caractere especial",
         "tag_max_length": "Máximo de 128 caracteres permitidos",
-        "tag_name": "Nome da etiqueta"
+        "tag_name": "Nome da etiqueta",
+        "behalf_of": "em nome de",
+        "preview": "Visualizar",
+        "spam": "Spam",
+        "tags": "Etiquetas"
     },
     "of": "de",
     "owner": "Proprietário",
