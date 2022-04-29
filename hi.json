@@ -249,7 +249,11 @@
         "notify_organizer": "ऑर्गनाइज़र को सूचित करें",
         "replied": "जबाब दे दिया है",
         "retention_range": "सेव करने की रेंज",
-        "set_default_signatures": "डिफ़ाल्ट सिग्नेचर सेट करें"
+        "set_default_signatures": "डिफ़ाल्ट सिग्नेचर सेट करें",
+        "behalf_of": "इनकी ओर से",
+        "preview": "प्रीव्यू",
+        "spam": "कबाड़",
+        "tags": "बिल्ले"
     },
     "messages": {
         "permanent_delete_confirm": "हमेशा के लिए डिलीट करें",
