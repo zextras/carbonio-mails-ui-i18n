@@ -33,7 +33,8 @@
         "show_details": "Details weergeven",
         "show_original": "Origineel weergeven",
         "unflag": "Vlag verwijderen",
-        "preview_new_tab": "Klik om te bekijken in een ander tabblad"
+        "preview_new_tab": "Klik om te bekijken in een ander tabblad",
+        "click_preview": "Klik om te bekijken"
     },
     "add": "Toevoegen",
     "create": "Creëren",
@@ -304,7 +305,11 @@
         "from_identity": "Van: {{identity}}",
         "notify_organizer": "Organisator verwittigen",
         "retention_range": "Retentiebereik",
-        "select": "Selecteren"
+        "select": "Selecteren",
+        "behalf_of": "namens",
+        "preview": "Voorbeeld",
+        "spam": "spam",
+        "tags": "Tags"
     },
     "messages": {
         "permanent_delete_confirm": "Permanent verwijderen",
