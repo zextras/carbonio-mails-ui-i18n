@@ -293,7 +293,11 @@
         "select_color": "Pilih Warna",
         "retention_range": "Rentang Penyimpanan",
         "set_default_signatures": "Atur Tanda Tangan Default",
-        "show_quoted_text": "Tampilkan teks kutipan"
+        "show_quoted_text": "Tampilkan teks kutipan",
+        "behalf_of": "atas nama",
+        "preview": "Pratinjau",
+        "spam": "Sampah",
+        "tags": "Tag"
     },
     "messages": {
         "permanent_delete_confirm": "Hapus secara permanen",
