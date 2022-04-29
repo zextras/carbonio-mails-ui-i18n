@@ -302,7 +302,11 @@
         "send_email": "メールを送信する",
         "share_with": "シェア先",
         "draft": "下書き",
-        "forwarded": "転送済み"
+        "forwarded": "転送済み",
+        "behalf_of": "代わりに",
+        "spam": "迷惑メール",
+        "tags": "タグ",
+        "preview": "プレビューする"
     },
     "messages": {
         "permanent_delete_confirm": "完全に削除する",
