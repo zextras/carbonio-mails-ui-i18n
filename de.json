@@ -33,7 +33,8 @@
         "print": "Drucken",
         "reply_all": "Allen antworten",
         "reset": "Zurücksetzen",
-        "preview_new_tab": "Klicken zur Vorschau in einem anderen Reiter"
+        "preview_new_tab": "Klicken zur Vorschau in einem anderen Reiter",
+        "click_preview": "Klicken zur Vorschau"
     },
     "add": "Hinzufügen",
     "folder": {
@@ -295,7 +296,10 @@
         "retention_range": "Retentionsbereich",
         "select": "Auwählen",
         "set_default_signatures": "Standardsignaturen festlegen",
-        "behalf_of": "im namen von"
+        "behalf_of": "im namen von",
+        "preview": "Vorschau",
+        "tags": "Etiketten",
+        "spam": "Spam"
     },
     "share": {
         "options": {
