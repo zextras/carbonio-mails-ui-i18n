@@ -315,7 +315,10 @@
         "edit_tag_name": "Editar etiqueta \"{{name}}\"",
         "tag_max_length": "Máximo 128 caracteres permitidos",
         "tag_name": "Nombre de etiqueta",
-        "no_special_char_allowed": "El nombre no debe contener ningún carácter especial"
+        "no_special_char_allowed": "El nombre no debe contener ningún carácter especial",
+        "preview": "Vista previa",
+        "spam": "Spam",
+        "tags": "Etiquetas"
     },
     "messages": {
         "permanent_delete_confirm": "Eliminar permanentemente",
