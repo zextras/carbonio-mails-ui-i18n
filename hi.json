@@ -253,7 +253,12 @@
         "behalf_of": "इनकी ओर से",
         "preview": "प्रीव्यू",
         "spam": "कबाड़",
-        "tags": "बिल्ले"
+        "tags": "बिल्ले",
+        "create_tag": "टैग बनाएँ",
+        "delete_tag": "टैग डिलीट करें",
+        "edit_tag": "टैग बदलें",
+        "edit_tag_name": "\"{{name}}\" टैग बदलें",
+        "delete_tag_name": "\"{{name}}\" टैग डिलीट करें"
     },
     "messages": {
         "permanent_delete_confirm": "हमेशा के लिए डिलीट करें",
@@ -348,7 +353,8 @@
         "share_folder": "फोल्डर साझा करें",
         "show_details": "जानकारी दिखाएँ",
         "show_original": "ओरिजिनल दिखाएँ",
-        "preview_new_tab": "दूसरे टैब में झलक देखने के लिए क्लिक करें"
+        "preview_new_tab": "दूसरे टैब में झलक देखने के लिए क्लिक करें",
+        "click_preview": "प्रीव्यू के लिए क्लिक करें"
     },
     "add": "जोड़ें",
     "create": "बनाएँ",
