@@ -9,6 +9,7 @@ import { Spinner } from '@zextras/carbonio-shell-ui';
 import { useRouteMatch, Switch, Route } from 'react-router-dom';
 import DomainListPanel from './domain/domain-list-panel';
 import DomainDetailPanel from './domain/domain-detail-panel';
+import Subscription from './core/subscribsion/subscription';
 
 const AppView: FC = () => {
 	const { path } = useRouteMatch();
@@ -23,6 +24,13 @@ const AppView: FC = () => {
 					</Container>
 					<Suspense fallback={<Spinner />}>
 						<DomainDetailPanel />
+					</Suspense>
+				</Container>
+			</Route>
+			<Route path={`${path}/core`}>
+				<Container orientation="horizontal" mainAlignment="flex-start">
+					<Suspense fallback={<Spinner />}>
+						<Subscription />
 					</Suspense>
 				</Container>
 			</Route>

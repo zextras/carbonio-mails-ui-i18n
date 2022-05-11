@@ -56,7 +56,10 @@ const SidebarView: FC = () => {
 				{
 					id: 'core-subscription',
 					label: t('label.subscriptions', 'Subscriptions'),
-					icon: 'BarChartOutline'
+					icon: 'BarChartOutline',
+					onClick: (): void => {
+						replaceHistory(`/core/subscription`);
+					}
 				},
 				{
 					id: 'core-notification',
