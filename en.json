@@ -1,4 +1,34 @@
 {
+    "core": {
+        "subscription": {
+            "active": "Active",
+            "bundle": "Bundle",
+            "company_name": "Company Name",
+            "customer": "Customer",
+            "deactive": "Deactive",
+            "email_buyer": "Email Buyer",
+            "emissionDate": "Emission date",
+            "features": "Other features",
+            "hide": "Hide",
+            "less_info": "Less Information",
+            "modal": {
+                "cancel": "NO",
+                "confirm": "Are you sure you want to proceed?",
+                "deactivate": "Yes, Deactivate",
+                "label": "Deactivate Token",
+                "warning": "You are trying to deactivate the current token.Doing so will disable all the enabled features."
+            },
+            "more_info": "More Information",
+            "order_id": "",
+            "renew": "Renew",
+            "status": "Status",
+            "subscription_Accounts": "Subscription Accounts",
+            "subscription_last_check": "Subscription Last Check",
+            "subscription_type": "Subscription Type",
+            "token": "Token",
+            "version": "Zextras version"
+        }
+    },
     "create_new_domain": "CREATE NEW DOMAIN",
     "domain": {
         "advanced": "Advanced",
