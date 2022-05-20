@@ -322,7 +322,14 @@
         "invalid_destination": "Este nodo no es un destino válido",
         "notification_audio": "Reproducir un aviso auditivo cuando aparezca una nueva notificación",
         "notification_folders": "Carpetas de notificación",
-        "upload_from_files": "Subir desde Files"
+        "upload_from_files": "Subir desde Files",
+        "calendar": "Calendario",
+        "confirm": "Confirmar",
+        "contact_folder": "Carpeta de contactos",
+        "create_and_move": "Crear y mover",
+        "no_subject_with_tags": "<Sin asunto>",
+        "error": "Error",
+        "save_to_files": "Guardar a Files"
     },
     "messages": {
         "permanent_delete_confirm": "Eliminar permanentemente",
@@ -388,7 +395,8 @@
         "invalid_address_plural": "Las siguientes direcciones parecen ser inválidas",
         "check_and_try_again": "Por favor, comprueba Carbonio y prueba de nuevo",
         "could_not_find_to_show": "Lo sentimos, no pudimos encontrar nada que mostrar",
-        "something_went_wrong": "ALGO SALIÓ MAL"
+        "something_went_wrong": "ALGO SALIÓ MAL",
+        "powered_by": "powered by"
     },
     "of": "de",
     "owner": "Propietario",
@@ -474,7 +482,10 @@
             "all_att_saved": "Archivos adjuntos guardados correctamente en la carpeta seleccionada",
             "att_err_adding": "Parece que hay un problema al añadir los archivos adjuntos, por favor, prueba de nuevo",
             "some_att_add_fails": "Parece que hay un problema al añadir algunos archivos adjuntos, por favor, prueba de nuevo",
-            "some_att_fails": "Parece que hay un problema al guardar algunos archivos, por favor, prueba de nuevo"
+            "some_att_fails": "Parece que hay un problema al guardar algunos archivos, por favor, prueba de nuevo",
+            "att_err": "Parece que hay un problema al guardar, por favor, inténtalo de nuevo",
+            "att_saved": "Anexo guardado en la carpeta seleccionada",
+            "calendar_edits_saved": "Ediciones salvadas correctamente"
         },
         "sending_mail_to_self": "parece que vas a enviarte un mensaje a ti mismo",
         "search_hints": "Sugerencias de búsqueda sobre las que tenemos que discutir",
@@ -483,7 +494,8 @@
         "delete_tag_message1": "¿Seguro que quieres borrar la etiqueta \"{{name}}\"?",
         "delete_tag_message2": "Una vez borrada, se quitará de cada elemento marcado con ella.",
         "admin_rights": "Ver, Editar, Añadir, Eliminar, Administrar",
-        "manager_rights": "Ver, Editar, Añadir, Eliminar"
+        "manager_rights": "Ver, Editar, Añadir, Eliminar",
+        "view_rights": "Vista"
     },
     "snackbar": {
         "error": "Algo fue mal, por favor, prueba de nuevo",
