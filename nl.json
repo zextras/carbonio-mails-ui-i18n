@@ -317,7 +317,14 @@
         "edit_tag_name": "\"{{name}}\" tag bewerken",
         "no_special_char_allowed": "De naam mag geen speciaal teken bevatten",
         "tag_max_length": "Max 128 tekens zijn toegestaan",
-        "tag_name": "Tag-naam"
+        "tag_name": "Tag-naam",
+        "create_and_move": "Creëren en verplaatsen",
+        "calendar": "Kalender",
+        "confirm": "Bevestigen",
+        "contact_folder": "Contactenmap",
+        "error": "Fout",
+        "no_subject_with_tags": "<Geen onderwerp>",
+        "save_to_files": "Opslaan in Bestanden"
     },
     "messages": {
         "permanent_delete_confirm": "Permanent verwijderen",
@@ -380,7 +387,8 @@
             "tag_not_updated": "Er is iets fout gegaan, de tag is niet bijgewerkt. Probeer het opnieuw."
         },
         "no_subject": "Geen onderwerp.",
-        "permanent_delete_body": "Door dit element permanent te verwijderen zult u niet meer in staat zijn om het te herstellen. Verdergaan?"
+        "permanent_delete_body": "Door dit element permanent te verwijderen zult u niet meer in staat zijn om het te herstellen. Verdergaan?",
+        "powered_by": "mogelijk gemaakt door"
     },
     "of": "van",
     "owner": "Eigenaar",
@@ -449,14 +457,18 @@
                 "accepted": "U heeft het verzoek tot delen geaccepteerd",
                 "declined": "U heeft het verzoek tot delen afgewezen",
                 "error": "Er is iets misgegaan, probeer het opnieuw"
-            }
+            },
+            "att_err": "Er lijkt een probleem te zijn bij het opslaan, probeer het opnieuw",
+            "att_saved": "Bijlage opgeslagen in de geselecteerde map",
+            "calendar_edits_saved": "Bewerkingen correct opgeslagen"
         },
         "search_hints": "Hints zoeken waar we het over moeten hebben",
         "sending_mail_to_self": "Het lijkt erop dat je op het punt staat een e-mail naar uzelf te sturen",
         "invalid_search_message": "We hebben geen match gevonden",
         "email_saved_at": "E-mail opgeslagen als concept om {{time}}",
         "delete_tag_message1": "Weet u zeker dat u de\"{{name}}\" Tag wilt verwijderen?",
-        "delete_tag_message2": "Eenmaal verwijderd, zal het verwijderd worden van elk item dat ermee gemarkeerd is."
+        "delete_tag_message2": "Eenmaal verwijderd, zal het verwijderd worden van elk item dat ermee gemarkeerd is.",
+        "view_rights": "Bekijken"
     },
     "administer": "Beheren",
     "allowed_actions": "Toegelaten acties",
