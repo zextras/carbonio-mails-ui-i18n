@@ -319,7 +319,14 @@
         "invalid_destination": "このノードは有効な宛先ではありません",
         "notification_audio": "新しい通知が表示された際に音声ヒントを再生する",
         "notification_folders": "通知フォルダ",
-        "upload_from_files": "ファイルからアップロードする"
+        "upload_from_files": "ファイルからアップロードする",
+        "calendar": "カレンダー",
+        "confirm": "確認",
+        "contact_folder": "連絡先フォルダ",
+        "create_and_move": "作成して移動する",
+        "error": "エラー",
+        "no_subject_with_tags": "<件名なし>",
+        "save_to_files": "ファイルに保存する"
     },
     "messages": {
         "permanent_delete_confirm": "完全に削除する",
@@ -383,7 +390,8 @@
         },
         "check_and_try_again": "Carbonioを確認して、再度お試しください",
         "could_not_find_to_show": "申し訳ありませんが、表示するものが見つかりませんでした",
-        "something_went_wrong": "エラーが発生しました"
+        "something_went_wrong": "エラーが発生しました",
+        "powered_by": "搭載"
     },
     "of": "の",
     "owner": "オーナ",
@@ -462,7 +470,10 @@
             "att_err_adding": "添付ファイルを追加する際に問題が生じたようです。再度お試しください",
             "some_att_fails": "ファイルを保存する際に問題が生じたようです。再度お試しください",
             "all_att_added": "添付ファイルが追加されました",
-            "some_att_add_fails": "添付ファイルを追加する際に問題が生じたようです。再度お試しください"
+            "some_att_add_fails": "添付ファイルを追加する際に問題が生じたようです。再度お試しください",
+            "att_err": "保存の際に問題が生じたようです。再度お試しください",
+            "att_saved": "選択したフォルダに保存された添付ファイル",
+            "calendar_edits_saved": "編集内容が保存されました"
         },
         "sending_mail_to_self": "自分にメールを送信しようとしているようです",
         "search_hints": "話し合う必要のある検索のヒント",
@@ -471,7 +482,8 @@
         "delete_tag_message1": "本当に\"{{name}}\" タグを削除しますか？",
         "delete_tag_message2": "削除されると、それでマークされたすべてのアイテムから削除されます。",
         "admin_rights": "表示、編集、追加、削除、管理",
-        "manager_rights": "表示、編集、追加、削除"
+        "manager_rights": "表示、編集、追加、削除",
+        "view_rights": "表示"
     },
     "mail_folder": "メールフォルダ",
     "private": "プライベート",
