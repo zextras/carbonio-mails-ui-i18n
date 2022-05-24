@@ -305,7 +305,11 @@
         "contact_folder": "Pasta de contatos",
         "create_and_move": "Criar e mover",
         "no_subject_with_tags": "<Sem Assunto>",
-        "save_to_files": "Salvar no Files"
+        "save_to_files": "Salvar no Files",
+        "invalid_destination": "Este nó não é um destino válido",
+        "notification_audio": "Reproduzir sinal sonoro quando uma nova notificação aparecer",
+        "notification_folders": "Pastas de Notificação",
+        "upload_from_files": "Fazer Upload do Files"
     },
     "of": "de",
     "owner": "Proprietário",
@@ -396,7 +400,10 @@
         "no_subject": "Sem Assunto.",
         "permanent_delete_title": "Tem certeza que deseja excluir permanentemente este elemento?",
         "permanent_delete_body": "Se você excluir permanentemente este elemento, você não poderá mais recuperá-lo. Continuar?",
-        "powered_by": "powered by"
+        "powered_by": "powered by",
+        "check_and_try_again": "Por favor, verifique o Carbonio e tente novamente",
+        "could_not_find_to_show": "Desculpe, não encontramos nada para exibir",
+        "something_went_wrong": "ALGO DEU ERRADO"
     },
     "placeholder": {
         "subject": "Assunto",
@@ -596,7 +603,8 @@
             "drag_and_drop": {
                 "title": "Modo Arrastar e Soltar",
                 "content": "Solte aqui seus anexos para adicioná-los rapidamente a este e-mail"
-            }
+            },
+            "files": "Adicionar do Files"
         }
     },
     "find_mail_shares": "Localizar pastas compartilhadas",
@@ -613,7 +621,12 @@
             "settings_saved": "Edições salvas corretamente",
             "att_saved": "Anexo salvo na pasta selecionada",
             "att_err": "Parece que houve um problema ao salvar. Tente novamente",
-            "calendar_edits_saved": "Edições salvas corretamente"
+            "calendar_edits_saved": "Edições salvas corretamente",
+            "all_att_added": "Anexos adicionados com sucesso",
+            "all_att_saved": "Anexos salvos com sucesso na pasta selecionada",
+            "att_err_adding": "Parece que há um problema ao adicionar os anexos. Tente novamente",
+            "some_att_add_fails": "Parece que há um problema ao adicionar alguns anexos. Tente novamente",
+            "some_att_fails": "Parece que há um problema ao salvar alguns arquivos. Tente novamente"
         },
         "sending_mail_to_self": "Parece que você vai enviar um e-mail a si mesmo",
         "search_hints": "Dicas de pesquisa que precisamos conversar",
@@ -621,7 +634,9 @@
         "email_saved_at": "E-mail salvo como rascunho às {{time}}",
         "delete_tag_message1": "Tem certeza que deseja excluir a Etiqueta \"{{name}}\"?",
         "delete_tag_message2": "Uma vez excluída, ela será removida de todos os itens marcados com ela.",
-        "view_rights": "Ver"
+        "view_rights": "Ver",
+        "admin_rights": "Ver,Editar,Adicionar,Remover,Administrar",
+        "manager_rights": "Ver,Editar,Adicionar,Remover"
     },
     "mail_folder": "Pasta de e-mail",
     "private": "Privado",
