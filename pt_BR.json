@@ -15,11 +15,11 @@
         "search": "Buscar",
         "send": "Enviar",
         "delete_permanently": "Excluir Permanentemente",
-        "edit_share": "Editar Acesso",
+        "edit_share": "Editar compartilhamento",
         "edit_as_new": "Editar como novo",
         "flag": "Adicionar sinalização",
         "goto_drafts": "Ir para rascunhos",
-        "preview": "Visualizar",
+        "preview": "Pré-visualização",
         "goto_folder": "IR PARA PASTA",
         "hide_details": "Ocultar detalhes",
         "mark_as_non_spam": "Não é spam",
@@ -292,11 +292,11 @@
         "delete_tag": "Excluir Etiqueta",
         "delete_tag_name": "Excluir etiqueta \"{{name}}\"",
         "edit_tag": "Editar Etiqueta",
-        "no_special_char_allowed": "O nome não deve conter nenhum caractere especial",
+        "no_special_char_allowed": "O nome não deve conter nenhum caracter especial",
         "tag_max_length": "Máximo de 128 caracteres permitidos",
-        "tag_name": "Nome da etiqueta",
+        "tag_name": "Nome da Etiqueta",
         "behalf_of": "em nome de",
-        "preview": "Visualizar",
+        "preview": "Pré-visualizar",
         "spam": "Spam",
         "tags": "Etiquetas",
         "calendar": "Calendário",
@@ -433,8 +433,8 @@
                 "viewer": "Visualizador"
             },
             "share_calendar_with": {
-                "external_guests": "Convidados externos (apenas ver)",
-                "internal_users_groups": "Usuários ou Grupos Internos",
+                "external_guests": "Convidados externos (apenas podem visualizar)",
+                "internal_users_groups": "Usuários ou grupos internos",
                 "public": "Público (apenas ver, senha não necessária)"
             }
         },
@@ -598,7 +598,7 @@
                 "title": "Modo Arrastar e Soltar"
             },
             "drive": "Adicionar do Drive",
-            "local": "Adicionar de pasta local",
+            "local": "Adicionar a partir do Meu Computador",
             "contacts_mod": "Adicionar Cartão de Contato",
             "drag_and_drop": {
                 "title": "Modo Arrastar e Soltar",
@@ -741,7 +741,7 @@
         "list_sent_title": "Você ainda não enviou nenhum e-mail",
         "spam_title2": "Clique no ícone da lixeira para excluir um e-mail de spam.",
         "trash_title1": "Clique no ícone da lixeira para excluir um e-mail",
-        "archive_title1": "Salve um e-mail no arquivo para revisá-lo mais tarde.",
+        "archive_title1": "Salve um e-mail com um arquivo para revisá-lo mais tarde.",
         "archive_title2": "Selecione um e-mail arquivado para revisá-lo.",
         "description2": "Envie documentos, imagens e mais ao criar um novo e-mail.",
         "description4": "Você pode sinalizá-lo, responder ou encaminhar a outros usuários.",
