@@ -1,13 +1,13 @@
 {
     "composer": {
         "attachment": {
-            "files": "Thêm vào từ tệp tin(File)",
+            "files": "Thêm vào từ tệp tin",
             "drag_and_drop": {
                 "title": "Chế độ kéo thả(Drag&Drop Mode)",
                 "content": "Kéo/thả vào đây các tệp đính kèm của bạn để nhanh chóng thêm vào thư"
             },
-            "local": "Thêm vào từ thiết bị cá nhân của bạn(local)",
-            "contacts_mod": "Thêm thẻ liên hệ(contact card)"
+            "local": "Thêm vào từ thiết bị cục bộ",
+            "contacts_mod": "Thêm thẻ liên hệ"
         }
     },
     "folders": {
@@ -49,7 +49,7 @@
         "freebusy": "Rảnh rỗi",
         "from": "Từ",
         "from_identity": "Từ: {{identity}}",
-        "flagged": "Gắn cờ (flag)",
+        "flagged": "Gắn cờ",
         "grantee": "Người nhận tài trợ: ",
         "hide": "Ẩn",
         "insert": "Chèn",
@@ -74,7 +74,7 @@
         "revoke_access_tooltip": "Thu hồi quyền truy cập gửi thông báo chuẩn",
         "revoke_share": "Thu hồi chia sẻ của {{title}}",
         "role": "Vai trò: ",
-        "save_to_files": "Lưu vào tệp(File)",
+        "save_to_files": "Lưu vào tệp",
         "search_activate_selection_mode": "Chế độ lựa chọn chưa khả dụng trên kết quả tìm kiếm",
         "select": "Lựa chọn",
         "select_signature": "Chọn chữ ký",
@@ -98,7 +98,7 @@
         "tag_name": "Tên Tag",
         "tags": "Tags",
         "type": "Kiểu",
-        "upload_from_files": "Tải lên từ tệp(Files)",
+        "upload_from_files": "Tải lên từ tệp",
         "behalf_of": "thay mặt cho",
         "app_name": "Thư",
         "attachment": "Đính kèm",
@@ -205,7 +205,7 @@
                 "declined": "Bạn đã từ chối yêu cầu chia sẻ"
             },
             "some_att_add_fails": "Có vẻ như có vấn đề khi thêm đính kèm, vui lòng thử lại lần nữa",
-            "some_att_fails": "Có vẻ có vấn đề khi lưu giữ một số tệp(files), vui lòng thử lại lần nữa"
+            "some_att_fails": "Có vẻ có vấn đề khi lưu giữ một số tệp, vui lòng thử lại lần nữa"
         },
         "view_rights": "Xem",
         "invalid_search_message": "Chúng tôi không tìm thấy bất kỳ kết quả phù hợp nào",
@@ -270,7 +270,7 @@
     },
     "search": {
         "sent_after": "Gửi sau",
-        "flagged_note": "Tìm kiếm tất cả các thư được gắn cờ (flag).",
+        "flagged_note": "Tìm kiếm tất cả các thư được gắn cờ.",
         "sent_on": "Gửi vào",
         "size_error": "Chỉ cho phép số",
         "unread": "Chưa đọc",
@@ -450,7 +450,7 @@
         "disable_urgent": "Tắt khẩn cấp"
     },
     "action": {
-        "flag": "Thêm gắn cờ (flag)",
+        "flag": "Thêm gắn cờ",
         "forward": "Chuyển tiếp",
         "click_preview": "Bấm vào để xem trước",
         "edit_as_new": "Soạn thảo mới",
@@ -474,7 +474,7 @@
         "share_folder": "Chia sẻ thư mục",
         "show_details": "Hiển thị chi tiết",
         "show_original": "Hiển thị nguyên gốc",
-        "unflag": "Gỡ gắn cờ (flag)",
+        "unflag": "Gỡ gắn cờ",
         "preview_new_tab": "Bấm để xem trước trên thẻ khác"
     },
     "notification": {
@@ -512,7 +512,7 @@
         "spam_title2": "Bấm vào biểu tượng thùng rác để xoá thư spam",
         "search_description2": "Thử với tìm kiếm khác.",
         "archive_title1": "Lưu thư vào kho lưu trữ để bạn có thể xem lại sau.",
-        "description4": "Bạn có thể gắn cờ (flag), trả lời hoặc chuyển tiếp nó cho những người dùng khác.",
+        "description4": "Bạn có thể gắn cờ, trả lời hoặc chuyển tiếp nó cho những người dùng khác.",
         "description5": "Kiểm tra những gì người dùng khác muốn nói chuyện với bạn.",
         "description6": "Trả lời thư này hoặc chuyển tiếp nó cho những người dùng khác.",
         "draft_title2": "Chọn và chỉnh sửa một thư để gửi nó cho người dùng khác.",
