@@ -239,7 +239,21 @@
         "app_name": "E-maile",
         "set_default_signatures": "Ustaw Domyślne Podpisy",
         "show_quoted_text": "Pokaż zacytowany tekst",
-        "share_with": "Udostępnij"
+        "share_with": "Udostępnij",
+        "contact_folder": "Folder Kontakty",
+        "create_and_move": "Stwórz i przenieś",
+        "error": "Błąd",
+        "no_subject_with_tags": "<Brak Tematu>",
+        "preview": "Podgląd",
+        "select": "Wybierz",
+        "decline": "Odrzuć",
+        "folder_name": "Nazwa folderu",
+        "calendar": "Kalendarz",
+        "confirm": "Potwierdź",
+        "spam": "Spam",
+        "tags": "Tagi",
+        "behalf_of": "w imieniu",
+        "accept": "Zaakceptuj"
     },
     "message": {
         "snackbar": {
@@ -247,11 +261,13 @@
             "share": {
                 "accepted": "Zaakceptowano propozycję udostępnienia",
                 "declined": "Odrzucono propozycję udostępnienia"
-            }
+            },
+            "calendar_edits_saved": "Zmiany zostały zapisane pomyślnie"
         },
         "invalid_search_message": "Nie znaleźliśmy niczego pasującego do kryteriów wyszukiwania",
         "sending_mail_to_self": "Wygląda na to, że wysyłasz e-maila do siebie",
-        "email_saved_at": "E-mail został zapisany jako wersja robocza o {{time}}"
+        "email_saved_at": "E-mail został zapisany jako wersja robocza o {{time}}",
+        "view_rights": "Wyświetlać"
     },
     "search": {
         "flagged_note": "Wyszukaj wszystkie oflagowane e-maile.",
@@ -349,7 +365,8 @@
         "inbox": "Skrzynka odbiorcza",
         "junk": "Spam",
         "spam": "Spam",
-        "trash": "Kosz"
+        "trash": "Kosz",
+        "sent": "Wysłane"
     },
     "messages": {
         "invalid_address": "Wygląda na to, że ten adres jest nieprawidłowy",
@@ -394,7 +411,8 @@
         },
         "new_email": "Nowy e-mail",
         "no_content": "Ta wiadomość nie zawiera tekstu",
-        "permanent_delete_title": "Czy na pewno chcesz trwale usunąć ten element?"
+        "permanent_delete_title": "Czy na pewno chcesz trwale usunąć ten element?",
+        "powered_by": "oparte na"
     },
     "settings": {
         "conv_is_participated": "w konwersacjach, w których uczestniczyłem",
