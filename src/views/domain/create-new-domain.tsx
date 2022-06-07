@@ -19,7 +19,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { replaceHistory } from '@zextras/carbonio-shell-ui';
 import { createObjectAttribute } from '../../services/create-object-attribute-service';
-import { DOMAINS_ROUTE_ID } from '../../constants';
 import { createDomain } from '../../services/create-domain';
 import { createGalSyncAccount } from '../../services/create-gal-sync-service';
 
@@ -138,9 +137,9 @@ const CreateDomain: FC = () => {
 	const routeToDomain = (resp: any): void => {
 		const domainId = resp?.Body?.CreateDomainResponse?.domain[0]?.id;
 		if (domainId) {
-			replaceHistory(`/${DOMAINS_ROUTE_ID}/${domainId}/general_settings`);
+			replaceHistory(`/${domainId}/general_settings`);
 		} else {
-			replaceHistory(`/${DOMAINS_ROUTE_ID}`);
+			replaceHistory(`/`);
 		}
 	};
 
@@ -214,11 +213,16 @@ const CreateDomain: FC = () => {
 	};
 
 	const onCancel = (): void => {
-		replaceHistory(`/${DOMAINS_ROUTE_ID}`);
+		replaceHistory(`/`);
 	};
 
 	return (
-		<Container padding={{ all: 'large' }} background="gray5">
+		<Container
+			padding={{ all: 'large' }}
+			mainAlignment="flex-start"
+			background="gray6"
+			style={{ maxWidth: '982px' }}
+		>
 			<Container
 				crossAlignment="flex-start"
 				mainAlignment="flex-start"
@@ -240,7 +244,7 @@ const CreateDomain: FC = () => {
 				mainAlignment="flex-start"
 				style={{ overflow: 'auto' }}
 				width="100%"
-				height="calc(100vh - 200px)"
+				height="calc(100vh - 150px)"
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
 					<Container height="fit" crossAlignment="flex-start" background="gray6">
