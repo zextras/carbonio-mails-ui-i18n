@@ -7,7 +7,8 @@
                 "content": "Kéo/thả vào đây các tệp đính kèm của bạn để nhanh chóng thêm vào thư"
             },
             "local": "Thêm vào từ thiết bị cục bộ",
-            "contacts_mod": "Thêm thẻ liên hệ"
+            "contacts_mod": "Thêm thẻ liên hệ",
+            "url": "Thêm một liên kết công khai từ các Tệp"
         }
     },
     "folders": {
@@ -184,7 +185,12 @@
         "write": "Ghi",
         "results_for_error": "Không thể bắt đầu tìm kiếm, hãy xóa nó và thử lại: ",
         "save": "Lưu",
-        "select_color": "Chọn màu"
+        "select_color": "Chọn màu",
+        "always_allow_domain": "Luôn cho phép từ Miền <strong>{{domain}}</strong>",
+        "always_allow_address": "Luôn cho phép từ <strong>{{from}}</strong>",
+        "no_name": "<Không có Tên>",
+        "share_public_link": "Chia sẻ liên kết công khai",
+        "view_images": "XEM ẢNH"
     },
     "message": {
         "delete_tag_message2": "Sau khi xóa, nó sẽ bị xóa khỏi mọi mục được đánh dấu bởi nó.",
@@ -205,11 +211,15 @@
                 "declined": "Bạn đã từ chối yêu cầu chia sẻ"
             },
             "some_att_add_fails": "Có vẻ như có vấn đề khi thêm đính kèm, vui lòng thử lại lần nữa",
-            "some_att_fails": "Có vẻ có vấn đề khi lưu giữ một số tệp, vui lòng thử lại lần nữa"
+            "some_att_fails": "Có vẻ có vấn đề khi lưu giữ một số tệp, vui lòng thử lại lần nữa",
+            "some_link_copying_error": "Có vẻ như có vấn đề khi tạo Url công khai cho một số Tệp, vui lòng thử lại lần nữa",
+            "all_link_copied": "Đã sao chép liên kết công khai thành công",
+            "link_copying_error": "Có vẻ như có vấn đề khi tạo liên kết công khai, vui lòng thử lại lần nữa"
         },
         "view_rights": "Xem",
         "invalid_search_message": "Chúng tôi không tìm thấy bất kỳ kết quả phù hợp nào",
-        "sending_mail_to_self": "Có vẻ như bạn sắp tự gửi thư cho chính mình"
+        "sending_mail_to_self": "Có vẻ như bạn sắp tự gửi thư cho chính mình",
+        "external_images_blocked": "Ảnh bên ngaoif sẽ bị khoá để bảo vệ bạn chống spam"
     },
     "messages": {
         "could_not_find_to_show": "Xin lỗi, chúng tôi không thể tìm thấy gì để hiển thị",
@@ -447,7 +457,8 @@
         "enable_urgent": "Bật khẩn cấp",
         "resend": "Gửi lại thông báo qua thư về chia sẻ này",
         "revoke": "Thu hồi truy cập",
-        "disable_urgent": "Tắt khẩn cấp"
+        "disable_urgent": "Tắt khẩn cấp",
+        "folder_sharing_status": "Đã chia sẻ với {{count}} người"
     },
     "action": {
         "flag": "Thêm gắn cờ",
