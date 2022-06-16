@@ -11,6 +11,8 @@ import { useHistory } from 'react-router-dom';
 import {
 	APP_ID,
 	BACKUP_ROUTE_ID,
+	COS_ROUTE_ID,
+	CREATE_NEW_COS_ROUTE_ID,
 	CREATE_NEW_DOMAIN_ROUTE_ID,
 	DASHBOARD,
 	DOMAINS_ROUTE_ID,
@@ -25,6 +27,7 @@ import BackupTooltipView from './views/tooltip-view/backup-tooltip-view';
 import DomainTooltipView from './views/tooltip-view/domain-tooltip-view';
 import StorageTooltipView from './views/tooltip-view/storage-tooltip-view';
 import SubscriptionTooltipView from './views/tooltip-view/subscription-tooltip-view';
+import CosTooltipView from './views/tooltip-view/cos-tooltip-view';
 
 const LazyAppView = lazy(() => import('./views/app-view'));
 
@@ -97,8 +100,20 @@ const App: FC = () => {
 			tooltip: StorageTooltipView
 		});
 		addRoute({
-			route: SUBSCRIPTIONS_ROUTE_ID,
+			route: COS_ROUTE_ID,
 			position: 3,
+			visible: true,
+			label: t('label.cos', 'COS'),
+			primaryBar: 'CosOutline',
+			appView: AppView,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			primarybarSection: { ...managementSection },
+			tooltip: CosTooltipView
+		});
+		addRoute({
+			route: SUBSCRIPTIONS_ROUTE_ID,
+			position: 4,
 			visible: true,
 			label: t('label.subscriptions', 'Subscriptions'),
 			primaryBar: 'AwardOutline',
@@ -128,7 +143,7 @@ const App: FC = () => {
 		registerActions({
 			action: (): any => ({
 				id: 'new-domain',
-				label: t('label.new_domain', 'New Domain'),
+				label: t('label.create_new_domain', 'Create New Domain'),
 				icon: '',
 				click: (ev: any): void => {
 					history.push(`/${MANAGE}/${DOMAINS_ROUTE_ID}/${CREATE_NEW_DOMAIN_ROUTE_ID}`);
@@ -138,6 +153,21 @@ const App: FC = () => {
 				primary: false
 			}),
 			id: 'new-domain',
+			type: 'new'
+		});
+		registerActions({
+			action: (): any => ({
+				id: 'new-cos',
+				label: t('label.create_new_cos', 'Create New COS'),
+				icon: '',
+				click: (ev: any): void => {
+					history.push(`/${MANAGE}/${COS_ROUTE_ID}/${CREATE_NEW_COS_ROUTE_ID}`);
+				},
+				disabled: false,
+				group: APP_ID,
+				primary: false
+			}),
+			id: 'new-cos',
 			type: 'new'
 		});
 		history.push(`/${DASHBOARD}`);
