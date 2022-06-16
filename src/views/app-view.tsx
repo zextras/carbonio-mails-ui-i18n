@@ -28,9 +28,10 @@ import Subscription from './core/subscribsion/subscription';
 import Dashboard from './dashboard/dashboard-view';
 import MonitoringView from './monitoring/monitoring-view';
 import BreadCrumb from './breadcrumb/breadcrumb-view';
-import BackupApp from './features/backup/BackupApp';
 import CosListPanel from './cos/cos-list-panel';
 import CosDetailPanel from './cos/cos-detail-panel';
+import BackupListPanel from './backup/backup-list-panel';
+import BackupDetailPanel from './backup/backup-detail-panel';
 
 const AppView: FC = () => {
 	const { path } = useRouteMatch();
@@ -106,8 +107,13 @@ const AppView: FC = () => {
 				</Route>
 				<Route path={`/${SERVICES_ROUTE_ID}/${BACKUP_ROUTE_ID}`}>
 					<Container orientation="horizontal" mainAlignment="flex-start">
+						<Container style={{ maxWidth: '265px' }}>
+							<Suspense fallback={<Spinner />}>
+								<BackupListPanel />
+							</Suspense>
+						</Container>
 						<Suspense fallback={<Spinner />}>
-							<BackupApp />
+							<BackupDetailPanel />
 						</Suspense>
 					</Container>
 				</Route>
