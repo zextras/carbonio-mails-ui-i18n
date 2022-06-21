@@ -19,10 +19,12 @@ import {
 	ChipInput
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 import ListRow from '../../list/list-row';
 import Paginig from '../../components/paging';
 import { getDistributionList } from '../../../services/get-distribution-list';
 import { getDistributionListMembership } from '../../../services/get-distributionlists-membership-service';
+import { getDateFromStr, getFormatedDate } from '../../utility/utils';
 
 const MailingListDetailContainer = styled(Container)`
 	z-index: 10;
@@ -68,6 +70,50 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	const [zimbraMailAlias, setZimbraMailAlias] = useState<any>([]);
 	const [dlm, setDlm] = useState<any>([]);
 	const [zimbraNotes, setZimbraNotes] = useState<string>('');
+	const [zimbraCreateTimestamp, setZimbraCreateTimestamp] = useState<string>('');
+	const [dlId, setdlId] = useState<string>('');
+	const [dlMembershipList, setDlMembershipList] = useState<any>([]);
+	const [dlmTableRows, setDlmTableRows] = useState<any>([]);
+	const [ownersList, setOwnersList] = useState<any[]>([]);
+	const [ownerTableRows, setOwnerTableRows] = useState<any[]>([]);
+
+	const dlCreateDate = useMemo(
+		() =>
+			!!zimbraCreateTimestamp && zimbraCreateTimestamp !== null && zimbraCreateTimestamp !== ''
+				? moment(getDateFromStr(zimbraCreateTimestamp)).format('DD MMM YYYY - hh:MM')
+				: '',
+		[zimbraCreateTimestamp]
+	);
+
+	const memberHeaders: any[] = useMemo(
+		() => [
+			{
+				id: 'members',
+				label: t('label.members', 'Members'),
+				width: '80%',
+				bold: true
+			},
+			{
+				id: 'address',
+				label: t('label.type', 'Type'),
+				width: '20%',
+				bold: true
+			}
+		],
+		[t]
+	);
+
+	const ownerHeaders: any[] = useMemo(
+		() => [
+			{
+				id: 'owners',
+				label: t('label.owners', 'Owners'),
+				width: '100%',
+				bold: true
+			}
+		],
+		[t]
+	);
 
 	const getMailingList = useCallback(
 		(id: string, name: string): void => {
@@ -76,9 +122,15 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				.then((data) => {
 					const distributionListMembers = data?.Body?.GetDistributionListResponse?.dl[0];
 					if (distributionListMembers) {
+						if (distributionListMembers?.id) {
+							setdlId(distributionListMembers?.id);
+						}
 						if (distributionListMembers?.dlm) {
 							const _dlm = distributionListMembers?.dlm.map((item: any) => item?._content);
 							setDlm(_dlm);
+						}
+						if (distributionListMembers?.owners && distributionListMembers?.owners[0]?.owner) {
+							setOwnersList(distributionListMembers?.owners[0]?.owner);
 						}
 						if (distributionListMembers?.a) {
 							/* Get Gal Hide Information */
@@ -110,6 +162,12 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 								}));
 								setZimbraMailAlias(allAlias);
 							}
+							const _zimbraCreateTimestamp = distributionListMembers?.a?.find(
+								(a: any) => a?.n === 'zimbraCreateTimestamp'
+							)?._content;
+							_zimbraCreateTimestamp
+								? setZimbraCreateTimestamp(_zimbraCreateTimestamp)
+								: setZimbraCreateTimestamp('');
 						}
 					}
 				});
@@ -121,7 +179,17 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 		getDistributionListMembership(id)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log('[getDistributionListMembershipList][response]:', data);
+				const members = data?.Body?.GetDistributionListMembershipResponse?.dl;
+				if (members && members.length > 0) {
+					const allMembers = members.map((item: any) => ({
+						label: item?.name,
+						background: 'gray3',
+						color: 'text',
+						id: item?.id,
+						name: item?.name
+					}));
+					setDlMembershipList(allMembers);
+				}
 			});
 	}, []);
 
@@ -135,35 +203,34 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 		getDistributionListMembershipList(selectedMailingList?.id);
 	}, [selectedMailingList, getMailingList, getDistributionListMembershipList]);
 
-	const memberHeaders: any[] = useMemo(
-		() => [
-			{
-				id: 'members',
-				label: t('label.members', 'Members'),
-				width: '20%',
-				bold: true
-			},
-			{
-				id: 'address',
-				label: t('label.type', 'Type'),
-				width: '20%',
-				bold: true
-			}
-		],
-		[t]
-	);
+	useEffect(() => {
+		if (dlm && dlm.length > 0) {
+			const allRows = dlm.map((item: any) => ({
+				id: item,
+				columns: [
+					<Text size="medium" weight="bold" key={item?.id} color="#828282">
+						{item}
+					</Text>,
+					''
+				]
+			}));
+			setDlmTableRows(allRows);
+		}
+	}, [dlm]);
 
-	const ownerHeaders: any[] = useMemo(
-		() => [
-			{
-				id: 'owners',
-				label: t('label.owners', 'Owners'),
-				width: '20%',
-				bold: true
-			}
-		],
-		[t]
-	);
+	useEffect(() => {
+		if (ownersList && ownersList.length > 0) {
+			const allRows = ownersList.map((item: any) => ({
+				id: item?.id,
+				columns: [
+					<Text size="medium" weight="bold" key={item?.id} color="#828282">
+						{item?.name}
+					</Text>
+				]
+			}));
+			setOwnerTableRows(allRows);
+		}
+	}, [ownersList]);
 
 	const subscriptionUnsubscriptionRequestOptions: any[] = useMemo(
 		() => [
@@ -343,12 +410,13 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					<Container padding={{ all: 'small' }}>
 						<Input
 							label={t('label.creation_date', 'Creation Date')}
-							value={''}
+							value={dlCreateDate}
 							background="gray5"
+							disabled
 						/>
 					</Container>
 					<Container padding={{ all: 'small' }}>
-						<Input label={t('label.id_lbl', 'ID')} value="" background="gray5" />
+						<Input label={t('label.id_lbl', 'ID')} value={dlId} background="gray5" disabled />
 					</Container>
 				</ListRow>
 				<Row>
@@ -359,7 +427,7 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				<ListRow>
 					<ChipInput
 						placeholder={t('label.this_list_is_member_of', 'This List is member of')}
-						defaultValue={[]}
+						value={dlMembershipList}
 					/>
 				</ListRow>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
@@ -410,11 +478,11 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					</Container>
 				</Row>
 				<ListRow>
-					<Container padding={{ all: 'small' }}>
-						<Table rows={[]} headers={memberHeaders} showCheckbox={false} />
+					<Container padding={{ all: 'small' }} mainAlignment="flex-start">
+						<Table rows={dlmTableRows} headers={memberHeaders} showCheckbox={false} />
 					</Container>
-					<Container padding={{ all: 'small' }}>
-						<Table rows={[]} headers={ownerHeaders} showCheckbox={false} />
+					<Container padding={{ all: 'small' }} mainAlignment="flex-start">
+						<Table rows={ownerTableRows} headers={ownerHeaders} showCheckbox={false} />
 					</Container>
 				</ListRow>
 				<ListRow>
