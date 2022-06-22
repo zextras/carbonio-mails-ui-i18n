@@ -844,3 +844,8 @@ export const getFormatedDate = (date: Date): any => {
 	const seconds = date.getSeconds();
 	return `${yyyy}/${mm}/${dd} | ${hour}:${minutes}:${seconds}`;
 };
+
+export const isValidEmail = (email: string): boolean => {
+	const re = /\S+@\S+\.\S+/;
+	return re.test(email);
+};

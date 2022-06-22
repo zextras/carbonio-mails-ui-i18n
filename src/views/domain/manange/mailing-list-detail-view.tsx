@@ -24,7 +24,8 @@ import ListRow from '../../list/list-row';
 import Paginig from '../../components/paging';
 import { getDistributionList } from '../../../services/get-distribution-list';
 import { getDistributionListMembership } from '../../../services/get-distributionlists-membership-service';
-import { getDateFromStr, getFormatedDate } from '../../utility/utils';
+import { getDateFromStr, getFormatedDate, isValidEmail } from '../../utility/utils';
+import { searchDirectory } from '../../../services/search-directory-service';
 
 const MailingListDetailContainer = styled(Container)`
 	z-index: 10;
@@ -76,6 +77,9 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	const [dlmTableRows, setDlmTableRows] = useState<any>([]);
 	const [ownersList, setOwnersList] = useState<any[]>([]);
 	const [ownerTableRows, setOwnerTableRows] = useState<any[]>([]);
+	const [selectedDistributionListMember, setSelectedDistributionListMember] = useState<any[]>([]);
+	const [selectedOwnerListMember, setSelectedOwnerListMember] = useState<any[]>([]);
+	const [searchMemberList, setSearchMemberList] = useState<any[]>([]);
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -289,6 +293,35 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 		setZimbraMailStatus(it);
 	};
 
+	const getSearchMembers = useCallback((value: string) => {
+		const attrs = 'name,zimbraId';
+		const types = 'distributionlists,dynamicgroups';
+		const query = `(&(|(mail=*${value}*)(cn=*${value}*)(sn=*${value}*)(gn=*${value}*)(displayName=*${value}*)(zimbraMailAlias=*${value}*)(uid=*${value}*))(!(zimbraIsACLGroup=FALSE)))`;
+		searchDirectory(attrs, types, '', query)
+			.then((response) => response.json())
+			.then((data) => {
+				const result = data?.Body?.SearchDirectoryResponse?.dl;
+				if (result && result.length > 0) {
+					// setSearchMemberList(result);
+					const allResult = result.map((item: any) => {
+						// eslint-disable-next-line no-param-reassign
+						item.label = item?.name;
+						// eslint-disable-next-line no-param-reassign
+						item.value = {
+							label: item?.name
+						};
+						return item;
+					});
+
+					setSearchMemberList(allResult);
+				}
+			});
+	}, []);
+
+	const onChangeChipInput = useCallback((e: any): void => {
+		setDlMembershipList(e);
+	}, []);
+
 	return (
 		<MailingListDetailContainer background="gray5" mainAlignment="flex-start">
 			<Row
@@ -428,6 +461,14 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					<ChipInput
 						placeholder={t('label.this_list_is_member_of', 'This List is member of')}
 						value={dlMembershipList}
+						onInputType={(e: any): void => {
+							if (e.textContent && e.textContent !== '') {
+								getSearchMembers(e.textContent);
+							}
+						}}
+						options={searchMemberList}
+						onChange={onChangeChipInput}
+						requireUniqueChips
 					/>
 				</ListRow>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
@@ -479,10 +520,22 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				</Row>
 				<ListRow>
 					<Container padding={{ all: 'small' }} mainAlignment="flex-start">
-						<Table rows={dlmTableRows} headers={memberHeaders} showCheckbox={false} />
+						<Table
+							rows={dlmTableRows}
+							headers={memberHeaders}
+							showCheckbox={false}
+							onSelectionChange={(selected: any): void =>
+								setSelectedDistributionListMember(selected)
+							}
+						/>
 					</Container>
 					<Container padding={{ all: 'small' }} mainAlignment="flex-start">
-						<Table rows={ownerTableRows} headers={ownerHeaders} showCheckbox={false} />
+						<Table
+							rows={ownerTableRows}
+							headers={ownerHeaders}
+							showCheckbox={false}
+							onSelectionChange={(selected: any): void => setSelectedOwnerListMember(selected)}
+						/>
 					</Container>
 				</ListRow>
 				<ListRow>
