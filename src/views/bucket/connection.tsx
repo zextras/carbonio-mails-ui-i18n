@@ -53,7 +53,7 @@ const Connection: FC<{
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxCore',
 			action: 'doCreateBucket',
-			storeType: bucketType,
+			storeType: bucketType || bucketTypeData,
 			bucketName,
 			accessKey: accessKeyData,
 			secret: secretKey,
@@ -98,9 +98,11 @@ const Connection: FC<{
 	]);
 
 	useEffect(() => {
-		const volumeObject: any = BucketTypeItems.find((s) => s.value === bucketType);
-		setBucketTypeData(volumeObject.label);
-		onSelection({ storeType: bucketType }, false);
+		if (bucketType !== '') {
+			const volumeObject: any = BucketTypeItems.find((s) => s.value === bucketType);
+			setBucketTypeData(volumeObject.label);
+			onSelection({ storeType: bucketType }, false);
+		}
 	}, [bucketType, bucketTypeData, onSelection]);
 
 	useEffect(() => {
@@ -123,16 +125,33 @@ const Connection: FC<{
 	}, [setButtonChange, t, verifyCheck]);
 
 	return (
-		<Container mainAlignment="flex-start" crossAlignment="flex-start">
+		<Container mainAlignment="flex-start">
 			<form>
-				<Row padding={{ top: 'extralarge' }} width="100%">
-					<Input
-						label={t('label.bucket_type', 'Buckets Type')}
-						backgroundColor="gray5"
-						value={bucketTypeData}
-						readOnly
-					/>
-				</Row>
+				{bucketType !== '' ? (
+					<Row padding={{ top: 'extralarge' }} width="100%">
+						<Input
+							label={t('label.bucket_type', 'Bucket Type')}
+							backgroundColor="gray5"
+							value={bucketTypeData}
+							readOnly
+						/>
+					</Row>
+				) : (
+					<Row padding={{ top: 'extralarge' }} width="100%">
+						<Select
+							items={BucketTypeItems}
+							background="gray5"
+							label={t('buckets.bucket_type', 'Buckets Type')}
+							onChange={(e: any): void => {
+								const volumeObject: any = BucketTypeItems.find((s) => s.value === e);
+								setBucketTypeData(volumeObject.value);
+								onSelection({ storeType: bucketTypeData }, false);
+							}}
+							showCheckbox={false}
+							padding={{ right: 'medium' }}
+						/>
+					</Row>
+				)}
 				<Row padding={{ top: 'large' }} width="100%">
 					<Input
 						label={t('label.descriptive_name', 'Descriptive Name')}
