@@ -22,6 +22,7 @@ import {
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { isEqual } from 'lodash';
 import ListRow from '../../list/list-row';
 import Paginig from '../../components/paging';
 import { getDistributionList } from '../../../services/get-distribution-list';
@@ -88,6 +89,7 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	const [searchMailingListOrUser, setSearchMailingListOrUser] = useState<string>('');
 	const [isShowError, setIsShowError] = useState<boolean>(false);
 	const [isDirty, setIsDirty] = useState<boolean>(false);
+	const [previousDetail, setPreviousDetail] = useState<any>({});
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -149,20 +151,54 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 							const _zimbraHideInGal = distributionListMembers?.a?.find(
 								(a: any) => a?.n === 'zimbraHideInGal'
 							)?._content;
-							_zimbraHideInGal === 'TRUE' ? setZimbraHideInGal(true) : setZimbraHideInGal(false);
+							if (_zimbraHideInGal === 'TRUE') {
+								setZimbraHideInGal(true);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraHideInGal: true
+								}));
+							} else {
+								setZimbraHideInGal(false);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraHideInGal: false
+								}));
+							}
 
 							const _zimbraNotes = distributionListMembers?.a?.find(
 								(a: any) => a?.n === 'zimbraNotes'
 							)?._content;
 
 							setZimbraNotes(_zimbraNotes || '');
+							if (_zimbraNotes) {
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraNotes: _zimbraNotes
+								}));
+							} else {
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraNotes: ''
+								}));
+							}
 							const _zimbraDistributionListSendShareMessageToNewMembers =
 								distributionListMembers?.a?.find(
 									(a: any) => a?.n === 'zimbraDistributionListSendShareMessageToNewMembers'
 								)?._content;
-							_zimbraDistributionListSendShareMessageToNewMembers === 'TRUE'
-								? setZimbraDistributionListSendShareMessageToNewMembers(true)
-								: setZimbraDistributionListSendShareMessageToNewMembers(false);
+
+							if (_zimbraDistributionListSendShareMessageToNewMembers === 'TRUE') {
+								setZimbraDistributionListSendShareMessageToNewMembers(true);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraDistributionListSendShareMessageToNewMembers: true
+								}));
+							} else {
+								setZimbraDistributionListSendShareMessageToNewMembers(false);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraDistributionListSendShareMessageToNewMembers: false
+								}));
+							}
 
 							const _zimbraMailAlias = distributionListMembers?.a?.filter(
 								(a: any) => a?.n === 'zimbraMailAlias' && a?._content !== selectedMailingList?.name
@@ -208,9 +244,25 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	useEffect(() => {
 		if (selectedMailingList?.a) {
 			const dsName = selectedMailingList?.a?.find((a: any) => a?.n === 'displayName')?._content;
-			dsName ? setDisplayName(dsName) : setDisplayName('');
+			if (dsName) {
+				setDisplayName(dsName);
+				setPreviousDetail((prevState: any) => ({
+					...prevState,
+					displayName: dsName
+				}));
+			} else {
+				setDisplayName('');
+				setPreviousDetail((prevState: any) => ({
+					...prevState,
+					displayName: ''
+				}));
+			}
 		}
 		setDistributionName(selectedMailingList?.name);
+		setPreviousDetail((prevState: any) => ({
+			...prevState,
+			distributionName: selectedMailingList?.name
+		}));
 		getMailingList(selectedMailingList?.id, selectedMailingList?.name);
 		getDistributionListMembershipList(selectedMailingList?.id);
 	}, [selectedMailingList, getMailingList, getDistributionListMembershipList]);
@@ -227,6 +279,10 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				]
 			}));
 			setDlmTableRows(allRows);
+			setPreviousDetail((prevState: any) => ({
+				...prevState,
+				dlm
+			}));
 		}
 	}, [dlm]);
 
@@ -241,6 +297,10 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				]
 			}));
 			setOwnerTableRows(allRows);
+			setPreviousDetail((prevState: any) => ({
+				...prevState,
+				ownersList
+			}));
 		}
 	}, [ownersList]);
 
@@ -356,6 +416,7 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 						);
 						setDlm(dlm.concat(accountExists[0]?.name));
 					}
+					setOpenAddMailingListDialog(false);
 				} else {
 					setIsShowError(true);
 				}
@@ -380,8 +441,76 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	};
 
 	const onSave = (): void => {
-		console.log('cancel');
+		setPreviousDetail((prevState: any) => ({
+			...prevState,
+			displayName,
+			distributionName
+		}));
 	};
+
+	useEffect(() => {
+		if (previousDetail?.displayName !== undefined && previousDetail?.displayName !== displayName) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.displayName, displayName]);
+
+	useEffect(() => {
+		if (
+			previousDetail?.distributionName !== undefined &&
+			previousDetail?.distributionName !== distributionName
+		) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.distributionName, distributionName]);
+
+	useEffect(() => {
+		if (
+			previousDetail?.zimbraHideInGal !== undefined &&
+			previousDetail?.zimbraHideInGal !== zimbraHideInGal
+		) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.zimbraHideInGal, zimbraHideInGal]);
+
+	useEffect(() => {
+		if (previousDetail?.dlm !== undefined && !isEqual(previousDetail?.dlm, dlm)) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.dlm, dlm]);
+
+	useEffect(() => {
+		if (
+			previousDetail?.ownersList !== undefined &&
+			!isEqual(previousDetail?.ownersList, ownersList)
+		) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.ownersList, ownersList]);
+
+	useEffect(() => {
+		if (previousDetail?.zimbraNotes !== undefined && previousDetail?.zimbraNotes !== zimbraNotes) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.zimbraNotes, zimbraNotes]);
+
+	useEffect(() => {
+		if (
+			previousDetail?.zimbraDistributionListSendShareMessageToNewMembers !== undefined &&
+			previousDetail?.zimbraDistributionListSendShareMessageToNewMembers !==
+				zimbraDistributionListSendShareMessageToNewMembers
+		) {
+			setIsDirty(true);
+		}
+	}, [
+		previousDetail?.zimbraDistributionListSendShareMessageToNewMembers,
+		zimbraDistributionListSendShareMessageToNewMembers
+	]);
+
+	useEffect(() => {
+		if (openAddMailingListDialog) {
+			setSearchMailingListOrUser('');
+		}
+	}, [openAddMailingListDialog]);
 
 	return (
 		<MailingListDetailContainer background="gray5" mainAlignment="flex-start">
@@ -449,6 +578,9 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 							label={t('label.displayed_name', 'Displayed Name')}
 							value={displayName}
 							background="gray5"
+							onChange={(e: any): any => {
+								setDisplayName(e.target.value);
+							}}
 						/>
 					</Container>
 					<Container padding={{ all: 'small' }}>
@@ -456,6 +588,9 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 							label={t('label.address', 'Address')}
 							value={distributionName}
 							background="gray5"
+							onChange={(e: any): any => {
+								setDistributionName(e.target.value);
+							}}
 						/>
 					</Container>
 				</ListRow>
@@ -523,13 +658,19 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				</ListRow>
 				<ListRow>
 					<Container>
-						<Input label={t('label.members', 'Members')} value={dlm.length} background="gray5" />
+						<Input
+							label={t('label.members', 'Members')}
+							value={dlm.length}
+							background="gray5"
+							disabled
+						/>
 					</Container>
 					<Container padding={{ all: 'small' }}>
 						<Input
 							label={t('label.alias_in_the_list', 'Alias in the List')}
 							value={zimbraMailAlias.length}
 							background="gray5"
+							disabled
 						/>
 					</Container>
 				</ListRow>
@@ -667,7 +808,13 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 				</Row>
 				<ListRow>
 					<Container padding={{ left: 'extralarge' }}>
-						<Input value={zimbraNotes} background="gray5" />
+						<Input
+							value={zimbraNotes}
+							background="gray5"
+							onChange={(e: any): any => {
+								setZimbraNotes(e.target.value);
+							}}
+						/>
 					</Container>
 				</ListRow>
 			</Container>
