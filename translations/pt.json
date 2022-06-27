@@ -1,7 +1,7 @@
 {
     "label": {
         "days": "Dias",
-        "suspended": "Suspendido",
+        "suspended": "Suspenso",
         "account": "Conta",
         "accounts": "Contas",
         "add": "Adicionar",
@@ -16,7 +16,7 @@
         "external": "Externo",
         "mb": "MB",
         "name": "Nome",
-        "not_set": "Não ativo",
+        "not_set": "Não definido",
         "of": "de",
         "page ": "Você aceitou este pedido de compartilhamento",
         "page_": "Você aceitou este pedido de compartilhamento",
@@ -29,10 +29,28 @@
                 "accepted": "Você aceitou este pedido de compartilhamento"
             }
         },
-        "status": "Estado",
-        "timezone": "Fuso Horário",
+        "status": "Status",
+        "timezone": "Fuso horário",
         "unlimited": "Ilimitado",
-        "url": "URL"
+        "url": "URL",
+        "active": "Ativa",
+        "authentication": "Autenticação",
+        "certificate": "Certificado",
+        "closed": "Fechado",
+        "configuration": "Configuração",
+        "domains": "Domínios",
+        "enable_start_tls": "Ativar StartTLS",
+        "external_active_directory": "Active Directory externo",
+        "external_ldap": "LDAP externo",
+        "features": "Funcionalidades",
+        "filter": "Filtro",
+        "general_information": "Informações gerais",
+        "id": "ID",
+        "internal": "Interno",
+        "locked": "Bloqueado",
+        "maintenance": "Manutenção",
+        "services": "Serviços",
+        "web_client": "Cliente web"
     },
     "timezone": {
         "asia_pyongyang": "{{value}} Pyongyang",
@@ -176,19 +194,27 @@
     "buckets": {
         "connection": {
             "access_key": "Chave de acesso",
-            "notes": "Notas"
+            "notes": "Observações"
         }
     },
     "core": {
         "subscription": {
             "hide": "Ocultar",
-            "status": "Estado"
+            "status": "Status",
+            "active": "Ativa"
         }
     },
     "domain": {
         "free_busy": "Livre/Ocupado",
         "general_settings": "Configurações Gerais",
-        "theme": "Tema"
+        "theme": "Tema",
+        "advanced": "Avançado",
+        "authentication": "Autenticação",
+        "gal": "GAL",
+        "general_information": "Informações gerais",
+        "mailbox_quota": "Quota da caixa de correio",
+        "most_result_return_gal_search": "Maioria dos resultados devolvidos pela pesquisa na GAL",
+        "virtual_hosts": "Anfitriões virtuais"
     },
     "message": {
         "snackbar": {

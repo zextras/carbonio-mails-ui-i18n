@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { FC, useEffect, useState, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { filter } from 'lodash';
+import { Trans, useTranslation } from 'react-i18next';
+import { debounce } from 'lodash';
 import { Container, Input, Row, Text, Table, Divider, Icon } from '@zextras/carbonio-design-system';
+import logo from '../../../assets/gardian.svg';
 import { useDomainStore } from '../../../store/domain/store';
 
 import Paginig from '../../components/paging';
@@ -16,7 +17,7 @@ import ListRow from '../../list/list-row';
 
 const ManageAccounts: FC = () => {
 	const [t] = useTranslation();
-	const domainInformation = useDomainStore((state) => state.domain?.a);
+	const domainName = useDomainStore((state) => state.domain?.name);
 
 	const headers: any = useMemo(
 		() => [
@@ -55,7 +56,6 @@ const ManageAccounts: FC = () => {
 	);
 
 	const [accountList, setAccountList] = useState<any[]>([]);
-	const [accountListFilter, setAccountListFilter] = useState<any[]>([]);
 	const [selectedAccount, setSelectedAccount] = useState<any>({});
 	const [offset, setOffset] = useState<number>(0);
 	const [limit, setLimit] = useState<number>(20);
@@ -63,8 +63,6 @@ const ManageAccounts: FC = () => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [totalAccount, setTotalAccount] = useState<number>(0);
 	const [showAccountDetailView, setShowAccountDetailView] = useState<boolean>(false);
-
-	const [domainData, setDomainData]: any = useState({});
 
 	const STATUS_COLOR: any = useMemo(
 		() => ({
@@ -91,124 +89,127 @@ const ManageAccounts: FC = () => {
 		}),
 		[t]
 	);
-	const getAccountList = useCallback(
-		(domainName: string): void => {
-			const type = 'accounts';
-			const attrs =
-				'displayName,zimbraId,zimbraAliasTargetId,cn,sn,zimbraMailHost,uid,zimbraCOSId,zimbraAccountStatus,zimbraLastLogonTimestamp,description,zimbraIsSystemAccount,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraAuthTokenValidityValue,zimbraIsExternalVirtualAccount,zimbraMailStatus,zimbraIsAdminGroup,zimbraCalResType,zimbraDomainType,zimbraDomainName,zimbraDomainStatus,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraIsSystemAccount,zimbraIsExternalVirtualAccount,zimbraCreateTimestamp,zimbraLastLogonTimestamp,zimbraMailQuota,zimbraNotes';
-			accountListDirectory(attrs, type, domainName, searchQuery, offset, limit)
-				.then((response) => response.json())
-				.then((data) => {
-					const accountListResponse: any = data?.Body?.SearchDirectoryResponse?.account || [];
-					if (accountListResponse && Array.isArray(accountListResponse)) {
-						const accountListArr: any = [];
-						setTotalAccount(data?.Body?.SearchDirectoryResponse?.searchTotal || 0);
-						accountListResponse.map((item: any): any => {
-							item?.a?.map((ele: any) => {
-								// eslint-disable-next-line no-param-reassign
-								item[ele?.n] = ele._content;
-								return '';
-							});
-							accountListArr.push({
-								id: item?.id,
-								columns: [
-									<Text
-										size="medium"
-										key={item?.id}
-										color="#414141"
-										onClick={(event: { stopPropagation: () => void }): void => {
-											event.stopPropagation();
-											setSelectedAccount(item);
-											setShowAccountDetailView(true);
-										}}
-									>
-										{item?.name || ' '}
-									</Text>,
-									<Text
-										size="medium"
-										key={item?.id}
-										color="#414141"
-										onClick={(event: { stopPropagation: () => void }): void => {
-											event.stopPropagation();
-											setSelectedAccount(item);
-											setShowAccountDetailView(true);
-										}}
-									>
-										{item?.displayName || <>&nbsp;</>}
-									</Text>,
-									<Text
-										size="medium"
-										key={item?.id}
-										color="#828282"
-										onClick={(event: { stopPropagation: () => void }): void => {
-											event.stopPropagation();
-											setSelectedAccount(item);
-											setShowAccountDetailView(true);
-										}}
-									>
-										{<>&nbsp;</>}
-									</Text>,
-									<Text
-										size="medium"
-										key={item?.id}
-										color={STATUS_COLOR[item?.zimbraAccountStatus]?.color}
-										onClick={(event: { stopPropagation: () => void }): void => {
-											event.stopPropagation();
-											setSelectedAccount(item);
-											setShowAccountDetailView(true);
-										}}
-									>
-										{STATUS_COLOR[item?.zimbraAccountStatus]?.label}
-									</Text>,
-									<Text
-										size="medium"
-										key={item?.id}
-										color="#414141"
-										onClick={(event: { stopPropagation: () => void }): void => {
-											event.stopPropagation();
-											setSelectedAccount(item);
-											setShowAccountDetailView(true);
-										}}
-									>
-										{item?.description || <>&nbsp;</>}
-									</Text>
-								],
-								item,
-								clickable: true
-							});
+
+	const accountUserType = useCallback((item): string => {
+		if (item.zimbraIsAdminAccount === 'TRUE') return 'Admin';
+		if (item.zimbraIsDelegatedAdminAccount === 'TRUE') return 'DelegatedAdmin';
+		if (item.zimbraIsExternalVirtualAccount === 'TRUE') return 'External';
+		if (item.zimbraIsSystemAccount === 'TRUE') return 'System';
+		return 'Normal';
+	}, []);
+	const getAccountList = useCallback((): void => {
+		const type = 'accounts';
+		const attrs =
+			'displayName,zimbraId,zimbraAliasTargetId,cn,sn,zimbraMailHost,uid,zimbraCOSId,zimbraAccountStatus,zimbraLastLogonTimestamp,description,zimbraIsSystemAccount,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraAuthTokenValidityValue,zimbraIsExternalVirtualAccount,zimbraMailStatus,zimbraIsAdminGroup,zimbraCalResType,zimbraDomainType,zimbraDomainName,zimbraDomainStatus,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraIsSystemAccount,zimbraIsExternalVirtualAccount,zimbraCreateTimestamp,zimbraLastLogonTimestamp,zimbraMailQuota,zimbraNotes';
+		accountListDirectory(attrs, type, domainName, searchQuery, offset, limit)
+			.then((response) => response.json())
+			.then((data) => {
+				const accountListResponse: any = data?.Body?.SearchDirectoryResponse?.account || [];
+				if (accountListResponse && Array.isArray(accountListResponse)) {
+					const accountListArr: any = [];
+					setTotalAccount(data?.Body?.SearchDirectoryResponse?.searchTotal || 0);
+					accountListResponse.map((item: any): any => {
+						item?.a?.map((ele: any) => {
+							// eslint-disable-next-line no-param-reassign
+							item[ele?.n] = ele._content;
 							return '';
 						});
-						// setAccountList([]);
-						setAccountList(accountListArr);
-					}
-				});
-		},
-		[STATUS_COLOR, limit, offset, searchQuery]
+						accountListArr.push({
+							id: item?.id,
+							columns: [
+								<Text
+									size="medium"
+									key={item?.id}
+									color="#414141"
+									onClick={(event: { stopPropagation: () => void }): void => {
+										event.stopPropagation();
+										setSelectedAccount(item);
+										setShowAccountDetailView(true);
+									}}
+								>
+									{item?.name || ' '}
+								</Text>,
+								<Text
+									size="medium"
+									key={item?.id}
+									color="#414141"
+									onClick={(event: { stopPropagation: () => void }): void => {
+										event.stopPropagation();
+										setSelectedAccount(item);
+										setShowAccountDetailView(true);
+									}}
+								>
+									{item?.displayName || <>&nbsp;</>}
+								</Text>,
+								<Text
+									size="medium"
+									key={item?.id}
+									color="#828282"
+									onClick={(event: { stopPropagation: () => void }): void => {
+										event.stopPropagation();
+										setSelectedAccount(item);
+										setShowAccountDetailView(true);
+									}}
+								>
+									{accountUserType(item)}
+								</Text>,
+								<Text
+									size="medium"
+									key={item?.id}
+									color={STATUS_COLOR[item?.zimbraAccountStatus]?.color}
+									onClick={(event: { stopPropagation: () => void }): void => {
+										event.stopPropagation();
+										setSelectedAccount(item);
+										setShowAccountDetailView(true);
+									}}
+								>
+									{STATUS_COLOR[item?.zimbraAccountStatus]?.label}
+								</Text>,
+								<Text
+									size="medium"
+									key={item?.id}
+									color="#414141"
+									onClick={(event: { stopPropagation: () => void }): void => {
+										event.stopPropagation();
+										setSelectedAccount(item);
+										setShowAccountDetailView(true);
+									}}
+								>
+									{item?.description || <>&nbsp;</>}
+								</Text>
+							],
+							item,
+							clickable: true
+						});
+						return '';
+					});
+					// setAccountList([]);
+					setAccountList(accountListArr);
+				}
+			});
+	}, [STATUS_COLOR, accountUserType, domainName, limit, offset, searchQuery]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const searchAccountList = useCallback(
+		debounce((searchText) => {
+			if (searchText) {
+				setSearchQuery(
+					`(|(mail=*${searchText}*)(cn=*${searchText}*)(sn=*${searchText}*)(gn=*${searchText}*)(displayName=*${searchText}*)(zimbraMailDeliveryAddress=*${searchText}*))`
+				);
+			} else {
+				setSearchQuery('');
+			}
+		}, 700),
+		[debounce]
 	);
 	useEffect(() => {
-		if (searchString) {
-			setSearchQuery(
-				`(|(mail=*${searchString}*)(cn=*${searchString}*)(sn=*${searchString}*)(gn=*${searchString}*)(displayName=*${searchString}*)(zimbraMailDeliveryAddress=*${searchString}*))`
-			);
-		} else {
-			setSearchQuery('');
-		}
-	}, [accountList, limit, offset, searchString]);
+		searchAccountList(searchString);
+	}, [accountList, limit, offset, searchAccountList, searchString]);
+
 	useEffect(() => {
-		if (!!domainInformation && domainInformation.length > 0) {
-			const obj: any = {};
-			domainInformation.map((item: any) => {
-				obj[item?.n] = item._content;
-				return '';
-			});
-			setDomainData(obj);
+		if (domainName) {
+			getAccountList();
 		}
-	}, [domainInformation]);
-	useEffect(() => {
-		if (domainData.zimbraDomainName) {
-			getAccountList(domainData.zimbraDomainName);
-		}
-	}, [domainData, getAccountList]);
+	}, [domainName, getAccountList]);
 	return (
 		<Container padding={{ all: 'large' }} mainAlignment="flex-start" background="gray6">
 			<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
@@ -267,9 +268,43 @@ const ManageAccounts: FC = () => {
 						</Container>
 
 						<Container padding={{ all: 'large' }}>
-							<ListRow>
-								<Table rows={accountList} headers={headers} showCheckbox multiSelect />
-							</ListRow>
+							{accountList.length !== 0 && (
+								<ListRow>
+									<Table rows={accountList} headers={headers} showCheckbox multiSelect />
+								</ListRow>
+							)}
+							{accountList.length === 0 && (
+								<Container orientation="column" crossAlignment="center" mainAlignment="flex-start">
+									<Row>
+										<img src={logo} alt="logo" />
+									</Row>
+									<Row
+										padding={{ top: 'extralarge' }}
+										orientation="vertical"
+										crossAlignment="center"
+										style={{ 'text-align': 'center' }}
+									>
+										<Text weight="light" color="#828282" size="large" overflow="break-word">
+											{t('label.this_list_is_empty', 'This list is empty.')}
+										</Text>
+									</Row>
+									<Row
+										orientation="vertical"
+										crossAlignment="center"
+										style={{ 'text-align': 'center' }}
+										padding={{ top: 'small' }}
+										width="53%"
+									>
+										<Text weight="light" color="#828282" size="large" overflow="break-word">
+											<Trans
+												i18nKey="label.create_account_list_msg"
+												defaults="You can create a new Account by clicking on <bold>Create</bold> button (upper left corner) or on the Add (<bold>+</bold>) button up here"
+												components={{ bold: <strong /> }}
+											/>
+										</Text>
+									</Row>
+								</Container>
+							)}
 							<Row
 								orientation="horizontal"
 								mainAlignment="space-between"
@@ -279,9 +314,11 @@ const ManageAccounts: FC = () => {
 							>
 								<Divider />
 							</Row>
-							<Row orientation="horizontal" mainAlignment="flex-start" width="100%">
-								<Paginig totalItem={totalAccount} setOffset={setOffset} pageSize={limit} />
-							</Row>
+							{accountList.length !== 0 && (
+								<Row orientation="horizontal" mainAlignment="flex-start" width="100%">
+									<Paginig totalItem={totalAccount} setOffset={setOffset} pageSize={limit} />
+								</Row>
+							)}
 						</Container>
 					</Container>
 				</Row>

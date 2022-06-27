@@ -3,12 +3,18 @@
         "theme": "主题",
         "advanced": "高级",
         "free_busy": "空闲/忙碌",
-        "general_settings": "通用设置"
+        "general_settings": "通用设置",
+        "authentication": "验证",
+        "gal": "GAL",
+        "general_information": "一般信息",
+        "mailbox_quota": "邮箱磁盘容量限制",
+        "most_result_return_gal_search": "GAL 搜索返回的大部分结果",
+        "virtual_hosts": "虚拟主机"
     },
     "label": {
-        "account": "账户",
+        "account": "帐户",
         "accounts": "账户",
-        "active": "活动",
+        "active": "启用",
         "signature_required": "需要签名信息。",
         "snackbar": {
             "share": {
@@ -16,7 +22,7 @@
             }
         },
         "status": "状态",
-        "suspended": "已暂停",
+        "suspended": "已挂起",
         "timezone": "时区",
         "unlimited": "无限",
         "url": "URL",
@@ -45,7 +51,23 @@
         "page_": "您已接受共享请求",
         "privacy": "隐私",
         "remove": "移除",
-        "save": "保存"
+        "save": "保存",
+        "authentication": "验证",
+        "certificate": "证书",
+        "closed": "已关闭",
+        "domains": "域",
+        "enable_start_tls": "启用 StartTLS",
+        "external_active_directory": "外部 Active Directory",
+        "external_ldap": "外部 LDAP",
+        "features": "功能",
+        "filter": "过滤器",
+        "general_information": "一般信息",
+        "id": "ID",
+        "internal": "内部",
+        "locked": "已锁定",
+        "maintenance": "维护",
+        "services": "服务",
+        "web_client": "网络客户端"
     },
     "timezone": {
         "asia_tehran": "{{value}} 德黑兰",
@@ -194,7 +216,7 @@
     },
     "core": {
         "subscription": {
-            "active": "活动",
+            "active": "启用",
             "bundle": "捆绑包",
             "company_name": "公司名称",
             "customer": "客户",

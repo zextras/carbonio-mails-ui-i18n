@@ -141,12 +141,12 @@
     "buckets": {
         "connection": {
             "access_key": "รหัสการเข้าถึง",
-            "notes": "บันทึก"
+            "notes": "หมายเหตุ"
         }
     },
     "core": {
         "subscription": {
-            "active": "ใช้งาน",
+            "active": "ใช้งานอยู่",
             "bundle": "ชุดรวม",
             "company_name": "ชื่อบริษัท",
             "customer": "กำหนดเอง",
@@ -169,12 +169,18 @@
         "advanced": "ขั้นสูง",
         "free_busy": "ว่าง/ไม่ว่าง",
         "general_settings": "การตั้งค่าทั่วไป",
-        "theme": "รูปแบบธีม"
+        "theme": "รูปแบบธีม",
+        "authentication": "การรับรองความถูกต้อง",
+        "gal": "GAL",
+        "general_information": "ข้อมูลทั่วไป",
+        "mailbox_quota": "โควตากล่องจดหมาย",
+        "most_result_return_gal_search": "ผลลัพธ์ส่วนใหญ่ที่ส่งกลับโดยการค้นหา GAL",
+        "virtual_hosts": "VirtualHost"
     },
     "label": {
         "account": "บัญชีผู้ใช้",
-        "accounts": "บัญชีผู้ใช้",
-        "active": "ใช้งาน",
+        "accounts": "บัญชี",
+        "active": "ใช้งานอยู่",
         "add": "เพิ่ม",
         "app_clicked": "คุณได้ตอบรับคำขอแชร์แล้ว",
         "app_name": "จัดการ",
@@ -199,7 +205,7 @@
         "page ": "คุณได้ตอบรับคำขอแชร์แล้ว",
         "page_": "คุณได้ตอบรับคำขอแชร์แล้ว",
         "privacy": "ความเป็นส่วนตัว",
-        "remove": "ลบออก",
+        "remove": "เอาออก",
         "save": "บันทึก",
         "signature_required": "จำเป็นต้องมีข้อมูลลายเซ็น",
         "snackbar": {
@@ -208,10 +214,26 @@
             }
         },
         "status": "สถานะ",
-        "suspended": "ระงับ",
+        "suspended": "หยุดชั่วคราว",
         "timezone": "โซนเวลา",
         "unlimited": "ไม่จำกัด",
-        "url": "URL"
+        "url": "URL",
+        "authentication": "การรับรองความถูกต้อง",
+        "certificate": "ใบรับรอง",
+        "closed": "ปิด",
+        "domains": "โดเมน",
+        "enable_start_tls": "เปิดใช้งาน StartTLS",
+        "external_active_directory": "Active Directory ภายนอก",
+        "external_ldap": "LDAP ภายนอก",
+        "features": "คุณลักษณะ",
+        "filter": "ตัวกรอง",
+        "general_information": "ข้อมูลทั่วไป",
+        "id": "รหัส",
+        "internal": "ภายใน",
+        "locked": "ถูกล็อก",
+        "maintenance": "การบำรุงรักษา",
+        "services": "บริการ",
+        "web_client": "เว็บไคลเอ็นต์"
     },
     "message": {
         "snackbar": {

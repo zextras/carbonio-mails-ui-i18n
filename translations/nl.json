@@ -2,7 +2,7 @@
     "buckets": {
         "connection": {
             "access_key": "Toegangssleutel",
-            "notes": "Opmerkingen"
+            "notes": "Aantekeningen"
         }
     },
     "core": {
@@ -63,10 +63,26 @@
             }
         },
         "status": "Status",
-        "suspended": "Geschorst",
+        "suspended": "Tijdelijk stopgezet",
         "timezone": "Tijdzone",
         "unlimited": "Onbeperkt",
-        "url": "URL"
+        "url": "URL",
+        "authentication": "Verificatie",
+        "certificate": "Certificaat",
+        "closed": "Gesloten",
+        "domains": "Domeinen",
+        "enable_start_tls": "StartTLS inschakelen",
+        "external_active_directory": "Externe Active Directory",
+        "external_ldap": "Externe LDAP",
+        "features": "Functies",
+        "filter": "Filter",
+        "general_information": "Algemene informatie",
+        "id": "ID",
+        "internal": "Intern",
+        "locked": "Vergrendeld",
+        "maintenance": "Onderhoud",
+        "services": "Services",
+        "web_client": "Web Client"
     },
     "timezone": {
         "europe_belgrade": "{{value}} Belgrado, Bratislava, Boedapest, Ljubljana, Praag",
@@ -75,7 +91,7 @@
         "europe_bucharest": "{{value}} Boekarest",
         "europe_chisinau": "{{value}} Chisinau",
         "europe_helsinki": "{{value}} Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius",
-        "europe_istanbul": "{{value}} Istanbul",
+        "europe_istanbul": "{{value}} Istanboel",
         "europe_kaliningrad": "{{value}} Kaliningrad (RTZ 1)",
         "africa_algiers": "{{value}} West Centraal Afrika",
         "africa_cairo": "{{value}} Egypte",
@@ -211,7 +227,13 @@
         "advanced": "Geavanceerd",
         "free_busy": "Vrij/Bezet",
         "general_settings": "Algemene instellingen",
-        "theme": "Thema"
+        "theme": "Thema",
+        "authentication": "Verificatie",
+        "gal": "Alg. adreslijst",
+        "general_information": "Algemene informatie",
+        "mailbox_quota": "Mailboxquotum",
+        "most_result_return_gal_search": "Meeste resultaten geretourneerd door GAL-zoekopdracht",
+        "virtual_hosts": "Virtuele hosts"
     },
     "message": {
         "snackbar": {

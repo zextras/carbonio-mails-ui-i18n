@@ -1,21 +1,62 @@
 {
     "label": {
         "name": "Nume",
-        "add": "Adauga",
-        "app_name": "Gestioneaza",
+        "add": "Adăugare",
+        "app_name": "Gestionare",
         "cancel": "Anulare",
-        "delete": "Sterge",
+        "delete": "Ştergere",
         "description": "Descriere",
         "of": "a",
-        "save": "Salvați",
-        "status": "Status"
+        "save": "Salvare",
+        "status": "Stare",
+        "account": "Cont",
+        "accounts": "Conturi",
+        "active": "Activ",
+        "authentication": "Autentificare",
+        "certificate": "Certificat",
+        "closed": "Închis",
+        "configuration": "Configuraţie",
+        "domains": "Domenii",
+        "enable_start_tls": "Activare StartTLS",
+        "external": "Extern",
+        "external_active_directory": "Active Directory extern",
+        "external_ldap": "LDAP extern",
+        "features": "Caracteristici",
+        "filter": "Filtru",
+        "general_information": "Informaţii generale",
+        "id": "ID",
+        "internal": "Intern",
+        "locked": "Blocat",
+        "maintenance": "Întreţinere",
+        "mb": "MB",
+        "not_set": "Nesetat",
+        "remove": "Eliminare",
+        "services": "Servicii",
+        "suspended": "Suspendat",
+        "timezone": "Fus orar",
+        "url": "URL",
+        "web_client": "Client web"
     },
     "core": {
         "subscription": {
-            "status": "Status"
+            "status": "Stare",
+            "active": "Activ",
+            "hide": "Ascundere"
         }
     },
     "domain": {
-        "theme": "Tema"
+        "theme": "Tema",
+        "advanced": "Avansat",
+        "authentication": "Autentificare",
+        "gal": "GAL",
+        "general_information": "Informaţii generale",
+        "mailbox_quota": "Cotă căsuţă poştală",
+        "most_result_return_gal_search": "Majoritatea rezultatelor căutării în GAL",
+        "virtual_hosts": "Gazde virtuale"
+    },
+    "buckets": {
+        "connection": {
+            "notes": "Note"
+        }
     }
 }

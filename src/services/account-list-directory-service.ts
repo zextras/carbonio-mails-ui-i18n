@@ -7,7 +7,7 @@
 export const accountListDirectory = async (
 	attr: string,
 	type: string,
-	domainName: string,
+	domainName: string | undefined,
 	query: string,
 	offset: number,
 	limit: number
@@ -24,7 +24,7 @@ export const accountListDirectory = async (
 			types: type
 		}
 	};
-	if (domainName !== '') {
+	if (domainName && domainName !== '') {
 		request.SearchDirectoryRequest.domain = domainName;
 	}
 	if (query !== '') {
