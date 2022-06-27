@@ -18,6 +18,7 @@ import {
 	SnackbarManagerContext
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
+import { debounce } from 'lodash';
 import logo from '../../../assets/gardian.svg';
 import Paginig from '../../components/paging';
 import { searchDirectory } from '../../../services/search-directory-service';
@@ -34,6 +35,8 @@ const DomainMailingList: FC = () => {
 	const [totalAccount, setTotalAccount] = useState<number>(0);
 	const [selectedMailingList, setSelectedMailingList] = useState<any>({});
 	const [showMailingListDetailView, setShowMailingListDetailView] = useState<boolean>(false);
+	const [searchString, setSearchString] = useState<string>('');
+	const [searchQuery, setSearchQuery] = useState<string>('');
 	const headers: any[] = useMemo(
 		() => [
 			{
@@ -80,7 +83,7 @@ const DomainMailingList: FC = () => {
 		const attrs =
 			'displayName,zimbraId,zimbraMailHost,uid,description,zimbraIsAdminGroup,zimbraMailStatus,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraIsSystemAccount,zimbraIsExternalVirtualAccount';
 		const types = 'distributionlists,dynamicgroups';
-		const query = '(&(!(zimbraIsSystemAccount=TRUE)))';
+		const query = `${searchQuery}(&(!(zimbraIsSystemAccount=TRUE)))`;
 
 		searchDirectory(attrs, types, domainName || '', query, offset, limit, 'name')
 			.then((response) => response.json())
@@ -181,11 +184,29 @@ const DomainMailingList: FC = () => {
 					setMailingList(mList);
 				}
 			});
-	}, [t, offset, limit, domainName]);
+	}, [t, offset, limit, domainName, searchQuery]);
 
 	useEffect(() => {
 		getMailingList();
-	}, [offset, getMailingList]);
+	}, [offset, searchQuery, getMailingList]);
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const searchResourceQuery = useCallback(
+		debounce((searchText) => {
+			if (searchText) {
+				setSearchQuery(
+					`(|(mail=*${searchText}*)(cn=*${searchText}*)(sn=*${searchText}*)(gn=*${searchText}*)(displayName=*${searchText}*)(zimbraMailDeliveryAddress=*${searchText}*))`
+				);
+			} else {
+				setSearchQuery('');
+			}
+		}, 700),
+		[debounce]
+	);
+
+	useEffect(() => {
+		searchResourceQuery(searchString);
+	}, [searchString, searchResourceQuery]);
 
 	return (
 		<Container
@@ -244,9 +265,8 @@ const DomainMailingList: FC = () => {
 				orientation="column"
 				crossAlignment="flex-start"
 				mainAlignment="flex-start"
-				style={{ overflow: 'auto' }}
 				width="100%"
-				height="calc(100vh - 150px)"
+				height="calc(100vh - 200px)"
 				padding={{ top: 'large' }}
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
@@ -262,6 +282,9 @@ const DomainMailingList: FC = () => {
 								<Input
 									backgroundColor="gray5"
 									label={t('label.search_dot', 'Search ...')}
+									onChange={(e: any): any => {
+										setSearchString(e.target.value);
+									}}
 									CustomIcon={(): any => <Icon icon="FunnelOutline" size="large" color="primary" />}
 								/>
 							</Container>
@@ -272,9 +295,15 @@ const DomainMailingList: FC = () => {
 							crossAlignment="flex-start"
 							width="fill"
 							padding={{ all: 'large' }}
+							height="calc(100vh - 340px)"
 						>
 							{mailingList && mailingList.length > 0 && (
-								<Table rows={mailingList} headers={headers} showCheckbox={false} />
+								<Table
+									rows={mailingList}
+									headers={headers}
+									showCheckbox={false}
+									style={{ overflow: 'auto', height: '100%' }}
+								/>
 							)}
 							{mailingList.length === 0 && (
 								<Container orientation="column" crossAlignment="center" mainAlignment="flex-start">
