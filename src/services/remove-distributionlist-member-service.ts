@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export const removeDistributionListMember = async (dlId: string, dlm?: any[]): Promise<any> => {
+export const removeDistributionListMember = async (id: JSON, dlm: JSON): Promise<any> => {
 	const request: any = {
 		RemoveDistributionListMemberRequest: {
 			_jsns: 'urn:zimbraAdmin',
-			id: dlId,
-			dlm
+			id
 		}
 	};
+
+	if (dlm) {
+		request.RemoveDistributionListMemberRequest.dlm = dlm;
+	}
 
 	return fetch(`/service/admin/soap/RemoveDistributionListMemberRequest`, {
 		method: 'POST',

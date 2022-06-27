@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-export const addDistributionListMember = async (id: JSON, dlm?: JSON): Promise<any> => {
+export const distributionListAction = async (dl: JSON, action?: JSON): Promise<any> => {
 	const request: any = {
-		AddDistributionListMemberRequest: {
-			_jsns: 'urn:zimbraAdmin',
-			id
+		DistributionListActionRequest: {
+			_jsns: 'urn:zimbraAccount',
+			dl
 		}
 	};
-	if (dlm) {
-		request.AddDistributionListMemberRequest.dlm = dlm;
+	if (action) {
+		request.DistributionListActionRequest.action = action;
 	}
 
-	return fetch(`/service/admin/soap/AddDistributionListMemberRequest`, {
+	return fetch(`/service/admin/soap/DistributionListActionRequest`, {
 		method: 'POST',
 		credentials: 'include',
 		headers: {

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import {
 	Container,
@@ -18,7 +18,8 @@ import {
 	Select,
 	Switch,
 	ChipInput,
-	Button
+	Button,
+	SnackbarManagerContext
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -29,6 +30,11 @@ import { getDistributionList } from '../../../services/get-distribution-list';
 import { getDistributionListMembership } from '../../../services/get-distributionlists-membership-service';
 import { getDateFromStr } from '../../utility/utils';
 import { searchDirectory } from '../../../services/search-directory-service';
+import { modifyDistributionList } from '../../../services/modify-distributionlist-service';
+import { renameDistributionList } from '../../../services/rename-distributionlist-service';
+import { addDistributionListMember } from '../../../services/add-distributionlist-member-service';
+import { removeDistributionListMember } from '../../../services/remove-distributionlist-member-service';
+import { distributionListAction } from '../../../services/distribution-list-action-service';
 
 const MailingListDetailContainer = styled(Container)`
 	z-index: 10;
@@ -61,6 +67,7 @@ export enum TRUE_FALSE {
 
 const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingListDetailView }) => {
 	const [t] = useTranslation();
+	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const [memberOffset, setMemberOffset] = useState<number>(0);
 	const [ownerOffset, setOwnerOffset] = useState<number>(0);
 	const [displayName, setDisplayName] = useState<string>('');
@@ -89,7 +96,9 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 	const [searchMailingListOrUser, setSearchMailingListOrUser] = useState<string>('');
 	const [isShowError, setIsShowError] = useState<boolean>(false);
 	const [isDirty, setIsDirty] = useState<boolean>(false);
-	const [previousDetail, setPreviousDetail] = useState<any>({});
+	const [previousDetail, setPreviousDetail] = useState<any>({
+		ownersList: []
+	});
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -451,8 +460,22 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 		console.log('cancel');
 	};
 
+	const callAllRequest = (requests: any): void => {
+		Promise.all(requests).then((response: any) => {
+			createSnackbar({
+				key: 'success',
+				type: 'success',
+				label: t('label.changes_have_been_saved', 'The changes have been saved'),
+				autoHideTimeout: 3000,
+				hideButton: true,
+				replace: true
+			});
+		});
+	};
+
 	const onSave = (): void => {
 		const attributes: any[] = [];
+		const request: any[] = [];
 		attributes.push({
 			n: 'displayName',
 			_content: displayName
@@ -487,15 +510,16 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 			n: 'zimbraDistributionListSendShareMessageToNewMembers',
 			_content: zimbraDistributionListSendShareMessageToNewMembers ? 'TRUE' : 'FALSE'
 		});
+		request.push(modifyDistributionList(selectedMailingList?.id, attributes));
 
 		if (
 			previousDetail?.distributionName !== undefined &&
 			previousDetail?.distributionName !== distributionName
 		) {
-			console.log('[Rename DL]', distributionName);
+			request.push(renameDistributionList(selectedMailingList?.id, distributionName));
 		}
 
-		/* Member Of Data add dl Id */
+		/* Member Of List */
 		if (
 			previousDetail?.dlMembershipList !== undefined &&
 			!isEqual(previousDetail?.dlMembershipList, dlMembershipList)
@@ -513,9 +537,37 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					removeMember.push(item);
 				}
 			});
+
+			if (newAddedMember.length > 0) {
+				newAddedMember.forEach((item: any) => {
+					const id: any = {
+						n: 'id',
+						_content: item?.id
+					};
+					const dlmItem: any = {
+						n: 'dlm',
+						_content: distributionName
+					};
+					request.push(addDistributionListMember(id, dlmItem));
+				});
+			}
+
+			if (removeMember.length > 0) {
+				removeMember.forEach((item: any) => {
+					const id: any = {
+						n: 'id',
+						_content: item?.id
+					};
+					const dlmItem: any = {
+						n: 'dlm',
+						_content: distributionName
+					};
+					request.push(removeDistributionListMember(id, dlmItem));
+				});
+			}
 		}
 
-		/* Distribution LIst */
+		/* Members List */
 		if (previousDetail?.dlm !== undefined && !isEqual(previousDetail?.dlm, dlm)) {
 			const newAddedMember: any[] = [];
 			dlm.forEach((item: any) => {
@@ -529,11 +581,37 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					removeMember.push(item);
 				}
 			});
-			console.log('new Members ', newAddedMember);
-			console.log('Remove Members ', removeMember);
+
+			if (newAddedMember.length > 0) {
+				newAddedMember.forEach((item: any) => {
+					const id: any = {
+						n: 'id',
+						_content: selectedMailingList?.id
+					};
+					const dlmItem: any = {
+						n: 'dlm',
+						_content: item
+					};
+					request.push(addDistributionListMember(id, dlmItem));
+				});
+			}
+
+			if (removeMember.length > 0) {
+				removeMember.forEach((item: any) => {
+					const id: any = {
+						n: 'id',
+						_content: selectedMailingList?.id
+					};
+					const dlmItem: any = {
+						n: 'dlm',
+						_content: item
+					};
+					request.push(removeDistributionListMember(id, dlmItem));
+				});
+			}
 		}
 
-		/* Owner LIst */
+		/* Owner List */
 		if (
 			previousDetail?.ownersList !== undefined &&
 			!isEqual(previousDetail?.ownersList, ownersList)
@@ -550,8 +628,45 @@ const MailingListDetailView: FC<any> = ({ selectedMailingList, setShowMailingLis
 					removeOwnerMember.push(item);
 				}
 			});
-			console.log('new owner Members ', newAddedOwnerMember);
-			console.log('Remove Owner Members ', removeOwnerMember);
+
+			if (newAddedOwnerMember.length > 0) {
+				newAddedOwnerMember.forEach((item: any) => {
+					const dl: any = {
+						by: 'id',
+						_content: selectedMailingList?.id
+					};
+					const action: any = {
+						op: 'addOwners',
+						owner: {
+							by: 'name',
+							type: 'usr',
+							_content: item?.name
+						}
+					};
+					request.push(distributionListAction(dl, action));
+				});
+			}
+
+			if (removeOwnerMember.length > 0) {
+				removeOwnerMember.forEach((item: any) => {
+					const dl: any = {
+						by: 'id',
+						_content: selectedMailingList?.id
+					};
+					const action: any = {
+						op: 'removeOwners',
+						owner: {
+							by: 'name',
+							type: 'usr',
+							_content: item?.name
+						}
+					};
+					request.push(distributionListAction(dl, action));
+				});
+			}
+		}
+		if (request.length > 0) {
+			callAllRequest(request);
 		}
 	};
 
