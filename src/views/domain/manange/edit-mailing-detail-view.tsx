@@ -167,7 +167,9 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 		[t]
 	);
 
-	const [previousDetail, setPreviousDetail] = useState<any>({});
+	const [previousDetail, setPreviousDetail] = useState<any>({
+		zimbraMailStatus: rightsOptions[1]
+	});
 
 	const [zimbraDistributionListSubscriptionPolicy, setZimbraDistributionListSubscriptionPolicy] =
 		useState<any>(subscriptionUnsubscriptionRequestOptions[0]);
@@ -191,6 +193,16 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 			setZimbraDistributionListUnsubscriptionPolicy(it);
 		},
 		[subscriptionUnsubscriptionRequestOptions]
+	);
+
+	const [zimbraMailStatus, setZimbraMailStatus] = useState<any>(rightsOptions[1]);
+
+	const onRightsChange = useCallback(
+		(v: any): any => {
+			const it = rightsOptions.find((item: any) => item.value === v);
+			setZimbraMailStatus(it);
+		},
+		[rightsOptions]
 	);
 
 	const getMailingList = useCallback(
@@ -322,6 +334,18 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 									zimbraDistributionListUnsubscriptionPolicy: it
 								}));
 							}
+							/* Mail status */
+
+							const _zimbraMailStatus = distributionListMembers?.a?.find(
+								(a: any) => a?.n === 'zimbraMailStatus'
+							)?._content;
+							if (_zimbraMailStatus === 'enabled') {
+								onRightsChange(rightsOptions[0].value);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraMailStatus: rightsOptions[0]
+								}));
+							}
 						}
 					}
 				});
@@ -330,7 +354,9 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 			selectedMailingList?.name,
 			subscriptionUnsubscriptionRequestOptions,
 			onSubscriptionChange,
-			onUnSubscriptionChange
+			onUnSubscriptionChange,
+			rightsOptions,
+			onRightsChange
 		]
 	);
 
@@ -415,13 +441,6 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 			setOwnerTableRows(allRows);
 		}
 	}, [ownersList]);
-
-	const [zimbraMailStatus, setZimbraMailStatus] = useState<any>(rightsOptions[1]);
-
-	const onRightsChange = (v: any): any => {
-		const it = rightsOptions.find((item: any) => item.value === v);
-		setZimbraMailStatus(it);
-	};
 
 	const getSearchMembers = useCallback((value: string) => {
 		const attrs = 'name,zimbraId';
@@ -849,6 +868,15 @@ const EditMailingListView: FC<any> = ({ selectedMailingList, setShowMailingListD
 		previousDetail?.zimbraDistributionListUnsubscriptionPolicy,
 		zimbraDistributionListUnsubscriptionPolicy
 	]);
+
+	useEffect(() => {
+		if (
+			previousDetail?.zimbraMailStatus !== undefined &&
+			previousDetail?.zimbraMailStatus.value !== zimbraMailStatus.value
+		) {
+			setIsDirty(true);
+		}
+	}, [previousDetail?.zimbraMailStatus, zimbraMailStatus]);
 
 	useEffect(() => {
 		if (openAddMailingListDialog) {
