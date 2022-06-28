@@ -236,7 +236,7 @@ const DomainMailingList: FC = () => {
 							</Text>
 						</Row>
 						<Row width="70%" mainAlignment="flex-end" crossAlignment="flex-end">
-							<Padding right="medium">
+							<Padding right="large">
 								<IconButton
 									iconColor="gray6"
 									backgroundColor="primary"
@@ -245,12 +245,13 @@ const DomainMailingList: FC = () => {
 									width={36}
 								/>
 							</Padding>
-							<Padding right="medium">
+							<Padding right="large">
 								<Button
 									label={t('label.details', 'Details')}
 									color="primary"
 									type="outlined"
 									disabled
+									height={36}
 								/>
 							</Padding>
 							<Button
@@ -260,6 +261,7 @@ const DomainMailingList: FC = () => {
 								iconPlacement="right"
 								color="primary"
 								disabled
+								height={36}
 							/>
 						</Row>
 					</Row>
@@ -274,7 +276,7 @@ const DomainMailingList: FC = () => {
 				mainAlignment="flex-start"
 				width="100%"
 				height="calc(100vh - 200px)"
-				padding={{ top: 'large' }}
+				padding={{ top: 'extralarge' }}
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
 					<Container height="fit" crossAlignment="flex-start" background="gray6">
@@ -283,7 +285,7 @@ const DomainMailingList: FC = () => {
 							mainAlignment="space-between"
 							crossAlignment="flex-start"
 							width="fill"
-							padding={{ all: 'large' }}
+							padding={{ bottom: 'large' }}
 						>
 							<Container>
 								<Input
@@ -301,7 +303,6 @@ const DomainMailingList: FC = () => {
 							mainAlignment="space-between"
 							crossAlignment="flex-start"
 							width="fill"
-							padding={{ all: 'large' }}
 							height="calc(100vh - 340px)"
 						>
 							{mailingList && mailingList.length > 0 && (

@@ -170,6 +170,7 @@ const DomainResources: FC = () => {
 									color="primary"
 									type="outlined"
 									disabled
+									height={36}
 								/>
 							</Padding>
 							<Button
@@ -179,6 +180,7 @@ const DomainResources: FC = () => {
 								iconPlacement="right"
 								color="primary"
 								disabled
+								height={36}
 							/>
 						</Row>
 					</Row>
@@ -194,7 +196,7 @@ const DomainResources: FC = () => {
 				style={{ overflow: 'auto' }}
 				width="100%"
 				height="calc(100vh - 200px)"
-				padding={{ top: 'large' }}
+				padding={{ top: 'extralarge' }}
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%" height="100%">
 					<Container height="fit" crossAlignment="flex-start" background="gray6">
@@ -203,7 +205,7 @@ const DomainResources: FC = () => {
 							mainAlignment="space-between"
 							crossAlignment="flex-start"
 							width="fill"
-							padding={{ all: 'large' }}
+							padding={{ bottom: 'large' }}
 						>
 							<Container>
 								<Input
@@ -221,7 +223,6 @@ const DomainResources: FC = () => {
 							mainAlignment="space-between"
 							crossAlignment="flex-start"
 							width="fill"
-							padding={{ all: 'large' }}
 							height="calc(100vh - 340px)"
 						>
 							{resourceList && resourceList.length > 0 && (
