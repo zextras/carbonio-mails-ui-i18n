@@ -247,6 +247,7 @@
         "delete": "Delete",
         "delete_bucket_fail": "The {{name}} has not removerd",
         "delete_bucket_sucess": "The {{name}} has been removerd",
+        "delete_content": "You are deleting {{name}}. This will {{name}}. \n Are you sure you want to delete {{name}} ?",
         "delete_cos_instruction_msg": "If you click YES, DELETE the DefaultCOS will be replace the deleted COS.",
         "delete_cos_succeess": "The {{cosname}} has been deleted successfull",
         "delete_domain": "Delete Domain",
