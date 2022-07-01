@@ -38,7 +38,7 @@ const AccountCreateSection: FC = () => {
 						<Input
 							label={t('label.user', 'User')}
 							backgroundColor="gray5"
-							value={accountDetail?.name}
+							defaultValue={accountDetail?.name}
 							readOnly
 						/>
 					</Row>
@@ -47,7 +47,7 @@ const AccountCreateSection: FC = () => {
 						<Input
 							label={t('label.mail', 'Mail')}
 							backgroundColor="gray5"
-							value={accountDetail?.name && `${accountDetail?.name}@${domainName}`}
+							defaultValue={accountDetail?.name && `${accountDetail?.name}@${domainName}`}
 							readOnly
 						/>
 					</Row>
@@ -59,6 +59,7 @@ const AccountCreateSection: FC = () => {
 							backgroundColor="gray5"
 							defaultValue={`${accountDetail?.password}`}
 							CustomIcon={(): any => <Icon icon="CopyOutline" size="large" color="Gray0" />}
+							readOnly
 						/>
 					</Row>
 					<Padding width="4%" />
@@ -83,8 +84,9 @@ const AccountCreateSection: FC = () => {
 							'First 2FA Access Token Link (send this to the user)'
 						)}
 						backgroundColor="gray5"
-						value="otpauth://totp/Example:oscardabano@company.dom..."
+						defaultValue={`otpauth://totp/Example:${accountDetail?.name}@${domainName}...`}
 						CustomIcon={(): any => <Icon icon="CopyOutline" size="large" color="Gray0" />}
+						disabled
 					/>
 				</Row>
 				<Row padding={{ top: 'large', left: 'large' }} width="100%">
@@ -139,13 +141,14 @@ const AccountCreateSection: FC = () => {
 						showCheckbox={false}
 						padding={{ right: 'medium' }}
 						defaultSelection={{ value: domainName, label: domainName }}
+						readOnly
 					/>
 				</Row>
 				<Row padding={{ top: 'large', left: 'large' }} width="100%">
 					<Input
 						label={t('label.space', 'Space')}
 						backgroundColor="gray6"
-						value="(CoS Default)"
+						defaultValue="(CoS Default)"
 						readOnly
 					/>
 				</Row>
@@ -153,7 +156,7 @@ const AccountCreateSection: FC = () => {
 					<Input
 						label={t('label.description', 'Description')}
 						backgroundColor="gray5"
-						value={accountDetail?.description}
+						defaultValue={accountDetail?.description}
 						readOnly
 					/>
 				</Row>

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useEffect, useCallback, useMemo, useContext } from 'react';
+import React, { FC, useEffect, useCallback, useMemo, useContext, useState } from 'react';
 import {
 	Container,
 	Input,
@@ -28,31 +28,31 @@ const CreateAccountDetailSection: FC = () => {
 	const timezones = useMemo(() => timeZoneList(t), [t]);
 	const localeZone = useMemo(() => localeList(t), [t]);
 
-	const ACCOUNT_STATUS = [
-		{
-			label: 'Active',
-			value: ACTIVE
-		},
-		{
-			label: 'Maintenance',
-			value: MAINTENANCE
-		},
-		{
-			label: 'Locked',
-			value: LOCKED
-		},
-		{
-			label: 'Closed',
-			value: CLOSED
-		},
-		{
-			label: 'Pending',
-			value: PENDING
-		}
-	];
-	// const [accountStatus, setAccountStatus] = useState(
-	// 	ACCOUNT_STATUS.find((item: any) => item.value === accountDetail?.zimbraAccountStatus)
-	// );
+	const ACCOUNT_STATUS = useMemo(
+		() => [
+			{
+				label: 'Active',
+				value: ACTIVE
+			},
+			{
+				label: 'Maintenance',
+				value: MAINTENANCE
+			},
+			{
+				label: 'Locked',
+				value: LOCKED
+			},
+			{
+				label: 'Closed',
+				value: CLOSED
+			},
+			{
+				label: 'Pending',
+				value: PENDING
+			}
+		],
+		[]
+	);
 
 	const changeSwitchOption = useCallback(
 		(key: string): void => {
@@ -78,9 +78,6 @@ const CreateAccountDetailSection: FC = () => {
 	}, [combineName, setAccountDetail]);
 
 	const onAccountStatusChange = (v: any): any => {
-		// const statusValue = ACCOUNT_STATUS.find((item: any) => item.value === v);
-		// setAccountStatus(statusValue);
-		// setAccountDetail((prev: any) => ({ ...prev, zimbraAccountStatus: v }));
 		setAccountDetail((prev: any) => ({ ...prev, zimbraAccountStatus: v }));
 	};
 	const onPrefLocaleChange = (v: string): void => {
@@ -239,7 +236,9 @@ const CreateAccountDetailSection: FC = () => {
 							label={t('label.account_status', 'Account Status')}
 							showCheckbox={false}
 							onChange={onAccountStatusChange}
-							// selection={accountStatus}
+							defaultSelection={ACCOUNT_STATUS.find(
+								(item: any) => item.value === accountDetail?.zimbraAccountStatus
+							)}
 							padding={{ right: 'medium' }}
 						/>
 					</Row>
@@ -250,7 +249,9 @@ const CreateAccountDetailSection: FC = () => {
 							background="gray5"
 							label={t('label.language', 'Language')}
 							showCheckbox={false}
-							// selection={accountDetail?.zimbraPrefLocale}
+							defaultSelection={localeZone.find(
+								(item: any) => item.value === accountDetail?.zimbraPrefLocale
+							)}
 							onChange={onPrefLocaleChange}
 							padding={{ right: 'medium' }}
 						/>
@@ -263,6 +264,9 @@ const CreateAccountDetailSection: FC = () => {
 							label={t('label.time_zone', 'Time Zone')}
 							showCheckbox={false}
 							padding={{ right: 'medium' }}
+							defaultSelection={timezones.find(
+								(item: any) => item.value === accountDetail?.zimbraPrefTimeZoneId
+							)}
 							onChange={onPrefTimeZoneChange}
 						/>
 					</Row>
