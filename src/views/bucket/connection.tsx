@@ -100,7 +100,7 @@ const Connection: FC<{
 	useEffect(() => {
 		if (bucketType !== '') {
 			const volumeObject: any = BucketTypeItems.find((s) => s.value === bucketType);
-			setBucketTypeData(volumeObject.label);
+			setBucketTypeData(volumeObject?.label);
 			onSelection({ storeType: bucketType }, false);
 		}
 	}, [bucketType, bucketTypeData, onSelection]);

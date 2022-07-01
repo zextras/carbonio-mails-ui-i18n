@@ -119,7 +119,7 @@ const BucketDetailPanel: FC = () => {
 	const [bucketList, setBucketList] = useState([]);
 	const [connectionData, setConnectionData] = useState();
 	const [detailsBucket, setDetailsBucket] = useState(false);
-	const [toggleBucket, setToggleBucket] = useState(false);
+	const [toggleWizardSection, setToggleWizardSection] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [showDetails, setShowDetails] = useState(false);
 	// let connectionData1: any = [];
@@ -204,17 +204,15 @@ const BucketDetailPanel: FC = () => {
 	useEffect(() => {
 		getBucketListType();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [bucketType, toggleBucket]);
+	}, [bucketType, toggleWizardSection]);
 
 	return (
 		<>
-			{toggleBucket && (
+			{toggleWizardSection && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<NewBucket
-						setToggleBucket={setToggleBucket}
+						setToggleWizardSection={setToggleWizardSection}
 						setDetailsBucket={setDetailsBucket}
-						title="Bucket Connection"
-						bucketType={bucketType}
 						setConnectionData={setConnectionData}
 					/>
 				</AbsoluteContainer>
@@ -277,7 +275,7 @@ const BucketDetailPanel: FC = () => {
 								icon="Plus"
 								color="primary"
 								onClick={(): void => {
-									setToggleBucket(!toggleBucket);
+									setToggleWizardSection(!toggleWizardSection);
 									if (showDetails) setShowDetails(!showDetails);
 								}}
 							/>
@@ -344,7 +342,7 @@ const BucketDetailPanel: FC = () => {
 									label={t('buckets.create_new_bucket', 'NEW BUCKET')}
 									icon="Plus"
 									color="info"
-									onClick={(): void => setToggleBucket(!toggleBucket)}
+									onClick={(): void => setToggleWizardSection(!toggleWizardSection)}
 								/>
 							</Text>
 						</Padding>
