@@ -1,5 +1,8 @@
 {
     "account": {
+        "edit": {
+            "edit_account_wizard": "Edit Account Wizard"
+        },
         "new": {
             "create_account_wizard": "Create Account Wizard"
         }
@@ -227,6 +230,7 @@
         "class_of_Service": "Class of Service",
         "click_here": "Click here",
         "closed": "Closed",
+        "configration": "CONFIGRATION",
         "configuration": "Configuration",
         "connect_buckets": "Connect Buckets",
         "connector_is_create_and_verified": "CONNECTOR IS CREATED AND VERIFIED",
@@ -298,6 +302,7 @@
         "external_ldap": "External LDAP",
         "external_password_change_listener": "External Password change listener",
         "fall_back_to_local_msg": "Fall back to local password management in case of failure",
+        "feature": "FEATURE",
         "features": "Features",
         "filter": "Filter",
         "first_2FA_access_token_link": "First 2FA Access Token Link (send this to the user)",
@@ -307,6 +312,7 @@
         "gal_mode": "GAL Mode",
         "gal_settings": "GAL Settings",
         "gay_sync_account_name": "GAL Sync Account Name",
+        "general": "GENERAL",
         "general_Settings": "General Settings",
         "general_information": "General Information",
         "general_settings": "General Settings",
@@ -339,6 +345,7 @@
         "list_is_empty": "The list is empty.",
         "locked": "Locked",
         "log": "Log",
+        "login": "LOGIN",
         "login_allowed_ip": "Login Allowed IP",
         "login_allowed_user_agent": "Login Allowed User Agent",
         "login_redirect_url": "Login Redirect URL",
@@ -477,6 +484,7 @@
         "used_on_accounts": "Used on Accounts",
         "user": "User",
         "userName": "username (Auto-fill)",
+        "user_preferences": "USER PREFERENCES",
         "utility_view": "Test utility view 1",
         "utility_view2": "Test utility view 2",
         "utility_view3": "Test utility view 3",
