@@ -307,6 +307,14 @@ const EditMailingListView: FC<any> = ({
 									...prevState,
 									zimbraDistributionListSubscriptionPolicy: it
 								}));
+							} else {
+								const value = subscriptionUnsubscriptionRequestOptions[0]?.value;
+								onSubscriptionChange(value);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraDistributionListSubscriptionPolicy:
+										subscriptionUnsubscriptionRequestOptions[0]
+								}));
 							}
 
 							const _zimbraDistributionListUnsubscriptionPolicy = distributionListMembers?.a?.find(
@@ -320,6 +328,14 @@ const EditMailingListView: FC<any> = ({
 								setPreviousDetail((prevState: any) => ({
 									...prevState,
 									zimbraDistributionListUnsubscriptionPolicy: it
+								}));
+							} else {
+								const value = subscriptionUnsubscriptionRequestOptions[0]?.value;
+								onUnSubscriptionChange(value);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									zimbraDistributionListUnsubscriptionPolicy:
+										subscriptionUnsubscriptionRequestOptions[0]
 								}));
 							}
 							/* Mail status */
@@ -1067,11 +1083,12 @@ const EditMailingListView: FC<any> = ({
 						<Switch
 							value={zimbraDistributionListSendShareMessageToNewMembers}
 							label={t('label.share_manages_to_new_members', 'Share messages to new members')}
-							onClick={(): void =>
+							onClick={(): void => {
+								setIsDirty(true);
 								setZimbraDistributionListSendShareMessageToNewMembers(
 									!zimbraDistributionListSendShareMessageToNewMembers
-								)
-							}
+								);
+							}}
 						/>
 					</Container>
 					<Container
@@ -1082,7 +1099,10 @@ const EditMailingListView: FC<any> = ({
 						<Switch
 							value={zimbraHideInGal}
 							label={t('label.this_is_hidden_from_gal', 'This list is hidden from GAL')}
-							onClick={(): void => setZimbraHideInGal(!zimbraHideInGal)}
+							onClick={(): void => {
+								setIsDirty(true);
+								setZimbraHideInGal(!zimbraHideInGal);
+							}}
 						/>
 					</Container>
 				</ListRow>

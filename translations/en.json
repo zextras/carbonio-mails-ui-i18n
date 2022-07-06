@@ -158,7 +158,6 @@
         "manage": "Manage",
         "most_result_return_gal_search": "Most results returned by GAL search",
         "range": "Range",
-        "resource": "Resource",
         "search_domain": "Search a domain",
         "select_domain_or_create_new": "Please select a domain to manage it or click Create button to create a new one.",
         "send_the_warning_to": "Send the warning to",
@@ -235,6 +234,7 @@
         "certificates": "Certificates",
         "change_save_success_msg": "The change has been saved successfully",
         "changes_have_been_saved": "The changes have been saved",
+        "class_of_Service": "Class of Service",
         "class_of_service": "Class of Service",
         "click_here": "Click here",
         "closed": "Closed",
@@ -304,7 +304,6 @@
         "enable_start_tls": "Enable StartTLS",
         "enable_toaster_notification_for_new_calendar_events": "enable toaster notification for new calendar events",
         "enter_email_address": "Enter E-mail address",
-        "equipment": "Equipment",
         "example_new": "New Example",
         "export_domain": "Export Domain",
         "external": "External",
@@ -511,7 +510,6 @@
         "verify_connector_fail": " VERIFICATION FAILED",
         "verify_error": "{{name}}",
         "view": "This is a view",
-        "view_email": "VIEW EMAIL",
         "view_mail": "VIEW MAIL",
         "viewed_name": "Viewed Name (Auto-fill)",
         "virtual_host": "virtual host",
@@ -532,9 +530,7 @@
         "your_auth_method_is": "Your Auth Method is"
     },
     "lable": {
-        "delete_button": "DELETE",
-        "false": "False",
-        "true": "True"
+        "delete_button": "DELETE"
     },
     "locale": {
         "English": "English",
