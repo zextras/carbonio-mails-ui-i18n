@@ -133,6 +133,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={item?.id}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);
@@ -148,6 +149,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={`${item?.id}-address`}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);
@@ -163,6 +165,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={`${item?.id}-member`}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);
@@ -178,6 +181,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={`${item?.id}-status`}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);
@@ -195,6 +199,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={`${item?.id}-gal`}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);
@@ -210,6 +215,7 @@ const DomainMailingList: FC = () => {
 									mainAlignment="flex-start"
 									crossAlignment="flex-start"
 									key={`${item?.id}-description`}
+									style={{ cursor: 'pointer' }}
 									onClick={(e: { stopPropagation: () => void }): void => {
 										e.stopPropagation();
 										setSelectedMailingList(item);

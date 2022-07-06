@@ -561,11 +561,11 @@ const MailingListDetail: FC<any> = ({
 					</Container>
 				</ListRow>
 				<ListRow>
-					<Container width="64px" padding={{ right: 'small' }}>
+					<Container width="64px">
 						<Icon icon={'FingerPrintOutline'} size="large" />
 					</Container>
 					<Container padding={{ all: 'small' }}>
-						<Input label={t('label.id_lbl', 'ID')} value={dlId} background="gray5" readOnly />
+						<Input label={t('label.id_lbl', 'ID')} value={dlId} background="gray6" readOnly />
 					</Container>
 					<Container width="64px" padding={{ right: 'small' }}>
 						<Icon icon={'CalendarOutline'} size="large" />

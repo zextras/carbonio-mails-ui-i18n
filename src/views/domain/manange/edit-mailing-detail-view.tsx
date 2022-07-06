@@ -85,6 +85,7 @@ const EditMailingListView: FC<any> = ({
 	const [searchMailingListOrUser, setSearchMailingListOrUser] = useState<string>('');
 	const [isShowError, setIsShowError] = useState<boolean>(false);
 	const [isDirty, setIsDirty] = useState<boolean>(false);
+	const [searchMember, setSearchMember] = useState<string>();
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -888,6 +889,34 @@ const EditMailingListView: FC<any> = ({
 		}
 	}, [openAddMailingListDialog]);
 
+	useEffect(() => {
+		if (searchMember && dlm && dlm.length > 0) {
+			const allRows = dlm.filter((item: any) => item.includes(searchMember));
+			const searchDlRows = allRows.map((item: any) => ({
+				id: item,
+				columns: [
+					<Text size="medium" weight="bold" key={item} color="#828282">
+						{item}
+					</Text>,
+					''
+				]
+			}));
+			setDlmTableRows(searchDlRows);
+		}
+		if (searchMember && ownersList && ownersList.length > 0) {
+			const allRows = ownersList.filter((item: any) => item?.name.includes(searchMember));
+			const searchOwnerRows = allRows.map((item: any) => ({
+				id: item?.name,
+				columns: [
+					<Text size="medium" weight="bold" key={item?.id} color="#828282">
+						{item?.name}
+					</Text>
+				]
+			}));
+			setOwnerTableRows(searchOwnerRows);
+		}
+	}, [searchMember, dlm, ownersList]);
+
 	return (
 		<Container
 			background="gray5"
@@ -1069,7 +1098,7 @@ const EditMailingListView: FC<any> = ({
 							disabled
 						/>
 					</Container>
-					<Container width="64px" padding={{ right: 'small', left: 'medium' }}>
+					<Container width="64px" padding={{ left: 'medium' }}>
 						<Icon icon={'CornerUpRight'} size="large" />
 					</Container>
 					<Container padding={{ all: 'small' }}>
@@ -1083,7 +1112,7 @@ const EditMailingListView: FC<any> = ({
 				</ListRow>
 
 				<ListRow>
-					<Container width="64px" padding={{ right: 'small' }}>
+					<Container width="54px">
 						<Icon icon={'FingerPrintOutline'} size="large" />
 					</Container>
 					<Container padding={{ all: 'small' }}>
@@ -1143,8 +1172,11 @@ const EditMailingListView: FC<any> = ({
 							<Row mainAlignment="flex-start" width="70%" crossAlignment="flex-start">
 								<Input
 									label={t('label.i_am_looking_for_member', 'I’m looking for the member...')}
-									value=""
+									value={searchMember}
 									background="gray5"
+									onChange={(e: any): any => {
+										setSearchMember(e.target.value);
+									}}
 								/>
 							</Row>
 							<Row width="30%" mainAlignment="flex-start" crossAlignment="flex-start">
