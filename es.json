@@ -494,7 +494,7 @@
             "calendar_edits_saved": "Ediciones salvadas correctamente",
             "all_link_copied": "Enlace público copiado con éxito",
             "link_copying_error": "Parece haber un problema al generar el enlace público. Por favor intente de nuevo",
-            "some_link_copying_error": "Parece que hay un problema al generar el enlace público para algunos archivos. Por favor intente de nuevo"
+            "some_link_copying_error": "Parece que hay un problema al generar el enlace público para algunos archivos. Por favor intenta de nuevo"
         },
         "sending_mail_to_self": "parece que vas a enviarte un mensaje a ti mismo",
         "search_hints": "Sugerencias de búsqueda sobre las que tenemos que discutir",
