@@ -632,7 +632,11 @@ const MailingListDetail: FC<any> = ({
 						</Container>
 					)}
 					<Container
-						padding={{ left: 'small', top: 'small', bottom: 'small' }}
+						padding={{
+							left: !selectedMailingList?.dynamic ? 'small' : '',
+							top: 'small',
+							bottom: 'small'
+						}}
 						mainAlignment="flex-start"
 					>
 						<Table rows={ownerTableRows} headers={ownerHeaders} showCheckbox={false} />

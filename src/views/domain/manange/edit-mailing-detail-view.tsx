@@ -90,6 +90,7 @@ const EditMailingListView: FC<any> = ({
 	const [ownerOfList, setOwnerOfList] = useState<any[]>([]);
 	const [searchOwnerMemberOfList, setSearchOwnerMemberOfList] = useState<any[]>([]);
 	const [ownerErrorMessage, setOwnerErrorMessage] = useState<string>('');
+	const [zimbraIsACLGroup, setZimbraIsACLGroup] = useState<boolean>(false);
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -224,6 +225,10 @@ const EditMailingListView: FC<any> = ({
 									name: item
 								}));
 								setOwnerOfList(allMembers);
+								setPreviousDetail((prevState: any) => ({
+									...prevState,
+									ownerOfList: allMembers
+								}));
 							}
 						} else if (!selectedMailingList?.dynamic) {
 							setPreviousDetail((prevState: any) => ({
@@ -391,6 +396,13 @@ const EditMailingListView: FC<any> = ({
 									...prevState,
 									memberURL: ''
 								}));
+							}
+
+							const _zimbraIsACLGroup = distributionListMembers?.a?.find(
+								(a: any) => a?.n === 'zimbraIsACLGroup'
+							)?._content;
+							if (_zimbraIsACLGroup) {
+								setZimbraIsACLGroup(_zimbraIsACLGroup === 'TRUE');
 							}
 						}
 					}
@@ -785,7 +797,7 @@ const EditMailingListView: FC<any> = ({
 			});
 		}
 
-		if (selectedMailingList?.dynamic) {
+		if (selectedMailingList?.dynamic && !zimbraIsACLGroup) {
 			attributes.push({
 				n: 'memberURL',
 				_content: memberURL
@@ -1348,6 +1360,7 @@ const EditMailingListView: FC<any> = ({
 								onChange={(e: any): any => {
 									setMemberURL(e.target.value);
 								}}
+								disabled={zimbraIsACLGroup}
 							/>
 						</Container>
 					</ListRow>
@@ -1518,7 +1531,11 @@ const EditMailingListView: FC<any> = ({
 					)}
 
 					<Container
-						padding={{ left: 'small', top: 'small', bottom: 'small' }}
+						padding={{
+							left: !selectedMailingList?.dynamic ? 'small' : '',
+							top: 'small',
+							bottom: 'small'
+						}}
 						mainAlignment="flex-start"
 					>
 						<Table
