@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 import {
 	Container,
 	Row,
@@ -13,7 +12,6 @@ import {
 	Input,
 	Table,
 	Text,
-	Select,
 	Switch,
 	Padding,
 	Icon
@@ -153,6 +151,7 @@ const MailingListDetail: FC<any> = ({
 	const [ownerTableRows, setOwnerTableRows] = useState<any[]>([]);
 	const [memberOffset, setMemberOffset] = useState<number>(0);
 	const [ownerOffset, setOwnerOffset] = useState<number>(0);
+	const [memberURL, setMemberURL] = useState<string>();
 
 	const onRightsChange = useCallback(
 		(v: any): any => {
@@ -267,6 +266,13 @@ const MailingListDetail: FC<any> = ({
 							if (_zimbraMailStatus === 'enabled') {
 								onRightsChange(rightsOptions[0].value);
 							}
+
+							const _memberURL = distributionListMembers?.a?.find(
+								(a: any) => a?.n === 'memberURL'
+							)?._content;
+							if (_memberURL) {
+								setMemberURL(_memberURL);
+							}
 						}
 					}
 				});
@@ -367,6 +373,12 @@ const MailingListDetail: FC<any> = ({
 	const onEditMailingList = (): void => {
 		setEditMailingList(true);
 	};
+
+	const onCopyLink = useCallback(() => {
+		if (navigator) {
+			navigator.clipboard.writeText(memberURL || '');
+		}
+	}, [memberURL]);
 
 	return (
 		<Container
@@ -564,6 +576,24 @@ const MailingListDetail: FC<any> = ({
 						/>
 					</Container>
 				</ListRow>
+				{selectedMailingList?.dynamic && (
+					<ListRow>
+						<Container width="fit" padding={{ right: 'small' }}>
+							<Icon icon={'Link2Outline'} size="large" />
+						</Container>
+						<Container>
+							<Input
+								label={t('label.list_url', 'List URL')}
+								value={memberURL}
+								background="gray6"
+								readOnly
+								CustomIcon={(): any => (
+									<Icon icon="CopyOutline" size="large" color="grey" onClick={onCopyLink} />
+								)}
+							/>
+						</Container>
+					</ListRow>
+				)}
 				<ListRow>
 					<Container width="64px">
 						<Icon icon={'FingerPrintOutline'} size="large" />
@@ -588,15 +618,19 @@ const MailingListDetail: FC<any> = ({
 						{t('label.manage_list', 'Manage List')}
 					</Text>
 				</Row>
+				{!selectedMailingList?.dynamic && (
+					<ListRow>
+						<Container mainAlignment="flex-start" padding={{ top: 'small', bottom: 'small' }}>
+							<Table rows={dlmMemberOfRows} headers={listMemberOfHeaders} showCheckbox={false} />
+						</Container>
+					</ListRow>
+				)}
 				<ListRow>
-					<Container mainAlignment="flex-start" padding={{ top: 'small', bottom: 'small' }}>
-						<Table rows={dlmMemberOfRows} headers={listMemberOfHeaders} showCheckbox={false} />
-					</Container>
-				</ListRow>
-				<ListRow>
-					<Container mainAlignment="flex-start" padding={{ top: 'small', bottom: 'small' }}>
-						<Table rows={dlmTableRows} headers={memberHeaders} showCheckbox={false} />
-					</Container>
+					{!selectedMailingList?.dynamic && (
+						<Container mainAlignment="flex-start" padding={{ top: 'small', bottom: 'small' }}>
+							<Table rows={dlmTableRows} headers={memberHeaders} showCheckbox={false} />
+						</Container>
+					)}
 					<Container
 						padding={{ left: 'small', top: 'small', bottom: 'small' }}
 						mainAlignment="flex-start"
@@ -604,21 +638,27 @@ const MailingListDetail: FC<any> = ({
 						<Table rows={ownerTableRows} headers={ownerHeaders} showCheckbox={false} />
 					</Container>
 				</ListRow>
-				<ListRow>
-					<Container mainAlignment="flex-end" crossAlignment="flex-end">
-						<Divider />
+				{!selectedMailingList?.dynamic && (
+					<ListRow>
+						<Container mainAlignment="flex-end" crossAlignment="flex-end">
+							<Divider />
 
-						<Padding all="small">
-							<Paginig totalItem={1} pageSize={10} setOffset={setMemberOffset} />
-						</Padding>
-					</Container>
-					<Container mainAlignment="flex-end" crossAlignment="flex-end" padding={{ left: 'small' }}>
-						<Divider />
-						<Padding all="small">
-							<Paginig totalItem={1} pageSize={10} setOffset={setOwnerOffset} />
-						</Padding>
-					</Container>
-				</ListRow>
+							<Padding all="small">
+								<Paginig totalItem={1} pageSize={10} setOffset={setMemberOffset} />
+							</Padding>
+						</Container>
+						<Container
+							mainAlignment="flex-end"
+							crossAlignment="flex-end"
+							padding={{ left: 'small' }}
+						>
+							<Divider />
+							<Padding all="small">
+								<Paginig totalItem={1} pageSize={10} setOffset={setOwnerOffset} />
+							</Padding>
+						</Container>
+					</ListRow>
+				)}
 				<ListRow>
 					<Container>
 						<Input
