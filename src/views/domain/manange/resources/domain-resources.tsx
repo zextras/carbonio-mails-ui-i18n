@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
 	Container,
 	Row,
@@ -19,17 +19,18 @@ import {
 import { Trans, useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import logo from '../../../assets/gardian.svg';
-import Paginig from '../../components/paging';
-import { searchDirectory } from '../../../services/search-directory-service';
-import { useDomainStore } from '../../../store/domain/store';
+import logo from '../../../../assets/gardian.svg';
+import Paginig from '../../../components/paging';
+import { searchDirectory } from '../../../../services/search-directory-service';
+import { useDomainStore } from '../../../../store/domain/store';
 import ResourceEditDetailView from './resource-edit-detail-view';
+import { RECORD_DISPLAY_LIMIT } from '../../../../constants';
 
 const DomainResources: FC = () => {
 	const [t] = useTranslation();
 	const [resourceList, setResourceList] = useState<any[]>([]);
 	const [offset, setOffset] = useState<number>(0);
-	const [limit, setLimit] = useState<number>(50);
+	const [limit, setLimit] = useState<number>(RECORD_DISPLAY_LIMIT);
 	const [totalAccount, setTotalAccount] = useState<number>(0);
 	const domainName = useDomainStore((state) => state.domain?.name);
 	const [searchString, setSearchString] = useState<string>('');
@@ -37,6 +38,7 @@ const DomainResources: FC = () => {
 	const [selectedResourceList, setSelectedResourceList] = useState<any>({});
 	const [showResourceEditDetailView, setShowResourceEditDetailView] = useState<boolean>(false);
 	const [isEditMode, setIsEditMode] = useState<boolean>(false);
+	const [isUpdateRecord, setIsUpdateRecord] = useState<boolean>(false);
 	const timer = useRef<any>();
 	const headers: any[] = useMemo(
 		() => [
@@ -76,17 +78,20 @@ const DomainResources: FC = () => {
 
 	const doClickAction = useCallback((): void => {
 		setIsEditMode(false);
+		setShowResourceEditDetailView(true);
 	}, []);
 
 	const doDoubleClickAction = useCallback((): void => {
 		setIsEditMode(true);
+		setShowResourceEditDetailView(true);
 	}, []);
 
 	const handleClick = useCallback(
 		(event: any) => {
+			event.stopPropagation();
 			clearTimeout(timer.current);
 			if (event.detail === 1) {
-				timer.current = setTimeout(doClickAction, 200);
+				timer.current = setTimeout(doClickAction, 300);
 			} else if (event.detail === 2) {
 				doDoubleClickAction();
 			}
@@ -120,7 +125,6 @@ const DomainResources: FC = () => {
 										onClick={(e: { stopPropagation: () => void }): void => {
 											e.stopPropagation();
 											setSelectedResourceList(item);
-											setShowResourceEditDetailView(true);
 											handleClick(e);
 										}}
 									>
@@ -134,7 +138,6 @@ const DomainResources: FC = () => {
 										onClick={(e: { stopPropagation: () => void }): void => {
 											e.stopPropagation();
 											setSelectedResourceList(item);
-											setShowResourceEditDetailView(true);
 											handleClick(e);
 										}}
 									>
@@ -148,7 +151,6 @@ const DomainResources: FC = () => {
 										onClick={(e: { stopPropagation: () => void }): void => {
 											e.stopPropagation();
 											setSelectedResourceList(item);
-											setShowResourceEditDetailView(true);
 											handleClick(e);
 										}}
 									>
@@ -162,7 +164,6 @@ const DomainResources: FC = () => {
 										onClick={(e: { stopPropagation: () => void }): void => {
 											e.stopPropagation();
 											setSelectedResourceList(item);
-											setShowResourceEditDetailView(true);
 											handleClick(e);
 										}}
 									>
@@ -181,7 +182,6 @@ const DomainResources: FC = () => {
 										onClick={(e: { stopPropagation: () => void }): void => {
 											e.stopPropagation();
 											setSelectedResourceList(item);
-											setShowResourceEditDetailView(true);
 											handleClick(e);
 										}}
 									>
@@ -193,6 +193,7 @@ const DomainResources: FC = () => {
 							});
 						});
 						setResourceList(rList);
+						setIsUpdateRecord(false);
 					}
 				});
 		},
@@ -202,6 +203,12 @@ const DomainResources: FC = () => {
 	useEffect(() => {
 		getResourceList(domainName, searchQuery);
 	}, [offset, getResourceList, domainName, searchQuery]);
+
+	useEffect(() => {
+		if (isUpdateRecord) {
+			getResourceList(domainName, searchQuery);
+		}
+	}, [isUpdateRecord, getResourceList, domainName, searchQuery]);
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const searchResourceQuery = useCallback(
@@ -369,6 +376,7 @@ const DomainResources: FC = () => {
 					setShowResourceEditDetailView={setShowResourceEditDetailView}
 					isEditMode={isEditMode}
 					setIsEditMode={setIsEditMode}
+					setIsUpdateRecord={setIsUpdateRecord}
 				/>
 			)}
 		</Container>
