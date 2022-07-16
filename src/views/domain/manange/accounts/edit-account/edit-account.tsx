@@ -82,8 +82,8 @@ const EditAccount: FC<{
 				const inDirectMemArr: any[] = [];
 				// eslint-disable-next-line array-callback-return
 				data?.Body?.GetAccountMembershipResponse?.dl?.map((ele: any) => {
-					if (ele?.via) inDirectMemArr.push({ label: ele?.name });
-					else directMemArr.push({ label: ele?.name });
+					if (ele?.via) inDirectMemArr.push({ label: ele?.name, closable: false, disabled: true });
+					else directMemArr.push({ label: ele?.name, closable: false, disabled: true });
 				});
 
 				setDirectMemberList(directMemArr);

@@ -28,6 +28,7 @@ const EditAccountConfigrationSection: FC = () => {
 	const [prefMailForwardingAddress, setPrefMailForwardingAddress] = useState<any[]>([]);
 	const [mailForwardingAddress, setMailForwardingAddress] = useState<any[]>([]);
 	const [prefCalendarForwardInvitesTo, setPrefCalendarForwardInvitesTo] = useState<any[]>([]);
+	const [accountQuota, setAccountQuota] = useState('');
 	useEffect(() => {
 		setPrefMailForwardingAddress(
 			accountDetail?.zimbraPrefMailForwardingAddress
@@ -37,6 +38,9 @@ const EditAccountConfigrationSection: FC = () => {
 				: []
 		);
 	}, [accountDetail?.zimbraPrefMailForwardingAddress]);
+	useEffect(() => {
+		setAccountQuota((accountDetail.zimbraMailQuota / 1048576).toString());
+	}, [accountDetail?.zimbraMailQuota]);
 	useEffect(() => {
 		setMailForwardingAddress(
 			accountDetail?.zimbraMailForwardingAddress
@@ -65,6 +69,15 @@ const EditAccountConfigrationSection: FC = () => {
 		},
 		[accountDetail, setAccountDetail]
 	);
+	const changeAccountQuota = useCallback(
+		(e) => {
+			setAccountDetail((prev: any) => ({
+				...prev,
+				[e.target.name]: (Number(e.target.value) * 1048576).toString()
+			}));
+		},
+		[setAccountDetail]
+	);
 
 	return (
 		<Container
@@ -86,6 +99,7 @@ const EditAccountConfigrationSection: FC = () => {
 							)}
 							background="gray5"
 							defaultValue={directMemberList}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -98,6 +112,7 @@ const EditAccountConfigrationSection: FC = () => {
 							)}
 							background="gray5"
 							defaultValue={inDirectMemberList}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -112,8 +127,8 @@ const EditAccountConfigrationSection: FC = () => {
 				<Row width="100%" padding={{ top: 'large', left: 'large' }} mainAlignment="space-between">
 					<Row width="48%" mainAlignment="flex-start">
 						<Switch
-							value={accountDetail?.zimbraHideInGal === 'TRUE'}
-							onClick={(): void => changeSwitchOption('zimbraHideInGal')}
+							value={accountDetail?.zimbraFeatureMailForwardingEnabled === 'TRUE'}
+							onClick={(): void => changeSwitchOption('zimbraFeatureMailForwardingEnabled')}
 							label={t(
 								'account_details.can_specify_forwarding_address',
 								'Can specify forwarding address'
@@ -122,11 +137,11 @@ const EditAccountConfigrationSection: FC = () => {
 					</Row>
 					<Row width="48%" mainAlignment="flex-start">
 						<Switch
-							value={accountDetail?.zimbraPasswordMustChange === 'TRUE'}
-							onClick={(): void => changeSwitchOption('zimbraPasswordMustChange')}
+							value={accountDetail?.zimbraPrefMailLocalDeliveryDisabled === 'TRUE'}
+							onClick={(): void => changeSwitchOption('zimbraPrefMailLocalDeliveryDisabled')}
 							label={t(
-								'account_details.keep_local_copy_of_messages',
-								'Keep local copy of messages'
+								'account_details.dont_keep_local_copy_of_messages',
+								`Don't Keep local copy of messages`
 							)}
 						/>
 					</Row>
@@ -216,13 +231,13 @@ const EditAccountConfigrationSection: FC = () => {
 				</Row>
 				<Row padding={{ top: 'large', left: 'large' }} width="100%">
 					<Input
-						label={t('label.viewed_name', 'Viewed Name')}
+						label={t('label.account_quota_mb', 'Account Quota (MB)')}
 						backgroundColor="gray5"
-						defaultValue={accountDetail?.displayName}
-						value={accountDetail?.displayName}
-						// onChange={changeAccDetail}
-						inputName="displayName"
-						name="descriptiveName"
+						defaultValue={accountQuota}
+						value={accountQuota}
+						onChange={changeAccountQuota}
+						inputName="zimbraMailQuota"
+						name="zimbraMailQuota"
 					/>
 				</Row>
 				<Row width="100%" padding={{ top: 'medium' }}>
