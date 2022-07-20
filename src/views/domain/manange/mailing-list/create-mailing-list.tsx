@@ -15,6 +15,13 @@ import MailingListMembersSection from './mailing-list-members-section';
 import MailingListSettingsSection from './mailing-list-settings-sections';
 import MailingListCreateSection from './mailinglist-create-section';
 
+// eslint-disable-next-line no-shadow
+export enum SUBSCRIBE_UNSUBSCRIBE {
+	ACCEPT = 'ACCEPT',
+	APPROVAL = 'APPROVAL',
+	REJECT = 'REJECT'
+}
+
 interface MailingListDetailObj {
 	name: string;
 	dynamic: boolean;
@@ -28,8 +35,10 @@ interface MailingListDetailObj {
 	members: Array<any>;
 	zimbraDistributionListSendShareMessageToNewMembers: boolean;
 	owners: Array<any>;
-	zimbraDistributionListSubscriptionPolicy: string;
-	zimbraDistributionListUnsubscriptionPolicy: string;
+	zimbraDistributionListSubscriptionPolicy: any;
+	zimbraDistributionListUnsubscriptionPolicy: any;
+	prefixName: string;
+	suffixName: string;
 }
 
 const WizardInSection: FC<any> = ({ wizard, wizardFooter, setToggleWizardSection }) => {
@@ -70,8 +79,16 @@ const CreateMailingList: FC<{
 		members: [],
 		zimbraDistributionListSendShareMessageToNewMembers: true,
 		owners: [],
-		zimbraDistributionListSubscriptionPolicy: '',
-		zimbraDistributionListUnsubscriptionPolicy: ''
+		zimbraDistributionListSubscriptionPolicy: {
+			label: t('label.automatically_accept', 'Automatically accept'),
+			value: SUBSCRIBE_UNSUBSCRIBE.ACCEPT
+		},
+		zimbraDistributionListUnsubscriptionPolicy: {
+			label: t('label.automatically_accept', 'Automatically accept'),
+			value: SUBSCRIBE_UNSUBSCRIBE.ACCEPT
+		},
+		prefixName: '',
+		suffixName: ''
 	});
 
 	const standardMailingListSizardSteps = useMemo(
@@ -286,8 +303,8 @@ const CreateMailingList: FC<{
 				NextButton: (props: any) => (
 					<Button
 						{...props}
-						label={t('label.next', 'NEXT')}
-						icon="ChevronRightOutline"
+						label={t('label.create', 'CREATE')}
+						icon="PowerOutline"
 						iconPlacement="right"
 					/>
 				)

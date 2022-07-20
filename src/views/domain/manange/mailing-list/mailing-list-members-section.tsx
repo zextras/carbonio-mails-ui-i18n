@@ -12,14 +12,15 @@ import { MailingListContext } from './mailinglist-context';
 
 const MailingListMembersSection: FC<any> = () => {
 	const { t } = useTranslation();
-	const [dlm, setDlm] = useState<Array<any>>([]);
+	const context = useContext(MailingListContext);
+	const { mailingListDetail, setMailingListDetail } = context;
+	const [dlm, setDlm] = useState<Array<any>>(mailingListDetail?.members);
 	const [dlmTableRows, setDlmTableRows] = useState<Array<any>>([]);
 	const [selectedDistributionListMember, setSelectedDistributionListMember] = useState<Array<any>>(
 		[]
 	);
 	const [member, setMember] = useState<string>('');
-	const context = useContext(MailingListContext);
-	const { mailingListDetail, setMailingListDetail } = context;
+
 	const memberHeaders: any[] = useMemo(
 		() => [
 			{

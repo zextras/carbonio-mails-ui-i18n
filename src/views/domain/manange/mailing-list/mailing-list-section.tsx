@@ -12,8 +12,7 @@ import ListRow from '../../../list/list-row';
 const MailingListSection: FC<any> = () => {
 	const { t } = useTranslation();
 	const context = useContext(MailingListContext);
-	const [listName, setListName] = useState<string>('');
-	const [domainName, setDomainName] = useState<string>('');
+
 	const { mailingListDetail, setMailingListDetail } = context;
 
 	const changeResourceDetail = useCallback(
@@ -23,9 +22,6 @@ const MailingListSection: FC<any> = () => {
 		[setMailingListDetail]
 	);
 
-	useEffect(() => {
-		setMailingListDetail((prev: any) => ({ ...prev, name: `${listName}@${domainName}` }));
-	}, [listName, domainName, setMailingListDetail]);
 	return (
 		<Container mainAlignment="flex-start">
 			<Container
@@ -74,11 +70,10 @@ const MailingListSection: FC<any> = () => {
 						<Input
 							label={t('label.list_name_auto_fill', 'List Name (Auto-fill)')}
 							backgroundColor="gray5"
-							value={listName}
+							value={mailingListDetail?.prefixName}
 							size="medium"
-							onChange={(e: any): any => {
-								setListName(e.target.value);
-							}}
+							inputName="prefixName"
+							onChange={changeResourceDetail}
 						/>
 					</Container>
 					<Container
@@ -99,11 +94,10 @@ const MailingListSection: FC<any> = () => {
 						<Input
 							label={t('label.domain_name', 'Domain Name')}
 							backgroundColor="gray5"
-							value={domainName}
+							value={mailingListDetail?.suffixName}
 							size="medium"
-							onChange={(e: any): any => {
-								setDomainName(e.target.value);
-							}}
+							inputName="suffixName"
+							onChange={changeResourceDetail}
 						/>
 					</Container>
 				</ListRow>

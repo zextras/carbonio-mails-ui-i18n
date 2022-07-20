@@ -28,14 +28,14 @@ export enum SUBSCRIBE_UNSUBSCRIBE {
 
 const MailingListSettingsSection: FC<any> = () => {
 	const { t } = useTranslation();
+	const context = useContext(MailingListContext);
+	const { mailingListDetail, setMailingListDetail } = context;
 	const [member, setMember] = useState<string>('');
-	const [ownerTableRows, setOwnerTableRows] = useState<Array<any>>([]);
+	const [ownerTableRows, setOwnerTableRows] = useState<Array<any>>(mailingListDetail?.owners);
 	const [ownersList, setOwnersList] = useState<Array<any>>([]);
 	const [selectedDistributionListOwner, setSelectedDistributionListOwner] = useState<Array<any>>(
 		[]
 	);
-	const context = useContext(MailingListContext);
-	const { mailingListDetail, setMailingListDetail } = context;
 
 	const subscriptionUnsubscriptionRequestOptions: any[] = useMemo(
 		() => [
@@ -68,12 +68,12 @@ const MailingListSettingsSection: FC<any> = () => {
 	);
 
 	const [zimbraDistributionListSubscriptionPolicy, setZimbraDistributionListSubscriptionPolicy] =
-		useState<any>(subscriptionUnsubscriptionRequestOptions[0]);
+		useState<any>(mailingListDetail?.zimbraDistributionListSubscriptionPolicy);
 
 	const [
 		zimbraDistributionListUnsubscriptionPolicy,
 		setZimbraDistributionListUnsubscriptionPolicy
-	] = useState<any>(subscriptionUnsubscriptionRequestOptions[0]);
+	] = useState<any>(mailingListDetail?.zimbraDistributionListUnsubscriptionPolicy);
 
 	const onSubscriptionChange = useCallback(
 		(v: any): any => {
@@ -81,7 +81,7 @@ const MailingListSettingsSection: FC<any> = () => {
 			setZimbraDistributionListSubscriptionPolicy(it);
 			setMailingListDetail((prev: any) => ({
 				...prev,
-				zimbraDistributionListSubscriptionPolicy: it?.value
+				zimbraDistributionListSubscriptionPolicy: it
 			}));
 		},
 		[subscriptionUnsubscriptionRequestOptions, setMailingListDetail]
@@ -93,7 +93,7 @@ const MailingListSettingsSection: FC<any> = () => {
 			setZimbraDistributionListUnsubscriptionPolicy(it);
 			setMailingListDetail((prev: any) => ({
 				...prev,
-				zimbraDistributionListUnsubscriptionPolicy: it?.value
+				zimbraDistributionListUnsubscriptionPolicy: it
 			}));
 		},
 		[subscriptionUnsubscriptionRequestOptions, setMailingListDetail]
@@ -167,7 +167,7 @@ const MailingListSettingsSection: FC<any> = () => {
 						padding={{ top: 'medium', bottom: 'medium' }}
 					>
 						<Switch
-							value={mailingListDetail?.dynamic}
+							value={mailingListDetail?.zimbraDistributionListSendShareMessageToNewMembers}
 							label={t('label.share_message_to_new_member', 'Share message to new members')}
 							onClick={(): void => {
 								setMailingListDetail((prev: any) => ({
