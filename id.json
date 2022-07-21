@@ -317,7 +317,8 @@
         "invalid_destination": "Node ini bukan tujuan yang valid",
         "notification_audio": "Putar petunjuk audio saat notifikasi baru muncul",
         "notification_folders": "Folder Notifikasi",
-        "upload_from_files": "Unggah dari Files"
+        "upload_from_files": "Unggah dari Files",
+        "no_name": "<Tidak Ada Nama>"
     },
     "messages": {
         "permanent_delete_confirm": "Hapus secara permanen",
