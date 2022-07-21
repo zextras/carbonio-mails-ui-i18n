@@ -318,7 +318,8 @@
         "invalid_destination": "Dieser Knotenpunkt ist kein gültiges Ziel",
         "notification_audio": "Audio-Hinweis abspielen, wenn eine neue Benachrichtigung erscheint",
         "notification_folders": "Ordner Benachrichtigungen",
-        "upload_from_files": "Von Files hochladen"
+        "upload_from_files": "Von Files hochladen",
+        "no_name": "<Kein Name>"
     },
     "share": {
         "options": {
