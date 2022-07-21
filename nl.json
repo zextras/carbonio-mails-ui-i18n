@@ -328,7 +328,8 @@
         "invalid_destination": "Deze node is geen geldige bestemming",
         "notification_audio": "Audio hint afspelen wanneer nieuwe melding verschijnt",
         "notification_folders": "Meldingsmappen",
-        "upload_from_files": "Uploaden vanuit Bestanden"
+        "upload_from_files": "Uploaden vanuit Bestanden",
+        "no_name": "<Geen naam>"
     },
     "messages": {
         "permanent_delete_confirm": "Permanent verwijderen",
