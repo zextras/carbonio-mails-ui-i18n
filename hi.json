@@ -272,7 +272,8 @@
         "notification_audio": "नया नोटिफ़िकेशन आने पर ऑडियो हिंट प्ले करें",
         "notification_folders": "नोटिफ़िकेशन फोल्डर",
         "upload_from_files": "Files से अपलोड करें",
-        "invalid_destination": "यह नोड कोई मान्य गंतव्य नहीं है"
+        "invalid_destination": "यह नोड कोई मान्य गंतव्य नहीं है",
+        "no_name": "<कोई नाम नहीं>"
     },
     "messages": {
         "permanent_delete_confirm": "हमेशा के लिए डिलीट करें",
