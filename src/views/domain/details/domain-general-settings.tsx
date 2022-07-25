@@ -566,7 +566,7 @@ const DomainGeneralSettings: FC = () => {
 										onChange={(e: any): any => {}}
 									/>
 								</Container>
-								<Container padding={{ all: 'small' }}>
+								{/* <Container padding={{ all: 'small' }}>
 									<Input
 										label={t('label.certificate', 'Certificate')}
 										value=""
@@ -574,7 +574,7 @@ const DomainGeneralSettings: FC = () => {
 										// eslint-disable-next-line @typescript-eslint/no-empty-function
 										onChange={(e: any): any => {}}
 									/>
-								</Container>
+								</Container> */}
 							</ListRow>
 
 							<ListRow>
@@ -719,6 +719,19 @@ const DomainGeneralSettings: FC = () => {
 
 							<ListRow>
 								<Container padding={{ all: 'small' }}>
+									<Input
+										label={t('label.note', 'Note')}
+										value={zimbraNotes}
+										background="gray5"
+										onChange={(e: any): any => {
+											setZimbraNotes(e.target.value);
+										}}
+									/>
+								</Container>
+							</ListRow>
+
+							<ListRow>
+								<Container padding={{ all: 'small' }}>
 									<Select
 										items={cosItems}
 										background="gray5"
@@ -749,20 +762,7 @@ const DomainGeneralSettings: FC = () => {
 								</Container>
 							</ListRow>
 
-							<ListRow>
-								<Container padding={{ all: 'small' }}>
-									<Input
-										label={t('label.note', 'Note')}
-										value={zimbraNotes}
-										background="gray5"
-										onChange={(e: any): any => {
-											setZimbraNotes(e.target.value);
-										}}
-									/>
-								</Container>
-							</ListRow>
-
-							<ListRow>
+							{/* <ListRow>
 								<Container padding={{ all: 'small' }}>
 									<Input
 										label={t('label.admin_help_url', 'Admin Help URL')}
@@ -773,9 +773,9 @@ const DomainGeneralSettings: FC = () => {
 										}}
 									/>
 								</Container>
-							</ListRow>
+							</ListRow> */}
 
-							<ListRow>
+							{/* <ListRow>
 								<Container padding={{ all: 'small' }}>
 									<Input
 										label={t('label.deligated_admin_help_url', 'Deligated Admin Help URL')}
@@ -786,7 +786,7 @@ const DomainGeneralSettings: FC = () => {
 										}}
 									/>
 								</Container>
-							</ListRow>
+							</ListRow> */}
 							<ListRow>
 								<Container padding={{ all: 'small' }}>
 									<Button
