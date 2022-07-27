@@ -1471,6 +1471,12 @@ const EditMailingListView: FC<any> = ({
 					</ListRow>
 				)}
 
+				<Row padding={{ top: 'small', bottom: 'medium' }}>
+					<Text size="medium" weight="bold" color="gray0">
+						{t('label.accounts', 'Accounts')}
+					</Text>
+				</Row>
+
 				<Row
 					takeAvwidth="fill"
 					mainAlignment="flex-start"
@@ -1548,12 +1554,87 @@ const EditMailingListView: FC<any> = ({
 						</Container>
 					)}
 				</ListRow>
-				<ListRow></ListRow>
-				{!selectedMailingList?.dynamic && (
-					<Container padding={{ all: 'small' }} mainAlignment="flex-end" crossAlignment="flex-end">
-						<Paginig totalItem={1} pageSize={10} setOffset={setMemberOffset} />
+				<ListRow>
+					{!selectedMailingList?.dynamic && (
+						<Container
+							padding={{ all: 'small' }}
+							mainAlignment="flex-end"
+							crossAlignment="flex-end"
+						>
+							<Paginig totalItem={1} pageSize={10} setOffset={setMemberOffset} />
+						</Container>
+					)}
+				</ListRow>
+
+				<Row padding={{ top: 'small', bottom: 'medium' }}>
+					<Text size="medium" weight="bold" color="gray0">
+						{t('label.owners', 'Owners')}
+					</Text>
+				</Row>
+
+				<Row
+					takeAvwidth="fill"
+					mainAlignment="flex-start"
+					width="100%"
+					padding={{ top: 'small', bottom: 'small' }}
+				>
+					<Container
+						orientation="vertical"
+						mainAlignment="space-around"
+						background="gray6"
+						height="58px"
+					>
+						<Row
+							orientation="horizontal"
+							mainAlignment="flex-start"
+							crossAlignment="flex-start"
+							width="100%"
+						>
+							<Row mainAlignment="flex-start" width="60%" crossAlignment="flex-start">
+								<Input
+									label={t('label.i_am_looking_for_member', 'I’m looking for the member...')}
+									value={searchMember}
+									background="gray5"
+									onChange={(e: any): any => {
+										setSearchMember(e.target.value);
+									}}
+								/>
+							</Row>
+							<Row width="40%" mainAlignment="flex-start" crossAlignment="flex-start">
+								<Padding left="large" right="large">
+									<Button
+										type="outlined"
+										key="add-button"
+										label={t('label.add', 'Add')}
+										color="primary"
+										icon="PlusOutline"
+										height={44}
+										iconPlacement="right"
+										onClick={(): void => {
+											setOpenAddMailingListDialog(true);
+										}}
+									/>
+								</Padding>
+
+								<Button
+									type="outlined"
+									key="add-button"
+									label={t('label.delete', 'Delete')}
+									color="error"
+									icon="Trash2Outline"
+									iconPlacement="right"
+									disabled={
+										selectedDistributionListMember.length === 0 &&
+										selectedOwnerListMember.length === 0
+									}
+									height={44}
+									onClick={onDeleteFromList}
+								/>
+							</Row>
+						</Row>
 					</Container>
-				)}
+				</Row>
+
 				<ListRow>
 					<Container
 						padding={{
