@@ -16,19 +16,19 @@ import {
 	Text,
 	Select,
 	Switch,
-	ChipInput,
+	Dropdown,
 	Button,
 	SnackbarManagerContext,
 	Icon
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { isEqual } from 'lodash';
+import { debounce, isEqual, sortedUniq } from 'lodash';
 import ListRow from '../../../list/list-row';
 import Paginig from '../../../components/paging';
 import { getDistributionList } from '../../../../services/get-distribution-list';
 import { getDistributionListMembership } from '../../../../services/get-distributionlists-membership-service';
-import { getDateFromStr } from '../../../utility/utils';
+import { getAllEmailFromString, getDateFromStr, isValidEmail } from '../../../utility/utils';
 import { searchDirectory } from '../../../../services/search-directory-service';
 import { modifyDistributionList } from '../../../../services/modify-distributionlist-service';
 import { renameDistributionList } from '../../../../services/rename-distributionlist-service';
@@ -36,6 +36,7 @@ import { addDistributionListMember } from '../../../../services/add-distribution
 import { removeDistributionListMember } from '../../../../services/remove-distributionlist-member-service';
 import { distributionListAction } from '../../../../services/distribution-list-action-service';
 import { RouteLeavingGuard } from '../../../ui-extras/nav-guard';
+import { RECORD_DISPLAY_LIMIT } from '../../../../constants';
 
 // eslint-disable-next-line no-shadow
 export enum SUBSCRIBE_UNSUBSCRIBE {
@@ -93,6 +94,7 @@ const EditMailingListView: FC<any> = ({
 	const [searchOwnerMemberOfList, setSearchOwnerMemberOfList] = useState<any[]>([]);
 	const [ownerErrorMessage, setOwnerErrorMessage] = useState<string>('');
 	const [zimbraIsACLGroup, setZimbraIsACLGroup] = useState<boolean>(false);
+	const [searchMemberResult, setSearchMemberResult] = useState<Array<any>>([]);
 
 	const dlCreateDate = useMemo(
 		() =>
@@ -1149,22 +1151,6 @@ const EditMailingListView: FC<any> = ({
 	}, [openAddMailingListDialog]);
 
 	useEffect(() => {
-		if (searchMember?.length >= 0 && dlm && dlm.length > 0) {
-			const allRows = dlm.filter((item: any) => item.includes(searchMember));
-			const searchDlRows = allRows.map((item: any) => ({
-				id: item,
-				columns: [
-					<Text size="medium" weight="bold" key={item} color="#828282">
-						{item}
-					</Text>,
-					''
-				]
-			}));
-			setDlmTableRows(searchDlRows);
-		}
-	}, [searchMember, dlm]);
-
-	useEffect(() => {
 		if (searchOwner?.length >= 0 && ownersList && ownersList.length > 0) {
 			const allRows = ownersList.filter((item: any) => item?.name.includes(searchOwner));
 			const searchOwnerRows = allRows.map((item: any) => ({
@@ -1184,6 +1170,96 @@ const EditMailingListView: FC<any> = ({
 			setIsAddToOwnerList(true);
 		}
 	}, [selectedMailingList?.dynamic]);
+
+	const searchMemberItems = searchMemberResult.map((item: any, index) => ({
+		id: item.id,
+		label: item.name,
+		customComponent: (
+			<Row
+				top="9px"
+				right="large"
+				bottom="9px"
+				left="large"
+				style={{
+					fontFamily: 'roboto',
+					display: 'block',
+					textAlign: 'left',
+					height: 'inherit',
+					padding: '3px',
+					width: 'inherit'
+				}}
+				onClick={(): void => {
+					setSearchMember(item?.name);
+				}}
+			>
+				{item?.name}
+			</Row>
+		)
+	}));
+
+	const getSearchMemberList = useCallback((mem) => {
+		const attrs =
+			'displayName,zimbraId,zimbraAliasTargetId,cn,sn,zimbraMailHost,uid,zimbraCOSId,zimbraAccountStatus,zimbraLastLogonTimestamp,description,zimbraIsSystemAccount,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraAuthTokenValidityValue,zimbraIsExternalVirtualAccount,zimbraMailStatus,zimbraIsAdminGroup,zimbraCalResType,zimbraDomainType,zimbraDomainName,zimbraDomainStatus';
+		const types = 'accounts,distributionlists,aliases';
+		const query = `(&(!(zimbraAccountStatus=closed))(|(mail=*${mem}*)(cn=*${mem}*)(sn=*${mem}*)(gn=*${mem}*)(displayName=*${mem}*)(zimbraMailDeliveryAddress=*${mem}*)(zimbraMailAlias=*${mem}*)(uid=*${mem}*)(zimbraDomainName=*${mem}*)(uid=*${mem}*)))`;
+
+		searchDirectory(attrs, types, '', query, 0, RECORD_DISPLAY_LIMIT, 'name')
+			.then((response) => response.json())
+			.then((data) => {
+				const result: any[] = [];
+
+				const dl = data?.Body?.SearchDirectoryResponse?.dl;
+				const account = data?.Body?.SearchDirectoryResponse?.account;
+				const alias = data?.Body?.SearchDirectoryResponse?.alias;
+				if (dl) {
+					dl.map((item: any) => result.push(item));
+				}
+				if (account) {
+					account.map((item: any) => result.push(item));
+				}
+				if (alias) {
+					alias.map((item: any) => result.push(item));
+				}
+				setSearchMemberResult(result);
+			});
+	}, []);
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const searchMemberCall = useCallback(
+		debounce((mem) => {
+			getSearchMemberList(mem);
+		}, 700),
+		[debounce]
+	);
+	useEffect(() => {
+		if (searchMember !== '') {
+			searchMemberCall(searchMember);
+		}
+	}, [searchMember, searchMemberCall]);
+
+	const onAdd = useCallback((): void => {
+		if (searchMember !== '') {
+			const allEmails: any[] = getAllEmailFromString(searchMember);
+			if (allEmails !== null) {
+				const inValidEmailAddress = allEmails.filter((item: any) => !isValidEmail(item));
+				if (inValidEmailAddress && inValidEmailAddress.length > 0) {
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: `${t('label.invalid_email_address', 'Invalid email address')} ${
+							inValidEmailAddress[0]
+						}`,
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				} else {
+					const sortedList = sortedUniq(allEmails);
+					setDlm(dlm.concat(sortedList));
+				}
+			}
+		}
+	}, [searchMember, createSnackbar, t, dlm]);
 
 	return (
 		<Container
@@ -1506,17 +1582,28 @@ const EditMailingListView: FC<any> = ({
 									width="100%"
 								>
 									<Row mainAlignment="flex-start" width="60%" crossAlignment="flex-start">
-										<Input
-											label={t(
-												'label.type_accounts_paste_them_here',
-												'Type the Accounts or paste them here'
-											)}
-											value={searchMember}
-											background="gray5"
-											onChange={(e: any): any => {
-												setSearchMember(e.target.value);
+										<Dropdown
+											items={searchMemberItems}
+											placement="bottom-start"
+											maxWidth="300px"
+											disableAutoFocus
+											width="265px"
+											style={{
+												width: '100%'
 											}}
-										/>
+										>
+											<Input
+												label={t(
+													'label.type_accounts_paste_them_here',
+													'Type the Accounts or paste them here'
+												)}
+												value={searchMember}
+												background="gray5"
+												onChange={(e: any): any => {
+													setSearchMember(e.target.value);
+												}}
+											/>
+										</Dropdown>
 									</Row>
 									<Row width="40%" mainAlignment="flex-start" crossAlignment="flex-start">
 										<Padding left="large" right="large">
@@ -1528,9 +1615,7 @@ const EditMailingListView: FC<any> = ({
 												icon="PlusOutline"
 												height={44}
 												iconPlacement="right"
-												onClick={(): void => {
-													setOpenAddMailingListDialog(true);
-												}}
+												onClick={onAdd}
 											/>
 										</Padding>
 
