@@ -1305,6 +1305,14 @@ const EditMailingListView: FC<any> = ({
 							'The Mailing List / User does not exists. Please check the spelling and try again.'
 						)
 					);
+				} else if (ownersList.find((item: any) => item?.name === searchOwner)) {
+					setIsShowOwnerError(true);
+					setOwnerErrorMessage(
+						t(
+							'label.mailing_list_already_in_list_error',
+							'The Mailing List / User is already in the list'
+						)
+					);
 				} else {
 					setIsShowOwnerError(false);
 					const sortedList = sortedUniq(allEmails);
@@ -1663,7 +1671,7 @@ const EditMailingListView: FC<any> = ({
 							takeAvwidth="fill"
 							mainAlignment="flex-start"
 							width="100%"
-							padding={{ top: 'small', bottom: 'small' }}
+							padding={{ top: 'small', bottom: isShowMemberError ? 'extrasmall' : 'small' }}
 						>
 							<Container
 								orientation="vertical"
@@ -1736,7 +1744,7 @@ const EditMailingListView: FC<any> = ({
 						{isShowMemberError && (
 							<Row>
 								<Container mainAlignment="flex-start" crossAlignment="flex-start" width="fill">
-									<Padding top="small">
+									<Padding>
 										<Text size="extrasmall" weight="regular" color="error">
 											{memberErrorMessage}
 										</Text>
@@ -1783,7 +1791,7 @@ const EditMailingListView: FC<any> = ({
 					takeAvwidth="fill"
 					mainAlignment="flex-start"
 					width="100%"
-					padding={{ top: 'small', bottom: 'small' }}
+					padding={{ top: 'small', bottom: isShowOwnerError ? 'extrasmall' : 'small' }}
 				>
 					<Container
 						orientation="vertical"
@@ -1855,7 +1863,7 @@ const EditMailingListView: FC<any> = ({
 					{isShowOwnerError && (
 						<Row>
 							<Container mainAlignment="flex-start" crossAlignment="flex-start" width="fill">
-								<Padding top="small">
+								<Padding>
 									<Text size="extrasmall" weight="regular" color="error">
 										{ownerErrorMessage}
 									</Text>
