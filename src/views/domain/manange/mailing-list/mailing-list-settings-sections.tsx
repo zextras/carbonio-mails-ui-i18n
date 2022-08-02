@@ -136,7 +136,8 @@ const MailingListSettingsSection: FC<any> = () => {
 
 	const onAdd = useCallback((): void => {
 		if (member !== '') {
-			const allEmails: any[] = getAllEmailFromString(member);
+			const allEmails: any[] =
+				member.includes('"') || member.includes("'") ? getAllEmailFromString(member) : [member];
 			if (allEmails !== null && allEmails !== undefined) {
 				const inValidEmailAddress = allEmails.filter((item: any) => !isValidEmail(item));
 				if (inValidEmailAddress && inValidEmailAddress.length > 0) {

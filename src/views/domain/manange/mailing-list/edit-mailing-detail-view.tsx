@@ -1279,7 +1279,10 @@ const EditMailingListView: FC<any> = ({
 
 	const onAdd = useCallback((): void => {
 		if (searchMember !== '') {
-			const allEmails: any[] = getAllEmailFromString(searchMember);
+			const allEmails: any[] =
+				searchMember.includes('"') || searchMember.includes("'")
+					? getAllEmailFromString(searchMember)
+					: [searchMember];
 			if (allEmails !== null && allEmails !== undefined) {
 				const inValidEmailAddress = allEmails.filter((item: any) => !isValidEmail(item));
 				if (inValidEmailAddress && inValidEmailAddress.length > 0) {
@@ -1319,7 +1322,10 @@ const EditMailingListView: FC<any> = ({
 
 	const onAddOwner = useCallback((): void => {
 		if (searchOwner !== '') {
-			const allEmails: any[] = getAllEmailFromString(searchOwner);
+			const allEmails: any[] =
+				searchOwner.includes('"') || searchOwner.includes("'")
+					? getAllEmailFromString(searchOwner)
+					: [searchOwner];
 			if (allEmails !== null && allEmails !== undefined) {
 				const inValidEmailAddress = allEmails.filter((item: any) => !isValidEmail(item));
 				if (inValidEmailAddress && inValidEmailAddress.length > 0) {
