@@ -626,6 +626,7 @@
         "public_service_hostname": "Public Service Host Name",
         "public_service_port": "Public Service Port",
         "public_service_protocol": "Public Service Protocol",
+        "query_is_not_valid": "Query is not valid",
         "quota_used": "Quota / Quota used",
         "quotas": "Quotas",
         "range_time": "Range Time",
