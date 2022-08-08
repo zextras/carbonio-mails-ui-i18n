@@ -337,6 +337,17 @@ const CosServerPools: FC = () => {
 		searchServerLists(searchServer, serverList);
 	}, [searchServer, searchServerLists, serverList]);
 
+	useEffect(() => {
+		if (zimbraMailHostPoolList) {
+			if (
+				zimbraMailHostPoolList.length ===
+				zimbraMailHostPoolList.filter((item: any) => !item?.c).length
+			) {
+				setZimbraMailHostPool(false);
+			}
+		}
+	}, [zimbraMailHostPoolList]);
+
 	return (
 		<Container mainAlignment="flex-start" crossAlignment="flex-start">
 			<Row mainAlignment="flex-start" padding={{ all: 'large' }}>
