@@ -157,8 +157,7 @@ const CosServerPools: FC = () => {
 			} else if (e.length === 1 && e.find((item: any) => item?.value === DISABLED)) {
 				const allRows = serverList
 					.filter(
-						(item: any) =>
-							zimbraMailHostPoolList.find((sp: any) => item?.id === sp?._content)?.c === false
+						(item: any) => !zimbraMailHostPoolList.find((sp: any) => item?.id === sp?._content)?.c
 					)
 					.map((item: any) => ({
 						id: item?.id,
