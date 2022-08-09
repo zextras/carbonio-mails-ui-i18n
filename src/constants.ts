@@ -87,3 +87,5 @@ export const EMC = 'EMC';
 export const SUCCESS = 'successWithVerify';
 export const ERROR = 'errorOnVerify';
 export const FAIL = 'fail';
+export const ENABLED = 'enabled';
+export const DISABLED = 'disabled';
