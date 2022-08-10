@@ -9,18 +9,14 @@ import {
 	Text,
 	Input,
 	Row,
-	Switch,
 	Icon,
 	Table,
-	Padding,
 	SnackbarManagerContext
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
 import { debounce } from 'lodash';
 import ListRow from '../../../list/list-row';
-import { searchDirectory } from '../../../../services/search-directory-service';
-import { isValidLdapQuery } from '../../../utility/utils';
 import Paginig from '../../../components/paging';
 import { useDomainStore } from '../../../../store/domain/store';
 import { RestoreDeleteAccountContext } from './restore-delete-account-context';

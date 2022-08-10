@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { FC, ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, ReactElement, useCallback, useMemo, useState } from 'react';
 import { Container, Button } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { Section } from '../../../app/component/section';
@@ -48,13 +48,25 @@ const RestoreDeleteAccountWizard: FC<{
 		createDate: string;
 		status: string;
 		copyAccount: string;
+		dateTime: any;
+		lastAvailableStatus: boolean;
+		hsmApply: boolean;
+		dataSource: boolean;
+		isEmailNotificationEnable: boolean;
+		notificationReceiver: string;
 	}
 	const [restoreAccountDetail, setRestoreAccountDetail] = useState<AccountDetailObj>({
 		name: '',
 		id: '',
 		createDate: '',
 		status: '',
-		copyAccount: ''
+		copyAccount: '',
+		dateTime: null,
+		lastAvailableStatus: false,
+		hsmApply: false,
+		dataSource: false,
+		isEmailNotificationEnable: false,
+		notificationReceiver: ''
 	});
 
 	const onRestoreAccount = useCallback(() => {

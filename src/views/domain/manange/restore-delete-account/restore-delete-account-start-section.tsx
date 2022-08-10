@@ -3,25 +3,18 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import {
-	Container,
-	Text,
-	Input,
-	Row,
-	Switch,
-	Icon,
-	Table,
-	Padding
-} from '@zextras/carbonio-design-system';
+import React, { FC, useContext } from 'react';
+import { Container, Input, Row } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
 import ListRow from '../../../list/list-row';
-import { searchDirectory } from '../../../../services/search-directory-service';
-import { isValidLdapQuery } from '../../../utility/utils';
+import { RestoreDeleteAccountContext } from './restore-delete-account-context';
+import { getFormatedDate } from '../../../utility/utils';
 
 const RestoreDeleteAccountStartSection: FC<any> = () => {
 	const { t } = useTranslation();
+	const context = useContext(RestoreDeleteAccountContext);
+	const { restoreAccountDetail, setRestoreAccountDetail } = context;
 	return (
 		<Container
 			orientation="column"
@@ -41,12 +34,19 @@ const RestoreDeleteAccountStartSection: FC<any> = () => {
 					>
 						<ListRow>
 							<Container>
-								<Input backgroundColor="gray5" label={t('label.account', 'Account')} />
+								<Input
+									backgroundColor="gray5"
+									label={t('label.account', 'Account')}
+									value={restoreAccountDetail?.name}
+									readOnly
+								/>
 							</Container>
 							<Container>
 								<Input
 									backgroundColor="gray5"
 									label={t('label.destination_account', 'Destination Account')}
+									value={restoreAccountDetail?.copyAccount}
+									readOnly
 								/>
 							</Container>
 						</ListRow>
@@ -55,22 +55,48 @@ const RestoreDeleteAccountStartSection: FC<any> = () => {
 								<Input
 									backgroundColor="gray5"
 									label={t('label.use_last_available_status', 'Use last available status')}
+									value={
+										restoreAccountDetail?.lastAvailableStatus
+											? t('label.yes', 'Yes')
+											: t('label.no', 'NO')
+									}
+									readOnly
 								/>
 							</Container>
 						</ListRow>
 						<ListRow>
 							<Container>
-								<Input backgroundColor="gray5" label={t('label.date_and_hour', 'Date & Hour')} />
+								<Input
+									backgroundColor="gray5"
+									label={t('label.date_and_hour', 'Date & Hour')}
+									value={
+										restoreAccountDetail?.dateTime === null
+											? ''
+											: getFormatedDate(restoreAccountDetail?.dateTime)
+									}
+									readOnly
+								/>
 							</Container>
 						</ListRow>
 						<ListRow>
 							<Container>
-								<Input backgroundColor="gray5" label={t('label.hsm_apply', 'HSM Apply')} />
+								<Input
+									backgroundColor="gray5"
+									label={t('label.hsm_apply', 'HSM Apply')}
+									value={
+										restoreAccountDetail?.hsmApply ? t('label.yes', 'Yes') : t('label.no', 'NO')
+									}
+									readOnly
+								/>
 							</Container>
 							<Container>
 								<Input
 									backgroundColor="gray5"
 									label={t('label.restore_data_source', 'Restore Data Source')}
+									value={
+										restoreAccountDetail?.dataSource ? t('label.yes', 'Yes') : t('label.no', 'NO')
+									}
+									readOnly
 								/>
 							</Container>
 						</ListRow>
@@ -79,6 +105,12 @@ const RestoreDeleteAccountStartSection: FC<any> = () => {
 								<Input
 									backgroundColor="gray5"
 									label={t('label.mail_notifications', 'Email Notifications')}
+									value={
+										restoreAccountDetail?.notificationReceiver === ''
+											? '-'
+											: restoreAccountDetail?.notificationReceiver
+									}
+									readOnly
 								/>
 							</Container>
 						</ListRow>

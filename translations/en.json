@@ -450,6 +450,7 @@
         "dashboard": "Dashboard",
         "datasource_name_for_internal_gal": "Datasource name for internal GAL",
         "date_and_hour": "Date & Hour",
+        "date_time_picker": "Date Time Picker",
         "days": "Days",
         "days_hours_minutes_sec": "Days / Hours / Minutes / Sec",
         "default_appointment_visibility": "Default appointment visibility",
