@@ -338,7 +338,7 @@ const CosServerPools: FC = () => {
 	}, [searchServer, searchServerLists, serverList]);
 
 	useEffect(() => {
-		if (zimbraMailHostPoolList) {
+		if (zimbraMailHostPoolList && serverList.length > 0) {
 			if (
 				zimbraMailHostPoolList.length ===
 				zimbraMailHostPoolList.filter((item: any) => !item?.c).length
@@ -346,7 +346,7 @@ const CosServerPools: FC = () => {
 				setZimbraMailHostPool(false);
 			}
 		}
-	}, [zimbraMailHostPoolList]);
+	}, [zimbraMailHostPoolList, serverList]);
 
 	return (
 		<Container mainAlignment="flex-start" crossAlignment="flex-start">
