@@ -170,7 +170,7 @@ const RestoreDeleteAccountWizard: FC<{
 			{
 				name: 'create',
 				label: t('label.start', 'start'),
-				icon: 'ActivityOutline',
+				icon: 'PowerOutline',
 				view: RestoreAccountStartSection,
 				CancelButton: (props: any): ReactElement => (
 					<Button

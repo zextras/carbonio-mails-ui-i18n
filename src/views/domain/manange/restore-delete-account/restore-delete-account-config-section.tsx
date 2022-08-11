@@ -6,9 +6,17 @@
 import React, { FC, useCallback, useContext, useState } from 'react';
 import { Container, Input, Row, Switch, DateTimePicker } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
-
+import styled from 'styled-components';
 import ListRow from '../../../list/list-row';
 import { RestoreDeleteAccountContext } from './restore-delete-account-context';
+
+const DatePickerContainer = styled(Container)`
+	.react-datepicker__input-container {
+		> div:first-child {
+			width: 100%;
+		}
+	}
+`;
 
 const RestoreDeleteAccountConfigSection: FC<any> = () => {
 	const { t } = useTranslation();
@@ -74,14 +82,18 @@ const RestoreDeleteAccountConfigSection: FC<any> = () => {
 								/>
 							</Container>
 
-							<Container crossAlignment="flex-start" padding={{ top: 'large', bottom: 'medium' }}>
+							<DatePickerContainer
+								crossAlignment="flex-start"
+								padding={{ top: 'large', bottom: 'medium' }}
+							>
 								<DateTimePicker
 									label={t('label.date_time_picker', 'Date Time Picker')}
 									defaultValue={date}
 									onChange={handleChange}
 									dateFormat="dd/MM/yyyy hh:mm"
+									style={{ background: 'green' }}
 								/>
-							</Container>
+							</DatePickerContainer>
 						</ListRow>
 
 						<ListRow>
