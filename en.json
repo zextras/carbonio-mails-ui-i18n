@@ -144,6 +144,7 @@
             "secret_key": "Secret Key"
         }
     },
+    "click_new_bucket_button_to_create_new_one": "Click NEW BUCKET button to create a new one.",
     "commons": {
         "confirm_connection": "CONFIRM CONNECTION",
         "create_with_there_data": "CREATE WITH THESE DATA"
@@ -337,6 +338,7 @@
         "virtual_hosts": "Virtual Hosts",
         "warn_when_reach_space_quota": "Warn me when I reach this aggregated space quota"
     },
+    "have_not_setup_bucket_type": "It seems like you haven't setup a bucket type",
     "label": {
         "access_key": "Access Key",
         "account": "Account",
