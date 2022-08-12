@@ -592,6 +592,8 @@
         "manage_list": "Manage List",
         "management": "Management",
         "manual_accept_auto_decline_on_conflict": "Handle acceptance, automatic rejection in case of conflict",
+        "max_account_you_can_manage_is": "The max accounts you can manage is...",
+        "max_email_quota_you_can_manage_is": "The max email quota you can manage is...",
         "maximum_conflict": "Maximun Conflict",
         "maximum_conflict_allowed": "Maximun Conflict Allowed",
         "maximum_length_of_mail_signature": "Maximum length of mail signature",
