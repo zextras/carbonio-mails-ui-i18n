@@ -76,6 +76,7 @@ const CosServerPools: FC = () => {
 					</Text>
 				]
 			}));
+			console.log('[serverList][allRows]: ', allRows);
 			setServerTableRows(allRows);
 		}
 	}, [serverList, zimbraMailHostPoolList, t]);
@@ -106,6 +107,7 @@ const CosServerPools: FC = () => {
 
 	const onFilterApply = useCallback(
 		(e) => {
+			console.log('[serverList][onFilterApply]: ', e);
 			if (e.length === 0) {
 				setServerTableRows([]);
 				setSelectedTableRows([]);
