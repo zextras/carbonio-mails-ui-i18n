@@ -164,7 +164,7 @@ const CreateDomain: FC = () => {
 			_content: zimbraDomainMaxAccounts
 		});
 		attributes.push({
-			n: 'zimbraMailDomainQuota',
+			n: 'zimbraDomainAggregateQuota',
 			_content: zimbraMailDomainQuota
 		});
 

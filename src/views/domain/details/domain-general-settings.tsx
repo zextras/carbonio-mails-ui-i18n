@@ -111,7 +111,7 @@ const DomainGeneralSettings: FC = () => {
 		zimbraPublicServiceHostname: '',
 		description: '',
 		zimbraDomainMaxAccounts: '',
-		zimbraMailDomainQuota: ''
+		zimbraDomainAggregateQuota: ''
 	});
 	const [selectedTimeZone, setSelectedTimeZone]: any = useState(timezones[0]);
 	const [selectedPublicServiceProtocol, setSelectedPublicServiceProtocol]: any = useState(
@@ -250,8 +250,8 @@ const DomainGeneralSettings: FC = () => {
 				setZimbraDomainMaxAccounts('');
 			}
 
-			if (obj.zimbraMailDomainQuota) {
-				setZimbraMailDomainQuota(obj.zimbraMailDomainQuota);
+			if (obj.zimbraDomainAggregateQuota) {
+				setZimbraMailDomainQuota(obj.zimbraDomainAggregateQuota);
 			} else {
 				obj.zimbraMailDomainQuota = '';
 				setZimbraMailDomainQuota('');
@@ -350,7 +350,7 @@ const DomainGeneralSettings: FC = () => {
 	}, [domainData, zimbraDomainMaxAccounts]);
 
 	useEffect(() => {
-		if (domainData.zimbraMailDomainQuota !== zimbraMailDomainQuota) {
+		if (domainData.zimbraDomainAggregateQuota !== zimbraMailDomainQuota) {
 			setIsDirty(true);
 		}
 	}, [domainData, zimbraMailDomainQuota]);
@@ -372,7 +372,7 @@ const DomainGeneralSettings: FC = () => {
 		setZimbraHelpDelegatedURL(domainData.zimbraHelpDelegatedURL);
 		setPublicServiceHostName(domainData.zimbraPublicServiceHostname);
 		setZimbraDomainMaxAccounts(domainData.zimbraDomainMaxAccounts);
-		setZimbraMailDomainQuota(domainData.zimbraMailDomainQuota);
+		setZimbraMailDomainQuota(domainData.zimbraDomainAggregateQuota);
 		setDescription(domainData.description);
 		const getItem = cosItems.find(
 			(item: any) => item.value === domainData.zimbraDomainDefaultCOSId
@@ -435,7 +435,7 @@ const DomainGeneralSettings: FC = () => {
 			_content: zimbraDomainMaxAccounts
 		});
 		attributes.push({
-			n: 'zimbraMailDomainQuota',
+			n: 'zimbraDomainAggregateQuota',
 			_content: zimbraMailDomainQuota
 		});
 		if (zimbraDomainDefaultCOSId && zimbraDomainDefaultCOSId !== '') {
