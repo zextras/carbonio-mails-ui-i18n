@@ -21,6 +21,7 @@ import ListRow from '../../../list/list-row';
 import Paginig from '../../../components/paging';
 import { useDomainStore } from '../../../../store/domain/store';
 import { RestoreDeleteAccountContext } from './restore-delete-account-context';
+import { getFormatedShortDate } from '../../../utility/utils';
 
 const RestoreDeleteAccountSelectSection: FC<any> = () => {
 	const { t } = useTranslation();
@@ -80,9 +81,29 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 					const error = data?.all_server?.error?.message;
 					let backupAccounts = data?.accounts;
 					let page = data?.maxPage;
-					if (!!domainName && !!data[domainName]) {
-						backupAccounts = data[domainName]?.response?.accounts;
-						page = data[domainName]?.response?.maxPage;
+
+					/* Take account list and maxPage from multiserver environment  */
+					if (backupAccounts === undefined && !!data) {
+						const allServers = Object.keys(data);
+						let allServerAccounts: any[] = [];
+						const maxPageList: any[] = [];
+						allServers.forEach((item: string) => {
+							if (data[item]?.response?.accounts) {
+								allServerAccounts = allServerAccounts.concat(data[item]?.response?.accounts);
+							}
+							if (data[item]?.response?.maxPage) {
+								maxPageList.push(data[item]?.response?.maxPage);
+							}
+						});
+						if (allServerAccounts && allServerAccounts.length > 0) {
+							backupAccounts = allServerAccounts;
+							if (maxPageList && maxPageList.length > 0) {
+								const max = Math.max(...maxPageList);
+								if (max) {
+									page = max;
+								}
+							}
+						}
 					}
 					if (error) {
 						createSnackbar({
@@ -120,7 +141,7 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 						{item?.status}
 					</Text>,
 					<Text size="medium" weight="bold" key={item?.creationTimestamp} color="#828282">
-						{item?.creationTimestamp}
+						{getFormatedShortDate(new Date(item?.creationTimestamp))}
 					</Text>,
 					<Text size="medium" weight="bold" key={item?.id} color="#828282"></Text>
 				]
