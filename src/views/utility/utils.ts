@@ -1385,3 +1385,14 @@ export const charactorSet = (): Array<{ value?: string; label: string }> => [
 	{ label: 'windows-1258', value: 'windows-1258' },
 	{ label: 'windows-31j', value: 'windows-31j' }
 ];
+
+export const getFormatedShortDate = (date: Date): any => {
+	if (date === null || date === undefined) return null;
+	const dd = date.getDate();
+	const mm = date.getMonth() + 1; // January is 0!
+	const yyyy = date.getFullYear();
+	const hour = date.getHours();
+	const minutes = date.getMinutes();
+	const seconds = date.getSeconds();
+	return `${mm}/${dd}/${yyyy}`;
+};
