@@ -93,3 +93,6 @@ export const NO = 'No';
 export const YES = 'YES';
 export const SERVER_DETAIL_VIEW = 'server-detail';
 export const CLOBAL_CONFIG_DETAIL_VIEW = 'global-config-detail';
+export const PRIMARIES = 'Primary';
+export const SECONDARIES = 'Secondary';
+export const INDEXERES = 'Index';

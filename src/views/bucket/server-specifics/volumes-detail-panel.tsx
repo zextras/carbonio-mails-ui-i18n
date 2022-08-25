@@ -24,28 +24,53 @@ const VolumeListTable: FC<{
 	selectedRows: any;
 	onSelectionChange: any;
 	headers: any;
-}> = ({ volumes, selectedRows, onSelectionChange, headers }) => {
+	onClick: any;
+}> = ({ volumes, selectedRows, onSelectionChange, headers, onClick }) => {
 	const tableRows = useMemo(
 		() =>
 			volumes.map((v, i) => ({
 				id: i,
 				columns: [
-					<Row key={i} style={{ textAlign: 'left', justifyContent: 'flex-start' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
+					>
 						{v.name}
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					>
 						{v.storeType}
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					>
 						<Text color={v.isCurrent ? 'text' : 'error'}>{v.isCurrent ? YES : NO}</Text>
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					>
 						<Text color={v.compressed ? 'text' : 'error'}>{v.compressed ? YES : NO}</Text>
 					</Row>
 				],
 				clickable: true
 			})),
-		[volumes]
+		[onClick, volumes]
 	);
 
 	return (
@@ -72,35 +97,41 @@ const VolumesDetailPanel: FC = () => {
 	const selectedServerName = useBucketVolumeStore((state) => state.selectedServerName);
 	const [volumeselection, setVolumeselection] = useState('');
 	const [toggleDetailPage, setToggleDetailPage] = useState(false);
-	const [volumeDetail, setVolumeDetail] = useState<object | any>({});
+	const [volumeDetail, setVolumeDetail] = useState<number>(0);
 	const [volumeList, setVolumeList] = useState<object | any>({
 		primaries: [],
 		indexes: [],
 		secondaries: []
 	});
 
-	const getServersListType = useCallback((): void => {
-		fetchSoap('zextras', {
-			_jsns: 'urn:zimbraAdmin',
-			module: 'ZxPowerstore',
-			action: 'getAllVolumes',
-			targetServers: 'all_servers'
-		}).then((res) => {
-			const responseData = JSON.parse(res.response.content);
-			if (responseData.ok) {
-				const data = responseData.response[selectedServerName].response;
-				setVolumeList({
-					primaries: data?.primaries,
-					indexes: data?.indexes,
-					secondaries: data?.secondaries
-				});
-			}
+	const GetAllVolumesRequest = useCallback((): void => {
+		fetchSoap('GetAllVolumesRequest', {
+			_jsns: 'urn:zimbraAdmin'
+		}).then((response) => {
+			const primaries = response.GetAllVolumesResponse.volume.filter(
+				(item: any) => item.type === 1
+			);
+			const secondaries = response.GetAllVolumesResponse.volume.filter(
+				(item: any) => item.type === 2
+			);
+			const indexes = response.GetAllVolumesResponse.volume.filter((item: any) => item.type === 10);
+			setVolumeList({
+				primaries,
+				indexes,
+				secondaries
+			});
 		});
-	}, [selectedServerName]);
+	}, []);
 
 	useEffect(() => {
-		getServersListType();
-	}, [getServersListType]);
+		GetAllVolumesRequest();
+	}, [GetAllVolumesRequest]);
+
+	const handleClick = (i: number, data: any): void => {
+		const volumeObject: any = data.find((s: any, index: any) => index === i);
+		setVolumeDetail(volumeObject?.id);
+		setToggleDetailPage(true);
+	};
 	return (
 		<>
 			{toggleDetailPage && volumeDetail && (
@@ -178,11 +209,9 @@ const VolumesDetailPanel: FC = () => {
 								selectedRows={volumeselection}
 								onSelectionChange={(selected: any): any => {
 									setVolumeselection(selected);
-									const volumeObject: any = volumeList?.primaries.find(
-										(s: any, index: any) => index === selected[0]
-									);
-									setToggleDetailPage(true);
-									setVolumeDetail(volumeObject);
+								}}
+								onClick={(i: any): any => {
+									handleClick(i, volumeList?.primaries);
 								}}
 							/>
 						</Row>
@@ -244,11 +273,9 @@ const VolumesDetailPanel: FC = () => {
 								selectedRows={volumeselection}
 								onSelectionChange={(selected: any): any => {
 									setVolumeselection(selected);
-									const volumeObject: any = volumeList?.secondaries.find(
-										(s: any, index: any) => index === selected[0]
-									);
-									setToggleDetailPage(true);
-									setVolumeDetail(volumeObject);
+								}}
+								onClick={(i: any): any => {
+									handleClick(i, volumeList?.secondaries);
 								}}
 							/>
 						</Row>
@@ -275,9 +302,10 @@ const VolumesDetailPanel: FC = () => {
 								headers={indexerHeaders}
 								selectedRows={volumeselection}
 								onSelectionChange={(selected: any): any => {
-									// const volumeObject: any = volumeList.find(
-									// 	(s, index) => index === selected[0]
-									// );
+									setVolumeselection(selected);
+								}}
+								onClick={(i: any): any => {
+									handleClick(i, volumeList?.indexes);
 								}}
 							/>
 						</Row>

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
 	Container,
 	Input,
@@ -17,22 +17,62 @@ import {
 	Switch
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+import { fetchSoap } from '../../../services/bucket-service';
+import { INDEXERES, PRIMARIES, SECONDARIES } from '../../../constants';
 
 const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any }> = ({
 	setToggleDetailPage,
 	volumeDetail
 }) => {
 	const { t } = useTranslation();
-	const [compression, setCompression] = useState(true);
+	const [detailData, setDetailData] = useState({
+		name: '',
+		id: 0,
+		compressBlobs: false,
+		isCurrent: false,
+		rootpath: '',
+		compressionThreshold: ''
+	});
+	const [type, setType] = useState('');
+
+	const getVolumeDetailData = useCallback((): void => {
+		fetchSoap('GetVolumeRequest', {
+			_jsns: 'urn:zimbraAdmin',
+			module: 'ZxPowerstore',
+			id: volumeDetail
+		}).then((response) => {
+			if (response) {
+				if (response.GetVolumeResponse.volume[0].type === 1) {
+					setType(PRIMARIES);
+				} else if (response.GetVolumeResponse.volume[0].type === 2) {
+					setType(SECONDARIES);
+				} else if (response.GetVolumeResponse.volume[0].type === 10) {
+					setType(INDEXERES);
+				}
+				setDetailData({
+					name: response.GetVolumeResponse.volume[0].name,
+					id: response.GetVolumeResponse.volume[0].id,
+					compressBlobs: response.GetVolumeResponse.volume[0].compressBlobs,
+					isCurrent: response.GetVolumeResponse.volume[0].isCurrent,
+					rootpath: response.GetVolumeResponse.volume[0].rootpath,
+					compressionThreshold: response.GetVolumeResponse.volume[0].compressionThreshold
+				});
+			}
+		});
+	}, [volumeDetail]);
+
+	useEffect(() => {
+		getVolumeDetailData();
+	}, [getVolumeDetailData, volumeDetail]);
 
 	return (
 		<>
-			{volumeDetail && (
+			{detailData && (
 				<Container background="gray6">
 					<Row mainAlignment="flex-start" crossAlignment="center" width="100%" height="auto">
 						<Row mainAlignment="flex-start" padding={{ all: 'large' }} takeAvailableSpace>
 							<Text size="extralarge" weight="bold">
-								{volumeDetail.item1} Details
+								{detailData.name} Details
 							</Text>
 						</Row>
 						<Row padding={{ horizontal: 'small' }}>
@@ -52,37 +92,23 @@ const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any
 						<Row padding={{ top: 'small' }} width="100%">
 							<Input
 								label={t('label.volume_name', 'Volume Name')}
-								value={volumeDetail.item1}
+								value={detailData?.name}
 								backgroundColor="gray5"
 								readyOnly
 							/>
 						</Row>
 						<Row padding={{ top: 'large' }} width="100%">
-							<Row width="48%" mainAlignment="flex-start">
-								<Input
-									label={t('label.allocation', 'Allocation')}
-									CustomIcon={(): unknown => (
-										<Icon icon="ChevronDownOutline" size="large" color="gray0" />
-									)}
-									value="Local"
-									backgroundColor="gray5"
-									readOnly
-								/>
-							</Row>
-							<Padding width="4%" />
-							<Row width="48%" mainAlignment="flex-end">
-								<Input
-									label={t('label.type', 'Type')}
-									backgroundColor="gray6"
-									value="Secondary"
-									readOnly
-								/>
-							</Row>
+							<Input
+								label={t('label.type', 'Type')}
+								backgroundColor="gray6"
+								value={type}
+								readOnly
+							/>
 						</Row>
 						<Row padding={{ top: 'large' }} width="100%">
 							<Input
 								label={t('label.volume_id', 'Volume ID')}
-								value="1b26f772-301f-448b-9dd9-2dc75a0d326d"
+								value={detailData?.id}
 								backgroundColor="gray6"
 								readyOnly
 							/>
@@ -90,40 +116,27 @@ const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any
 						<Row padding={{ top: 'large' }} width="100%">
 							<Input
 								label={t('label.path', 'Path')}
-								value="/opt/.../store"
+								value={detailData?.rootpath}
 								backgroundColor="gray5"
-								readyOnly
-							/>
-						</Row>
-						<Row padding={{ top: 'large' }} width="100%">
-							<Input
-								label={t('label.creation_date', 'Creation Date')}
-								value="2021/12/14   |   4:29PM"
-								backgroundColor="gray6"
 								readyOnly
 							/>
 						</Row>
 						<Row mainAlignment="flex-start" padding={{ top: 'large' }} width="100%">
 							<Row width="48%" mainAlignment="flex-start">
 								<Switch
-									value={compression}
-									onClick={(): unknown => setCompression(!compression)}
+									value={detailData?.compressBlobs}
 									label={t('label.enable_compression', 'Enable Compression')}
 								/>
 							</Row>
 							<Padding width="4%" />
 							<Row width="48%" mainAlignment="flex-start">
-								<Switch
-									value={compression}
-									onClick={(): unknown => setCompression(!compression)}
-									label={t('label.current', 'Current')}
-								/>
+								<Switch value={detailData?.isCurrent} label={t('label.current', 'Current')} />
 							</Row>
 						</Row>
 						<Row padding={{ top: 'small' }} width="50%">
 							<Input
 								label={t('label.compression_threshold', 'Compression Threshold')}
-								value="-"
+								value={detailData?.compressionThreshold}
 								backgroundColor="gray6"
 								readOnly
 								color="secondary"

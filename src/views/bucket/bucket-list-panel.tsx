@@ -20,7 +20,8 @@ const SelectItem = styled(Row)``;
 const BucketListPanel: FC = () => {
 	const [t] = useTranslation();
 	const setSelectedServerName = useBucketVolumeStore((state) => state.setSelectedServerName);
-	const [isstoreselect, setIsStoreSelect] = useState(false);
+	const [isStoreSelect, setIsStoreSelect] = useState(false);
+	const [isStoreVolumeSelect, setIsStoreVolumeSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
 	const [isServerListExpand, setIsServerListExpand] = useState(true);
 	const [isServerSpecificListExpand, setIsServerSpecificListExpand] = useState(true);
@@ -34,6 +35,7 @@ const BucketListPanel: FC = () => {
 			setSelectedServerName(volume?.name);
 			setSearchVolumeName(volume?.name);
 			setSelectedOperationItem(VOLUME);
+			setIsStoreVolumeSelect(true);
 			setIsVolumeListExpand(false);
 		},
 		[setSelectedServerName]
@@ -70,50 +72,54 @@ const BucketListPanel: FC = () => {
 			{
 				id: SERVERS_LIST,
 				name: t('label.servers_list', 'Servers List'),
-				isSelected: isstoreselect
+				isSelected: isStoreSelect
 			},
 			{
 				id: BUCKET_LIST,
 				name: t('label.bucket_list', 'Bucket List'),
-				isSelected: isstoreselect
+				isSelected: isStoreSelect
 			}
 		],
-		[t, isstoreselect]
+		[t, isStoreSelect]
 	);
 	const serverSpecificOption = useMemo(
 		() => [
 			{
 				id: VOLUME,
 				name: t('label.volume', 'Volume'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			},
 			{
 				id: HMS_SETTINGS,
 				name: t('label.hms_settings', 'HMS Settings'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			},
 			{
 				id: INDEXER_SETTINGS,
 				name: t('label.indexer_settings', 'Indexer Settings'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			}
 		],
-		[t, isstoreselect]
+		[t, isStoreVolumeSelect]
 	);
+
+	useEffect(() => {
+		setIsStoreSelect(true);
+	}, []);
 
 	useEffect(() => {
 		setSelectedOperationItem(SERVERS_LIST);
 	}, []);
 
 	useEffect(() => {
-		if (isstoreselect) {
+		if (isStoreSelect) {
 			if (selectedOperationItem) {
 				replaceHistory(`/${selectedOperationItem}`);
 			} else {
 				replaceHistory(`/${selectedOperationItem}`);
 			}
 		}
-	}, [isstoreselect, selectedOperationItem]);
+	}, [isStoreSelect, selectedOperationItem]);
 
 	const toggleServer = (): void => {
 		setIsServerListExpand(!isServerListExpand);

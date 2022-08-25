@@ -39,7 +39,6 @@ const Dashboard: FC = () => {
 				>
 					<img src={zxboat} alt="logo" />
 				</Text>
-
 				<Text
 					color="#828282"
 					overflow="break-word"

@@ -12,26 +12,51 @@ const IndexerVolumeTable: FC<{
 	selectedRows: any;
 	onSelectionChange: any;
 	headers: any;
-}> = ({ volumes, selectedRows, onSelectionChange, headers }) => {
+	onClick: any;
+}> = ({ volumes, selectedRows, onSelectionChange, headers, onClick }) => {
 	const tableRows = useMemo(
 		() =>
 			volumes.map((v, i) => ({
 				id: i,
 				columns: [
-					<Row key={i} style={{ textAlign: 'left', justifyContent: 'flex-start' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
+					>
 						{v.name}
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}>
-						{v.path}
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					>
+						{v.rootpath}
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					>
 						<Text color={v.isCurrent ? 'text' : 'error'}>{v.isCurrent ? YES : NO}</Text>
 					</Row>,
-					<Row key={i} style={{ textAlign: 'center' }}></Row>
+					<Row
+						key={i}
+						onClick={(): void => {
+							onClick(i);
+						}}
+						style={{ textAlign: 'center' }}
+					></Row>
 				],
 				clickable: true
 			})),
-		[volumes]
+		[onClick, volumes]
 	);
 	return (
 		<Container crossAlignment="flex-start">
