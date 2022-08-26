@@ -12,7 +12,8 @@ import {
 	Icon,
 	Table,
 	SnackbarManagerContext,
-	Divider
+	Divider,
+	Button
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 
@@ -36,6 +37,7 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 	const { restoreAccountDetail, setRestoreAccountDetail } = context;
 	const [searchString, setSearchString] = useState<string>('');
 	const [totalItem, setTotalItem] = useState(1);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 
 	const accountHeader: any[] = useMemo(
 		() => [
@@ -69,6 +71,8 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 
 	const getBackupAccounts = useCallback(
 		(searchText) => {
+			setIsRequestInProgress(true);
+			setAccounts([]);
 			fetch(
 				`/service/extension/zextras_admin/backup/getBackupAccounts?page=${accountOffset}&pageSize=${accountLimit}&domains=${domainName}&targetServers=all_servers&filter=${searchText}`,
 				{
@@ -78,6 +82,7 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 			)
 				.then((response) => response.json())
 				.then((data) => {
+					setIsRequestInProgress(false);
 					const error = data?.all_server?.error?.message;
 					let backupAccounts = data?.accounts;
 					let page = data?.maxPage;
@@ -203,7 +208,6 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 						mainAlignment="space-between"
 						crossAlignment="flex-start"
 						width="fill"
-						className="dddddddd"
 						padding={{ bottom: 'large', right: 'large', left: 'large' }}
 					>
 						<Container padding={{ bottom: 'medium' }}>
@@ -218,7 +222,7 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 							/>
 						</Container>
 						<ListRow>
-							<Row height="calc(100vh - 490px)">
+							<Row height={isRequestInProgress ? 'fit' : 'calc(100vh - 490px)'}>
 								<Table
 									style={{ overflow: 'auto', height: '100%' }}
 									multiSelect={false}
@@ -230,8 +234,26 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 										setSelectedAccountRows(selected);
 									}}
 								/>
+								{isRequestInProgress && (
+									<Container
+										crossAlignment="center"
+										mainAlignment="center"
+										height="fit"
+										padding={{ top: 'medium' }}
+									>
+										<Button
+											type="ghost"
+											iconColor="primary"
+											height={36}
+											label=""
+											width={36}
+											loading
+										/>
+									</Container>
+								)}
 							</Row>
 						</ListRow>
+
 						<ListRow>
 							<Container padding={{ top: 'large', bottom: 'small' }}>
 								<Divider />

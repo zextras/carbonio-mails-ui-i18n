@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { FC, ReactElement, useCallback, useMemo, useState } from 'react';
+import React, { FC, ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Container, Button } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -36,13 +36,15 @@ const WizardInSection: FC<any> = ({ wizard, wizardFooter, setToggleWizardSection
 const RestoreDeleteAccountWizard: FC<{
 	setShowRestoreAccountWizard: any;
 	restoreAccountRequest: any;
-}> = ({ setShowRestoreAccountWizard, restoreAccountRequest }) => {
+	isRequestWorkInProgress: any;
+}> = ({ setShowRestoreAccountWizard, restoreAccountRequest, isRequestWorkInProgress }) => {
 	const { t } = useTranslation();
 	const [wizardData, setWizardData] = useState();
 	const history = useHistory();
 	const onComplete = useCallback(() => {
 		console.log('Completed');
 	}, []);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>();
 	interface AccountDetailObj {
 		name: string;
 		id: string;
@@ -93,6 +95,12 @@ const RestoreDeleteAccountWizard: FC<{
 			history.push(lastloc);
 		}, 100);
 	}, [history]);
+
+	useEffect(() => {
+		if (isRequestWorkInProgress === false) {
+			setIsRequestInProgress(undefined);
+		}
+	}, [isRequestWorkInProgress]);
 
 	const wizardSteps = useMemo(
 		() => [
@@ -199,7 +207,11 @@ const RestoreDeleteAccountWizard: FC<{
 						label={t('label.restore_account', 'Restore Account')}
 						icon="PowerOutline"
 						iconPlacement="right"
-						onClick={onRestoreAccount}
+						onClick={(): void => {
+							if (isRequestInProgress === undefined) {
+								setIsRequestInProgress(true);
+							}
+						}}
 						disabled={restoreAccountDetail?.name === '' || restoreAccountDetail?.copyAccount === ''}
 					/>
 				)
@@ -207,12 +219,20 @@ const RestoreDeleteAccountWizard: FC<{
 		],
 		[
 			t,
-			onRestoreAccount,
 			restoreAccountDetail?.name,
 			restoreAccountDetail?.copyAccount,
-			backToFirstTab
+			backToFirstTab,
+			isRequestInProgress
 		]
 	);
+
+	useEffect(() => {
+		setTimeout(() => {
+			if (!!isRequestInProgress && isRequestInProgress) {
+				onRestoreAccount();
+			}
+		}, 500);
+	}, [isRequestInProgress, onRestoreAccount]);
 
 	return (
 		<Container background="gray5" mainAlignment="flex-start">
