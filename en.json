@@ -866,6 +866,14 @@
     },
     "new_bucket_connection": "CONNECTION",
     "new_bucket_summary": "SUMMARY",
+    "privacy": {
+        "allow_data_analytics": "Allow data analytics",
+        "allow_live_survey_feedbacks": "Allow live survey feedbacks",
+        "analytics_sub_1": "Your data is safe. All information we gather is and will stay anonymous. It will be used by our team to understand how can we improve Carbonio.",
+        "full_error_sub_1": "We all make errors, but it’s how you deal with them that changes everything! Make errors work for you, let us know how we can fix them.",
+        "send_full_error_data_to_zextras": "Send full error data to Zextras",
+        "survey_feedback_sub_1": "We promise they will be fast, easy and very useful to understand  how are we doing."
+    },
     "reminder": {
         "minute": "{{count}} minute",
         "minute_plural": ""
