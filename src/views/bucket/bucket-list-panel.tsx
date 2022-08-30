@@ -4,57 +4,105 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useState, useMemo, useEffect } from 'react';
-import { Container, Icon, Padding, List, Text } from '@zextras/carbonio-design-system';
+import React, { FC, useState, useMemo, useEffect, useCallback } from 'react';
+import { Container, Icon, Input, Dropdown, Row } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { replaceHistory } from '@zextras/carbonio-shell-ui';
+import styled from 'styled-components';
 import ListPanelItem from '../list/list-panel-item';
 import ListItems from '../list/list-items';
 import { BUCKET_LIST, SERVERS_LIST, VOLUME, HMS_SETTINGS, INDEXER_SETTINGS } from '../../constants';
+import { fetchSoap } from '../../services/bucket-service';
+import { useBucketVolumeStore } from '../../store/bucket-volume/store';
+
+const SelectItem = styled(Row)``;
 
 const BucketListPanel: FC = () => {
-	const [isstoreselect, setIsStoreSelect] = useState(false);
+	const [t] = useTranslation();
+	const setSelectedServerName = useBucketVolumeStore((state) => state.setSelectedServerName);
+	const [isStoreSelect, setIsStoreSelect] = useState(false);
+	const [isStoreVolumeSelect, setIsStoreVolumeSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
 	const [isServerListExpand, setIsServerListExpand] = useState(true);
 	const [isServerSpecificListExpand, setIsServerSpecificListExpand] = useState(true);
+	const [searchVolumeName, setSearchVolumeName] = useState('');
+	const [isVolumeListExpand, setIsVolumeListExpand] = useState(false);
+	const [volumeList, setVolumeList] = useState([]);
 
-	const [t] = useTranslation();
+	const selectedVolume = useCallback(
+		(volume: any) => {
+			setIsStoreSelect(true);
+			setSelectedServerName(volume?.name);
+			setSearchVolumeName(volume?.name);
+			setSelectedOperationItem(VOLUME);
+			setIsStoreVolumeSelect(true);
+			setIsVolumeListExpand(false);
+		},
+		[setSelectedServerName]
+	);
+
+	const itemsVolume = volumeList.map((volume: any, index) => ({
+		id: volume.id,
+		label: volume.name,
+		customComponent: (
+			<SelectItem
+				top="9px"
+				right="large"
+				bottom="9px"
+				left="large"
+				style={{
+					fontFamily: 'roboto',
+					display: 'block',
+					textAlign: 'left',
+					height: 'inherit',
+					padding: '3px',
+					width: 'inherit'
+				}}
+				onClick={(): void => {
+					selectedVolume(volume);
+				}}
+			>
+				{volume?.name}
+			</SelectItem>
+		)
+	}));
 
 	const globalServerOption = useMemo(
 		() => [
 			{
 				id: SERVERS_LIST,
 				name: t('label.servers_list', 'Servers List'),
-				isSelected: isstoreselect
+				isSelected: isStoreSelect
 			},
 			{
 				id: BUCKET_LIST,
 				name: t('label.bucket_list', 'Bucket List'),
-				isSelected: isstoreselect
+				isSelected: isStoreSelect
 			}
 		],
-		[t, isstoreselect]
+		[t, isStoreSelect]
 	);
 	const serverSpecificOption = useMemo(
 		() => [
 			{
 				id: VOLUME,
 				name: t('label.volume', 'Volume'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			},
 			{
 				id: HMS_SETTINGS,
 				name: t('label.hms_settings', 'HMS Settings'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			},
 			{
 				id: INDEXER_SETTINGS,
 				name: t('label.indexer_settings', 'Indexer Settings'),
-				isSelected: isstoreselect
+				isSelected: isStoreVolumeSelect
 			}
 		],
-		[t, isstoreselect]
+		[t, isStoreVolumeSelect]
 	);
+
 	useEffect(() => {
 		setIsStoreSelect(true);
 	}, []);
@@ -64,14 +112,14 @@ const BucketListPanel: FC = () => {
 	}, []);
 
 	useEffect(() => {
-		if (isstoreselect) {
+		if (isStoreSelect) {
 			if (selectedOperationItem) {
 				replaceHistory(`/${selectedOperationItem}`);
 			} else {
 				replaceHistory(`/${selectedOperationItem}`);
 			}
 		}
-	}, [isstoreselect, selectedOperationItem]);
+	}, [isStoreSelect, selectedOperationItem]);
 
 	const toggleServer = (): void => {
 		setIsServerListExpand(!isServerListExpand);
@@ -79,6 +127,21 @@ const BucketListPanel: FC = () => {
 	const toggleServerSpecific = (): void => {
 		setIsServerSpecificListExpand(!isServerSpecificListExpand);
 	};
+
+	const getServersListType = useCallback((service): void => {
+		fetchSoap('GetAllServersRequest', {
+			...(!service ? { _jsns: 'urn:zimbraAdmin' } : { _jsns: 'urn:zimbraAdmin', service })
+		}).then((response) => {
+			const serverResponseData = response.GetAllServersResponse.server;
+			if (serverResponseData.length !== 0) {
+				setVolumeList(serverResponseData);
+			}
+		});
+	}, []);
+
+	useEffect(() => {
+		getServersListType('mailbox');
+	}, [getServersListType]);
 
 	return (
 		<Container
@@ -108,11 +171,46 @@ const BucketListPanel: FC = () => {
 					setToggleView={toggleServerSpecific}
 				/>
 				{isServerSpecificListExpand && (
-					<ListItems
-						items={serverSpecificOption}
-						selectedOperationItem={selectedOperationItem}
-						setSelectedOperationItem={setSelectedOperationItem}
-					/>
+					<>
+						<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
+							<Dropdown
+								items={itemsVolume}
+								placement="bottom-start"
+								maxWidth="300px"
+								disableAutoFocus
+								width="265px"
+								style={{
+									width: '100%'
+								}}
+							>
+								<Input
+									label={t(
+										'label.I_want_to_see_this_server_details',
+										`i want to see this server’s details`
+									)}
+									CustomIcon={(): any => (
+										<Icon
+											icon="HardDriveOutline"
+											size="large"
+											onClick={(): void => {
+												setIsVolumeListExpand(!isVolumeListExpand);
+											}}
+										/>
+									)}
+									onChange={(ev: any): void => {
+										setSearchVolumeName(ev.target.value);
+									}}
+									value={searchVolumeName}
+									backgroundColor="gray5"
+								/>
+							</Dropdown>
+						</Row>
+						<ListItems
+							items={serverSpecificOption}
+							selectedOperationItem={selectedOperationItem}
+							setSelectedOperationItem={setSelectedOperationItem}
+						/>
+					</>
 				)}
 			</Container>
 		</Container>

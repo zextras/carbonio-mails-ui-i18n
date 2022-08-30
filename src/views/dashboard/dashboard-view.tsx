@@ -39,7 +39,6 @@ const Dashboard: FC = () => {
 				>
 					<img src={zxboat} alt="logo" />
 				</Text>
-
 				<Text
 					color="#828282"
 					overflow="break-word"
@@ -53,7 +52,6 @@ const Dashboard: FC = () => {
 						defaultValue: 'Welcome {{adminName}}, to Carbonio {{carbonioVersion}}!'
 					})}
 				</Text>
-
 				<Text color="#828282" overflow="break-word" weight="light" style={{ fontSize: '24px' }}>
 					{t('select_section_from_left_menu', 'Please select a section from the left menu')}
 				</Text>

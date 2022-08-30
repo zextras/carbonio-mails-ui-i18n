@@ -117,14 +117,14 @@ const BackupServiceStatus: FC = () => {
 					</ListRow>
 					<ListRow>
 						<Switch
-							value={globalConfig.ZxAdmin_ModuleEnabledAtStartup}
+							value={initbackupDetail.ZxAdmin_ModuleEnabledAtStartup}
 							label={t('backup.module_enable_at_startup', 'Module Enabled at Startup')}
 							onClick={(): void => changeSwitchOption('ZxAdmin_ModuleEnabledAtStartup')}
 						/>
 					</ListRow>
 					<ListRow>
 						<Switch
-							value={globalConfig.ZxBackup_DoSmartScanOnStartup}
+							value={initbackupDetail.ZxBackup_DoSmartScanOnStartup}
 							label={t('backup.smart_scan_at_startup', 'SmartScan at Startup')}
 							onClick={(): void => changeSwitchOption('ZxBackup_DoSmartScanOnStartup')}
 						/>

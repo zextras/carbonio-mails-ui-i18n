@@ -103,10 +103,16 @@ const Connection: FC<{
 						) {
 							setVerifyCheck(SUCCESS);
 							setbucketDetailButton(true);
+							if (isActive) {
+								setCompleteLoading(true);
+							}
 						} else {
 							setVerifyCheck(ERROR);
 							setverifyFailErr(data);
 							setbucketDetailButton(true);
+							if (isActive) {
+								setCompleteLoading(true);
+							}
 						}
 					});
 				} else {
@@ -124,7 +130,8 @@ const Connection: FC<{
 			bucketName &&
 			regionsData?.value &&
 			accessKeyData &&
-			secretKey
+			secretKey &&
+			prefix
 		) {
 			setbucketDetailButton(false);
 		} else if (
@@ -166,38 +173,13 @@ const Connection: FC<{
 		secretKey,
 		urlInput
 	]);
-
 	useEffect(() => {
-		if (isActive) {
-			setCompleteLoading(
-				bucketName &&
-					regionsData?.value &&
-					accessKeyData &&
-					secretKey &&
-					urlInput &&
-					prefix &&
-					BucketUid
-			);
-		}
-	}, [
-		accessKeyData,
-		bucketName,
-		isActive,
-		regionsData?.value,
-		secretKey,
-		urlInput,
-		prefix,
-		setCompleteLoading,
-		BucketUid
-	]);
+		setCompleteLoading(false);
+	}, [setCompleteLoading]);
 
 	useEffect(() => {
 		if (bucketTypeData !== '') {
-			if (
-				bucketTypeData === undefined ||
-				bucketTypeData === AMAZON_WEB_SERVICE_S3 ||
-				bucketType === AMAZON_WEB_SERVICE_S3
-			) {
+			if (bucketTypeData === undefined) {
 				setShowPrefix(false);
 			} else {
 				setShowPrefix(true);

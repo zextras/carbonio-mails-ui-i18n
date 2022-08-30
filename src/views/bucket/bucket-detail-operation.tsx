@@ -7,9 +7,10 @@ import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container } from '@zextras/carbonio-design-system';
-import { BUCKET_LIST, SERVERS_LIST } from '../../constants';
+import { BUCKET_LIST, SERVERS_LIST, VOLUME } from '../../constants';
 import BucketDetailPanel from './bucket-detail-panel';
 import ServersDetailPanel from './global-servers/server-detail-panel';
+import VolumesDetailPanel from './server-specifics/volumes-detail-panel';
 
 const DetailViewContainer = styled(Container)`
 	max-width: ${({ isPrimaryBarExpanded }): number => (isPrimaryBarExpanded ? 981 : 1125)}px;
@@ -33,6 +34,12 @@ const BucketOperation: FC = () => {
 						return (
 							<DetailViewContainer>
 								<BucketDetailPanel />
+							</DetailViewContainer>
+						);
+					case VOLUME:
+						return (
+							<DetailViewContainer>
+								<VolumesDetailPanel />
 							</DetailViewContainer>
 						);
 					default:

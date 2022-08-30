@@ -860,6 +860,81 @@ export const BucketTypeItems = [
 	}
 ];
 
+export const tableHeader = [
+	{
+		id: 'name',
+		label: 'Name',
+		width: '62%',
+		bold: true,
+		align: 'left',
+		items: [
+			{ label: 'Volumename_1', value: '1' },
+			{ label: 'Volumename_2', value: '2' }
+		]
+	},
+	{
+		id: 'allocation',
+		label: 'Allocation',
+		width: '12%',
+		align: 'center',
+		bold: true,
+		items: [
+			{ label: 'Allocation_1', value: '1' },
+			{ label: 'Allocation_2', value: '2' }
+		]
+	},
+	{
+		id: 'current',
+		label: 'Current',
+		width: '12%',
+		align: 'center',
+		bold: true
+	},
+	{
+		id: 'compression',
+		label: 'Compression',
+		i18nAllLabel: 'All',
+		width: '14%',
+		align: 'center',
+		bold: true
+	}
+];
+
+export const indexerHeaders = [
+	{
+		id: 'name',
+		label: 'Name',
+		width: '62%',
+		bold: true,
+		align: 'left',
+		items: [
+			{ label: 'Volumename_1', value: '1' },
+			{ label: 'Volumename_2', value: '2' }
+		]
+	},
+	{
+		id: 'path',
+		label: 'Path',
+		width: '12%',
+		align: 'center',
+		bold: true,
+		items: [
+			{ label: 'Allocation_1', value: '1' },
+			{ label: 'Allocation_2', value: '2' }
+		]
+	},
+	{
+		id: 'current',
+		label: 'Current',
+		width: '12%',
+		align: 'center',
+		bold: true
+	},
+	{
+		width: '14%'
+	}
+];
+
 export const localeList = (
 	t: TFunction
 ): Array<{ id: string; name: string; localName: string; value: string; label: string }> => [
@@ -1222,6 +1297,13 @@ export const isValidEmail = (email: string): boolean => {
 	return re.test(email);
 };
 
+export const isValidLdapBaseUrl = (url: string): boolean => {
+	const reqex =
+		// eslint-disable-next-line max-len
+		/^(?:ldap)s?:\/\/(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])(:[0-9]+)?$/;
+	return reqex.test(url);
+};
+
 export const getAllEmailFromString = (str: string): any =>
 	str
 		.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi)
@@ -1233,6 +1315,13 @@ export const isValidLdapQuery = (query: string): boolean => {
 	const re = /\([^\\(\\)\\=]+=[^\\(\\)\\=]+\)/;
 	return re.test(query);
 };
+
+export const isValidLdapBaseDN = (basedn: string): boolean => {
+	const reqex =
+		/(?:(?<cn>CN=(?<name>[^,]*)),)?(?:(?<path>(?:(?:CN|OU)=[^,]+,?)+),)?(?<domain>(?:DC=[^,]+,?)+)$/gi;
+	return reqex.test(basedn);
+};
+
 export const conversationGroupBy = (t: TFunction): Array<{ value?: string; label: string }> => [
 	{
 		label: t('label.message', 'Message'),
