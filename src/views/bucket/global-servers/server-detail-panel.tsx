@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Container, Row, Text, Divider, Input, Icon, Table } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { fetchSoap } from '../../../services/bucket-service';
+import { useBucketServersListStore } from '../../../store/bucket-server-list/store';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -119,13 +120,12 @@ const ServersListTable: FC<{
 
 const serverDetailPanel: FC = () => {
 	const [t] = useTranslation();
+	const allServersList = useBucketServersListStore((state) => state.allServersList);
 	const [serversList, setServersList] = useState<any>([]);
 	const [serverSelection, setserverSelection] = useState([]);
-	const getServersListType = useCallback((service): void => {
-		fetchSoap('GetAllServersRequest', {
-			...(!service ? { _jsns: 'urn:zimbraAdmin' } : { _jsns: 'urn:zimbraAdmin', service })
-		}).then((response) => {
-			const serverResponseData = response.GetAllServersResponse.server;
+
+	const getServersListType = useCallback(
+		(service): void => {
 			fetchSoap('zextras', {
 				_jsns: 'urn:zimbraAdmin',
 				module: 'ZxPowerstore',
@@ -134,22 +134,26 @@ const serverDetailPanel: FC = () => {
 			}).then((res) => {
 				const responseData = JSON.parse(res.response.content);
 				if (responseData.ok) {
-					const data = responseData.response[serverResponseData[0].name].response;
-					const primaries = data.primaries.length;
-					const secondaries = data.secondaries.length;
-					const indexes = data.indexes.length;
-					setServersList([
-						{
-							name: serverResponseData[0].name,
-							primaries,
-							secondaries,
-							indexes
-						}
-					]);
+					if (allServersList.length !== 0) {
+						const serverList = allServersList.map((item) => {
+							const data = responseData.response[item.name].response;
+							const primaries = data.primaries.length;
+							const secondaries = data.secondaries.length;
+							const indexes = data.indexes.length;
+							return {
+								name: item.name,
+								primaries,
+								secondaries,
+								indexes
+							};
+						});
+						setServersList(serverList);
+					}
 				}
 			});
-		});
-	}, []);
+		},
+		[allServersList]
+	);
 
 	useEffect(() => {
 		getServersListType('mailbox');

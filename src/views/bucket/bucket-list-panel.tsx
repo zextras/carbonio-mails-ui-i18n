@@ -14,12 +14,14 @@ import ListItems from '../list/list-items';
 import { BUCKET_LIST, SERVERS_LIST, VOLUME, HMS_SETTINGS, INDEXER_SETTINGS } from '../../constants';
 import { fetchSoap } from '../../services/bucket-service';
 import { useBucketVolumeStore } from '../../store/bucket-volume/store';
+import { useBucketServersListStore } from '../../store/bucket-server-list/store';
 
 const SelectItem = styled(Row)``;
 
 const BucketListPanel: FC = () => {
 	const [t] = useTranslation();
 	const setSelectedServerName = useBucketVolumeStore((state) => state.setSelectedServerName);
+	const setAllServersList = useBucketServersListStore((state) => state.setAllServersList);
 	const [isStoreSelect, setIsStoreSelect] = useState(false);
 	const [isStoreVolumeSelect, setIsStoreVolumeSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
@@ -135,9 +137,10 @@ const BucketListPanel: FC = () => {
 			const serverResponseData = response.GetAllServersResponse.server;
 			if (serverResponseData.length !== 0) {
 				setVolumeList(serverResponseData);
+				setAllServersList(serverResponseData);
 			}
 		});
-	}, []);
+	}, [setAllServersList]);
 
 	useEffect(() => {
 		getServersListType('mailbox');
