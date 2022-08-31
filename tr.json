@@ -1,7 +1,6 @@
 {
     "action": {
         "edit_share": "Paylaşımı düzenle",
-        "restore": "Geri yükle",
         "edit_as_new": "Yeni olarak düzenle",
         "search": "Ara",
         "preview": "Önizleme",
@@ -28,7 +27,6 @@
         "preview_new_tab": "Başka sekmede görüntülemek için tıklayın",
         "click_preview": "Önizleme için tıklayın"
     },
-    "create": "Oluştur",
     "composer": {
         "attachment": {
             "local": "Lokalden ekle",
@@ -44,43 +42,28 @@
     "folder": {
         "modal": {
             "delete": {
-                "body": {
-                    "message1": "Seçili klasörü silmek istediğinizden emin misiniz?"
-                },
                 "footer": "Ok"
             },
             "new": {
-                "input": {
-                    "position": "Klasör Yeri"
-                },
                 "name_exist_warning": "Ad önceden kullanılmış"
             },
             "move": {
-                "footer": "Taşı",
                 "input": {
                     "filter": "Klasörleri filtrele"
                 }
             },
             "edit": {
-                "folder_type": "E-Posta Klasörü",
                 "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz.",
-                "size": "Boyut",
                 "retention_message": "Bu klasördeki koruma döneminde olan dosyaları silmek için ayrıca onaylamanız gerekecek",
                 "add_share": "Paylaşım ekle",
                 "retention_duration_warning": "Koruma dönemi süresi positif bir sayı olmalıdır",
                 "threshold_message": "Bu klasördeki çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir."
-            },
-            "empty": {
-                "body": {
-                    "message2": "Eğer boşaltırsanız, ilgili tüm içerik kalıcı olarak silinecek."
-                }
             },
             "wipe": {
                 "title": "Temizle"
             }
         },
         "action": {
-            "edit_properties": "Özellikleri düzenle",
             "restore": "Klasörü geri yükle"
         }
     },
@@ -154,7 +137,6 @@
         "remove": "Kaldır",
         "remove_plural": "Hepsini Kaldır",
         "role": "Rol: ",
-        "select_3": "yeni bir e-posta yazmak için.",
         "select_folder": "Klasör seçin",
         "send": "Gönder",
         "grantee": "Paylaşan: ",
@@ -295,7 +277,6 @@
         "view_images": "RESİMLERİ GÖRÜNTÜLE",
         "no_name": "<Ad Yok>"
     },
-    "read": "Okunmuş",
     "share": {
         "options": {
             "share_calendar_role": {
@@ -399,8 +380,7 @@
         "something_went_wrong": "HATA OLUŞTU"
     },
     "placeholder": {
-        "add_new_recipients": "Yeni alıcılar ekle",
-        "to": "Kime"
+        "add_new_recipients": "Yeni alıcılar ekle"
     },
     "search": {
         "attachment_note": "Eki bulunan bütün e-postaları ara.",
@@ -417,15 +397,10 @@
         "replies_forwards": "Yanıtlar ve İletilenler"
     },
     "settings": {
-        "conv_sort_optn": {
-            "desc": "Yeniden eskiye"
-        },
         "label": {
             "check_new_mail": "Yeni e-postaları kontrol et",
             "display_mail": "E-posta göster",
-            "msg_selection": "Mesaj Seçimi",
             "search_query": "Varsayılan sorgu",
-            "always_display_received_time": "E-posta listesinde alma zamanını her zaman göster",
             "conversation_ordering": "Görüşme sıralaması",
             "default_mail_search": "Varsayılan E-posta araması",
             "display_messages": "Mesajların Gösterimi",
@@ -545,7 +520,6 @@
         }
     },
     "displayer": {
-        "description3": "“YENİ” tuşuna tıklayıp yeni bir e-posta oluşturun ve sonra da gönderin.",
         "description6": "Bu e-postayı yanıtlayın veya diğer kullanıcılara yönlendirin.",
         "junk_title1": "Ne güzel! Hiç istenmeyen e-posta yok",
         "trash_title1": "E-postayı silmek için çöp kutusu simgesine tıklayın",
