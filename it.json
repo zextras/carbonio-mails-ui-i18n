@@ -341,7 +341,8 @@
             "empty": {
                 "footer": "Svuota",
                 "body": {
-                    "message1": "Vuoi svoutare la cartella selezionata?"
+                    "message1": "Vuoi svuotare la cartella selezionata?",
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
                 }
             },
             "restore": {
@@ -670,7 +671,7 @@
             },
             "empty": {
                 "body": {
-                    "message1": "Vuoi svoutare la cartella selezionata?",
+                    "message1": "Vuoi svuotare la cartella selezionata?",
                     "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
                 }
             },
