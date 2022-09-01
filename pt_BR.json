@@ -1,6 +1,5 @@
 {
     "action": {
-        "delete": "Excluir",
         "forward": "Encaminhar",
         "mark_as_read": "Marcar como lído",
         "mark_as_unread": "Marcar como não lído",
@@ -30,36 +29,19 @@
     },
     "folder": {
         "modal": {
-            "delete": {
-                "body": {
-                    "message2": "Deseja excluir a pasta selecionada permanentemente?"
-                }
-            },
             "edit": {
                 "size": "Tamanho",
                 "rename_warning": "Você não pode renomear a pasta como uma pasta de sistema.",
-                "threshold_msg": "Nesta pasta, as mensagens anteriores ao período definido estarão sujeitas a uma limpeza e exclusão automática.",
                 "retention_duration_warning": "A duração da retenção deve ser um número positivo",
                 "retention_message": "As mensagens nesta pasta que se enquadram no período de retenção necessitam de confirmação expressa antes de serem excluídas",
                 "threshold_message": "As mensagens mais antigas nesta pasta que superem o limiar de eliminação estarão sujeitas a limpeza e exclusão automáticas.",
                 "add_share": "Adicionar compartilhamento"
             },
             "move": {
-                "body": {
-                    "message2": "Selecione uma pasta de destino"
-                },
                 "title_modal": "Mover Conversa"
             },
             "new": {
-                "input": {
-                    "name": "Nome da Pasta"
-                },
                 "title": "Criar nova pasta"
-            },
-            "empty": {
-                "body": {
-                    "message2": "Ao esvaziá-la, todo conteúdo relacionado será excluído permanentemente."
-                }
             },
             "wipe": {
                 "body": {
@@ -68,13 +50,7 @@
             }
         },
         "action": {
-            "empty": {
-                "trash": "Esvaziar lixeira"
-            },
             "edit_properties": "Editar propriedades"
-        },
-        "item": {
-            "root": "/Raiz"
         }
     },
     "label": {
@@ -247,7 +223,11 @@
         "share_public_link": "Compartilhar link público",
         "no_name": "<Sem nome>",
         "always_allow_domain": "Permitir sempre do domínio <strong>{{domain}}</strong>",
-        "always_allow_address": "Permitir sempre de <strong>{{from}}</strong>"
+        "always_allow_address": "Permitir sempre de <strong>{{from}}</strong>",
+        "time_zone": "Fuso horário",
+        "searching": "Buscando...",
+        "notify": "Avisar",
+        "do_not_notify": "Não notificar"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -266,7 +246,8 @@
         "delete_email": "Excluir e-mail",
         "edit_draft": "Editar rascunho",
         "message_not_sent": "Erro - Mensagem não enviada",
-        "redirect_email": "Redirecionar e-mail"
+        "redirect_email": "Redirecionar e-mail",
+        "attention": "Atenção"
     },
     "messages": {
         "snackbar": {
@@ -320,13 +301,13 @@
         "powered_by": "powered by",
         "check_and_try_again": "Por favor, verifique o Carbonio e tente novamente",
         "could_not_find_to_show": "Desculpe, não encontramos nada para exibir",
-        "something_went_wrong": "ALGO DEU ERRADO"
+        "something_went_wrong": "ALGO DEU ERRADO",
+        "trustee_addresses": "E-mails desses endereços ou domínios serão considerados confiáveis e as imagens serão exibidas automaticamente."
     },
     "placeholder": {
         "add_new_recipients": "Adicionar novos destinatários"
     },
     "search": {
-        "attachment": "Anexo",
         "unread": "Não lida",
         "attachment_note": "Buscar todos os e-mails que possuam anexos.",
         "flagged_note": "Buscar todos os e-mails sinalizados.",
@@ -362,13 +343,9 @@
             "new_message_folder": "Exibir notificações para as novas mensagens que chegarem em qualquer pasta",
             "new_message_inbox": "Exibir notificações para as novas mensagens que chegarem na caixa de entrada"
         },
-        "dspl_mail_optn": {
-            "text": "Como texto"
-        },
         "label": {
             "check_new_mail": "Verificar novo e-mail",
             "display_mail": "Exibir e-mail",
-            "msg_selection": "Seleção de Mensagem",
             "search_query": "Consulta padrão",
             "conversation_ordering": "Ordem das conversas",
             "default_mail_search": "Busca de e-mail padrão",
@@ -486,9 +463,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "Solte aqui seus anexos para adicioná-los rapidamente a este e-mail"
-            },
             "local": "Adicionar a partir do Meu Computador",
             "contacts_mod": "Adicionar Cartão de Contato",
             "drag_and_drop": {
@@ -499,7 +473,6 @@
             "url": "Adicionar link público a partir de Files"
         }
     },
-    "freebusy": "FreeBusy",
     "message": {
         "snackbar": {
             "share": {
@@ -529,7 +502,6 @@
         "manager_rights": "Ver,Editar,Adicionar,Remover",
         "external_images_blocked": "As imagens externas foram bloqueadas para proteger você ante potencial spam"
     },
-    "select_signature": "Selecionar assinatura",
     "snackbar": {
         "folder_shared_error": "Algo deu errado. Tente novamente",
         "share_resend": "Convite do compartilhamento reenviado",
@@ -666,5 +638,31 @@
     },
     "preview": {
         "close": "Fechar pré-visualização"
+    },
+    "email_status": {
+        "unread": "não lido",
+        "unforwarded": "não encaminhadas",
+        "unflagged": "não sinalizadas",
+        "tome": "para mim",
+        "sent": "enviadas por mim",
+        "received": "recebidas por mim",
+        "read": "lidas",
+        "fromme": "vindas de mim",
+        "fromccme": "vindas de mim",
+        "forwarded": "encaminhadas",
+        "flagged": "sinalizadas",
+        "draft": "rascunho"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "Vídeo",
+        "text_document": "Documento de Texto",
+        "powerpoint": "Powerpoint",
+        "pdf": "Documento PDF",
+        "image": "Imagem",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "E-mail",
+        "application": "Aplicativo"
     }
 }
