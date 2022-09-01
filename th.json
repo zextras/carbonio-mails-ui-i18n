@@ -1,43 +1,24 @@
 {
     "folder": {
         "action": {
-            "delete_permanently": "ลบโฟลเดอร์อย่างถาวร",
             "wipe": {
                 "folder": "ล้างโฟลเดอร์"
             }
         },
         "modal": {
-            "delete": {
-                "body": {
-                    "message2": "คุณต้องการลบโฟลเดอร์ที่เลือกอย่างถาวรหรือไม่?"
-                }
-            },
             "edit": {
                 "footer": "แก้ไข",
-                "messages": "ข้อความ",
                 "rename_warning": "คุณไม่สามารถเปลี่ยนชื่อโฟลเดอร์เหมือนชื่อระบบได้",
-                "threshold_msg": "ในโฟลเดอร์นี้ ข้อความที่เก่ากว่าเกณฑ์จะถูกล้างและลบโดยอัตโนมัติ",
                 "retention_duration_warning": "ระยะเวลาการเก็บรักษาต้องเป็นจำนวนบวก",
                 "retention_message": "ข้อความในโฟลเดอร์นี้ซึ่งอยู่ในช่วงการเก็บรักษาจะต้องได้รับการยืนยันก่อนที่จะถูกลบ",
                 "add_share": "เพิ่มการแชร์",
                 "threshold_message": "ข้อความในโฟลเดอร์นี้เก่ากว่าเกณฑ์ในการกำจัดทิ้งและจะถูกล้างและลบโดยอัตโนมัติ"
             },
             "move": {
-                "body": {
-                    "message1": "เลือกโฟลเดอร์เพื่อย้ายไปที่:"
-                },
                 "title_modal": "ย้ายการสนทนา"
             },
             "new": {
-                "input": {
-                    "name": "ชื่อโฟลเดอร์"
-                },
                 "name_exist_warning": "มีชื่ออยู่แล้ว"
-            },
-            "empty": {
-                "body": {
-                    "message2": "หากคุณล้างออกจะทำให้เนื้อหาที่เกี่ยวข้องทั้งหมดถูกลบอย่างถาวร"
-                }
             },
             "wipe": {
                 "body": {
@@ -47,7 +28,6 @@
         }
     },
     "action": {
-        "back": "ด้านหลัง",
         "edit_as_draft": "แก้ไข",
         "forward": "ส่งต่อ",
         "mark_as_read": "ทำเครื่องหมายว่าอ่านแล้ว",
@@ -89,7 +69,8 @@
         "delete_email": "ลบอีเมล",
         "edit_draft": "แก้ไขร่างจดหมาย",
         "message_not_sent": "ข้อผิดพลาด - ไม่ได้ส่งข้อความ",
-        "redirect_email": "เปลี่ยนเส้นทางอีเมล"
+        "redirect_email": "เปลี่ยนเส้นทางอีเมล",
+        "attention": "ความสนใจ"
     },
     "label": {
         "attachment": "สิ่งที่แนบมา",
@@ -123,7 +104,6 @@
         "owner": "เจ้าของ ",
         "receive_message": "การรับข้อความ",
         "role": "บทบาท: ",
-        "select_3": "เพื่อเขียนอีเมลใหม่",
         "select_folder": "เลือกโฟลเดอร์",
         "send_notification": "ส่งข้อความแจ้งเตือนถึง",
         "sent": "ส่งแล้ว",
@@ -257,7 +237,11 @@
         "share_public_link": "แชร์ลิงก์สาธารณะ",
         "no_name": "<ไม่มีชื่อ>",
         "always_allow_domain": "อนุญาตจากโดเมน <strong>{{domain}}</strong> เสมอ",
-        "always_allow_address": "อนุญาตจาก <strong>{{from}}</strong> เสมอ"
+        "always_allow_address": "อนุญาตจาก <strong>{{from}}</strong> เสมอ",
+        "time_zone": "โซนเวลา",
+        "searching": "กำลังค้นหา...",
+        "notify": "แจ้งให้ทราบ",
+        "do_not_notify": "ไม่แจ้งเตือน"
     },
     "messages": {
         "modal": {
@@ -309,12 +293,12 @@
         "powered_by": "ขับเคลื่อนโดย",
         "check_and_try_again": "โปรดตรวจสอบ Carbonio แล้วลองใหม่อีกครั้ง",
         "could_not_find_to_show": "ขออภัย เราไม่พบสิ่งใดเพื่อแสดง",
-        "something_went_wrong": "มีบางอย่างผิดพลาด"
+        "something_went_wrong": "มีบางอย่างผิดพลาด",
+        "trustee_addresses": "จดหมายจากที่อยู่หรือโดเมนเหล่านี้จะถือว่าเชื่อถือได้ และจะแสดงรูปโดยอัตโนมัติ"
     },
     "placeholder": {
         "add_new_recipients": "เพิ่มผู้รับใหม่"
     },
-    "read": "อ่าน",
     "search": {
         "unread": "ไม่ได้อ่าน",
         "attachment_note": "ค้นหาอีเมลทั้งหมดที่มีไฟล์แนบ",
@@ -352,9 +336,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "title": "โหมด Drag&Drop"
-            },
             "local": "เพิ่มจาก local",
             "contacts_mod": "เพิ่มบัตรผู้ติดต่อ",
             "drag_and_drop": {
@@ -365,7 +346,6 @@
             "url": "เพิ่มลิงก์สาธารณะจาก Files"
         }
     },
-    "insert": "ใส่",
     "message": {
         "snackbar": {
             "settings_saved": "บันทึกการแก้ไขอย่างถูกต้อง",
@@ -395,7 +375,6 @@
         "manager_rights": "ดู, แก้ไข, เพิ่ม, ลบ",
         "external_images_blocked": "รูปภาพจากภายนอกถูกบล็อกเพื่อป้องกันคุณจากสแปมที่อาจเกิดขึ้น"
     },
-    "set_default_signatures": "ตั้งค่าลายเซ็นเริ่มต้น",
     "settings": {
         "dspl_mail_optn": {
             "text": "เป็นข้อความ"
@@ -403,9 +382,7 @@
         "label": {
             "check_new_mail": "ตรวจสอบอีเมลใหม่",
             "display_mail": "แสดงจดหมาย",
-            "msg_selection": "การเลือกข้อความ",
             "search_query": "แบบสอบถามเริ่มต้น",
-            "set_msg_color_acc_tag": "กำหนดสีของข้อความและการสนทนาตามสีแท็ก",
             "default_mail_search": "การค้นหาจดหมายเริ่มต้น",
             "display_messages": "การแสดงข้อความ",
             "conversation_ordering": "ลำดับการสนทนา",
@@ -543,7 +520,6 @@
         "enable_urgent": "เปิดการใช้งานแบบเร่งด่วน",
         "folder_sharing_status": "แชร์กับ {{count}} คน"
     },
-    "write": "เขียน",
     "folder_panel": {
         "modal": {
             "new": {
@@ -658,5 +634,31 @@
     },
     "preview": {
         "close": "ปิดการแสดงตัวอย่าง"
+    },
+    "email_status": {
+        "unread": "ยังไม่ได้อ่าน",
+        "unforwarded": "ไม่ถูกส่งต่อ",
+        "unflagged": "ไม่ถูกตั้งค่าสถานะ",
+        "tome": "ถึงฉัน",
+        "sent": "ฉันเป็นผู้ส่ง",
+        "received": "ฉันเป็นผู้รับ",
+        "read": "อ่าน",
+        "fromme": "จากฉัน",
+        "fromccme": "จากฉัน",
+        "forwarded": "ส่งต่อแล้ว",
+        "flagged": "ถูกตั้งค่าสถานะ",
+        "draft": "แบบร่าง"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "วิดีโอ",
+        "text_document": "เอกสารข้อความ",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "รูป",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "อีเมล",
+        "application": "โปรแกรมประยุกต์"
     }
 }
