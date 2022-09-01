@@ -1,6 +1,5 @@
 {
     "action": {
-        "delete": "Eliminar",
         "forward": "Reenviar",
         "mark_as_read": "Marcar como leído",
         "mark_as_unread": "Marcar como no leído",
@@ -30,36 +29,19 @@
     },
     "folder": {
         "modal": {
-            "delete": {
-                "body": {
-                    "message1": "¿Quieres borrar la carpeta seleccionada?"
-                }
-            },
             "edit": {
                 "size": "Tamaño",
                 "rename_warning": "No puedes renombrar una carpeta como una del sistema.",
-                "threshold_msg": "En esta carpeta, los mensajes más antiguos del umbral de eliminación estarán sujetos a limpieza y borrado automático.",
                 "add_share": "Añadir Compartición",
                 "retention_duration_warning": "La duración de la retención debe ser un número positivo",
                 "retention_message": "Los mensajes dentro de esta carpeta que excedan el umbral de retención requerirán de una confirmación explícita antes de ser eliminados",
                 "threshold_message": "Los mensajes de esta carpeta que sobrepasen el umbral establecido serán eliminados automáticamente."
             },
             "move": {
-                "body": {
-                    "message1": "Elige una carpeta a la que mover la carpeta seleccionada:"
-                },
                 "title_modal": "Mover conversación"
             },
             "new": {
-                "input": {
-                    "name": "Nombre de carpeta"
-                },
                 "title": "Crear una nueva carpeta"
-            },
-            "empty": {
-                "body": {
-                    "message2": "Si la vacías, todo el contenido relacionado se borrará permanentemente."
-                }
             },
             "wipe": {
                 "body": {
@@ -68,13 +50,9 @@
             }
         },
         "action": {
-            "delete": "Borrar carpeta",
             "empty": {
                 "trash": "Vaciar papelera"
             }
-        },
-        "item": {
-            "root": "/Root"
         }
     },
     "delete": "Eliminar",
@@ -91,7 +69,8 @@
         "delete_email": "Eliminar mensaje",
         "edit_draft": "Editar borrador",
         "message_not_sent": "Error - Mensaje no enviado",
-        "redirect_email": "Reenviar mensaje"
+        "redirect_email": "Reenviar mensaje",
+        "attention": "Atención"
     },
     "label": {
         "attachment": "Adjunto",
@@ -263,7 +242,11 @@
         "always_allow_domain": "Permitir siempre del dominio <strong>{{domain}}</strong>",
         "share_public_link": "Compartir enlace público",
         "view_images": "Ver imágenes",
-        "no_name": "<Sin nombre>"
+        "no_name": "<Sin nombre>",
+        "time_zone": "Zona horaria",
+        "searching": "Buscando...",
+        "notify": "Notificar",
+        "do_not_notify": "No notificar"
     },
     "messages": {
         "modal": {
@@ -317,10 +300,10 @@
         "check_and_try_again": "Por favor, comprueba Carbonio y prueba de nuevo",
         "could_not_find_to_show": "Lo sentimos, no pudimos encontrar nada que mostrar",
         "something_went_wrong": "ALGO SALIÓ MAL",
-        "powered_by": "powered by"
+        "powered_by": "powered by",
+        "trustee_addresses": "Los correos de esas direcciones o dominios serán considerados de confianza y las imágenes se mostrarán automáticamente."
     },
     "placeholder": {
-        "bcc": "BCC",
         "add_new_recipients": "Añadir nuevos destinatarios"
     },
     "search": {
@@ -360,9 +343,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "Suelta aquí tus archivos adjuntos para añadirlos rápidamente a este correo electrónico"
-            },
             "local": "Adjuntar desde Mi PC",
             "contacts_mod": "Añadir tarjeta de contacto",
             "drag_and_drop": {
@@ -373,7 +353,6 @@
             "url": "Agregar enlace público desde Files"
         }
     },
-    "private": "Privado",
     "message": {
         "snackbar": {
             "settings_saved": "Ediciones guardadas correctamente",
@@ -424,18 +403,14 @@
         "folder_sharing_status": "Compartido con {{count}} persona",
         "folder_sharing_status_plural": "Compartido con {{count}} personas"
     },
-    "mail_folder": "Carpeta de correo",
     "settings": {
         "conv_sort_optn": {
             "desc": "De nuevo a antiguo"
         },
         "label": {
-            "dflt_mail_search": "Búsqueda de correo por defecto",
             "display_mail": "Visuzalizar correo",
-            "msg_selection": "Selección de mensajes",
             "search_query": "Consulta por defecto",
             "check_new_mail": "Comprobar si hay nuevos mensajes",
-            "set_msg_color_acc_tag": "Configurar color de los mensajes y conversaciones según el color de la etiqueta.",
             "conversation_ordering": "Orden de las conversaciones",
             "default_mail_search": "Búsqueda por defecto",
             "display_messages": "Visualización de mensajes",
@@ -668,5 +643,31 @@
     },
     "preview": {
         "close": "Cerrar vista previa"
+    },
+    "email_status": {
+        "unread": "no leído",
+        "unforwarded": "no reenviado",
+        "unflagged": "sin marcar",
+        "tome": "a mí",
+        "sent": "enviado por mí",
+        "received": "recibido por mí",
+        "read": "leer",
+        "fromme": "de mí",
+        "fromccme": "de mí",
+        "forwarded": "reenviado",
+        "flagged": "marcado",
+        "draft": "borrador"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "Vídeo",
+        "text_document": "Documento de texto",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "Imagen",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "Correo",
+        "application": "Aplicación"
     }
 }
