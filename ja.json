@@ -2,41 +2,26 @@
     "folder": {
         "modal": {
             "edit": {
-                "type": "タイプ",
                 "rename_warning": "フォルダの名前をシステムの名前に変更することはできません。",
-                "retention_msg": "保存範囲内にあるこのフォルダ内のメッセージは、削除する前に明示的に確認する必要があります",
                 "retention_message": "保存範囲内にあるこのフォルダ内のメッセージは、削除する前に明示的に確認する必要があります",
                 "retention_duration_warning": "保持期間は正の数でなければなりません",
                 "add_share": "共有を追加する",
                 "threshold_message": "このフォルダ内の廃棄しきい値より古いメッセージは、自動クリーンアップと削除の対象になります。"
             },
-            "delete": {
-                "body": {
-                    "message2": "選択したフォルダを完全に削除しますか？"
-                }
-            },
             "move": {
-                "new": "新規フォルダ",
-                "body": {
-                    "message_restore": "検討対象のフォルダを次の場所に復元するフォルダを選択します:"
-                }
+                "new": "新規フォルダ"
             },
             "new": {
-                "create_footer": "作成して移動する",
-                "name_exist_warning": "名前がすでに存在しています"
+                "create_footer": "作成して移動する"
             },
             "restore": {
                 "title_modal": "復元する"
-            },
-            "empty": {
-                "title": "空にする"
             },
             "wipe": {
                 "title": "一掃する"
             }
         },
         "action": {
-            "delete_permanently": "フォルダを完全に削除する",
             "wipe": {
                 "folder": "フォルダを一掃する"
             }
@@ -47,14 +32,14 @@
         "edit_draft": "下書きを編集する",
         "message_not_sent": "エラー - メッセージが送信されませんでした",
         "redirect_email": "メールをリダイレクトする",
-        "delete_email": "メールを削除する"
+        "delete_email": "メールを削除する",
+        "attention": "注意"
     },
     "title": {
         "new_messages": "新規メッセージ",
         "replies_forwards": "返信と転送"
     },
     "action": {
-        "delete": "削除する",
         "forward": "転送する",
         "mark_as_read": "既読にする",
         "mark_as_unread": "未読にする",
@@ -121,7 +106,6 @@
         "revoke_access_tooltip": "標準通知の送信へのアクセスを取り消す",
         "revoke_access_without_notification": "通知を送信せずにアクセスを取り消す",
         "revoke_share": "{{title}}の共有を取り消す",
-        "mail_setting": "メールの設定",
         "no_subject": "件名なし",
         "owner": "所有者: ",
         "receive_message": "メッセージの受信",
@@ -256,7 +240,11 @@
         "share_public_link": "パブリックリンクを共有する",
         "no_name": "<名前なし>",
         "always_allow_domain": "常に<strong>{{domain}}</strong>ドメインから許可する",
-        "always_allow_address": "常に<strong>{{from}}</strong>から許可する"
+        "always_allow_address": "常に<strong>{{from}}</strong>から許可する",
+        "time_zone": "タイムゾーン",
+        "searching": "検索中...",
+        "notify": "通知",
+        "do_not_notify": "通知しない"
     },
     "messages": {
         "modal": {
@@ -308,12 +296,12 @@
         "check_and_try_again": "Carbonioを確認して、再度お試しください",
         "could_not_find_to_show": "申し訳ありませんが、表示するものが見つかりませんでした",
         "something_went_wrong": "エラーが発生しました",
-        "powered_by": "搭載"
+        "powered_by": "搭載",
+        "trustee_addresses": "これらのアドレスまたはドメインからのメールは信頼できるとみなされ、メール閲覧時に外部サイトの画像も自動的にダウンロード・表示されます。"
     },
     "placeholder": {
         "add_new_recipients": "新しい受信者を追加する"
     },
-    "read": "既読",
     "search": {
         "unread": "未読",
         "attachment_note": "添付ファイルのあるメールをすべて検索します。",
@@ -347,9 +335,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "添付ファイルをここにドロップして、このメールに素早く追加できます"
-            },
             "local": "ローカルから追加する",
             "contacts_mod": "連絡先カードを追加する",
             "drag_and_drop": {
@@ -360,7 +345,6 @@
             "url": "ファイルからパブリックリンクを追加する"
         }
     },
-    "insert": "挿入する",
     "message": {
         "snackbar": {
             "settings_saved": "編集が保存されました",
@@ -390,7 +374,6 @@
         "view_rights": "表示",
         "external_images_blocked": "スパムからユーザーを守るために、外部画像はブロックされています"
     },
-    "select_signature": "署名を選択する",
     "settings": {
         "dspl_mail_optn": {
             "text": "テキストとして"
@@ -398,7 +381,6 @@
         "label": {
             "check_new_mail": "新規メールを確認する",
             "display_mail": "メールを表示する",
-            "msg_prv_title": "メッセージのプレビューと画像",
             "search_query": "デフォルトのクエリ",
             "conversation_ordering": "会話の順序",
             "default_mail_search": "デフォルトのメール検索",
@@ -537,7 +519,6 @@
         "enable_urgent": "緊急を有効にする",
         "folder_sharing_status": "{{count}}人と共有されました"
     },
-    "workflow": "ワークフロー",
     "folder_panel": {
         "modal": {
             "delete": {
@@ -652,5 +633,31 @@
     },
     "preview": {
         "close": "プレビューを閉じる"
+    },
+    "email_status": {
+        "unread": "未読",
+        "unforwarded": "転送なし",
+        "unflagged": "フラグなし",
+        "tome": "自分宛",
+        "sent": "自分が送信済み",
+        "received": "自分が受信済み",
+        "read": "読み取り",
+        "fromme": "自分から",
+        "fromccme": "自分から",
+        "forwarded": "転送済み",
+        "flagged": "フラグ付き",
+        "draft": "下書き"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "ビデオ",
+        "text_document": "テキストドキュメント",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "イメージ",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "メールアドレス",
+        "application": "アプリケーション"
     }
 }
