@@ -2,44 +2,26 @@
     "folder": {
         "modal": {
             "edit": {
-                "folder_type": "मेल फोल्डर",
                 "rename_warning": "आप फोल्डर का नाम बदल कर सिस्टम वाला नाम नहीं रख सकते।",
                 "retention_duration_warning": "सेव करने की समय अवधि कोई धनात्मक संख्या होनी चाहिए",
                 "retention_message": "इस फोल्डर के जो मैसेज सेव करने की रेंज में आते हैं उन्हें डिलीट करने के पहले खास कन्फ़र्म करने की जरूरत होगी",
                 "add_share": "Share जोड़ें",
                 "threshold_message": "इस फोल्डर में जो मैसेज हटाने की समय सीमा से पुराने हैं उन्हें ऑटोमैटिक क्लीनअप और डिलीट किया जाएगा।"
             },
-            "delete": {
-                "body": {
-                    "message1": "क्या आप चुने गए फोल्डर को डिलीट करना चाहते हैं?"
-                }
-            },
             "move": {
-                "new": "नया फोल्डर",
-                "body": {
-                    "message_restore": "चुने गए को वापस लाकर भेजने के लिए कोई फोल्डर चुनें:"
-                }
+                "new": "नया फोल्डर"
             },
             "new": {
-                "restore_create_footer": "बनाएँ और वापस लाएँ",
-                "input": {
-                    "position": "फोल्डर पोजीशन"
-                }
+                "restore_create_footer": "बनाएँ और वापस लाएँ"
             },
             "restore": {
                 "title_modal": "वापस लाएँ"
-            },
-            "empty": {
-                "body": {
-                    "message2": "यदि आप इसे खाली कर देंगे, तो सभी संबंधित सामग्री परमानेंट रद्दी में चली जाएगी।"
-                }
             },
             "wipe": {
                 "title": "साफ करें"
             }
         },
         "action": {
-            "delete": "फोल्डर डिलीट करें",
             "delete_permanently": "फोल्डर परमानेंट डिलीट करें"
         }
     },
@@ -213,7 +195,11 @@
         "view_images": "फोटो देखें",
         "share_public_link": "पब्लिक लिंक शेयर करें",
         "always_allow_domain": "<strong>{{domain}}</strong> डोमेन से हमेशा आने दें",
-        "always_allow_address": "<strong>{{from}}</strong> से हमेशा आने दें"
+        "always_allow_address": "<strong>{{from}}</strong> से हमेशा आने दें",
+        "time_zone": "समय क्षेत्र",
+        "searching": "खोज रहा है...",
+        "notify": "सूचित करें",
+        "do_not_notify": "सूचित ना करें"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -267,10 +253,10 @@
         "powered_by": "इससे चल रहा है",
         "check_and_try_again": "Carbonio चेक करें और दोबारा कोशिश करें",
         "could_not_find_to_show": "क्षमा करें, हमारे पास दिखाने के लिए कुछ नहीं है",
-        "something_went_wrong": "कुछ गड़बड़ हुई"
+        "something_went_wrong": "कुछ गड़बड़ हुई",
+        "trustee_addresses": "इन पतों या डोमेन से आने वाली मेल को विश्वसनीय माना जाएगा और छवियाँ स्वचालित रूप से प्रदर्शित की जाएँगी."
     },
     "action": {
-        "download": "डाऊनलोड करें",
         "forward": "फॉरवर्ड करें",
         "mark_as_read": "पढ़ा गया मार्क करें",
         "mark_as_unread": "बिना पढ़ा मार्क करें",
@@ -311,14 +297,13 @@
         "delete_email": "ई-मेल डिलीट करें",
         "edit_draft": "ड्राफ़्ट बदलें",
         "message_not_sent": "त्रुटि - मैसेज नहीं भेजा गया",
-        "redirect_email": "ई-मेल रीडायरेक्ट करें"
+        "redirect_email": "ई-मेल रीडायरेक्ट करें",
+        "attention": "ध्यान दें"
     },
     "placeholder": {
-        "to": "इन्हें भेजें",
         "add_new_recipients": "नए पाने वाले जोड़ें"
     },
     "search": {
-        "attachment": "अटैचमेंट",
         "unread": "अनरीड करें",
         "attachment_note": "उन सभी ई-मेल के लिए खोजें जिनमें कोई अटैचमेंट हो।",
         "flagged_note": "सभी फ्लैग की गई ई-मेल को खोजें।",
@@ -355,9 +340,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "title": "उठा के गिराएं"
-            },
             "local": "लोकल से लगाएँ",
             "contacts_mod": "सम्पर्क कार्ड जोड़ें",
             "drag_and_drop": {
@@ -369,9 +351,6 @@
         }
     },
     "settings": {
-        "conv_sort_optn": {
-            "asc": "पुराना से नया"
-        },
         "notify_folder_optn": {
             "new_message_folder": "किसी भी फोल्डर में आने वाले नए मैसेज के लिए नोटिफिकेशन दिखाएँ",
             "new_message_inbox": "इनबॉक्स में आने वाले नए मैसेज के लिए नोटिफिकेशन दिखाएँ"
@@ -379,9 +358,7 @@
         "label": {
             "check_new_mail": "नई ई-मेल चेक करें",
             "display_mail": "मेल दिखाएँ",
-            "msg_selection": "मैसेज सिलेक्शन",
             "search_query": "डिफ़ाल्ट क्वेरी",
-            "dbl_click_opens_msg": "डबल-क्लिक से मैसेज नई विंडो में खुलेगा",
             "default_mail_search": "डिफ़ाल्ट मेल सर्च",
             "display_messages": "मैसेज दिखा रहा है",
             "message_color": "मैसेज कलर",
@@ -546,7 +523,6 @@
         "tag_applied": "\"{{tag}}\" टैग अप्लाई हो गया",
         "tag_removed": "\"{{tag}}\" टैग हटाया गया"
     },
-    "shared_folders": "शेयर किए फोल्डर",
     "shares_info": "शेयर किए फोल्डर की जानकारी",
     "folder_panel": {
         "modal": {
@@ -662,5 +638,31 @@
     },
     "preview": {
         "close": "प्रीव्यू बंद करें"
+    },
+    "email_status": {
+        "unread": "न पढ़े गए",
+        "unforwarded": "अग्रेषित नहीं",
+        "unflagged": "ध्वजांकित नहीं",
+        "tome": "मुझे",
+        "sent": "मेरे द्वारा प्रेषित",
+        "received": "मुझे प्राप्त हुआ",
+        "read": "पठित",
+        "fromme": "मुझसे",
+        "fromccme": "मुझसे",
+        "forwarded": "अग्रेषित किया गया",
+        "flagged": "ध्वजांकित",
+        "draft": "ड्राफ़्ट"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "वीडियो",
+        "text_document": "टेक्स्ट डॉक्युमेंट",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "छवि",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "ईमेल",
+        "application": "एप्लिकेशन"
     }
 }
