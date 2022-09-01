@@ -935,6 +935,21 @@ export const indexerHeaders = [
 	}
 ];
 
+export const volumeTypeList = [
+	{
+		label: 'Primary',
+		value: 1
+	},
+	{
+		label: 'Secondary',
+		value: 2
+	},
+	{
+		label: 'index',
+		value: 10
+	}
+];
+
 export const localeList = (
 	t: TFunction
 ): Array<{ id: string; name: string; localName: string; value: string; label: string }> => [

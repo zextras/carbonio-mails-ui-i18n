@@ -14,6 +14,9 @@ import { fetchSoap } from '../../../services/bucket-service';
 import IndexerVolumeTable from './indexer-volume-table';
 import { tableHeader, indexerHeaders } from '../../utility/utils';
 import { useBucketVolumeStore } from '../../../store/bucket-volume/store';
+import NewVolume from './volume/create-volume/new-volume';
+import ModifyVolume from './volume/modify-volume/modify-volume';
+import DeleteVolumeModel from './volume/delete-volume-model';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -65,7 +68,7 @@ const VolumeListTable: FC<{
 						}}
 						style={{ textAlign: 'center' }}
 					>
-						<Text color={v.compressed ? 'text' : 'error'}>{v.compressed ? YES : NO}</Text>
+						<Text color={v.compressBlobs ? 'text' : 'error'}>{v.compressBlobs ? YES : NO}</Text>
 					</Row>
 				],
 				clickable: true
@@ -96,13 +99,26 @@ const VolumesDetailPanel: FC = () => {
 	const [t] = useTranslation();
 	const selectedServerName = useBucketVolumeStore((state) => state.selectedServerName);
 	const [volumeselection, setVolumeselection] = useState('');
+	const [toggleWizardSection, setToggleWizardSection] = useState(false);
+	const [detailsVolume, setDetailsVolume] = useState(false);
+	const [createMailstoresVolumeData, setCreateMailstoresVolumeData] = useState();
+	const [modifyVolumeToggle, setmodifyVolumeToggle] = useState(false);
 	const [toggleDetailPage, setToggleDetailPage] = useState(false);
-	const [volumeDetail, setVolumeDetail] = useState<number>(0);
+	const [volume, setVolume] = useState<number>(0);
+	const [open, setOpen] = useState(false);
 	const [volumeList, setVolumeList] = useState<object | any>({
 		primaries: [],
 		indexes: [],
 		secondaries: []
 	});
+
+	const closeHandler = (): any => {
+		setOpen(false);
+	};
+
+	const deleteHandler = (): any => {
+		console.log('__deleted');
+	};
 
 	const GetAllVolumesRequest = useCallback((): void => {
 		fetchSoap('GetAllVolumesRequest', {
@@ -125,20 +141,67 @@ const VolumesDetailPanel: FC = () => {
 
 	useEffect(() => {
 		GetAllVolumesRequest();
-	}, [GetAllVolumesRequest]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const CreateVolumeRequest = (volumeDetail: {
+		id: any;
+		volumeName: any;
+		path: any;
+		volumeMain: any;
+		isCompression: any;
+		compressionThreshold: any;
+		isCurrent: any;
+	}): any => {
+		fetchSoap('CreateVolumeRequest', {
+			_jsns: 'urn:zimbraAdmin',
+			module: 'ZxCore',
+			action: 'CreateVolumeRequest',
+			volume: {
+				id: volumeDetail?.id,
+				name: volumeDetail?.volumeName,
+				rootpath: volumeDetail?.path,
+				type: volumeDetail?.volumeMain,
+				compressBlobs: volumeDetail?.isCompression ? 1 : 0,
+				compressionThreshold: volumeDetail?.compressionThreshold,
+				isCurrent: volumeDetail?.isCurrent ? 1 : 0
+			}
+		}).then((res: any) => {
+			console.log('__res', res);
+			GetAllVolumesRequest();
+		});
+	};
 
 	const handleClick = (i: number, data: any): void => {
 		const volumeObject: any = data.find((s: any, index: any) => index === i);
-		setVolumeDetail(volumeObject?.id);
+		setVolume(volumeObject);
 		setToggleDetailPage(true);
 	};
 	return (
 		<>
-			{toggleDetailPage && volumeDetail && (
+			{toggleDetailPage && volume && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<ServerVolumeDetailsPanel
-						volumeDetail={volumeDetail}
+						volumeDetail={volume}
 						setToggleDetailPage={setToggleDetailPage}
+						setmodifyVolumeToggle={setmodifyVolumeToggle}
+						setOpen={setOpen}
+					/>
+				</AbsoluteContainer>
+			)}
+			{modifyVolumeToggle && volume && (
+				<AbsoluteContainer orientation="vertical" background="gray5">
+					<ModifyVolume volumeDetail={volume} setmodifyVolumeToggle={setmodifyVolumeToggle} />
+				</AbsoluteContainer>
+			)}
+			{toggleWizardSection && (
+				<AbsoluteContainer orientation="vertical" background="gray5">
+					<NewVolume
+						setToggleWizardSection={setToggleWizardSection}
+						setDetailsVolume={setDetailsVolume}
+						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
+						volName={selectedServerName}
+						CreateVolumeRequest={CreateVolumeRequest}
 					/>
 				</AbsoluteContainer>
 			)}
@@ -149,9 +212,17 @@ const VolumesDetailPanel: FC = () => {
 				style={{ overflowY: 'auto' }}
 				background="white"
 			>
+				{open && (
+					<DeleteVolumeModel
+						open={open}
+						closeHandler={closeHandler}
+						saveHandler={deleteHandler}
+						volumeDetail={volume}
+					/>
+				)}
 				<Row mainAlignment="flex-start" padding={{ all: 'large' }}>
 					<Text size="extralarge" weight="bold">
-						{t('buckets.serverName_volumes', '{{serverName}} Volumes', {
+						{t('volume.serverName_volumes', '{{serverName}} Volumes', {
 							serverName: selectedServerName
 						})}
 					</Text>
@@ -192,6 +263,7 @@ const VolumesDetailPanel: FC = () => {
 								label={t('label.new_volume_button', 'NEW VOLUME')}
 								icon="PlusOutline"
 								color="primary"
+								onClick={(): any => setToggleWizardSection(!toggleWizardSection)}
 							/>
 						</Row>
 						<Row

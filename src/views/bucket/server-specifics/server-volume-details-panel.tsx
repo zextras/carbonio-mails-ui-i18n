@@ -20,10 +20,12 @@ import { useTranslation } from 'react-i18next';
 import { fetchSoap } from '../../../services/bucket-service';
 import { INDEXERES, PRIMARIES, SECONDARIES } from '../../../constants';
 
-const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any }> = ({
-	setToggleDetailPage,
-	volumeDetail
-}) => {
+const ServerVolumeDetailsPanel: FC<{
+	setToggleDetailPage: any;
+	volumeDetail: any;
+	setmodifyVolumeToggle: any;
+	setOpen: any;
+}> = ({ setToggleDetailPage, volumeDetail, setmodifyVolumeToggle, setOpen }) => {
 	const { t } = useTranslation();
 	const [detailData, setDetailData] = useState({
 		name: '',
@@ -39,7 +41,7 @@ const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any
 		fetchSoap('GetVolumeRequest', {
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxPowerstore',
-			id: volumeDetail
+			id: volumeDetail?.id
 		}).then((response) => {
 			if (response) {
 				if (response.GetVolumeResponse.volume[0].type === 1) {
@@ -84,6 +86,29 @@ const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any
 						</Row>
 					</Row>
 					<Divider />
+					<Container
+						orientation="horizontal"
+						mainAlignment="flex-end"
+						crossAlignment="flex-end"
+						background="gray6"
+						padding={{ all: 'extralarge' }}
+						style={{ height: 'fit-content' }}
+					>
+						<Padding>
+							<Container style={{ border: '1px solid #2b73d2' }}>
+								<IconButton
+									iconColor="primary"
+									backgroundColor="gray6"
+									icon="EditAsNewOutline"
+									height={44}
+									width={44}
+									onClick={(): void => {
+										setmodifyVolumeToggle(true);
+									}}
+								/>
+							</Container>
+						</Padding>
+					</Container>
 					<Container
 						padding={{ horizontal: 'large', top: 'extralarge', bottom: 'large' }}
 						mainAlignment="flex-start"
@@ -150,6 +175,7 @@ const ServerVolumeDetailsPanel: FC<{ setToggleDetailPage: any; volumeDetail: any
 								label={t('label.button_delete', 'DELETE')}
 								color="error"
 								width="fill"
+								onClick={(): any => setOpen(true)}
 							/>
 						</Container>
 					</Container>
