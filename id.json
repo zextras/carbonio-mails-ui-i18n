@@ -1,6 +1,5 @@
 {
     "action": {
-        "download": "Unduh",
         "forward": "Teruskan",
         "mark_as_read": "Tandai sebagai dibaca",
         "mark_as_unread": "Tandai sebagai belum dibaca",
@@ -30,26 +29,22 @@
     },
     "folder": {
         "action": {
-            "edit": "Edit properti folder",
             "wipe": {
                 "folder": "Hapus folder"
             }
         },
         "modal": {
             "move": {
-                "new": "Folder Baru",
                 "input": {
                     "filter": "Filter Folder"
                 }
             },
             "delete": {
-                "footer": "Oke",
                 "body": {
                     "message4": "Jika dihapus, semua konten terkait akan dihapus secara permanen dan folder tidak dapat dipulihkan lagi."
                 }
             },
             "edit": {
-                "type": "Jenis",
                 "rename_warning": "Anda tidak bisa mengubah nama folder sebagai sistem.",
                 "retention_duration_warning": "Durasi retensi harus berupa angka positif",
                 "retention_message": "Pesan dalam folder yang termasuk dalam rentang retensi memerlukan konfirmasi langsung sebelum dihapus",
@@ -57,15 +52,7 @@
                 "add_share": "Tambahkan Berbagi"
             },
             "new": {
-                "input": {
-                    "name": "Nama Folder"
-                },
                 "name_exist_warning": "Nama sudah ada"
-            },
-            "empty": {
-                "body": {
-                    "message2": "Jika dikosongkan, semua konten terkait akan dihapus secara permanen."
-                }
             },
             "wipe": {
                 "title": "Hapus"
@@ -85,7 +72,8 @@
         "delete_email": "Hapus email",
         "message_not_sent": "Kesalahan - Pesan tidak terkirim",
         "edit_draft": "Edit draf",
-        "redirect_email": "Alihkan email"
+        "redirect_email": "Alihkan email",
+        "attention": "Perhatian"
     },
     "label": {
         "me": "Saya",
@@ -252,11 +240,14 @@
         "view_images": "LIHAT GAMBAR",
         "share_public_link": "Bagikan Tautan Publik",
         "always_allow_domain": "Selalu izinkan dari domain<strong>{{domain}}</strong>",
-        "always_allow_address": "Selalu izinkan dari <strong>{{from}}</strong>"
+        "always_allow_address": "Selalu izinkan dari <strong>{{from}}</strong>",
+        "time_zone": "Zona Waktu",
+        "searching": "Mencari...",
+        "notify": "Beri tahu",
+        "do_not_notify": "Jangan kirim notifikasi"
     },
     "messages": {
         "snackbar": {
-            "conversation_deleted_permanently_error": "Terjadi kesalahan, coba lagi",
             "conversation_move": "Percakapan berhasil dipindahkan",
             "email_moved_to_trash": "Email dipindahkan ke Sampah",
             "email_restored": "Email dipulihkan di folder tujuan",
@@ -305,13 +296,12 @@
         "powered_by": "didukung oleh",
         "check_and_try_again": "Periksa Carbonio dan coba lagi",
         "could_not_find_to_show": "Maaf, kami tak menemukan apa pun untuk ditampilkan",
-        "something_went_wrong": "TERJADI MASALAH"
+        "something_went_wrong": "TERJADI MASALAH",
+        "trustee_addresses": "Email dari alamat atau domain ini akan dianggap tepercaya dan gambar akan otomatis ditampilkan."
     },
-    "delete": "Hapus",
     "placeholder": {
         "add_new_recipients": "Tambahkan penerima baru"
     },
-    "read": "Dibaca",
     "search": {
         "unread": "Belum dibaca",
         "unread_note": "Cari semua item email yang belum dibaca.",
@@ -352,12 +342,8 @@
             "new_message_folder": "Tampilkan notifikasi untuk pesan baru yang muncul di folder mana pun",
             "new_message_inbox": "Tampilkan notifikasi untuk pesan baru di kotak masuk"
         },
-        "dspl_mail_optn": {
-            "html": "Sebagai HTML (jika memungkinkan)"
-        },
         "label": {
             "display_mail": "Tampilkan email",
-            "msg_prv_title": "Pratinjau pesan dan Gambar",
             "search_query": "Permintaan default",
             "check_new_mail": "Periksa email baru",
             "conversation_ordering": "Urutan percakapan",
@@ -475,9 +461,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "Letakkan lampiran Anda di sini untuk menambahkannya dengan cepat ke email ini"
-            },
             "local": "Tambahkan dari lokal",
             "contacts_mod": "Tambahkan Kartu Kontak",
             "drag_and_drop": {
@@ -488,7 +471,6 @@
             "url": "Tambahkan tautan publik dari Files"
         }
     },
-    "insert": "Sisipkan",
     "message": {
         "sending_mail_to_self": "Sepertinya Anda akan mengirim email untuk Anda sendiri",
         "snackbar": {
@@ -519,7 +501,6 @@
         "external_images_blocked": "Gambar eksternal telah diblokir untuk melindungi Anda terhadap potensi spam"
     },
     "snackbar": {
-        "folder_shared_error": "Terjadi kesalahan, coba lagi",
         "share_resend": "Undangan berbagi dikirim ulang",
         "share_revoke": "Akses berbagi dibatalkan",
         "share_updated": "\"Hak akses diperbarui\"",
@@ -539,7 +520,6 @@
         "enable_urgent": "Aktifkan mendesak",
         "folder_sharing_status": "Dibagikan kepada {{count}} orang"
     },
-    "set_default_signatures": "Atur tanda tangan default",
     "folder_panel": {
         "modal": {
             "delete": {
@@ -654,5 +634,31 @@
     },
     "preview": {
         "close": "Tutup Pratinjau"
+    },
+    "email_status": {
+        "unread": "belum dibaca",
+        "unforwarded": "tidak diteruskan",
+        "unflagged": "tidak dibenderai",
+        "tome": "ke saya",
+        "sent": "dikirim saya",
+        "received": "diterima saya",
+        "read": "dibaca",
+        "fromme": "dari saya",
+        "fromccme": "dari saya",
+        "forwarded": "diteruskan",
+        "flagged": "dibenderai",
+        "draft": "draf"
+    },
+    "attachment_type": {
+        "word": "Word",
+        "video": "Video",
+        "text_document": "Text Document",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "Gambar",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "Email",
+        "application": "Aplikasi"
     }
 }
