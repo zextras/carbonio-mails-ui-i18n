@@ -856,6 +856,7 @@
         "volume_compression_thresold": "Compression Threshold",
         "volume_create_with_this_data_button": "CREATE WITH THESE DATA",
         "volume_created": "Volume created successfully",
+        "volume_deleted": "Volume deleted successfully",
         "volume_id": "Volume ID",
         "volume_main": "Volume Main",
         "volume_max_quota_allowed": "Max Quota Allowed",
