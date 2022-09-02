@@ -1,6 +1,5 @@
 {
     "action": {
-        "edit_as_draft": "Modifier",
         "edit_as_new": "Modifier comme nouveau",
         "edit_share": "Modifier le partage",
         "flag": "Ajouter marqueur",
@@ -30,50 +29,40 @@
     },
     "composer": {
         "attachment": {
-            "contactsMod": "Ajouter une carte de contact",
             "local": "Ajouter un fichier depuis le disque local",
             "contacts_mod": "Ajouter une fiche de contact",
             "drag_and_drop": {
                 "content": "Déposez ici vos pièces jointes pour les ajouter rapidement à cet email",
                 "title": "Mode Glisser-Déposer"
             },
-            "files": "Ajouter depuis Files",
-            "url": "Ajouter un lien publique depuis Files"
+            "files": "Ajouter à partir de Files",
+            "url": "Ajouter un lien public à partir de Files"
         }
     },
-    "find_shares": "Rechercher les partages",
     "folder": {
         "action": {
-            "new": "Nouveau dossier",
-            "edit_properties": "Modifier les propriétés"
+            "new": "Nouveau dossier"
         },
         "modal": {
             "delete": {
                 "body": {
                     "message4": "Si vous le supprimez, tous les contenus associés seront définitivement supprimés et le dossier ne sera plus restaurable."
-                },
-                "title": "Supprimer"
+                }
             },
             "edit": {
                 "rename_warning": "Vous ne pouvez pas renommer un dossier en tant que dossier système.",
-                "size": "Taille",
                 "retention_message": "Les messages de ce dossier qui se situent dans la plage de rétention devront être confirmés explicitement avant d'être supprimés",
                 "add_share": "Ajouter un Partage",
                 "retention_duration_warning": "La durée de rétention doit être un nombre positif",
                 "threshold_message": "Les messages de ce dossier qui sont plus anciens que le seuil d'élimination seront soumis à un nettoyage et une suppression automatiques."
             },
-            "empty": {
-                "title": "Vide"
-            },
             "move": {
-                "footer": "Déplacer",
-                "title_modal": "Déplacer la conversation"
+                "footer": "Déplacer"
             },
             "new": {
                 "input": {
                     "name": "Nom du dossier"
-                },
-                "restore_create_footer": "Créer et Restaurer"
+                }
             },
             "wipe": {
                 "body": {
@@ -199,7 +188,7 @@
         "size": "Taille",
         "size_larger": "Taille supérieure à (MB)",
         "size_smaller": "Taille inférieure à (MB)",
-        "tag": "Étiquette",
+        "tag": "Etiquette",
         "workflow": "Flux de travail",
         "write": "Ecrire",
         "undo": "Annuler",
@@ -267,7 +256,7 @@
         "no_name": "<Pas de Nom>",
         "view_images": "VISUALISER LES IMAGES",
         "always_allow_address": "Toujours autoriser depuis <strong>{{from}}</strong>",
-        "share_public_link": "Partager un lien publique"
+        "share_public_link": "Partager lien public"
     },
     "message": {
         "snackbar": {
@@ -276,17 +265,17 @@
                 "declined": "Vous avez décliné la demande de partage"
             },
             "settings_saved": "Modifications enregistrées correctement",
-            "all_att_added": "Pièces jointes ajoutées avec succès",
+            "all_att_added": "Les pièces jointes ont été ajoutées avec succès",
             "all_att_saved": "Pièces jointes enregistrées avec succès dans le dossier sélectionné",
             "att_err": "Il semble qu'il y ai eu un problème lors de l'enregistrement, merci de réessayer",
-            "att_err_adding": "Il semble qu'il y ai eu un problème lors de l'ajout de la pièce jointe, merci de réessayer",
+            "att_err_adding": "Il semble y avoir un problème lors de l'ajout de pièces jointes, veuillez réessayer",
             "att_saved": "La pièce jointe a été enregistrée dans le dossier sélectionné",
             "calendar_edits_saved": "Modifications enregistrées avec succès",
-            "some_att_add_fails": "Il semble qu'il y ai eu une erreur lors de l'ajout des pièces jointes, merci de réessayer",
+            "some_att_add_fails": "Il semble y avoir un problème lors de l'ajout de certaines pièces jointes, veuillez réessayer",
             "some_att_fails": "Il semble qu'il y ai eu une erreur lors de l'enregistrement de certaines pièces jointes, merci de réessayer",
-            "all_link_copied": "Le lien publique a été copié avec succèss",
-            "link_copying_error": "Une erreur est survenue lors de la génération du lien publique, merci de réessayer",
-            "some_link_copying_error": "Une erreur est survenue lors de la génération de l'url publique pour certains fichiers, merci de réessayer"
+            "all_link_copied": "Le lien public a été copié avec succès",
+            "link_copying_error": "Il semble y avoir un problème lors de la génération du lien public, veuillez réessayer",
+            "some_link_copying_error": "Il semble y avoir un problème lors de la génération de l'url publique pour certains fichiers, veuillez réessayer"
         },
         "sending_mail_to_self": "Il semblerait que vous soyez sur le point de vous envoyer un email",
         "invalid_search_message": "Nous n'avons pas trouvé de correspondance",
@@ -332,7 +321,6 @@
             "message_deleted": "Message supprimé",
             "message_move": "Message déplacé avec succès",
             "message_redirected": "Le message a été redirigé",
-            "message_will_be_send_in_time": "Ce message sera envoyé dans {{remainingTime}} secondes.",
             "folder_wiped_error": "Quelque chose s'est mal passé, veuillez recommencer",
             "mail_sent": "Message envoyé",
             "marked_as_non_spam": "Vous avez marqué cet email comme n'étant pas un spam",
@@ -355,8 +343,7 @@
         "something_went_wrong": "QUELQUE CHOSE S'EST MAL PASSÉ"
     },
     "placeholder": {
-        "add_new_recipients": "Ajouter de nouveaux destinataires",
-        "to": "À"
+        "add_new_recipients": "Ajouter de nouveaux destinataires"
     },
     "remove_from_this_list": "Retirer de cette liste",
     "search": {
@@ -370,14 +357,9 @@
         "size_error": "Seuls les chiffres sont autorisés"
     },
     "settings": {
-        "conv_sort_optn": {
-            "desc": "Depuis le nouveau à l'ancien"
-        },
         "label": {
             "check_new_mail": "Vérifier les nouveaux emails",
-            "disp_messages": "Affichage des messages",
             "display_mail": "Affichage de l'email",
-            "msg_prv_title": "Aperçu du message et images",
             "search_query": "Requête par défaut",
             "default_mail_search": "Recherche de courrier par défaut",
             "set_message_color": "Définir la couleur des messages et des conversations en fonction de la couleur de l'étiquette.",
