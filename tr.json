@@ -41,16 +41,8 @@
     },
     "folder": {
         "modal": {
-            "delete": {
-                "footer": "Ok"
-            },
             "new": {
                 "name_exist_warning": "Ad önceden kullanılmış"
-            },
-            "move": {
-                "input": {
-                    "filter": "Klasörleri filtrele"
-                }
             },
             "edit": {
                 "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz.",
@@ -58,9 +50,6 @@
                 "add_share": "Paylaşım ekle",
                 "retention_duration_warning": "Koruma dönemi süresi positif bir sayı olmalıdır",
                 "threshold_message": "Bu klasördeki çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir."
-            },
-            "wipe": {
-                "title": "Temizle"
             }
         },
         "action": {
@@ -94,7 +83,9 @@
         "view_rights": "Görüntüle",
         "admin_rights": "Görüntüle,Düzenle,Ekle,Kaldır,Yönet",
         "manager_rights": "Görüntüle,Düzenle,Ekle,Kaldır",
-        "external_images_blocked": "Potansiyel spam mesajlara karşı korumak için dışarıdan resimler engellendi"
+        "external_images_blocked": "Potansiyel spam mesajlara karşı korumak için dışarıdan resimler engellendi",
+        "schedule_time": "{{date}} - {{time}}",
+        "schedule_mail": "Gönderim tarih ve saati: {{date}} - {{time}}"
     },
     "snackbar": {
         "share_resend": "Paylaşım davetini yeniden gönder",
@@ -108,7 +99,7 @@
     "label": {
         "cancel": "İptal",
         "download": "İndir",
-        "download_plural": "İndir",
+        "download_plural": "Hepsini İndir",
         "edit": "Düzenle",
         "edit_access": "{{name}}'in erişimini düzenle",
         "save": "Kaydet",
@@ -275,7 +266,28 @@
         "always_allow_domain": "<strong>{{domain}}</strong> alanadına her zaman izin ver",
         "share_public_link": "Genel Bağlantı Paylaş",
         "view_images": "RESİMLERİ GÖRÜNTÜLE",
-        "no_name": "<Ad Yok>"
+        "no_name": "<Ad Yok>",
+        "keep_draft": "Taslağı kaydet",
+        "expand_receivers_list": "Alıcılar listesini genişlet",
+        "collapse_receivers_list": "Alıcılar listesini küçült",
+        "delayed_sending": "Sonradan gönderim",
+        "trusted_addresses": "Güvenilir adresler",
+        "time_zone": "Saat Dilimi",
+        "send_later": "Sonra gönder",
+        "searching": "Aranıyor…",
+        "request_receipt": "Okundu onayı iste",
+        "remove_request_receipt": "Okundu onay isteğini kaldır",
+        "read_receipt_sent": "Bu mesaj için okundu onayı gönderildi",
+        "read_receipt_req": "Okundu onayı gerekli",
+        "notify": "Bildirim gönder",
+        "mark_as_un_important": "Önemsiz olarak işaretle",
+        "mark_as_important": "Önemli olarak işaretle",
+        "include_shared_folders": "Paylaşılan klasörleri ekle",
+        "filter_modified": "Filtre başarıyla güncellendi",
+        "enter_email_address": "E-posta adresi ya da alanadı girin",
+        "do_not_notify": "Bildirim gönderme",
+        "delete_draft": "Taslağı sil",
+        "before_you_leave": "Çıkmadan önce"
     },
     "share": {
         "options": {
@@ -307,8 +319,10 @@
         "edit": "Paylaşım özelliklerini düzenle",
         "enable_rich_text": "Gelişmiş metin düzenleyici kullan",
         "enable_urgent": "Acil simgesi ekle",
-        "folder_sharing_status": "{{count}} kişi ile paylaşıldı",
-        "folder_sharing_status_plural": "{{count}} kişi ile paylaşıldı"
+        "folder_sharing_status": "{{count}} kullanıcı ile paylaşıldı",
+        "folder_sharing_status_plural": "{{count}} kullanıcı ile paylaşıldı",
+        "folder_linked_status": "Benimle paylaşıldı",
+        "marked_as_important": "Önemli olarak işaretlendi"
     },
     "folders": {
         "drafts": "Taslaklar",
@@ -323,7 +337,8 @@
         "edit_draft": "Taslağı düzenle",
         "message_not_sent": "Hata - Mesaj gönderilmedi",
         "redirect_email": "E-postayı yönlendir",
-        "warning": "Uyarı"
+        "warning": "Uyarı",
+        "attention": "Dikkat"
     },
     "messages": {
         "modal": {
@@ -334,6 +349,10 @@
             "redirect": {
                 "first": "Bu e-posta asıl gönderenin e-posta adresi korunarak, yeni bir alıcıya gönderilecek.",
                 "second": "E-posta orjinal olarak yeni alıcıya gönderilmiş gibi görünecek"
+            },
+            "send_anyway": {
+                "second": "E-postayı yine de göndermek istiyor musunuz?",
+                "first": "E-posta konusu boş ve hiç dosya eklemediniz."
             }
         },
         "new_email": "Yeni e-posta",
@@ -377,7 +396,12 @@
         "powered_by": "sağlayıcı",
         "check_and_try_again": "Lütfen Carbonio'yu kontrol edin ve tekrar deneyin",
         "could_not_find_to_show": "Gösterilecek hiçbir şey bulunamadı",
-        "something_went_wrong": "HATA OLUŞTU"
+        "something_went_wrong": "HATA OLUŞTU",
+        "trustee_addresses": "Bu adres veya alanadlarından gelen postalar güvenilir olarak değerlendirilecek ve resimler otomatik olarak görüntülenecektir.",
+        "read_receipt_2": "Gönderen kişiye bildirim göndermek ister misiniz?",
+        "read_receipt_1": "Bu mesajı gönderen kişi mesaj okunduğunda bildirim almak istedi.",
+        "invalid_trustee_address": "Lütfen sadece e-posta adresleri veya alanadları yazınız",
+        "cal_name_exist_warning": "Aynı ad kullanılmış takvim zaten burada var"
     },
     "placeholder": {
         "add_new_recipients": "Yeni alıcılar ekle"
@@ -390,7 +414,8 @@
         "sent_after": "Bu tarihten sonra",
         "sent_before": "Bu tarihten önce",
         "sent_on": "Bu tarihte",
-        "size_error": "Sadece sayı kullanılabilir"
+        "size_error": "Sadece sayı kullanılabilir",
+        "shared_folders_note": "Aramalara paylaşılan öğeleri ekle."
     },
     "title": {
         "new_messages": "Yeni Mesajlar",
@@ -633,5 +658,48 @@
     },
     "preview": {
         "close": "Önizlemeyi Kapat"
+    },
+    "modal": {
+        "delete_draft": {
+            "message1": "Taslağı saklamak veya silmek istiyor musunuz?"
+        }
+    },
+    "email_status": {
+        "unreplied": "benim yanıtlamadıklarım",
+        "unread": "okunmamış",
+        "unforwarded": "iletilmedi",
+        "unflagged": "bayrak yok",
+        "tome": "bana",
+        "tofromme": "bana, benden veya bana kopya olan",
+        "tofromccme": "bana, benden veya bana kopya olan",
+        "toccme": "bana veya bana kopya olan",
+        "solo": "tek mesajdan oluşan görüşmeler",
+        "sent": "benim gönderdiklerim",
+        "replied": "benim yanıtladıklarım",
+        "remote": "paylaştığım bir klasörde olan",
+        "received": "bana gelenler",
+        "read": "okunmuş",
+        "local": "klasörlerimde",
+        "invitations": "davetler",
+        "fromme": "benden",
+        "fromccme": "benden",
+        "forwarded": "iletildi",
+        "flagged": "bayraklı",
+        "draft": "taslak",
+        "ccme": "bana kopyası gelen",
+        "anywhere": "bütün klasörlerde"
+    },
+    "attachment_type": {
+        "zipped_file": "Zipli Dosya",
+        "word": "Word",
+        "video": "Video",
+        "text_document": "Metin Dokümanı",
+        "powerpoint": "Powerpoint",
+        "pdf": "PDF",
+        "image": "Resim",
+        "html": "HTML",
+        "excel": "Excel",
+        "email": "E-Posta",
+        "application": "Uygulama"
     }
 }
