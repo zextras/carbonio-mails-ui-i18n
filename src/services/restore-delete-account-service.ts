@@ -7,15 +7,12 @@
 import {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	postSoapWithoutBodyFetchRequest
+	fetchExternalSoap
 } from '@zextras/carbonio-shell-ui';
 
 export const doRestoreDeleteAccount = async (dataItem: unknown): Promise<any> => {
 	const data: any = dataItem;
-	return postSoapWithoutBodyFetchRequest(
-		`/service/extension/zextras_admin/backup/doRestoreOnNewAccount`,
-		{
-			...data
-		}
-	);
+	return fetchExternalSoap(`/service/extension/zextras_admin/backup/doRestoreOnNewAccount`, {
+		...data
+	});
 };

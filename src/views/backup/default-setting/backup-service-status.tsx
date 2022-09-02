@@ -44,38 +44,34 @@ const BackupServiceStatus: FC = () => {
 		modifiedKeys.forEach((ele: any) => {
 			modifiedData[ele] = initbackupDetail[ele];
 		});
-		modifyBackupRequest(modifiedData)
-			.then(function (response) {
-				return response.status !== 200 ? response.json() : response;
-			})
-			.then((data) => {
-				if (data.status === 200) {
-					setGlobalConfig(initbackupDetail);
-					createSnackbar({
-						key: 'success',
-						type: 'success',
-						label: t(
-							'label.the_last_changes_has_been_saved_successfully',
-							'The last changes has been saved successfully'
-						),
-						autoHideTimeout: 3000,
-						hideButton: true,
-						replace: true
-					});
-				} else {
-					createSnackbar({
-						key: 'error',
-						type: 'error',
-						label:
-							data?.errors?.[0]?.error ||
-							data?.statusText ||
-							t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
-						autoHideTimeout: 3000,
-						hideButton: true,
-						replace: true
-					});
-				}
-			});
+		modifyBackupRequest(modifiedData).then((data) => {
+			if (data.status === 200) {
+				setGlobalConfig(initbackupDetail);
+				createSnackbar({
+					key: 'success',
+					type: 'success',
+					label: t(
+						'label.the_last_changes_has_been_saved_successfully',
+						'The last changes has been saved successfully'
+					),
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
+			} else {
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label:
+						data?.errors?.[0]?.error ||
+						data?.statusText ||
+						t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
+			}
+		});
 	};
 	useEffect(() => {
 		if (!initbackupDetail?.privateKeyAlgorithm && globalConfig?.privateKeyAlgorithm) {

@@ -8,7 +8,7 @@
 import {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	postSoapWithoutBodyFetchRequest
+	fetchExternalSoap
 } from '@zextras/carbonio-shell-ui';
 
 export const modifyBackupRequest = async (modifiedData: any): Promise<any> => {
@@ -20,15 +20,7 @@ export const modifyBackupRequest = async (modifiedData: any): Promise<any> => {
 			configType: 'global'
 		};
 	});
-	return fetch(`/service/extension/zextras_admin/core/attribute/set`, {
-		method: 'POST',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(request)
+	return fetchExternalSoap(`/service/extension/zextras_admin/core/attribute/set`, {
+		...request
 	});
-	// return postSoapWithoutBodyFetchRequest(`/service/extension/zextras_admin/core/attribute/set`, {
-	// 	...request
-	// });
 };

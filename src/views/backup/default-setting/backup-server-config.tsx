@@ -46,9 +46,6 @@ const BackupServerConfig: FC = () => {
 			modifiedData[ele] = initbackupDetail[ele];
 		});
 		modifyBackupRequest(modifiedData)
-			.then(function (response) {
-				return response.status !== 200 ? response.json() : response;
-			})
 			.then((data) => {
 				if (data.status === 200) {
 					setGlobalConfig(initbackupDetail);
