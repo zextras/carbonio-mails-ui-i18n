@@ -112,7 +112,7 @@
         "folder_sharing_status_0": "Udostępniono {{count}} użytkownikowi",
         "folder_sharing_status_1": "Udostępniono {{count}} użytkownikom",
         "folder_sharing_status_2": "Udostępniono {{count}} użytkownikom",
-        "folder_linked_status": "Połączone ze mną",
+        "folder_linked_status": "Udostępnione mi",
         "marked_as_important": "Oznaczone jako ważne"
     },
     "label": {
@@ -187,7 +187,7 @@
         "highlight_tab": "Podświetl zakładkę Skrzynka pocztowa",
         "insert": "Wstaw",
         "keywords": "Słowa kluczowe",
-        "loading_results": "Ładowanie Wyników. . .",
+        "loading_results": "Ładowanie wyników…",
         "mail_folder": "Folder E-maile",
         "mail_settings": "Ustawienia skrzynki odbiorczej",
         "me": "Ja",
@@ -290,7 +290,7 @@
         "no_name": "<Brak nazwy>",
         "share_public_link": "Udostępnij Publiczny Link",
         "view_images": "ZOBACZ OBRAZKI",
-        "keep_draft": "Zachowaj wersję roboczą",
+        "keep_draft": "Zapisz wersję roboczą",
         "expand_receivers_list": "Rozwiń listę odbiorców",
         "collapse_receivers_list": "Zwiń listę odbiorców",
         "delayed_sending": "Opóźnione wysyłanie",
