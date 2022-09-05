@@ -312,7 +312,8 @@
         "folder_sharing_status_0": "Поделился с {{count}} пользователем",
         "folder_sharing_status_1": "Поделился с {{count}} пользователями",
         "folder_sharing_status_2": "Поделился с {{count}}пользователями",
-        "marked_as_important": "Высокий приоритет"
+        "marked_as_important": "Высокий приоритет",
+        "folder_linked_status": "Поделились со мной"
     },
     "composer": {
         "attachment": {
@@ -328,9 +329,6 @@
     },
     "folder": {
         "modal": {
-            "move": {
-                "title_modal": "Переместить разговор"
-            },
             "edit": {
                 "rename_warning": "Вы не можете переименовать папку в системную.",
                 "retention_duration_warning": "Продолжительность хранения должна быть положительным числом",
@@ -338,16 +336,10 @@
                 "add_share": "Добавить общий ресурс",
                 "retention_message": "Письма в этой папке, которые попадают в диапазон хранения, перед удалением потребуют подтверждения"
             },
-            "new": {
-                "restore_create_footer": "Создать и восстановить"
-            },
             "delete": {
                 "body": {
                     "message2": "Вы хотите удалить выбранную папку навсегда?"
                 }
-            },
-            "restore": {
-                "footer": "Восстановить"
             }
         },
         "action": {
@@ -486,7 +478,6 @@
         "mass_marketing": "mass marketing (bulk)",
         "mb": "MB"
     },
-    "insert": "Вставить",
     "message": {
         "snackbar": {
             "share": {
