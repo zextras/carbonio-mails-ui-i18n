@@ -380,6 +380,7 @@
         "account_created_successfully": "The account has been created successfully",
         "account_data_copy_to_account": "The account data will be copied to this account",
         "account_quota_mb": "Account Quota (MB)",
+        "account_remove_correctly": "The account has been correctly removed.",
         "account_scan": "AccountScan",
         "account_status": "Account Status",
         "accounts": "Accounts",
@@ -521,6 +522,10 @@
         "delete_domain_success_msg": "Domain has been delete successfully",
         "delete_domain_with_account_content_msg": "{{domainName}} is not empty: contains {{domainAccounts}} system accounts and {{domainAccounts}} regular accounts. Are you sure to continue the deletion",
         "deleteing": "Deleting ",
+        "deleting_account_content_1": "Are you sure you want to delete <bold>{{name}}</bod>?",
+        "deleting_account_content_2": "Deleting the account will PERMANENTLY delete all the data. ",
+        "deleting_account_content_3": "You can <bold>Disable it to preserve</bold> the data, instead.",
+        "deleting_account_name": "You are deleting {{name}} account",
         "deleting_cos_msg": "Deleting <bold>{{cosname}}</bold>",
         "deletion_date": "Deletion Date",
         "deligated_admin_help_url": "Deligated Admin Help URL",
@@ -530,6 +535,7 @@
         "details": "Details",
         "device": "Device",
         "disable": "disable",
+        "disable_it_instead": "Disable it instead",
         "discard_changes": "DISCARD CHANGES",
         "displayed_name": "Displayed Name",
         "do_you_need_more_information": "Do you need more information?",
@@ -885,7 +891,8 @@
         "your_auth_method_is": "Your Auth Method is"
     },
     "lable": {
-        "delete_button": "DELETE"
+        "delete_button": "DELETE",
+        "delete_it": "Delete it"
     },
     "locale": {
         "English": "English",
