@@ -26,26 +26,24 @@ const ServerVolumeDetailsPanel: FC<{
 	modifyVolumeToggle: any;
 	setmodifyVolumeToggle: any;
 	setOpen: any;
+	changeSelectedVolume: any;
 	GetAllVolumesRequest: any;
+	detailData: any;
+	setDetailData: any;
 }> = ({
 	setToggleDetailPage,
 	volumeDetail,
 	modifyVolumeToggle,
 	setmodifyVolumeToggle,
 	setOpen,
-	GetAllVolumesRequest
+	changeSelectedVolume,
+	GetAllVolumesRequest,
+	detailData,
+	setDetailData
 }) => {
 	const { t } = useTranslation();
 	const createSnackbar = useSnackbar();
-	const [detailData, setDetailData] = useState({
-		name: '',
-		id: 0,
-		compressBlobs: false,
-		isCurrent: false,
-		rootpath: '',
-		compressionThreshold: ''
-	});
-	const [type, setType] = useState('');
+	const [typeLabel, setTypeLabel] = useState('');
 	const [toggleSetAsBtnLabel, setToggleSetAsBtnLabel] = useState(
 		t('label.set_as_secondary_button', 'SET AS SECONDARY')
 	);
@@ -59,15 +57,16 @@ const ServerVolumeDetailsPanel: FC<{
 		})
 			.then((response) => {
 				if (response.Body.GetVolumeResponse.volume[0].type === 1) {
-					setType(PRIMARIES);
+					setTypeLabel(PRIMARIES);
 				} else if (response.Body.GetVolumeResponse.volume[0].type === 2) {
-					setType(SECONDARIES);
+					setTypeLabel(SECONDARIES);
 				} else if (response.Body.GetVolumeResponse.volume[0].type === 10) {
-					setType(INDEXERES);
+					setTypeLabel(INDEXERES);
 				}
 				setDetailData({
 					name: response.Body.GetVolumeResponse.volume[0].name,
 					id: response.Body.GetVolumeResponse.volume[0].id,
+					type: response.Body.GetVolumeResponse.volume[0].type,
 					compressBlobs: response.Body.GetVolumeResponse.volume[0].compressBlobs,
 					isCurrent: response.Body.GetVolumeResponse.volume[0].isCurrent,
 					rootpath: response.Body.GetVolumeResponse.volume[0].rootpath,
@@ -86,21 +85,65 @@ const ServerVolumeDetailsPanel: FC<{
 				setToggleDetailPage(false);
 				GetAllVolumesRequest();
 			});
-	}, [GetAllVolumesRequest, createSnackbar, setToggleDetailPage, t, volumeDetail?.id]);
+	}, [
+		GetAllVolumesRequest,
+		createSnackbar,
+		setDetailData,
+		setToggleDetailPage,
+		t,
+		volumeDetail?.id
+	]);
 
 	useEffect(() => {
 		getVolumeDetailData();
 	}, [getVolumeDetailData, volumeDetail, modifyVolumeToggle]);
 
+	const handleTypeToggleClick = useCallback((): void => {
+		fetchSoap('ModifyVolumeRequest', {
+			_jsns: 'urn:zimbraAdmin',
+			module: 'ZxCore',
+			action: 'ModifyVolumeRequest',
+			id: detailData?.id,
+			volume: {
+				id: detailData?.id,
+				type: typeLabel === PRIMARIES ? '2' : '1'
+			}
+		})
+			.then(() => {
+				createSnackbar({
+					key: '1',
+					type: 'success',
+					label: t('label.volume_type_edited', '{{message}}', {
+						message:
+							typeLabel === PRIMARIES
+								? 'volume type successfully changed to Secondary'
+								: 'volume type successfully changed to Primary'
+					})
+				});
+				GetAllVolumesRequest();
+				getVolumeDetailData();
+			})
+			.catch((error) => {
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label: t('label.volume_detail_error', '{{message}}', {
+						message: error
+					}),
+					autoHideTimeout: 5000
+				});
+			});
+	}, [GetAllVolumesRequest, createSnackbar, detailData?.id, getVolumeDetailData, t, typeLabel]);
+
 	useEffect(() => {
-		if (type === PRIMARIES) {
+		if (typeLabel === PRIMARIES) {
 			setToggleSetAsBtnLabel(t('label.set_as_secondary_button', 'SET AS SECONDARY'));
 			setToggleSetAsIcon('ArrowheadDown');
-		} else if (type === SECONDARIES) {
+		} else if (typeLabel === SECONDARIES) {
 			setToggleSetAsBtnLabel(t('label.set_as_primary_button', 'SET AS PRIMARY'));
 			setToggleSetAsIcon('ArrowheadUp');
 		}
-	}, [t, type]);
+	}, [t, typeLabel]);
 
 	return (
 		<>
@@ -161,7 +204,7 @@ const ServerVolumeDetailsPanel: FC<{
 							<Input
 								label={t('label.type', 'Type')}
 								backgroundColor="gray6"
-								value={type}
+								value={typeLabel}
 								readOnly
 							/>
 						</Row>
@@ -203,8 +246,7 @@ const ServerVolumeDetailsPanel: FC<{
 							/>
 						</Row>
 						<Container orientation="horizontal" mainAlignment="flex-end" crossAlignment="flex-end">
-							{/* <Row width="100%"> */}
-							{type !== INDEXERES && (
+							{typeLabel !== INDEXERES && (
 								<>
 									<Row width="50%" mainAlignment="flex-start">
 										<Button
@@ -216,12 +258,13 @@ const ServerVolumeDetailsPanel: FC<{
 											color="primary"
 											disabled={!detailData?.id || volumeDetail.id !== detailData?.id}
 											loading={!detailData?.id || volumeDetail.id !== detailData?.id}
+											onClick={handleTypeToggleClick}
 										/>
 									</Row>
 									<Padding horizontal="small" />
 								</>
 							)}
-							<Row width={type !== INDEXERES ? '50%' : '100%'} mainAlignment="flex-start">
+							<Row width={typeLabel !== INDEXERES ? '50%' : '100%'} mainAlignment="flex-start">
 								<Button
 									icon="CloseOutline"
 									iconPlacement="left"
@@ -234,7 +277,6 @@ const ServerVolumeDetailsPanel: FC<{
 									loading={!detailData?.id || volumeDetail.id !== detailData?.id}
 								/>
 							</Row>
-							{/* </Row> */}
 						</Container>
 					</Container>
 				</Container>

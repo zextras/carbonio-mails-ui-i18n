@@ -866,22 +866,7 @@ export const tableHeader = [
 		label: 'Name',
 		width: '62%',
 		bold: true,
-		align: 'left',
-		items: [
-			{ label: 'Volumename_1', value: '1' },
-			{ label: 'Volumename_2', value: '2' }
-		]
-	},
-	{
-		id: 'allocation',
-		label: 'Allocation',
-		width: '12%',
-		align: 'center',
-		bold: true,
-		items: [
-			{ label: 'Allocation_1', value: '1' },
-			{ label: 'Allocation_2', value: '2' }
-		]
+		align: 'left'
 	},
 	{
 		id: 'current',
@@ -906,32 +891,21 @@ export const indexerHeaders = [
 		label: 'Name',
 		width: '62%',
 		bold: true,
-		align: 'left',
-		items: [
-			{ label: 'Volumename_1', value: '1' },
-			{ label: 'Volumename_2', value: '2' }
-		]
+		align: 'left'
 	},
 	{
 		id: 'path',
 		label: 'Path',
 		width: '12%',
 		align: 'center',
-		bold: true,
-		items: [
-			{ label: 'Allocation_1', value: '1' },
-			{ label: 'Allocation_2', value: '2' }
-		]
+		bold: true
 	},
 	{
 		id: 'current',
 		label: 'Current',
-		width: '12%',
+		width: '14%',
 		align: 'center',
 		bold: true
-	},
-	{
-		width: '14%'
 	}
 ];
 

@@ -20,11 +20,6 @@ const MailstoresConfig: FC = () => {
 		[setVolumeDetail]
 	);
 
-	useEffect(() => {
-		!volumeDetail.isCompression &&
-			setVolumeDetail((prev: any) => ({ ...prev, compressionThreshold: '' }));
-	}, [setVolumeDetail, volumeDetail.isCompression]);
-
 	const changeSwitchOption = useCallback(
 		(key: string): void => {
 			setVolumeDetail((prev: any) => ({ ...prev, [key]: !volumeDetail[key] }));
@@ -76,9 +71,8 @@ const MailstoresConfig: FC = () => {
 						inputName="compressionThreshold"
 						label={t('label.volume_compression_thresold', 'Compression Threshold')}
 						backgroundColor="gray5"
-						value={volumeDetail?.isCompression ? volumeDetail?.compressionThreshold : ''}
+						value={volumeDetail?.compressionThreshold}
 						onChange={changeVolDetail}
-						disabled={!volumeDetail?.isCompression}
 					/>
 				</Row>
 			</Container>

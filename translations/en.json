@@ -871,6 +871,7 @@
         "volume_path": "Path",
         "volume_server": "Server",
         "volume_type": "Volume Type",
+        "volume_type_edited": "{{message}}",
         "volumes": "Volumes",
         "web_client": "Web Client",
         "week_day": {

@@ -49,7 +49,7 @@ interface VolumeDetailObj {
 	path: string;
 	isCurrent: boolean;
 	isCompression: boolean;
-	compressionThreshold: string;
+	compressionThreshold: number;
 }
 
 const NewVolume: FC<{
@@ -74,7 +74,7 @@ const NewVolume: FC<{
 		path: '',
 		isCurrent: false,
 		isCompression: false,
-		compressionThreshold: ''
+		compressionThreshold: 0
 	});
 	const wizardSteps = [
 		{

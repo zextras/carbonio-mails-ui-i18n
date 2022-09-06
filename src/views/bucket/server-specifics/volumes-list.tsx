@@ -58,15 +58,6 @@ const VolumeListTable: FC<{
 						}}
 						style={{ textAlign: 'center' }}
 					>
-						{v.storeType}
-					</Row>,
-					<Row
-						key={i}
-						onClick={(): void => {
-							onClick(i);
-						}}
-						style={{ textAlign: 'center' }}
-					>
 						<Text color={v.isCurrent ? 'text' : 'error'}>{v.isCurrent ? YES : NO}</Text>
 					</Row>,
 					<Row
@@ -140,12 +131,35 @@ const VolumesDetailPanel: FC = () => {
 		type: 0
 	});
 	const [open, setOpen] = useState(false);
+	const [detailData, setDetailData] = useState({
+		name: '',
+		id: 0,
+		type: 0,
+		compressBlobs: false,
+		isCurrent: false,
+		rootpath: '',
+		compressionThreshold: ''
+	});
 	const [volumeList, setVolumeList] = useState<object | any>({
 		primaries: [],
 		indexes: [],
 		secondaries: []
 	});
 	const createSnackbar = useSnackbar();
+
+	const changeSelectedVolume = (): any => {
+		if (volume?.type === 1 && volume.id !== 0) {
+			const volumeObject: any = volumeList?.primaries.find((s: any) => s.id === volume.id);
+			setVolume(volumeObject);
+		} else if (volume?.type === 2 && volume.id !== 0) {
+			const volumeObject: any = volumeList?.secondaries.find((s: any) => s.id === volume.id);
+			setVolume(volumeObject);
+		} else if (volume?.type === 10 && volume.id !== 0) {
+			const volumeObject: any = volumeList?.indexes.find((s: any) => s.id === volume.id);
+			setVolume(volumeObject);
+		}
+	};
+
 	const closeHandler = (): any => {
 		setOpen(false);
 	};
@@ -201,19 +215,6 @@ const VolumesDetailPanel: FC = () => {
 						label: t('label.volume_deleted', 'Volume deleted successfully')
 					});
 				}
-				setVolume({
-					compressBlobs: '',
-					compressionThreshold: 0,
-					fbits: 0,
-					fgbits: 0,
-					id: 0,
-					isCurrent: true,
-					mbits: 0,
-					mgbits: 0,
-					name: '',
-					rootpath: '',
-					type: 0
-				});
 				GetAllVolumesRequest();
 				setOpen(false);
 				setToggleDetailPage(false);
@@ -296,19 +297,6 @@ const VolumesDetailPanel: FC = () => {
 		setToggleDetailPage(true);
 	};
 
-	useEffect(() => {
-		if (volume?.type === 1 && volume.id !== 0) {
-			const volumeObject: any = volumeList?.primaries.find((s: any) => s.id === volume.id);
-			setVolume(volumeObject);
-		} else if (volume?.type === 2 && volume.id !== 0) {
-			const volumeObject: any = volumeList?.secondaries.find((s: any) => s.id === volume.id);
-			setVolume(volumeObject);
-		} else if (volume?.type === 10 && volume.id !== 0) {
-			const volumeObject: any = volumeList?.indexes.find((s: any) => s.id === volume.id);
-			setVolume(volumeObject);
-		}
-	}, [volume, volume.id, volume?.type, volumeList]);
-
 	return (
 		<>
 			{toggleDetailPage && volume && (
@@ -319,6 +307,9 @@ const VolumesDetailPanel: FC = () => {
 						modifyVolumeToggle={modifyVolumeToggle}
 						setmodifyVolumeToggle={setmodifyVolumeToggle}
 						setOpen={setOpen}
+						detailData={detailData}
+						setDetailData={setDetailData}
+						changeSelectedVolume={changeSelectedVolume}
 						GetAllVolumesRequest={GetAllVolumesRequest}
 					/>
 				</AbsoluteContainer>
@@ -326,8 +317,9 @@ const VolumesDetailPanel: FC = () => {
 			{modifyVolumeToggle && volume && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<ModifyVolume
-						volumeDetail={volume}
+						volumeDetail={detailData}
 						setmodifyVolumeToggle={setmodifyVolumeToggle}
+						changeSelectedVolume={changeSelectedVolume}
 						GetAllVolumesRequest={GetAllVolumesRequest}
 					/>
 				</AbsoluteContainer>

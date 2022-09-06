@@ -45,14 +45,7 @@ const IndexerVolumeTable: FC<{
 						style={{ textAlign: 'center' }}
 					>
 						<Text color={v.isCurrent ? 'text' : 'error'}>{v.isCurrent ? YES : NO}</Text>
-					</Row>,
-					<Row
-						key={i}
-						onClick={(): void => {
-							onClick(i);
-						}}
-						style={{ textAlign: 'center' }}
-					></Row>
+					</Row>
 				],
 				clickable: true
 			})),

@@ -24,8 +24,9 @@ import { fetchSoap } from '../../../../../services/bucket-service';
 const ModifyVolume: FC<{
 	setmodifyVolumeToggle: any;
 	volumeDetail: any;
+	changeSelectedVolume: any;
 	GetAllVolumesRequest: any;
-}> = ({ setmodifyVolumeToggle, volumeDetail, GetAllVolumesRequest }) => {
+}> = ({ setmodifyVolumeToggle, volumeDetail, changeSelectedVolume, GetAllVolumesRequest }) => {
 	const { t } = useTranslation();
 	const [isDirty, setIsDirty] = useState(false);
 	const [name, setName] = useState(volumeDetail?.name);
@@ -63,7 +64,7 @@ const ModifyVolume: FC<{
 				id,
 				name,
 				rootpath,
-				type,
+				type: type?.value,
 				compressBlobs: compressBlobs ? 1 : 0,
 				compressionThreshold,
 				isCurrent: isCurrent ? 1 : 0
@@ -225,6 +226,7 @@ const ModifyVolume: FC<{
 							selection={type}
 							showCheckbox={false}
 							onChange={onVolumeTypeChange}
+							disabled
 						/>
 					</Row>
 					<Row padding={{ top: 'large' }} width="100%">
