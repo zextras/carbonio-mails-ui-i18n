@@ -362,15 +362,20 @@
         "manage": "Manage",
         "many_domain_info_msg": "So many domains! Which one would you like to see? Start typing to filter.",
         "most_result_return_gal_search": "Most results returned by GAL search",
+        "proceed_without_generating_an_otp_code": "PROCEED WITHOUT GENERATING AN OTP CODE",
         "range": "Range",
         "search_domain": "Search a domain",
         "select_domain_or_create_new": "Please select a domain to manage it or click Create button to create a new one.",
         "send_the_warning_to": "Send the warning to",
         "source_name_internal_gal": "Source Name of internal GAL",
+        "the_account_has_been_successfully_created": "The account has been successfully created",
         "theme": "Theme",
         "type_here_a_domain": "Type here a domain",
         "virtual_hosts": "Virtual Hosts",
         "warn_when_reach_space_quota": "Warn me when I reach this aggregated space quota"
+    },
+    "error": {
+        "alreadyInUse": ""
     },
     "have_not_setup_bucket_type": "It seems like you haven't setup a bucket type",
     "label": {

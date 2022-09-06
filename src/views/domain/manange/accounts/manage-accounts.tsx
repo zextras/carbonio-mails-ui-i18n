@@ -84,7 +84,7 @@ const ManageAccounts: FC = () => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [totalAccount, setTotalAccount] = useState<number>(0);
 	const [showAccountDetailView, setShowAccountDetailView] = useState<boolean>(false);
-	const [showCreateAccountView, setShowCreateAccountView] = useState<boolean>(false);
+	const [showCreateAccountView, setShowCreateAccountView] = useState<boolean>(true);
 	const [showEditAccountView, setShowEditAccountView] = useState<boolean>(false);
 
 	const [signatureList, setSignatureList] = useState<any[]>([]);

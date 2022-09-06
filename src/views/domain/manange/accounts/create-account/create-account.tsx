@@ -108,7 +108,7 @@ const CreateAccount: FC<{
 				name: 'details',
 				label: t('label.details', 'DETAILS'),
 				icon: 'Edit2Outline',
-				view: CreateAccountDetailSection,
+				view: CreateOtpSectionView, // CreateAccountDetailSection,
 				CancelButton: (props: any): ReactElement => (
 					<Button
 						{...props}
