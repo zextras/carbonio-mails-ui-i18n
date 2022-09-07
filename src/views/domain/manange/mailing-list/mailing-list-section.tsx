@@ -15,7 +15,9 @@ import {
 	Padding,
 	Button,
 	Dropdown,
-	SnackbarManagerContext
+	SnackbarManagerContext,
+	Select,
+	ChipInput
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { debounce, sortedUniq, uniq } from 'lodash';
@@ -25,6 +27,7 @@ import { searchDirectory } from '../../../../services/search-directory-service';
 import { getAllEmailFromString, isValidEmail, isValidLdapQuery } from '../../../utility/utils';
 import { searchGal } from '../../../../services/search-gal-service';
 import carbonioHelmet from '../../../../assets/carbonio-helmet.svg';
+import { ALL, EMAIL, GRP, MEMBERS_ONLY, PUB } from '../../../../constants';
 
 const MailingListSection: FC<any> = () => {
 	const { t } = useTranslation();
@@ -48,6 +51,8 @@ const MailingListSection: FC<any> = () => {
 		[]
 	);
 	const [ownerTableRows, setOwnerTableRows] = useState<Array<any>>([]);
+	const [grantEmailsList, setGrantEmailsList] = useState<any>([]);
+	const [grantEmails, setGrantEmails] = useState<any>(mailingListDetail?.ownerGrantEmails);
 	const ownerHeaders: any[] = useMemo(
 		() => [
 			{
@@ -59,6 +64,34 @@ const MailingListSection: FC<any> = () => {
 		],
 		[t]
 	);
+	const grantTypeOptions: any[] = useMemo(
+		() => [
+			{
+				label: t('label.everyone', 'Everyone'),
+				value: PUB
+			},
+			{
+				label: t('label.members_only', 'Members only'),
+				value: GRP
+			},
+			{
+				label: t('label.internal_users_only', 'Internal Users only'),
+				value: ALL
+			},
+			// {
+			// 	label: t('label.owners', 'Owners'),
+			// 	value: SUBSCRIBE_UNSUBSCRIBE.REJECT
+			// },
+			{
+				label: t('label.only_there_users', 'Only these users'),
+				value: EMAIL
+			}
+		],
+		[t]
+	);
+
+	const [grantType, setGrantType] = useState<any>(mailingListDetail?.ownerGrantEmailType);
+
 	useEffect(() => {
 		if (ownersList && ownersList.length > 0) {
 			setMailingListDetail((prev: any) => ({
@@ -82,6 +115,7 @@ const MailingListSection: FC<any> = () => {
 			setOwnerTableRows([]);
 		}
 	}, [ownersList, setMailingListDetail]);
+
 	const changeResourceDetail = useCallback(
 		(e) => {
 			if (e.target.name === 'memberURL') {
@@ -270,6 +304,54 @@ const MailingListSection: FC<any> = () => {
 			setSelectedDistributionListOwner([]);
 		}
 	}, [ownersList, selectedDistributionListOwner]);
+
+	const onGrantTypeChange = useCallback(
+		(v: any): any => {
+			const it = grantTypeOptions.find((item: any) => item.value === v);
+
+			setMailingListDetail((prev: any) => ({
+				...prev,
+				ownerGrantEmailType: it
+			}));
+			setGrantType(it);
+		},
+		[grantTypeOptions, setMailingListDetail]
+	);
+
+	const onEmailAdd = useCallback(
+		(v) => {
+			setGrantEmails(v);
+			setMailingListDetail((prev: any) => ({
+				...prev,
+				ownerGrantEmails: v
+			}));
+		},
+		[setMailingListDetail]
+	);
+
+	const searchEmailFromGal = useCallback((searchKeyword) => {
+		searchGal(searchKeyword).then((data) => {
+			const contactList = data?.cn;
+			if (contactList) {
+				let result: any[] = [];
+				result = contactList.map((item: any): any => ({
+					id: item?.id,
+					address: item?._attrs?.email,
+					lastName: item?._attrs?.email,
+					firstName: item?._attrs?.email,
+					label: item?._attrs?.email,
+					value: {
+						label: item?._attrs?.email,
+						anotherProp: 'prop1',
+						avatarIcon: 'People'
+					}
+				}));
+				setGrantEmailsList(result);
+			} else {
+				setGrantEmailsList([]);
+			}
+		});
+	}, []);
 
 	return (
 		<Container mainAlignment="flex-start">
@@ -463,6 +545,34 @@ const MailingListSection: FC<any> = () => {
 						<ListRow>
 							<Container padding={{ top: 'large', bottom: 'large' }}>
 								<Table rows={dynamicListMemberRows} headers={memberHeaders} showCheckbox={false} />
+							</Container>
+						</ListRow>
+
+						<ListRow>
+							<Container>
+								<Select
+									items={grantTypeOptions}
+									background="gray5"
+									label={t('label.new_subscription_requests', 'New subscriptions requests')}
+									showCheckbox={false}
+									onChange={onGrantTypeChange}
+									selection={grantType}
+								/>
+							</Container>
+
+							<Container padding={{ all: 'small' }}>
+								<ChipInput
+									defaultValue={grantEmails}
+									placeholder="Select"
+									options={grantEmailsList}
+									requireUniqueChips
+									onChange={onEmailAdd}
+									background="gray5"
+									disabled={grantType?.value !== EMAIL}
+									onInputType={(e: any): void => {
+										searchEmailFromGal(e?.textContent);
+									}}
+								/>
 							</Container>
 						</ListRow>
 
