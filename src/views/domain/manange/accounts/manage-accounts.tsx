@@ -538,6 +538,7 @@ const ManageAccounts: FC = () => {
 						setShowAccountDetailView={setShowAccountDetailView}
 						setShowEditAccountView={setShowEditAccountView}
 						STATUS_COLOR={STATUS_COLOR}
+						getAccountList={getAccountList}
 					/>
 				)}
 

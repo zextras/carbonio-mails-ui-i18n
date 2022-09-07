@@ -126,6 +126,7 @@ const BucketDetailPanel: FC = () => {
 	const [showEditDetailView, setShowEditDetailView] = useState(false);
 	const [toggleForGetAPICall, setToggleForGetAPICall] = useState(false);
 	const [selectedRow, setSelectedRow] = useState<any>();
+	const bucketTypeItems = useMemo(() => BucketTypeItems(t), [t]);
 
 	const closeHandler = (): any => {
 		setOpen(false);
@@ -277,11 +278,11 @@ const BucketDetailPanel: FC = () => {
 				<Divider />
 				<Row style={{ padding: '32px 16px 16px 16px' }} width="100%">
 					<Select
-						items={BucketTypeItems}
+						items={bucketTypeItems}
 						background="gray5"
 						label={t('buckets.bucket_type', 'Buckets Type')}
 						onChange={(e: any): void => {
-							const volumeObject: any = BucketTypeItems.find((s) => s.value === e);
+							const volumeObject: any = bucketTypeItems.find((s) => s.value === e);
 							setBucketType(volumeObject?.value);
 						}}
 						showCheckbox={false}

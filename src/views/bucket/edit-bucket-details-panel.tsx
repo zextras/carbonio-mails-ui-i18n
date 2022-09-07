@@ -182,6 +182,9 @@ const EditBucketDetailPanel: FC<{
 	const [toggleBtn, setToggleBtn] = useState(false);
 	const createSnackbar = useSnackbar();
 	const server = document.location.hostname; // 'nbm-s02.demo.zextras.io';
+	const bucketTypeItems = useMemo(() => BucketTypeItems(t), [t]);
+	const bucketRegions = useMemo(() => BucketRegions(t), [t]);
+	const bucketRegionsInAlibaba = useMemo(() => BucketRegionsInAlibaba(t), [t]);
 
 	const verifyConnector = useCallback(() => {
 		fetchSoap('zextras', {
@@ -294,7 +297,7 @@ const EditBucketDetailPanel: FC<{
 				? bucketDetail.storeType.charAt(0).toUpperCase() +
 				  bucketDetail.storeType.slice(1).toLowerCase()
 				: bucketDetail.storeType;
-		const bucketTypeValue: any = find(BucketTypeItems, (o) => o.value === upperBucketType);
+		const bucketTypeValue: any = find(bucketTypeItems, (o) => o.value === upperBucketType);
 		previousDetail?.bucketType
 			? setBucketType(previousDetail?.bucketType)
 			: setBucketType(bucketTypeValue);
@@ -303,8 +306,8 @@ const EditBucketDetailPanel: FC<{
 			: setBucketName(bucketName);
 		const regionValue: any = find(
 			upperBucketType === ALIBABA && bucketDetail?.region !== undefined
-				? BucketRegionsInAlibaba
-				: BucketRegions,
+				? bucketRegionsInAlibaba
+				: bucketRegions,
 			(o) => o.value === bucketDetail.region
 		);
 		bucketDetail?.region !== undefined && previousDetail?.regionData
@@ -324,17 +327,20 @@ const EditBucketDetailPanel: FC<{
 		(e: any): any => {
 			const volumeObject =
 				bucketDetail?.region !== undefined && bucketDetail.storeType === ALIBABA.toUpperCase()
-					? BucketRegionsInAlibaba.find((s) => s.value === e)
-					: BucketRegions.find((s) => s.value === e);
+					? bucketRegionsInAlibaba.find((s) => s.value === e)
+					: bucketRegions.find((s) => s.value === e);
 			setRegionData(volumeObject);
 		},
-		[bucketDetail?.region, bucketDetail.storeType]
+		[bucketDetail?.region, bucketDetail.storeType, bucketRegions, bucketRegionsInAlibaba]
 	);
 
-	const onBucketTypeSelectionChange = useCallback((e: any): void => {
-		const volumeObject: any = BucketTypeItems.find((item: any): any => item.value === e);
-		setBucketType(volumeObject);
-	}, []);
+	const onBucketTypeSelectionChange = useCallback(
+		(e: any): void => {
+			const volumeObject: any = bucketTypeItems.find((item: any): any => item.value === e);
+			setBucketType(volumeObject);
+		},
+		[bucketTypeItems]
+	);
 
 	useEffect(() => {
 		const upperBucketType =
@@ -342,11 +348,11 @@ const EditBucketDetailPanel: FC<{
 				? bucketDetail.storeType.charAt(0).toUpperCase() +
 				  bucketDetail.storeType.slice(1).toLowerCase()
 				: bucketDetail.storeType;
-		const bucketTypeValue: any = find(BucketTypeItems, (o) => o.value === upperBucketType)?.value;
+		const bucketTypeValue: any = find(bucketTypeItems, (o) => o.value === upperBucketType)?.value;
 		if (bucketType !== undefined && bucketTypeValue !== bucketType?.value) {
 			setIsDirty(true);
 		}
-	}, [bucketDetail.storeType, bucketType]);
+	}, [bucketDetail.storeType, bucketType, bucketTypeItems]);
 
 	useEffect(() => {
 		if (bucketName !== undefined && bucketDetail?.bucketName !== bucketName) {
@@ -362,8 +368,8 @@ const EditBucketDetailPanel: FC<{
 				: bucketDetail.storeType;
 		const regionValue: any = find(
 			bucketDetail?.region !== undefined && upperBucketType === ALIBABA
-				? BucketRegionsInAlibaba
-				: BucketRegions,
+				? bucketRegionsInAlibaba
+				: bucketRegions,
 			(o) => o.value === bucketDetail.region
 		)?.value;
 		if (
@@ -373,7 +379,13 @@ const EditBucketDetailPanel: FC<{
 		) {
 			setIsDirty(true);
 		}
-	}, [bucketDetail.region, bucketDetail.storeType, regionData]);
+	}, [
+		bucketDetail.region,
+		bucketDetail.storeType,
+		bucketRegions,
+		bucketRegionsInAlibaba,
+		regionData
+	]);
 
 	useEffect(() => {
 		if (accessKeyData !== undefined && bucketDetail?.accessKey !== accessKeyData) {
@@ -403,14 +415,14 @@ const EditBucketDetailPanel: FC<{
 				: bucketDetail.storeType;
 		const regionValue: any = find(
 			bucketDetail?.region !== undefined && upperBucketType === ALIBABA
-				? BucketRegionsInAlibaba
-				: BucketRegions,
+				? bucketRegionsInAlibaba
+				: bucketRegions,
 			(o) => o.value === bucketDetail.region
 		);
-		const bucketTypeValue: any = find(BucketTypeItems, (o) => o.value === upperBucketType);
+		const bucketTypeValue: any = find(bucketTypeItems, (o) => o.value === upperBucketType);
 		setRegionData(bucketDetail?.region !== undefined && regionValue);
 		setBucketType(bucketTypeValue);
-	}, [bucketDetail]);
+	}, [bucketDetail, bucketRegions, bucketRegionsInAlibaba, bucketTypeItems]);
 
 	return (
 		<Container background="gray6">
@@ -447,7 +459,7 @@ const EditBucketDetailPanel: FC<{
 			<Container padding={{ all: 'large' }} mainAlignment="flex-start" crossAlignment="flex-start">
 				<Row padding={{ top: 'small' }} width="100%">
 					<Select
-						items={BucketTypeItems}
+						items={bucketTypeItems}
 						background="gray6"
 						label={t('buckets.bucket_type', 'Buckets Type')}
 						onChange={onBucketTypeSelectionChange}
@@ -477,8 +489,8 @@ const EditBucketDetailPanel: FC<{
 								<Select
 									items={
 										bucketDetail.storeType === ALIBABA.toUpperCase()
-											? BucketRegionsInAlibaba
-											: BucketRegions
+											? bucketRegionsInAlibaba
+											: bucketRegions
 									}
 									background="gray6"
 									label={t('label.region', 'Region')}

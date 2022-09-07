@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState, useMemo } from 'react';
 import {
 	Container,
 	Input,
@@ -34,6 +34,9 @@ const Connection: FC<{
 	setCompleteLoading: any;
 }> = ({ isActive, getData, onSelection, title, externalData, setCompleteLoading }) => {
 	const [t] = useTranslation();
+	const bucketTypeItems = useMemo(() => BucketTypeItems(t), [t]);
+	const bucketRegions = useMemo(() => BucketRegions(t), [t]);
+	const bucketRegionsInAlibaba = useMemo(() => BucketRegionsInAlibaba(t), [t]);
 	const createSnackbar = useSnackbar();
 	const [buttonColor, setButtonColor] = useState<string>('primary');
 	const [icon, setIcon] = useState<string>('ActivityOutline');
@@ -58,7 +61,7 @@ const Connection: FC<{
 	const [showRegion, setShowRegion] = useState(true);
 	const [showURL, setShowURL] = useState(true);
 	const [prefixConfirm, setprefixConfirm] = useState(true);
-	const [regionSelection, setRegionSelection] = useState<any>(BucketRegions[0]);
+	const [regionSelection, setRegionSelection] = useState<any>(bucketRegions[0]);
 	const bucketType = externalData;
 	const server = document.location.hostname; // 'nbm-s02.demo.zextras.io';
 	const handleVerifyConnector = (): any => {
@@ -216,11 +219,11 @@ const Connection: FC<{
 
 	useEffect(() => {
 		if (bucketType !== undefined) {
-			const volumeObject: any = BucketTypeItems.find((s) => s.value === bucketType);
+			const volumeObject: any = bucketTypeItems.find((s) => s.value === bucketType);
 			setBucketTypeData(volumeObject?.label);
 			onSelection({ storeType: bucketType }, false);
 		}
-	}, [bucketType, bucketTypeData, onSelection]);
+	}, [bucketType, bucketTypeData, bucketTypeItems, onSelection]);
 
 	useEffect(() => {
 		setButtonColor('primary');
@@ -241,23 +244,23 @@ const Connection: FC<{
 		(e: any): any => {
 			const volumeObject: any =
 				bucketType === ALIBABA || bucketTypeData === ALIBABA
-					? BucketRegionsInAlibaba.find((s) => s.value === e)
-					: BucketRegions.find((s) => s.value === e);
+					? bucketRegionsInAlibaba.find((s) => s.value === e)
+					: bucketRegions.find((s) => s.value === e);
 			setRegionsData(volumeObject);
 			onSelection({ region: volumeObject?.value }, false);
 		},
-		[bucketType, bucketTypeData, onSelection]
+		[bucketRegions, bucketRegionsInAlibaba, bucketType, bucketTypeData, onSelection]
 	);
 
 	const onChangeBucketType = useCallback(
 		(v: any): any => {
 			const volumeObject: any =
 				bucketType === ALIBABA || bucketTypeData === ALIBABA
-					? BucketRegionsInAlibaba[0]
-					: BucketRegions[0];
+					? bucketRegionsInAlibaba[0]
+					: bucketRegions[0];
 			setRegionSelection(volumeObject);
 		},
-		[bucketType, bucketTypeData]
+		[bucketRegions, bucketRegionsInAlibaba, bucketType, bucketTypeData]
 	);
 
 	useEffect(() => {
@@ -326,11 +329,11 @@ const Connection: FC<{
 			) : (
 				<Row padding={{ top: 'extralarge' }} width="100%">
 					<Select
-						items={BucketTypeItems}
+						items={bucketTypeItems}
 						background="gray5"
 						label={t('buckets.bucket_type', 'Bucket Type')}
 						onChange={(e: any): void => {
-							const volumeObject: any = BucketTypeItems.find((s) => s.value === e);
+							const volumeObject: any = bucketTypeItems.find((s) => s.value === e);
 							setBucketTypeData(volumeObject?.value);
 							onSelection({ storeType: bucketTypeData }, false);
 							onChangeBucketType(volumeObject);
@@ -360,8 +363,8 @@ const Connection: FC<{
 							<Select
 								items={
 									bucketTypeData === ALIBABA || bucketType === ALIBABA
-										? BucketRegionsInAlibaba
-										: BucketRegions
+										? bucketRegionsInAlibaba
+										: bucketRegions
 								}
 								background="gray5"
 								label={t('label.region', 'Region')}
