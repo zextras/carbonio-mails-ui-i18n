@@ -452,7 +452,7 @@
             },
             "send_anyway": {
                 "first": "Email subject is empty and you didn't attach any files.",
-                "second": "Do you still want to send the email?"
+                "second": "Do you want to send the email anyway?"
             }
         },
         "new_email": "New e-mail",
