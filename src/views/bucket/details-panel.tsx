@@ -170,6 +170,9 @@ const DetailsPanel: FC<{
 	const [showURL, setShowURL] = useState(true);
 	const [ButtonLabel, setButtonLabel] = useState(t('label.verify_connector', 'VERIFY CONNECTOR'));
 	const [buttonIcon, setButtonIcon] = useState<string>('ActivityOutline');
+	const bucketTypeItems = useMemo(() => BucketTypeItems(t), [t]);
+	const bucketRegions = useMemo(() => BucketRegions(t), [t]);
+	const bucketRegionsInAlibaba = useMemo(() => BucketRegionsInAlibaba(t), [t]);
 
 	const createSnackbar = useSnackbar();
 	const server = document.location.hostname; // 'nbm-s02.demo.zextras.io';
@@ -217,14 +220,14 @@ const DetailsPanel: FC<{
 				? bucketDetail.storeType.charAt(0).toUpperCase() +
 				  bucketDetail.storeType.slice(1).toLowerCase()
 				: bucketDetail.storeType;
-		const volumeObject: any = find(BucketTypeItems, (o) => o.value === upperBucketType)?.label;
+		const volumeObject: any = find(bucketTypeItems, (o) => o.value === upperBucketType)?.label;
 		const regionValue: any = find(
-			upperBucketType === ALIBABA ? BucketRegionsInAlibaba : BucketRegions,
+			upperBucketType === ALIBABA ? bucketRegionsInAlibaba : bucketRegions,
 			(o) => o.value === bucketDetail.region
 		)?.label;
 		setBucketType(volumeObject);
 		setRegionData(regionValue);
-	}, [bucketDetail]);
+	}, [bucketDetail, bucketRegions, bucketRegionsInAlibaba, bucketTypeItems]);
 
 	useEffect(() => {
 		if (bucketDetail.region !== undefined) {

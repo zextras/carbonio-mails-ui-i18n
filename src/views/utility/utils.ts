@@ -821,73 +821,73 @@ export const timeZoneList = (
 	}
 ];
 
-export const BucketTypeItems = [
+export const BucketTypeItems = (t: TFunction): Array<{ value?: string; label: string }> => [
 	{
-		label: 'Alibaba Cloud S3',
+		label: t('buckets.s3_types.alibaba_cloud_s3', 'Alibaba Cloud S3'),
 		value: 'Alibaba'
 	},
 	{
-		label: 'Amazon Web Service S3',
+		label: t('buckets.s3_types.amazone_web_service_s3', 'Amazon Web Service S3'),
 		value: 'S3'
 	},
 	{
-		label: 'Ceph S3',
+		label: t('buckets.s3_types.ceph_s3', 'Ceph S3'),
 		value: 'Ceph'
 	},
 	{
-		label: 'Cloudian S3',
+		label: t('buckets.s3_types.cloudian_s3', 'Cloudian S3'),
 		value: 'Cloudian'
 	},
 	{
-		label: 'Custom S3',
+		label: t('buckets.s3_types.custom_s3', 'Custom S3'),
 		value: 'CustomS3'
 	},
 	{
-		label: 'EMC S3',
+		label: t('buckets.s3_types.emc_s3', 'EMC S3'),
 		value: 'EMC'
 	},
 	{
-		label: 'OpenIO S3',
+		label: t('buckets.s3_types.openio_s3', 'OpenIO S3'),
 		value: 'OpenIO'
 	},
 	{
-		label: 'Scality S3',
+		label: t('buckets.s3_types.scality_s3', 'Scality S3'),
 		value: 'ScalityS3'
 	},
 	{
-		label: 'Yandex S3',
+		label: t('buckets.s3_types.yandex_s3', 'Yandex S3'),
 		value: 'Yandex'
 	}
 ];
 
 export const tableHeader = [
 	{
-		id: 'name',
-		label: 'Name',
-		width: '62%',
+		id: 'id',
+		label: 'ID',
+		width: '5%',
 		bold: true,
-		align: 'left',
-		items: [
-			{ label: 'Volumename_1', value: '1' },
-			{ label: 'Volumename_2', value: '2' }
-		]
+		align: 'left'
 	},
 	{
-		id: 'allocation',
-		label: 'Allocation',
-		width: '12%',
-		align: 'center',
+		id: 'name',
+		label: 'Name',
+		width: '10%',
 		bold: true,
-		items: [
-			{ label: 'Allocation_1', value: '1' },
-			{ label: 'Allocation_2', value: '2' }
-		]
+		align: 'left'
+	},
+
+	{
+		id: 'path',
+		label: 'Path',
+		width: '47%',
+		bold: true,
+		align: 'left'
 	},
 	{
 		id: 'current',
 		label: 'Current',
 		width: '12%',
-		align: 'center',
+		align: 'left',
 		bold: true
 	},
 	{
@@ -895,43 +895,54 @@ export const tableHeader = [
 		label: 'Compression',
 		i18nAllLabel: 'All',
 		width: '14%',
-		align: 'center',
+		align: 'left',
 		bold: true
 	}
 ];
 
 export const indexerHeaders = [
 	{
+		id: 'id',
+		label: 'ID',
+		width: '5%',
+		bold: true,
+		align: 'left'
+	},
+	{
 		id: 'name',
 		label: 'Name',
-		width: '62%',
+		width: '10%',
 		bold: true,
-		align: 'left',
-		items: [
-			{ label: 'Volumename_1', value: '1' },
-			{ label: 'Volumename_2', value: '2' }
-		]
+		align: 'left'
 	},
 	{
 		id: 'path',
 		label: 'Path',
-		width: '12%',
-		align: 'center',
-		bold: true,
-		items: [
-			{ label: 'Allocation_1', value: '1' },
-			{ label: 'Allocation_2', value: '2' }
-		]
+		width: '71%',
+		align: 'left',
+		bold: true
 	},
 	{
 		id: 'current',
 		label: 'Current',
-		width: '12%',
-		align: 'center',
+		width: '14%',
+		align: 'left',
 		bold: true
+	}
+];
+
+export const volumeTypeList = [
+	{
+		label: 'Primary',
+		value: 1
 	},
 	{
-		width: '14%'
+		label: 'Secondary',
+		value: 2
+	},
+	{
+		label: 'index',
+		value: 10
 	}
 ];
 
@@ -1065,204 +1076,184 @@ export const localeList = (
 	}
 ];
 
-export const BucketRegions = [
+export const BucketRegions = (t: TFunction): Array<{ value?: string; label: string }> => [
 	{
-		label: 'AF_SOUTH_1',
+		label: t('buckets.amazon_regions.af_south_1', 'Africa (Cape Town)'),
 		value: 'AF_SOUTH_1'
 	},
 	{
-		label: 'AP_EAST_1',
+		label: t('buckets.amazon_regions.ap_east_1', 'Asia Pacific (Hong Kong)'),
 		value: 'AP_EAST_1'
 	},
 	{
-		label: 'AP_NORTHEAST_1',
+		label: t('buckets.amazon_regions.ap_northeast_1', 'Asia Pacific (Tokyo)'),
 		value: 'AP_NORTHEAST_1'
 	},
 	{
-		label: 'AP_NORTHEAST_2',
+		label: t('buckets.amazon_regions.ap_northeast_2', 'Asia Pacific (Seoul)'),
 		value: 'AP_NORTHEAST_2'
 	},
 	{
-		label: 'AP_NORTHEAST_3',
-		value: 'AP_NORTHEAST_3'
-	},
-	{
-		label: 'AP_SOUTH_1',
+		label: t('buckets.amazon_regions.ap_south_1', 'Asia Pacific (Mumbai)'),
 		value: 'AP_SOUTH_1'
 	},
 	{
-		label: 'AP_SOUTHEAST_1',
+		label: t('buckets.amazon_regions.ap_southeast_1', 'Asia Pacific (Singapore)'),
 		value: 'AP_SOUTHEAST_1'
 	},
 	{
-		label: 'AP_SOUTHEAST_2',
+		label: t('buckets.amazon_regions.ap_southeast_2', 'Asia Pacific (Sydney)'),
 		value: 'AP_SOUTHEAST_2'
 	},
 	{
-		label: 'AP_SOUTHEAST_3',
-		value: 'AP_SOUTHEAST_3'
-	},
-	{
-		label: 'CA_CENTRAL_1',
+		label: t('buckets.amazon_regions.ca_central_1', 'Canada (Central)'),
 		value: 'CA_CENTRAL_1'
 	},
 	{
-		label: 'CN_NORTH_1',
+		label: t('buckets.amazon_regions.cn_north_1', 'China (Beijing)'),
 		value: 'CN_NORTH_1'
 	},
 	{
-		label: 'CN_NORTHWEST_1',
+		label: t('buckets.amazon_regions.cn_northwest_1', 'China (Ningxia)'),
 		value: 'CN_NORTHWEST_1'
 	},
 	{
-		label: 'EU_CENTRAL_1',
+		label: t('buckets.amazon_regions.eu_central_1', 'EU (Frankfurt)'),
 		value: 'EU_CENTRAL_1'
 	},
 	{
-		label: 'EU_NORTH_1',
+		label: t('buckets.amazon_regions.eu_north_1', 'EU (Stockholm)'),
 		value: 'EU_NORTH_1'
 	},
 	{
-		label: 'EU_SOUTH_1',
+		label: t('buckets.amazon_regions.eu_south_1', 'EU (Milan)'),
 		value: 'EU_SOUTH_1'
 	},
 	{
-		label: 'EU_WEST_1',
+		label: t('buckets.amazon_regions.eu_west_1', 'EU (Ireland)'),
 		value: 'EU_WEST_1'
 	},
 	{
-		label: 'EU_WEST_2',
+		label: t('buckets.amazon_regions.eu_west_2', 'EU (London)'),
 		value: 'EU_WEST_2'
 	},
 	{
-		label: 'EU_WEST_3',
+		label: t('buckets.amazon_regions.eu_west_3', 'EU (Paris)'),
 		value: 'EU_WEST_3'
 	},
 	{
-		label: 'GovCloud',
+		label: t('buckets.amazon_regions.govcloud', 'AWS GovCloud (US)'),
 		value: 'GovCloud'
 	},
 	{
-		label: 'ME_SOUTH_1',
+		label: t('buckets.amazon_regions.me_south_1', 'Middle East (Bahrain)'),
 		value: 'ME_SOUTH_1'
 	},
 	{
-		label: 'SA_EAST_1',
+		label: t('buckets.amazon_regions.sa_east_1', 'South America (Sao Paulo)'),
 		value: 'SA_EAST_1'
 	},
 	{
-		label: 'US_EAST_1',
+		label: t('buckets.amazon_regions.us_east_1', 'US East (N. Virginia)'),
 		value: 'US_EAST_1'
 	},
 	{
-		label: 'US_EAST_2',
+		label: t('buckets.amazon_regions.us_east_2', 'US East (Ohio)'),
 		value: 'US_EAST_2'
 	},
 	{
-		label: 'US_GOV_EAST_1',
+		label: t('buckets.amazon_regions.us_gov_east_1', 'AWS GovCloud (US-East)'),
 		value: 'US_GOV_EAST_1'
 	},
 	{
-		label: 'US_ISO_EAST_1',
-		value: 'US_ISO_EAST_1'
-	},
-	{
-		label: 'US_ISO_WEST_1',
-		value: 'US_ISO_WEST_1'
-	},
-	{
-		label: 'US_ISOB_EAST_1',
-		value: 'US_ISOB_EAST_1'
-	},
-	{
-		label: 'US_WEST_1',
+		label: t('buckets.amazon_regions.us_west_1', 'US West (N. California)'),
 		value: 'US_WEST_1'
 	},
 	{
-		label: 'US_WEST_2',
+		label: t('buckets.amazon_regions.us_west_2', 'US West (Oregon)'),
 		value: 'US_WEST_2'
 	}
 ];
 
-export const BucketRegionsInAlibaba = [
+export const BucketRegionsInAlibaba = (t: TFunction): Array<{ value?: string; label: string }> => [
 	{
-		label: 'China (Hangzhou)',
+		label: t('buckets.alibaba_regions.cn_hangzhou', 'China (Hangzhou)'),
 		value: 'oss-cn-hangzhou'
 	},
 	{
-		label: 'China (Shanghai)',
+		label: t('buckets.alibaba_regions.cn_shanghai', 'China (Shanghai)'),
 		value: 'oss-cn-shanghai'
 	},
 	{
-		label: 'China (Qingdao)',
+		label: t('buckets.alibaba_regions.cn_qingdao', 'China (Qingdao)'),
 		value: 'oss-cn-qingdao'
 	},
 	{
-		label: 'China (Beijing)',
+		label: t('buckets.alibaba_regions.cn_beijing', 'China (Beijing)'),
 		value: 'oss-cn-beijing'
 	},
 	{
-		label: 'China (Zhangjiakou)',
+		label: t('buckets.alibaba_regions.cn_zhangjiakou', 'China (Zhangjiakou)'),
 		value: 'oss-cn-zhangjiakou'
 	},
 	{
-		label: 'China (Hohhot)',
+		label: t('buckets.alibaba_regions.cn_huhehaote', 'China (Hohhot)'),
 		value: 'oss-cn-huhehaote'
 	},
 	{
-		label: 'China (Shenzhen)',
+		label: t('buckets.alibaba_regions.cn_shenzhen', 'China (Shenzhen)'),
 		value: 'oss-cn-shenzhen'
 	},
 	{
-		label: 'China (Chengdu)',
+		label: t('buckets.alibaba_regions.cn_chengdu', 'China (Chengdu)'),
 		value: 'oss-cn-chengdu'
 	},
 	{
-		label: 'China (Hong Kong)',
+		label: t('buckets.alibaba_regions.cn_hongkong', 'China (Hong Kong)'),
 		value: 'oss-cn-hongkong'
 	},
 	{
-		label: 'Japan (Tokyo)',
+		label: t('buckets.alibaba_regions.ap_northeast_1', 'Japan (Tokyo)'),
 		value: 'oss-ap-northeast-1'
 	},
 	{
-		label: 'Singapore',
+		label: t('buckets.alibaba_regions.ap_southeast_1', 'Singapore'),
 		value: 'oss-ap-southeast-1'
 	},
 	{
-		label: 'Australia (Sydney)',
+		label: t('buckets.alibaba_regions.ap_southeast_2', 'Australia (Sydney)'),
 		value: 'oss-ap-southeast-2'
 	},
 	{
-		label: 'Malaysia (Kuala Lumpur)',
+		label: t('buckets.alibaba_regions.ap_southeast_3', 'Malaysia (Kuala Lumpur)'),
 		value: 'oss-ap-southeast-3'
 	},
 	{
-		label: 'Indonesia (Jakarta)',
+		label: t('buckets.alibaba_regions.ap_southeast_5', 'Indonesia (Jakarta)'),
 		value: 'oss-ap-southeast-5'
 	},
 	{
-		label: 'India (Mumbai)',
+		label: t('buckets.alibaba_regions.ap_south_1', 'India (Mumbai)'),
 		value: 'oss-ap-south-1'
 	},
 	{
-		label: 'US (Silicon Valley)',
+		label: t('buckets.alibaba_regions.us_west_1', 'US (Silicon Valley)'),
 		value: 'oss-us-west-1'
 	},
 	{
-		label: 'US (Virginia)',
+		label: t('buckets.alibaba_regions.us_east_1', 'US (Virginia)'),
 		value: 'oss-us-east-1'
 	},
 	{
-		label: 'Germany (Frankfurt)',
+		label: t('buckets.alibaba_regions.eu_central_1', 'Germany (Frankfurt)'),
 		value: 'oss-eu-central-1'
 	},
 	{
-		label: 'UK (London)',
+		label: t('buckets.alibaba_regions.eu_west_1', 'UK (London)'),
 		value: 'oss-eu-west-1'
 	},
 	{
-		label: 'UAE Dubai',
+		label: t('buckets.alibaba_regions.me_east_1', 'UAE Dubai'),
 		value: 'oss-me-east-1'
 	}
 ];

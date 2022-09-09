@@ -1954,7 +1954,7 @@ const EditMailingListView: FC<any> = ({
 				title={
 					<Trans
 						i18nKey="label.would_you_like_to_add_ml"
-						defaults="<bold>What would you like to add to the Mailing List?</bod>"
+						defaults="<bold>What would you like to add to the Mailing List?</bold>"
 						components={{ bold: <strong /> }}
 					/>
 				}
