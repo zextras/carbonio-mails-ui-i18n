@@ -41,9 +41,6 @@
     },
     "folder": {
         "modal": {
-            "new": {
-                "name_exist_warning": "Ad önceden kullanılmış"
-            },
             "edit": {
                 "rename_warning": "Bir sistem klasörünün adını değiştiremezsiniz.",
                 "retention_message": "Bu klasördeki koruma döneminde olan dosyaları silmek için ayrıca onaylamanız gerekecek",
@@ -51,9 +48,6 @@
                 "retention_duration_warning": "Koruma dönemi süresi positif bir sayı olmalıdır",
                 "threshold_message": "Bu klasördeki çöpe gönderme aralığından daha eski mesajlar otomatik olarak temizlenir ve silinir."
             }
-        },
-        "action": {
-            "restore": "Klasörü geri yükle"
         }
     },
     "message": {
