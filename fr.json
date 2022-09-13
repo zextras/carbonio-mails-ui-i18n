@@ -41,22 +41,12 @@
     },
     "folder": {
         "modal": {
-            "delete": {
-                "body": {
-                    "message4": "Si vous le supprimez, tous les contenus associés seront définitivement supprimés et le dossier ne sera plus restaurable."
-                }
-            },
             "edit": {
                 "rename_warning": "Vous ne pouvez pas renommer un dossier en tant que dossier système.",
                 "retention_message": "Les messages de ce dossier qui se situent dans la plage de rétention devront être confirmés explicitement avant d'être supprimés",
                 "add_share": "Ajouter un Partage",
                 "retention_duration_warning": "La durée de rétention doit être un nombre positif",
                 "threshold_message": "Les messages de ce dossier qui sont plus anciens que le seuil d'élimination seront soumis à un nettoyage et une suppression automatiques."
-            },
-            "new": {
-                "input": {
-                    "name": "Nom du dossier"
-                }
             }
         }
     },
@@ -313,7 +303,7 @@
                 "second": "L'email apparaîtra tel qu'il était prévu à l'origine pour le nouveau destinataire"
             },
             "send_anyway": {
-                "second": "Souhaitez vous toujours envoyer cet email ?",
+                "second": "Souhaitez vous envoyer cet email malgré tout ?",
                 "first": "Le sujet de l'email est vide et vous n'avez pas joint de fichier."
             }
         },
