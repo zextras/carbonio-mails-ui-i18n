@@ -15,9 +15,15 @@
         "name": "نام",
         "edit": "ویرایش",
         "create": "ایجاد",
-        "cancel": "لغو"
+        "cancel": "لغو",
+        "volume_cancel_button": "لغو",
+        "settings": "تنظیمات"
     },
     "domain": {
         "theme": "پوسته‌ها"
+    },
+    "cos": {
+        "enabled": "فعال",
+        "disabled": "غیرفعال"
     }
 }

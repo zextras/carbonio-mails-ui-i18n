@@ -4,5 +4,8 @@
         "search": "Hae",
         "details": "Yksityiskohdat",
         "password": "Salasana"
+    },
+    "cos": {
+        "password": "Salasana"
     }
 }
