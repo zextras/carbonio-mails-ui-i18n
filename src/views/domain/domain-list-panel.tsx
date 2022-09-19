@@ -193,11 +193,11 @@ const DomainListPanel: FC = () => {
 				name: t('label.resources', 'Resources'),
 				isSelected: isDomainSelect
 			},
-			{
+			/* {
 				id: ADMIN_DELEGATES,
 				name: t('label.admin_delegates', 'Admin Delegates'),
 				isSelected: isDomainSelect
-			},
+			}, 
 			{
 				id: ACTIVE_SYNC,
 				name: t('label.active_sync', 'ActiveSync'),
@@ -212,17 +212,17 @@ const DomainListPanel: FC = () => {
 				id: EXPORT_DOMAIN,
 				name: t('label.export_domain', 'Export Domain'),
 				isSelected: isDomainSelect
-			},
+			}, */
 			{
 				id: RESTORE_ACCOUNT,
 				name: t('label.restore_account', 'Restore Account'),
 				isSelected: isDomainSelect
-			},
-			{
+			}
+			/* {
 				id: RESTORE_DELETED_EMAIL,
 				name: t('label.restore_deleted_email', 'Restore Deleted E-mail'),
 				isSelected: isDomainSelect
-			}
+			} */
 		],
 		[t, isDomainSelect]
 	);

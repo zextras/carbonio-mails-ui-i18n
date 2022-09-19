@@ -15,7 +15,10 @@ import {
 	getSoapFetchRequest,
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	postSoapFetchRequest
+	postSoapFetchRequest,
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	useAllConfig
 } from '@zextras/carbonio-shell-ui';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -65,6 +68,12 @@ const App: FC = () => {
 	const setGlobalConfig = useGlobalConfigStore((state) => state.setGlobalConfig);
 	const setBackupModuleEnable = useBackupModuleStore((state) => state.setBackupModuleEnable);
 	const setConfig = useConfigStore((state) => state.setConfig);
+	const allConfig = useAllConfig();
+	useEffect(() => {
+		if (allConfig && allConfig.length > 0) {
+			setConfig(allConfig);
+		}
+	}, [allConfig, setConfig]);
 	const managementSection = useMemo(
 		() => ({
 			id: MANAGE_APP_ID,
@@ -342,7 +351,7 @@ const App: FC = () => {
 		addRoute({
 			route: MONITORING,
 			position: 2,
-			visible: true,
+			visible: false,
 			label: t('label.monitoring', 'Monitoring'),
 			primaryBar: 'ActivityOutline',
 			appView: AppView
@@ -420,7 +429,7 @@ const App: FC = () => {
 			tooltip: BackupTooltipView
 		});
 
-		addRoute({
+		/* addRoute({
 			route: OPERATIONS,
 			position: 1,
 			visible: true,
@@ -430,9 +439,9 @@ const App: FC = () => {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			primarybarSection: { ...logAndQueuesSection }
-		});
+		}); */
 
-		addRoute({
+		/* addRoute({
 			route: APPLICATION_LOG,
 			position: 2,
 			visible: true,
@@ -442,19 +451,19 @@ const App: FC = () => {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			primarybarSection: { ...logAndQueuesSection }
-		});
+		}); */
 
-		addRoute({
+		/* addRoute({
 			route: MTA,
 			position: 3,
-			visible: true,
+			visible: false,
 			label: t('label.mta', 'MTA'),
 			primaryBar: 'MailFolderOutline',
 			appView: AppView,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			primarybarSection: { ...logAndQueuesSection }
-		});
+		}); */
 
 		setAppContext({ cabonio_admin_console_ui: 'cabonio_admin_console_ui' });
 	}, [
@@ -510,12 +519,7 @@ const App: FC = () => {
 			).then((data: any) => {
 				const backupServer = data?.servers;
 				if (backupServer && Array.isArray(backupServer) && backupServer.length > 0) {
-					Object.keys(backupServer[0]).forEach((ele: any): void => {
-						const backup = backupServer[0][ele]?.ZxBackup;
-						if (backup?.services?.module?.running) {
-							setBackupModuleEnable(true);
-						}
-					});
+					setBackupModuleEnable(true);
 				} else {
 					setBackupModuleEnable(false);
 				}
@@ -557,19 +561,6 @@ const App: FC = () => {
 	useEffect(() => {
 		getAllServersRequest();
 	}, [getAllServersRequest]);
-
-	const getAllConfigRequest = useCallback(() => {
-		getAllConfig().then((data) => {
-			if (data?.a && Array.isArray(data?.a)) {
-				const allConfig = data?.a;
-				setConfig(allConfig);
-			}
-		});
-	}, [setConfig]);
-
-	useEffect(() => {
-		getAllConfigRequest();
-	}, [getAllConfigRequest]);
 
 	return null;
 };
