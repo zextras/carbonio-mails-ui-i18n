@@ -711,6 +711,7 @@ const DomainMailingList: FC = () => {
 					selectedMailingList={selectedFromRow}
 					setShowMailingListDetailView={setShowMailingListDetailView}
 					setEditMailingList={setEditMailingList}
+					setIsUpdateRecord={setIsUpdateRecord}
 				/>
 			)}
 

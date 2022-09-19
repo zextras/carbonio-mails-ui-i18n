@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	Container,
 	Row,
@@ -14,9 +14,12 @@ import {
 	Text,
 	Switch,
 	Padding,
-	Icon
+	Icon,
+	SnackbarManagerContext,
+	Modal,
+	Button
 } from '@zextras/carbonio-design-system';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import moment from 'moment';
 
 import ListRow from '../../../list/list-row';
@@ -24,6 +27,7 @@ import Paginig from '../../../components/paging';
 import { getDistributionList } from '../../../../services/get-distribution-list';
 import { getDistributionListMembership } from '../../../../services/get-distributionlists-membership-service';
 import { getDateFromStr } from '../../../utility/utils';
+import { deleteDistributionList } from '../../../../services/delete-distribution-list';
 
 // eslint-disable-next-line no-shadow
 export enum SUBSCRIBE_UNSUBSCRIBE {
@@ -41,10 +45,14 @@ export enum TRUE_FALSE {
 const MailingListDetail: FC<any> = ({
 	selectedMailingList,
 	setShowMailingListDetailView,
-	setEditMailingList
+	setEditMailingList,
+	setIsUpdateRecord
 }) => {
 	const [t] = useTranslation();
 	const [zimbraCreateTimestamp, setZimbraCreateTimestamp] = useState<string>('');
+	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
+	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const dlCreateDate = useMemo(
 		() =>
 			!!zimbraCreateTimestamp && zimbraCreateTimestamp !== null && zimbraCreateTimestamp !== ''
@@ -376,6 +384,54 @@ const MailingListDetail: FC<any> = ({
 		}
 	}, [memberURL]);
 
+	const closeHandler = useCallback(() => {
+		setIsOpenDeleteDialog(false);
+	}, []);
+
+	const onSuccess = useCallback(
+		(message) => {
+			createSnackbar({
+				key: 'success',
+				type: 'success',
+				label: message,
+				autoHideTimeout: 3000,
+				hideButton: true,
+				replace: true
+			});
+			setIsRequestInProgress(false);
+			closeHandler();
+			setShowMailingListDetailView(false);
+			setIsUpdateRecord(true);
+		},
+		[closeHandler, createSnackbar, setIsUpdateRecord, setShowMailingListDetailView]
+	);
+
+	const onDeleteHandler = useCallback(() => {
+		setIsRequestInProgress(true);
+		deleteDistributionList(dlId)
+			.then((data: any) => {
+				onSuccess(
+					t('label.dl_delete_successfull', '{{name}} has been deleted successfully', {
+						name: distributionName
+					})
+				);
+			})
+			.then((error: any) => {
+				setIsRequestInProgress(false);
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label: error.message
+						? error.message
+						: t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
+			});
+	}, [createSnackbar, onSuccess, t, dlId, distributionName]);
+
 	return (
 		<Container
 			background="gray5"
@@ -446,6 +502,9 @@ const MailingListDetail: FC<any> = ({
 						icon="Trash2Outline"
 						height={44}
 						width={44}
+						onClick={(): void => {
+							setIsOpenDeleteDialog(true);
+						}}
 					/>
 				</Container>
 			</Container>
@@ -645,6 +704,55 @@ const MailingListDetail: FC<any> = ({
 					</Container>
 				</ListRow>
 			</Container>
+
+			{isOpenDeleteDialog && (
+				<Modal
+					size="medium"
+					title={t('label.you_are_deleting_ml', 'You are deleting {{name}}', {
+						name: distributionName
+					})}
+					open={isOpenDeleteDialog}
+					customFooter={
+						<Container orientation="horizontal" mainAlignment="space-between">
+							<Button
+								style={{ marginLeft: '10px' }}
+								type="outlined"
+								label={t('label.help', 'Help')}
+								color="primary"
+							/>
+							<Row style={{ gap: '8px' }}>
+								<Button
+									label={t('label.cancel', 'Cancel')}
+									color="secondary"
+									type="outlined"
+									onClick={closeHandler}
+									disabled={isRequestInProgress}
+								/>
+								<Button
+									label={t('label.yes_delete_it', 'Yes, Delete it')}
+									color="error"
+									onClick={onDeleteHandler}
+									disabled={isRequestInProgress}
+								/>
+							</Row>
+						</Container>
+					}
+					showCloseIcon
+					onClose={closeHandler}
+				>
+					<Container padding={{ top: 'extralarge', bottom: 'extralarge' }}>
+						<Padding bottom="medium" top="medium">
+							<Text size={'extralarge'} overflow="break-word">
+								<Trans
+									i18nKey="label.are_you_sure_delete_distribution_list"
+									defaults="Are you sure you want to delete <bold>{{name}}</bod> ?"
+									components={{ bold: <strong />, name: distributionName }}
+								/>
+							</Text>
+						</Padding>
+					</Container>
+				</Modal>
+			)}
 		</Container>
 	);
 };
