@@ -2,23 +2,14 @@
     "folder": {
         "modal": {
             "edit": {
-                "size": "大小",
                 "rename_warning": "您无法将文件夹重命名为系统文件夹.",
                 "add_share": "添加共享",
                 "retention_duration_warning": "保留时间必须为正数",
                 "retention_message": "此文件夹中属于保留范围的邮件在被删除之前要求明确确认",
                 "threshold_message": "此文件夹中时间早于处置阈值的邮件将被自动清理和删除。"
             },
-            "move": {
-                "title_modal": "移动会话"
-            },
             "new": {
                 "title": "新建文件夹"
-            },
-            "wipe": {
-                "body": {
-                    "message2": "如果擦除，则所有相关内容都将被永久性删除。"
-                }
             }
         },
         "action": {
@@ -322,7 +313,8 @@
         "searching": "正在搜索...",
         "notify": "通知",
         "do_not_notify": "不通知",
-        "keep_draft": "保存草稿"
+        "keep_draft": "保存草稿",
+        "enter_email_address": "输入电邮地址或域名"
     },
     "search": {
         "unread": "未读",
@@ -518,7 +510,6 @@
             "url": "从文件添加公开链接"
         }
     },
-    "remove_from_this_list": "从此列表中移除",
     "folder_panel": {
         "modal": {
             "move": {
@@ -646,7 +637,17 @@
         "fromccme": "由我发出",
         "forwarded": "已转发",
         "flagged": "已标记",
-        "draft": "草稿"
+        "draft": "草稿",
+        "unreplied": "不是由我回答",
+        "tofromme": "发给我、来自我或抄送给我",
+        "tofromccme": "发给我、来自我或抄送给我",
+        "toccme": "发给我或抄送给我",
+        "solo": "带有单一消息的对话",
+        "replied": "由我回答",
+        "remote": "于由我分享的文件夹",
+        "local": "于我的文件夹",
+        "invitations": "邀请",
+        "ccme": "抄送给我"
     },
     "attachment_type": {
         "word": "Word",
