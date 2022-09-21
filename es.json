@@ -30,23 +30,14 @@
     "folder": {
         "modal": {
             "edit": {
-                "size": "Tamaño",
                 "rename_warning": "No puedes renombrar una carpeta como una del sistema.",
                 "add_share": "Añadir Compartición",
                 "retention_duration_warning": "La duración de la retención debe ser un número positivo",
                 "retention_message": "Los mensajes dentro de esta carpeta que excedan el umbral de retención requerirán de una confirmación explícita antes de ser eliminados",
                 "threshold_message": "Los mensajes de esta carpeta que sobrepasen el umbral establecido serán eliminados automáticamente."
             },
-            "move": {
-                "title_modal": "Mover conversación"
-            },
             "new": {
                 "title": "Crear una nueva carpeta"
-            },
-            "wipe": {
-                "body": {
-                    "message2": "Si la limpias, todo el contenido relacionado se borrará permanentemente."
-                }
             }
         },
         "action": {
@@ -55,7 +46,6 @@
             }
         }
     },
-    "delete": "Eliminar",
     "folders": {
         "trash": "Papelera",
         "drafts": "Borradores",
@@ -404,9 +394,6 @@
         "folder_sharing_status_plural": "Compartido con {{count}} personas"
     },
     "settings": {
-        "conv_sort_optn": {
-            "desc": "De nuevo a antiguo"
-        },
         "label": {
             "display_mail": "Visuzalizar correo",
             "search_query": "Consulta por defecto",
@@ -656,7 +643,16 @@
         "fromccme": "de mí",
         "forwarded": "reenviado",
         "flagged": "marcado",
-        "draft": "borrador"
+        "draft": "borrador",
+        "unreplied": "no contestado por mí",
+        "tofromme": "para mí, enviado por mí o en copia para mí",
+        "tofromccme": "para mí, enviado por mí o en copia para mí",
+        "toccme": "para mi o en copia para mi",
+        "solo": "conversaciones con un solo mensaje",
+        "replied": "contestado por mi",
+        "remote": "en una carpeta compartida por mi",
+        "local": "en mis carpetas",
+        "ccme": "en copia para mí"
     },
     "attachment_type": {
         "word": "Word",
