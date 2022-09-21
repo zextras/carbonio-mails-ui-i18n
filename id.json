@@ -28,20 +28,10 @@
         "click_preview": "Klik untuk melihat pratinjau"
     },
     "folder": {
-        "action": {
-            "wipe": {
-                "folder": "Hapus folder"
-            }
-        },
         "modal": {
             "move": {
                 "input": {
                     "filter": "Filter Folder"
-                }
-            },
-            "delete": {
-                "body": {
-                    "message4": "Jika dihapus, semua konten terkait akan dihapus secara permanen dan folder tidak dapat dipulihkan lagi."
                 }
             },
             "edit": {
@@ -50,9 +40,6 @@
                 "retention_message": "Pesan dalam folder yang termasuk dalam rentang retensi memerlukan konfirmasi langsung sebelum dihapus",
                 "threshold_message": "Pesan dalam folder ini yang lebih lama dari ambang pembuangan akan dikenakan pembersihan dan penghapusan otomatis.",
                 "add_share": "Tambahkan Berbagi"
-            },
-            "new": {
-                "name_exist_warning": "Nama sudah ada"
             },
             "wipe": {
                 "title": "Hapus"
@@ -647,7 +634,17 @@
         "fromccme": "dari saya",
         "forwarded": "diteruskan",
         "flagged": "dibenderai",
-        "draft": "draf"
+        "draft": "draf",
+        "unreplied": "tidak dijawab oleh saya",
+        "tofromme": "kepada saya, dari saya, atau disalin kepada saya",
+        "tofromccme": "kepada saya, dari saya, atau disalin kepada saya",
+        "toccme": "kepada atau disalin ke saya",
+        "solo": "percakapan dengan satu pesan",
+        "replied": "dijawab oleh saya",
+        "remote": "pada folder yang dibagikan oleh saya",
+        "local": "di folder saya",
+        "invitations": "undangan",
+        "ccme": "disalin ke saya"
     },
     "attachment_type": {
         "word": "Word",
