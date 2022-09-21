@@ -246,7 +246,7 @@
         "read_receipt_sent": "Un accusé de lecture a été envoyé pour ce message",
         "read_receipt_req": "Un accusé de lecture est demandé",
         "notify": "Notifier",
-        "mark_as_un_important": "Signaler comme important",
+        "mark_as_un_important": "Marquer comme non important",
         "mark_as_important": "Signaler comme important",
         "keep_draft": "Enregistrer le brouillon",
         "include_shared_folders": "Inclure les dossiers partagés",
