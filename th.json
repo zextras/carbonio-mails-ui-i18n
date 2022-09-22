@@ -1,43 +1,24 @@
 {
     "folder": {
         "action": {
-            "delete_permanently": "ลบโฟลเดอร์อย่างถาวร",
             "wipe": {
                 "folder": "ล้างโฟลเดอร์"
             }
         },
         "modal": {
-            "delete": {
-                "body": {
-                    "message2": "คุณต้องการลบโฟลเดอร์ที่เลือกอย่างถาวรหรือไม่?"
-                }
-            },
             "edit": {
                 "footer": "แก้ไข",
-                "messages": "ข้อความ",
                 "rename_warning": "คุณไม่สามารถเปลี่ยนชื่อโฟลเดอร์เหมือนชื่อระบบได้",
-                "threshold_msg": "ในโฟลเดอร์นี้ ข้อความที่เก่ากว่าเกณฑ์จะถูกล้างและลบโดยอัตโนมัติ",
                 "retention_duration_warning": "ระยะเวลาการเก็บรักษาต้องเป็นจำนวนบวก",
                 "retention_message": "ข้อความในโฟลเดอร์นี้ซึ่งอยู่ในช่วงการเก็บรักษาจะต้องได้รับการยืนยันก่อนที่จะถูกลบ",
                 "add_share": "เพิ่มการแชร์",
                 "threshold_message": "ข้อความในโฟลเดอร์นี้เก่ากว่าเกณฑ์ในการกำจัดทิ้งและจะถูกล้างและลบโดยอัตโนมัติ"
             },
             "move": {
-                "body": {
-                    "message1": "เลือกโฟลเดอร์เพื่อย้ายไปที่:"
-                },
                 "title_modal": "ย้ายการสนทนา"
             },
             "new": {
-                "input": {
-                    "name": "ชื่อโฟลเดอร์"
-                },
                 "name_exist_warning": "มีชื่ออยู่แล้ว"
-            },
-            "empty": {
-                "body": {
-                    "message2": "หากคุณล้างออกจะทำให้เนื้อหาที่เกี่ยวข้องทั้งหมดถูกลบอย่างถาวร"
-                }
             },
             "wipe": {
                 "body": {
@@ -47,7 +28,6 @@
         }
     },
     "action": {
-        "back": "ด้านหลัง",
         "edit_as_draft": "แก้ไข",
         "forward": "ส่งต่อ",
         "mark_as_read": "ทำเครื่องหมายว่าอ่านแล้ว",
@@ -124,7 +104,6 @@
         "owner": "เจ้าของ ",
         "receive_message": "การรับข้อความ",
         "role": "บทบาท: ",
-        "select_3": "เพื่อเขียนอีเมลใหม่",
         "select_folder": "เลือกโฟลเดอร์",
         "send_notification": "ส่งข้อความแจ้งเตือนถึง",
         "sent": "ส่งแล้ว",
@@ -320,7 +299,6 @@
     "placeholder": {
         "add_new_recipients": "เพิ่มผู้รับใหม่"
     },
-    "read": "อ่าน",
     "search": {
         "unread": "ไม่ได้อ่าน",
         "attachment_note": "ค้นหาอีเมลทั้งหมดที่มีไฟล์แนบ",
@@ -358,9 +336,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "title": "โหมด Drag&Drop"
-            },
             "local": "เพิ่มจาก local",
             "contacts_mod": "เพิ่มบัตรผู้ติดต่อ",
             "drag_and_drop": {
@@ -371,7 +346,6 @@
             "url": "เพิ่มลิงก์สาธารณะจาก Files"
         }
     },
-    "insert": "ใส่",
     "message": {
         "snackbar": {
             "settings_saved": "บันทึกการแก้ไขอย่างถูกต้อง",
@@ -401,7 +375,6 @@
         "manager_rights": "ดู, แก้ไข, เพิ่ม, ลบ",
         "external_images_blocked": "รูปภาพจากภายนอกถูกบล็อกเพื่อป้องกันคุณจากสแปมที่อาจเกิดขึ้น"
     },
-    "set_default_signatures": "ตั้งค่าลายเซ็นเริ่มต้น",
     "settings": {
         "dspl_mail_optn": {
             "text": "เป็นข้อความ"
@@ -409,9 +382,7 @@
         "label": {
             "check_new_mail": "ตรวจสอบอีเมลใหม่",
             "display_mail": "แสดงจดหมาย",
-            "msg_selection": "การเลือกข้อความ",
             "search_query": "แบบสอบถามเริ่มต้น",
-            "set_msg_color_acc_tag": "กำหนดสีของข้อความและการสนทนาตามสีแท็ก",
             "default_mail_search": "การค้นหาจดหมายเริ่มต้น",
             "display_messages": "การแสดงข้อความ",
             "conversation_ordering": "ลำดับการสนทนา",
@@ -549,7 +520,6 @@
         "enable_urgent": "เปิดการใช้งานแบบเร่งด่วน",
         "folder_sharing_status": "แชร์กับ {{count}} คน"
     },
-    "write": "เขียน",
     "folder_panel": {
         "modal": {
             "new": {

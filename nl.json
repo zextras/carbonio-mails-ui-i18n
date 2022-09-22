@@ -1,6 +1,5 @@
 {
     "action": {
-        "delete_permanently": "Permanent Verwijderen",
         "forward": "Doorsturen",
         "mark_as_read": "Als gelezen markeren",
         "mark_as_unread": "Markeren als niet geşezen",
@@ -30,11 +29,7 @@
     },
     "folder": {
         "action": {
-            "new": "Nieuwe map",
-            "edit": "Mapeigenschappen bewerken",
-            "wipe": {
-                "folder": "Map wissen"
-            }
+            "edit": "Mapeigenschappen bewerken"
         },
         "modal": {
             "delete": {
@@ -43,30 +38,17 @@
                 }
             },
             "edit": {
-                "size": "Grootte",
                 "rename_warning": "U kunt de naam van een map niet wijzigen als een systeemmap.",
-                "threshold_msg": "In deze map zullen berichten die ouder zijn dan de verwijderingsdrempel automatisch worden opgeruimd en verwijderd.",
                 "retention_duration_warning": "De retentietijd moet een positief getal zijn",
                 "retention_message": "Berichten in deze map die binnen het retentiebereik vallen, vereisen een uitdrukkelijke bevestiging voordat ze worden verwijderd",
                 "add_share": "Delen toevoegen",
                 "threshold_message": "Berichten in deze map die ouder zijn dan de verwijderingsdrempel zullen automatisch worden opgeschoond en verwijderd."
             },
             "move": {
-                "body": {
-                    "message1": "Selecteer een map om de overwogene naar te verplaatsen:"
-                },
                 "title_modal": "Gesprek verplaatsen"
             },
             "new": {
-                "input": {
-                    "name": "Naam map"
-                },
                 "title": "Een nieuwe map creëren"
-            },
-            "empty": {
-                "body": {
-                    "message2": "Als u ze leegmaakt, wordt alle gerelateerde inhoud permanent verwijderd."
-                }
             },
             "wipe": {
                 "body": {
@@ -332,7 +314,6 @@
     "placeholder": {
         "add_new_recipients": "Nieuwe ontvangers toevoegen"
     },
-    "read": "Gelezen",
     "search": {
         "unread": "Ongelezen",
         "attachment_note": "Zoek naar alle e-mailberichten die een bijlage bevatten.",
@@ -409,9 +390,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "Drop hier uw bijlagen om ze snel aan deze e-mail toe te voegen"
-            },
             "local": "Toevoegen van lokaal",
             "drag_and_drop": {
                 "title": "Drag&Drop-modus",
@@ -422,17 +400,11 @@
             "url": "Openbare link toevoegen vanuit Bestanden"
         }
     },
-    "insert": "Invoegen",
     "select_signature": "Handtekening selecteren",
     "settings": {
-        "dspl_mail_optn": {
-            "html": "Als HTML (indien mogelijk)"
-        },
         "label": {
             "check_new_mail": "Nieuwe e-mail controleren",
-            "disp_messages": "Berichten weergeven",
             "display_mail": "Mail weergeven",
-            "msg_prv_title": "Bericht voorbeeld en afbeeldingen",
             "search_query": "Standaard zoekopdracht",
             "conversation_ordering": "Gesprek bestelling",
             "default_mail_search": "Standaard mail zoeken",

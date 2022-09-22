@@ -10,7 +10,6 @@
             "folder_deleted": "Cartella eliminata con successo.",
             "folder_edited": "Modifiche salvate correttamente",
             "folder_empty": "Pulizia cestino completata",
-            "folder_edited_error": "Qualcosa è andato storto, i cambiamenti non sono stati applicati, riprova.",
             "folder_move_error": "Qualcosa è andato storto, questa cartella non è stata spostata, riprova.",
             "folder_moved": "Cartella spostata correttamente",
             "folder_empty_error": "Qualcosa è andato storto, le modifiche non sono stati applicate. Riprova.",
@@ -78,7 +77,6 @@
         "download_plural": "Scarica tutti",
         "attachment": "Allegato",
         "attachment_plural": "Allegati",
-        "select_3": "per comporre una email.",
         "cancel": "Elimina",
         "draft_folder": "[BOZZA]",
         "remove": "Elimina",
@@ -276,7 +274,6 @@
         "marked_as_important": "Contrassegnato come importante"
     },
     "placeholder": {
-        "bcc": "BCC",
         "add_new_recipients": "Aggiungi nuovi destinatari"
     },
     "header": {
@@ -318,24 +315,18 @@
     },
     "folder": {
         "action": {
-            "empty": {
-                "trash": "Svuota cestino"
-            },
             "restore": "Ripristina Cartella"
         },
         "modal": {
             "move": {
-                "new": "Nuova Cartella",
                 "body": {
                     "message_restore": "Seleziona una cartella in cui ripristinare quella selezionata:"
                 }
             },
             "new": {
-                "go_back": "Torna Indietro",
                 "name_exist_warning": "Nome già esistente"
             },
             "edit": {
-                "size": "Dimensione",
                 "footer": "Modifica",
                 "rename_warning": "Non puoi nominare una cartella come una di sistema.",
                 "add_share": "Aggiungi Condivisione",
@@ -343,16 +334,10 @@
                 "retention_message": "All'interno di questa cartella, per i messaggi che rientrano nel periodo di ritenzione, verrà chiesta conferma per la cancellazione",
                 "threshold_message": "In questa cartella, i messaggi più vecchi del limite consentito saranno soggetti a cancellazione automatica."
             },
-            "wipe": {
-                "footer": "Pulisci"
-            },
             "delete": {
                 "body": {
                     "message3": "Eliminando l'oggetto, i relativi contenuti saranno spostati nel cestino e la cartella non sarà più visibile."
                 }
-            },
-            "empty": {
-                "footer": "Svuota"
             },
             "restore": {
                 "footer": "Ripristina"
@@ -410,7 +395,6 @@
         "schedule_time": "{{date}} alle {{time}}",
         "schedule_mail": "Sarà inviata il: {{date}} alle {{time}}"
     },
-    "delete": "Elimina",
     "snackbar": {
         "error": "Qualcosa è andato storto. riprova",
         "share_resend": "Invito condivisione inviato",
@@ -474,9 +458,6 @@
             "discard": "Elimina il messaggio automaticamente",
             "inbox": "Sposta in posta in arrivo",
             "inbox_if_cc": "Sposta in posta in arrivi se sono in A: o Cc:"
-        },
-        "dspl_mail_optn": {
-            "text": "Come testo"
         },
         "notify_folder_optn": {
             "new_message_folder": "Mostra notifiche per ogni nuovo messaggio che arriva in qualsiasi cartella",
@@ -572,7 +553,6 @@
             "below_deleted": "Seleziona il messaggio sotto quello spostato o eliminato"
         }
     },
-    "shared_item": "Elemento condiviso",
     "read": "Letto",
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
@@ -585,7 +565,6 @@
         "sent_before": "Inviato prima",
         "shared_folders_note": "Includi elementi condivisi nelle ricerche."
     },
-    "type": "Tipo",
     "displayer": {
         "draft_title1": "Salvare una e-mail come bozza ti permetterà di tenere i messaggi che vuoi inviare più tardi.",
         "search_description1": "O seleziona \"Filtri Avanzati\" per rifinire la tua ricerca.",

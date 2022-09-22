@@ -2,41 +2,26 @@
     "folder": {
         "modal": {
             "edit": {
-                "type": "タイプ",
                 "rename_warning": "フォルダの名前をシステムの名前に変更することはできません。",
-                "retention_msg": "保存範囲内にあるこのフォルダ内のメッセージは、削除する前に明示的に確認する必要があります",
                 "retention_message": "保存範囲内にあるこのフォルダ内のメッセージは、削除する前に明示的に確認する必要があります",
                 "retention_duration_warning": "保持期間は正の数でなければなりません",
                 "add_share": "共有を追加する",
                 "threshold_message": "このフォルダ内の廃棄しきい値より古いメッセージは、自動クリーンアップと削除の対象になります。"
             },
-            "delete": {
-                "body": {
-                    "message2": "選択したフォルダを完全に削除しますか？"
-                }
-            },
             "move": {
-                "new": "新規フォルダ",
-                "body": {
-                    "message_restore": "検討対象のフォルダを次の場所に復元するフォルダを選択します:"
-                }
+                "new": "新規フォルダ"
             },
             "new": {
-                "create_footer": "作成して移動する",
-                "name_exist_warning": "名前がすでに存在しています"
+                "create_footer": "作成して移動する"
             },
             "restore": {
                 "title_modal": "復元する"
-            },
-            "empty": {
-                "title": "空にする"
             },
             "wipe": {
                 "title": "一掃する"
             }
         },
         "action": {
-            "delete_permanently": "フォルダを完全に削除する",
             "wipe": {
                 "folder": "フォルダを一掃する"
             }
@@ -55,7 +40,6 @@
         "replies_forwards": "返信と転送"
     },
     "action": {
-        "delete": "削除する",
         "forward": "転送する",
         "mark_as_read": "既読にする",
         "mark_as_unread": "未読にする",
@@ -122,7 +106,6 @@
         "revoke_access_tooltip": "標準通知の送信へのアクセスを取り消す",
         "revoke_access_without_notification": "通知を送信せずにアクセスを取り消す",
         "revoke_share": "{{title}}の共有を取り消す",
-        "mail_setting": "メールの設定",
         "no_subject": "件名なし",
         "owner": "所有者: ",
         "receive_message": "メッセージの受信",
@@ -359,9 +342,6 @@
     },
     "composer": {
         "attachment": {
-            "draganddrop": {
-                "content": "添付ファイルをここにドロップして、このメールに素早く追加できます"
-            },
             "local": "ローカルから追加する",
             "contacts_mod": "連絡先カードを追加する",
             "drag_and_drop": {
@@ -372,7 +352,6 @@
             "url": "ファイルからパブリックリンクを追加する"
         }
     },
-    "insert": "挿入する",
     "message": {
         "snackbar": {
             "settings_saved": "編集が保存されました",
@@ -402,7 +381,6 @@
         "view_rights": "表示",
         "external_images_blocked": "スパムからユーザーを守るために、外部画像はブロックされています"
     },
-    "select_signature": "署名を選択する",
     "settings": {
         "dspl_mail_optn": {
             "text": "テキストとして"
@@ -410,7 +388,6 @@
         "label": {
             "check_new_mail": "新規メールを確認する",
             "display_mail": "メールを表示する",
-            "msg_prv_title": "メッセージのプレビューと画像",
             "search_query": "デフォルトのクエリ",
             "conversation_ordering": "会話の順序",
             "default_mail_search": "デフォルトのメール検索",
@@ -550,7 +527,6 @@
         "folder_sharing_status": "{{count}}人と共有されました",
         "folder_linked_status": "共有されたファイル"
     },
-    "workflow": "ワークフロー",
     "folder_panel": {
         "modal": {
             "delete": {
