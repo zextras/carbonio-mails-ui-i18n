@@ -306,7 +306,8 @@
         "goto_folder": "VAI ALLA CARTELLA",
         "reset": "Ripristina",
         "preview_new_tab": "Clicca per l'anteprima in altra scheda",
-        "click_preview": "Clicca per visualizzare l'anteprima"
+        "click_preview": "Clicca per visualizzare l'anteprima",
+        "edit_anyway": "Modifica comunque"
     },
     "folder": {
         "modal": {
