@@ -1,8 +1,6 @@
 {
     "action": {
-        "cancel": "Annuleren",
         "delete_permanently": "Permanent Verwijderen",
-        "edit_as_draft": "Bewerken",
         "forward": "Doorsturen",
         "mark_as_read": "Als gelezen markeren",
         "mark_as_unread": "Markeren als niet geşezen",
@@ -30,30 +28,23 @@
         "preview_new_tab": "Klik om te bekijken in een ander tabblad",
         "click_preview": "Klik om te bekijken"
     },
-    "create": "Creëren",
     "folder": {
         "action": {
             "new": "Nieuwe map",
-            "delete": "Map verwijderen",
             "edit": "Mapeigenschappen bewerken",
-            "move": "Map verplaatsen",
             "wipe": {
                 "folder": "Map wissen"
             }
         },
         "modal": {
             "delete": {
-                "title": "Verwijderen",
                 "body": {
-                    "message2": "Wilt u de geselecteerde map definitief verwijderen?",
-                    "message4": "Als u deze verwijdert, wordt alle gerelateerde inhoud definitief verwijderd en is de map niet langer zichtbaar."
+                    "message2": "Wilt u de geselecteerde map definitief verwijderen?"
                 }
             },
             "edit": {
                 "size": "Grootte",
-                "folder_type": "Mail map",
                 "rename_warning": "U kunt de naam van een map niet wijzigen als een systeemmap.",
-                "retention_properties": "Retentie-eigenschappen",
                 "threshold_msg": "In deze map zullen berichten die ouder zijn dan de verwijderingsdrempel automatisch worden opgeruimd en verwijderd.",
                 "retention_duration_warning": "De retentietijd moet een positief getal zijn",
                 "retention_message": "Berichten in deze map die binnen het retentiebereik vallen, vereisen een uitdrukkelijke bevestiging voordat ze worden verwijderd",
@@ -61,35 +52,26 @@
                 "threshold_message": "Berichten in deze map die ouder zijn dan de verwijderingsdrempel zullen automatisch worden opgeschoond en verwijderd."
             },
             "move": {
-                "new": "Nieuwe map",
                 "body": {
-                    "message1": "Selecteer een map om de overwogene naar te verplaatsen:",
-                    "message_restore": "Selecteer een map om de overwogene naar te herstellen:"
+                    "message1": "Selecteer een map om de overwogene naar te verplaatsen:"
                 },
                 "title_modal": "Gesprek verplaatsen"
             },
             "new": {
-                "create_footer": "Creëren en verplaatsen",
                 "input": {
                     "name": "Naam map"
                 },
-                "name_exist_warning": "Naam bestaat al",
                 "title": "Een nieuwe map creëren"
-            },
-            "restore": {
-                "title_modal": "Herstellen"
             },
             "empty": {
                 "body": {
                     "message2": "Als u ze leegmaakt, wordt alle gerelateerde inhoud permanent verwijderd."
-                },
-                "footer": "Leeg"
+                }
             },
             "wipe": {
                 "body": {
                     "message2": "Als u het wist, zal alle gerelateerde inhoud permanent worden verwijderd."
-                },
-                "title": "Wissen"
+                }
             }
         }
     },
@@ -144,7 +126,6 @@
         "revoke_access_without_notification": "Toegang intrekken zonder een melding te sturen",
         "revoke_share": "Delen van {{title}} intrekken",
         "role": "Rol: ",
-        "select_2": "of klik op de knop \"Nieuw\"",
         "select_folder": "Map selecteren",
         "send_notification": "Een kennisgeving sturen naar",
         "sent": "Verstuurd",
@@ -320,7 +301,6 @@
             "folder_edited": "Wijzigingen met succes bewerkt",
             "folder_empty": "Prullenbak met succes leeggemaakt",
             "folder_empty_error": "Er is iets fout gegaan, wijzigingen zijn niet gebeurd,. Probeer het opnieuw.",
-            "email_restore_error": "Er ging iets mis, probeer het nog eens",
             "folder_move_error": "Er is iets fout gegaan, deze map is niet verplaatst. Probeer het opnieuw.",
             "folder_moved": "Map met succes verplaatst",
             "folder_moved_to_trash": "Map verplaatst naar prullenmand",
@@ -331,7 +311,6 @@
             "marked_as_spam": "U heeft deze e-mail gemarkeerd als Spam",
             "message_delete_error": "Er is iets fout gegaan, dit bericht is niet verwijderd. Probeer het opnieuw.",
             "message_deleted": "Bericht verwijderd",
-            "message_deleted_permanently_error": "Er ging iets mis, probeer het opnieuw",
             "message_move": "Bericht met succes verplaatst",
             "message_redirected": "Het bericht is doorgestuurd",
             "mail_saved_to_drafts": "Mail opgeslagen in concepten",
@@ -350,10 +329,8 @@
         "something_went_wrong": "ER IS IETS FOUT GEGAAN",
         "trustee_addresses": "E-mail van deze adresssen of domeinen worden als vertrouwd beschouwd en afbeeldingen worden automatisch weergegeven."
     },
-    "owner": "Eigenaar",
     "placeholder": {
-        "add_new_recipients": "Nieuwe ontvangers toevoegen",
-        "cc": "CC"
+        "add_new_recipients": "Nieuwe ontvangers toevoegen"
     },
     "read": "Gelezen",
     "search": {
@@ -393,7 +370,6 @@
         "replies_forwards": "Antwoorden & doorsturen"
     },
     "snackbar": {
-        "error": "Er ging iets mis, probeer het opnieuw",
         "share_resend": "Delen uitnodigen opnieuw versturen",
         "share_updated": "\"Toegangsrechten bijgewerkt\"",
         "share_revoke": "Delen toegang ingetrokken",
@@ -431,13 +407,11 @@
         "manager_rights": "Bekijken, Bewerken, Toevoegen, Verwijderen",
         "external_images_blocked": "Externe afbeeldingen zijn geblokkeerd om u te beschermen tegen mogelijke spam"
     },
-    "allowed_actions": "Toegelaten acties",
     "composer": {
         "attachment": {
             "draganddrop": {
                 "content": "Drop hier uw bijlagen om ze snel aan deze e-mail toe te voegen"
             },
-            "drive": "Toevoegen vanaf Drive",
             "local": "Toevoegen van lokaal",
             "drag_and_drop": {
                 "title": "Drag&Drop-modus",
@@ -448,24 +422,16 @@
             "url": "Openbare link toevoegen vanuit Bestanden"
         }
     },
-    "find_shares": "Delen zoeken",
     "insert": "Invoegen",
-    "private": "Privé",
     "select_signature": "Handtekening selecteren",
     "settings": {
-        "conv_sort_optn": {
-            "asc": "Van oud naar nieuw"
-        },
         "dspl_mail_optn": {
             "html": "Als HTML (indien mogelijk)"
         },
         "label": {
-            "always_dsp_received_time": "Altijd ontvangsttijd weergeven in e-mail lijst",
             "check_new_mail": "Nieuwe e-mail controleren",
-            "dbl_click_opens_msg": "Dubbelklikken opent bericht in nieuw venster",
             "disp_messages": "Berichten weergeven",
             "display_mail": "Mail weergeven",
-            "dsp_msg_snpt": "Fragmenten van berichten weergeven in de mailinglijst",
             "msg_prv_title": "Bericht voorbeeld en afbeeldingen",
             "search_query": "Standaard zoekopdracht",
             "conversation_ordering": "Gesprek bestelling",
@@ -586,7 +552,6 @@
         "remove_condition": "Deze voorwaarde verwijderen",
         "to_cc": "Aan of CC"
     },
-    "shared_item": "Gedeeld item",
     "tooltip": {
         "revoke": "Toegang intrekken",
         "add_attachments": "Bijlagen toevoegen",
@@ -600,7 +565,6 @@
         "folder_sharing_status_plural": "Gedeeld met {{count}} personen",
         "folder_linked_status": "Mit mir geteilt"
     },
-    "write": "Schrijven",
     "folder_panel": {
         "modal": {
             "delete": {
