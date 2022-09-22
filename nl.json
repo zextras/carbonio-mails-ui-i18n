@@ -29,20 +29,12 @@
     },
     "folder": {
         "modal": {
-            "delete": {
-                "body": {
-                    "message2": "Wilt u de geselecteerde map definitief verwijderen?"
-                }
-            },
             "edit": {
                 "rename_warning": "U kunt de naam van een map niet wijzigen als een systeemmap.",
                 "retention_duration_warning": "De retentietijd moet een positief getal zijn",
                 "retention_message": "Berichten in deze map die binnen het retentiebereik vallen, vereisen een uitdrukkelijke bevestiging voordat ze worden verwijderd",
                 "add_share": "Delen toevoegen",
                 "threshold_message": "Berichten in deze map die ouder zijn dan de verwijderingsdrempel zullen automatisch worden opgeschoond en verwijderd."
-            },
-            "new": {
-                "title": "Een nieuwe map creëren"
             }
         }
     },

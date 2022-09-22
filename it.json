@@ -311,7 +311,6 @@
     "folder": {
         "modal": {
             "edit": {
-                "footer": "Modifica",
                 "rename_warning": "Non puoi nominare una cartella come una di sistema.",
                 "add_share": "Aggiungi Condivisione",
                 "retention_duration_warning": "Il periodo di ritenzione dev'essere un numero positivo",

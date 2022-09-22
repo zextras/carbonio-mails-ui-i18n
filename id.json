@@ -29,20 +29,12 @@
     },
     "folder": {
         "modal": {
-            "move": {
-                "input": {
-                    "filter": "Filter Folder"
-                }
-            },
             "edit": {
                 "rename_warning": "Anda tidak bisa mengubah nama folder sebagai sistem.",
                 "retention_duration_warning": "Durasi retensi harus berupa angka positif",
                 "retention_message": "Pesan dalam folder yang termasuk dalam rentang retensi memerlukan konfirmasi langsung sebelum dihapus",
                 "threshold_message": "Pesan dalam folder ini yang lebih lama dari ambang pembuangan akan dikenakan pembersihan dan penghapusan otomatis.",
                 "add_share": "Tambahkan Berbagi"
-            },
-            "wipe": {
-                "title": "Hapus"
             }
         }
     },
