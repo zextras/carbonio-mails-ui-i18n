@@ -253,7 +253,11 @@
         "time_zone": "Fuso orario",
         "searching": "Ricerca in corso...",
         "notify": "Notifica",
-        "do_not_notify": "Non notificare"
+        "do_not_notify": "Non notificare",
+        "hide_more_info": "Nascondi informazioni ulteriori",
+        "duplicate_messages": "Messaggi Duplicati",
+        "as_text": "Come Testo",
+        "as_html": "Come HTML"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
