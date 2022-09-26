@@ -357,11 +357,6 @@
                 "threshold_message": "Письма в этой папке старше установленного порога удаления будут автоматически очищаться и удаляться.",
                 "add_share": "Добавить общий ресурс",
                 "retention_message": "Письма в этой папке, которые попадают в диапазон хранения, перед удалением потребуют подтверждения"
-            },
-            "delete": {
-                "body": {
-                    "message2": "Вы хотите удалить выбранную папку навсегда?"
-                }
             }
         },
         "action": {
@@ -501,7 +496,16 @@
         "mb": "MB",
         "font": "Шрифт",
         "fonts": {
-            "console": "Консоль"
+            "console": "Консоль",
+            "comic": "Comic",
+            "elegant": "Elegant",
+            "garamond": "Garamond",
+            "modern": "Modern",
+            "monospaced": "Monospaced",
+            "professional": "Professional",
+            "sans_serif": "Sans Serif",
+            "serif": "Serif",
+            "terminal": "Terminal"
         }
     },
     "message": {
