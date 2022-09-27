@@ -30,23 +30,14 @@
     "folder": {
         "modal": {
             "edit": {
-                "size": "Tamanho",
                 "rename_warning": "Você não pode renomear a pasta como uma pasta de sistema.",
                 "retention_duration_warning": "A duração da retenção deve ser um número positivo",
                 "retention_message": "As mensagens nesta pasta que se enquadram no período de retenção necessitam de confirmação expressa antes de serem excluídas",
                 "threshold_message": "As mensagens mais antigas nesta pasta que superem o limiar de eliminação estarão sujeitas a limpeza e exclusão automáticas.",
                 "add_share": "Adicionar compartilhamento"
             },
-            "move": {
-                "title_modal": "Mover Conversa"
-            },
             "new": {
                 "title": "Criar nova pasta"
-            },
-            "wipe": {
-                "body": {
-                    "message2": "Ao limpá-la, todo conteúdo relacionado será excluído permanentemente."
-                }
             }
         },
         "action": {
@@ -227,7 +218,24 @@
         "time_zone": "Fuso horário",
         "searching": "Buscando...",
         "notify": "Avisar",
-        "do_not_notify": "Não notificar"
+        "do_not_notify": "Não notificar",
+        "trusted_addresses": "Endereços confiáveis",
+        "send_later": "Enviar mais tarde",
+        "schedule_send": "Envio programado",
+        "request_receipt": "Solicitar comprovação de leitura",
+        "read_receipt_sent": "Foi enviada uma comprovação de leitura para esta mensagem",
+        "message_from_me": "Mensagens vindas de mim",
+        "message_arrival": "Entrada de mensagens",
+        "enter_email_address": "Inserir um endereço de e-mail ou domínio",
+        "duplicate_messages": "Mensagens Duplicadas",
+        "delete_draft": "Excluir Rascunho",
+        "arrival_notifications": "Notificações de chegada",
+        "warning": "Atenção",
+        "read_reciept": "Confirmação de leitura",
+        "read_receipt": "Confirmação de leitura",
+        "keep_draft": "Salvar rascunho",
+        "as_text": "Como texto",
+        "as_html": "Como HTML"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -292,6 +300,10 @@
             "redirect": {
                 "second": "O e-mail aparecerá como originalmente destinado ao novo destinatário",
                 "first": "Este e-mail será enviado a um novo destinatário preservando o endereço de e-mail do remetente original."
+            },
+            "send_anyway": {
+                "attachment": "anexo",
+                "attachments": "anexos"
             }
         },
         "new_email": "Novo e-mail",
@@ -315,7 +327,8 @@
         "sent_on": "Enviar em",
         "sent_after": "Enviar depois",
         "sent_before": "Enviar antes",
-        "size_error": "Apenas números são permitidos"
+        "size_error": "Apenas números são permitidos",
+        "shared_folders_note": "Incluir itens compartilhados nas buscas."
     },
     "share": {
         "options": {
@@ -459,7 +472,22 @@
         "not_under": "não menos que",
         "read_receipt": "Comprovação de leitura",
         "redirect_to_address": "Redirecionar ao endereço",
-        "remove_condition": "Remover esta condição"
+        "remove_condition": "Remover esta condição",
+        "font": "Fonte",
+        "fonts": {
+            "wide_block": "Wide block",
+            "wide": "Lucida Console",
+            "terminal": "Terminal",
+            "serif": "Serif",
+            "sans_serif": "Sans Serif",
+            "professional": "Professional",
+            "monospaced": "Monospaced",
+            "modern": "Moderno",
+            "garamond": "Garamond",
+            "elegant": "Elegant",
+            "console": "Console",
+            "comic": "Comic"
+        }
     },
     "composer": {
         "attachment": {
@@ -500,10 +528,10 @@
         "view_rights": "Ver",
         "admin_rights": "Ver,Editar,Adicionar,Remover,Administrar",
         "manager_rights": "Ver,Editar,Adicionar,Remover",
-        "external_images_blocked": "As imagens externas foram bloqueadas para proteger você ante potencial spam"
+        "external_images_blocked": "As imagens externas foram bloqueadas para proteger você ante potencial spam",
+        "select_date_time": "Selecione uma data e hora para enviar esta mensagem"
     },
     "snackbar": {
-        "folder_shared_error": "Algo deu errado. Tente novamente",
         "share_resend": "Convite do compartilhamento reenviado",
         "share_revoke": "Acesso ao compartilhamento revogado",
         "share_updated": "\"Direitos de acesso atualizados\"",
@@ -522,7 +550,8 @@
         "enable_rich_text": "Ativar editor de texto enriquecido",
         "enable_urgent": "Ativar Urgente",
         "folder_sharing_status": "Compartilhado com {{count}} persona",
-        "folder_sharing_status_plural": "Compartilhado com {{count}} personas"
+        "folder_sharing_status_plural": "Compartilhado com {{count}} personas",
+        "folder_linked_status": "Compartilhado comigo"
     },
     "folder_panel": {
         "modal": {
@@ -560,7 +589,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Ao limpá-la, todo o conteúdo relacionado será excluído permanentemente."
+                    "message2": "Ao limpá-la, todo o conteúdo relacionado será excluído permanentemente.",
+                    "message1": "Deseja limpar a pasta selecionada?"
                 }
             }
         },
@@ -673,6 +703,13 @@
         "html": "HTML",
         "excel": "Excel",
         "email": "E-mail",
-        "application": "Aplicativo"
-    }
+        "application": "Aplicativo",
+        "zipped_file": "Arquivo Compactado"
+    },
+    "labels": {
+        "compose_colin": "Escrever:",
+        "composing_messages": "Escrevendo mensagens"
+    },
+    "new_folder": "Nova pasta",
+    "go_back": "Voltar"
 }
