@@ -30,23 +30,14 @@
     "folder": {
         "modal": {
             "edit": {
-                "size": "Tamaño",
                 "rename_warning": "No puedes renombrar una carpeta como una del sistema.",
                 "add_share": "Añadir Compartición",
                 "retention_duration_warning": "La duración de la retención debe ser un número positivo",
                 "retention_message": "Los mensajes dentro de esta carpeta que excedan el umbral de retención requerirán de una confirmación explícita antes de ser eliminados",
                 "threshold_message": "Los mensajes de esta carpeta que sobrepasen el umbral establecido serán eliminados automáticamente."
             },
-            "move": {
-                "title_modal": "Mover conversación"
-            },
             "new": {
                 "title": "Crear una nueva carpeta"
-            },
-            "wipe": {
-                "body": {
-                    "message2": "Si la limpias, todo el contenido relacionado se borrará permanentemente."
-                }
             }
         },
         "action": {
@@ -55,7 +46,6 @@
             }
         }
     },
-    "delete": "Eliminar",
     "folders": {
         "trash": "Papelera",
         "drafts": "Borradores",
@@ -69,7 +59,8 @@
         "delete_email": "Eliminar mensaje",
         "edit_draft": "Editar borrador",
         "message_not_sent": "Error - Mensaje no enviado",
-        "redirect_email": "Reenviar mensaje"
+        "redirect_email": "Reenviar mensaje",
+        "attention": "Atención"
     },
     "label": {
         "attachment": "Adjunto",
@@ -241,7 +232,24 @@
         "always_allow_domain": "Permitir siempre del dominio <strong>{{domain}}</strong>",
         "share_public_link": "Compartir enlace público",
         "view_images": "Ver imágenes",
-        "no_name": "<Sin nombre>"
+        "no_name": "<Sin nombre>",
+        "as_html": "Como HTML",
+        "arrival_notifications": "Notificaciones de entrada",
+        "enter_email_address": "Dirección de correo o dominio",
+        "keep_draft": "Guardar borrador",
+        "read_reciept": "Notificación de lectura",
+        "read_receipt": "Notificación de lectura",
+        "message_from_me": "Mensajes que he enviado yo",
+        "time_zone": "Huso horario",
+        "warning": "Advertencia",
+        "trusted_addresses": "Direcciones fiables",
+        "as_text": "Como Texto",
+        "read_receipt_sent": "Se ha enviado una notificación de lectura para este mensaje",
+        "notify": "Notificar",
+        "searching": "Buscando...",
+        "request_receipt": "Solicitar notificación de lectura",
+        "send_later": "enviar después",
+        "do_not_notify": "No notificar"
     },
     "messages": {
         "modal": {
@@ -252,6 +260,10 @@
             "redirect": {
                 "second": "El mensaje aparecerá como si hubiese sido originalmente redactado para el nuevo destinatario",
                 "first": "Este mensaje se enviará al nuevo destinatario conservando la dirección de correo del remitente original."
+            },
+            "send_anyway": {
+                "attachments": "archivos adjuntos",
+                "attachment": "adjunto"
             }
         },
         "new_email": "Nuevo e-mail",
@@ -295,7 +307,8 @@
         "check_and_try_again": "Por favor, comprueba Carbonio y prueba de nuevo",
         "could_not_find_to_show": "Lo sentimos, no pudimos encontrar nada que mostrar",
         "something_went_wrong": "ALGO SALIÓ MAL",
-        "powered_by": "powered by"
+        "powered_by": "powered by",
+        "trustee_addresses": "Los correos de esas direcciones o dominios serán considerados de confianza y las imágenes se mostrarán automáticamente."
     },
     "placeholder": {
         "add_new_recipients": "Añadir nuevos destinatarios"
@@ -308,7 +321,8 @@
         "sent_after": "Enviar después de",
         "sent_before": "Enviado antes de",
         "sent_on": "Enviado el",
-        "size_error": "Solo se permiten números"
+        "size_error": "Solo se permiten números",
+        "shared_folders_note": "Incluir elementos compartidos en las búsquedas."
     },
     "share": {
         "options": {
@@ -374,7 +388,8 @@
         "admin_rights": "Ver, Editar, Añadir, Eliminar, Administrar",
         "manager_rights": "Ver, Editar, Añadir, Eliminar",
         "view_rights": "Vista",
-        "external_images_blocked": "Las imágenes externas han sido bloqueadas para protección contra posible spam"
+        "external_images_blocked": "Las imágenes externas han sido bloqueadas para protección contra posible spam",
+        "select_date_time": "Seleccionar una fecha y una hora para enviar este mensaje"
     },
     "snackbar": {
         "folder_shared": "Carpeta compartida",
@@ -395,12 +410,10 @@
         "resend": "Reenviar una notificación de esta compartición por correo",
         "revoke": "Revocar acceso",
         "folder_sharing_status": "Compartido con {{count}} persona",
-        "folder_sharing_status_plural": "Compartido con {{count}} personas"
+        "folder_sharing_status_plural": "Compartido con {{count}} personas",
+        "folder_linked_status": "Compartido conmigo"
     },
     "settings": {
-        "conv_sort_optn": {
-            "desc": "De nuevo a antiguo"
-        },
         "label": {
             "display_mail": "Visuzalizar correo",
             "search_query": "Consulta por defecto",
@@ -521,7 +534,22 @@
         "remove_condition": "Remover esta condición",
         "social": "Social",
         "tag_with": "Etiquetar con",
-        "to_cc": "Para o CC"
+        "to_cc": "Para o CC",
+        "fonts": {
+            "comic": "Comic",
+            "console": "Console",
+            "elegant": "Elegant",
+            "garamond": "Garamond",
+            "modern": "Moderno",
+            "monospaced": "Monospaced",
+            "professional": "Professional",
+            "sans_serif": "Sans Serif",
+            "serif": "Serif",
+            "terminal": "Terminal",
+            "wide": "Ancho",
+            "wide_block": "Wide Block"
+        },
+        "font": "Fuente"
     },
     "folder_panel": {
         "modal": {
@@ -559,7 +587,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Al vaciarla, todo su contenido se eliminará de forma permanente."
+                    "message2": "Al vaciarla, todo su contenido se eliminará de forma permanente.",
+                    "message1": "¿Quieres limpiar la carpeta seleccionada?"
                 }
             }
         },
@@ -671,6 +700,13 @@
         "html": "HTML",
         "excel": "Excel",
         "email": "Correo",
-        "application": "Aplicación"
-    }
+        "application": "Aplicación",
+        "zipped_file": "Archivo comprimido"
+    },
+    "go_back": "Volver",
+    "labels": {
+        "compose_colin": "Redactar:",
+        "composing_messages": "Redactar mensajes"
+    },
+    "new_folder": "Nueva carpeta"
 }
