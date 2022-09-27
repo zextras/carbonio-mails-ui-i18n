@@ -28,9 +28,6 @@
         "click_preview": "Klik om te bekijken"
     },
     "folder": {
-        "action": {
-            "edit": "Mapeigenschappen bewerken"
-        },
         "modal": {
             "delete": {
                 "body": {
@@ -44,16 +41,8 @@
                 "add_share": "Delen toevoegen",
                 "threshold_message": "Berichten in deze map die ouder zijn dan de verwijderingsdrempel zullen automatisch worden opgeschoond en verwijderd."
             },
-            "move": {
-                "title_modal": "Gesprek verplaatsen"
-            },
             "new": {
                 "title": "Een nieuwe map creëren"
-            },
-            "wipe": {
-                "body": {
-                    "message2": "Als u het wist, zal alle gerelateerde inhoud permanent worden verwijderd."
-                }
             }
         }
     },
@@ -254,7 +243,18 @@
         "read_receipt_sent": "Een leesontvangstbewijs is verzonden voor dit bericht",
         "enter_email_address": "Geef e-mailadres of domein op",
         "delete_draft": "Klad Verwijderen",
-        "keep_draft": "Concept opslaan"
+        "keep_draft": "Concept opslaan",
+        "select_date_time": "Startdatum en -tijd",
+        "schedule_send": "Geplande verzending",
+        "message_from_me": "Berichten van mij",
+        "message_arrival": "Aankomst Bericht",
+        "duplicate_messages": "Dubbele Berichten",
+        "arrival_notifications": "Kennisgevingen bij aankomst",
+        "warning": "Warnung",
+        "read_reciept": "Leesbevestiging",
+        "read_receipt": "Leesbevestiging",
+        "as_text": "Als tekst",
+        "as_html": "Als HTML"
     },
     "messages": {
         "invalid_address": "Het volgende adres lijkt ongeldig te zijn",
@@ -267,6 +267,11 @@
             "redirect": {
                 "first": "Deze e-mail wordt doorgestuurd naar een nieuwe ontvanger met behoud van het e-mailadres van de oorspronkelijke afzender.",
                 "second": "De e-mail zal verschijnen zoals hij oorspronkelijk bedoeld was voor de nieuwe ontvanger"
+            },
+            "send_anyway": {
+                "attachment": "bijlage",
+                "attach": "bijsluiten",
+                "attachments": "bijlagen"
             }
         },
         "new_email": "Nieuwe e-mail",
@@ -386,7 +391,8 @@
         "view_rights": "Bekijken",
         "admin_rights": "Bekijken, Bewerken, Toevoegen, Verwijderen, Beheren",
         "manager_rights": "Bekijken, Bewerken, Toevoegen, Verwijderen",
-        "external_images_blocked": "Externe afbeeldingen zijn geblokkeerd om u te beschermen tegen mogelijke spam"
+        "external_images_blocked": "Externe afbeeldingen zijn geblokkeerd om u te beschermen tegen mogelijke spam",
+        "select_date_time": "Selecteer een datum en tijd voor het verzenden van dit bericht"
     },
     "composer": {
         "attachment": {
@@ -400,7 +406,6 @@
             "url": "Openbare link toevoegen vanuit Bestanden"
         }
     },
-    "select_signature": "Handtekening selecteren",
     "settings": {
         "label": {
             "check_new_mail": "Nieuwe e-mail controleren",
@@ -522,7 +527,22 @@
         "perform_following_action": "Voer de volgende acties uit:",
         "redirect_to_address": "Doorsturen naar adres",
         "remove_condition": "Deze voorwaarde verwijderen",
-        "to_cc": "Aan of CC"
+        "to_cc": "Aan of CC",
+        "font": "Lettertype",
+        "fonts": {
+            "wide_block": "Wide Block",
+            "wide": "Breed",
+            "terminal": "Terminal",
+            "serif": "Serif",
+            "sans_serif": "Sans Serif",
+            "professional": "Professional",
+            "monospaced": "Monospaced",
+            "modern": "Modern",
+            "garamond": "Garamond",
+            "elegant": "Elegant",
+            "console": "Console",
+            "comic": "Comic"
+        }
     },
     "tooltip": {
         "revoke": "Toegang intrekken",
@@ -573,7 +593,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Als u het wist, zal alle gerelateerde inhoud permanent worden verwijderd."
+                    "message2": "Als u het wist, zal alle gerelateerde inhoud permanent worden verwijderd.",
+                    "message1": "Wilt u de geselecteerde map wissen?"
                 }
             }
         },
@@ -686,6 +707,13 @@
         "html": "HTML",
         "excel": "Excel",
         "email": "E-mail",
-        "application": "Toepassing"
-    }
+        "application": "Toepassing",
+        "zipped_file": "Gezipt bestand"
+    },
+    "labels": {
+        "compose_colin": "Opstellen:",
+        "composing_messages": "Berichten opstellen"
+    },
+    "new_folder": "Nieuwe Map",
+    "go_back": "Teruggaan"
 }
