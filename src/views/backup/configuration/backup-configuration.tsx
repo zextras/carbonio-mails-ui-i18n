@@ -22,7 +22,10 @@ import {
 	getSoapFetchRequest,
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	postSoapFetchRequest
+	postSoapFetchRequest,
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	fetchExternalSoap
 } from '@zextras/carbonio-shell-ui';
 import { useParams } from 'react-router-dom';
 import ListRow from '../../list/list-row';
@@ -51,6 +54,7 @@ const BackupConfiguration: FC = () => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 	const [currentBackupValue, setCurrentBackupValue] = useState<any>({});
 	const [backupServiceStart, setBackupServiceStart] = useState<boolean>(false);
+	const [isBackupInitialized, setIsBackupInitialized] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (allServers && allServers.length > 0) {
@@ -166,6 +170,9 @@ const BackupConfiguration: FC = () => {
 						}
 						if (data && data?.services?.module?.running) {
 							setBackupServiceStart(true);
+						}
+						if (data && data?.properties && data?.properties?.backup_initialized) {
+							setIsBackupInitialized(true);
 						}
 						setCurrentBackupValue(currentBackupObject);
 					})
@@ -483,6 +490,35 @@ const BackupConfiguration: FC = () => {
 			});
 	}, [backupServiceStart, createSnackbar, t]);
 
+	const doInitializeBackup = useCallback(
+		(isFromInitialize?: boolean) => {
+			setIsRequestInProgress(true);
+			fetchExternalSoap(`/service/extension/zextras_admin/backup/doSmartScan`, {
+				targetServers: [server]
+			})
+				.then((res: any) => {
+					setIsRequestInProgress(false);
+					if (isFromInitialize && res && res?.serverId) {
+						setIsBackupInitialized(!isBackupInitialized);
+					}
+				})
+				.catch((error: any) => {
+					setIsRequestInProgress(false);
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: error
+							? error?.error
+							: t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				});
+		},
+		[server, createSnackbar, t, isBackupInitialized]
+	);
+
 	return (
 		<Container mainAlignment="flex-start" background="gray6">
 			<Container
@@ -626,6 +662,10 @@ const BackupConfiguration: FC = () => {
 								iconPlacement="right"
 								height={36}
 								width="100%"
+								disabled={isBackupInitialized}
+								onClick={(): void => {
+									doInitializeBackup(true);
+								}}
 							/>
 						</Container>
 					</ListRow>
@@ -666,6 +706,7 @@ const BackupConfiguration: FC = () => {
 								iconPlacement="right"
 								height={36}
 								width="100%"
+								disabled={!isBackupInitialized}
 							/>
 						</Container>
 					</ListRow>
@@ -729,6 +770,10 @@ const BackupConfiguration: FC = () => {
 								iconPlacement="right"
 								height={36}
 								width="100%"
+								disabled={!isBackupInitialized}
+								onClick={(): void => {
+									doInitializeBackup();
+								}}
 							/>
 						</Container>
 					</ListRow>
@@ -863,6 +908,7 @@ const BackupConfiguration: FC = () => {
 								iconPlacement="right"
 								height={36}
 								width="100%"
+								disabled={!isBackupInitialized}
 							/>
 						</Container>
 					</ListRow>
