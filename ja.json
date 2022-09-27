@@ -8,22 +8,11 @@
                 "add_share": "共有を追加する",
                 "threshold_message": "このフォルダ内の廃棄しきい値より古いメッセージは、自動クリーンアップと削除の対象になります。"
             },
-            "move": {
-                "new": "新規フォルダ"
-            },
             "new": {
                 "create_footer": "作成して移動する"
             },
-            "restore": {
-                "title_modal": "復元する"
-            },
             "wipe": {
                 "title": "一掃する"
-            }
-        },
-        "action": {
-            "wipe": {
-                "folder": "フォルダを一掃する"
             }
         }
     },
@@ -250,7 +239,17 @@
         "request_receipt": "開封確認を要求",
         "keep_draft": "下書きとして保存",
         "enter_email_address": "メールアドレスまたはドメインを入力",
-        "delete_draft": "下書きを削除する"
+        "delete_draft": "下書きを削除する",
+        "schedule_send": "予定された送信",
+        "read_receipt_sent": "このメッセージの開封確認が送信されました",
+        "message_from_me": "自分からのメッセージ",
+        "message_arrival": "新規メッセージ着信時",
+        "duplicate_messages": "重複メッセージ",
+        "warning": "警告",
+        "read_receipt": "開封確認",
+        "read_reciept": "開封確認",
+        "as_text": "テキスト",
+        "as_html": "HTML"
     },
     "messages": {
         "modal": {
@@ -261,6 +260,11 @@
             "redirect": {
                 "first": "このメールは、元の送信者のメールアドレスを保持したまま、新しい受信者に送信されます。",
                 "second": "元々、メールは新しい受信者宛てに表示されます"
+            },
+            "send_anyway": {
+                "attachment": "添付ファイル",
+                "attach": "添付",
+                "attachments": "添付ファイル"
             }
         },
         "invalid_address": "次のアドレスは無効のようです",
@@ -379,12 +383,10 @@
         "admin_rights": "表示、編集、追加、削除、管理",
         "manager_rights": "表示、編集、追加、削除",
         "view_rights": "表示",
-        "external_images_blocked": "スパムからユーザーを守るために、外部画像はブロックされています"
+        "external_images_blocked": "スパムからユーザーを守るために、外部画像はブロックされています",
+        "select_date_time": "このメッセージを送信する日付と時刻を選択"
     },
     "settings": {
-        "dspl_mail_optn": {
-            "text": "テキストとして"
-        },
         "label": {
             "check_new_mail": "新規メールを確認する",
             "display_mail": "メールを表示する",
@@ -504,7 +506,22 @@
         "not_in": "内ではない",
         "not_over": "上ではない",
         "not_under": "下ではない",
-        "twitter_notification": "Twitterの通知"
+        "twitter_notification": "Twitterの通知",
+        "font": "フォント",
+        "fonts": {
+            "wide_block": "Wide Block",
+            "wide": "ワイド",
+            "terminal": "Terminal",
+            "serif": "Serif",
+            "sans_serif": "Sans Serif",
+            "professional": "Professional",
+            "monospaced": "Monospaced",
+            "modern": "モダン",
+            "garamond": "Garamond",
+            "elegant": "Elegant",
+            "console": "Console",
+            "comic": "Comic"
+        }
     },
     "snackbar": {
         "share_resend": "送信された招待を共有する",
@@ -563,7 +580,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "一層すると、関連するコンテンツがすべて完全に削除されます。"
+                    "message2": "一層すると、関連するコンテンツがすべて完全に削除されます。",
+                    "message1": "選択したフォルダを一掃しますか？"
                 }
             }
         },
@@ -676,6 +694,13 @@
         "html": "HTML",
         "excel": "Excel",
         "email": "メールアドレス",
-        "application": "アプリケーション"
-    }
+        "application": "アプリケーション",
+        "zipped_file": "zipファイル"
+    },
+    "labels": {
+        "compose_colin": "作成：",
+        "composing_messages": "メッセージの作成"
+    },
+    "new_folder": "新規フォルダ",
+    "go_back": "戻る"
 }
