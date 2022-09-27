@@ -26,6 +26,7 @@ import ListRow from '../../list/list-row';
 import { useServerStore } from '../../../store/server/store';
 import { updateBackup } from '../../../services/update-backup';
 import { SERVER } from '../../../constants';
+import { checkLdap } from '../../../services/check-ldap';
 
 const ServerAdvanced: FC = () => {
 	const { operation, server }: { operation: string; server: string } = useParams();
@@ -532,6 +533,46 @@ const ServerAdvanced: FC = () => {
 		backupMaxWaitTime
 	]);
 
+	const checkLdapStatus = useCallback(() => {
+		setIsRequestInProgress(true);
+		checkLdap()
+			.then((data: any) => {
+				setIsRequestInProgress(false);
+				if (data?.ok && data?.ok === true) {
+					createSnackbar({
+						key: 'success',
+						type: 'success',
+						label: t('backup.ldap_working_properly', 'Ldap working properly'),
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				} else {
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				}
+			})
+			.catch((error: any) => {
+				setIsRequestInProgress(false);
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label: error?.message
+						? error?.message
+						: t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
+			});
+	}, [createSnackbar, t]);
+
 	return (
 		<Container mainAlignment="flex-start" background="gray6">
 			<Container
@@ -575,6 +616,7 @@ const ServerAdvanced: FC = () => {
 										color="primary"
 										onClick={onSave}
 										disabled={isRequestInProgress}
+										loading={isRequestInProgress}
 									/>
 								)}
 							</Row>
@@ -639,6 +681,9 @@ const ServerAdvanced: FC = () => {
 								iconPlacement="right"
 								height={36}
 								width="fit"
+								onClick={checkLdapStatus}
+								disabled={isRequestInProgress}
+								loading={isRequestInProgress}
 							/>
 						</Container>
 					</ListRow>

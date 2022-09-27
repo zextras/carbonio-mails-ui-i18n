@@ -119,6 +119,7 @@
         "latency_low_threshold": "Latency Low Threshold",
         "latency_low_threshold_ms": "Latency Low Threshold (ms)",
         "ldap_dump": "LDAP Dump",
+        "ldap_working_properly": "Ldap working properly",
         "local_metadata_threshold": "Local Metadata Threshold",
         "local_volume": "Local Volume",
         "max_operations_account": "Max Operations / Account",
