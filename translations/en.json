@@ -97,7 +97,7 @@
         "advanced": "Advanced",
         "archive_user_metadata_folder_in_the_remote_backup": "Archive user metadata folder in the remote backup",
         "back_delete_account_warning_message": "If you set 0, <strong>accounts</strong> will be kept in backup forever",
-        "back_delete_item_warning_message": "If you set 0, <b>items</> will be kept in backup forever ?",
+        "back_delete_item_warning_message": "If you set 0, <strong>items</strong> will be kept in backup forever ?",
         "backup_path": "Backup Path",
         "backup_purge": "Backup Purge",
         "check_ldap": "Check ldap",

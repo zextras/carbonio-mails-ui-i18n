@@ -59,6 +59,7 @@ const BackupConfiguration: FC = () => {
 	const [isPurgeRequestRunning, setIsPurgeRequestRunning] = useState<boolean>(false);
 	const [isExternalVolumeRequestRunning, setIsExternalVolumeRequestRunning] =
 		useState<boolean>(false);
+	const [isSaveRequestInProgress, setIsSaveRequestInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (allServers && allServers.length > 0) {
@@ -278,10 +279,10 @@ const BackupConfiguration: FC = () => {
 			}
 		};
 
-		setIsRequestInProgress(true);
+		setIsSaveRequestInProgress(true);
 		updateBackup(body)
 			.then((data: any) => {
-				setIsRequestInProgress(false);
+				setIsSaveRequestInProgress(false);
 				if ((data?.errors && Array.isArray(data?.errors)) || data?.error) {
 					let errorMessage = t(
 						'label.something_wrong_error_msg',
@@ -330,7 +331,7 @@ const BackupConfiguration: FC = () => {
 				}
 			})
 			.catch((error: any) => {
-				setIsRequestInProgress(false);
+				setIsSaveRequestInProgress(false);
 				createSnackbar({
 					key: 'error',
 					type: 'error',
@@ -617,8 +618,8 @@ const BackupConfiguration: FC = () => {
 										label={t('label.save', 'Save')}
 										color="primary"
 										onClick={onSave}
-										disabled={isRequestInProgress}
-										loading={isRequestInProgress}
+										disabled={isSaveRequestInProgress}
+										loading={isSaveRequestInProgress}
 									/>
 								)}
 							</Row>
@@ -981,10 +982,12 @@ const BackupConfiguration: FC = () => {
 							padding={{ top: 'small', right: 'large' }}
 							width="50%"
 						>
-							<Trans
-								i18nKey="backup.back_delete_account_warning_message"
-								defaults="If you set 0, <strong>accounts</strong> will be kept in backup forever"
-							/>
+							<Text overflow="break-word" size="extrasmall">
+								<Trans
+									i18nKey="backup.back_delete_account_warning_message"
+									defaults="If you set 0, <strong>accounts</strong> will be kept in backup forever"
+								/>
+							</Text>
 						</Container>
 					</ListRow>
 					<ListRow>
