@@ -41,9 +41,6 @@
         }
     },
     "folder": {
-        "action": {
-            "new": "Nouveau dossier"
-        },
         "modal": {
             "delete": {
                 "body": {
@@ -57,17 +54,9 @@
                 "retention_duration_warning": "La durée de rétention doit être un nombre positif",
                 "threshold_message": "Les messages de ce dossier qui sont plus anciens que le seuil d'élimination seront soumis à un nettoyage et une suppression automatiques."
             },
-            "move": {
-                "footer": "Déplacer"
-            },
             "new": {
                 "input": {
                     "name": "Nom du dossier"
-                }
-            },
-            "wipe": {
-                "body": {
-                    "message2": "Si vous le nettoyez, tous les contenus associés seront définitivement supprimés."
                 }
             }
         }
@@ -376,7 +365,6 @@
             "message_deleted": "Message supprimé",
             "message_move": "Message déplacé avec succès",
             "message_redirected": "Le message a été redirigé",
-            "folder_wiped_error": "Quelque chose s'est mal passé, veuillez recommencer",
             "mail_sent": "Message envoyé",
             "marked_as_non_spam": "Vous avez marqué cet email comme n'étant pas un spam",
             "email_moved_to_trash": "Email déplacé dans la Corbeille",
@@ -406,7 +394,6 @@
     "placeholder": {
         "add_new_recipients": "Ajouter de nouveaux destinataires"
     },
-    "remove_from_this_list": "Retirer de cette liste",
     "search": {
         "unread": "Non lu",
         "flagged_note": "Recherchez tous les emails qui ont une étiquette.",
