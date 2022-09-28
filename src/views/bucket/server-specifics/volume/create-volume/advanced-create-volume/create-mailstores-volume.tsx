@@ -54,13 +54,15 @@ interface VolumeDetailObj {
 }
 
 const CreateMailstoresVolume: FC<{
-	setToggleWizardSection: any;
+	setToggleWizardExternal: any;
+	setToggleWizardLocal: any;
 	setDetailsVolume: any;
 	volName: any;
 	setCreateMailstoresVolumeData: any;
 	CreateVolumeRequest: any;
 }> = ({
-	setToggleWizardSection,
+	setToggleWizardExternal,
+	setToggleWizardLocal,
 	setDetailsVolume,
 	volName,
 	setCreateMailstoresVolumeData,
@@ -94,23 +96,34 @@ const CreateMailstoresVolume: FC<{
 					icon={'CloseOutline'}
 					iconPlacement="right"
 					color="secondary"
-					onClick={(): void => setToggleWizardSection(false)}
+					onClick={(): void => setToggleWizardExternal(false)}
 				/>
 			),
 			PrevButton: (props: any): any => '',
-			NextButton: (props: any): any => (
-				<Button
-					{...props}
-					label={t('label.volume_next_step_button', 'NEXT STEP')}
-					icon={'ChevronRightOutline'}
-					iconPlacement="right"
-					disable={props.completeLoading}
-				/>
-			)
+			NextButton: (props: any): ReactElement =>
+				!props.toggleNextBtn ? (
+					<Button
+						{...props}
+						label={t('label.volume_next_step_button', 'NEXT STEP')}
+						icon={'ChevronRightOutline'}
+						iconPlacement="right"
+					/>
+				) : (
+					<Button
+						{...props}
+						label={t('label.volume_next_step_button', 'NEXT STEP')}
+						icon={'ChevronRightOutline'}
+						iconPlacement="right"
+						onClick={(): void => {
+							setToggleWizardExternal(false);
+							setToggleWizardLocal(true);
+						}}
+					/>
+				)
 		},
 		{
 			name: 'config',
-			label: t('label.new_volume_config', 'CONFIG'),
+			label: t('label.new_volume_config', 'CONFIGURATION'),
 			icon: 'Options2Outline',
 			view: AdvancedMailstoresConfig,
 			canGoNext: (): any => true,
@@ -123,7 +136,7 @@ const CreateMailstoresVolume: FC<{
 					icon={'CloseOutline'}
 					iconPlacement="right"
 					color="secondary"
-					onClick={(): void => setToggleWizardSection(false)}
+					onClick={(): void => setToggleWizardExternal(false)}
 				/>
 			),
 			PrevButton: (props: any): any => (
@@ -148,7 +161,7 @@ const CreateMailstoresVolume: FC<{
 		},
 		{
 			name: 'create',
-			label: t('label.new_volume_create', 'CREATE'),
+			label: t('label.new_volume_create', 'CREATE VOLUME'),
 			icon: 'CubeOutline',
 			view: AdvancedMailstoresCreate,
 			canGoNext: (): any => true,
@@ -161,7 +174,7 @@ const CreateMailstoresVolume: FC<{
 					icon={'CloseOutline'}
 					iconPlacement="right"
 					color="secondary"
-					onClick={(): void => setToggleWizardSection(false)}
+					onClick={(): void => setToggleWizardExternal(false)}
 				/>
 			),
 			PrevButton: (props: any): any => (
@@ -189,10 +202,10 @@ const CreateMailstoresVolume: FC<{
 	const onComplete = useCallback(
 		(data) => {
 			setCreateMailstoresVolumeData(data.steps.connection);
-			setToggleWizardSection(false);
+			setToggleWizardExternal(false);
 			setDetailsVolume(false);
 		},
-		[setToggleWizardSection, setDetailsVolume, setCreateMailstoresVolumeData]
+		[setToggleWizardExternal, setDetailsVolume, setCreateMailstoresVolumeData]
 	);
 
 	// const onComplete = useCallback((data) => {
@@ -215,7 +228,7 @@ const CreateMailstoresVolume: FC<{
 				Wrapper={WizardInSection}
 				onChange={setWizardData}
 				onComplete={onComplete}
-				setToggleWizardSection={setToggleWizardSection}
+				setToggleWizardSection={setToggleWizardExternal}
 				externalData={volName}
 			/>
 		</AdvancedVolumeContext.Provider>

@@ -9,13 +9,17 @@ import { devtools } from 'zustand/middleware';
 type BucketVolumeServerNameState = {
 	selectedServerName: string;
 	setSelectedServerName: (v: string) => void;
+	isVolumeAllDetail: Array<any>;
+	setIsVolumeAllDetail: (isVolumeAllDetail: Array<any>) => void;
 };
 
 export const useBucketVolumeStore = create<BucketVolumeServerNameState>(
 	devtools((set) => ({
 		selectedServerName: '',
-
+		isVolumeAllDetail: [],
 		setSelectedServerName: (selectedServerName): void =>
-			set({ selectedServerName }, false, 'setSelectedServerName')
+			set({ selectedServerName }, false, 'setSelectedServerName'),
+		setIsVolumeAllDetail: (isVolumeAllDetail): void =>
+			set({ isVolumeAllDetail }, false, 'setIsVolumeAllDetail')
 	}))
 );

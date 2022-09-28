@@ -15,7 +15,7 @@ import {
 	Table
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
-import { volumeConfigHeader, volumeTypeList } from '../../../../../utility/utils';
+import { volumeConfigHeader } from '../../../../../utility/utils';
 import { AdvancedVolumeContext } from './create-advanced-volume-context';
 import { NO, YES } from '../../../../../../constants';
 import logo from '../../../../../../assets/gardian.svg';
@@ -96,7 +96,7 @@ const AdvancedMailstoresCreate: FC<{
 }> = ({ onSelection, externalData, setCompleteLoading }) => {
 	const context = useContext(AdvancedVolumeContext);
 	const { t } = useTranslation();
-	const { advancedVolumeDetail, setAdvancedVolumeDetail } = context;
+	// const { advancedVolumeDetail, setAdvancedVolumeDetail } = context;
 	const [volumeCreateSelection, setVolumeCreateSelection] = useState(false);
 
 	const volumeCreateList: Array<any> = [

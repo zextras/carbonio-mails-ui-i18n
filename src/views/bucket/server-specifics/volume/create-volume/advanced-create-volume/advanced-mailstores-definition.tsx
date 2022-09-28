@@ -3,34 +3,45 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useCallback, useContext } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { Container, Row, Input, Select, Switch, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
-import { AdvancedVolumeContext } from './create-advanced-volume-context';
 import { volumeAllocationList } from '../../../../../utility/utils';
+import { VolumeContext } from '../volume-context';
+import { PRIMARY_TYPE_VALUE, SECONDARY_TYPE_VALUE } from '../../../../../../constants';
 
-const AdvancedMailstoresDefinition: FC = () => {
-	const context = useContext(AdvancedVolumeContext);
+const AdvancedMailstoresDefinition: FC<{
+	externalData: any;
+	setCompleteLoading: any;
+	setToggleNextBtn: any;
+}> = ({ externalData, setToggleNextBtn }) => {
 	const { t } = useTranslation();
-	const { advancedVolumeDetail, setAdvancedVolumeDetail } = context;
+	const context = useContext(VolumeContext);
+	const { volumeDetail, setVolumeDetail } = context;
+	const [allocation, setAllocation] = useState<any>();
 
-	// const changeVolDetail = useCallback(
-	// 	(e) => {
-	// 		setVolumeDetail((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
-	// 	},
-	// 	[setVolumeDetail]
-	// );
+	const changeVolDetail = useCallback(
+		(e) => {
+			setVolumeDetail((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
+		},
+		[setVolumeDetail]
+	);
 
-	// const onVolAllocationChange = (v: any): any => {
-	// 	setAdvancedVolumeDetail((prev: any) => ({ ...prev, volumeMain: v }));
-	// };
+	const onVolAllocationChange = (v: any): any => {
+		setVolumeDetail((prev: any) => ({ ...prev, volumeAllocation: v }));
+		if (v === PRIMARY_TYPE_VALUE) {
+			setToggleNextBtn(true);
+		} else if (v === SECONDARY_TYPE_VALUE) {
+			setToggleNextBtn(false);
+		}
+	};
 
-	// const changeSwitchOption = useCallback(
-	// 	(key: string): void => {
-	// 		setVolumeDetail((prev: any) => ({ ...prev, [key]: !volumeDetail[key] }));
-	// 	},
-	// 	[volumeDetail, setVolumeDetail]
-	// );
+	useEffect(() => {
+		const VolumeTypeObject = volumeAllocationList.find(
+			(item: any) => item.value === volumeDetail?.volumeAllocation
+		);
+		setAllocation(VolumeTypeObject);
+	}, [volumeDetail?.volumeAllocation]);
 
 	return (
 		<>
@@ -40,29 +51,36 @@ const AdvancedMailstoresDefinition: FC = () => {
 						inputName="server"
 						label={t('label.volume_server_name', 'Server')}
 						backgroundColor="gray6"
-						value="ServerName#1"
-						// onChange={changeVolDetail}
+						value={externalData}
+						readOnly
 					/>
 				</Row>
-				{/* <Row padding={{ top: 'large' }} width="100%">
+				<Row padding={{ top: 'large' }} width="100%">
 					<Select
 						items={volumeAllocationList}
 						background="gray5"
 						label={t('label.volume_allocation', 'Allocation')}
-						defaultSelection={
-              label: 'Local',
-              value: 1
-            }
 						showCheckbox={false}
+						selection={allocation}
 						onChange={onVolAllocationChange}
 					/>
-				</Row> */}
+				</Row>
 				<Row padding={{ top: 'large' }} width="100%">
 					<Input
 						inputName="volumeName"
 						label={t('label.volume_name', 'Volume Name')}
 						backgroundColor="gray5"
-						value="NewVolume#17"
+						value={volumeDetail?.volumeName}
+						onChange={changeVolDetail}
+					/>
+				</Row>
+				<Row padding={{ top: 'large' }} width="100%">
+					<Input
+						inputName="path"
+						label={t('label.volume_path', 'Path')}
+						backgroundColor="gray5"
+						value={volumeDetail?.path}
+						onChange={changeVolDetail}
 					/>
 				</Row>
 			</Container>

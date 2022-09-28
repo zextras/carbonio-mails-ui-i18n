@@ -18,7 +18,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { AdvancedVolumeContext } from './create-advanced-volume-context';
 import logo from '../../../../../../assets/gardian.svg';
-import { volumeConfigHeader } from '../../../../../utility/utils';
+import { volumeConfigHeader, volumeTypeList } from '../../../../../utility/utils';
 
 const VolumeConfigTable: FC<{
 	volumes: Array<any>;
@@ -89,18 +89,18 @@ const VolumeConfigTable: FC<{
 	);
 };
 
-const AdvancedMailstoresConfig: FC = () => {
+const AdvancedMailstoresConfig: FC<{ externalData: any }> = ({ externalData }) => {
 	const context = useContext(AdvancedVolumeContext);
 	const { t } = useTranslation();
 	const { advancedVolumeDetail, setAdvancedVolumeDetail } = context;
 	const [volumeConfigSelection, setVolumeConfigSelection] = useState(false);
 
-	// const changeVolDetail = useCallback(
-	// 	(e) => {
-	// 		setVolumeDetail((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
-	// 	},
-	// 	[setVolumeDetail]
-	// );
+	const changeVolDetail = useCallback(
+		(e) => {
+			setAdvancedVolumeDetail((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
+		},
+		[setAdvancedVolumeDetail]
+	);
 
 	// const changeSwitchOption = useCallback(
 	// 	(key: string): void => {
@@ -108,6 +108,10 @@ const AdvancedMailstoresConfig: FC = () => {
 	// 	},
 	// 	[volumeDetail, setVolumeDetail]
 	// );
+
+	const onVolMainChange = (v: any): any => {
+		setAdvancedVolumeDetail((prev: any) => ({ ...prev, volumeMain: v }));
+	};
 
 	const volumeConfigList: Array<any> = [];
 	const mainList: Array<any> = [];
@@ -130,7 +134,7 @@ const AdvancedMailstoresConfig: FC = () => {
 						inputName="server"
 						label={t('label.volume_server_name', 'Server')}
 						backgroundColor="gray6"
-						value="ServerName#1"
+						value={externalData}
 						// onChange={changeVolDetail}
 					/>
 				</Row>
@@ -140,19 +144,20 @@ const AdvancedMailstoresConfig: FC = () => {
 						label={t('label.name', 'Name')}
 						value="VolumeName#17"
 						backgroundColor="gray5"
+						onChange={changeVolDetail}
 					/>
 				</Row>
 				<Row padding={{ top: 'large' }} width="100%">
 					<Select
-						items={mainList}
+						items={volumeTypeList}
 						inputName="type"
 						label={t('label.type', 'Type')}
 						backgroundColor="gray5"
-						defaultSelection={{
-							label: 'Object Storage',
-							value: 1
-						}}
+						defaultSelection={volumeTypeList.find(
+							(item: any) => item.value === advancedVolumeDetail?.volumeMain
+						)}
 						showCheckbox={false}
+						onChange={onVolMainChange}
 					/>
 				</Row>
 				<Row padding={{ top: 'large' }} width="100%">

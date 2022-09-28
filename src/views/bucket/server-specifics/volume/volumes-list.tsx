@@ -34,7 +34,6 @@ import ModifyVolume from './modify-volume/modify-volume';
 import DeleteVolumeModel from './delete-volume-model';
 import { useServerStore } from '../../../../store/server/store';
 import CreateMailstoresVolume from './create-volume/advanced-create-volume/create-mailstores-volume';
-import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -127,11 +126,11 @@ const VolumesDetailPanel: FC = () => {
 	const { operation, server }: { operation: string; server: string } = useParams();
 	const [t] = useTranslation();
 	const selectedServerName = useBucketVolumeStore((state) => state.selectedServerName);
-	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const [priamryVolumeSelection, setPriamryVolumeSelection] = useState('');
 	const [secondaryVolumeSelection, setSecondaryVolumeSelection] = useState('');
 	const [indexerVolumeSelection, setIndexerVolumeSelection] = useState('');
-	const [toggleWizardSection, setToggleWizardSection] = useState(false);
+	const [toggleWizardLocal, setToggleWizardLocal] = useState(false);
+	const [toggleWizardExternal, setToggleWizardExternal] = useState(false);
 	const [detailsVolume, setDetailsVolume] = useState(false);
 	const [createMailstoresVolumeData, setCreateMailstoresVolumeData] = useState();
 	const [modifyVolumeToggle, setmodifyVolumeToggle] = useState(false);
@@ -340,13 +339,15 @@ const VolumesDetailPanel: FC = () => {
 						});
 				}
 				getAllVolumesRequest();
-				setToggleWizardSection(false);
+				setToggleWizardLocal(false);
+				setToggleWizardExternal(false);
 				createSnackbar({
 					key: '1',
 					type: 'success',
 					label: t('label.volume_created', 'Volume created successfully')
 				});
-				setToggleWizardSection(false);
+				setToggleWizardLocal(false);
+				setToggleWizardExternal(false);
 				setDetailsVolume(false);
 				return res;
 			})
@@ -409,10 +410,11 @@ const VolumesDetailPanel: FC = () => {
 					/>
 				</AbsoluteContainer>
 			)}
-			{toggleWizardSection && !isAdvanced && (
+			{toggleWizardLocal && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<NewVolume
-						setToggleWizardSection={setToggleWizardSection}
+						setToggleWizardLocal={setToggleWizardLocal}
+						setToggleWizardExternal={setToggleWizardExternal}
 						setDetailsVolume={setDetailsVolume}
 						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
 						volName={selectedServerName}
@@ -420,10 +422,11 @@ const VolumesDetailPanel: FC = () => {
 					/>
 				</AbsoluteContainer>
 			)}
-			{toggleWizardSection && isAdvanced && (
+			{toggleWizardExternal && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<CreateMailstoresVolume
-						setToggleWizardSection={setToggleWizardSection}
+						setToggleWizardExternal={setToggleWizardExternal}
+						setToggleWizardLocal={setToggleWizardLocal}
 						setDetailsVolume={setDetailsVolume}
 						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
 						volName={selectedServerName}
@@ -475,7 +478,7 @@ const VolumesDetailPanel: FC = () => {
 								label={t('label.new_volume_button', 'NEW VOLUME')}
 								icon="PlusOutline"
 								color="primary"
-								onClick={(): any => setToggleWizardSection(!toggleWizardSection)}
+								onClick={(): any => setToggleWizardExternal(!toggleWizardExternal)}
 							/>
 						</Row>
 						<Row

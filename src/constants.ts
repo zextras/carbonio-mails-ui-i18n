@@ -106,3 +106,7 @@ export const ALL = 'all';
 export const GRP = 'grp';
 export const EMAIL = 'email';
 export const MEMBERS_ONLY = 'members only';
+export const EMPTY_TYPE_VALUE = 0;
+export const PRIMARY_TYPE_VALUE = 1;
+export const SECONDARY_TYPE_VALUE = 2;
+export const INDEX_TYPE_VALUE = 10;

@@ -567,14 +567,18 @@ const App: FC = () => {
 	useEffect(() => {
 		const hostname = window?.location?.hostname;
 		const protocol = window?.location?.protocol;
-		fetch(`${protocol}//${hostname}/zx/auth/supported`).then((res) => {
-			if (res.status === 200) {
-				setIsAdvavanced(true);
-				return res.json();
-			}
-			setIsAdvavanced(false);
-			throw Error('Notwork Error');
-		});
+		fetch(`${protocol}//${hostname}/zx/auth/supported`)
+			.then((res) => {
+				if (res.status === 200) {
+					setIsAdvavanced(true);
+					return res.json();
+				}
+				setIsAdvavanced(false);
+				throw Error('Notwork Error');
+			})
+			.catch(() => {
+				setIsAdvavanced(false);
+			});
 	}, [setIsAdvavanced]);
 
 	return null;
