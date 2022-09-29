@@ -930,6 +930,7 @@
         "secret_key": "Secret Key",
         "select_a_server": "Select a Server",
         "select_an_account": "Select An Account",
+        "selected_empty_bucket_helperText": "You haven’t selected a bucket, yet.\n\t\t\t\t\t\t\t\t\t\t\tBut you can start typing in the field \n\t\t\t\t\t\t\t\t\t\t\tabove to start viewing them.",
         "send_invite_to": "Send Invite to",
         "send_new_members_notification_for_share_assigned_to_this_group": "Send new members a notification for the share/delegation assigned to this group",
         "sending_mails": "Sending Mails",
