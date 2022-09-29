@@ -48,14 +48,16 @@
             "send_anyway": {
                 "second": "Нет темы. Все равно отправить?",
                 "first": "Тема письма пуста, и вы не прикрепили ни одного файла.",
-                "attaching": "прикрепление",
+                "attaching": "прикрепить",
                 "attached": "прикреплено",
                 "attachment": "вложение",
                 "attachments": "вложения",
                 "no_attachments": "Вы не прикрепили ни одного файла.",
                 "no_subject": "Тема письма пуста.",
                 "no_subject_no_attachments": "Тема письма пуста, и вы не прикрепили ни одного файла.",
-                "attach": "прикрепить"
+                "attach": "прикрепить",
+                "enclosed": "прикреплено",
+                "enclose": "прикрепить"
             }
         },
         "no_content": "Это сообщение не имеет текстового содержания",
@@ -74,7 +76,7 @@
         "read_receipt_1": "Отправитель этого сообщения запросил уведомление о прочтении.",
         "invalid_trustee_address": "Введите только адреса электронной почты или домены",
         "cal_name_exist_warning": "Календарь с таким названием уже существует",
-        "edit_schedule_warning": "При редактировании этого электронного письма время и дата, ранее установленные для отложенной отправки, будут сброшены."
+        "edit_schedule_warning": "При редактировании этого письма, время и дата ранее установленные для отложенной отправки будут сброшены."
     },
     "label": {
         "to": "Кому",
@@ -283,7 +285,8 @@
         "select_date_time": "Выбрать дату и время",
         "show_more_info": "Показать больше информации",
         "warning": "Внимание",
-        "arrival_notifications": "Уведомления о новой почте"
+        "arrival_notifications": "Уведомления о новой почте",
+        "mark_all_as_read": "Пометить все как прочитанное"
     },
     "header": {
         "warning": "Предупреждение",
@@ -320,7 +323,8 @@
         "reset": "Сбросить",
         "preview_new_tab": "Нажмите, чтобы просмотреть на другой вкладке",
         "click_preview": "Нажмите для предпросмотр",
-        "edit_anyway": "Редактировать"
+        "edit_anyway": "Редактировать",
+        "mark_all_read": "Пометить все как прочитанное"
     },
     "tooltip": {
         "add_attachments": "Добавить вложения",
@@ -502,8 +506,12 @@
             "professional": "Professional",
             "sans_serif": "Sans Serif",
             "serif": "Serif",
-            "terminal": "Terminal"
-        }
+            "terminal": "Terminal",
+            "wide_block": "Wide Block"
+        },
+        "font_size_0": "{{count}}pt",
+        "font_size_1": "{{count}}pt",
+        "font_size_2": "{{count}}pt"
     },
     "message": {
         "snackbar": {
@@ -536,7 +544,7 @@
         "schedule_time": "{{date}} в {{time}}",
         "schedule_mail": "Будет отправлено: {{date}} в {{time}}",
         "select_date_time": "Выберите дату и время для отправки этого сообщения",
-        "send_later_success": "Ваше письмо будет отправлено {{дата}} в {{время}}"
+        "send_later_success": "Ваше письмо будет отправлено {{date}} в {{time}}"
     },
     "search": {
         "flagged_note": "Поиск всех помеченных писем.",
