@@ -52,7 +52,9 @@
                 "enclose": "allegare",
                 "attachments": "allegati",
                 "attachment": "allegato",
-                "attach": "allega"
+                "attach": "allega",
+                "enclosing": "includere",
+                "attaching": "allegare"
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
@@ -274,7 +276,9 @@
         "schedule_send": "Programma invio",
         "read_reciept": "Conferma di lettura",
         "message_from_me": "Messaggi da me",
-        "read_receipt": "Ricevuta di lettura"
+        "read_receipt": "Ricevuta di lettura",
+        "arrival_notifications": "Notifiche di Arrivo",
+        "mark_all_as_read": "Segna tutti come letti"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -328,12 +332,12 @@
         "reset": "Ripristina",
         "preview_new_tab": "Clicca per l'anteprima in altra scheda",
         "click_preview": "Clicca per visualizzare l'anteprima",
-        "edit_anyway": "Modifica comunque"
+        "edit_anyway": "Modifica comunque",
+        "mark_all_read": "Segna tutti come letti"
     },
     "folder": {
         "modal": {
             "edit": {
-                "footer": "Modifica",
                 "rename_warning": "Non puoi nominare una cartella come una di sistema.",
                 "add_share": "Aggiungi Condivisione",
                 "retention_duration_warning": "Il periodo di ritenzione dev'essere un numero positivo",
@@ -562,9 +566,12 @@
             "monospaced": "Monospaced",
             "modern": "Modern",
             "garamond": "Garamond",
-            "comic": "Comic"
+            "comic": "Comic",
+            "wide": "Ampio"
         },
-        "font": "Carattere"
+        "font": "Carattere",
+        "font_size": "{{count}} pt",
+        "font_size_plural": ""
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
@@ -642,7 +649,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente.",
+                    "message1": "Vuoi svuotare la cartella selezionata?"
                 }
             },
             "delete": {
@@ -737,7 +745,8 @@
     },
     "new_folder": "Nuova Cartella",
     "labels": {
-        "compose_colin": "Componi :"
+        "compose_colin": "Componi :",
+        "composing_messages": "Composizione messaggi"
     },
     "go_back": "Indietro"
 }
