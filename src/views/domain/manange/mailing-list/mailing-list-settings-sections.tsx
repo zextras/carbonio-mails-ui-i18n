@@ -441,8 +441,8 @@ const MailingListSettingsSection: FC<any> = () => {
 						color="#828282"
 					>
 						{t(
-							'label.owners_manage_add_list',
-							'Owners can manage and... add what Owners can do in the list'
+							'label.owners_description',
+							"Owners can manage the mailing list's members (adding and removing emails) and modify its options."
 						)}
 					</Text>
 				</Row>

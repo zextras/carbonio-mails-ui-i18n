@@ -171,7 +171,7 @@ const BucketDetailPanel: FC = () => {
 				createSnackbar({
 					key: 1,
 					type: 'success',
-					label: t('label.delete_bucket_sucess', 'The {{name}} has removerd', {
+					label: t('label.delete_bucket_sucess', 'The {{name}} has been removed', {
 						name: bucketDeleteName?.bucketName
 					}),
 					autoHideTimeout: 2000
@@ -181,7 +181,7 @@ const BucketDetailPanel: FC = () => {
 				createSnackbar({
 					key: 1,
 					type: 'error',
-					label: t('label.delete_bucket_fail', 'The {{name}} has not removerd', {
+					label: t('label.delete_bucket_fail', 'The {{name}} has not been removed', {
 						name: bucketDeleteName?.bucketName
 					}),
 					autoHideTimeout: 2000
@@ -364,7 +364,7 @@ const BucketDetailPanel: FC = () => {
 							>
 								{t(
 									'select_bucket_or_create_new_bucket',
-									"It seems like you haven't setup a bucket type. \n Click NEW BUCKET button to create a new one."
+									'It seems like you haven\'t set up a bucket type. Click the "NEW BUCKET" button to create a new one.'
 								)}
 							</Text>
 						</Padding>

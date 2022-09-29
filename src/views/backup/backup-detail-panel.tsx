@@ -22,6 +22,9 @@ const BackupDetailPanel: FC = () => {
 				<Route exact path={`${path}/:operation`}>
 					<BackupDetailOperation />
 				</Route>
+				<Route exact path={`${path}/:server/:operation`}>
+					<BackupDetailOperation />
+				</Route>
 			</Switch>
 		</Container>
 	);

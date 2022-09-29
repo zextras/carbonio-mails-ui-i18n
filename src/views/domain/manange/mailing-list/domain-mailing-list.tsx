@@ -516,7 +516,7 @@ const DomainMailingList: FC = () => {
 					setShowCreateMailingListView(false);
 					message = t('label.the_has_been_created_success', {
 						name,
-						defaultValue: 'The {{name}} has been created successfull'
+						defaultValue: 'The {{name}} has been created successfully'
 					});
 					createSnackbar({
 						key: 'success',
@@ -621,7 +621,7 @@ const DomainMailingList: FC = () => {
 							<Container>
 								<Input
 									backgroundColor="gray5"
-									label={t('label.search_dot', 'Search ...')}
+									label={t('label.search_dot', 'Search…')}
 									onChange={(e: any): any => {
 										setSearchString(e.target.value);
 									}}

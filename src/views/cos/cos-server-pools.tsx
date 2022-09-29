@@ -220,7 +220,7 @@ const CosServerPools: FC = () => {
 							type: 'success',
 							label: t(
 								'label.the_last_changes_has_been_saved_successfully',
-								'The last changes has been saved successfully'
+								'Changes have been saved successfully'
 							),
 							autoHideTimeout: 3000,
 							hideButton: true,
@@ -398,7 +398,7 @@ const CosServerPools: FC = () => {
 										>
 											<Input
 												value={searchServer}
-												label={t('cos.search_a_specific_server', 'Search a specific server')}
+												label={t('cos.search_a_specific_server', 'Search for a specific server')}
 												CustomIcon={(): any => (
 													<Icon icon="FunnelOutline" size="large" color="secondary" />
 												)}

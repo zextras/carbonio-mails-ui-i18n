@@ -104,7 +104,7 @@ const EditAccountGeneralSection: FC = () => {
 					</Row>
 					<Row width="32%" mainAlignment="space-between">
 						<Input
-							label={t('label.second_name_initials', 'Second Name Initials')}
+							label={t('label.second_name_initials', 'Middle Name Initials')}
 							backgroundColor="gray5"
 							onChange={changeAccDetail}
 							inputName="initials"
@@ -331,7 +331,7 @@ const EditAccountGeneralSection: FC = () => {
 					<ChipInput
 						placeholder={t(
 							'account_details.this_account_is_a_in_direct_member_of',
-							'This account is a in direct member of'
+							'This account is an indirect member of'
 						)}
 						background="gray5"
 						defaultValue={inDirectMemberList}
