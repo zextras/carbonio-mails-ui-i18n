@@ -75,7 +75,8 @@
         "show_details": "Pokaż szczegóły",
         "show_original": "Pokaż oryginał",
         "click_preview": "Kliknij aby zobaczyć podgląd",
-        "edit_anyway": "Edytuj mimo to"
+        "edit_anyway": "Edytuj mimo to",
+        "mark_all_read": "Oznacz wszystkie jako przeczytane"
     },
     "composer": {
         "attachment": {
@@ -242,7 +243,7 @@
         "signature_required": "Informacje dot. podpisu są wymagane.",
         "cc_bcc": "Cc Bcc",
         "from_identity": "Od: {{identity}}",
-        "new_email": "Nowy E-mail",
+        "new_email": "Nowy e-mail",
         "send_email": "Wyślij e-maila",
         "app_name": "E-maile",
         "set_default_signatures": "Ustaw Domyślne Podpisy",
@@ -325,7 +326,8 @@
         "edit_folder_properties": "Edytuj właściwości {{name}}",
         "as_text": "Jako tekst",
         "as_html": "Jako HTML",
-        "arrival_notifications": "Powiadomienia o przybyciu"
+        "arrival_notifications": "Powiadomienia o przybyciu",
+        "mark_all_as_read": "Oznacz wszystkie jako przeczytane"
     },
     "message": {
         "snackbar": {
