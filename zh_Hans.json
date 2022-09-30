@@ -8,11 +8,6 @@
                 "retention_message": "此文件夹中属于保留范围的邮件在被删除之前要求明确确认",
                 "threshold_message": "此文件夹中时间早于处置阈值的邮件将被自动清理和删除。"
             }
-        },
-        "action": {
-            "empty": {
-                "trash": "清空垃圾箱"
-            }
         }
     },
     "messages": {
@@ -126,7 +121,8 @@
         "show_original": "显示原文",
         "unflag": "移除标记",
         "preview_new_tab": "点击以在另一标签页中预览",
-        "click_preview": "点击预览"
+        "click_preview": "点击预览",
+        "mark_all_read": "全部标记为已读"
     },
     "folders": {
         "trash": "回收站",
@@ -329,7 +325,8 @@
         "read_reciept": "读信回条",
         "read_receipt": "读信回条",
         "as_text": "作为文本",
-        "as_html": "HTML 文件"
+        "as_html": "HTML 文件",
+        "mark_all_as_read": "全部标记为已读"
     },
     "search": {
         "unread": "未读",
