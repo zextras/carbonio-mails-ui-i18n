@@ -25,7 +25,8 @@
         "show_original": "Mostrar original",
         "unflag": "Remover marca de seguimiento",
         "preview_new_tab": "Clic para visualizar en otra pestaña",
-        "click_preview": "Haz clic para visualizar"
+        "click_preview": "Haz clic para visualizar",
+        "mark_all_read": "Marcar todo como leído"
     },
     "folder": {
         "modal": {
@@ -35,11 +36,6 @@
                 "retention_duration_warning": "La duración de la retención debe ser un número positivo",
                 "retention_message": "Los mensajes dentro de esta carpeta que excedan el umbral de retención requerirán de una confirmación explícita antes de ser eliminados",
                 "threshold_message": "Los mensajes de esta carpeta que sobrepasen el umbral establecido serán eliminados automáticamente."
-            }
-        },
-        "action": {
-            "empty": {
-                "trash": "Vaciar papelera"
             }
         }
     },
@@ -246,7 +242,8 @@
         "searching": "Buscando...",
         "request_receipt": "Solicitar notificación de lectura",
         "send_later": "enviar después",
-        "do_not_notify": "No notificar"
+        "do_not_notify": "No notificar",
+        "mark_all_as_read": "Marcar todo como leído"
     },
     "messages": {
         "modal": {
