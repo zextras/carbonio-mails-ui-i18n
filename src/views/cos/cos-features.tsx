@@ -303,6 +303,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureMailEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureMailEnabled')}
 								label={t('cos.mail', 'Mail')}
+								disabled
 							/>
 						</Row>
 						<Row width="20%" mainAlignment="flex-start">
@@ -310,6 +311,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureCalendarEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureCalendarEnabled')}
 								label={t('cos.calendar', 'Calendar')}
+								disabled
 							/>
 						</Row>
 						<Row width="20%" mainAlignment="flex-start">
@@ -317,6 +319,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureContactsEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureContactsEnabled')}
 								label={t('cos.contacts', 'Contacts')}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -333,6 +336,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureTaggingEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureTaggingEnabled')}
 								label={t('cos.tagging', 'Tagging')}
+								disabled
 							/>
 						</Row>
 
@@ -341,6 +345,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureHtmlComposeEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureHtmlComposeEnabled')}
 								label={t('cos.html_compose', 'HTML compose')}
+								disabled
 							/>
 						</Row>
 
@@ -352,6 +357,7 @@ const CosFeatures: FC = () => {
 									'cos.offline_support_for_advanced_client',
 									'Offline support for Advanced (Ajax) client'
 								)}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -367,7 +373,8 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureMailPriorityEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureMailPriorityEnabled')}
 								label={t('cos.message_priority', 'Message Priority')}
-								disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								// disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -376,7 +383,8 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeaturePop3DataSourceEnabled}
 								onClick={() => changeSwitchOption('zimbraFeaturePop3DataSourceEnabled')}
 								label={t('cos.external_pop_access', 'External POP Access')}
-								disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								// disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -385,7 +393,8 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureOutOfOfficeReplyEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureOutOfOfficeReplyEnabled')}
 								label={t('cos.out_of_the_office_reply', 'Out of Office Reply')}
-								disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								// disabled={!cosFeatures.zimbraFeatureMailEnabled}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -401,7 +410,8 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureDistributionListFolderEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureDistributionListFolderEnabled')}
 								label={t('cos.distribution_list_folder', 'Distribution List Folder')}
-								disabled={!cosFeatures.zimbraFeatureContactsEnabled}
+								// disabled={!cosFeatures.zimbraFeatureContactsEnabled}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -417,7 +427,8 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureGroupCalendarEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureGroupCalendarEnabled')}
 								label={t('cos.group_calender', 'Group Calendar')}
-								disabled={!cosFeatures.zimbraFeatureCalendarEnabled}
+								// disabled={!cosFeatures.zimbraFeatureCalendarEnabled}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -428,7 +439,8 @@ const CosFeatures: FC = () => {
 									changeSwitchOption('zimbraFeatureCalendarReminderDeviceEmailEnabled')
 								}
 								label={t('cos.sms_reminders', 'SMS Reminders')}
-								disabled={!cosFeatures.zimbraFeatureCalendarEnabled}
+								// disabled={!cosFeatures.zimbraFeatureCalendarEnabled}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -444,6 +456,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureAdvancedSearchEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureAdvancedSearchEnabled')}
 								label={t('cos.advanced_search', 'Advanced Search')}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -452,6 +465,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureSavedSearchesEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureSavedSearchesEnabled')}
 								label={t('cos.saved_searches', 'Saved Searches')}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -460,6 +474,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureInitialSearchPreferenceEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureInitialSearchPreferenceEnabled')}
 								label={t('cos.initial_search_preference', 'Initial Search Preference')}
+								disabled
 							/>
 						</Row>
 						<Padding right="extralarge" />
@@ -468,6 +483,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeaturePeopleSearchEnabled}
 								onClick={() => changeSwitchOption('zimbraFeaturePeopleSearchEnabled')}
 								label={t('cos.search_for_people', 'Search for People')}
+								disabled
 							/>
 						</Row>
 					</Row>
@@ -483,6 +499,7 @@ const CosFeatures: FC = () => {
 								value={cosFeatures.zimbraFeatureSMIMEEnabled}
 								onClick={() => changeSwitchOption('zimbraFeatureSMIMEEnabled')}
 								label={t('cos.enable_smime', 'Enable S/MIME')}
+								disabled
 							/>
 						</Row>
 					</Row>
