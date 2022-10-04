@@ -91,7 +91,7 @@
         }
     },
     "board": {
-        "show": "Pokaż tablicę"
+        "show": "Pokaż okienko"
     },
     "filters": {
         "active_filters": "Aktywne Filtry",
