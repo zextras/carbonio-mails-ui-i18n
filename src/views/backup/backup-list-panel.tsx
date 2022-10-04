@@ -32,11 +32,11 @@ const BackupListPanel: FC = () => {
 
 	const defaultSettingsOptions = useMemo(
 		() => [
-			{
+			/* {
 				id: SERVICE_STATUS,
 				name: t('label.service_status', 'Service Status'),
 				isSelected: true
-			},
+			}, */
 			{
 				id: SERVER_CONFIG,
 				name: t('label.server_config', 'Server Config'),
@@ -194,7 +194,7 @@ const BackupListPanel: FC = () => {
 				/>
 			)}
 
-			<ListPanelItem
+			{/* <ListPanelItem
 				title={t('label.actions', 'Actions')}
 				isListExpanded={isActionExpanded}
 				setToggleView={toggleActionView}
@@ -205,7 +205,7 @@ const BackupListPanel: FC = () => {
 					selectedOperationItem={selectedOperationItem}
 					setSelectedOperationItem={setSelectedOperationItem}
 				/>
-			)}
+			)} */}
 		</Container>
 	);
 };

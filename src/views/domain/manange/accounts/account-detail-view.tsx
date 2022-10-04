@@ -434,7 +434,11 @@ const AccountDetailView: FC<any> = ({
 									label={t('label.close_the_account', 'Close the account')}
 									color="primary"
 									onClick={onDisableAccount}
-									disabled={isRequestInProgress}
+									disabled={
+										isRequestInProgress ||
+										STATUS_COLOR[selectedAccount?.zimbraAccountStatus]?.label ===
+											STATUS_COLOR?.closed?.label
+									}
 								/>
 							</Row>
 						</Container>

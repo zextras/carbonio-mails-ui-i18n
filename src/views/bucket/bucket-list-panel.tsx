@@ -90,7 +90,8 @@ const BucketListPanel: FC = () => {
 				id: DATA_VOLUMES,
 				name: t('label.data_volumes', 'Data Volumes'),
 				isSelected: isStoreVolumeSelect
-			},
+			}
+			/* ,
 			{
 				id: HSM_SETTINGS,
 				name: t('label.hsm_settings', 'HSM Settings'),
@@ -100,7 +101,7 @@ const BucketListPanel: FC = () => {
 				id: INDEXER_SETTINGS,
 				name: t('label.indexer_settings', 'Indexer Settings'),
 				isSelected: isStoreVolumeSelect
-			}
+			} */
 		],
 		[t, isStoreVolumeSelect]
 	);

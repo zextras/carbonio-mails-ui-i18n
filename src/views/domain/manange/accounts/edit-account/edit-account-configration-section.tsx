@@ -225,6 +225,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureMailEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureMailEnabled')}
 							label={t('account_details.mail', 'Mail')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -232,6 +233,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureCalendarEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureCalendarEnabled')}
 							label={t('account_details.calendar', 'Calendar')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -239,6 +241,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureContactsEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureContactsEnabled')}
 							label={t('account_details.contact', 'Contact')}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -256,6 +259,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureTaggingEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureTaggingEnabled')}
 							label={t('account_details.tagging', 'Tagging')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -263,6 +267,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureHtmlComposeEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureHtmlComposeEnabled')}
 							label={t('account_details.html_compose', 'HTML Compose')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -273,6 +278,7 @@ const EditAccountConfigrationSection: FC = () => {
 								'account_details.offline_support_for_advanced_ajax_client',
 								'Offline support for Advanced (Ajax) client'
 							)}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -290,6 +296,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureMailPriorityEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureMailPriorityEnabled')}
 							label={t('account_details.message_priority', 'Message Priority')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -297,6 +304,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeaturePop3DataSourceEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeaturePop3DataSourceEnabled')}
 							label={t('account_details.external_pop_access', 'External POP Access')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -304,6 +312,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureOutOfOfficeReplyEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureOutOfOfficeReplyEnabled')}
 							label={t('account_details.out_of_the_office_reply', 'Out of Office Reply')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -311,6 +320,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraPrefMailSignatureEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraPrefMailSignatureEnabled')}
 							label={t('account_details.mail_signatures', 'Mail Signatures')}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -328,6 +338,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureDistributionListFolderEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureDistributionListFolderEnabled')}
 							label={t('account_details.distribution_list_folder', 'Distribution List Folder')}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -345,6 +356,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureGroupCalendarEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureGroupCalendarEnabled')}
 							label={t('account_details.group_calendar', 'Group Calendar')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -354,6 +366,7 @@ const EditAccountConfigrationSection: FC = () => {
 								changeSwitchOption('zimbraFeatureCalendarReminderDeviceEmailEnabled')
 							}
 							label={t('account_details.sms_reminder', 'SMS Reminder')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start"></Row>
@@ -372,6 +385,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureAdvancedSearchEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureAdvancedSearchEnabled')}
 							label={t('account_details.advanced_search', 'Advanced Search')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -379,6 +393,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureSavedSearchesEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureSavedSearchesEnabled')}
 							label={t('account_details.saved_searches', 'Saved Searches')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -388,6 +403,7 @@ const EditAccountConfigrationSection: FC = () => {
 								changeSwitchOption('zimbraFeatureInitialSearchPreferenceEnabled')
 							}
 							label={t('account_details.initial_search_preference', 'Initial Search Preference')}
+							disabled
 						/>
 					</Row>
 					<Row width="32%" mainAlignment="flex-start">
@@ -395,6 +411,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeaturePeopleSearchEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeaturePeopleSearchEnabled')}
 							label={t('account_details.search_fro_people', 'Search for People')}
+							disabled
 						/>
 					</Row>
 				</Row>
@@ -416,6 +433,7 @@ const EditAccountConfigrationSection: FC = () => {
 							value={accountDetail?.zimbraFeatureSMIMEEnabled === 'TRUE'}
 							onClick={(): void => changeSwitchOption('zimbraFeatureSMIMEEnabled')}
 							label={t('account_details.enable_smime', 'Enable S/MIME')}
+							disabled
 						/>
 					</Row>
 				</Row>

@@ -299,7 +299,7 @@
             "subscription_last_check": "Subscription Last Check",
             "subscription_type": "Subscription Type",
             "token": "Token",
-            "version": "Zextras version"
+            "version": "Module version"
         }
     },
     "cos": {
@@ -518,6 +518,7 @@
         "admin_help_url": "Admin Help URL",
         "admins": "Admins",
         "advanced": "Advanced",
+        "advanced_lbl": "Advanced",
         "aggrigated_space_criteria": "Aggregated Space Criteria",
         "alias_in_the_list": "Alias in the List",
         "allocation": "Allocation",
@@ -587,6 +588,7 @@
         "class_of_service": "Class of Service",
         "click_here": "Click here",
         "close_the_account": "Close the account",
+        "close_the_resource": "Close the resource",
         "closed": "Closed",
         "composing_mails": "Composing Mails",
         "compression": "Compression",
@@ -780,7 +782,7 @@
         "mail": "Mail",
         "mail_notifications": "Email Notifications",
         "mail_size": "Mail Size",
-        "mail_stores": "Mailstores",
+        "mailstores": "Mailstores",
         "mailbox_quota": "Mailbox Quota",
         "mailing_list": "Mailing List",
         "mailing_list_already_in_list_error": "The Mailing List / User is already in the list",

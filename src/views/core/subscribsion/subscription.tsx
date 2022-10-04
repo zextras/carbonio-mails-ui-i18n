@@ -427,7 +427,7 @@ const Subscription: FC = () => {
 							/>
 							<IconInfo
 								icon="InfoOutline"
-								label={t('core.subscription.version', 'Zextras version')}
+								label={t('core.subscription.version', 'Module version')}
 								value={version}
 							/>
 							<IconInfo
