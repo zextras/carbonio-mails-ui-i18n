@@ -113,3 +113,6 @@ export const INDEX_TYPE_VALUE = 10;
 export const CONFIGURATION_BACKUP = 'configuration_backup';
 export const ADVANCED_LBL = 'advanced_lbl';
 export const SERVER = 'server';
+export const LOCAL_TYPE_VALUE = 1;
+export const EXTERNAL_TYPE_VALUE = 2;
+export const LOCAL = 'Local';

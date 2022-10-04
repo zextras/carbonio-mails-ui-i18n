@@ -80,20 +80,23 @@ const NewVolume: FC<{
 					onClick={(): void => setToggleWizardLocal(false)}
 				/>
 			),
-			PrevButton: (props: any): any => (
-				<Button
-					{...props}
-					label={t('label.volume_back_button', 'BACK')}
-					icon={'ChevronLeftOutline'}
-					iconPlacement="left"
-					disable={props.completeLoading}
-					color="secondary"
-					onClick={(): void => {
-						setToggleWizardLocal(false);
-						setToggleWizardExternal(true);
-					}}
-				/>
-			),
+			PrevButton: (props: any): any =>
+				isAdvanced ? (
+					<Button
+						{...props}
+						label={t('label.volume_back_button', 'BACK')}
+						icon={'ChevronLeftOutline'}
+						iconPlacement="left"
+						disable={props.completeLoading}
+						color="secondary"
+						onClick={(): void => {
+							setToggleWizardLocal(false);
+							setToggleWizardExternal(true);
+						}}
+					/>
+				) : (
+					<></>
+				),
 			NextButton: (props: any) =>
 				isAdvanced ? (
 					<Button

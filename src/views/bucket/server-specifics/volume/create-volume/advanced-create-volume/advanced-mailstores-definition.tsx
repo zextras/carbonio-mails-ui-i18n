@@ -8,7 +8,8 @@ import { Container, Row, Input, Select, Padding, Text } from '@zextras/carbonio-
 import { useTranslation } from 'react-i18next';
 import { volumeAllocationList } from '../../../../../utility/utils';
 import { VolumeContext } from '../volume-context';
-import { PRIMARY_TYPE_VALUE, SECONDARY_TYPE_VALUE } from '../../../../../../constants';
+import { LOCAL_TYPE_VALUE } from '../../../../../../constants';
+import { useBucketVolumeStore } from '../../../../../../store/bucket-volume/store';
 
 const AdvancedMailstoresDefinition: FC<{
 	externalData: any;
@@ -18,6 +19,7 @@ const AdvancedMailstoresDefinition: FC<{
 	const { t } = useTranslation();
 	const context = useContext(VolumeContext);
 	const { volumeDetail, setVolumeDetail } = context;
+	const setIsAllocationToggle = useBucketVolumeStore((state) => state.setIsAllocationToggle);
 	const [allocation, setAllocation] = useState<any>();
 	const [errName, setErrName] = useState(true);
 	const [errPath, setErrPath] = useState(true);
@@ -48,10 +50,12 @@ const AdvancedMailstoresDefinition: FC<{
 
 	const onVolAllocationChange = (v: any): any => {
 		setVolumeDetail((prev: any) => ({ ...prev, volumeAllocation: v }));
-		if (v === PRIMARY_TYPE_VALUE) {
+		if (v === LOCAL_TYPE_VALUE) {
 			setToggleNextBtn(true);
-		} else if (v === SECONDARY_TYPE_VALUE) {
+			setIsAllocationToggle(true);
+		} else {
 			setToggleNextBtn(false);
+			setIsAllocationToggle(false);
 		}
 	};
 

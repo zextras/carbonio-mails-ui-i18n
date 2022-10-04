@@ -21,6 +21,7 @@ import { useAuthIsAdvanced } from '../../../../../store/auth-advanced/store';
 import {
 	EMPTY_TYPE_VALUE,
 	INDEX_TYPE_VALUE,
+	LOCAL,
 	PRIMARY_TYPE_VALUE,
 	SECONDARY_TYPE_VALUE
 } from '../../../../../constants';
@@ -106,16 +107,22 @@ const MailstoresCreate: FC<{
 
 	useEffect(() => {
 		if (
-			volumeDetail?.volumeMain &&
 			volumeDetail?.volumeName &&
 			volumeDetail?.path &&
 			(volumeDetail?.compressionThreshold || toggleIndexer)
 		) {
-			setCompleteLoading(true);
+			if (isAdvanced && volumeDetail?.volumeMain) {
+				setCompleteLoading(true);
+			} else if (isAdvanced) {
+				setCompleteLoading(false);
+			} else if (!isAdvanced) {
+				setCompleteLoading(true);
+			}
 		} else {
 			setCompleteLoading(false);
 		}
 	}, [
+		isAdvanced,
 		setCompleteLoading,
 		toggleIndexer,
 		volumeDetail?.compressionThreshold,
@@ -171,6 +178,16 @@ const MailstoresCreate: FC<{
 						readOnly
 					/>
 				</Row>
+				{!isAdvanced && (
+					<Row padding={{ top: 'large' }} width="100%">
+						<Input
+							label={t('label.volume_allocation', 'Allocation')}
+							backgroundColor="gray6"
+							value={LOCAL}
+							readOnly
+						/>
+					</Row>
+				)}
 				{!isAdvanced && (
 					<Row padding={{ top: 'large' }} width="100%">
 						<Select

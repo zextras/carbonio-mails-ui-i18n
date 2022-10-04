@@ -13,6 +13,7 @@ import { AdvancedVolumeContext } from './create-advanced-volume-context';
 import AdvancedMailstoresDefinition from './advanced-mailstores-definition';
 import AdvancedMailstoresConfig from './advanced-mailstores-config';
 import AdvancedMailstoresCreate from './advanced-mailstores-create';
+import { useBucketVolumeStore } from '../../../../../../store/bucket-volume/store';
 
 const WizardInSection: FC<any> = ({
 	wizard,
@@ -69,6 +70,7 @@ const CreateMailstoresVolume: FC<{
 	CreateVolumeRequest
 }) => {
 	const { t } = useTranslation();
+	const isAllocationToggle = useBucketVolumeStore((state) => state.isAllocationToggle);
 	const [wizardData, setWizardData] = useState();
 	const [advancedVolumeDetail, setAdvancedVolumeDetail] = useState<VolumeDetailObj>({
 		id: '',
@@ -127,6 +129,7 @@ const CreateMailstoresVolume: FC<{
 			icon: 'Options2Outline',
 			view: AdvancedMailstoresConfig,
 			canGoNext: (): any => true,
+			clickDisabled: !!isAllocationToggle,
 			CancelButton: (props: any) => (
 				<Button
 					{...props}
@@ -165,6 +168,7 @@ const CreateMailstoresVolume: FC<{
 			icon: 'CubeOutline',
 			view: AdvancedMailstoresCreate,
 			canGoNext: (): any => true,
+			clickDisabled: !!isAllocationToggle,
 			CancelButton: (props: any) => (
 				<Button
 					{...props}

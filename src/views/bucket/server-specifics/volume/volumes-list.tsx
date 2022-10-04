@@ -35,6 +35,7 @@ import DeleteVolumeModel from './delete-volume-model';
 import { useServerStore } from '../../../../store/server/store';
 import CreateMailstoresVolume from './create-volume/advanced-create-volume/create-mailstores-volume';
 import { VolumeContext } from './create-volume/volume-context';
+import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -129,6 +130,7 @@ const VolumesDetailPanel: FC = () => {
 	const context = useContext(VolumeContext);
 	const { volumeDetail, setVolumeDetail } = context;
 	const selectedServerName = useBucketVolumeStore((state) => state.selectedServerName);
+	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const [priamryVolumeSelection, setPriamryVolumeSelection] = useState('');
 	const [secondaryVolumeSelection, setSecondaryVolumeSelection] = useState('');
 	const [indexerVolumeSelection, setIndexerVolumeSelection] = useState('');
@@ -386,6 +388,30 @@ const VolumesDetailPanel: FC = () => {
 
 	return (
 		<>
+			{toggleWizardLocal && (
+				<AbsoluteContainer orientation="vertical" background="gray5">
+					<NewVolume
+						setToggleWizardLocal={setToggleWizardLocal}
+						setToggleWizardExternal={setToggleWizardExternal}
+						setDetailsVolume={setDetailsVolume}
+						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
+						volName={selectedServerName}
+						CreateVolumeRequest={CreateVolumeRequest}
+					/>
+				</AbsoluteContainer>
+			)}
+			{toggleWizardExternal && (
+				<AbsoluteContainer orientation="vertical" background="gray5">
+					<CreateMailstoresVolume
+						setToggleWizardExternal={setToggleWizardExternal}
+						setToggleWizardLocal={setToggleWizardLocal}
+						setDetailsVolume={setDetailsVolume}
+						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
+						volName={selectedServerName}
+						CreateVolumeRequest={CreateVolumeRequest}
+					/>
+				</AbsoluteContainer>
+			)}
 			{toggleDetailPage && volume && (
 				<AbsoluteContainer orientation="vertical" background="gray5">
 					<ServerVolumeDetailsPanel
@@ -413,30 +439,7 @@ const VolumesDetailPanel: FC = () => {
 					/>
 				</AbsoluteContainer>
 			)}
-			{toggleWizardLocal && (
-				<AbsoluteContainer orientation="vertical" background="gray5">
-					<NewVolume
-						setToggleWizardLocal={setToggleWizardLocal}
-						setToggleWizardExternal={setToggleWizardExternal}
-						setDetailsVolume={setDetailsVolume}
-						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
-						volName={selectedServerName}
-						CreateVolumeRequest={CreateVolumeRequest}
-					/>
-				</AbsoluteContainer>
-			)}
-			{toggleWizardExternal && (
-				<AbsoluteContainer orientation="vertical" background="gray5">
-					<CreateMailstoresVolume
-						setToggleWizardExternal={setToggleWizardExternal}
-						setToggleWizardLocal={setToggleWizardLocal}
-						setDetailsVolume={setDetailsVolume}
-						setCreateMailstoresVolumeData={setCreateMailstoresVolumeData}
-						volName={selectedServerName}
-						CreateVolumeRequest={CreateVolumeRequest}
-					/>
-				</AbsoluteContainer>
-			)}
+
 			<RelativeContainer
 				orientation="column"
 				crossAlignment="flex-start"
@@ -492,7 +495,9 @@ const VolumesDetailPanel: FC = () => {
 										compressionThreshold: 0,
 										volumeAllocation: 0
 									});
-									setToggleWizardExternal(!toggleWizardExternal);
+									isAdvanced
+										? setToggleWizardExternal(!toggleWizardExternal)
+										: setToggleWizardLocal(!toggleWizardLocal);
 								}}
 							/>
 						</Row>
