@@ -49,6 +49,7 @@ const EditAccountUserPrefrencesSection: FC<{ signatureItems: any; signatureList:
 		accountDetail?.zimbraPrefOutOfOfficeCacheDuration?.slice(-1) || ''
 	);
 	const [prefReadReceiptsToAddress, setPrefReadReceiptsToAddress] = useState<any[]>([]);
+	const [zimbraAllowFromAddress, setZimbraAllowFromAddress] = useState<any[]>([]);
 
 	const timezones = useMemo(() => timeZoneList(t), [t]);
 	const GROUP_BY = useMemo(() => conversationGroupBy(t), [t]);
@@ -126,6 +127,14 @@ const EditAccountUserPrefrencesSection: FC<{ signatureItems: any; signatureList:
 				: []
 		);
 	}, [accountDetail?.zimbraPrefReadReceiptsToAddress]);
+
+	useEffect(() => {
+		setZimbraAllowFromAddress(
+			accountDetail?.zimbraAllowFromAddress
+				? accountDetail.zimbraAllowFromAddress.split(', ').map((ele: string) => ({ label: ele }))
+				: []
+		);
+	}, [accountDetail?.zimbraAllowFromAddress]);
 
 	const APPOINTMENT_DURATION = useMemo(
 		() => [
@@ -520,14 +529,23 @@ const EditAccountUserPrefrencesSection: FC<{ signatureItems: any; signatureList:
 			</Row>
 			<Row padding={{ top: 'large', left: 'large' }} width="100%" mainAlignment="space-between">
 				<Row width="100%" mainAlignment="flex-start">
-					<Input
-						label={t('label.allowed_sending_addresses', 'Allowed sending Addresses')}
-						backgroundColor="gray5"
-						defaultValue={accountDetail?.displayName}
-						value={accountDetail?.displayName}
-						// onChange={changeAccDetail}
-						inputName="displayName"
-						name="descriptiveName"
+					<ChipInput
+						placeholder={t('label.allowed_sending_addresses', 'Allowed sending Addresses')}
+						background="gray5"
+						onChange={(contacts: any): void => {
+							const data: any = [];
+							map(contacts, (contact) => {
+								if (emailRegex.test(contact.label ?? '')) data.push(contact);
+							});
+							setZimbraAllowFromAddress(data);
+							setAccountDetail((prev: any) => ({
+								...prev,
+								zimbraAllowFromAddress: map(data, 'label').join(', ')
+							}));
+						}}
+						defaultValue={zimbraAllowFromAddress}
+						value={zimbraAllowFromAddress}
+						hasError={some(zimbraAllowFromAddress || [], { error: true })}
 					/>
 				</Row>
 			</Row>
