@@ -56,7 +56,7 @@
                 "no_subject": "Тема письма пуста.",
                 "no_subject_no_attachments": "Тема письма пуста, и вы не прикрепили ни одного файла.",
                 "attach": "прикрепить",
-                "enclosed": "прикреплено",
+                "enclosed": "вложение",
                 "enclose": "прикрепить"
             }
         },
@@ -92,7 +92,7 @@
         "download_0": "Скачать",
         "download_1": "Скачать",
         "download_2": "Скачать",
-        "cc": "Скрытая копия",
+        "cc": "Копия",
         "remove_0": "Удалить",
         "remove_1": "Удалить",
         "remove_2": "Удалить",
@@ -279,14 +279,16 @@
         "duplicate_messages": "Дублирующиеся сообщения",
         "hide_more_info": "Скрыть дополнительную информацию",
         "message_from_me": "Письма от меня",
-        "read_receipt": "Прочтено",
-        "read_reciept": "Прочитано",
+        "read_receipt": "Уведомление о прочтении",
+        "read_reciept": "Уведомление о прочтении",
         "schedule_send": "Отправка по расписанию",
         "select_date_time": "Выбрать дату и время",
         "show_more_info": "Показать больше информации",
         "warning": "Внимание",
         "arrival_notifications": "Уведомления о новой почте",
-        "mark_all_as_read": "Пометить все как прочитанное"
+        "mark_all_as_read": "Пометить все как прочитанные",
+        "before_you_leave": "Перед уходом",
+        "message_arrival": "Получение сообщения"
     },
     "header": {
         "warning": "Предупреждение",
@@ -324,7 +326,7 @@
         "preview_new_tab": "Нажмите, чтобы просмотреть на другой вкладке",
         "click_preview": "Нажмите для предпросмотр",
         "edit_anyway": "Редактировать",
-        "mark_all_read": "Пометить все как прочитанное"
+        "mark_all_read": "Пометить все как прочитанные"
     },
     "tooltip": {
         "add_attachments": "Добавить вложения",
@@ -393,7 +395,7 @@
         "msg_from_optn": {
             "discard": "Отменить сообщение автоматически",
             "inbox": "Поместить во входящие",
-            "inbox_if_cc": "Поместить во входящие, если я в Кому: или Скрытая копия:"
+            "inbox_if_cc": "Поместить во входящие, если я в Кому: или в копии:"
         },
         "msg_selection_optn": {
             "based_on_previous": "Выберите следующее сообщение на основе предыдущих выборов",
@@ -507,7 +509,8 @@
             "sans_serif": "Sans Serif",
             "serif": "Serif",
             "terminal": "Terminal",
-            "wide_block": "Wide Block"
+            "wide_block": "Wide Block",
+            "wide": "Широкий"
         },
         "font_size_0": "{{count}}pt",
         "font_size_1": "{{count}}pt",
@@ -751,5 +754,9 @@
         "application": "Приложение"
     },
     "new_folder": "Новая папка",
-    "go_back": "Назад"
+    "go_back": "Назад",
+    "labels": {
+        "compose_colin": "Создать:",
+        "composing_messages": "Создание сообщений"
+    }
 }
