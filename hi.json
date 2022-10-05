@@ -16,7 +16,7 @@
         "attachment_plural": "अटैचमेंट्स",
         "cancel": "कैंसल करें",
         "download": "डाऊनलोड करें",
-        "download_plural": "डाऊनलोड करें",
+        "download_plural": "सभी डाऊनलोड करें",
         "edit": "बदलाव करें",
         "me": "मैं",
         "remove": "हटाएँ",
@@ -202,7 +202,20 @@
         "keep_draft": "ड्राफ़्ट सहेजें",
         "as_text": "पाठ के रूप में",
         "as_html": "HTML के रूप में",
-        "mark_all_as_read": "सभी को पढ़ा गया मार्क करें"
+        "mark_all_as_read": "सभी को पढ़ा गया मार्क करें",
+        "show_more_info": "और जानकारी दिखाएँ",
+        "select_date_time": "तारीख और समय चुनें",
+        "remove_request_receipt": "पढ़ लेने की रिसीट का अनुरोध हटाएँ",
+        "read_receipt_req": "पढ़ लेने की रिसीट जरूरी है",
+        "mark_as_un_important": "महत्वपूर्ण नहीं है के रूप में चिह्नित करें",
+        "mark_as_important": "महत्वपूर्ण के रूप में चिह्नित करें",
+        "include_shared_folders": "शेयर किए फोल्डर शामिल करें",
+        "hide_more_info": "और जानकारी छिपाएँ",
+        "filter_modified": "फाइल मॉडिफ़ाई हो गई",
+        "expand_receivers_list": "पाने वालों की लिंक बड़ी करें",
+        "delayed_sending": "देर से भेजें",
+        "collapse_receivers_list": "पाने वालों की लिस्ट नीचे छिपाएँ",
+        "before_you_leave": "इससे पहले कि आप जाएँ"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -219,7 +232,17 @@
             "send_anyway": {
                 "attachment": "अटैचमेंट",
                 "attach": "अटैच करें",
-                "attachments": "संलग्नक"
+                "attachments": "संलग्नक",
+                "second": "क्या आप फिर भी ईमेल भेजना चाहते हैं?",
+                "first": "ईमेल सबजेक्ट खाली है और आपने कोई फाइलें अटैच नहीं की हैं।",
+                "no_subject_no_attachments": "ईमेल सबजेक्ट खाली है और आपने कोई फाइलें अटैच नहीं की हैं।",
+                "no_subject": "ईमेल सबजेक्ट खाली है।",
+                "no_attachments": "आपने कोई फाइलें अटैच नहीं की हैं।",
+                "enclosing": "संलग्न कर रहा है",
+                "enclosed": "संलग्न है",
+                "enclose": "संलग्न करें",
+                "attaching": "अटैच कर रहा है",
+                "attached": "अटैच है"
             }
         },
         "new_email": "नई ई-मेल",
@@ -262,7 +285,12 @@
         "check_and_try_again": "Carbonio चेक करें और दोबारा कोशिश करें",
         "could_not_find_to_show": "क्षमा करें, हमारे पास दिखाने के लिए कुछ नहीं है",
         "something_went_wrong": "कुछ गड़बड़ हुई",
-        "trustee_addresses": "इन पतों या डोमेन से आने वाली मेल को विश्वसनीय माना जाएगा और छवियाँ स्वचालित रूप से प्रदर्शित की जाएँगी."
+        "trustee_addresses": "इन पतों या डोमेन से आने वाली मेल को विश्वसनीय माना जाएगा और छवियाँ स्वचालित रूप से प्रदर्शित की जाएँगी.",
+        "read_receipt_2": "क्या आप भेजने वाले को सूचना भेजना चाहते हैं?",
+        "read_receipt_1": "इस मैसेज को भेजने वाले ने अनुरोध किया है कि आपके इस मैसेज को पढ़ लेने पर उसे एक सूचना चली जाए।",
+        "invalid_trustee_address": "सिर्फ ईमेल पते या डोमेन एंटर करें",
+        "edit_schedule_warning": "इस ईमेल को एडिट करने पर, पहले देर से भेजने का सेट टाइम और तारीख रीसेट हो जाएंगे।",
+        "cal_name_exist_warning": "इसी नाम का एक और कैलेंडर पहले से ही पाथ में है"
     },
     "action": {
         "forward": "फॉरवर्ड करें",
@@ -291,7 +319,8 @@
         "show_original": "ओरिजिनल दिखाएँ",
         "preview_new_tab": "दूसरे टैब में झलक देखने के लिए क्लिक करें",
         "click_preview": "प्रीव्यू के लिए क्लिक करें",
-        "mark_all_read": "सभी को पढ़ा गया मार्क करें"
+        "mark_all_read": "सभी को पढ़ा गया मार्क करें",
+        "edit_anyway": "फिर भी बदलें"
     },
     "folders": {
         "trash": "रद्दी",
@@ -496,7 +525,9 @@
             "elegant": "Elegant",
             "console": "Console",
             "comic": "Comic"
-        }
+        },
+        "font_size": "{{count}} pt",
+        "font_size_plural": "{{count}} pt"
     },
     "tooltip": {
         "edit": "शेयर गुणों में संशोधन",
@@ -507,9 +538,10 @@
         "resend": "इस शेयर के बारे में मेल नोटिफिकेशन फिर से भेजें",
         "add_attachments": "अटैचमेंट लगाएं",
         "disable_rich_text": "रिच टेक्स्ट एडिटर बंद करें",
-        "folder_sharing_status": "{{count}} व्यक्ति के साथ शेयर किया गया",
-        "folder_sharing_status_plural": "{{count}} व्यक्तियों के साथ शेयर किया गया",
-        "folder_linked_status": "मेरे साथ शेयर"
+        "folder_sharing_status": "{{count}} यूजर के साथ शेयर किया गया",
+        "folder_sharing_status_plural": "{{count}} यूजरों के साथ शेयर किया गया",
+        "folder_linked_status": "मेरे साथ शेयर",
+        "marked_as_important": "महत्वपूर्ण के रूप में चिह्नित किया गया"
     },
     "message": {
         "snackbar": {
@@ -539,7 +571,10 @@
         "manager_rights": "देखें,बदलें,जोड़ें,हटाएँ",
         "admin_rights": "देखें,बदलें,जोड़ें,हटाएँ,प्रबंधित करें",
         "external_images_blocked": "संभावित स्पैम से आपको सुरक्षित रखने के लिए बाहरी फोटो ब्लॉक कर दी गई हैं",
-        "select_date_time": "यह संदेश भेजने के लिए तिथि और समय का चयन करें"
+        "select_date_time": "यह संदेश भेजने के लिए तिथि और समय का चयन करें",
+        "send_later_success": "आपकी ईमेल {{date}} को {{time}} बजे भेजी जाएगी",
+        "schedule_time": "{{date}} को {{time}} बजे",
+        "schedule_mail": "भेजे जाने का समय: {{date}} को {{time}} बजे"
     },
     "snackbar": {
         "folder_shared": "फोल्डर शेयर किए",
@@ -688,7 +723,8 @@
         "remote": "मेरे शेयर किए किसी फोल्डर में",
         "local": "मेरे फोल्डरों में",
         "invitations": "आमंत्रण",
-        "ccme": "मैं कॉपी में हूँ"
+        "ccme": "मैं कॉपी में हूँ",
+        "anywhere": "सभी फोल्डरों में"
     },
     "attachment_type": {
         "word": "Word",
@@ -708,5 +744,10 @@
         "composing_messages": "मैसेज लिखना"
     },
     "new_folder": "नया फ़ोल्डर",
-    "go_back": "वापस जाएँ"
+    "go_back": "वापस जाएँ",
+    "modal": {
+        "delete_draft": {
+            "message1": "क्या आप इस ड्राफ्ट को रखना चाहते हैं या डिलीट कर दें?"
+        }
+    }
 }
