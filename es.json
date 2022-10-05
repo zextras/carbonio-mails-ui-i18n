@@ -13,7 +13,7 @@
         "goto_drafts": "Ir a borradores",
         "goto_folder": "IR A LA CARPETA",
         "hide_details": "Ocultar detalles",
-        "mark_as_non_spam": "No es spam",
+        "mark_as_non_spam": "No es Spam",
         "mark_as_spam": "Marcar como Spam",
         "print": "Imprimir",
         "redirect": "Reenviar",
@@ -348,7 +348,7 @@
             "local": "Adjuntar desde Mi PC",
             "contacts_mod": "Añadir tarjeta de contacto",
             "drag_and_drop": {
-                "content": "Suelta aquí tus archivos para adjuntarlos rápidamente a este mensaje",
+                "content": "Arrastra aquí los archivos para adjuntarlos rápidamente a este mensaje",
                 "title": "Modo Arrastrar y Soltar"
             },
             "files": "Añadir desde Files",
@@ -401,7 +401,7 @@
         "edit": "Editar propiedades de compartición",
         "enable_rich_text": "Activar editor de texto enriquecido",
         "enable_urgent": "Activar Urgente",
-        "resend": "Reenviar una notificación de esta compartición por correo",
+        "resend": "Reenviar una notificación por e-mail sobre esta compartición",
         "revoke": "Revocar acceso",
         "folder_sharing_status": "Compartido con {{count}} persona",
         "folder_sharing_status_plural": "Compartido con {{count}} personas",
