@@ -326,7 +326,7 @@ const Subscription: FC = () => {
 									<ServiceStatus key={module.name} name={module.name} licensed={module.licensed} />
 								)
 						)}
-						<Row
+						{/* <Row
 							width="100%"
 							mainAlignment="flex-start"
 							style={{ padding: '0 0 32px 0' }}
@@ -340,9 +340,9 @@ const Subscription: FC = () => {
 							<Padding left="small">
 								<Icon icon={showDisabledModules ? 'ChevronUp' : 'ChevronDown'} color="primary" />
 							</Padding>
-						</Row>
+						</Row> */}
 					</Container>
-					{services && services.response && showDisabledModules && (
+					{services && services.response /* && showDisabledModules */ && (
 						<Container
 							orientation="horizontal"
 							width="100%"
