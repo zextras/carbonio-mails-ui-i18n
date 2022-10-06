@@ -602,14 +602,14 @@
                 }
             },
             "new": {
-                "restore_create_footer": "Criar e Restaurar",
+                "restore_create_footer": "Criar e restaurar",
                 "title": "Criar nova pasta",
                 "create_footer": "Criar e Mover",
                 "name_exist_warning": "O nome já existe",
                 "input": {
-                    "name": "Insira o nome da Pasta",
+                    "name": "Digite o nome da pasta",
                     "name_exist": "O nome já existe neste caminho",
-                    "position": "Pasta Pai"
+                    "position": "Pasta pai"
                 }
             },
             "move": {
