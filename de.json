@@ -26,7 +26,8 @@
         "reset": "Zurücksetzen",
         "preview_new_tab": "Klicken zur Vorschau in einem anderen Reiter",
         "click_preview": "Klicken zur Vorschau",
-        "mark_all_read": "Alle als gelesen markieren"
+        "mark_all_read": "Alle als gelesen markieren",
+        "edit_anyway": "Trotzdem bearbeiten"
     },
     "folder": {
         "modal": {
