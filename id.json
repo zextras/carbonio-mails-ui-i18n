@@ -25,7 +25,9 @@
         "mark_as_spam": "Tandai sebagai spam",
         "redirect": "Alihkan",
         "preview_new_tab": "Klik untuk melihat pratinjau di tab lain",
-        "click_preview": "Klik untuk melihat pratinjau"
+        "click_preview": "Klik untuk melihat pratinjau",
+        "mark_all_read": "Tandai semua sebagai telah dibaca",
+        "edit_anyway": "Tetap edit"
     },
     "folder": {
         "modal": {
@@ -59,7 +61,7 @@
         "save": "Simpan",
         "attachment": "Lampiran",
         "cancel": "Batal",
-        "download": "Unduh",
+        "download": "Unduh semua",
         "edit": "Edit",
         "remove": "Hapus semua",
         "send": "Kirim",
@@ -240,7 +242,21 @@
         "read_reciept": "Laporan Dibaca",
         "keep_draft": "Simpan Draf",
         "as_text": "Sebagai Teks",
-        "as_html": "Sebagai HTML"
+        "as_html": "Sebagai HTML",
+        "delayed_sending": "Pengiriman tertunda",
+        "include_shared_folders": "Sertakan folder bersama",
+        "hide_more_info": "Sembunyikan lebih banyak informasi",
+        "mark_all_as_read": "Tandai semua telah dibaca",
+        "mark_as_important": "Tandai sebagai penting",
+        "mark_as_un_important": "Tandai sebagai tidak penting",
+        "remove_request_receipt": "Hapus permintaan tanda terima baca",
+        "select_date_time": "Pilih tanggal dan waktu",
+        "show_more_info": "Tampilkan lebih banyak informasi",
+        "before_you_leave": "Sebelum Anda keluar",
+        "filter_modified": "Filter berhasil diubah",
+        "expand_receivers_list": "Perluas daftar penerima",
+        "read_receipt_req": "Perlu tanda terima baca",
+        "collapse_receivers_list": "Ciutkan daftar penerima"
     },
     "messages": {
         "snackbar": {
@@ -286,7 +302,17 @@
             "send_anyway": {
                 "attachment": "lampiran",
                 "attach": "lampirkan",
-                "attachments": "lampiran"
+                "attachments": "lampiran",
+                "attached": "terlampir",
+                "attaching": "melampirkan",
+                "enclose": "sertakan",
+                "enclosed": "disertakan",
+                "enclosing": "menyertakan",
+                "first": "Subjek email kosong dan Anda tidak melampirkan file apa pun.",
+                "no_attachments": "Anda tidak melampirkan file apa pun.",
+                "no_subject": "Subjek email kosong.",
+                "no_subject_no_attachments": "Subjek email kosong dan Anda tidak melampirkan file apa pun.",
+                "second": "Anda ingin tetap mengirim email?"
             }
         },
         "new_email": "Email baru",
@@ -298,7 +324,12 @@
         "check_and_try_again": "Periksa Carbonio dan coba lagi",
         "could_not_find_to_show": "Maaf, kami tak menemukan apa pun untuk ditampilkan",
         "something_went_wrong": "TERJADI MASALAH",
-        "trustee_addresses": "Email dari alamat atau domain ini akan dianggap tepercaya dan gambar akan otomatis ditampilkan."
+        "trustee_addresses": "Email dari alamat atau domain ini akan dianggap tepercaya dan gambar akan otomatis ditampilkan.",
+        "edit_schedule_warning": "Dengan mengedit email ini, waktu dan tanggal yang sebelumnya diatur untuk pengiriman tertunda akan direset.",
+        "invalid_trustee_address": "Masukkan alamat email atau domain saja",
+        "read_receipt_2": "Anda ingin mengubah pengirim?",
+        "cal_name_exist_warning": "Kalender dengan nama yang sama sudah ada di jalur ini",
+        "read_receipt_1": "Pengirim pesan ini meminta untuk dikirimi notifikasi saat Anda membaca pesan ini."
     },
     "placeholder": {
         "add_new_recipients": "Tambahkan penerima baru"
@@ -516,7 +547,10 @@
         "admin_rights": "Lihat,Edit,Tambah,Hapus,Kelola",
         "manager_rights": "Lihat,Edit,Tambah,Hapus",
         "external_images_blocked": "Gambar eksternal telah diblokir untuk melindungi Anda terhadap potensi spam",
-        "select_date_time": "Pilih tanggal dan waktu untuk mengirim pesan ini"
+        "select_date_time": "Pilih tanggal dan waktu untuk mengirim pesan ini",
+        "schedule_mail": "Akan dikirim pada: {{date}} pukul {{time}}",
+        "schedule_time": "{{date}} pukul {{time}}",
+        "send_later_success": "Email Anda akan dikirim pada {{date}} pukul {{time}}"
     },
     "snackbar": {
         "share_resend": "Undangan berbagi dikirim ulang",
@@ -536,8 +570,9 @@
         "revoke": "Batalkan akses",
         "enable_rich_text": "Aktifkan editor teks kaya",
         "enable_urgent": "Aktifkan mendesak",
-        "folder_sharing_status": "Dibagikan kepada {{count}} orang",
-        "folder_linked_status": "Dibagikan dengan saya"
+        "folder_sharing_status": "Dibagikan kepada {{count}} pengguna",
+        "folder_linked_status": "Dibagikan dengan saya",
+        "marked_as_important": "Ditandai sebagai penting"
     },
     "folder_panel": {
         "modal": {
@@ -677,7 +712,8 @@
         "remote": "pada folder yang dibagikan oleh saya",
         "local": "di folder saya",
         "invitations": "undangan",
-        "ccme": "disalin ke saya"
+        "ccme": "disalin ke saya",
+        "anywhere": "di semua folder"
     },
     "attachment_type": {
         "word": "Word",
@@ -697,5 +733,10 @@
         "composing_messages": "Menulis Pesan"
     },
     "new_folder": "Folder Baru",
-    "go_back": "Kembali"
+    "go_back": "Kembali",
+    "modal": {
+        "delete_draft": {
+            "message1": "Anda ingin menyimpan draf ini atau menghapusnya?"
+        }
+    }
 }
