@@ -21,7 +21,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import logo from '../../assets/gardian.svg';
-import withoutTypeHolderLogo from '../../assets/ninja_robo.svg';
 import NewBucket from './new-bucket';
 import BucketDeleteModel from './delete-bucket-model';
 import DetailsPanel from './details-panel';
@@ -344,11 +343,11 @@ const BucketDetailPanel: FC = () => {
 								/>
 							</Row>
 						) : (
-							<Container style={{ marginTop: '109px', height: 'unset' }}>
+							<Container style={{ marginBottom: '109px' }}>
 								<Text overflow="break-word" weight="normal" size="large">
 									<img src={logo} alt="logo" />
 								</Text>
-								<Padding all="medium" width="47%">
+								<Padding all="medium" width="294px">
 									<Text
 										color="gray1"
 										overflow="break-word"
@@ -358,10 +357,8 @@ const BucketDetailPanel: FC = () => {
 										style={{ whiteSpace: 'pre-line', textAlign: 'center' }}
 									>
 										{t(
-											'label.selected_empty_bucket_helperText',
-											`You haven’t selected a bucket, yet.
-											But you can start typing in the field 
-											above to start viewing them.`
+											'label.selected_empty_bucket',
+											`You haven’t selected a bucket, yet. But you can start typing in the field above to start viewing them.`
 										)}
 									</Text>
 								</Padding>
@@ -369,11 +366,11 @@ const BucketDetailPanel: FC = () => {
 						)}
 					</>
 				) : (
-					<Container style={{ marginTop: '97px', height: 'unset' }}>
+					<Container>
 						<Text overflow="break-word" weight="normal" size="large">
-							<img src={withoutTypeHolderLogo} alt="logo" />
+							<img src={logo} alt="logo" />
 						</Text>
-						<Padding all="medium" width="47%">
+						<Padding all="medium" width="406px">
 							<Text
 								color="gray1"
 								overflow="break-word"
@@ -383,9 +380,8 @@ const BucketDetailPanel: FC = () => {
 								style={{ whiteSpace: 'pre-line', textAlign: 'center' }}
 							>
 								{t(
-									'select_bucket_or_create_new_bucket_helperText',
-									`It seems like you haven't set up a bucket type.
-									Click the "NEW BUCKET" button to create a new one.`
+									'select_bucket_or_create_new_bucket',
+									'It seems like you haven\'t set up a bucket type. Click the "NEW BUCKET" button to create a new one.'
 								)}
 							</Text>
 						</Padding>
