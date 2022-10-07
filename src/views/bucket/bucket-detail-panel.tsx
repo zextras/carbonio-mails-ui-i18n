@@ -347,7 +347,7 @@ const BucketDetailPanel: FC = () => {
 								<Text overflow="break-word" weight="normal" size="large">
 									<img src={logo} alt="logo" />
 								</Text>
-								<Padding all="medium" width="47%">
+								<Padding all="medium" width="294px">
 									<Text
 										color="gray1"
 										overflow="break-word"
@@ -357,10 +357,8 @@ const BucketDetailPanel: FC = () => {
 										style={{ whiteSpace: 'pre-line', textAlign: 'center' }}
 									>
 										{t(
-											'label.selected_empty_bucket_helperText',
-											`You haven’t selected a bucket, yet.
-											But you can start typing in the field 
-											above to start viewing them.`
+											'label.selected_empty_bucket',
+											`You haven’t selected a bucket, yet. But you can start typing in the field above to start viewing them.`
 										)}
 									</Text>
 								</Padding>
@@ -372,7 +370,7 @@ const BucketDetailPanel: FC = () => {
 						<Text overflow="break-word" weight="normal" size="large">
 							<img src={logo} alt="logo" />
 						</Text>
-						<Padding all="medium" width="47%">
+						<Padding all="medium" width="406px">
 							<Text
 								color="gray1"
 								overflow="break-word"
