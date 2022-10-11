@@ -3,7 +3,14 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { Container, Text, Switch, Table, Padding } from '@zextras/carbonio-design-system';
+import {
+	Container,
+	Text,
+	Switch,
+	Table,
+	Padding,
+	SnackbarManagerContext
+} from '@zextras/carbonio-design-system';
 import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -20,6 +27,7 @@ const HSMselectVolumes: FC<any> = () => {
 	const [volumeRows, setVolumeRows] = useState<Array<any>>([]);
 	const [selectedDestinationVolume, setSelectedDestinationVolume] = useState<Array<any>>([]);
 	const [selectedSourceVolume, setSelectedSourceVolume] = useState<Array<any>>([]);
+	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const headers = useMemo(
 		() => [
 			{
@@ -171,7 +179,26 @@ const HSMselectVolumes: FC<any> = () => {
 							rows={volumeRows}
 							headers={headers}
 							selectedRows={selectedSourceVolume}
-							onSelectionChange={(selected: any): void => setSelectedSourceVolume(selected)}
+							onSelectionChange={(selected: any): void => {
+								const available = selectedDestinationVolume.filter((item: any) =>
+									selected?.includes(item)
+								);
+								if (available.length > 0) {
+									createSnackbar({
+										key: 'error',
+										type: 'error',
+										label: t(
+											'hsm.volume_already_selected_in_destination',
+											'Volume already selected in destination volume'
+										),
+										autoHideTimeout: 3000,
+										hideButton: true,
+										replace: true
+									});
+								} else {
+									setSelectedSourceVolume(selected);
+								}
+							}}
 						/>
 					)}
 				</Padding>
@@ -224,7 +251,26 @@ const HSMselectVolumes: FC<any> = () => {
 							showCheckbox={false}
 							multiSelect={false}
 							selectedRows={selectedDestinationVolume}
-							onSelectionChange={(selected: any): void => setSelectedDestinationVolume(selected)}
+							onSelectionChange={(selected: any): void => {
+								const available = selectedSourceVolume.filter((item: any) =>
+									selected?.includes(item)
+								);
+								if (available.length > 0) {
+									createSnackbar({
+										key: 'error',
+										type: 'error',
+										label: t(
+											'hsm.volume_already_selected_in_source',
+											'Volume already selected in source volume'
+										),
+										autoHideTimeout: 3000,
+										hideButton: true,
+										replace: true
+									});
+								} else {
+									setSelectedDestinationVolume(selected);
+								}
+							}}
 						/>
 					)}
 				</Padding>

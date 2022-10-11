@@ -564,6 +564,8 @@
         "this_function_allow_save_disk_copy_msg": "This function allows you to save disk space by storing a single copy of an item.",
         "type": "Type",
         "value": "Value",
+        "volume_already_selected_in_destination": "Volume already selected in destination volume",
+        "volume_already_selected_in_source": "Volume already selected in source volume",
         "volumes": "Volumes",
         "years": "Years",
         "yes": "Yes"

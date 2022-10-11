@@ -54,6 +54,7 @@ const HSMsettingPanel: FC = () => {
 	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const [selectedPolicies, setSelectedPolicies] = useState<Array<any>>([]);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
+	const [isVolumeInProgress, setIsVolumeInProgress] = useState<boolean>(false);
 
 	const headers = useMemo(
 		() => [
@@ -178,6 +179,7 @@ const HSMsettingPanel: FC = () => {
 
 	const getAllVolumes = useCallback(() => {
 		const serverId = serverList.find((item: any) => item?.name === server);
+		setIsVolumeInProgress(true);
 		setVolumeList([]);
 		if (serverId) {
 			soapFetch(
@@ -190,6 +192,7 @@ const HSMsettingPanel: FC = () => {
 				// @ts-ignore
 				serverId
 			).then((response: any) => {
+				setIsVolumeInProgress(false);
 				if (response?.volume && response?.volume.length > 0) {
 					setVolumeList(response?.volume);
 				}
@@ -524,7 +527,7 @@ const HSMsettingPanel: FC = () => {
 										disabled={selectedPolicies.length === 0}
 									/>
 								</Padding>
-								<Padding right="small">
+								{/* <Padding right="small">
 									<Button
 										label={t('hsm.edit', 'Edit')}
 										type="outlined"
@@ -536,7 +539,7 @@ const HSMsettingPanel: FC = () => {
 										}}
 										disabled
 									/>
-								</Padding>
+								</Padding> */}
 								<Button
 									label={t('hsm.new_policy', 'New Policy')}
 									icon="Plus"
@@ -546,6 +549,8 @@ const HSMsettingPanel: FC = () => {
 									onClick={(): void => {
 										setShowCreateHsmPolicyView(true);
 									}}
+									loading={isVolumeInProgress}
+									disabled={isVolumeInProgress}
 								/>
 							</Row>
 						</Row>
