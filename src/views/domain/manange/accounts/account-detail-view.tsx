@@ -74,7 +74,7 @@ const AccountDetailView: FC<any> = ({
 			.then((data: any) => {
 				if (data?.authToken?.[0]) {
 					window.open(
-						`/service/preauth?authtoken=${data?.authToken?.[0]._content}&isredirect=1&adminPreAuth=1&redirectURL=/carbonio/`,
+						`https://${window.location.hostname}/service/preauth?authtoken=${data?.authToken?.[0]._content}&isredirect=1&adminPreAuth=1&redirectURL=/carbonio/`,
 						'blank'
 					);
 				} else {
