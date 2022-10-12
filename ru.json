@@ -57,7 +57,8 @@
                 "no_subject_no_attachments": "Тема письма пуста, и вы не прикрепили ни одного файла.",
                 "attach": "прикрепить",
                 "enclosed": "вложение",
-                "enclose": "прикрепить"
+                "enclose": "прикрепить",
+                "enclosing": "включить"
             }
         },
         "no_content": "Это сообщение не имеет текстового содержания",
@@ -287,7 +288,7 @@
         "warning": "Внимание",
         "arrival_notifications": "Уведомления о новой почте",
         "mark_all_as_read": "Пометить все как прочитанные",
-        "before_you_leave": "Перед уходом",
+        "before_you_leave": "Перед выходом",
         "message_arrival": "Получение сообщения"
     },
     "header": {
