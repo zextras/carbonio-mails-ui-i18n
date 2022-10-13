@@ -1333,7 +1333,7 @@
             "centralized": "Centralized",
             "external": "External",
             "local": "Local",
-            "proxy": "Proxy"
+            "sproxy": "Sproxy"
         },
         "volume_config_header": {
             "hsm_scheduled": "HSM Scheduled",
