@@ -1320,6 +1320,16 @@
         },
         "serverName_volumes": "{{serverName}} Volumes",
         "serverName_volumes_create_mailstores_volume": "{{serverName}} Create Mailstores Volume",
+        "server_list_header": {
+            "HSM Scheduling": "HSM Scheduling",
+            "description": "Description",
+            "index": "Index",
+            "indexer": "Indexer",
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "server": "Server",
+            "server_name": "Server Name"
+        },
         "volume_allocation_list": {
             "centralized": "Centralized",
             "external": "External",
@@ -1346,7 +1356,7 @@
         },
         "volume_type": {
             "index": "Index",
-            "primary": "Priamry",
+            "primary": "Primary",
             "secondary": "Secondary"
         }
     },
