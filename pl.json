@@ -327,7 +327,8 @@
         "as_text": "Jako tekst",
         "as_html": "Jako HTML",
         "arrival_notifications": "Powiadomienia o otrzymaniu",
-        "mark_all_as_read": "Oznacz wszystkie jako przeczytane"
+        "mark_all_as_read": "Oznacz wszystkie jako przeczytane",
+        "send_scheduled": "Zaplanuj wysyłanie"
     },
     "message": {
         "snackbar": {
@@ -357,7 +358,7 @@
         "admin_rights": "Wyświetlanie, Edytowanie, Dodawanie, Usuwanie, Zarządzanie",
         "manager_rights": "Wyświetlanie, Edytowanie, Dodawanie, Usuwanie",
         "external_images_blocked": "Obrazki z innych domen zostały zablokowane, aby chronić Cię przed potencjalnym spamem",
-        "schedule_time": "{{date}} o {{time}}",
+        "schedule_time": "na {{date}} o {{time}}",
         "schedule_mail": "Zostanie wysłany: {{date}} o {{time}}",
         "send_later_success": "Twój e-mail zostanie wysłany {{date}} o {{time}}",
         "select_date_time": "Wybierz datę i godzinę, o której ta wiadomość zostanie wysłana"
