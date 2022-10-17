@@ -84,7 +84,7 @@
             "contacts_mod": "Dodaj Wizytówkę",
             "drag_and_drop": {
                 "content": "Upuść tutaj swoje załączniki, aby szybko dodać je do e-maila",
-                "title": "Tryb Drag&Drop"
+                "title": "Tryb Przeciągnij i upuść"
             },
             "files": "Dodaj z Files",
             "url": "Dodaj publiczny link z Files"
@@ -205,7 +205,7 @@
         "replied": "Odpisano",
         "results_for": "Wyniki dla: ",
         "results_for_error": "Nie udało się wyszukać, wyczyść pole i spróbuj ponownie: ",
-        "retention_policy": "Zasady przechowywania",
+        "retention_policy": "Polityka przechowywania",
         "revoke_access_tooltip": "Odbierz dostęp i wyślij domyślną notkę",
         "revoke_access_without_notification": "Odbierz dostęp i nie wysyłaj powiadomienia",
         "revoke_share": "Cofnij udostępnienie {{title}}",
