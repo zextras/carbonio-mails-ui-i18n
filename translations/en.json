@@ -1,7 +1,8 @@
 {
     "account": {
         "new": {
-            "create_account_wizard": "Create Account Wizard"
+            "create_account_wizard": "Create Account Wizard",
+            "create_otp_wizard": "Create OTP Wizard"
         }
     },
     "accountDetails": {
@@ -492,7 +493,10 @@
     },
     "have_not_setup_bucket_type": "It seems like you haven't setup a bucket type",
     "label": {
+        "DELETE": "DELETE",
         "I_want_to_see_this_server_details": "i want to see this server’s details",
+        "NEW_OTP": "NEW OTP",
+        "OTP": "OTP",
         "access_key": "Access Key",
         "account": "Account",
         "account_created_successfully": "The account has been created successfully",
@@ -617,6 +621,8 @@
         "create_mailing_list_msg": "You can create a new Mailing List by clicking on Create button (upper left corner) or on the Add (+) button up here",
         "create_new_cos": "Create New COS",
         "create_new_domain": "Create New Domain",
+        "create_otp": "CREATE OTP",
+        "create_otp_list_msg": "You can create a new OTP by clicking on <bold>NEW OTP</bold> button up here",
         "create_resource": "Create Resource",
         "create_resource_msg": "You can create a new resource by clicking on <bold>Create</bold> button (upper left corner) or on the Add (<bold>+</bold>) button up here",
         "create_resource_success_msg": "{{resourceName}} has been created successfully",
@@ -716,6 +722,7 @@
         "external_ldap": "External LDAP",
         "external_ldap_server": "external-ldap-server",
         "external_password_change_listener": "Endpoint to be used for password change",
+        "failed": "Failed",
         "fall_back_to_local_msg": "Try local password management in case of failure with other methods",
         "features": "Features",
         "filter": "Filter",
@@ -940,6 +947,7 @@
         "secondarybar_view": "This is a main view",
         "seconds": "Seconds",
         "secret_key": "Secret Key",
+        "security": "SECURITY",
         "select_a_server": "Select a Server",
         "select_an_account": "Select An Account",
         "selected_empty_bucket": "You haven’t selected a bucket, yet. But you can start typing in the field above to start viewing them.",

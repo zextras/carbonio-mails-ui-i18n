@@ -19,11 +19,11 @@ import {
 	IconButton,
 	useSnackbar
 } from '@zextras/carbonio-design-system';
+import moment from 'moment';
 import logo from '../../../../assets/gardian.svg';
 import { useDomainStore } from '../../../../store/domain/store';
 import Paginig from '../../../components/paging';
 import { accountListDirectory } from '../../../../services/account-list-directory-service';
-import { createAccountRequest } from '../../../../services/create-account';
 import { getAccountRequest } from '../../../../services/get-account';
 import { getAccountMembershipRequest } from '../../../../services/get-account-membership';
 import { getSingatures } from '../../../../services/get-signature-service';
@@ -31,6 +31,7 @@ import AccountDetailView from './account-detail-view';
 import CreateAccount from './create-account/create-account';
 import EditAccount from './edit-account/edit-account';
 import { AccountContext } from './account-context';
+import { fetchSoap } from '../../../../services/listOTP-service';
 
 const ManageAccounts: FC = () => {
 	const [t] = useTranslation();
@@ -40,6 +41,8 @@ const ManageAccounts: FC = () => {
 	const [directMemberList, setDirectMemberList] = useState<any>({});
 	const [inDirectMemberList, setInDirectMemberList] = useState<any>({});
 	const [initAccountDetail, setInitAccountDetail] = useState<any>({});
+	const [otpList, setOtpList] = useState<any[]>([]);
+
 	const headers: any = useMemo(
 		() => [
 			{
@@ -214,6 +217,47 @@ const ManageAccounts: FC = () => {
 		},
 		[setDirectMemberList, setInDirectMemberList, t, createSnackbar]
 	);
+	const getListOtp = useCallback((id): void => {
+		fetchSoap('zextras', {
+			_jsns: 'urn:zimbraAdmin',
+			module: 'ZxAuth',
+			action: 'list_totp_command',
+			account: `${id}`
+		}).then((res: any) => {
+			if (res?.ok) {
+				const otpListResponse = res.response?.list;
+				if (otpListResponse && Array.isArray(otpListResponse)) {
+					const otpListArr: any = [];
+					otpListResponse.map((item: any): any => {
+						otpListArr.push({
+							id: item?.id,
+							columns: [
+								<Text size="medium" key={item?.id} color="#414141">
+									{item?.label || ' '}
+								</Text>,
+								<Text size="medium" key={item?.id} color="#414141">
+									{item?.status ? 'Enabled' : 'Disabled'}
+								</Text>,
+								<Text size="medium" key={item?.id}>
+									{item?.failed_attempts}
+								</Text>,
+								<Text size="medium" key={item?.id}>
+									{moment(item?.created).format('DD/MMM/YYYY')}
+								</Text>,
+								<Text size="medium" key={item?.id} color="#414141">
+									{item?.description || <>&nbsp;</>}
+								</Text>
+							],
+							item,
+							clickable: true
+						});
+						return '';
+					});
+					setOtpList(otpListArr);
+				}
+			}
+		});
+	}, []);
 	const openDetailView = useCallback(
 		(acc: any): void => {
 			setSelectedAccount(acc);
@@ -221,8 +265,9 @@ const ManageAccounts: FC = () => {
 			getAccountDetail(acc?.id);
 			getSignatureDetail(acc?.id);
 			getAccountMembership(acc?.id);
+			getListOtp(acc?.name);
 		},
-		[getAccountDetail, getAccountMembership, getSignatureDetail]
+		[getAccountDetail, getAccountMembership, getSignatureDetail, getListOtp]
 	);
 	const getAccountList = useCallback((): void => {
 		const type = 'accounts';
@@ -308,6 +353,7 @@ const ManageAccounts: FC = () => {
 			}
 		});
 	}, [STATUS_COLOR, accountUserType, domainName, limit, offset, openDetailView, searchQuery]);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const searchAccountList = useCallback(
 		debounce((searchText) => {
@@ -489,7 +535,9 @@ const ManageAccounts: FC = () => {
 					initAccountDetail,
 					setInitAccountDetail,
 					setSignatureItems,
-					setSignatureList
+					setSignatureList,
+					otpList,
+					getListOtp
 				}}
 			>
 				{showAccountDetailView && (
