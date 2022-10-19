@@ -16,9 +16,7 @@ import {
 } from '@zextras/carbonio-design-system';
 import React, { FC, useCallback, useContext } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { MESSAGE, DOCUMENT, CONTACT, APPOINTMENT } from '../../../../constants';
-import ListRow from '../../../list/list-row';
 
 const DeleteHsmPolicy: FC<{
 	showDeletePolicyView: boolean;

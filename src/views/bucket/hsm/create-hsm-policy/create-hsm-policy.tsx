@@ -5,7 +5,7 @@
  */
 
 import { Container, Button } from '@zextras/carbonio-design-system';
-import React, { FC, ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, ReactElement, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { HorizontalWizard } from '../../../app/component/hwizard';

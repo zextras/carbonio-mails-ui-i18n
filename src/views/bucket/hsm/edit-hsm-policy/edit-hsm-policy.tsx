@@ -6,7 +6,6 @@
 
 import {
 	Container,
-	Input,
 	Text,
 	useSnackbar,
 	DefaultTabBarItem,
@@ -18,18 +17,8 @@ import {
 	TabBar,
 	Button
 } from '@zextras/carbonio-design-system';
-import React, {
-	FC,
-	ReactElement,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState
-} from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import ListRow from '../../../list/list-row';
+import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HSMContext } from '../hsm-context/hsm-context';
 import EditHsmPolicyDetailSection from './edit-hsm-policy-detail-section';
 import EditHsmPolicyVolumesSection from './edit-hsm-policy-volumes-section';
