@@ -34,9 +34,13 @@ import ListRow from '../../list/list-row';
 import { useServerStore } from '../../../store/server/store';
 import { updateBackup } from '../../../services/update-backup';
 import {
+	LOCAL_VALUE,
 	MANAGE_EXTERNAL_VOLUME,
+	MOUNTPOINT,
 	MOVE_TO_EXTERNAL_BUCKET,
 	MOVE_TO_LOCAL_MOUNT_POINT,
+	S3,
+	S3_BUCKET,
 	SERVER
 } from '../../../constants';
 import { RouteLeavingGuard } from '../../ui-extras/nav-guard';
@@ -81,6 +85,7 @@ const BackupConfiguration: FC = () => {
 	const [manageExternalVolumeBucketList, setManageExternalVolumeBucketList] = useState<any>([]);
 	const [manageExternalVolumeLocalMountpoint, setManageExternalVolumeLocalMountpoint] =
 		useState<string>('');
+	const [rootVolumePath, setRootVolumePath] = useState<string>('');
 
 	const destinationOptions: any[] = useMemo(
 		() => [
@@ -107,11 +112,11 @@ const BackupConfiguration: FC = () => {
 		() => [
 			{
 				label: t('label.mountpoint', 'Mountpoint'),
-				value: 'mountpoint'
+				value: MOUNTPOINT
 			},
 			{
 				label: t('label.s3_bucket', 'S3 Bucket'),
-				value: 's3_bucket'
+				value: S3_BUCKET
 			}
 		],
 		[t]
@@ -777,19 +782,24 @@ const BackupConfiguration: FC = () => {
 
 	const onSaveSetExternal = useCallback(() => {
 		const body: any = {
-			storeType: externalVolume?.value === 'mountpoint' ? 'LOCAL' : 'S3',
-			volumeRootPath: externalVolume?.value === 'mountpoint' ? '' : '',
-			bucketConfigurationId:
-				externalVolume?.value === 'mountpoint' ? '' : bucketConfiguration?.value, // "the uuid or empty for mountpoint",
+			storeType: externalVolume?.value === MOUNTPOINT ? LOCAL_VALUE : S3,
+			volumeRootPath: externalVolume?.value === MOUNTPOINT ? rootVolumePath : '',
+			bucketConfigurationId: externalVolume?.value === MOUNTPOINT ? '' : bucketConfiguration?.value,
 			targetServers: [server]
 		};
-		if (externalVolume?.value === 's3_bucket') {
+		if (externalVolume?.value === S3_BUCKET) {
 			body.useInfrequentAccess = true;
 			body.infrequentAcccessThreshold = 0;
 			body.useIntelligentTiering = true;
 		}
 		onBackupExternalVolume(body);
-	}, [server, externalVolume?.value, bucketConfiguration?.value, onBackupExternalVolume]);
+	}, [
+		server,
+		externalVolume?.value,
+		bucketConfiguration?.value,
+		onBackupExternalVolume,
+		rootVolumePath
+	]);
 
 	useEffect(() => {
 		if (!isEmpty(backupArchivingStore)) {
@@ -1027,21 +1037,32 @@ const BackupConfiguration: FC = () => {
 
 					{isShowSetExternalVolume && (
 						<ListRow>
-							<Select
-								items={externalVolumeOptions}
-								background="gray5"
-								label={t('label.select_an_external_volume', 'Select an External Volume')}
-								showCheckbox={false}
-								onChange={onExternalVolumeChange}
-								selection={externalVolume}
-							/>
+							<Container padding={{ top: 'large', bottom: 'large' }}>
+								<Select
+									items={externalVolumeOptions}
+									background="gray5"
+									label={t('label.select_an_external_volume', 'Select an External Volume')}
+									showCheckbox={false}
+									onChange={onExternalVolumeChange}
+									selection={externalVolume}
+								/>
+							</Container>
 						</ListRow>
 					)}
 
-					{isShowSetExternalVolume && externalVolume?.value === 'mountpoint' && (
-						<Input label={t('label.path', 'Path')} value={''} background="gray5" />
+					{isShowSetExternalVolume && externalVolume?.value === MOUNTPOINT && (
+						<Container>
+							<Input
+								label={t('label.path', 'Path')}
+								value={rootVolumePath}
+								background="gray5"
+								onChange={(e: any): any => {
+									setRootVolumePath(e.target.value);
+								}}
+							/>
+						</Container>
 					)}
-					{isShowSetExternalVolume && externalVolume?.value === 's3_bucket' && (
+					{isShowSetExternalVolume && externalVolume?.value === S3_BUCKET && (
 						<Select
 							items={bucketListOption}
 							background="gray5"

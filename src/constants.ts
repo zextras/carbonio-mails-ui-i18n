@@ -132,3 +132,7 @@ export const MANAGE_EXTERNAL_VOLUME = 'manage-external-volume';
 export const MOVE_TO_EXTERNAL_BUCKET = 'move-external-bucket';
 export const MOVE_TO_LOCAL_MOUNT_POINT = 'move-to-local-mountpoint';
 export const VOLUME_INDEX_TYPE = 10;
+export const S3 = 'S3';
+export const LOCAL_VALUE = 'LOCAL';
+export const MOUNTPOINT = 'mountpoint';
+export const S3_BUCKET = 's3_bucket';
