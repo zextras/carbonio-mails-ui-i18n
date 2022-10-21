@@ -13,12 +13,10 @@ type GlobalConfigState = {
 	globalConfig: any;
 	globalConfigList: Array<any>;
 	globalConfigView: string;
-	globalCarbonioSendAnalytics: boolean;
 	setGlobalConfig: (config: any) => void;
 	setGlobalConfigList: (configList: Array<any>) => void;
 	removeGlobalConfig: () => void;
 	setGlobalConfigView: (configView: string) => void;
-	setGlobalCarbonioSendAnalytics: (globalCarbonioSendAnalytics: boolean) => void;
 };
 
 export const useGlobalConfigStore = create<GlobalConfigState>(
@@ -26,7 +24,6 @@ export const useGlobalConfigStore = create<GlobalConfigState>(
 		globalConfig: {},
 		globalConfigList: [],
 		globalConfigView: CLOBAL_CONFIG_DETAIL_VIEW,
-		globalCarbonioSendAnalytics: false,
 		setGlobalConfig: (globalConfig): void => set({ globalConfig }, false, 'setGlobalConfig'),
 		setGlobalConfigList: (globalConfigList): void =>
 			set({ globalConfigList }, false, 'setGlobalConfigList'),
@@ -43,8 +40,6 @@ export const useGlobalConfigStore = create<GlobalConfigState>(
 				}),
 				false,
 				'setGlobalConfigView'
-			),
-		setGlobalCarbonioSendAnalytics: (globalCarbonioSendAnalytics): void =>
-			set({ globalCarbonioSendAnalytics }, false, 'setGlobalCarbonioSendAnalytics')
+			)
 	}))
 );

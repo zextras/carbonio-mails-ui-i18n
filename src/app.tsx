@@ -22,7 +22,6 @@ import {
 } from '@zextras/carbonio-shell-ui';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { MatomoProvider } from '@datapunt/matomo-tracker-react';
 import {
 	APPLICATION_LOG,
 	APP_ID,
@@ -44,8 +43,7 @@ import {
 	PRIVACY_ROUTE_ID,
 	SERVICES_ROUTE_ID,
 	STORAGES_ROUTE_ID,
-	SUBSCRIPTIONS_ROUTE_ID,
-	TRUE
+	SUBSCRIPTIONS_ROUTE_ID
 } from './constants';
 import PrimaryBarTooltip from './views/primary-bar-tooltip/primary-bar-tooltip';
 import { useServerStore } from './store/server/store';
@@ -56,16 +54,13 @@ import { useConfigStore } from './store/config/store';
 import { getAllConfig } from './services/get-all-config';
 import { useAuthIsAdvanced } from './store/auth-advanced/store';
 import { useBucketServersListStore } from './store/bucket-server-list/store';
-import MatomoTracker from './matomo-tracker';
 
 const LazyAppView = lazy(() => import('./views/app-view'));
 
 const AppView: FC = (props) => (
-	<MatomoProvider value={MatomoTracker.matomoInstance}>
-		<Suspense fallback={<Spinner />}>
-			<LazyAppView {...props} />
-		</Suspense>
-	</MatomoProvider>
+	<Suspense fallback={<Spinner />}>
+		<LazyAppView {...props} />
+	</Suspense>
 );
 
 const App: FC = () => {
@@ -77,20 +72,8 @@ const App: FC = () => {
 	const setIsAdvavanced = useAuthIsAdvanced((state) => state.setIsAdvavanced);
 	const setBackupServerList = useBackupModuleStore((state) => state.setBackupServerList);
 	const { setAllServersList, setVolumeList } = useBucketServersListStore((state) => state);
-	const { config, setConfig } = useConfigStore((state) => state);
-	const setGlobalCarbonioSendAnalytics = useGlobalConfigStore(
-		(state) => state.setGlobalCarbonioSendAnalytics
-	);
+	const setConfig = useConfigStore((state) => state.setConfig);
 	const allConfig = useAllConfig();
-
-	useEffect(() => {
-		const sendAnalytics = config.filter((items) => items.n === CARBONIO_SEND_ANALYTICS)[0]
-			?._content;
-		sendAnalytics === TRUE
-			? setGlobalCarbonioSendAnalytics(true)
-			: setGlobalCarbonioSendAnalytics(false);
-	}, [config, setGlobalCarbonioSendAnalytics]);
-
 	useEffect(() => {
 		if (allConfig && allConfig.length > 0) {
 			setConfig(allConfig);

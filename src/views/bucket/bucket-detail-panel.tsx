@@ -28,8 +28,6 @@ import { fetchSoap } from '../../services/bucket-service';
 import { BucketTypeItems } from '../utility/utils';
 import EditBucketDetailPanel from './edit-bucket-details-panel';
 import { AbsoluteContainer } from '../components/styled';
-import MatomoTracker from '../../matomo-tracker';
-import { BUCKET_ROUTE_ID } from '../../constants';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -116,7 +114,6 @@ const BucketListTable: FC<{
 const BucketDetailPanel: FC = () => {
 	const [t] = useTranslation();
 	const createSnackbar = useSnackbar();
-	const matomo = useMemo(() => new MatomoTracker(), []);
 	const [bucketselection, setBucketselection] = useState([]);
 	const [bucketDeleteName, setBucketDeleteName] = useState<object | any>({});
 	const [bucketType, setBucketType] = useState('');
@@ -314,8 +311,6 @@ const BucketDetailPanel: FC = () => {
 								icon="Plus"
 								color="primary"
 								onClick={(): void => {
-									matomo.trackPageView(`${BUCKET_ROUTE_ID}`);
-									matomo.trackEvent(`click`, `Create bucket`);
 									setToggleWizardSection(!toggleWizardSection);
 									if (showDetails) setShowDetails(!showDetails);
 								}}
@@ -401,10 +396,7 @@ const BucketDetailPanel: FC = () => {
 									label={t('buckets.create_new_bucket', 'NEW BUCKET')}
 									icon="Plus"
 									color="info"
-									onClick={(): void => {
-										matomo.trackEvent(`click`, `Create new bucket`);
-										setToggleWizardSection(!toggleWizardSection);
-									}}
+									onClick={(): void => setToggleWizardSection(!toggleWizardSection)}
 								/>
 							</Text>
 						</Padding>
