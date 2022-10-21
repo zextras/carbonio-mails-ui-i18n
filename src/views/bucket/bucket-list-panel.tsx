@@ -17,11 +17,14 @@ import {
 	VOLUME,
 	HSM_SETTINGS,
 	INDEXER_SETTINGS,
-	DATA_VOLUMES
+	DATA_VOLUMES,
+	STORAGES_ROUTE_ID
 } from '../../constants';
 import { fetchSoap } from '../../services/bucket-service';
 import { useBucketVolumeStore } from '../../store/bucket-volume/store';
 import { useBucketServersListStore } from '../../store/bucket-server-list/store';
+import MatomoTracker from '../../matomo-tracker';
+import { useGlobalConfigStore } from '../../store/global-config/store';
 
 const SelectItem = styled(Row)``;
 
@@ -29,6 +32,10 @@ const BucketListPanel: FC = () => {
 	const [t] = useTranslation();
 	const setSelectedServerName = useBucketVolumeStore((state) => state.setSelectedServerName);
 	const volumeList = useBucketServersListStore((state) => state.volumeList);
+	const matomo = useMemo(() => new MatomoTracker(), []);
+	const globalCarbonioSendAnalytics = useGlobalConfigStore(
+		(state) => state.globalCarbonioSendAnalytics
+	);
 	const [isStoreSelect, setIsStoreSelect] = useState(false);
 	const [isStoreVolumeSelect, setIsStoreVolumeSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
@@ -36,6 +43,10 @@ const BucketListPanel: FC = () => {
 	const [isServerSpecificListExpand, setIsServerSpecificListExpand] = useState(true);
 	const [searchVolumeName, setSearchVolumeName] = useState('');
 	const [isVolumeListExpand, setIsVolumeListExpand] = useState(false);
+
+	useEffect(() => {
+		globalCarbonioSendAnalytics && matomo.trackPageView(`${STORAGES_ROUTE_ID}`);
+	}, [globalCarbonioSendAnalytics, matomo]);
 
 	const selectedVolume = useCallback(
 		(volume: any) => {
@@ -96,13 +107,13 @@ const BucketListPanel: FC = () => {
 				id: DATA_VOLUMES,
 				name: t('label.data_volumes', 'Data Volumes'),
 				isSelected: isStoreVolumeSelect
-			},
+			}
+			/* ,
 			{
 				id: HSM_SETTINGS,
 				name: t('label.hsm_settings', 'HSM Settings'),
 				isSelected: isStoreVolumeSelect
-			}
-			/* ,
+			},
 			{
 				id: INDEXER_SETTINGS,
 				name: t('label.indexer_settings', 'Indexer Settings'),
@@ -123,16 +134,20 @@ const BucketListPanel: FC = () => {
 	useEffect(() => {
 		if (isStoreSelect) {
 			if (selectedOperationItem) {
-				if (selectedOperationItem === DATA_VOLUMES || selectedOperationItem === HSM_SETTINGS) {
+				if (selectedOperationItem === DATA_VOLUMES) {
+					globalCarbonioSendAnalytics &&
+						matomo.trackEvent('trackViewPage', `${selectedOperationItem}`);
 					replaceHistory(`${searchVolumeName}/${selectedOperationItem}`);
 				} else {
 					replaceHistory(`/${selectedOperationItem}`);
+					globalCarbonioSendAnalytics &&
+						matomo.trackEvent('trackViewPage', `${selectedOperationItem}`);
 				}
 			} else {
 				replaceHistory(`/${selectedOperationItem}`);
 			}
 		}
-	}, [isStoreSelect, selectedOperationItem, searchVolumeName]);
+	}, [isStoreSelect, selectedOperationItem, searchVolumeName, matomo, globalCarbonioSendAnalytics]);
 
 	const toggleServer = (): void => {
 		setIsServerListExpand(!isServerListExpand);
