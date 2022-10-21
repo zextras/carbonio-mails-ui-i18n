@@ -1449,7 +1449,6 @@
         },
         "volume_type": {
             "index": "Index",
-            "indexer": "Indexer",
             "primary": "Primary",
             "secondary": "Secondary"
         }

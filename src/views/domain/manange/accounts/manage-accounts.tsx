@@ -31,14 +31,11 @@ import AccountDetailView from './account-detail-view';
 import CreateAccount from './create-account/create-account';
 import EditAccount from './edit-account/edit-account';
 import { AccountContext } from './account-context';
-import MatomoTracker from '../../../../matomo-tracker';
-import { DOMAINS_ROUTE_ID } from '../../../../constants';
 
 const ManageAccounts: FC = () => {
 	const [t] = useTranslation();
 	const createSnackbar = useSnackbar();
 	const domainName = useDomainStore((state) => state.domain?.name);
-	const matomo = useMemo(() => new MatomoTracker(), []);
 	const [accountDetail, setAccountDetail] = useState<any>({});
 	const [directMemberList, setDirectMemberList] = useState<any>({});
 	const [inDirectMemberList, setInDirectMemberList] = useState<any>({});
@@ -358,8 +355,6 @@ const ManageAccounts: FC = () => {
 									height={36}
 									width={36}
 									onClick={(): void => {
-										matomo.trackPageView(`${DOMAINS_ROUTE_ID}`);
-										matomo.trackEvent(`click`, `create account`);
 										setShowCreateAccountView(true);
 									}}
 								/>

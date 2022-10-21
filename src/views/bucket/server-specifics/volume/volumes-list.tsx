@@ -22,7 +22,7 @@ import {
 	postSoapFetchRequest,
 	soapFetch
 } from '@zextras/carbonio-shell-ui';
-import { NO, STORAGES_ROUTE_ID, YES } from '../../../../constants';
+import { NO, YES } from '../../../../constants';
 import { AbsoluteContainer } from '../../../components/styled';
 import ServerVolumeDetailsPanel from './server-volume-details-panel';
 import { fetchSoap } from '../../../../services/bucket-service';
@@ -36,7 +36,6 @@ import { useServerStore } from '../../../../store/server/store';
 import CreateMailstoresVolume from './create-volume/advanced-create-volume/create-mailstores-volume';
 import { VolumeContext } from './create-volume/volume-context';
 import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
-import MatomoTracker from '../../../../matomo-tracker';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -134,7 +133,6 @@ const VolumesDetailPanel: FC = () => {
 	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const volIndexerHeaders = useMemo(() => indexerHeaders(t), [t]);
 	const volPrimarySecondaryHeaders = useMemo(() => volTableHeader(t), [t]);
-	const matomo = useMemo(() => new MatomoTracker(), []);
 	const [priamryVolumeSelection, setPriamryVolumeSelection] = useState('');
 	const [secondaryVolumeSelection, setSecondaryVolumeSelection] = useState('');
 	const [indexerVolumeSelection, setIndexerVolumeSelection] = useState('');
@@ -499,8 +497,6 @@ const VolumesDetailPanel: FC = () => {
 										compressionThreshold: 0,
 										volumeAllocation: 0
 									});
-									matomo.trackPageView(`${STORAGES_ROUTE_ID}`);
-									matomo.trackEvent(`click`, `clicked volume create`);
 									isAdvanced
 										? setToggleWizardExternal(!toggleWizardExternal)
 										: setToggleWizardLocal(!toggleWizardLocal);
@@ -513,7 +509,7 @@ const VolumesDetailPanel: FC = () => {
 							orientation="horizontal"
 							padding={{ horizontal: 'large', top: 'large', bottom: 'large' }}
 						>
-							<Text>{t('volume.volume_type.primary', 'Primary')}</Text>
+							<Text>Primary</Text>
 						</Row>
 						<Row padding={{ horizontal: 'large', bottom: 'extralarge' }} width="100%">
 							<VolumeListTable
@@ -539,7 +535,7 @@ const VolumesDetailPanel: FC = () => {
 								top: 'small'
 							}}
 						>
-							<Text>{t('volume.volume_type.secondary', 'Secondary')}</Text>
+							<Text>Secondary</Text>
 						</Row>
 						<Row padding={{ horizontal: 'large', bottom: 'extralarge' }} width="100%">
 							<VolumeListTable
@@ -561,7 +557,7 @@ const VolumesDetailPanel: FC = () => {
 							orientation="horizontal"
 							padding={{ horizontal: 'large', bottom: 'large' }}
 						>
-							<Text>{t('volume.volume_type.indexer', 'Indexer')}</Text>
+							<Text>Indexer</Text>
 						</Row>
 						<Row
 							padding={{
