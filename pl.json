@@ -27,7 +27,7 @@
         "search_title1": "Rozpocznij kolejne wyszukiwanie",
         "search_title2": "Niestety nie udało znaleźć się żadnych wyników wyszukiwania",
         "search_title3": "Nie znaleziono wyników wyszukiwania.",
-        "search_title4": "Wybierz jeden lub więcej wyników, aby przeprowadzić czynności lub wyświetlić szczegóły.",
+        "search_title4": "Wybierz jeden lub więcej wyników, aby wykonać czynności lub wyświetlić szczegóły.",
         "sent_title2": "Wybierz e-mail, aby wyświetlić wysłaną przez ciebię wiadomość.",
         "spam_title1": "Jakie szczęście! Nie masz żadnego spamu",
         "title1": "Stwórz nowy e-mail klikając przycisk \"NOWY\"",
@@ -226,7 +226,7 @@
         "shares_items": "Udostępnione foldery użytkownika {{value}}",
         "show_all": "Pokaż wszystkie",
         "show_popup": "Pokaż powiadomienie pop-up",
-        "single_advanced_filter": "Zaawansowane Filtry",
+        "single_advanced_filter": "Zaawansowane filtry",
         "size": "Rozmiar",
         "size_larger": "Rozmiar większy niż (MB)",
         "size_smaller": "Rozmiar mniejszy niż (MB)",
@@ -369,7 +369,7 @@
         "sent_on": "Wysłane",
         "size_error": "Dozwolone są tylko liczby",
         "unread": "Nieprzeczytane",
-        "unread_note": "Wyszukaj wszystkie nieprzeczytane elementy e-maili.",
+        "unread_note": "Wyszukaj wszystkie nieprzeczytane e-maile.",
         "attachment_note": "Wyszukaj wszystkie e-maile, które mają w sobie załączniki.",
         "sent_after": "Wysłane po",
         "shared_folders_note": "Uzwględnij udostępnione elementy w wynikach wyszukiwań."
@@ -378,7 +378,7 @@
         "options": {
             "share_calendar_with": {
                 "external_guests": "Goście spoza mojej domeny (mogą tylko wyświetlać)",
-                "internal_users_groups": "Użytkownicy lub Grupy z mojej domeny",
+                "internal_users_groups": "Użytkownicy lub grupy z mojej domeny",
                 "public": "Publiczny (można tylko wyświetlać, hasło niewymagane)"
             },
             "share_calendar_role": {
@@ -389,7 +389,7 @@
             }
         },
         "filter_folder_message": "Wybierz folder, w którym rozpoczniesz zaawansowane wyszukiwanie",
-        "is_contained_in": "Jest zawarty w",
+        "is_contained_in": "Znajduje się w",
         "share_note": "Domyślna wiadomość zawiera Twoje imię, nazwę udostępnianiego elementu, uprawnienia przyznane odbiorcom oraz informacje logowania.",
         "standard_message": "Dodaj notatkę do domyślnej wiadomości",
         "recipients_address": "Adresy e-mail odbiorców",
@@ -491,7 +491,7 @@
             "folder_wiped": "Folder został wyczyszczony pomyślnie",
             "mail_saved_to_drafts": "E-mail został zapisany jako wersja robocza",
             "mail_sent": "Wiadomość została wysłana",
-            "marked_as_non_spam": "Oznaczyłeś ten e-mail jako Nie-Spam",
+            "marked_as_non_spam": "Oznaczyłeś ten e-mail jako nie-spam",
             "message_deleted": "Wiadomość została usunięta",
             "message_move": "Wiadomość została przeniesiona pomyślnie",
             "message_redirected": "Wiadomość została przekierowana",
@@ -528,7 +528,7 @@
         "new_email": "Nowy e-mail",
         "no_content": "Ta wiadomość nie zawiera tekstu",
         "permanent_delete_title": "Czy na pewno chcesz trwale usunąć ten element?",
-        "powered_by": "oparte na",
+        "powered_by": "zasilane przez",
         "check_and_try_again": "Sprawdź Carbonio i spróbuj ponownie",
         "could_not_find_to_show": "Nie udało się znaleźć niczego",
         "something_went_wrong": "COŚ POSZŁO NIE TAK",
