@@ -26,6 +26,7 @@ import { RouteLeavingGuard } from '../../../../ui-extras/nav-guard';
 import EditAccountGeneralSection from './edit-account-general-section';
 import EditAccountConfigrationSection from './edit-account-configration-section';
 import EditAccountUserPrefrencesSection from './edit-account-user-pref-section';
+import EditAccountSecuritySection from './edit-account-security-section';
 
 import { modifyAccountRequest } from '../../../../../services/modify-account';
 import { setPasswordRequest } from '../../../../../services/set-password';
@@ -115,6 +116,12 @@ const EditAccount: FC<{
 			label: t('label.user_preferences', 'USER PREFERENCES'),
 			CustomComponent: ReusedDefaultTabBar,
 			icon: 'PersonOutline'
+		},
+		{
+			id: 'security',
+			label: t('label.security', 'SECURITY'),
+			CustomComponent: ReusedDefaultTabBar,
+			icon: 'LockOutline'
 		}
 	];
 
@@ -264,7 +271,7 @@ const EditAccount: FC<{
 							defaultSelected="general"
 							onChange={setChange}
 							onItemClick={setClick}
-							width={540}
+							width={715}
 						/>
 					</Row>
 					<Row width="100%">
@@ -298,6 +305,7 @@ const EditAccount: FC<{
 								signatureList={signatureList}
 							/>
 						)}
+						{change === 'security' && <EditAccountSecuritySection />}
 					</Container>
 				</Container>
 			</Container>

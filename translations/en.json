@@ -1,7 +1,8 @@
 {
     "account": {
         "new": {
-            "create_account_wizard": "Create Account Wizard"
+            "create_account_wizard": "Create Account Wizard",
+            "create_otp_wizard": "Create OTP Wizard"
         }
     },
     "accountDetails": {
@@ -10,6 +11,7 @@
         "enable_activeSync_remote_access": "Enable ActiveSync remote access"
     },
     "account_details": {
+        "activesync_remote_access": "ActiveSync remote access",
         "add_appointments_when_invited": "Automatically add appointments when the user is invited",
         "add_forwarded_invites_to_calendar": "Automatically add forwarded appointments to the calendar",
         "add_invites_with_publish_method": "Add invites with PUBLISH method",
@@ -310,6 +312,8 @@
     },
     "cos": {
         "account_quota": "Account quota",
+        "active_sync": "ActiveSync",
+        "activesync_remote_access": "ActiveSync remote access",
         "add_appointments_when_invited": "Automatically add appointments when the user is invited",
         "add_forwarded_invites_to_calendar": "Automatically add forwarded appointments to the calendar",
         "add_invites_with_publish_method": "Add invites with PUBLISH method",
@@ -574,7 +578,10 @@
         "yes": "Yes"
     },
     "label": {
+        "DELETE": "DELETE",
         "I_want_to_see_this_server_details": "i want to see this server’s details",
+        "NEW_OTP": "NEW OTP",
+        "OTP": "OTP",
         "access_key": "Access Key",
         "account": "Account",
         "account_created_successfully": "The account has been created successfully",
@@ -700,6 +707,8 @@
         "create_mailing_list_msg": "You can create a new Mailing List by clicking on Create button (upper left corner) or on the Add (+) button up here",
         "create_new_cos": "Create New COS",
         "create_new_domain": "Create New Domain",
+        "create_otp": "CREATE OTP",
+        "create_otp_list_msg": "You can create a new OTP by clicking on <bold>NEW OTP</bold> button up here",
         "create_resource": "Create Resource",
         "create_resource_msg": "You can create a new resource by clicking on <bold>Create</bold> button (upper left corner) or on the Add (<bold>+</bold>) button up here",
         "create_resource_success_msg": "{{resourceName}} has been created successfully",
@@ -787,6 +796,7 @@
         "enable_past_due_reminders": "Enable reminders of appointments in the past",
         "enable_start_tls": "Enable StartTLS",
         "enable_toaster_notification_for_new_calendar_events": "enable toaster notification for new calendar events",
+        "enabled": "Enabled",
         "end_session": "End Session",
         "enter_email_address": "Enter E-mail address",
         "error": "{{message}}",
@@ -801,6 +811,7 @@
         "external_ldap": "External LDAP",
         "external_ldap_server": "external-ldap-server",
         "external_password_change_listener": "Endpoint to be used for password change",
+        "failed": "Failed",
         "fall_back_to_local_msg": "Try local password management in case of failure with other methods",
         "features": "Features",
         "filter": "Filter",
@@ -956,6 +967,7 @@
         "operation_now_in_queue": "The operation is now in the queue",
         "operations": "Operations",
         "otp": "OTP",
+        "otp_deleted_successfully": "OTP has been deleted successfully",
         "out_of_office_cache_lifetime": "Out of office cache lifetime",
         "out_of_office_message": "Out of office message",
         "owners": "Owners",
@@ -1035,6 +1047,7 @@
         "seconds": "Seconds",
         "secret_key": "Secret Key",
         "select_a_bucket_configuration": "Select a Bucket Configuration",
+        "security": "SECURITY",
         "select_a_server": "Select a Server",
         "select_an_account": "Select An Account",
         "select_an_external_volume": "Select an External Volume",
