@@ -833,13 +833,8 @@ const BackupConfiguration: FC = () => {
 	const onSaveManageExternalVolume = useCallback(() => {
 		const body: any = {};
 		if (isManageExternalVolumeEnable && destinationSelected?.value === MANAGE_EXTERNAL_VOLUME) {
-			if (manageExternalVolumeType.startsWith('LOCAL')) {
-				body.volumeRootPath = manageExternalVolumeLocalMountpoint;
-				body.storeType = 'LOCAL';
-			} else {
-				body.bucketConfigurationId = manageExternalVolumeConfiguration?.value;
-				body.storeType = 'S3';
-			}
+			body.storeType = 'default';
+			body.backup_volume_decommission = true;
 		} else if (
 			isManageExternalVolumeEnable &&
 			destinationSelected?.value === MOVE_TO_EXTERNAL_BUCKET
@@ -858,12 +853,9 @@ const BackupConfiguration: FC = () => {
 	}, [
 		isManageExternalVolumeEnable,
 		destinationSelected?.value,
-		manageExternalVolumeConfiguration?.value,
 		manageExternalVolumeBucketList?.value,
 		onBackupExternalVolume,
-		manageExternalVolumeType,
-		manageExternalVolumeNewLocalMountpoint,
-		manageExternalVolumeLocalMountpoint
+		manageExternalVolumeNewLocalMountpoint
 	]);
 
 	const isSetManageExternalButtonVisible = useMemo(
