@@ -169,16 +169,24 @@ const EditHsmPolicyDetailSection: FC<{
 	const dateScaleOption: any[] = useMemo(
 		() => [
 			{
+				label: t('hsm.minutes', 'Minutes'),
+				value: 'minutes'
+			},
+			{
+				label: t('hsm.hours', 'Hours'),
+				value: 'hours'
+			},
+			{
 				label: t('hsm.days', 'Days'),
-				value: 'day'
+				value: 'days'
 			},
 			{
 				label: t('hsm.months', 'Months'),
-				value: 'month'
+				value: 'months'
 			},
 			{
 				label: t('hsm.years', 'Years'),
-				value: 'year'
+				value: 'years'
 			}
 		],
 		[t]
@@ -219,7 +227,7 @@ const EditHsmPolicyDetailSection: FC<{
 	);
 	const [selectedOption, setSelectedOption]: any = useState<any>(options[0]);
 	const [selectedScale, setSelectedScale]: any = useState<any>(
-		isShowDateScale ? dateScaleOption[0] : scaleOptions[0]
+		isShowDateScale ? dateScaleOption[2] : scaleOptions[0]
 	);
 	const onOptionChange = (v: any): any => {
 		const it = options.find((item: any) => item.value === v);

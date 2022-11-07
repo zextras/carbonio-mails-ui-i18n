@@ -73,7 +73,7 @@ const HSMselectVolumes: FC<any> = () => {
 				return t('hsm.primary', 'Primary');
 			}
 			if (type === 2) {
-				return t('hsm.secondry', 'Secondry');
+				return t('hsm.secondary', 'Secondary');
 			}
 			return t('hsm.indexes', 'Indexes');
 		},
