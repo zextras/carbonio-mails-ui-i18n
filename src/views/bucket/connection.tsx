@@ -86,7 +86,6 @@ const Connection: FC<{
 				targetServer: server
 			}).then((res: any) => {
 				const response = JSON.parse(res.Body.response.content);
-				console.log('_dd testing', response);
 				if (response.ok) {
 					const data = response.response.message;
 					const responseData = data.split("'");
