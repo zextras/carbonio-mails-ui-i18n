@@ -290,7 +290,10 @@
         "mark_all_as_read": "Пометить все как прочитанные",
         "before_you_leave": "Перед выходом",
         "message_arrival": "Получение сообщения",
-        "send_scheduled": "Отправить по расписанию"
+        "send_scheduled": "Отправить по расписанию",
+        "not_in_list": "{{name}} – нет в вашем списке тегов",
+        "invalid_query": "Не удалось проанализировать поисковый запрос, очистить его и повторить попытку",
+        "download_and_delete": "Загрузить и удалить"
     },
     "header": {
         "warning": "Предупреждение",
@@ -516,7 +519,12 @@
         },
         "font_size_0": "{{count}}pt",
         "font_size_1": "{{count}}pt",
-        "font_size_2": "{{count}}pt"
+        "font_size_2": "{{count}}pt",
+        "mail_unsend_time": {
+            "second_0": "{{count}} секунда",
+            "second_1": "{{count}} секунды",
+            "second_2": "{{count}} секунд"
+        }
     },
     "message": {
         "snackbar": {
@@ -549,7 +557,8 @@
         "schedule_time": "{{date}} в {{time}}",
         "schedule_mail": "Будет отправлено: {{date}} в {{time}}",
         "select_date_time": "Выберите дату и время для отправки этого сообщения",
-        "send_later_success": "Ваше письмо будет отправлено {{date}} в {{time}}"
+        "send_later_success": "Ваше письмо будет отправлено {{date}} в {{time}}",
+        "delete_attachment_message1": "Ваше вложение будет удалено из Carbonio."
     },
     "search": {
         "flagged_note": "Поиск всех помеченных писем.",
