@@ -136,3 +136,4 @@ export const S3 = 'S3';
 export const LOCAL_VALUE = 'LOCAL';
 export const MOUNTPOINT = 'mountpoint';
 export const S3_BUCKET = 's3_bucket';
+export const ZX_MOBILE = 'ZxMobile';

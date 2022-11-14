@@ -18,24 +18,45 @@ import {
 	SnackbarManagerContext
 } from '@zextras/carbonio-design-system';
 import { useTranslation, Trans } from 'react-i18next';
-import Paginig from '../../../components/paging';
+import moment from 'moment';
 import gardian from '../../../../assets/gardian.svg';
 import { getAllDevices } from '../../../../services/get-all-devices';
 import ActiveDeviceDetail from './active-device-detail';
+import { ZX_MOBILE } from '../../../../constants';
+
+type MobileDevice = {
+	accountEmail: string;
+	accountName: string;
+	accountServer: string;
+	deviceId: string;
+	deviceType: string;
+	firstSeen: number;
+	hasMobilePassword: boolean;
+	isOnline: boolean;
+	lastCommandReceived: number;
+	lastPingTimeoutSecs: number;
+	lastSeen: number;
+	protocolVersion: string;
+	provisionable: boolean;
+	status: number;
+	userAgent: string;
+};
 
 const ActiveSync: FC = () => {
 	const [t] = useTranslation();
 	const [offset, setOffset] = useState<number>(0);
-	const [allDevices, setAllDevices] = useState<Array<any>>([]);
+	const [allMobileDevices, setAllMobileDevices] = useState<Array<MobileDevice>>([]);
 	const [allDeviceRow, setAllDeviceRow] = useState<Array<any>>([]);
 	const createSnackbar: any = useContext(SnackbarManagerContext);
-	const [isShowDeviceDetail, setIsShowDeviceDetail] = useState<boolean>(true);
+	const [isShowDeviceDetail, setIsShowDeviceDetail] = useState<boolean>(false);
+	const [selectedMobileDevice, setSelectedMobileDevice] = useState<Array<any>>([]);
+	const [selectedMobileDeviceDetail, setSelectedMobileDeviceDetail] = useState<any>();
 	const headers: any[] = useMemo(
 		() => [
 			{
 				id: 'name',
 				label: t('label.device', 'Device'),
-				width: '15%',
+				width: '10%',
 				bold: true
 			},
 			{
@@ -53,7 +74,7 @@ const ActiveSync: FC = () => {
 			{
 				id: 'last_seen',
 				label: t('label.last_seen', 'Last seen'),
-				width: '15%',
+				width: '20%',
 				bold: true
 			},
 			{
@@ -73,12 +94,15 @@ const ActiveSync: FC = () => {
 	);
 
 	const getAllDeviceList = useCallback(() => {
-		getAllDevices('ZxMobile')
+		getAllDevices(ZX_MOBILE)
 			.then((res: any) => {
 				if (res?.Body?.response?.content) {
 					const content = JSON.parse(res?.Body?.response?.content);
 					if (content?.response?.devices && content?.ok) {
 						const devices = content?.response?.devices;
+						if (devices && devices.length > 0) {
+							setAllMobileDevices(devices);
+						}
 					}
 				}
 			})
@@ -99,6 +123,49 @@ const ActiveSync: FC = () => {
 	useEffect(() => {
 		getAllDeviceList();
 	}, [getAllDeviceList]);
+
+	useEffect(() => {
+		if (allMobileDevices.length > 0) {
+			const allRows = allMobileDevices.map((item: MobileDevice) => ({
+				id: item?.firstSeen,
+				columns: [
+					<Text size="medium" weight="bold" key={item}>
+						{item?.accountName}
+					</Text>,
+					<Text size="medium" weight="bold" key={item}>
+						{item?.deviceId}
+					</Text>,
+					<Text size="medium" weight="bold" key={item}>
+						{item?.accountEmail}
+					</Text>,
+					<Text size="medium" weight="bold" key={item}>
+						{moment(item?.lastSeen).format('YY/MM/DD | hh:mm:ss a')}
+					</Text>,
+					<Text size="medium" weight="bold" key={item}>
+						{''}
+					</Text>,
+					<Text size="medium" weight="bold" key={item}>
+						{item?.status === 1 ? t('label.enabled', 'Enabled') : t('label.disabled', 'Disabled')}
+					</Text>
+				]
+			}));
+			setAllDeviceRow(allRows);
+		} else {
+			setAllDeviceRow([]);
+		}
+	}, [allMobileDevices, t]);
+
+	useEffect(() => {
+		if (selectedMobileDevice.length > 0) {
+			const mobileDevice = allMobileDevices.find(
+				(item: MobileDevice) => item?.firstSeen === selectedMobileDevice[0]
+			);
+			if (mobileDevice) {
+				setSelectedMobileDeviceDetail(mobileDevice);
+				setIsShowDeviceDetail(true);
+			}
+		}
+	}, [selectedMobileDevice, allMobileDevices]);
 
 	return (
 		<Container background="gray6" mainAlignment="flex-start">
@@ -177,7 +244,13 @@ const ActiveSync: FC = () => {
 						wrap="nowrap"
 						padding={{ top: 'large' }}
 					>
-						<Table rows={[]} headers={headers} showCheckbox={false} />
+						<Table
+							rows={allDeviceRow}
+							headers={headers}
+							showCheckbox={false}
+							multiSelect={false}
+							onSelectionChange={(selected: any): void => setSelectedMobileDevice(selected)}
+						/>
 					</Row>
 					{allDeviceRow.length === 0 && (
 						<Container orientation="column" crossAlignment="center" mainAlignment="center">
@@ -221,7 +294,7 @@ const ActiveSync: FC = () => {
 							</Row>
 						</Container>
 					)}
-					<Row
+					{/* <Row
 						takeAvwidth="fill"
 						mainAlignment="flex-start"
 						width="100%"
@@ -229,10 +302,15 @@ const ActiveSync: FC = () => {
 						padding={{ top: 'large' }}
 					>
 						<Paginig totalItem={1} pageSize={10} setOffset={setOffset} />
-					</Row>
+					</Row> */}
 				</Container>
 			</Container>
-			{isShowDeviceDetail && <ActiveDeviceDetail setIsShowDeviceDetail={setIsShowDeviceDetail} />}
+			{isShowDeviceDetail && (
+				<ActiveDeviceDetail
+					setIsShowDeviceDetail={setIsShowDeviceDetail}
+					selectedMobileDeviceDetail={selectedMobileDeviceDetail}
+				/>
+			)}
 		</Container>
 	);
 };
