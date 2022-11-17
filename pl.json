@@ -330,7 +330,7 @@
         "mark_all_as_read": "Oznacz wszystkie jako przeczytane",
         "send_scheduled": "Zaplanuj wysyłanie",
         "not_in_list": "{{name}} nie znajduje się na Twojej liście tagów",
-        "invalid_query": "Nie udało się wyszukać, wyczyść pole wyszukiwania i spróbuj ponownie",
+        "invalid_query": "Nie udało się przetworzyć filtrów, wyczyść wyszukiwanie i spróbuj ponownie",
         "download_and_delete": "Pobierz i usuń"
     },
     "message": {
