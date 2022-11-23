@@ -82,6 +82,7 @@ const BackupAdvanced: FC = () => {
 			setInitBackupDetail(cloneDeep(globalConfig));
 		}
 	}, [globalConfig, initbackupDetail]);
+
 	useEffect(() => {
 		if (!isEqual(globalConfig, initbackupDetail)) {
 			setIsDirty(true);
@@ -178,9 +179,14 @@ const BackupAdvanced: FC = () => {
 						style={{ overflow: 'auto' }}
 						width="100%"
 						height="calc(100vh - 200px)"
-						padding={{ top: 'extralarge' }}
+						padding={{ top: 'small' }}
 					>
-						<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
+						<Row
+							takeAvwidth="fill"
+							mainAlignment="flex-start"
+							width="100%"
+							padding={{ top: 'large' }}
+						>
 							<Container
 								height="fit"
 								crossAlignment="flex-start"
@@ -190,7 +196,10 @@ const BackupAdvanced: FC = () => {
 								<ListRow>
 									<Container padding={{ all: 'small' }}>
 										<Input
-											label={t('backup.latency_high_threshold', 'Latency High Threshold')}
+											label={`${t('backup.latency_high_threshold', 'Latency High Threshold')} (${t(
+												'backup.kb',
+												'KB'
+											)})`}
 											value={initbackupDetail.backupLatencyHighThreshold}
 											defaultValue={initbackupDetail.backupLatencyHighThreshold}
 											onChange={changeBackupDetail}
@@ -202,7 +211,10 @@ const BackupAdvanced: FC = () => {
 								<ListRow>
 									<Container padding={{ all: 'small' }}>
 										<Input
-											label={t('backup.latency_low_threshold', 'Latency Low Threshold')}
+											label={`${t('backup.latency_low_threshold', 'Latency Low Threshold')} (${t(
+												'backup.kb',
+												'KB'
+											)})`}
 											value={initbackupDetail.backupLatencyLowThreshold}
 											defaultValue={initbackupDetail.backupLatencyLowThreshold}
 											onChange={changeBackupDetail}
@@ -285,7 +297,10 @@ const BackupAdvanced: FC = () => {
 								<ListRow>
 									<Container padding={{ all: 'small' }}>
 										<Input
-											label={t('backup.max_waiting_time', 'Max Waiting Time')}
+											label={`${t('backup.max_waiting_time', 'Max Waiting Time')} (${t(
+												'backup.ms',
+												'MS'
+											)})`}
 											value={initbackupDetail.ZxBackup_MaxWaitingTime}
 											defaultValue={initbackupDetail.ZxBackup_MaxWaitingTime}
 											onChange={changeBackupDetail}

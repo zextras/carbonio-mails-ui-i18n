@@ -346,11 +346,27 @@ const CosServerPools: FC = () => {
 	}, [zimbraMailHostPoolList, serverList]);
 
 	return (
-		<Container mainAlignment="flex-start" crossAlignment="flex-start">
-			<Row mainAlignment="flex-start" padding={{ all: 'large' }}>
-				<Text size="medium" weight="bold">
-					{t('label.server_pools', '"Server Pools')}
-				</Text>
+		<Container mainAlignment="flex-start" crossAlignment="flex-start" padding={{ all: 'large' }}>
+			<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
+				<Container
+					orientation="vertical"
+					mainAlignment="space-around"
+					background="gray6"
+					height="58px"
+				>
+					<Row
+						orientation="horizontal"
+						mainAlignment="flex-start"
+						width="100%"
+						padding={{ all: 'large' }}
+					>
+						<Row mainAlignment="flex-start" width="50%" crossAlignment="flex-start">
+							<Text size="medium" weight="bold" color="gray0">
+								{t('label.server_pools', '"Server Pools')}
+							</Text>
+						</Row>
+					</Row>
+				</Container>
 			</Row>
 			<Divider />
 			<Container
@@ -359,15 +375,16 @@ const CosServerPools: FC = () => {
 				mainAlignment="flex-start"
 				style={{ overflow: 'auto' }}
 				width="100%"
+				padding={{ top: 'large' }}
 			>
 				<Container
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
-					padding={{ top: 'extralarge', right: 'large', bottom: 'large', left: 'large' }}
+					padding={{ top: 'large', right: 'large', bottom: 'large', left: 'large' }}
 					width="100%"
 				>
 					<ListRow>
-						<Text size="small" weight="bold">
+						<Text size="extralarge" weight="bold">
 							{t('cos.general_options', 'General Options')}
 						</Text>
 					</ListRow>
@@ -455,7 +472,7 @@ const CosServerPools: FC = () => {
 									onSelectionChange={(selected: any): void => setSelectedTableRows(selected)}
 								/>
 							</Row>
-							<ListRow>
+							{/* <ListRow>
 								<Divider />
 							</ListRow>
 							<ListRow>
@@ -466,7 +483,7 @@ const CosServerPools: FC = () => {
 										console.log('setOffset for paging');
 									}}
 								/>
-							</ListRow>
+							</ListRow> */}
 						</>
 					)}
 				</Container>

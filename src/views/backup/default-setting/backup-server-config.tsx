@@ -75,7 +75,18 @@ const BackupServerConfig: FC = () => {
 				}
 			})
 			.catch((err) => {
-				console.log('caught it!', err);
+				console.log('[Error]: ', err);
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label:
+						err?.errors?.[0]?.error ||
+						err?.statusText ||
+						t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
 			});
 	};
 	useEffect(() => {
@@ -122,7 +133,12 @@ const BackupServerConfig: FC = () => {
 	return (
 		<>
 			<Container padding={{ all: 'large' }} mainAlignment="flex-start" background="gray6">
-				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
+				<Row
+					takeAvwidth="fill"
+					mainAlignment="flex-start"
+					width="100%"
+					padding={{ left: 'large', right: 'large' }}
+				>
 					<Container
 						orientation="vertical"
 						mainAlignment="space-around"
@@ -162,8 +178,14 @@ const BackupServerConfig: FC = () => {
 					style={{ overflow: 'auto' }}
 					width="100%"
 					height="calc(100vh - 200px)"
-					padding={{ top: 'extralarge', left: 'small', right: 'small' }}
+					padding={{ all: 'large' }}
 				>
+					<Row
+						takeAvwidth="fill"
+						mainAlignment="flex-start"
+						width="100%"
+						padding={{ top: 'large' }}
+					></Row>
 					<ListRow>
 						<Switch
 							label={t('backup.enable_realtime_scanner', 'Enable Realtime Scanner')}
@@ -211,29 +233,35 @@ const BackupServerConfig: FC = () => {
 					<ListRow>
 						<Container padding={{ bottom: 'large' }}>
 							<Input
-								label={t('backup.minimum_space_threshold', 'Minimum Space Threshold')}
-								value={initbackupDetail.backupLatencyLowThreshold}
-								defaultValue={initbackupDetail.backupLatencyLowThreshold}
+								label={`${t('backup.minimum_space_threshold', 'Minimum Space Threshold')} (${t(
+									'label.mb',
+									'MB'
+								)})`}
+								value={initbackupDetail.ZxBackup_SpaceThreshold}
+								defaultValue={initbackupDetail.ZxBackup_SpaceThreshold}
 								onChange={changeBackupDetail}
-								inputName="backupLatencyLowThreshold"
+								inputName="ZxBackup_SpaceThreshold"
 								background="gray5"
 							/>
 						</Container>
 					</ListRow>
 					<ListRow>
-						<Container padding={{ bottom: 'large' }}>
+						<Container padding={{ bottom: 'medium' }}>
 							<Input
-								label={t('backup.local_metadata_threshold', 'Local Metadata Threshold')}
-								value={initbackupDetail.backupLatencyHighThreshold}
-								defaultValue={initbackupDetail.backupLatencyHighThreshold}
+								label={`${t('backup.local_metadata_threshold', 'Local Metadata Threshold')} (${t(
+									'label.mb',
+									'MB'
+								)})`}
+								value={initbackupDetail.backupLocalMetadataThreshold}
+								defaultValue={initbackupDetail.backupLocalMetadataThreshold}
 								onChange={changeBackupDetail}
-								inputName="backupLatencyHighThreshold"
+								inputName="backupLocalMetadataThreshold"
 								background="gray5"
 							/>
 						</Container>
 					</ListRow>
 					<ListRow>
-						<Container padding={{ top: 'large', bottom: 'large' }}>
+						<Container padding={{ top: 'small', bottom: 'large' }}>
 							<Divider />
 						</Container>
 					</ListRow>
@@ -247,7 +275,7 @@ const BackupServerConfig: FC = () => {
 						</Padding>
 					</ListRow>
 					<ListRow>
-						<Container padding={{ bottom: 'large' }}>
+						<Container padding={{ bottom: 'medium' }}>
 							<Input
 								label={t('backup.schedule', 'Schedule')}
 								value={initbackupDetail.backupSmartScanScheduler?.['cron-pattern']}
@@ -259,7 +287,7 @@ const BackupServerConfig: FC = () => {
 						</Container>
 					</ListRow>
 					<ListRow>
-						<Container padding={{ top: 'large', bottom: 'extralarge' }}>
+						<Container padding={{ top: 'small', bottom: 'extralarge' }}>
 							<Divider />
 						</Container>
 					</ListRow>

@@ -30,9 +30,9 @@ import {
 import { Trans, useTranslation } from 'react-i18next';
 import { RouteLeavingGuard } from '../../ui-extras/nav-guard';
 import ListRow from '../../list/list-row';
-import { useDomainStore } from '../../../store/domain/store';
-import { modifyDomain } from '../../../services/modify-domain-service';
 import { isValidHttpsUrl } from '../../utility/utils';
+import { modifyConfig } from '../../../services/modify-config';
+import { useConfigStore } from '../../../store/config/store';
 
 const HttpsErrorMessage: FC = () => {
 	const [t] = useTranslation();
@@ -68,11 +68,11 @@ const ReusedDefaultTabBar: FC<{
 	</DefaultTabBarItem>
 );
 
-const DomainTheme: FC = () => {
+const GlobalTheme: FC = () => {
 	const [t] = useTranslation();
 	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const createSnackbar: any = useContext(SnackbarManagerContext);
-	const [domainTheme, setDomainTheme] = useState<any>({
+	const [globalTheme, setGlobalTheme] = useState<any>({
 		carbonioWebUiDarkMode: false,
 		carbonioWebUiLoginLogo: '',
 		carbonioWebUiDarkLoginLogo: '',
@@ -93,10 +93,9 @@ const DomainTheme: FC = () => {
 		carbonioAdminUiTitle: '',
 		carbonioAdminUiDescription: ''
 	});
-	const domainInformation = useDomainStore((state) => state.domain?.a);
-	const setDomain = useDomainStore((state) => state.setDomain);
-	const domainName = useDomainStore((state) => state.domain?.name);
-	const [domainData, setDomainData]: any = useState({});
+	const configInformation = useConfigStore((state) => state.config);
+	const updateConfig = useConfigStore((state) => state.updateConfig);
+	const [globalData, setGlobalData]: any = useState({});
 	const [isOpenResetDialog, setIsOpenResetDialog] = useState<boolean>(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 
@@ -152,20 +151,20 @@ const DomainTheme: FC = () => {
 	);
 	const onThemeModeChange = useCallback(
 		(v: string): void => {
-			const prevValue = domainTheme?.carbonioWebUiDarkMode;
-			setDomainTheme((prev: any) => ({ ...prev, carbonioWebUiDarkMode: v }));
+			const prevValue = globalTheme?.carbonioWebUiDarkMode;
+			setGlobalTheme((prev: any) => ({ ...prev, carbonioWebUiDarkMode: v }));
 			if (prevValue !== v) {
 				setIsDirty(true);
 			}
 		},
-		[setDomainTheme, domainTheme?.carbonioWebUiDarkMode]
+		[setGlobalTheme, globalTheme?.carbonioWebUiDarkMode]
 	);
 
 	const setValue = useCallback(
 		(key: string, value: any): void => {
-			setDomainTheme((prev: any) => ({ ...prev, [key]: value }));
+			setGlobalTheme((prev: any) => ({ ...prev, [key]: value }));
 		},
-		[setDomainTheme]
+		[setGlobalTheme]
 	);
 
 	const setInitalValues = useCallback(
@@ -196,9 +195,9 @@ const DomainTheme: FC = () => {
 	);
 
 	useEffect(() => {
-		if (!!domainInformation && domainInformation.length > 0) {
+		if (!!configInformation && configInformation.length > 0) {
 			const obj: any = {};
-			domainInformation.map((item: any) => {
+			configInformation.map((item: any) => {
 				obj[item?.n] = item._content;
 				return '';
 			});
@@ -260,21 +259,27 @@ const DomainTheme: FC = () => {
 				obj.carbonioAdminUiDescription = '';
 			}
 			setInitalValues(obj);
-			setDomainData(obj);
+			setGlobalData(obj);
 			setIsDirty(false);
 		}
-	}, [domainInformation, setInitalValues]);
+	}, [configInformation, setInitalValues]);
 
-	const onChangeDomainThemeDetail = useCallback(
+	const onChangeGlobalThemeDetail = useCallback(
 		(e) => {
-			setDomainTheme((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
+			setGlobalTheme((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
 			setIsDirty(true);
 		},
-		[setDomainTheme]
+		[setGlobalTheme]
 	);
 
-	const modifyDomainRequest = (body: any): void => {
-		modifyDomain(body)
+	const updateGlobalConfig = (attributes: Array<any>): void => {
+		attributes.forEach((ele: any) => {
+			updateConfig(ele?.n, ele._content);
+		});
+	};
+
+	const modifyConfigRequest = (attributes: Array<any>): void => {
+		modifyConfig(attributes)
 			.then((data) => {
 				createSnackbar({
 					key: 'success',
@@ -284,10 +289,7 @@ const DomainTheme: FC = () => {
 					hideButton: true,
 					replace: true
 				});
-				const domain: any = data?.domain[0];
-				if (domain) {
-					setDomain(domain);
-				}
+				updateGlobalConfig(attributes);
 			})
 			.catch((error) => {
 				createSnackbar({
@@ -304,19 +306,15 @@ const DomainTheme: FC = () => {
 	};
 
 	const onSave = (): void => {
-		const body: any = {};
 		const attributes: any[] = [];
-		body.id = domainData.zimbraId;
-		body._jsns = 'urn:zimbraAdmin';
-		Object.keys(domainTheme).map((ele: any) =>
-			attributes.push({ n: ele, _content: domainTheme[ele] })
+		Object.keys(globalTheme).map((ele: any) =>
+			attributes.push({ n: ele, _content: globalTheme[ele] })
 		);
-		body.a = attributes;
-		modifyDomainRequest(body);
+		modifyConfigRequest(attributes);
 	};
 
 	const onCancel = (): void => {
-		setInitalValues(domainData);
+		setInitalValues(globalData);
 		setIsDirty(false);
 	};
 
@@ -330,10 +328,7 @@ const DomainTheme: FC = () => {
 
 	const onResetHandler = (): void => {
 		setIsOpenResetDialog(false);
-		const body: any = {};
 		const attributes: any[] = [];
-		body.id = domainData.zimbraId;
-		body._jsns = 'urn:zimbraAdmin';
 		const domainDefaultElements: any = {
 			carbonioWebUiDarkMode: 'FALSE',
 			carbonioWebUiLoginLogo: '',
@@ -358,8 +353,7 @@ const DomainTheme: FC = () => {
 		Object.keys(domainDefaultElements).map((ele: any) =>
 			attributes.push({ n: ele, _content: domainDefaultElements[ele] })
 		);
-		body.a = attributes;
-		modifyDomainRequest(body);
+		modifyConfigRequest(attributes);
 	};
 
 	useEffect(() => {
@@ -483,11 +477,11 @@ const DomainTheme: FC = () => {
 									showCheckbox={false}
 									items={THEME_MODE}
 									selection={
-										domainTheme?.carbonioWebUiDarkMode === ''
+										globalTheme?.carbonioWebUiDarkMode === ''
 											? THEME_MODE[-1]
 											: THEME_MODE.find(
 													// eslint-disable-next-line max-len
-													(item: any) => item.value === domainTheme?.carbonioWebUiDarkMode
+													(item: any) => item.value === globalTheme?.carbonioWebUiDarkMode
 											  )
 									}
 									onChange={onThemeModeChange}
@@ -546,9 +540,9 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.title', 'Title')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiTitle}
+													value={globalTheme.carbonioWebUiTitle}
 													inputName="carbonioWebUiTitle"
-													onChange={onChangeDomainThemeDetail}
+													onChange={onChangeGlobalThemeDetail}
 												/>
 											</Container>
 										</ListRow>
@@ -571,9 +565,9 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.description', 'Description')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiDescription}
+													value={globalTheme.carbonioWebUiDescription}
 													inputName="carbonioWebUiDescription"
-													onChange={onChangeDomainThemeDetail}
+													onChange={onChangeGlobalThemeDetail}
 												/>
 											</Container>
 										</ListRow>
@@ -650,7 +644,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiLoginLogo}
+													value={globalTheme.carbonioWebUiLoginLogo}
 													inputName="carbonioWebUiLoginLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -659,7 +653,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiLoginLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiLoginLogo}
 												/>
@@ -669,7 +663,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiDarkLoginLogo}
+													value={globalTheme.carbonioWebUiDarkLoginLogo}
 													inputName="carbonioWebUiDarkLoginLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -678,7 +672,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiDarkLoginLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiDarkLoginLogo}
 												/>
@@ -720,7 +714,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiAppLogo}
+													value={globalTheme.carbonioWebUiAppLogo}
 													inputName="carbonioWebUiAppLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -729,7 +723,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiAppLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiAppLogo}
 												/>
@@ -739,7 +733,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiDarkAppLogo}
+													value={globalTheme.carbonioWebUiDarkAppLogo}
 													inputName="carbonioWebUiDarkAppLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -748,7 +742,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiDarkAppLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiDarkAppLogo}
 												/>
@@ -784,7 +778,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.favicon_path', 'Favicon Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiFavicon}
+													value={globalTheme.carbonioWebUiFavicon}
 													inputName="carbonioWebUiFavicon"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -793,7 +787,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiFavicon(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiFavicon}
 												/>
@@ -862,7 +856,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.image_path', 'Image Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiLoginBackground}
+													value={globalTheme.carbonioWebUiLoginBackground}
 													inputName="carbonioWebUiLoginBackground"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -871,7 +865,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiLoginBackground(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiLoginBackground}
 												/>
@@ -881,7 +875,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.image_path', 'Image Path')}
 													background="gray5"
-													value={domainTheme.carbonioWebUiDarkLoginBackground}
+													value={globalTheme.carbonioWebUiDarkLoginBackground}
 													inputName="carbonioWebUiDarkLoginBackground"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -890,7 +884,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioWebUiDarkLoginBackground(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioWebUiDarkLoginBackground}
 												/>
@@ -934,9 +928,9 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.title', 'Title')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiTitle}
+													value={globalTheme.carbonioAdminUiTitle}
 													inputName="carbonioAdminUiTitle"
-													onChange={onChangeDomainThemeDetail}
+													onChange={onChangeGlobalThemeDetail}
 												/>
 											</Container>
 										</ListRow>
@@ -959,9 +953,9 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.description', 'Description')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiDescription}
+													value={globalTheme.carbonioAdminUiDescription}
 													inputName="carbonioAdminUiDescription"
-													onChange={onChangeDomainThemeDetail}
+													onChange={onChangeGlobalThemeDetail}
 												/>
 											</Container>
 										</ListRow>
@@ -1038,7 +1032,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiLoginLogo}
+													value={globalTheme.carbonioAdminUiLoginLogo}
 													inputName="carbonioAdminUiLoginLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1047,7 +1041,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiLoginLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiLoginLogo}
 												/>
@@ -1057,7 +1051,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiDarkLoginLogo}
+													value={globalTheme.carbonioAdminUiDarkLoginLogo}
 													inputName="carbonioAdminUiDarkLoginLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1066,7 +1060,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiDarkLoginLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiDarkLoginLogo}
 												/>
@@ -1108,7 +1102,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiAppLogo}
+													value={globalTheme.carbonioAdminUiAppLogo}
 													inputName="carbonioAdminUiAppLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1117,7 +1111,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiAppLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiAppLogo}
 												/>
@@ -1127,7 +1121,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.logo_path', 'Logo Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiDarkAppLogo}
+													value={globalTheme.carbonioAdminUiDarkAppLogo}
 													inputName="carbonioAdminUiDarkAppLogo"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1136,7 +1130,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiDarkAppLogo(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiDarkAppLogo}
 												/>
@@ -1172,7 +1166,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.favicon_path', 'Favicon Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiFavicon}
+													value={globalTheme.carbonioAdminUiFavicon}
 													inputName="carbonioAdminUiFavicon"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1181,7 +1175,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiFavicon(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiFavicon}
 												/>
@@ -1250,7 +1244,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.image_path', 'Image Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiBackground}
+													value={globalTheme.carbonioAdminUiBackground}
 													inputName="carbonioAdminUiBackground"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1259,7 +1253,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiBackground(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiBackground}
 												/>
@@ -1269,7 +1263,7 @@ const DomainTheme: FC = () => {
 												<Input
 													label={t('label.image_path', 'Image Path')}
 													background="gray5"
-													value={domainTheme.carbonioAdminUiDarkBackground}
+													value={globalTheme.carbonioAdminUiDarkBackground}
 													inputName="carbonioAdminUiDarkBackground"
 													onChange={(e: any): any => {
 														if (e.target.value) {
@@ -1278,7 +1272,7 @@ const DomainTheme: FC = () => {
 														} else {
 															setIsValidCarbonioAdminUiDarkBackground(true);
 														}
-														onChangeDomainThemeDetail(e);
+														onChangeGlobalThemeDetail(e);
 													}}
 													hasError={!isValidCarbonioAdminUiDarkBackground}
 												/>
@@ -1311,9 +1305,7 @@ const DomainTheme: FC = () => {
 			{isOpenResetDialog && (
 				<Modal
 					size="medium"
-					title={t('label.reset_domain_theme', 'Reset {{name}} theme', {
-						name: domainName
-					})}
+					title={t('label.reset_global_theme', 'Reset global theme')}
 					open={isOpenResetDialog}
 					customFooter={
 						<Container orientation="horizontal" mainAlignment="space-between">
@@ -1383,4 +1375,4 @@ const DomainTheme: FC = () => {
 	);
 };
 
-export default DomainTheme;
+export default GlobalTheme;

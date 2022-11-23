@@ -140,3 +140,5 @@ export const ZX_MOBILE = 'ZxMobile';
 export const WIPE_DEVICE = 'wipe device';
 export const RESET_DEVICE = 'reset device';
 export const SUSPEND_DEVICE = 'suspend device';
+export const GLOBAL_ROUTE = 'global';
+export const GLOBAL_THEME_ROUTE = 'global/theme';

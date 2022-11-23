@@ -745,50 +745,6 @@ const MailingListSection: FC<any> = () => {
 						/>
 					</Container>
 				</ListRow>
-
-				{mailingListDetail?.dynamic && (
-					<ListRow>
-						<Container
-							mainAlignment="flex-start"
-							crossAlignment="flex-start"
-							orientation="horizontal"
-							padding={{ top: 'medium', bottom: 'medium' }}
-						>
-							<Switch
-								value={mailingListDetail?.zimbraHideInGal}
-								label={t('label.hidden_from_gal', 'Hidden from GAL')}
-								onClick={(): void => {
-									setMailingListDetail((prev: any) => ({
-										...prev,
-										zimbraHideInGal: !mailingListDetail?.zimbraHideInGal
-									}));
-								}}
-							/>
-						</Container>
-					</ListRow>
-				)}
-
-				{mailingListDetail?.dynamic && (
-					<ListRow>
-						<Container
-							mainAlignment="flex-start"
-							crossAlignment="flex-start"
-							orientation="horizontal"
-							padding={{ top: 'medium', bottom: 'medium' }}
-						>
-							<Switch
-								value={mailingListDetail?.zimbraMailStatus}
-								label={t('label.this_list_can_receive_email', 'This list can receive emails')}
-								onClick={(): void => {
-									setMailingListDetail((prev: any) => ({
-										...prev,
-										zimbraMailStatus: !mailingListDetail?.zimbraMailStatus
-									}));
-								}}
-							/>
-						</Container>
-					</ListRow>
-				)}
 			</Container>
 		</Container>
 	);

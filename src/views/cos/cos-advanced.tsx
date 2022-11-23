@@ -1465,7 +1465,7 @@ const CosAdvanced: FC = () => {
 	};
 
 	return (
-		<Container mainAlignment="flex-start" background="gray6">
+		<Container mainAlignment="flex-start" background="gray6" padding={{ all: 'large' }}>
 			<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
 				<Container
 					orientation="vertical"
@@ -1504,11 +1504,12 @@ const CosAdvanced: FC = () => {
 				width="100%"
 				orientation="vertical"
 				style={{ overflow: 'auto' }}
+				padding={{ top: 'large' }}
 			>
 				<Row
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
-					padding={{ all: 'large' }}
+					padding={{ top: 'large', right: 'large', bottom: 'large', left: 'large' }}
 					width="100%"
 				>
 					<Text size="extralarge" weight="bold">
@@ -2650,7 +2651,6 @@ const CosAdvanced: FC = () => {
 							</ListRow>
 						</Container>
 					</Row>
-					<Divider />
 				</Row>
 			</Container>
 		</Container>

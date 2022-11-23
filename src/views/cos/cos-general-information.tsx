@@ -213,7 +213,7 @@ const CosGeneralInformation: FC = () => {
 	};
 
 	return (
-		<Container mainAlignment="flex-start" background="gray6">
+		<Container mainAlignment="flex-start" background="gray6" padding={{ all: 'large' }}>
 			<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
 				<Container
 					orientation="vertical"
@@ -255,12 +255,12 @@ const CosGeneralInformation: FC = () => {
 				width="100%"
 				// height="calc(100vh - 230px)"
 			>
-				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
+				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%" padding={{ top: 'large' }}>
 					<Container
 						height="fit"
 						crossAlignment="flex-start"
 						background="gray6"
-						padding={{ left: 'small', right: 'small' }}
+						padding={{ top: 'large', right: 'large', bottom: 'large', left: 'large' }}
 					>
 						<ListRow>
 							<Container padding={{ all: 'small' }}>

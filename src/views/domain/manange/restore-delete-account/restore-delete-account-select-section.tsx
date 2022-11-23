@@ -146,7 +146,9 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 					<Text size="medium" weight="bold" key={item?.creationTimestamp} color="#828282">
 						{getFormatedShortDate(new Date(item?.creationTimestamp))}
 					</Text>,
-					<Text size="medium" weight="bold" key={item?.id} color="#828282"></Text>
+					<Text size="medium" weight="bold" key={item?.id} color="#828282">
+						{item?.deletedTimestamp ? getFormatedShortDate(new Date(item?.deletedTimestamp)) : ''}
+					</Text>
 				]
 			}));
 			setAccountRows(allRows);
