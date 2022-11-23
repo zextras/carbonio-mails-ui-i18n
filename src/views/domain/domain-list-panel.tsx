@@ -22,6 +22,7 @@ import { debounce } from 'lodash';
 import { getDomainList } from '../../services/search-domain-service';
 import {
 	ACCOUNTS,
+	ACTIVE_SYNC,
 	AUTHENTICATION,
 	DOMAINS_ROUTE_ID,
 	GAL,
@@ -223,13 +224,13 @@ const DomainListPanel: FC = () => {
 				id: ADMIN_DELEGATES,
 				name: t('label.admin_delegates', 'Admin Delegates'),
 				isSelected: isDomainSelect
-			}, 
+			}, */
 			{
 				id: ACTIVE_SYNC,
 				name: t('label.active_sync', 'ActiveSync'),
 				isSelected: isDomainSelect
 			},
-			{
+			/*	{
 				id: ACCOUNT_SCAN,
 				name: t('label.account_scan', 'AccountScan'),
 				isSelected: isDomainSelect
