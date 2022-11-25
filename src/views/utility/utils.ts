@@ -1032,8 +1032,8 @@ export const volumeConfigHeader = (
 		bold: true
 	},
 	{
-		id: 'indexer',
-		label: t('volume.volume_config_header.indexer', 'Indexer'),
+		id: 'status',
+		label: t('volume.volume_config_header.status', 'Status'),
 		width: '33%',
 		align: 'center',
 		bold: true

@@ -146,7 +146,7 @@ const VolumesDetailPanel: FC = () => {
 	const [selectedServerId, setSelectedServerId] = useState<string>('');
 	const [volume, setVolume] = useState<{
 		compressBlobs: string;
-		compressionThreshold: number;
+		compressionThreshold: string;
 		fbits: number;
 		fgbits: number;
 		id: number;
@@ -158,7 +158,7 @@ const VolumesDetailPanel: FC = () => {
 		type: number;
 	}>({
 		compressBlobs: '',
-		compressionThreshold: 0,
+		compressionThreshold: '',
 		fbits: 0,
 		fgbits: 0,
 		id: 0,
@@ -273,7 +273,7 @@ const VolumesDetailPanel: FC = () => {
 				});
 				setVolume({
 					compressBlobs: '',
-					compressionThreshold: 0,
+					compressionThreshold: '',
 					fbits: 0,
 					fgbits: 0,
 					id: 0,
@@ -294,15 +294,7 @@ const VolumesDetailPanel: FC = () => {
 		getAllVolumesRequest();
 	}, [getAllVolumesRequest]);
 
-	const CreateVolumeRequest = async (attr: {
-		id: string;
-		name: string;
-		type: number;
-		rootpath: string;
-		isCurrent: number;
-		compressBlobs: number;
-		compressionThreshold: string;
-	}): Promise<any> => {
+	const CreateVolumeRequest = async (attr: any): Promise<any> => {
 		await soapFetch(
 			'CreateVolume',
 			{
@@ -346,8 +338,6 @@ const VolumesDetailPanel: FC = () => {
 						});
 				}
 				getAllVolumesRequest();
-				setToggleWizardLocal(false);
-				setToggleWizardExternal(false);
 				createSnackbar({
 					key: '1',
 					type: 'success',
@@ -494,7 +484,7 @@ const VolumesDetailPanel: FC = () => {
 										path: '',
 										isCurrent: false,
 										isCompression: false,
-										compressionThreshold: 0,
+										compressionThreshold: '',
 										volumeAllocation: 0
 									});
 									isAdvanced

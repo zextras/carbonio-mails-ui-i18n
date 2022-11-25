@@ -44,13 +44,18 @@ const WizardInSection: FC<any> = ({
 };
 
 interface VolumeDetailObj {
-	id: string;
 	volumeName: string;
 	volumeMain: number;
-	path: string;
 	isCurrent: boolean;
-	isCompression: boolean;
-	compressionThreshold: number;
+	volumeAllocation: string;
+	bucketName: string;
+	unusedBucketType: string;
+	bucketId: string;
+	prefix: string;
+	centralized: boolean;
+	useInfrequentAccess: boolean;
+	infrequentAccessThreshold: string;
+	useIntelligentTiering: boolean;
 }
 
 const CreateMailstoresVolume: FC<{
@@ -72,13 +77,18 @@ const CreateMailstoresVolume: FC<{
 	const isAllocationToggle = useBucketVolumeStore((state) => state.isAllocationToggle);
 	const [wizardData, setWizardData] = useState();
 	const [advancedVolumeDetail, setAdvancedVolumeDetail] = useState<VolumeDetailObj>({
-		id: '',
 		volumeName: '',
 		volumeMain: 0,
-		path: '',
 		isCurrent: false,
-		isCompression: false,
-		compressionThreshold: 0
+		volumeAllocation: '',
+		bucketName: '',
+		unusedBucketType: '',
+		bucketId: '',
+		prefix: '',
+		centralized: false,
+		useInfrequentAccess: false,
+		infrequentAccessThreshold: '',
+		useIntelligentTiering: false
 	});
 
 	const wizardSteps = [
@@ -201,11 +211,16 @@ const CreateMailstoresVolume: FC<{
 
 	const onComplete = useCallback(
 		(data) => {
-			setCreateMailstoresVolumeData(data.steps.connection);
-			setToggleWizardExternal(false);
-			setDetailsVolume(false);
+			CreateVolumeRequest({
+				name: advancedVolumeDetail?.volumeName,
+				type: advancedVolumeDetail?.volumeMain,
+				bucket_configuration_id: advancedVolumeDetail?.bucketId,
+				prefix: advancedVolumeDetail?.prefix,
+				centralized: advancedVolumeDetail?.centralized
+			});
+			setCreateMailstoresVolumeData(advancedVolumeDetail);
 		},
-		[setToggleWizardExternal, setDetailsVolume, setCreateMailstoresVolumeData]
+		[CreateVolumeRequest, advancedVolumeDetail, setCreateMailstoresVolumeData]
 	);
 
 	return (
