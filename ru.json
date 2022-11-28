@@ -293,7 +293,8 @@
         "send_scheduled": "Отправить по расписанию",
         "not_in_list": "{{name}} – нет в вашем списке тегов",
         "invalid_query": "Не удалось проанализировать поисковый запрос, очистить его и повторить попытку",
-        "download_and_delete": "Загрузить и удалить"
+        "download_and_delete": "Загрузить и удалить",
+        "enter_name": "Введите имя"
     },
     "header": {
         "warning": "Предупреждение",
@@ -524,7 +525,8 @@
         "mail_unsend_time": {
             "second_0": "{{count}} секунда",
             "second_1": "{{count}} секунды",
-            "second_2": "{{count}} секунд"
+            "second_2": "{{count}} секунд",
+            "no_delay": "Без задержки"
         }
     },
     "message": {
