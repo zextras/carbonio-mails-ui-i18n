@@ -275,6 +275,19 @@ const DomainListPanel: FC = () => {
 		[allManageOptions, isAdvanced]
 	);
 
+	const detailItems = useMemo(
+		() => (!isAdvanced ? detailOptions.filter((item: any) => item?.id !== THEME) : detailOptions),
+		[detailOptions, isAdvanced]
+	);
+
+	const globalOptionsItems = useMemo(
+		() =>
+			!isAdvanced
+				? globalOptionItems.filter((item: any) => item?.id !== GLOBAL_THEME_ROUTE)
+				: globalOptionItems,
+		[globalOptionItems, isAdvanced]
+	);
+
 	const manageOptions = useMemo(
 		() =>
 			!getBackupModuleEnable
@@ -356,7 +369,7 @@ const DomainListPanel: FC = () => {
 			style={{ overflow: 'auto', borderTop: '1px solid #FFFFFF' }}
 		>
 			<GlobalListPanel
-				globalOptionItems={globalOptionItems}
+				globalOptionItems={globalOptionsItems}
 				selectedOperationItem={selectedOperationItem}
 				setSelectedOperationItem={setSelectedOperationItem}
 			/>
@@ -402,7 +415,7 @@ const DomainListPanel: FC = () => {
 			/>
 			{isDetailListExpanded && (
 				<ListItems
-					items={detailOptions}
+					items={detailItems}
 					selectedOperationItem={selectedOperationItem}
 					setSelectedOperationItem={setSelectedOperationItem}
 				/>
