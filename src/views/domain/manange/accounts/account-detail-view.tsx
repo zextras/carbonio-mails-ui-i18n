@@ -26,6 +26,7 @@ import { deleteAccount } from '../../../../services/delete-account-service';
 import { CLOSED } from '../../../../constants';
 import { modifyAccountRequest } from '../../../../services/modify-account';
 import { getDelegateAuthRequest } from '../../../../services/get-delegate-auth-request';
+import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 
 const AccountDetailContainer = styled(Container)`
 	z-index: 10;
@@ -56,6 +57,7 @@ const AccountDetailView: FC<any> = ({
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 	const createSnackbar: any = useContext(SnackbarManagerContext);
+	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 
 	const getDataSourceDetail = useCallback((): void => {
 		getMailboxQuota(selectedAccount?.id).then((data) => {
@@ -251,15 +253,17 @@ const AccountDetailView: FC<any> = ({
 							onClick={onViewMail}
 						/>
 					</Padding>
-					<Button
-						type="outlined"
-						label={t('label.restart_replica', 'RESTART REPLICA')}
-						icon="RefreshOutline"
-						iconPlacement="right"
-						color="primary"
-						height={44}
-						disabled
-					/>
+					{isAdvanced && (
+						<Button
+							type="outlined"
+							label={t('label.restart_replica', 'RESTART REPLICA')}
+							icon="RefreshOutline"
+							iconPlacement="right"
+							color="primary"
+							height={44}
+							disabled
+						/>
+					)}
 				</Row>
 				<Row padding={{ top: 'extralarge' }}>
 					<Text
