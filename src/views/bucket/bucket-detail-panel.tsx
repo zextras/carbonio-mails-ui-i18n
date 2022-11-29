@@ -14,7 +14,8 @@ import {
 	Input,
 	Icon,
 	Table,
-	useSnackbar
+	useSnackbar,
+	Tooltip
 } from '@zextras/carbonio-design-system';
 
 import { useTranslation } from 'react-i18next';
@@ -32,19 +33,20 @@ const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
-const headers = [
+const headers = (t: any): Array<object> => [
+	{
+		id: 'label',
+		label: t('label.label', 'Label'),
+		bold: true
+	},
 	{
 		id: 'name',
-		label: 'Name',
-		width: '90%',
+		label: t('label.name', 'Name'),
 		bold: true
 	},
 	{
 		id: 'type',
-		label: 'Type',
-		i18nAllLabel: 'All',
-		width: '10%',
-		align: 'center',
+		label: t('label.type', 'Type'),
 		bold: true
 	}
 ];
@@ -62,30 +64,47 @@ const BucketListTable: FC<{
 			volumes.map((v, i) => ({
 				id: i,
 				columns: [
-					<Row
-						key={i}
-						onDoubleClick={(): any => {
-							onDoubleClick(i);
-						}}
-						onClick={(): any => {
-							onClick(i);
-						}}
-						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
-					>
-						{v.bucketName}
-					</Row>,
-					<Row
-						key={i}
-						onDoubleClick={(): any => {
-							onDoubleClick(i);
-						}}
-						onClick={(): any => {
-							onClick(i);
-						}}
-						style={{ textAlign: 'center' }}
-					>
-						{v.storeType}
-					</Row>
+					<Tooltip placement="bottom" label={v.notes} key={i}>
+						<Row
+							onDoubleClick={(): any => {
+								onDoubleClick(i);
+							}}
+							onClick={(): any => {
+								onClick(i);
+							}}
+							style={{ textAlign: 'left', justifyContent: 'flex-start' }}
+						>
+							{v.label}
+						</Row>
+					</Tooltip>,
+					<Tooltip placement="bottom" label={v.notes} key={i}>
+						<Row
+							key={i}
+							onDoubleClick={(): any => {
+								onDoubleClick(i);
+							}}
+							onClick={(): any => {
+								onClick(i);
+							}}
+							style={{ textAlign: 'left', justifyContent: 'flex-start' }}
+						>
+							{v.bucketName}
+						</Row>
+					</Tooltip>,
+					<Tooltip placement="bottom" label={v.notes} key={i}>
+						<Row
+							key={i}
+							onDoubleClick={(): any => {
+								onDoubleClick(i);
+							}}
+							onClick={(): any => {
+								onClick(i);
+							}}
+							style={{ textAlign: 'left', justifyContent: 'flex-start' }}
+						>
+							{v.storeType}
+						</Row>
+					</Tooltip>
 				],
 				clickable: true
 			})),
@@ -95,7 +114,7 @@ const BucketListTable: FC<{
 	return (
 		<Container crossAlignment="flex-start">
 			<Table
-				headers={headers}
+				headers={headers(t)}
 				rows={tableRows}
 				showCheckbox={false}
 				multiSelect={false}
@@ -246,8 +265,14 @@ const BucketDetailPanel: FC = () => {
 
 	const filterBucketList = (e: any): void => {
 		if (e.target.value !== '') {
-			console.log('_dd bucketList', bucketList);
-			setBucketList(filter(bucketList, (o) => o.bucketName.toLowerCase().includes(e.target.value)));
+			setBucketList(
+				filter(
+					bucketList,
+					(o) =>
+						o.bucketName.toLowerCase().includes(e.target.value) ||
+						o.label.toLowerCase().includes(e.target.value)
+				)
+			);
 		} else {
 			setBucketList(allBucketList);
 		}
