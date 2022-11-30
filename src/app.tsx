@@ -56,7 +56,7 @@ import PrimaryBarTooltip from './views/primary-bar-tooltip/primary-bar-tooltip';
 import { useServerStore } from './store/server/store';
 import { useGlobalConfigStore } from './store/global-config/store';
 import { useBackupModuleStore } from './store/backup-module/store';
-import { getAllServers } from './services/get-all-servers-service';
+import { getAllServers, getMailstoresServers } from './services/get-all-servers-service';
 import { useConfigStore } from './store/config/store';
 import { getAllConfig } from './services/get-all-config';
 import { useAuthIsAdvanced } from './store/auth-advanced/store';
@@ -614,15 +614,25 @@ const App: FC = () => {
 				setServerList(server);
 				checkIsBackupModuleEnable(server);
 				setAllServersList(server);
-				setVolumeList(server);
 				getGlobalConfig(server[0]?.name);
 			}
 		});
-	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, setVolumeList, getGlobalConfig]);
+	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, getGlobalConfig]);
+
+	const getMailstoresServersRequest = useCallback(() => {
+		getMailstoresServers().then((data) => {
+			const server = data?.server;
+			if (server && Array.isArray(server) && server.length > 0) {
+				setVolumeList(server);
+			}
+		});
+	}, [setVolumeList]);
 
 	useEffect(() => {
 		getAllServersRequest();
-	}, [getAllServersRequest]);
+		// another call just to get only mailstores can be improvised later
+		getMailstoresServersRequest();
+	}, [getAllServersRequest, getMailstoresServersRequest]);
 
 	return null;
 };
