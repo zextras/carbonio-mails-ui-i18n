@@ -452,7 +452,8 @@
             "set_message_color": "Imposta il colore di messaggi e conversazioni selezionando il colore del tag.",
             "display_messages": "Visualizza Messaggi",
             "default_mail_search": "Ricerca Predefinita dei messaggi",
-            "visualization_options": "Opzioni di Visualizzazione"
+            "visualization_options": "Opzioni di Visualizzazione",
+            "unsend_time": "Imposta tempo per l'invio"
         },
         "new_mail_optn": {
             "manually": "Manualmente",
