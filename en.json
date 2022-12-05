@@ -654,7 +654,7 @@
             "message_selection": "Message Selection",
             "search_query": "Default query",
             "set_message_color": "Set color of messages and conversations according to tag color.",
-            "unsend_time": "Set unsend time",
+            "unsend_time": "Set send time",
             "visualization_options": "Visualization Options"
         },
         "linkedin_msg": "LinkedIn messages and connections",
