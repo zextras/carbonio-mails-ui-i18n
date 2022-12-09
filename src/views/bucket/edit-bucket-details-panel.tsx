@@ -20,10 +20,12 @@ import {
 	Select
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
-import { find } from 'lodash';
+import { find, get, unset } from 'lodash';
 import { BucketRegions, BucketRegionsInAlibaba, BucketTypeItems } from '../utility/utils';
 import { fetchSoap } from '../../services/bucket-service';
 import { ALIBABA, AMAZON_WEB_SERVICE_S3, CUSTOM_S3, EMC } from '../../constants';
+
+const prefixRegex = /^[A-Za-z0-9_./-]*$/;
 
 const DetailsHeaders = [
 	{
@@ -166,6 +168,9 @@ const EditBucketDetailPanel: FC<{
 	setSelectedRow(bucketDetail);
 	const [t] = useTranslation();
 	const [bucketName, setBucketName] = useState(bucketDetail?.bucketName);
+	const [bucketLabel, setBucketLabel] = useState(bucketDetail?.label);
+	const [bucketNotes, setBucketNotes] = useState(bucketDetail?.notes);
+
 	const [bucketType, setBucketType] = useState<any>();
 	const [regionData, setRegionData] = useState(
 		bucketDetail?.region !== undefined && bucketDetail?.region
@@ -185,6 +190,16 @@ const EditBucketDetailPanel: FC<{
 	const bucketTypeItems = useMemo(() => BucketTypeItems(t), [t]);
 	const bucketRegions = useMemo(() => BucketRegions(t), [t]);
 	const bucketRegionsInAlibaba = useMemo(() => BucketRegionsInAlibaba(t), [t]);
+	const [showPrefix, setShowPrefix] = useState(false);
+	const [prefix, setPrefix] = useState(bucketDetail?.prefix);
+	const [prefixConfirm, setprefixConfirm] = useState(true);
+	const [modifiedBucketDetails, setModifiedBucketDetails] = useState<any>({
+		_jsns: 'urn:zimbraAdmin',
+		module: 'ZxCore',
+		action: 'doUpdateBucket',
+		bucketConfigurationId: bucketDetail?.uuid,
+		storeType: bucketDetail?.storeType
+	});
 
 	const verifyConnector = useCallback(() => {
 		fetchSoap('zextras', {
@@ -241,21 +256,25 @@ const EditBucketDetailPanel: FC<{
 		setPreviousDetail(latestData);
 		setIsDirty(false);
 	};
+
+	const checkIfChanged = useCallback(
+		(name: string, newValue: any): void => {
+			const currentValue = get(bucketDetail, name);
+			if (currentValue !== newValue) {
+				setModifiedBucketDetails((prev: any) => ({ ...prev, [name]: newValue }));
+			} else {
+				setModifiedBucketDetails((current: any) => {
+					const copy = { ...current };
+					delete copy[name];
+					return copy;
+				});
+			}
+		},
+		[bucketDetail]
+	);
 	const onSave = (): void => {
 		// API CALL
-		fetchSoap('zextras', {
-			_jsns: 'urn:zimbraAdmin',
-			module: 'ZxCore',
-			action: 'doUpdateBucket',
-			bucketConfigurationId: bucketDetail?.uuid,
-			storeType: bucketType?.value,
-			bucketName,
-			accessKey: accessKeyData,
-			secret: secretKey,
-			url: bucketDetail?.url !== undefined ? urlData : '',
-			region: bucketDetail?.region !== undefined ? regionData.value : '',
-			targetServer: server
-		}).then((res: any) => {
+		fetchSoap('zextras', modifiedBucketDetails).then((res: any) => {
 			const updateResData = JSON.parse(res?.Body?.response?.content);
 			if (updateResData?.ok) {
 				getBucketListType();
@@ -268,7 +287,7 @@ const EditBucketDetailPanel: FC<{
 					key: 'success',
 					type: 'success',
 					label: t('label.changes_have_been_updated', '{{message}}', {
-						message: updateResData?.response?.message
+						message: updateResData?.response?.message || updateResData?.message
 					}),
 					autoHideTimeout: 3000,
 					hideButton: true,
@@ -280,7 +299,7 @@ const EditBucketDetailPanel: FC<{
 					key: 'error',
 					type: 'error',
 					label: t('label.error', '{{message}}', {
-						message: updateResData?.error?.message
+						message: updateResData?.error?.message || updateResData?.error
 					}),
 					autoHideTimeout: 3000,
 					hideButton: true,
@@ -333,16 +352,24 @@ const EditBucketDetailPanel: FC<{
 					? bucketRegionsInAlibaba.find((s) => s.value === e)
 					: bucketRegions.find((s) => s.value === e);
 			setRegionData(volumeObject);
+			checkIfChanged('region', volumeObject?.value);
 		},
-		[bucketDetail?.region, bucketDetail.storeType, bucketRegions, bucketRegionsInAlibaba]
+		[
+			bucketDetail?.region,
+			bucketDetail?.storeType,
+			bucketRegions,
+			bucketRegionsInAlibaba,
+			checkIfChanged
+		]
 	);
 
 	const onBucketTypeSelectionChange = useCallback(
 		(e: any): void => {
 			const volumeObject: any = bucketTypeItems.find((item: any): any => item.value === e);
 			setBucketType(volumeObject);
+			checkIfChanged('storeType', volumeObject?.value);
 		},
-		[bucketTypeItems]
+		[bucketTypeItems, checkIfChanged]
 	);
 
 	useEffect(() => {
@@ -440,6 +467,16 @@ const EditBucketDetailPanel: FC<{
 		setBucketType(bucketTypeValue);
 	}, [bucketDetail, bucketRegions, bucketRegionsInAlibaba, bucketTypeItems]);
 
+	useEffect(() => {
+		if (bucketDetail.storeType !== '') {
+			if (bucketDetail.storeType === undefined) {
+				setShowPrefix(false);
+			} else {
+				setShowPrefix(true);
+			}
+		}
+	}, [bucketType, bucketDetail]);
+
 	return (
 		<Container background="gray6">
 			<Row mainAlignment="flex-start" crossAlignment="center" width="100%" height="auto">
@@ -474,14 +511,24 @@ const EditBucketDetailPanel: FC<{
 			</Container>
 			<Container padding={{ all: 'large' }} mainAlignment="flex-start" crossAlignment="flex-start">
 				<Row padding={{ top: 'small' }} width="100%">
-					<Select
-						items={bucketTypeItems}
-						background="gray6"
-						label={t('buckets.bucket_type', 'Buckets Type')}
-						onChange={onBucketTypeSelectionChange}
-						selection={bucketType}
-						showCheckbox={false}
-						padding={{ right: 'medium' }}
+					<Input
+						background="gray5"
+						label={t('label.bucket_type', 'Bucket Type')}
+						inputName="label"
+						value={bucketDetail?.storeType || ''}
+						readOnly
+					/>
+				</Row>
+				<Row width={'100%'} padding={{ top: 'large' }} mainAlignment="flex-start">
+					<Input
+						background="gray5"
+						label={t('label.label', 'Label')}
+						inputName="label"
+						value={bucketLabel}
+						onChange={(ev: any): any => {
+							setBucketLabel(ev.target.value);
+							checkIfChanged(ev.target.name, ev.target.value);
+						}}
 					/>
 				</Row>
 				<Row width="100%" padding={{ top: 'large' }}>
@@ -491,10 +538,11 @@ const EditBucketDetailPanel: FC<{
 					>
 						<Input
 							label={t('label.bucket_name', 'Bucket Name')}
-							name="BucketName"
+							inputName="bucketName"
 							value={bucketName}
 							onChange={(ev: any): any => {
 								setBucketName(ev.target.value);
+								checkIfChanged(ev.target.name, ev.target.value);
 							}}
 						/>
 					</Row>
@@ -503,6 +551,7 @@ const EditBucketDetailPanel: FC<{
 							<Padding width="4%" />
 							<Row width="48%" mainAlignment="flex-end">
 								<Select
+									inputName="region"
 									items={
 										bucketDetail.storeType === ALIBABA.toUpperCase()
 											? bucketRegionsInAlibaba
@@ -522,20 +571,24 @@ const EditBucketDetailPanel: FC<{
 				<Row width="100%" padding={{ top: 'large' }}>
 					<Row width="48%" mainAlignment="flex-start">
 						<Input
+							inputName="access_key"
 							label={t('label.access_key', 'Access Key')}
 							value={accessKeyData}
 							onChange={(e: any): void => {
 								setAccessKeyData(e.target.value);
+								checkIfChanged(e.target.name, e.target.value);
 							}}
 						/>
 					</Row>
 					<Padding width="4%" />
 					<Row width="48%" mainAlignment="flex-end">
 						<PasswordInput
+							inputName="secret"
 							label={t('label.secret_key', 'Secret Key')}
 							value={secretKey}
 							onChange={(e: any): void => {
 								setSecretKey(e.target.value);
+								checkIfChanged(e.target.name, e.target.value);
 							}}
 						/>
 					</Row>
@@ -543,14 +596,37 @@ const EditBucketDetailPanel: FC<{
 				{showURL && (
 					<Row width="100%" mainAlignment="flex-start" padding={{ top: 'large' }}>
 						<Input
+							inputName="url"
 							label={t('label.url', 'URL')}
 							value={urlData}
 							onChange={(e: any): void => {
 								setUrlData(e.target.value);
+								checkIfChanged(e.target.name, e.target.value);
 							}}
 						/>
 					</Row>
 				)}
+				<Row padding={{ top: 'small' }} width="100%">
+					<Input
+						background="gray5"
+						label={t('label.prefix', 'Prefix')}
+						inputName="label"
+						value={bucketDetail?.prefix || ''}
+						readOnly
+					/>
+				</Row>
+				<Row width={'100%'} padding={{ top: 'large' }} mainAlignment="flex-start">
+					<Input
+						background="gray5"
+						label={t('label.bucket_notes', 'Notes')}
+						name="notes"
+						value={bucketNotes}
+						onChange={(ev: any): any => {
+							setBucketNotes(ev.target.value);
+							checkIfChanged(ev.target.name, ev.target.value);
+						}}
+					/>
+				</Row>
 				<Row width="100%" padding={{ top: 'large' }}>
 					<Button
 						type="outlined"
