@@ -120,10 +120,10 @@ const DashboardServerList: FC = () => {
 	);
 
 	return (
-		<Container padding={{ top: 'extralarge' }} background="gray5">
+		<Container background="gray6">
 			<ListRow>
 				<Container
-					padding={{ all: 'large' }}
+					padding={{ all: 'extralarge' }}
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
 				>
@@ -131,12 +131,18 @@ const DashboardServerList: FC = () => {
 						<Container mainAlignment="flex-start" crossAlignment="flex-start" width="2.2rem">
 							<Icon icon="HardDriveOutline" height={'1.5rem'} width="1.5rem" />
 						</Container>
-						<Container mainAlignment="flex-start" crossAlignment="flex-start">
-							{t('label.server_list', 'Servers List')}
+						<Container mainAlignment="center" crossAlignment="flex-start">
+							<Text size="medium" color="gray0" weight="bold">
+								{t('label.server_list', 'Servers List')}
+							</Text>
 						</Container>
 					</ListRow>
 				</Container>
-				<Container mainAlignment="flex-end" crossAlignment="flex-end">
+				<Container
+					mainAlignment="flex-end"
+					crossAlignment="flex-end"
+					padding={{ all: 'extralarge' }}
+				>
 					<Button
 						type="ghost"
 						label={t('dashboard.go_to_mailstores_server_list', 'Go to mailstores servers list')}

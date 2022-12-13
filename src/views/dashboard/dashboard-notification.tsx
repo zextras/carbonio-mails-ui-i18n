@@ -5,7 +5,7 @@
  */
 
 import React, { FC } from 'react';
-import { Container, Icon, Button } from '@zextras/carbonio-design-system';
+import { Container, Icon, Button, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import ListRow from '../list/list-row';
 import NotificationView from '../app/shared/notification-view';
@@ -13,10 +13,10 @@ import NotificationView from '../app/shared/notification-view';
 const DashboardNotification: FC = () => {
 	const [t] = useTranslation();
 	return (
-		<Container background="gray6">
+		<Container background="gray6" style={{ 'border-radius': '0.5rem' }}>
 			<ListRow>
 				<Container
-					padding={{ all: 'large' }}
+					padding={{ all: 'extralarge' }}
 					mainAlignment="flex-start"
 					crossAlignment="flex-start"
 				>
@@ -24,12 +24,18 @@ const DashboardNotification: FC = () => {
 						<Container mainAlignment="flex-start" crossAlignment="flex-start" width="2.2rem">
 							<Icon icon="BellOutline" height={'1.5rem'} width="1.5rem" />
 						</Container>
-						<Container mainAlignment="flex-start" crossAlignment="flex-start">
-							{t('dashboard.your_notifications', 'Your Notifications')}
+						<Container mainAlignment="center" crossAlignment="flex-start">
+							<Text size="medium" color="gray0" weight="bold">
+								{t('dashboard.your_notifications', 'Your Notifications')}
+							</Text>
 						</Container>
 					</ListRow>
 				</Container>
-				<Container mainAlignment="flex-end" crossAlignment="flex-end">
+				<Container
+					mainAlignment="flex-end"
+					crossAlignment="flex-end"
+					padding={{ all: 'extralarge' }}
+				>
 					<Button
 						type="ghost"
 						label={t('dashboard.go_to_notification', 'Go to notification')}
@@ -39,7 +45,7 @@ const DashboardNotification: FC = () => {
 			</ListRow>
 
 			<ListRow>
-				<NotificationView />
+				<NotificationView isShowTitle={false} />
 			</ListRow>
 		</Container>
 	);

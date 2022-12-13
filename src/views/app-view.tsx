@@ -56,7 +56,7 @@ const AppView: FC = () => {
 			<BreadCrumb />
 			<Switch>
 				<Route path={`/${DASHBOARD}`}>
-					<Container orientation="horizontal" mainAlignment="flex-start">
+					<Container orientation="horizontal" mainAlignment="flex-start" background="gray5">
 						<Suspense fallback={<Spinner />}>
 							<Dashboard />
 						</Suspense>

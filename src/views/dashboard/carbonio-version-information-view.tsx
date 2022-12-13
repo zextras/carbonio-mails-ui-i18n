@@ -13,13 +13,17 @@ const CarbonioVersionInformation: FC<{
 }> = ({ userName }) => {
 	const [t] = useTranslation();
 	return (
-		<Container mainAlignment="flex-start" crossAlignment="flex-start">
+		<Container
+			mainAlignment="flex-start"
+			crossAlignment="flex-start"
+			padding={{ all: 'extralarge' }}
+		>
 			<Text
-				color="#828282"
+				color="secondary"
 				overflow="break-word"
 				weight="light"
 				size="large"
-				style={{ fontSize: '36px', fontFamily: 'roboto', height: '45px' }}
+				style={{ fontSize: '36px', fontFamily: 'roboto' }}
 			>
 				{t('welcome_to_carbonio_information', {
 					adminName: userName,

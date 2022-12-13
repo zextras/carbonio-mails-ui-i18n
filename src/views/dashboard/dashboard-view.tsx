@@ -33,14 +33,16 @@ const Dashboard: FC = () => {
 			operationText: t('label.accounts', 'Accounts'),
 			bottomText: t('label.open', 'Open'),
 			operationIcon: 'PersonOutline',
-			bottomIcon: 'ChevronRightOutline'
+			bottomIcon: 'ChevronRightOutline',
+			bgColor: 'avatar_39'
 		},
 		{
 			upperText: t('label.domains', 'Domains'),
 			operationText: t('label.mailing_list', 'Mailing List'),
 			bottomText: t('label.open', 'Open'),
 			operationIcon: 'PersonOutline',
-			bottomIcon: 'ChevronRightOutline'
+			bottomIcon: 'ChevronRightOutline',
+			bgColor: 'avatar_21'
 		}
 	]);
 
@@ -64,26 +66,31 @@ const Dashboard: FC = () => {
 
 	return (
 		<Container
-			height="100%"
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 			background="gray5"
+			style={{ overflow: 'auto' }}
+			height="calc(100vh - 120px)"
 		>
 			<ListRow>
-				<Container>
+				<Container width={'40'} padding={{ all: 'extralarge' }}>
 					<CarbonioVersionInformation userName={userName} />
 				</Container>
-				<Container>
+				<Container width={'60'} padding={{ all: 'extralarge' }}>
 					<QuickAccess quickAccessItems={quickAccessItems} />
 				</Container>
 			</ListRow>
 
 			<ListRow>
-				<DashboardNotification />
+				<Container padding={{ all: 'extralarge' }}>
+					<DashboardNotification />
+				</Container>
 			</ListRow>
 
 			<ListRow>
-				<DashboardServerList />
+				<Container padding={{ all: 'extralarge' }}>
+					<DashboardServerList />
+				</Container>
 			</ListRow>
 		</Container>
 	);

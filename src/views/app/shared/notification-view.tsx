@@ -79,7 +79,9 @@ export type Notification = {
 	text: string;
 };
 
-const NotificationView: FC = () => {
+const NotificationView: FC<{
+	isShowTitle: boolean;
+}> = ({ isShowTitle }) => {
 	const [t] = useTranslation();
 	const [change, setChange] = useState(NOTIFICATION_ALL);
 	const [click, setClick] = useState('');
@@ -262,9 +264,11 @@ const NotificationView: FC = () => {
 		<Container background="gray6">
 			<ListRow>
 				<Container mainAlignment="flex-start" crossAlignment="flex-start">
-					<Text size="large" weight="bold" color="gray0">
-						{t('notification.notifications_list', 'Notifications’ List')}
-					</Text>
+					{isShowTitle && (
+						<Text size="large" weight="bold" color="gray0">
+							{t('notification.notifications_list', 'Notifications’ List')}
+						</Text>
+					)}
 				</Container>
 				<Container mainAlignment="flex-end" crossAlignment="flex-end">
 					<TabBar

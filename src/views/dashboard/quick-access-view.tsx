@@ -10,13 +10,8 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import ListRow from '../list/list-row';
 
-export const ActionContainerAccount = styled(Container)`
-	background: ${({ theme }): string => theme.avatarColors.avatar_39};
-	border-radius: 0.5rem;
-`;
-
-export const ActionContainerMailingList = styled(Container)`
-	background: ${({ theme }): string => theme.avatarColors.avatar_21};
+export const ActionContainer = styled(Container)`
+	background: ${({ theme, bgColor }): string => theme.avatarColors[bgColor]};
 	border-radius: 0.5rem;
 `;
 
@@ -30,6 +25,7 @@ const QuickAccess: FC<{
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
 			padding={{ all: 'extralarge' }}
+			style={{ 'border-radius': '0.5rem' }}
 		>
 			<Container padding={{ all: 'large' }} mainAlignment="flex-start" crossAlignment="flex-start">
 				<ListRow>
@@ -54,11 +50,12 @@ const QuickAccess: FC<{
 							crossAlignment="flex-start"
 							padding={{ left: 'extralarge' }}
 						>
-							<ActionContainerAccount
+							<ActionContainer
 								height={'8.75rem'}
 								mainAlignment="flex-start"
 								crossAlignment="flex-start"
 								width={'21.75rem'}
+								bgColor={item?.bgColor}
 							>
 								<ListRow>
 									<Container padding={{ all: 'large' }}>
@@ -104,7 +101,7 @@ const QuickAccess: FC<{
 										<Icon icon={item?.bottomIcon} size="medium" color="gray6" />
 									</Container>
 								</ListRow>
-							</ActionContainerAccount>
+							</ActionContainer>
 						</Container>
 					</>
 				))}
