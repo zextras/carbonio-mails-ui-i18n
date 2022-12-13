@@ -471,7 +471,10 @@
     "create_new_cos": "CREATE NEW COS",
     "create_new_domain": "Create New Domain",
     "dashboard": {
-        "quick_access_default_domain": "Quick Access to {defaultDomain}"
+        "go_to_notification": "Go to notification",
+        "new_notifications": "New Notifications",
+        "quick_access_default_domain": "Quick Access to {defaultDomain}",
+        "your_notifications": "Your Notifications"
     },
     "domain": {
         "account_gal_synchronization": "Account Name of GAL Synchronization",
@@ -752,6 +755,7 @@
         "data_volume": "Data Volume",
         "data_volumes": "Data Volumes",
         "datasource_name_for_internal_gal": "Datasource name for internal GAL",
+        "date": "Date",
         "date_and_hour": "Date & Hour",
         "date_creation": "Data Creation",
         "date_time_picker": "Date and Time Picker",
@@ -1276,6 +1280,7 @@
             "tuesday": "Tuesday",
             "wednesday": "Wednesday"
         },
+        "what_inside": "What’s inside?",
         "what_is_a_gal": "What's a GAL?",
         "who_can_send_mails_to_this_list": "Who can send mails TO this list?",
         "who_is_in_this_list": "Who's in this list?",
@@ -1346,6 +1351,15 @@
     },
     "new_bucket_connection": "CONNECTION",
     "new_bucket_summary": "SUMMARY",
+    "notification": {
+        "all": "ALL",
+        "copy": "Copy",
+        "error": "ERROR",
+        "information": "INFORMATION",
+        "mark_as_read": "Mark as read",
+        "notifications_list": "Notifications’ List",
+        "warning": "WARNING"
+    },
     "privacy": {
         "allow_data_analytics": "Allow data analytics",
         "allow_live_survey_feedbacks": "Allow surveys for feedback",
