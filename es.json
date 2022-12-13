@@ -264,7 +264,7 @@
         "before_you_leave": "Antes de irte",
         "send_scheduled": "Envío programado",
         "download_and_delete": "Descargar y borrar",
-        "enter_name": "Introducir nombre",
+        "enter_name": "Nueva firma",
         "invalid_query": "No se puede analizar la consulta de la búsqueda, bórrala y prueba de nuevo",
         "not_in_list": "{{name}} - No está en tu lista de firmas"
     },
