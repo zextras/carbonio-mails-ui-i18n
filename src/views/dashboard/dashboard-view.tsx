@@ -81,13 +81,9 @@ const Dashboard: FC = () => {
 	const openOperationView = useCallback(
 		(operation: string) => {
 			if (operation === 'account' && !!domainInformation) {
-				history.push(
-					`/${MANAGE}/${DOMAINS_ROUTE_ID}/${domainInformation?.id}/${SERVERS_LIST}/${ACCOUNTS}`
-				);
+				history.push(`/${MANAGE}/${DOMAINS_ROUTE_ID}/${domainInformation?.id}/${ACCOUNTS}`);
 			} else if (operation === 'malinglist') {
-				history.push(
-					`/${MANAGE}/${DOMAINS_ROUTE_ID}/${domainInformation?.id}/${SERVERS_LIST}/${MAILING_LIST}`
-				);
+				history.push(`/${MANAGE}/${DOMAINS_ROUTE_ID}/${domainInformation?.id}/${MAILING_LIST}`);
 			}
 		},
 		[history, domainInformation]
