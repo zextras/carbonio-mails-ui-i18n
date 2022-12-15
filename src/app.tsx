@@ -496,7 +496,7 @@ const App: FC = () => {
 			position: 1,
 			visible: true,
 			label: t('label.notifications', 'Notifications'),
-			primaryBar: 'Bell',
+			primaryBar: 'BellOutline',
 			appView: AppView,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore

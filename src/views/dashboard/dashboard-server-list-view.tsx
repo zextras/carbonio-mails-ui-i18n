@@ -7,10 +7,20 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Container, Icon, Button, Table, Text } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import ListRow from '../list/list-row';
 import { useServerStore } from '../../store/server/store';
 import { Server } from '../../../types';
 import { getVersionInfo } from '../../services/get-version-info';
+
+export const VersionText = styled(Text)`
+	background: #2b73d2;
+	width: 4.813rem;
+	border-radius: 3.125rem;
+	padding: 0.188rem 0 0 0;
+	height: 1.188rem;
+	text-align: center;
+`;
 
 const DashboardServerList: FC<{
 	goToMailStoreServerList: () => void;
@@ -18,9 +28,12 @@ const DashboardServerList: FC<{
 	const [t] = useTranslation();
 	const serverList = useServerStore((state) => state.serverList || []);
 	const [serverListRow, setServerListRow] = useState<Array<any>>([]);
+	const [serverVersion, setServerVersion] = useState<any>({});
 	const getVersionInformation = useCallback(() => {
 		getVersionInfo().then((res) => {
-			console.log('[res]:', res);
+			if (res && res?.info && Array.isArray(res?.info)) {
+				setServerVersion(res?.info[0]);
+			}
 		});
 	}, []);
 	useEffect(() => {
@@ -43,38 +56,40 @@ const DashboardServerList: FC<{
 					>
 						{item?.name}
 					</Text>,
-					<Text
+					<VersionText
 						size="small"
 						weight="bold"
-						color="gray0"
-						key={item}
+						color="gray6"
+						key={item?.name}
 						onClick={(event: { stopPropagation: () => void }): void => {
 							event.stopPropagation();
 						}}
 					>
-						{''}
-					</Text>,
-					<Text
+						{`${serverVersion?.majorversion}.${serverVersion?.minorversion}.${serverVersion?.microversion}`}
+					</VersionText>,
+					<VersionText
 						size="small"
 						weight="bold"
-						color="gray0"
-						key={item}
+						color="gray6"
+						key={item?.name}
 						onClick={(event: { stopPropagation: () => void }): void => {
 							event.stopPropagation();
 						}}
 					>
-						{''}
-					</Text>,
+						{`${serverVersion?.majorversion}.${serverVersion?.minorversion}.${serverVersion?.microversion}`}
+					</VersionText>,
 					<Text
 						size="small"
 						weight="bold"
 						color="gray0"
-						key={item}
+						key={item?.name}
 						onClick={(event: { stopPropagation: () => void }): void => {
 							event.stopPropagation();
 						}}
 					>
-						{''}
+						{item && item?.a
+							? item?.a.find((attribute: any) => attribute?.n === 'description')?._content
+							: ''}
 					</Text>
 				]
 			}));
@@ -82,14 +97,14 @@ const DashboardServerList: FC<{
 		} else {
 			setServerListRow([]);
 		}
-	}, [serverList]);
+	}, [serverList, serverVersion]);
 
 	const headers: any[] = useMemo(
 		() => [
 			{
 				id: 'server_name',
 				label: t('dashboard.server_name', 'Server name'),
-				width: '20%',
+				width: '25%',
 				bold: true
 			},
 			{
@@ -101,13 +116,13 @@ const DashboardServerList: FC<{
 			{
 				id: 'carbonio',
 				label: t('dashboard.carbonio', 'Carbonio'),
-				width: '40%',
+				width: '20%',
 				bold: true
 			},
 			{
 				id: 'description',
 				label: t('dashboard.description', 'Description'),
-				width: '40%',
+				width: '35%',
 				bold: true
 			}
 		],
