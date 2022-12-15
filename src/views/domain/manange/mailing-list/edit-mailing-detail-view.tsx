@@ -40,6 +40,7 @@ import { RouteLeavingGuard } from '../../../ui-extras/nav-guard';
 import { ALL, EMAIL, GRP, PUB, RECORD_DISPLAY_LIMIT } from '../../../../constants';
 import { searchGal } from '../../../../services/search-gal-service';
 import { getGrant } from '../../../../services/get-grant';
+import helmetLogo from '../../../../assets/helmet_logo.svg';
 
 // eslint-disable-next-line no-shadow
 export enum SUBSCRIBE_UNSUBSCRIBE {
@@ -135,6 +136,18 @@ const EditMailingListView: FC<any> = ({
 			{
 				id: 'owners',
 				label: t('label.owners', 'Owners'),
+				width: '100%',
+				bold: true
+			}
+		],
+		[t]
+	);
+
+	const grantEmailHeaders: any[] = useMemo(
+		() => [
+			{
+				id: 'grantEmail',
+				label: t('label.who_can_send_mails_to_list ', 'Who can send mails TO this list?'),
 				width: '100%',
 				bold: true
 			}
@@ -616,6 +629,10 @@ const EditMailingListView: FC<any> = ({
 
 	const [grantType, setGrantType] = useState<any>(grantTypeOptions[0]);
 	const [grantEmails, setGrantEmails] = useState<any>([]);
+	const [searchGrantEmailResult, setSearchGrantEmailResult] = useState<Array<any>>([]);
+	const [grantEmailItem, setGrantEmailItem] = useState<string>('');
+	const [grantEmailTableRows, setGrantEmailTableRows] = useState<Array<any>>([]);
+	const [selectedGrantEmail, setSelectedGrantEmail] = useState<Array<any>>([]);
 	const [grantEmailsList, setGrantEmailsList] = useState<any>([]);
 
 	const onGrantTypeChange = useCallback(
@@ -643,12 +660,12 @@ const EditMailingListView: FC<any> = ({
 						const emails: Array<any> = [];
 						grant.forEach((grItem: any) => {
 							emails.push({
-								anotherProp: 'prop1',
-								avatarIcon: 'People',
-								label: grItem?.grantee[0]?.name
+								id: grItem?.grantee[0]?.id,
+								name: grItem?.grantee[0]?.name
 							});
 						});
 						setGrantEmails(emails);
+						setGrantEmailsList(emails.map((item: any) => item?.name));
 						const it = grantTypeOptions.find((item: any) => item.value === EMAIL);
 						setPreviousDetail((prevState: any) => ({
 							...prevState,
@@ -668,12 +685,11 @@ const EditMailingListView: FC<any> = ({
 							const it = grantTypeOptions.find((item: any) => item.value === EMAIL);
 							const emails = [
 								{
-									anotherProp: 'prop1',
-									avatarIcon: 'People',
-									label: grant[0]?.grantee[0]?.name
+									id: grant[0]?.grantee[0]?.id,
+									name: grant[0]?.grantee[0]?.name
 								}
 							];
-							setGrantEmails(emails);
+							setGrantEmailsList(emails.map((item: any) => item?.name));
 							setPreviousDetail((prevState: any) => ({
 								...prevState,
 								grantType: it
@@ -721,6 +737,32 @@ const EditMailingListView: FC<any> = ({
 		setIsDirty(true);
 	}, []);
 
+	const grantItems = searchGrantEmailResult.map((item: any, index) => ({
+		id: item?.id,
+		label: item?.name,
+		customComponent: (
+			<Row
+				top="9px"
+				right="large"
+				bottom="9px"
+				left="large"
+				style={{
+					fontFamily: 'roboto',
+					display: 'block',
+					textAlign: 'left',
+					height: 'inherit',
+					padding: '3px',
+					width: 'inherit'
+				}}
+				onClick={(): void => {
+					setGrantEmailItem(item?.name);
+				}}
+			>
+				{item?.name}
+			</Row>
+		)
+	}));
+
 	const searchEmailFromGal = useCallback((searchKeyword) => {
 		searchGal(searchKeyword).then((data) => {
 			const contactList = data?.cn;
@@ -728,19 +770,11 @@ const EditMailingListView: FC<any> = ({
 				let result: any[] = [];
 				result = contactList.map((item: any): any => ({
 					id: item?.id,
-					address: item?._attrs?.email,
-					lastName: item?._attrs?.email,
-					firstName: item?._attrs?.email,
-					label: item?._attrs?.email,
-					value: {
-						label: item?._attrs?.email,
-						anotherProp: 'prop1',
-						avatarIcon: 'People'
-					}
+					name: item?._attrs?.email
 				}));
-				setGrantEmailsList(result);
+				setSearchGrantEmailResult(result);
 			} else {
-				setGrantEmailsList([]);
+				setSearchGrantEmailResult([]);
 			}
 		});
 	}, []);
@@ -823,8 +857,8 @@ const EditMailingListView: FC<any> = ({
 
 		setGrantType(previousDetail?.grantType);
 		previousDetail?.grantEmails !== undefined
-			? setGrantEmails(previousDetail?.grantEmails)
-			: setGrantEmails([]);
+			? setGrantEmailsList(previousDetail?.grantEmails)
+			: setGrantEmailsList([]);
 		setIsDirty(false);
 	};
 
@@ -1180,7 +1214,7 @@ const EditMailingListView: FC<any> = ({
 					grantee: grantEmails.map((item: any) => ({
 						type: 'email',
 						by: 'name',
-						_content: item?.label
+						_content: item
 					}))
 				}
 			};
@@ -1542,6 +1576,86 @@ const EditMailingListView: FC<any> = ({
 			searchOwnerCall(searchOwner);
 		}
 	}, [searchOwner, searchOwnerCall]);
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const searchGrantEmail = useCallback(
+		debounce((searchWord) => {
+			searchEmailFromGal(searchWord);
+		}, 700),
+		[debounce]
+	);
+
+	useEffect(() => {
+		if (grantEmailItem !== '') {
+			searchGrantEmail(grantEmailItem);
+		}
+	}, [grantEmailItem, searchGrantEmail]);
+
+	const onAddGrantEmail = useCallback(() => {
+		if (grantEmailItem !== '') {
+			const specialChars = /[ `'"<>,;]/;
+			const allEmails: any[] = specialChars.test(grantEmailItem)
+				? getAllEmailFromString(grantEmailItem)
+				: [grantEmailItem];
+			if (allEmails !== null && allEmails !== undefined) {
+				const inValidEmailAddress = allEmails.filter((item: any) => !isValidEmail(item));
+				if (inValidEmailAddress && inValidEmailAddress.length > 0) {
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: `${t('label.invalid_email_address', 'Invalid email address')} ${
+							inValidEmailAddress[0]
+						}`,
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				} else {
+					setGrantEmailItem('');
+					const sortedList = sortedUniq(allEmails);
+					const emails = uniq(grantEmailsList.concat(sortedList));
+					setGrantEmailsList(emails);
+					setGrantEmails(emails);
+					setIsDirty(true);
+				}
+			} else if (allEmails === undefined) {
+				createSnackbar({
+					key: 'error',
+					type: 'error',
+					label: `${t('label.invalid_email_address', 'Invalid email address')} ${grantEmailItem}`,
+					autoHideTimeout: 3000,
+					hideButton: true,
+					replace: true
+				});
+			}
+		}
+	}, [grantEmailsList, createSnackbar, grantEmailItem, t]);
+
+	const onDeleteFromGrantEmail = useCallback(() => {
+		if (selectedGrantEmail.length > 0) {
+			const _dlm = grantEmailsList.filter((item: any) => !selectedGrantEmail.includes(item));
+			setGrantEmailsList(_dlm);
+			setSelectedGrantEmail([]);
+			setGrantEmails(_dlm);
+			setIsDirty(true);
+		}
+	}, [selectedGrantEmail, grantEmailsList]);
+
+	useMemo(() => {
+		if (grantEmailsList && grantEmailsList.length > 0) {
+			const allRows = grantEmailsList.map((item: any) => ({
+				id: item,
+				columns: [
+					<Text size="medium" weight="bold" key={item} color="#828282">
+						{item}
+					</Text>
+				]
+			}));
+			setGrantEmailTableRows(allRows);
+		} else {
+			setGrantEmailTableRows([]);
+		}
+	}, [grantEmailsList]);
 
 	return (
 		<Container
@@ -1957,6 +2071,37 @@ const EditMailingListView: FC<any> = ({
 						</Container>
 					)}
 				</ListRow>
+				{dlmTableRows.length === 0 && !selectedMailingList?.dynamic && (
+					<ListRow>
+						<Container
+							background="gray6"
+							height="fit-content"
+							mainAlignment="center"
+							crossAlignment="center"
+						>
+							<Padding value="57px 0 0 0" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<img src={helmetLogo} alt="logo" />
+								</Row>
+							</Padding>
+							<Padding vertical="extralarge" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t('label.there_are_not_member_here', 'There aren’t members here.')}
+									</Text>
+								</Row>
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t(
+											'label.search_for_user_and_clic_to_add',
+											'Search for a user and click on the ADD button.'
+										)}
+									</Text>
+								</Row>
+							</Padding>
+						</Container>
+					</ListRow>
+				)}
 				<ListRow>
 					{!selectedMailingList?.dynamic && (
 						<Container
@@ -1996,35 +2141,6 @@ const EditMailingListView: FC<any> = ({
 						)}
 					</Text>
 				</Row>
-
-				<ListRow>
-					<Container>
-						<Select
-							items={grantTypeOptions}
-							background="gray5"
-							label={t('label.who_can_send_mails_to_this_list', 'Who can send mails TO this list?')}
-							showCheckbox={false}
-							onChange={onGrantTypeChange}
-							selection={grantType}
-						/>
-					</Container>
-
-					<Container padding={{ all: 'small' }}>
-						<ChipInput
-							defaultValue={grantEmails}
-							value={grantEmails}
-							placeholder={t('label.type_in_the_mails', 'Type in the mails')}
-							options={grantEmailsList}
-							requireUniqueChips
-							onChange={onEmailAdd}
-							background="gray5"
-							disabled={grantType?.value !== EMAIL}
-							onInputType={(e: any): void => {
-								searchEmailFromGal(e?.textContent);
-							}}
-						/>
-					</Container>
-				</ListRow>
 
 				<Row
 					takeAvwidth="fill"
@@ -2131,6 +2247,38 @@ const EditMailingListView: FC<any> = ({
 					</Container>
 				</ListRow>
 
+				{ownerTableRows.length === 0 && (
+					<ListRow>
+						<Container
+							background="gray6"
+							height="fit-content"
+							mainAlignment="center"
+							crossAlignment="center"
+						>
+							<Padding value="57px 0 0 0" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<img src={helmetLogo} alt="logo" />
+								</Row>
+							</Padding>
+							<Padding vertical="extralarge" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t('label.there_are_no_owners', 'There aren’t owners here.')}
+									</Text>
+								</Row>
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t(
+											'label.search_for_user_and_clic_to_add',
+											'Search for a user and click on the ADD button.'
+										)}
+									</Text>
+								</Row>
+							</Padding>
+						</Container>
+					</ListRow>
+				)}
+
 				<ListRow>
 					<Container
 						padding={{ all: 'small' }}
@@ -2140,6 +2288,138 @@ const EditMailingListView: FC<any> = ({
 						<Paging totalItem={1} pageSize={10} setOffset={setOwnerOffset} />
 					</Container>
 				</ListRow>
+
+				<ListRow>
+					<Container padding={{ top: 'large', bottom: 'large' }}>
+						<Divider />
+					</Container>
+				</ListRow>
+
+				<ListRow>
+					<Container>
+						<Select
+							items={grantTypeOptions}
+							background="gray5"
+							label={t('label.who_can_send_mails_to_this_list', 'Who can send mails TO this list?')}
+							showCheckbox={false}
+							onChange={onGrantTypeChange}
+							selection={grantType}
+						/>
+					</Container>
+				</ListRow>
+				<ListRow>
+					<Container
+						mainAlignment="flex-start"
+						crossAlignment="flex-start"
+						orientation="horizontal"
+						padding={{ top: 'large', right: 'small' }}
+						width="65%"
+					>
+						<Dropdown
+							items={grantItems}
+							placement="bottom-start"
+							maxWidth="300px"
+							disableAutoFocus
+							width="265px"
+							style={{
+								width: '100%'
+							}}
+						>
+							<Input
+								label={t(
+									'label.type_an_account_add_senders_list',
+									'Type an account to add it to the sender for the list'
+								)}
+								backgroundColor="gray5"
+								size="medium"
+								value={grantEmailItem}
+								onChange={(e: any): void => {
+									setGrantEmailItem(e.target.value);
+								}}
+								disabled={grantType?.value !== EMAIL}
+							/>
+						</Dropdown>
+					</Container>
+					<Container
+						mainAlignment="flex-start"
+						crossAlignment="center"
+						orientation="horizontal"
+						width="fit"
+						padding={{ top: 'large', right: 'small' }}
+					>
+						<Button
+							type="outlined"
+							label={t('label.add', 'Add')}
+							color="primary"
+							icon="PlusOutline"
+							iconPlacement="right"
+							height={44}
+							onClick={onAddGrantEmail}
+							disabled={grantEmailItem === ''}
+						/>
+					</Container>
+					<Container
+						mainAlignment="flex-start"
+						crossAlignment="center"
+						orientation="horizontal"
+						padding={{ top: 'large', right: 'small' }}
+						width="fit"
+					>
+						<Button
+							type="outlined"
+							label={t('label.delete', 'Delete')}
+							color="error"
+							icon="Trash2Outline"
+							iconPlacement="right"
+							height={44}
+							onClick={onDeleteFromGrantEmail}
+							disabled={selectedGrantEmail && selectedGrantEmail.length === 0}
+						/>
+					</Container>
+				</ListRow>
+
+				<ListRow>
+					<Container padding={{ top: 'large', bottom: 'large' }}>
+						<Table
+							rows={grantEmailTableRows}
+							headers={grantEmailHeaders}
+							showCheckbox={false}
+							selectedRows={selectedGrantEmail}
+							onSelectionChange={(selected: any): void => setSelectedGrantEmail(selected)}
+						/>
+					</Container>
+				</ListRow>
+				{grantEmailTableRows.length === 0 && (
+					<ListRow>
+						<Container
+							background="gray6"
+							height="fit-content"
+							mainAlignment="center"
+							crossAlignment="center"
+						>
+							<Padding value="57px 0 0 0" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<img src={helmetLogo} alt="logo" />
+								</Row>
+							</Padding>
+							<Padding vertical="extralarge" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t('label.there_are_not_member_here', 'There aren’t members here.')}
+									</Text>
+								</Row>
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t(
+											'label.search_for_user_and_clic_to_add',
+											'Search for a user and click on the ADD button.'
+										)}
+									</Text>
+								</Row>
+							</Padding>
+						</Container>
+					</ListRow>
+				)}
 			</Container>
 			<Modal
 				title={

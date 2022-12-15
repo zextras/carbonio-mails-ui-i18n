@@ -12,7 +12,8 @@ import {
 	Button,
 	Table,
 	Dropdown,
-	SnackbarManagerContext
+	SnackbarManagerContext,
+	Padding
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { debounce, sortedUniq, uniq } from 'lodash';
@@ -25,6 +26,7 @@ import {
 import { MailingListContext } from './mailinglist-context';
 import { RECORD_DISPLAY_LIMIT } from '../../../../constants';
 import { searchDirectory } from '../../../../services/search-directory-service';
+import helmetLogo from '../../../../assets/helmet_logo.svg';
 
 const MailingListMembersSection: FC<any> = () => {
 	const { t } = useTranslation();
@@ -284,6 +286,37 @@ const MailingListMembersSection: FC<any> = () => {
 						/>
 					</Container>
 				</ListRow>
+				{dlmTableRows.length === 0 && (
+					<ListRow>
+						<Container
+							background="gray6"
+							height="fit-content"
+							mainAlignment="center"
+							crossAlignment="center"
+						>
+							<Padding value="57px 0 0 0" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<img src={helmetLogo} alt="logo" />
+								</Row>
+							</Padding>
+							<Padding vertical="extralarge" width="100%">
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t('label.there_are_not_member_here', 'There aren’t members here.')}
+									</Text>
+								</Row>
+								<Row takeAvwidth="fill" mainAlignment="center" width="100%">
+									<Text size="large" color="secondary" weight="regular">
+										{t(
+											'label.search_for_user_and_clic_to_add',
+											'Search for a user and click on the ADD button.'
+										)}
+									</Text>
+								</Row>
+							</Padding>
+						</Container>
+					</ListRow>
+				)}
 			</Container>
 		</Container>
 	);

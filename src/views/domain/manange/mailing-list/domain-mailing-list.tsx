@@ -501,7 +501,7 @@ const DomainMailingList: FC = () => {
 						grantee: ownerGrantEmails.map((item: any) => ({
 							type: 'email',
 							by: 'name',
-							_content: item?.label
+							_content: item
 						}))
 					}
 				};
