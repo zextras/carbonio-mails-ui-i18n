@@ -15,7 +15,11 @@ const DashboardNotification: FC<{
 }> = ({ goToMailNotificationt }) => {
 	const [t] = useTranslation();
 	return (
-		<Container background="gray6" style={{ borderRadius: '0.5rem' }}>
+		<Container
+			background="gray6"
+			style={{ borderRadius: '0.5rem' }}
+			padding={{ bottom: 'extralarge' }}
+		>
 			<ListRow>
 				<Container
 					padding={{ all: 'extralarge' }}

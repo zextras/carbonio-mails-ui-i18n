@@ -32,7 +32,11 @@ const QuickAccess: FC<{
 			padding={{ all: 'extralarge' }}
 			style={{ borderRadius: '0.5rem' }}
 		>
-			<Container padding={{ all: 'large' }} mainAlignment="flex-start" crossAlignment="flex-start">
+			<Container
+				padding={{ bottom: 'large', right: 'large', left: 'large' }}
+				mainAlignment="flex-start"
+				crossAlignment="flex-start"
+			>
 				<ListRow>
 					<Container mainAlignment="flex-start" crossAlignment="flex-start" width="2rem">
 						<Icon icon="FlashOutline" height={'1.5rem'} width="1.5rem" />
