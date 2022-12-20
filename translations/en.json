@@ -588,10 +588,13 @@
         "yes": "Yes"
     },
     "label": {
+        "ADD_NEW": "ADD NEW",
         "DELETE": "DELETE",
+        "EDIT": "EDIT",
         "I_want_to_see_this_server_details": "i want to see this server’s details",
         "NEW_OTP": "NEW OTP",
         "OTP": "OTP",
+        "REMOVE": "REMOVE",
         "abq_status": "ABQ Status",
         "access_key": "Access Key",
         "account": "Account",
@@ -763,6 +766,7 @@
         "default_font_family": "Default Font Family",
         "default_font_size": "Default Font Size",
         "default_settings": "Default Settings",
+        "delegates": "DELEGATES",
         "delet_bucket_header": "Removing {{name}}",
         "delet_volume_header": "Delete {{name}} ?",
         "delete": "Delete",

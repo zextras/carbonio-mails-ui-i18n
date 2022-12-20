@@ -25,6 +25,7 @@ import { useDomainStore } from '../../../../store/domain/store';
 import Paging from '../../../components/paging';
 import { accountListDirectory } from '../../../../services/account-list-directory-service';
 import { getAccountRequest } from '../../../../services/get-account';
+import { getAccountIdentities } from '../../../../services/get-account-identities';
 import { getAccountMembershipRequest } from '../../../../services/get-account-membership';
 import { getSingatures } from '../../../../services/get-signature-service';
 import AccountDetailView from './account-detail-view';
@@ -42,6 +43,7 @@ const ManageAccounts: FC = () => {
 	const [inDirectMemberList, setInDirectMemberList] = useState<any>({});
 	const [initAccountDetail, setInitAccountDetail] = useState<any>({});
 	const [otpList, setOtpList] = useState<any[]>([]);
+	const [identitiesList, setIdentitiesList] = useState<any[]>([]);
 
 	const headers: any = useMemo(
 		() => [
@@ -261,6 +263,45 @@ const ManageAccounts: FC = () => {
 		},
 		[t]
 	);
+	const getIdentitiesList = useCallback(
+		(id): void => {
+			getAccountIdentities(id).then((res) => {
+				if (res?.ok) {
+					const otpListResponse = res.response?.list;
+					if (otpListResponse && Array.isArray(otpListResponse)) {
+						const otpListArr: any = [];
+						otpListResponse.map((item: any): any => {
+							otpListArr.push({
+								id: item?.id,
+								columns: [
+									<Text size="medium" key={item?.id} color="#414141">
+										{item?.label || ' '}
+									</Text>,
+									<Text size="medium" key={item?.id} color="#414141">
+										{item?.status ? t('label.enabled', 'Enabled') : t('label.disabled', 'Disabled')}
+									</Text>,
+									<Text size="medium" key={item?.id}>
+										{item?.failed_attempts}
+									</Text>,
+									<Text size="medium" key={item?.id}>
+										{moment(item?.created).format('DD/MMM/YYYY')}
+									</Text>,
+									<Text size="medium" key={item?.id} color="#414141">
+										{item?.description || <>&nbsp;</>}
+									</Text>
+								],
+								item,
+								clickable: true
+							});
+							return '';
+						});
+						setOtpList(otpListArr);
+					}
+				}
+			});
+		},
+		[t]
+	);
 	const openDetailView = useCallback(
 		(acc: any): void => {
 			setSelectedAccount(acc);
@@ -269,8 +310,9 @@ const ManageAccounts: FC = () => {
 			getSignatureDetail(acc?.id);
 			getAccountMembership(acc?.id);
 			getListOtp(acc?.name);
+			getIdentitiesList(acc?.name);
 		},
-		[getAccountDetail, getAccountMembership, getSignatureDetail, getListOtp]
+		[getAccountDetail, getAccountMembership, getSignatureDetail, getListOtp, getIdentitiesList]
 	);
 	const getAccountList = useCallback((): void => {
 		const type = 'accounts';
@@ -537,7 +579,8 @@ const ManageAccounts: FC = () => {
 					setSignatureItems,
 					setSignatureList,
 					otpList,
-					getListOtp
+					getListOtp,
+					identitiesList
 				}}
 			>
 				{showAccountDetailView && (
