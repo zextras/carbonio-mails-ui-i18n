@@ -17,6 +17,8 @@ import {
 	Button,
 	Modal,
 	SnackbarManagerContext,
+	Chip,
+	Divider,
 	Table
 } from '@zextras/carbonio-design-system';
 import { Trans, useTranslation } from 'react-i18next';
@@ -69,6 +71,7 @@ const AccountDetailView: FC<any> = ({
 	const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 	const createSnackbar: any = useContext(SnackbarManagerContext);
+	const [accountAliases, setAccountAliases] = useState<any[]>([]);
 	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const [userSessionList, setUserSessionList] = useState<Array<UserSession>>([]);
 	const [sessionListRows, setSessionListRows] = useState<Array<any>>([]);
@@ -112,6 +115,13 @@ const AccountDetailView: FC<any> = ({
 	useEffect(() => {
 		getDataSourceDetail();
 	}, [getDataSourceDetail]);
+
+	useEffect(() => {
+		if (accountDetail?.mail) {
+			const aliaes = accountDetail.mail.split(', ').map((ele: string) => ({ label: ele }));
+			setAccountAliases(aliaes);
+		}
+	}, [accountDetail?.mail]);
 
 	const onDeleteAccount = useCallback(() => {
 		setIsOpenDeleteDialog(true);
@@ -466,6 +476,32 @@ const AccountDetailView: FC<any> = ({
 								value={selectedAccount?.name || ''}
 								readOnly
 							/>
+						</Row>
+					</Row>
+				</Row>
+				<Row width="100%" padding={{ top: 'large' }}>
+					<Row width="100%" mainAlignment="flex-start" crossAlignment="flex-start">
+						<Row padding={{ left: 'large', bottom: 'small' }}>
+							<Text size="small" color="secondary">
+								{t('account_details.aliases', 'Aliases')}
+							</Text>
+						</Row>
+						<Row width="95%">
+							<Container
+								orientation="horizontal"
+								wrap="wrap"
+								mainAlignment="flex-start"
+								maxWidth="44rem"
+								style={{ gap: '0.5rem' }}
+								padding={{ left: 'large' }}
+							>
+								{accountAliases?.map(
+									(ele, index) => index > 0 && <Chip key={`chip${index}`} label={ele.label} />
+								)}
+							</Container>
+							<Row width="100%" padding={{ top: 'medium' }}>
+								<Divider color="gray2" />
+							</Row>
 						</Row>
 					</Row>
 				</Row>

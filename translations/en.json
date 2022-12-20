@@ -17,6 +17,7 @@
         "add_forwarded_invites_to_calendar": "Automatically add forwarded appointments to the calendar",
         "add_invites_with_publish_method": "Add invites with PUBLISH method",
         "advanced_search": "Advanced Search",
+        "aliases": "Aliases",
         "allow_sending_cancellation_mail": "Allow sending cancellation mail",
         "allow_sending_from_any_address": "Allow sending from any address",
         "always_show_mini_calendar": "Always show mini calendar",
@@ -31,6 +32,7 @@
         "can_send_auto_reply_messages": "Can send auto-reply messages",
         "can_specify_forwarding_address": "Can specify a forwarding address",
         "cannot_check_for_less_than": "Check every",
+        "click_on_the_pencil_to_edit": "Click on the pencil to edit the available alias or click on the cross to delete it",
         "contact": "Contact",
         "default_COS": "Default COS",
         "default_view": {
@@ -42,6 +44,7 @@
         },
         "display_external_image_as_html": "Display external image as HTML",
         "distribution_list_folder": "Mailing List Folder",
+        "domain": "Domain",
         "dont_keep_local_copy_of_messages": "Don't save local copy of messages",
         "enable_address_for_new_email_notifications": "Enable the address to receive notifications for new emails",
         "enable_auto_add_contacts": "Enable auto-add contacts",
@@ -65,9 +68,12 @@
         "mail": "Mail",
         "mail_signature": "Mail Signature",
         "mail_signatures": "Mail Signatures",
+        "manage_aliases": "MANAGE ALIAS",
+        "manage_the_aliases_for_this_account": "Manage the Aliases for this account",
         "manuallly": "Manually",
         "message_priority": "Message Priority",
         "min_new_check_interval_value": "Value",
+        "new_alias_name": "New Alias Name",
         "new_mail_notification": "New Mail Notification",
         "notify_changes_by_delegated_access": "Notify changes made by delegated accounts",
         "offline_support_for_advanced_ajax_client": "Offline support for Advanced (Ajax) client",
@@ -92,10 +98,13 @@
         "this_account_is_a_in_direct_member_of": "This account is an indirect member of",
         "this_is_global_administrator": "This is a Global Administrator ",
         "this_user_must_change_password": "This user must change password",
+        "type_name_of_aliases": "Type the new Alias Name and select a domain to add it to your available aliases ",
+        "type_the_new_alias_name": "Type the new Alias Name and select a domain to add it to your available aliases",
         "use_gal_to_auto_fill": "Use GAL to auto-fill",
         "use_ical_delegation_model_for_shared_calendars": "Use iCal delegation model for shared calendars",
         "use_quickadd_dialog_in_creation": "Use QuickAdd dialog in creation",
-        "view_mail_as_html": "View mail as HTML"
+        "view_mail_as_html": "View mail as HTML",
+        "your_available_aliases": "Your Available Aliases"
     },
     "backup": {
         "advanced": "Advanced",
@@ -588,6 +597,7 @@
         "yes": "Yes"
     },
     "label": {
+        "Aliases": "Aliases",
         "DELETE": "DELETE",
         "I_want_to_see_this_server_details": "i want to see this server’s details",
         "NEW_OTP": "NEW OTP",

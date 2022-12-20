@@ -14,7 +14,9 @@ type DomainState = {
 	cosList: Array<Cos>;
 	domainView: string;
 	setDomain: (domain: Domain) => void;
+	domainList: Array<Domain>;
 	setCosList: (cosList: Array<Cos>) => void;
+	setDomainList: (domainList: Array<Domain>) => void;
 	removeDomain: () => void;
 	setDomainView: (domainView: string) => void;
 };
@@ -25,6 +27,8 @@ export const useDomainStore = create<DomainState>(
 		cosList: [],
 		domainView: DOMAIN_DETAIL_VIEW,
 		setDomain: (domain): void => set({ domain }, false, 'setDomain'),
+		domainList: [],
+		setDomainList: (domainList): void => set({ domainList }, false, 'setDomainList'),
 		setCosList: (cosList): void => set({ cosList }, false, 'setCosList'),
 		removeDomain: (): void =>
 			set(

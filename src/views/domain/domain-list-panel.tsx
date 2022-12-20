@@ -69,6 +69,7 @@ const DomainListPanel: FC = () => {
 	const [isDomainSelect, setIsDomainSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
 	const setDomain = useDomainStore((state) => state.setDomain);
+	const setDomainListStore = useDomainStore((state) => state.setDomainList);
 	const domainInformation = useDomainStore((state) => state.domain);
 	const [isDetailListExpanded, setIsDetailListExpanded] = useState(true);
 	const [isManageListExpanded, setIsManageListExpanded] = useState(true);
@@ -84,6 +85,7 @@ const DomainListPanel: FC = () => {
 			const searchResponse: any = data;
 			if (!!searchResponse && searchResponse?.searchTotal > 0) {
 				setDomainList(searchResponse?.domain);
+				setDomainListStore(searchResponse?.domain);
 			} else {
 				setDomainList([]);
 			}
