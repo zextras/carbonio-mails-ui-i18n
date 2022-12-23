@@ -113,8 +113,8 @@ const DomainMailboxQuotaSetting: FC = () => {
 				const usedQuota: any = data?.account;
 				if (usedQuota && Array.isArray(usedQuota)) {
 					const quota: any = [];
-					if (data?.Body?.GetQuotaUsageResponse?.searchTotal) {
-						setTotalAccount(data?.Body?.GetQuotaUsageResponse?.searchTotal);
+					if (data?.searchTotal) {
+						setTotalAccount(data?.searchTotal);
 					}
 					usedQuota.map((item: any, index): any => {
 						let diskUsed: any = 0;
