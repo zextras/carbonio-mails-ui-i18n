@@ -104,12 +104,16 @@ const DomainMailboxQuotaSetting: FC = () => {
 	const [usageQuota, setUsageQuota] = useState<any[]>([]);
 	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const [offset, setOffset] = useState<number>(0);
-	const [limit, setLimit] = useState<number>(10);
+	const [limit, setLimit] = useState<number>(20);
 	const [totalAccount, setTotalAccount] = useState<number>(0);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(true);
 
 	const getQuotaUsageInformation = useCallback(
 		(domainName: string): void => {
+			setIsRequestInProgress(true);
+			setUsageQuota([]);
 			getQuotaUsage(domainName, offset, limit).then((data) => {
+				setIsRequestInProgress(false);
 				const usedQuota: any = data?.account;
 				if (usedQuota && Array.isArray(usedQuota)) {
 					const quota: any = [];
@@ -156,7 +160,6 @@ const DomainMailboxQuotaSetting: FC = () => {
 						});
 						return '';
 					});
-					setUsageQuota([]);
 					setUsageQuota(quota);
 				}
 			});
@@ -480,7 +483,26 @@ const DomainMailboxQuotaSetting: FC = () => {
 						</Row>
 						<Container padding={{ all: 'large' }}>
 							<ListRow>
-								<Table rows={usageQuota} headers={headers} showCheckbox={false} />
+								<Row>
+									<Table rows={usageQuota} headers={headers} showCheckbox={false} />
+									{isRequestInProgress && (
+										<Container
+											crossAlignment="center"
+											mainAlignment="center"
+											height="fit"
+											padding={{ top: 'medium' }}
+										>
+											<Button
+												type="ghost"
+												iconColor="primary"
+												height={36}
+												label=""
+												width={36}
+												loading
+											/>
+										</Container>
+									)}
+								</Row>
 							</ListRow>
 							<Row
 								orientation="horizontal"
