@@ -1598,12 +1598,12 @@
         "pacific_tongatapu": "{{value}} Nuku’alofa",
         "utc": "{{value}} Coordinated Universal Time"
     },
+    "to_carbonio": "to Carbonio!",
     "virtual_hosts": {
         "load": "LOAD",
         "load_and_verify_certificate": "Load and Verify Certificate",
         "load_certificate": "LOAD CERTIFICATE"
     },
-    "to_carbonio": "to Carbonio!",
     "volume": {
         "new": {
             "create_mailstores_volume": "Create Mailstores Volume"
