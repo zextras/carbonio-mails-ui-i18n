@@ -46,7 +46,7 @@ import {
 	MONITORING,
 	MTA,
 	NOTIFICATION_ROUTE_ID,
-	OPERATIONS,
+	OPERATIONS_ROUTE_ID,
 	PRIVACY_ROUTE_ID,
 	SERVICES_ROUTE_ID,
 	STORAGES_ROUTE_ID,
@@ -493,10 +493,22 @@ const App: FC = () => {
 
 		addRoute({
 			route: NOTIFICATION_ROUTE_ID,
-			position: 1,
+			position: 5,
 			visible: true,
 			label: t('label.notifications', 'Notifications'),
 			primaryBar: 'BellOutline',
+			appView: AppView,
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			primarybarSection: { ...logAndQueuesSection }
+		});
+
+		addRoute({
+			route: OPERATIONS_ROUTE_ID,
+			position: 6,
+			visible: true,
+			label: t('label.operations', 'Operations'),
+			primaryBar: 'ListOutline',
 			appView: AppView,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
