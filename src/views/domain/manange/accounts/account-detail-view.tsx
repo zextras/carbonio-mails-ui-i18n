@@ -424,17 +424,6 @@ const AccountDetailView: FC<any> = ({
 							onClick={onViewMail}
 						/>
 					</Padding>
-					{isAdvanced && (
-						<Button
-							type="outlined"
-							label={t('label.restart_replica', 'RESTART REPLICA')}
-							icon="RefreshOutline"
-							iconPlacement="right"
-							color="primary"
-							height={44}
-							disabled
-						/>
-					)}
 				</Row>
 				<Row padding={{ top: 'extralarge' }}>
 					<Text
