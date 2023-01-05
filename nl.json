@@ -107,14 +107,17 @@
             "subscription_last_check": "Abonnement Laatste Controle",
             "subscription_type": "Abonnementstype",
             "token": "Token",
-            "version": "Zextras versie",
+            "version": "Moduleversie",
             "modal": {
                 "warning": "U probeert het huidige token te deactiveren. Als u dat doet, worden alle ingeschakelde functies gedeactiveerd.",
                 "label": "Token deactiveren",
                 "deactivate": "Ja, Deactiveren",
                 "confirm": "Weet u zeker dat u wilt doorgaan?",
                 "cancel": "NEE"
-            }
+            },
+            "activate": "Activeren",
+            "activation": "Activering",
+            "deactivate": "Deactiveren"
         }
     },
     "label": {
@@ -618,13 +621,12 @@
         "default_calendar_view": "Standaard kalenderweergave",
         "hsm_settings": "HSM Instellingen",
         "i_want_to_send_invites_to_resource": "Agenda-uitnodigingen doorsturen naar deze adressen",
-        "mail_stores": "Mailstores",
         "max_email_quota_you_can_manage_is": "De maximale e-mail-quota die u kunt beheren is…",
         "new_config": "CONFIG",
         "new_mailing_list": "Nieuwe Mailinglijst",
         "no_owner_search_information_message": "Er zijn hier geen eigenaars. Zoek een gebruiker en klik op de ADD knop.",
         "percentage_maximum_conflict": "% Maximum Conflict",
-        "virtual_host_user_msg_1": "U kunt de service bijvoorbeeld beschikbaar maken voor zowel mail.example.com als webamil.example.com.",
+        "virtual_host_user_msg_1": "U kunt de service bijvoorbeeld beschikbaar maken voor zowel mail.example.com als webmail.example.com.",
         "virtual_host_user_msg_2": "Virtuele hosts moeten uniek zijn voor het domein, zodat het systeem begrijpt tot welk domein de gebruiker behoort en we de aangepaste optie voor het domein kunnen tonen",
         "bucket_List": "Bucket-lijst",
         "bucket_list": "Bucket-lijst",
@@ -726,7 +728,97 @@
         "wipe_device": "Apparaat wissen",
         "advanced_lbl": "Geavanceerd",
         "allowed": "Toegelaten",
-        "global": "Globaal"
+        "global": "Globaal",
+        "failed": "Mislukt",
+        "remove_button": "VERWIJDEREN",
+        "session_id": "Sessie-ID",
+        "delete_content_is_current": "U probeert {{name}} te verwijderen. Dit volume is ingesteld als huidig. U moet een ander volume instellen als het huidige voordat u het verwijdert.",
+        "logo_description": "Plak de URL van het logo voor de inlogpagina. Gebruik SVG of PNG bestand met transparante achtergrond, afmeting 240x120 pixels.",
+        "move_item_to_an_external_bucket": "Items verplaatsen naar een externe bucket",
+        "owners_description_msg_1": "Eigenaars kunnen leden toevoegen en verwijderen, de weergavenaam en beschrijving wijzigen, de zichtbaarheid van de lijst wijzigen (d.w.z. verbergen in gal), het eigendom wijzigen, het inschrijvings-/uitschrijvingsgedrag wijzigen.",
+        "selected_empty_bucket_helperText": "U hebt geen bucket geselecteerd.\n\t\t\t\t\t\t\t\t\t\t\tU kunt beginnen te typen in het bovenstaande\n\t\t\t\t\t\t\t\t\t\t\tveld om ze te bekijken.",
+        "NEW_OTP": "NIEUWE OTP",
+        "abq_status": "ABQ Status",
+        "active_sessions": "Actieve sessies",
+        "active_sync_active_paused": "De activesync is actief/pauzeerd",
+        "admin_panel": "Admin Panel",
+        "admin_panel_theme_description": "In dit gedeelte kunt u het Admin Panel aanpassen met uw bedrijfslogo en afbeelding.",
+        "admin_panel_title": "ADMIN PANEL",
+        "apperance": "Vormgeving",
+        "aware_of_doing_device_factory_settings": "Ik wil de fabrieksinstellingen herstellen",
+        "background": "Achtergrond",
+        "background_description": "Plak de URL van de afbeelding voor de inlogpagina. Gebruik een JPG-bestand, afmeting 2560x1440 pixels, maximaal 800 KB.",
+        "background_for_the_login_page": "Achtergrond voor de inlogpagina",
+        "background_login_page": "Achtergrond Login Pagina",
+        "blocked": "Geblokkeerd",
+        "can_not_receiver": "Kan niet ontvangen",
+        "cancle_button_is_current": "OK, BEGREPEN",
+        "close_the_resource": "De hulpbron sluiten",
+        "create_otp": "OTP CREËREN",
+        "create_otp_list_msg": "U kunt een nieuwe OTP aanmaken door op de <bold>NIEUWE OTP</bold> knop hierboven te klikken",
+        "dark_mode": "<bold>Donker</bold> Modus",
+        "delet_volume_header": "{{name}} verwijderen?",
+        "destination": "Bestemming",
+        "eligible_servers": "In aanmerking komende Servers",
+        "end_session": "Sessie beëindigen",
+        "end_user_theme_description": "In dit gedeelte kunt u de WebApp aanpassen met uw bedrijfslogo en afbeelding.",
+        "end_user_title": "EINDGEBRUIKER",
+        "end_user_webapp": "WebApp Eindgebruiker",
+        "false": "Onjuist",
+        "favicon": "Favicon",
+        "favicon_description": "Plak de URL van de favicon voor de inlogpagina. Gebruik een ICO-bestand, afmeting 16x16 pixels.",
+        "favicon_path": "Favicon Path",
+        "filter_by_device_type_account": "Filteren op apparaattype, account, status",
+        "i_m_looking_for_the_session": "Ik ben op zoek naar de sessie...",
+        "image_path": "Afbeelding Path",
+        "index_volume": "Dit is een indexvolume",
+        "ip": "IP",
+        "light_mode": "<bold>Licht</bold> Modus",
+        "link_button": "LINK",
+        "logo": "Logo",
+        "logo_for_login_page": "Logo voor inlogpagina",
+        "logo_for_webapp": "Logo voor WebApp",
+        "logo_path": "Logo Path",
+        "logoff_from_every_device": "Uitloggen bij elk apparaat",
+        "manage_external_volume_and_move_all": "EXTERN VOLUME BEHEREN en alle items naar lokaal pad verplaatsen",
+        "migrate": "Migreren",
+        "mountpoint": "Mountpoint",
+        "move_item_to_a_local_mountpoint": "Items verplaatsen naar een lokaal Mountpoint",
+        "no_donot_reset_device": "Nee, niet resetten",
+        "no_donot_wipe_device": "Nee, niet vegen",
+        "object_storage": "Objectopslag",
+        "operation_now_in_queue": "De operatie staat nu in de wachtrij",
+        "otp_deleted_successfully": "OTP is met succes verwijderd",
+        "owners_settings_lbl": "Instellingen eigenaars",
+        "primary_volume": "Dit is een primair volume",
+        "quarantined": "In quarantaine geplaatst",
+        "registration": "Registratie",
+        "reset_domain_theme": "{{name}} thema opnieuw instellen",
+        "reset_global_theme": "Globaal thema opnieuw instellen",
+        "reset_theme_content_1": "Weet u zeker dat u het thema opnieuw wilt instellen?",
+        "reset_theme_content_2": "Als u op de knop JA klikt, gaan alle gegevens verloren.",
+        "rest_device_warning_msg_1": "Door een apparaat te wissen worden de fabrieksinstellingen hersteld. Weet je zeker dat je door wilt gaan? ",
+        "secondary_volume": "Dit is een secundair volume",
+        "security": "BEVEILIGING",
+        "select_a_bucket_configuration": "Een bucketonfiguratie",
+        "selected_empty_bucket": "U hebt geen bucket geselecteerd. U kunt in het bovenstaande veld beginnen te typen om ze te bekijken.",
+        "session_end_success": "Sessie met succes beëindigd",
+        "storage_centralized": "Ik wil dat deze opslag wordt gecentraliseerd",
+        "storage_centralized_helptext": "Gecentraliseerde gegevens zijn nuttig wanneer twee of meer servers toegang moeten hebben tot dezelfde gegevens. \n Door gegevens op één plaats te bewaren, is het gemakkelijker om zowel de hardware als de gegevens zelf te beheren. ",
+        "suspend": "Schorsen",
+        "title_theme_note": "De titel is de naam die zal verschijnen op het tabblad van de browser",
+        "total_acc_rights_with_delete_distribution_list_helper_text": "Deze lijst heeft <bold>{{totalAccRights}}</bold> rechten voor gedeelde accounts. <br /> Als u deze lijst verwijdert gaan alle rechten verloren.",
+        "true": "Waar",
+        "use_https_protocol_message": "U moet het HTTPS-protocol gebruiken",
+        "user_agent": "Gebruikersagent",
+        "volume_definition": "DEFINITIE",
+        "will_be_centralized_in_helptext": "Wordt gecentraliseerd in",
+        "wipe_device_factory_settings": "Het apparaat wissen naar de fabrieksinstellingen",
+        "wiping_device_warning_msg_1": "Door een apparaat te wissen worden de fabrieksinstellingen hersteld. Weet je zeker dat je door wilt gaan?",
+        "yes_reset_the_device": "Ja, reset het apparaat",
+        "yes_wipe_the_device": "Ja, wis het apparaat",
+        "you_are_trying_reset_device": "U probeert een apparaat te resetten",
+        "you_are_trying_wipe_device": "U probeert een apparaat te wissen"
     },
     "timezone": {
         "europe_belgrade": "{{value}} Belgrado, Bratislava, Boedapest, Ljubljana, Praag",
@@ -984,7 +1076,11 @@
         "smart_scan_configuration": "SmartScan Configuratie",
         "bucket_list": "Buckets Lijst",
         "external_volume": "Extern volume",
-        "kb": "KB"
+        "kb": "KB",
+        "bucket_configuration": "Bucketconfiguratie",
+        "local_mountpoint": "Lokaal Mountpunt",
+        "manage_external_volume": "Extern volume beheren",
+        "ms": "MS"
     },
     "cos": {
         "calendar_options": "Agendaopties",
@@ -1134,7 +1230,8 @@
         "use_quickadd_dialog_in_creation": "Gebruik het QuickAdd-dialoogvenster bij creatie",
         "yes_disable": "Ja, Uitschakelen",
         "dark_mode": "Donkere modus",
-        "active_sync": "ActiveSync"
+        "active_sync": "ActiveSync",
+        "activesync_remote_access": "ActiveSync toegang op afstand"
     },
     "locale": {
         "English": "Engels",
@@ -1176,7 +1273,8 @@
     },
     "account": {
         "new": {
-            "create_account_wizard": "Account Wizard creëren"
+            "create_account_wizard": "Account Wizard creëren",
+            "create_otp_wizard": "OTP creëren"
         }
     },
     "select_domain_or_create_new": "Selecteer een domein uit het menu aan de linkerkant of klik op de knop \"Aanmaken\" om een nieuw domein aan te maken.",
@@ -1279,7 +1377,8 @@
         "use_gal_to_auto_fill": "Gebruik GAL om automatisch te vullen",
         "use_ical_delegation_model_for_shared_calendars": "Gebruik iCal delegatiemodel voor gedeelde agenda's",
         "use_quickadd_dialog_in_creation": "Gebruik het QuickAdd-dialoogvenster bij creatie",
-        "view_mail_as_html": "Mail bekijken als HTML"
+        "view_mail_as_html": "Mail bekijken als HTML",
+        "activesync_remote_access": "ActiveSync toegang op afstand"
     },
     "privacy": {
         "send_full_error_data_to_zextras": "Stuur volledige foutgegevens naar Zextras",
@@ -1313,12 +1412,16 @@
             "index": "Index",
             "primary": "Primair",
             "secondary": "Secundair",
-            "server": "Server"
+            "server": "Server",
+            "HSM Scheduling": "HSM-planning",
+            "indexer": "Indexer",
+            "server_name": "Servernaam"
         },
         "volume_allocation_list": {
             "centralized": "Gecentraliseerd",
             "external": "Extern",
-            "local": "Locaal"
+            "local": "Locaal",
+            "sproxy": "Sproxy"
         },
         "volume_header": {
             "id": "ID",
@@ -1339,7 +1442,9 @@
             "secondary": "Secundair"
         },
         "volume_config_header": {
-            "name": "Naam"
+            "name": "Naam",
+            "hsm_scheduled": "HSM gepland",
+            "indexer": "Indexer"
         }
     },
     "hsm": {
@@ -1385,6 +1490,42 @@
         "type": "Type",
         "value": "Waarde",
         "volumes": "Volumes",
-        "yes": "Ja"
-    }
+        "yes": "Ja",
+        "secondry": "Secundair",
+        "policy_name": "Beleidsnaam",
+        "abstract_msg_1": "<strong>{{enables}} {{largerSmaller}}</strong>. Dit zal gevolgen hebben voor de gegevens die zijn opgeslagen in de <bold>{{previous}}</bold> en in de <bold>{{next}}</bold>.",
+        "abstract_msg_2": "<bold>{{enables}} {{largerSmaller}}</bold> opgeslagen in {{source}} zal worden verplaatst naar {{destination}}. Dit zal gevolgen hebben voor de gegevens die zijn opgeslagen in de <bold>{{previous}}</bold> en in de <bold>{{next}}</bold>.",
+        "after_date": "Na (Datum)",
+        "all_primary_volume_used_source_msg": "Alle primaire volumes worden standaard als bron gebruikt. Of selecteer handmatig andere volumes.",
+        "all_secondary_volume_used_source_msg": "Het huidige secundaire volume zal als bestemming worden gebruikt. Of selecteer handmatig andere volumes.",
+        "before_date": "Voor (Datum)",
+        "bytes": "Byte (B)",
+        "copy_hsm_policy_from_clipboard_msg": "Als u niet zeker bent, kunt u de beleidsstring naar het klembord kopiëren en later herstellen.",
+        "create_new_policy": "Nieuw beleid creëren",
+        "delete_hsm_policy": "HSM-beleid verwijderen?",
+        "delete_hsm_policy_confirm_msg_1": "Als u dit HSM-beleid verwijdert, kunt u het niet meer herstellen. Wilt u het HSM-beleid verwijderen?",
+        "editing_policy": "Beleid bewerken",
+        "enable_scheduler": "Planning inschakelen",
+        "edit_hsm_policy_success": "HSM-beleid met succes bijgewerkt",
+        "hsm_policy_correctly_deleted": "HSM-beleid is correct verwijderd",
+        "larger_size": "Groter (Grootte)",
+        "larger_size_than": "groter dan <bold>{{measure}} {{scale}}</bold>",
+        "name_hsm_policies": "{{serverName}}HSM-beleidslijnen",
+        "new_policy": "Nieuw beleid",
+        "next_day_scale": "volgende <bold>{{day}}</bold> {{scale}?",
+        "policies_added_successfully": "Beleidslijnen zijn met succes toegevoegd",
+        "policy_criteria": "Beleidscriteria",
+        "policy_has_been_coppied": "HSM-beleid is gekopieerd naar het klembord",
+        "previous_day_scale": "vorige <bold>{{day}}</bold> {{scale}}?",
+        "scheduling": "Planning",
+        "select_manually_destination_volumes": "Handmatig bestemmingsvolumes selecteren",
+        "select_manually_source_volumes": "Handmatig bronvolumes selecteren",
+        "smaller_size": "Kleiner (Grootte)",
+        "smaller_size_than": "kleiner dan <bold>{{measure}} {{scale}}</bold>",
+        "volume_already_selected_in_destination": "Volume reeds geselecteerd als bestemmingsvolume",
+        "volume_already_selected_in_source": "Volume reeds geselecteerd als bronvolume",
+        "years": "Jaar"
+    },
+    "select_bucket_or_create_new_bucket_helperText": "het lijkt erop dat u geen bucket type heeft ingesteld.\n\t\t\t\t\t\t\t\t\tKlik op de \"NIEUWE BUCKET\"-knop om een nieuwe te creëren.",
+    "welcome_to_carbonio_display_name": "Welkom {{adminName}}!"
 }

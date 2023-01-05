@@ -107,14 +107,17 @@
             "subscription_last_check": "Ultimo Controllo sulla Subscription",
             "subscription_type": "Tip di Subscription",
             "token": "Token",
-            "version": "Versione Zextras",
+            "version": "Versione modulo",
             "modal": {
                 "cancel": "NO",
                 "confirm": "Vuoi procedere?",
                 "deactivate": "Sì, Disattiva",
                 "label": "Disattiva Token",
                 "warning": "Stai provando a disattivare l'attuale token. Proseguendo, tutte le funzionalità abilitate verranno disattivate."
-            }
+            },
+            "activate": "Attiva",
+            "activation": "Attivazione",
+            "deactivate": "Disattiva"
         }
     },
     "domain": {
@@ -148,7 +151,8 @@
         "max_result_return_gal_search": "Numero massimo di risultati riportati dalla ricerca GAL",
         "single_account_domain_space_byte": "Spazio dominio del singolo account (Byte)",
         "i_want_to_generate_an_otp_code": "VOGLIO GENERARE UN CODICE OTP",
-        "proceed_without_generating_an_otp_code": "PROCEDI SENZA GENERARE UN CODICE OTP"
+        "proceed_without_generating_an_otp_code": "PROCEDI SENZA GENERARE UN CODICE OTP",
+        "internal_gal_received": "Intervallo polling GAL interna"
     },
     "label": {
         "account": "Profilo",
@@ -630,7 +634,7 @@
         "username_with": "nome utente con",
         "username_without": "nome utente senza",
         "volume_active": "{{volumeName}} è attualmente attivo",
-        "virtual_host_user_msg_1": "Per esempio, è possibile rendere il servizio disponibile sia per mail.example.com che per webamil.example.com.",
+        "virtual_host_user_msg_1": "Per esempio, è possibile rendere il servizio disponibile sia per mail.example.com che per webmail.example.com.",
         "volume_back_button": "INDIETRO",
         "volume_check": "CONTROLLA",
         "volume_created": "Volume creato con successo",
@@ -707,7 +711,6 @@
         "date_time_picker": "Selettore data e ora",
         "default_charset": "Set di caratteri predefinito",
         "list_name_auto_fill": "Nome della Lista (riempimento automatico)",
-        "mail_stores": "Mailstore",
         "main_settings": "Impostazioni Principali",
         "maximum_conflict": "Conflitto Massimo",
         "sending_mails": "Invio Mail",
@@ -756,7 +759,96 @@
         "volume_next_button": "SUCCESSIVO",
         "volume_server_name": "Server",
         "wipe_device": "\"Wipe\" del dispositivo",
-        "e_mail": "E-mail"
+        "e_mail": "E-mail",
+        "logo_description": "Copia l'URL del logo da utilizzare nella pagina di login. Usa un file SVG o PNG con sfondo trasparente, dimensione 240x120 pixel.",
+        "owners_description_msg_1": "I proprietari possono aggiungere o rimuovere i membri, cambiare il nome e la descrizione, modificare la visibilità della lista (es. nascondere dalla GAL), cambiare la proprietà e il comportamento della sottoscrizione.",
+        "manage_external_volume_and_move_all": "GESTISCI VOLUME ESTERNO e sposta tutti gli elementi sul path locale",
+        "rest_device_warning_msg_1": "Ripristinando il dispositivo, questo tornerà alle impostazioni di fabbrica. Vuoi continuare? ",
+        "NEW_OTP": "NUOVO OTP",
+        "abq_status": "Stato ABQ",
+        "active_sessions": "Sessioni attive",
+        "active_sync_active_paused": "Activesync attivo / in pausa",
+        "admin_panel": "Pannello Amministrativo",
+        "admin_panel_theme_description": "In questa sezione è possibile personalizzare il pannello amministrativo inserendo il logo e l'immagine aziendale.",
+        "admin_panel_title": "PANNELLO AMMINISTRATIVO",
+        "apperance": "Aspetto",
+        "background": "Sfondo",
+        "background_description": "Copia l'URL dell'immagine da utilizzare nella pagina di login. Utilizza un file JPG, dimensione 2560x1440 pixel, max. 800 KB.",
+        "background_for_the_login_page": "Sfondo per la pagina di login",
+        "background_login_page": "Sfondo pagina di login",
+        "blocked": "Bloccato",
+        "cancle_button_is_current": "OK, CAPITO",
+        "close_the_resource": "Chiudi la risorsa",
+        "create_otp": "CREA OTP",
+        "can_not_receiver": "Non può ricevere",
+        "aware_of_doing_device_factory_settings": "Voglio ripristinare alle impostazioni di fabbrica",
+        "create_otp_list_msg": "Puoi creare un nuovo OTP cliccando il bottone <bold> NUOVO OTP</bold>",
+        "dark_mode": "Tema <bold>scuro</bold>",
+        "delet_volume_header": "Eliminare {{name}} ?",
+        "delete_content_is_current": "Stai eliminando {{name}}. Questo volume è impostato come quello corrente. Imposta un altro volume come quello corrente prima di eliminare questo.",
+        "destination": "Destinazione",
+        "eligible_servers": "Server Idonei",
+        "end_session": "Chiusi Sessione",
+        "end_user_theme_description": "In questa sezione è possibile personalizzare l'applicazione web inserendo il logo e l'immagine aziendale.",
+        "end_user_title": "UTENTE FINALE",
+        "failed": "Fallito",
+        "false": "Falso",
+        "favicon": "Favicon",
+        "favicon_description": "Incolla l'URL della favicon da utilizzare nella pagina di login. Utilizza un file ICO, dimensione 16x16 pixel.",
+        "favicon_path": "Percorso Favicon",
+        "filter_by_device_type_account": "Filtra per tipo di dispositivo, account, stato",
+        "image_path": "Percorso Immagine",
+        "ip": "IP",
+        "light_mode": "Tema <bold>Chiaro</bold>",
+        "link_button": "LINK",
+        "logo": "Logo",
+        "logo_for_login_page": "Logo per la pagina di login",
+        "logoff_from_every_device": "Disconnetti da ogni dispositivo",
+        "i_m_looking_for_the_session": "Sto cercando la sessione...",
+        "end_user_webapp": "Utente finale della WebApp",
+        "logo_for_webapp": "Logo per la WebApp",
+        "index_volume": "Questa è un volume di index",
+        "logo_path": "Path Logo",
+        "migrate": "Migra",
+        "move_item_to_an_external_bucket": "Sposta gli elementi su un bucket esterno",
+        "no_donot_reset_device": "No, non ripristinare",
+        "object_storage": "Object Storage",
+        "operation_now_in_queue": "L'operazione è in coda",
+        "otp_deleted_successfully": "OTP eliminato con successo",
+        "owners_settings_lbl": "Impostazioni Proprietario",
+        "primary_volume": "Questo è un volume primario",
+        "quarantined": "In quarantena",
+        "registration": "Registrazione",
+        "remove_button": "RIMUOVI",
+        "reset_domain_theme": "Ripristina il tema {{name}}",
+        "reset_global_theme": "Ripristina il tema globale",
+        "reset_theme_content_1": "Vuoi ripristinare il tema?",
+        "reset_theme_content_2": "Se selezioni SÌ tutti i dati andranno persi.",
+        "mountpoint": "Mountpoint",
+        "no_donot_wipe_device": "No, non ripristinare",
+        "move_item_to_a_local_mountpoint": "Elementi spostati nel Monutpoint locale",
+        "secondary_volume": "Questo è un volume secondario",
+        "security": "SICUREZZA",
+        "select_a_bucket_configuration": "Seleziona una configurazione bucket",
+        "selected_empty_bucket": "Non hai selezionato un bucket. Inizia a digitare nel campo per visualizzarli.",
+        "session_end_success": "Sessione terminata con successo",
+        "session_id": "ID Sessione",
+        "storage_centralized": "Voglio che questo storage sia centralizzato",
+        "suspend": "Sospeso",
+        "title_theme_note": "Il titolo è il nome che apparirà nella scheda del browser",
+        "true": "Vero",
+        "use_https_protocol_message": "è necessario utilizzare il protocollo HTTPS",
+        "volume_definition": "DEFINIZIONE",
+        "yes_reset_the_device": "Sì, ripristina il dispositivo",
+        "storage_centralized_helptext": "I dati centralizzati sono utili quando due o più server hanno accesso agli stessi dati.\nTenendo i dati in un' unica posizione, è più semplice gestire sia gli hardware che i dati stessi. ",
+        "will_be_centralized_in_helptext": "Sarà centralizzato in",
+        "wipe_device_factory_settings": "Ripristina il dispositivo alle impostazioni di fabbrica",
+        "wiping_device_warning_msg_1": "Ripristinando il dispositivo, questo tornerà alle impostazioni di fabbrica. Vuoi continuare?",
+        "yes_wipe_the_device": "Sì, ripristina il dispositivo",
+        "you_are_trying_reset_device": "Stai cercando di ripristinare un dispositivo",
+        "you_are_trying_wipe_device": "Stai provando a ripristinare un dispositivo",
+        "user_agent": "Agente Utente",
+        "total_acc_rights_with_delete_distribution_list_helper_text": "Questa lista ha <bold>{{totalAccRights}}</bold> account condivisi. <br /> Eliminandola, anche le condivisioni andranno perse."
     },
     "message": {
         "snackbar": {
@@ -992,7 +1084,11 @@
         "on_the_fly_metadata": "Metadati",
         "bucket_list": "Lista Bucket",
         "external_volume": "Volume Esterno",
-        "kb": "KB"
+        "kb": "KB",
+        "bucket_configuration": "Configurazione Bucket",
+        "manage_external_volume": "Gestisci volume esterno",
+        "ms": "MS",
+        "local_mountpoint": "Mountpoint Locale"
     },
     "cos": {
         "maximum_number_of_items_to_display_per_page": "Numero massimo di elementi da visualizzare per pagina",
@@ -1141,7 +1237,9 @@
         "new_proxy_allowed_domain": "Nuovo proxy abilitato per il dominio",
         "use_quickadd_dialog_in_creation": "Utilizza la finestra QuickAdd per la creazione",
         "active_sync": "ActiveSync",
-        "dark_mode": "Tema Scuro"
+        "dark_mode": "Tema Scuro",
+        "activesync_remote_access": "Accesso remoto ActiveSync",
+        "create_cos_success_msg": "Stai disabilitando il pool su {{serverName}}. Le caselle di posta non verranno spostate. Vuoi continuare?"
     },
     "accountDetails": {
         "default_COS": "COS Predefinita",
@@ -1189,7 +1287,8 @@
     "welcome_to_carbonio": "Benvenuto su Carbonio {{carbonioVersion}} ,{{adminName}} !",
     "account": {
         "new": {
-            "create_account_wizard": "Procedura guidata di modifica dell'account"
+            "create_account_wizard": "Procedura guidata di modifica dell'account",
+            "create_otp_wizard": "Crea OTP"
         }
     },
     "privacy": {
@@ -1286,7 +1385,8 @@
         "forwarding_calendar_invitations_to_these_addresses": "Inoltra inviti del calendario a questi indirizzi",
         "group_calendar": "Calendario Avanzato",
         "html_compose": "Composizione HTML",
-        "use_quickadd_dialog_in_creation": "Utilizza la finestra QuickAdd per la creazione"
+        "use_quickadd_dialog_in_creation": "Utilizza la finestra QuickAdd per la creazione",
+        "activesync_remote_access": "Accesso remoto ActiveSync"
     },
     "connection": {
         "access_key": "Chiave d'Accesso",
@@ -1308,12 +1408,16 @@
             "index": "Indice",
             "primary": "Primario",
             "secondary": "Secondario",
-            "server": "Server"
+            "server": "Server",
+            "server_name": "Nome Server",
+            "indexer": "Indexer",
+            "HSM Scheduling": "Pianificazione HSM"
         },
         "volume_allocation_list": {
             "centralized": "Centralizzato",
             "external": "Esterna",
-            "local": "Locale"
+            "local": "Locale",
+            "sproxy": "Sproxy"
         },
         "volume_header": {
             "compression": "Compressione",
@@ -1334,7 +1438,9 @@
             "secondary": "Secondario"
         },
         "volume_config_header": {
-            "name": "Nome"
+            "name": "Nome",
+            "hsm_scheduled": "HSM Programmato",
+            "indexer": "Indexer"
         }
     },
     "hsm": {
@@ -1380,6 +1486,40 @@
         "type": "Tipo",
         "value": "Valore",
         "volumes": "Volumi",
-        "yes": "Sì"
-    }
+        "yes": "Sì",
+        "secondry": "Secondario",
+        "abstract_msg_1": "<strong>{{enables}} {{largerSmaller}}</strong>. Questo riguarderà i dati salvati in <bold>{{previous}}</bold> e in <bold>{{next}}</bold>.",
+        "abstract_msg_2": "<bold>{{enables}} {{largerSmaller}}</bold> salvato in {{source}} verrà spostato in {{destination}}. Questo riguarderà i dati salvati in <bold>{{previous}}</bold> e in <bold>{{next}}</bold>.",
+        "after_date": "Dopo (Data)",
+        "all_primary_volume_used_source_msg": "Tutti i volumi primari verranno utilizzati di default come fonte. Oppure seleziona manualmente altri volumi.",
+        "all_secondary_volume_used_source_msg": "Il volume secondario corrente verrà utilizzato come quello di destinazione. Oppure seleziona manualmente altri volumi.",
+        "before_date": "Prima (Data)",
+        "bytes": "Byte (B)",
+        "create_new_policy": "Crea nuova policy",
+        "delete_hsm_policy": "Eliminare la policy HSM?",
+        "delete_hsm_policy_confirm_msg_1": "Se elimini questa policy HSM, non sarà più possibile ripristinarla. Vuoi eliminare la policy HSM?",
+        "edit_hsm_policy_success": "Policy HSM aggiornata con successo",
+        "hsm_policy_correctly_deleted": "Policy HSM eliminata correttamente",
+        "larger_size": "Più grande (Dimensione)",
+        "larger_size_than": "più grande di <bold>{{measure}} {{scale}}</bold>",
+        "name_hsm_policies": "Policy HSM {{serverName}}",
+        "new_policy": "Nuova Policy",
+        "copy_hsm_policy_from_clipboard_msg": "Se non sei certo, copia la policy negli appunti e recuperala in seguito.",
+        "enable_scheduler": "Abilita pianificazione",
+        "editing_policy": "Modifica Policy",
+        "policies_added_successfully": "Le policy sono state aggiunte correttamente",
+        "policy_has_been_coppied": "Policy HSM copiata negli appunti",
+        "policy_name": "Nome Policy",
+        "select_manually_destination_volumes": "Seleziona i volumi di destinazione manualmente",
+        "select_manually_source_volumes": "Seleziona i volumi sorgente manualmente",
+        "smaller_size": "Più piccolo (Dimensione)",
+        "smaller_size_than": "più piccolo di <bold>{{measure}} {{scale}}</bold>",
+        "years": "Anni",
+        "policy_criteria": "Criteri della policy",
+        "scheduling": "Programma",
+        "volume_already_selected_in_destination": "Il volume è già stato selezionato come volume di destinazione",
+        "volume_already_selected_in_source": "Il volume è già stato selezionato come volume sorgente"
+    },
+    "select_bucket_or_create_new_bucket_helperText": "Sembra che tu non abbia ancora impostato un tipo di bucket.\n\t\t\t\t\t\t\t\t\tClicca il bottone NUOVO BUCKET per crearne uno nuovo.",
+    "welcome_to_carbonio_display_name": "Benvenuto {{adminName}}!"
 }

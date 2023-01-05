@@ -354,7 +354,8 @@
         "value": "Valoare",
         "volumes": "Volume",
         "yes": "Da",
-        "current": "Actual"
+        "current": "Actual",
+        "scheduling": "Planificare"
     },
     "volume": {
         "server_list_header": {

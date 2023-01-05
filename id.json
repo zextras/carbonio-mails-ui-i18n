@@ -245,14 +245,17 @@
             "subscription_last_check": "Pemeriksaan Terakhir Langganan",
             "subscription_type": "Jenis Langganan",
             "token": "Token",
-            "version": "Versi Zextras",
+            "version": "Versi Modul",
             "modal": {
                 "warning": "Anda mencoba menonaktifkan token saat ini.Melakukannya akan menonaktifkan semua fitur aktif.",
                 "label": "Nonaktifkan Token",
                 "deactivate": "Ya, Nonaktifkan",
                 "confirm": "Anda yakin ingin melanjutkan?",
                 "cancel": "TIDAK"
-            }
+            },
+            "activate": "Aktifkan",
+            "activation": "Aktivasi",
+            "deactivate": "Deaktivasi"
         }
     },
     "domain": {
@@ -811,7 +814,7 @@
         "type_name_your_domain_will_have": "Ketik nama yang akan dimiliki domain Anda",
         "username_without": "nama pengguna tanpa",
         "verify_connector_verified": " DIVERIFIKASI",
-        "virtual_host_user_msg_1": "Misalnya, Anda dapat membuat layanan tersedia untuk mail.example.com dan webamil.example.com.",
+        "virtual_host_user_msg_1": "Misalnya, Anda dapat membuat layanan tersedia untuk mail.example.com dan webmail.example.com.",
         "volume_check": "PERIKSA",
         "volume_type_edited": "{{message}}",
         "what_is_a_gal": "Apa itu GAL?",
@@ -822,7 +825,6 @@
         "local_ldap": "LDAP Lokal",
         "long_and_queues": "Catat & Antre",
         "mailing_list_name": "Nama Mailing List",
-        "mail_stores": "Mailstore",
         "max_quota_allowed": "Kuota Maksimum Diizinkan",
         "maximum_conflict": "Konflik Maksimum",
         "members_only": "Khusus anggota",
@@ -897,7 +899,97 @@
         "volume_server_name": "Server",
         "wipe_device": "Hapus Perangkat",
         "advanced_lbl": "Canggih",
-        "reset": "Atur ulang"
+        "reset": "Atur ulang",
+        "failed": "Gagal",
+        "remove_button": "HAPUS",
+        "session_id": "ID Sesi",
+        "admin_panel_theme_description": "Di sesi ini, Anda bisa menyesuaikan Panel Admin dengan logo dan foto perusahaan.",
+        "create_otp_list_msg": "Anda dapat membuat OTP baru dengan mengklik tombol <bold>OTP BARU</bold> di sini",
+        "wiping_device_warning_msg_1": "Menghapus perangkat akan memulihkannya ke pengaturan pabrik. Anda yakin ingin melanjutkan?",
+        "logo_description": "Tempel URL logo untuk halaman masuk. Gunakan file SVG atau PNG dengan latar belakang transparan, dimensi 240x120 piksel.",
+        "owners_description_msg_1": "Pemilik dapat menambahkan dan menghapus anggota, mengubah nama tampilan dan deskripsi, mengubah visibilitas daftar (mis. sembunyikan di gal), mengubah kepemilikan, mengubah perilaku langganan/berhenti berlangganan.",
+        "NEW_OTP": "OTP BARU",
+        "abq_status": "Status ABQ",
+        "active_sessions": "Sesi Aktif",
+        "active_sync_active_paused": "Activesync aktif/dijeda",
+        "admin_panel": "Panel Admin",
+        "admin_panel_title": "PANEL ADMIN",
+        "apperance": "Tampilan",
+        "aware_of_doing_device_factory_settings": "Saya ingin meresetnya ke pengaturan pabrik",
+        "background": "Latar belakang",
+        "background_description": "Tempel URL gambar untuk halaman masuk. Gunakan file JPG, dimensi 2560x1440 piksel, maksimal 800.",
+        "background_for_the_login_page": "Latar belakang untuk Halaman Masuk",
+        "background_login_page": "Halaman Masuk Latar Belakang",
+        "blocked": "Diblokir",
+        "can_not_receiver": "Tidak dapat menerima",
+        "cancle_button_is_current": "BAIK, MENGERTI",
+        "close_the_resource": "Tutup sumber daya",
+        "create_otp": "BUAT OTP",
+        "dark_mode": "Mode <bold>Gelap</bold>",
+        "delet_volume_header": "Hapus {{name}}?",
+        "delete_content_is_current": "Anda mencoba menghapus {{name}}. Volume ini diatur sebagai saat ini. Anda harus mengatur volume berbeda sebagai saat ini sebelum menghapusnya.",
+        "destination": "Tujuan",
+        "eligible_servers": "Server yang Memenuhi Syarat",
+        "end_session": "Akhiri Sesi",
+        "end_user_theme_description": "Di sesi ini, Anda bisa menyesuaikan WebApp dengan logo dan foto perusahaan.",
+        "end_user_title": "PENGGUNA AKHIR",
+        "end_user_webapp": "Pengguna akhir WebApp",
+        "false": "Salah",
+        "favicon": "Favicon",
+        "favicon_description": "Tempel URL favicon untuk halaman masuk. Gunakan file ICO, dimensi 16x16 piksel.",
+        "favicon_path": "Jalur Favicon",
+        "filter_by_device_type_account": "Filter menurut jenis perangkat, akun, status",
+        "i_m_looking_for_the_session": "Saya mencari sesi ...",
+        "image_path": "Jalur Gambar",
+        "index_volume": "Ini adalah Volume Indeks",
+        "ip": "IP",
+        "light_mode": "Mode <bold>Terang</bold>",
+        "link_button": "TAUTAN",
+        "logo": "Logo",
+        "logo_for_login_page": "Logo untuk Halaman Masuk",
+        "logo_for_webapp": "Logo untuk WebApp",
+        "logo_path": "Jalur Logo",
+        "logoff_from_every_device": "Keluar dari semua perangkat",
+        "manage_external_volume_and_move_all": "KELOLA VOLUME EKSTERNAL dan Pindahkan Semua Item ke Jalur Lokal",
+        "migrate": "Migrasikan",
+        "mountpoint": "Mountpoint",
+        "move_item_to_a_local_mountpoint": "Pindahkan Item ke Mountpoint Lokal",
+        "move_item_to_an_external_bucket": "Pindahkan Item ke Bucket Eksternal",
+        "no_donot_reset_device": "Tidak, jangan reset",
+        "no_donot_wipe_device": "Tidak, jangan hapus",
+        "object_storage": "Penyimpanan Objek",
+        "operation_now_in_queue": "Operasi saat ini dalam antrean",
+        "otp_deleted_successfully": "OTP berhasil dihapus",
+        "owners_settings_lbl": "Pengaturan Pemilik",
+        "primary_volume": "Ini adalah Volume Pribadi",
+        "quarantined": "Dikarantina",
+        "registration": "Pendaftaran",
+        "reset_domain_theme": "Reset tema {{name}}",
+        "reset_global_theme": "Reset tema global",
+        "reset_theme_content_1": "Anda yakin ingin mereset tema?",
+        "reset_theme_content_2": "Jika mengklik tombol YA, semua data akan hilang.",
+        "rest_device_warning_msg_1": "Menghapus perangkat akan memulihkannya ke pengaturan pabrik. Anda yakin ingin melanjutkan? ",
+        "secondary_volume": "Ini adalah Volume Sekunder",
+        "security": "KEAMANAN",
+        "select_a_bucket_configuration": "Pilih Konfigurasi Bucket",
+        "selected_empty_bucket": "Anda belum memilih bucket. Anda bisa mulai mengetik pada kolom di atas untuk melihatnya.",
+        "selected_empty_bucket_helperText": "Anda belum memilih bucket.\n\t\t\t\t\t\t\t\t\t\t\tAnda bisa mulai mengetik pada kolom \n\t\t\t\t\t\t\t\t\t\t\tdi atas untuk melihatnya.",
+        "session_end_success": "Sesi berhasil diakhiri",
+        "storage_centralized": "Saya ingin Penyimpanan ini disentralkan",
+        "storage_centralized_helptext": "Data tersentral menjadi berguna saat dua atau beberapa server membutuhkan akses ke data yang sama. \n Dengan menyimpan data di satu tempat, mengelola hardware dan data menjadi mudah. ",
+        "suspend": "Tangguhkan",
+        "title_theme_note": "Judul adalah nama yang akan muncul di tab browser",
+        "total_acc_rights_with_delete_distribution_list_helper_text": "Daftar ini memiliki <bold>{{totalAccRights}}</bold> hak akun bersama. <br />Jika dihapus, semua hak akan hilang.",
+        "true": "Benar",
+        "use_https_protocol_message": "Anda perlu menggunakan protokol HTTPS",
+        "user_agent": "Agen Pengguna",
+        "volume_definition": "DEFINISI",
+        "will_be_centralized_in_helptext": "Akan disentralkan di",
+        "wipe_device_factory_settings": "Hapus perangkat ke pengaturan pabrik",
+        "yes_reset_the_device": "Ya, reset perangkat",
+        "yes_wipe_the_device": "Ya, hapus perangkat",
+        "you_are_trying_reset_device": "Anda mencoba mereset perangkat",
+        "you_are_trying_wipe_device": "Anda mencoba menghapus perangkat"
     },
     "message": {
         "snackbar": {
@@ -1054,7 +1146,8 @@
         "yes_disable": "Ya, nonaktifkan",
         "show_time_zone_lists_in_view": "Tampilkan daftar zona waktu dalam tampilan janji temu",
         "active_sync": "ActiveSync",
-        "dark_mode": "Mode Gelap"
+        "dark_mode": "Mode Gelap",
+        "activesync_remote_access": "Akses jarak jauh ActiveSync"
     },
     "backup": {
         "backup_path": "Jalur Backup",
@@ -1132,7 +1225,11 @@
         "tuning_options": "Opsi Penyesuaian",
         "bucket_list": "Daftar Bucket",
         "external_volume": "Volume Eksternal",
-        "kb": "KB"
+        "kb": "KB",
+        "bucket_configuration": "Konfigurasi Bucket",
+        "local_mountpoint": "Mountpoint Lokal",
+        "manage_external_volume": "Kelola volume eksternal",
+        "ms": "MS"
     },
     "accountDetails": {
         "enable_activeSync_remote_access": "Aktifkan akses jarak jauh ActiveSync",
@@ -1192,7 +1289,8 @@
     },
     "account": {
         "new": {
-            "create_account_wizard": "Buat Panduan Akun"
+            "create_account_wizard": "Buat Panduan Akun",
+            "create_otp_wizard": "Buat OTP"
         }
     },
     "account_details": {
@@ -1277,7 +1375,8 @@
         "use_gal_to_auto_fill": "Gunakan GAL untuk mengisi otomatis",
         "use_ical_delegation_model_for_shared_calendars": "Gunakan model delegasi iCal untuk kalender bersama",
         "use_quickadd_dialog_in_creation": "Gunakan dialog QuickAdd saat pembuatan",
-        "view_mail_as_html": "Lihat email sebagai HTML"
+        "view_mail_as_html": "Lihat email sebagai HTML",
+        "activesync_remote_access": "Akses jarak jauh ActiveSync"
     },
     "connection": {
         "access_key": "Kunci Akses",
@@ -1310,15 +1409,21 @@
             "index": "Indeks",
             "primary": "Utama",
             "secondary": "Sekunder",
-            "server": "Server"
+            "server": "Server",
+            "HSM Scheduling": "Jadwal HSM",
+            "indexer": "Pengindeks",
+            "server_name": "Nama Server"
         },
         "volume_allocation_list": {
             "centralized": "Terpusat",
             "external": "Eksternal",
-            "local": "Lokal"
+            "local": "Lokal",
+            "sproxy": "Sproksi"
         },
         "volume_config_header": {
-            "name": "Nama"
+            "name": "Nama",
+            "hsm_scheduled": "HSM Terjadwal",
+            "indexer": "Pengindeks"
         },
         "volume_header": {
             "compression": "Kompresi",
@@ -1382,6 +1487,42 @@
         "type": "Jenis",
         "value": "Nilai",
         "volumes": "Volume",
-        "yes": "Ya"
-    }
+        "yes": "Ya",
+        "policy_name": "Nama Kebijakan",
+        "secondry": "Sekunder",
+        "abstract_msg_1": "<strong>{{enables}} {{largerSmaller}}</strong>. Ini akan memengaruhi data yang disimpan di <bold>{{previous}}</bold> dan di <bold>{{next}}</bold>.",
+        "abstract_msg_2": "<bold>{{enables}} {{largerSmaller}}</bold> yang disimpan di {{source}} akan dipindahkan ke {{destination}}. Ini akan memengaruhi data yang disimpan di <bold>{{previous}}</bold> dan di <bold>{{next}}</bold>.",
+        "after_date": "Setelah (Tanggal)",
+        "all_primary_volume_used_source_msg": "Semua volume primer akan digunakan sebagai sumber secara default. Atau pilih volume lain secara manual.",
+        "all_secondary_volume_used_source_msg": "Volume sekunder saat ini akan digunakan sebagai tujuan. Atau pilih volume lain secara manual.",
+        "before_date": "Sebelum (Tanggal)",
+        "bytes": "Byte (B)",
+        "copy_hsm_policy_from_clipboard_msg": "Jika tidak yakin, Anda dapat menyalin string kebijakan ke clipboard dan memulihkannya nanti.",
+        "create_new_policy": "Buat Kebijakan Baru",
+        "delete_hsm_policy": "Hapus Kebijakan HSM?",
+        "delete_hsm_policy_confirm_msg_1": "Jika menghapus kebijakan HSM ini, Anda tidak akan dapat memulihkannya. Ingin menghapus Kebijakan HSM?",
+        "edit_hsm_policy_success": "Kebijakan HSM berhasil diperbarui",
+        "editing_policy": "Edit Kebijakan",
+        "enable_scheduler": "Aktifkan Jadwal",
+        "hsm_policy_correctly_deleted": "Kebijakan HSM dihapus dengan benar",
+        "larger_size": "Lebih besar (Ukuran)",
+        "larger_size_than": "lebih besar dari <bold>{{measure}} {{scale}}</bold>",
+        "name_hsm_policies": "{{serverName}} Kebijakan HSM",
+        "new_policy": "Kebijakan Baru",
+        "next_day_scale": "<bold>{{day}}</bold> berikutnya {{scale}?",
+        "policies_added_successfully": "Kebijakan berhasil ditambahkan",
+        "policy_criteria": "Kriteria Kebijakan",
+        "policy_has_been_coppied": "Kebijakan HSM telah disalin ke clipboard",
+        "previous_day_scale": "<bold>{{day}}</bold> sebelumnya {{scale}}?",
+        "scheduling": "Jadwal",
+        "select_manually_destination_volumes": "Pilih volume tujuan secara manual",
+        "select_manually_source_volumes": "Pilih volume sumber secara manual",
+        "smaller_size": "Lebih kecil (Ukuran)",
+        "smaller_size_than": "lebih kecil dari <bold>{{measure}} {{scale}}</bold>",
+        "volume_already_selected_in_destination": "Volume sudah dipilih sebagai volume tujuan",
+        "volume_already_selected_in_source": "Volume sudah dipilih sebagai volume sumber",
+        "years": "Tahun"
+    },
+    "select_bucket_or_create_new_bucket_helperText": "ampaknya Anda belum menyiapkan jenis bucket.\n\t\t\t\t\t\t\t\t\tKlik tombol \"BUCKET BARU\" untuk membuat yang baru.",
+    "welcome_to_carbonio_display_name": "Selamat datang {{adminName}}!"
 }

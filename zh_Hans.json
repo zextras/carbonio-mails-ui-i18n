@@ -560,7 +560,7 @@
         "type_in_the_mails": "键入账户以将其添加至列表",
         "type_name_your_domain_will_have": "键入您的域名",
         "verify_connector_verified": " 已验证",
-        "virtual_host_user_msg_1": "例如，您可同时在 mail.example.com 与 webamil.example.com 上开放服务。",
+        "virtual_host_user_msg_1": "例如，您可同时在 mail.example.com 与 webmail.example.com 上开放服务。",
         "volume_active": "{{volumeName}} 当前处于活动状态",
         "virtual_host_user_msg_2": "对于域而言，虚拟主机必须是唯一的，这样可便于系统了解用户属于哪个域，同时我们也能显示域的自定义选项",
         "volume_back_button": "返回",
@@ -598,7 +598,6 @@
         "first_day_of_week": "每周第一天",
         "local_ldap": "本地 LDAP",
         "mail_notifications": "邮件通知",
-        "mail_stores": "Mailstores",
         "mailing_list_name": "邮件列表文件夹",
         "main": "主要",
         "main_settings": "主要设置",
@@ -645,7 +644,94 @@
         "wipe_device": "擦除设备",
         "failed": "失败",
         "remove_button": "移除",
-        "session_id": "会话 ID"
+        "session_id": "会话 ID",
+        "abq_status": "ABQ状态",
+        "active_sessions": "活动会话",
+        "active_sync_active_paused": "ActiveSync处于活动/暂停状态",
+        "apperance": "外观",
+        "aware_of_doing_device_factory_settings": "我想将其重置为出厂设置",
+        "background_login_page": "背景登录页",
+        "create_otp": "创建OTP",
+        "delet_volume_header": "删除{{name}}？",
+        "dark_mode": "<bold>深色</bold>模式",
+        "eligible_servers": "合格服务器",
+        "end_session": "结束会话",
+        "false": "False",
+        "favicon": "Favicon",
+        "favicon_description": "粘贴登录页Favicon的URL。请使用ICO文件，16x16像素。",
+        "favicon_path": "Favicon路径",
+        "link_button": "链接",
+        "light_mode": "<bold>浅色</bold>模式",
+        "logo": "徽标",
+        "logo_description": "粘贴登录页徽标URL。请使用透明背景的SVG或PNG文件，240x120像素。",
+        "logoff_from_every_device": "从所有设备登出",
+        "manage_external_volume_and_move_all": "管理外部卷并将所有项目移动至本地路径",
+        "migrate": "迁移",
+        "mountpoint": "挂载点",
+        "no_donot_reset_device": "不要重置",
+        "object_storage": "对象存储",
+        "primary_volume": "这是主要卷",
+        "quarantined": "已隔离",
+        "registration": "注册",
+        "reset_domain_theme": "重置{{name}}主题",
+        "reset_global_theme": "重置全局主题",
+        "reset_theme_content_1": "确定要重置主题吗？",
+        "secondary_volume": "这是次要卷",
+        "security": "安全性",
+        "selected_empty_bucket": "您尚未选择桶。您可在上方的字段中输入内容以对其进行查看。",
+        "session_end_success": "会话结束成功",
+        "storage_centralized": "我想要中心化存储",
+        "suspend": "暂停",
+        "true": "True",
+        "use_https_protocol_message": "您需要使用HTTPS协议",
+        "volume_definition": "定义",
+        "wiping_device_warning_msg_1": "擦除设备会将其恢复至出厂设置。确定要继续吗？",
+        "yes_reset_the_device": "是，重置设备",
+        "yes_wipe_the_device": "是，擦除设备",
+        "you_are_trying_reset_device": "您正在尝试重置设备",
+        "can_not_receiver": "无法接收",
+        "NEW_OTP": "新OTP",
+        "admin_panel": "管理面板",
+        "admin_panel_theme_description": "在本分区中，您可使用公司徽标和图像对管理面板进行自定义管理。",
+        "admin_panel_title": "管理面板",
+        "background": "背景",
+        "background_description": "粘贴登录页图像URL。请使用JPG文件，2560x1440像素，最大800KB。",
+        "background_for_the_login_page": "登录页背景",
+        "blocked": "已阻止",
+        "cancle_button_is_current": "好的，了解",
+        "close_the_resource": "关闭资源",
+        "create_otp_list_msg": "您可点击上方的<bold>新OTP</bold>按钮以创建新的OTP",
+        "delete_content_is_current": "您正在尝试删除{{name}}。此卷已被设置为当前卷。您应在删除前将另一个卷设置为当前卷。",
+        "destination": "目标",
+        "end_user_theme_description": "在本分区中，您可使用公司徽标和图像对WebApp进行自定义管理。",
+        "end_user_title": "最终用户",
+        "filter_by_device_type_account": "按设备类型、账户、状态进行筛选",
+        "i_m_looking_for_the_session": "我正在寻找会话...",
+        "image_path": "图像路径",
+        "index_volume": "这是索引卷",
+        "ip": "IP",
+        "logo_for_login_page": "登录页徽标",
+        "logo_for_webapp": "WebApp徽标",
+        "logo_path": "徽标路径",
+        "move_item_to_a_local_mountpoint": "将项目移动至本地挂载点",
+        "owners_settings_lbl": "所有者设置",
+        "end_user_webapp": "WebApp最终用户",
+        "move_item_to_an_external_bucket": "将项目移动至外部桶",
+        "no_donot_wipe_device": "不要擦除",
+        "operation_now_in_queue": "此操作已在队列中",
+        "otp_deleted_successfully": "OTP已成功删除",
+        "owners_description_msg_1": "所有者可添加和删除成员、更改显示名称和描述、更改列表可见性（如：在 GAL 中隐藏）、更改所有权、修改/取消订阅行为。",
+        "reset_theme_content_2": "如果您点击“是”按钮，则所有数据都将丢失。",
+        "rest_device_warning_msg_1": "擦除设备会将其恢复至出厂设置。确定要继续吗？ ",
+        "select_a_bucket_configuration": "选择桶配置",
+        "selected_empty_bucket_helperText": "您尚未选择桶。\n\t\t\t\t\t\t\t\t\t\t\t您可在上方的字段中\n\t\t\t\t\t\t\t\t\t\t\t输入内容以对其进行查看。",
+        "storage_centralized_helptext": "当两台或多台服务器需要访问相同的数据时，中心化数据存储将非常实用。\n通过将数据保存在同一个位置，您可更轻松地管理硬件和数据本身。 ",
+        "title_theme_note": "此标题将出现在浏览器的标签页上",
+        "user_agent": "User Agent",
+        "will_be_centralized_in_helptext": "将集中于",
+        "wipe_device_factory_settings": "擦除设备并回到出厂设置",
+        "you_are_trying_wipe_device": "您正在尝试擦除设备",
+        "total_acc_rights_with_delete_distribution_list_helper_text": "此列表有<bold>{{totalAccRights}}</bold>共享账户权限。<br />删除后所有权限都将丢失。"
     },
     "timezone": {
         "asia_tehran": "{{value}} 德黑兰",
@@ -894,14 +980,17 @@
             "subscription_last_check": "订阅上次检查",
             "subscription_type": "订阅类型",
             "token": "Token",
-            "version": "Zextras版本",
+            "version": "模块版本",
             "modal": {
                 "warning": "您正在尝试停用当前Token。停用后将禁用所有已启用的功能。",
                 "label": "停用Token",
                 "deactivate": "是的，停用",
                 "confirm": "确定要继续吗？",
                 "cancel": "否"
-            }
+            },
+            "activate": "激活",
+            "activation": "激活",
+            "deactivate": "停用"
         }
     },
     "message": {
@@ -987,7 +1076,11 @@
         "running": "运行中",
         "bucket_list": "存储桶列表",
         "external_volume": "外部卷",
-        "kb": "KB"
+        "kb": "KB",
+        "bucket_configuration": "桶配置",
+        "local_mountpoint": "本地挂载点",
+        "ms": "MS",
+        "manage_external_volume": "管理外部卷"
     },
     "cos": {
         "calendar_options": "日历选项",
@@ -1137,7 +1230,8 @@
         "use_quickadd_dialog_in_creation": "创建中使用 QuickAdd 对话框",
         "yes_disable": "是的，禁用",
         "active_sync": "ActiveSync",
-        "dark_mode": "深色模式"
+        "dark_mode": "深色模式",
+        "activesync_remote_access": "ActiveSync远程访问"
     },
     "accountDetails": {
         "enable_activeSync_remote_access": "启用ActiveSync远程访问",
@@ -1197,7 +1291,8 @@
     },
     "account": {
         "new": {
-            "create_account_wizard": "创建账户向导"
+            "create_account_wizard": "创建账户向导",
+            "create_otp_wizard": "创建OTP"
         }
     },
     "privacy": {
@@ -1293,7 +1388,8 @@
         "this_is_global_administrator": "这是全局管理员 ",
         "this_user_must_change_password": "此用户必须更改密码",
         "use_gal_to_auto_fill": "使用 GAL 以自动填充",
-        "use_ical_delegation_model_for_shared_calendars": "为已共享的日历使用 iCal 委派模式"
+        "use_ical_delegation_model_for_shared_calendars": "为已共享的日历使用 iCal 委派模式",
+        "activesync_remote_access": "ActiveSync远程访问"
     },
     "connection": {
         "access_key": "访问密钥",
@@ -1313,12 +1409,16 @@
             "index": "索引",
             "primary": "主要",
             "secondary": "次要",
-            "server": "服务器"
+            "server": "服务器",
+            "HSM Scheduling": "HSM计划",
+            "indexer": "索引器",
+            "server_name": "服务器名称"
         },
         "volume_allocation_list": {
             "local": "本地",
             "centralized": "中心化",
-            "external": "外部"
+            "external": "外部",
+            "sproxy": "Sproxy"
         },
         "volume_type": {
             "secondary": "次要",
@@ -1326,7 +1426,9 @@
             "primary": "主要"
         },
         "volume_config_header": {
-            "name": "名称"
+            "name": "名称",
+            "hsm_scheduled": "HSM已计划",
+            "indexer": "索引器"
         },
         "volume_header": {
             "compression": "压缩",
@@ -1390,6 +1492,39 @@
         "yes": "是",
         "policy_name": "政策名称",
         "policies_added_successfully": "策略已添加成功",
-        "secondry": "次要"
-    }
+        "secondry": "次要",
+        "after_date": "之后（日期）",
+        "all_primary_volume_used_source_msg": "所有主要卷都将默认被用作源。或手动选择其他卷。",
+        "before_date": "之前（日期）",
+        "create_new_policy": "新建策略",
+        "delete_hsm_policy": "删除HSM策略？",
+        "delete_hsm_policy_confirm_msg_1": "如果删除此HSM策略，其将无法恢复。是否删除HSM策略？",
+        "edit_hsm_policy_success": "HSM策略已更新成功",
+        "editing_policy": "编辑策略",
+        "enable_scheduler": "启用计划",
+        "hsm_policy_correctly_deleted": "HSM策略已正确删除",
+        "larger_size": "较大（大小）",
+        "larger_size_than": "大于<bold>{{measure}} {{scale}}</bold>",
+        "name_hsm_policies": "{{serverName}} HSM策略",
+        "new_policy": "新策略",
+        "next_day_scale": "下一<bold>{{day}}</bold> {{scale}}？",
+        "policy_criteria": "策略标准",
+        "policy_has_been_coppied": "HSM策略已复制到剪贴板",
+        "scheduling": "计划",
+        "previous_day_scale": "前一<bold>{{day}}</bold> {{scale}}？",
+        "smaller_size": "较小（大小）",
+        "volume_already_selected_in_destination": "已将卷选择为目标卷",
+        "years": "年",
+        "copy_hsm_policy_from_clipboard_msg": "如果您不确定，可将策略字符串复制到剪贴板中，并在稍后进行恢复。",
+        "abstract_msg_2": "存储在{{source}}中的<bold>{{enables}} {{largerSmaller}}</bold>将被移动至{{destination}}。这将对存储在<bold>{{previous}}</bold>与<bold>{{next}}</bold>中的数据产生影响。",
+        "all_secondary_volume_used_source_msg": "当前次要卷将被作为目标位置。或手动选择其他卷。",
+        "bytes": "字节（B）",
+        "select_manually_destination_volumes": "手动选择目标卷",
+        "select_manually_source_volumes": "手动选择来源卷",
+        "volume_already_selected_in_source": "已将卷选择为来源卷",
+        "smaller_size_than": "小于<bold>{{measure}} {{scale}}</bold>",
+        "abstract_msg_1": "<strong>{{enables}} {{largerSmaller}}</strong>。这将对存储在<bold>{{previous}}</bold>与<bold>{{next}}</bold>。"
+    },
+    "welcome_to_carbonio_display_name": "欢迎，{{adminName}}！",
+    "select_bucket_or_create_new_bucket_helperText": "似乎您还没有设置存储桶类型。\n\t\t\t\t\t\t\t\t\t点击“新存储桶”按钮以新建。"
 }
