@@ -307,7 +307,7 @@
         "invalid_query": "Arama sorgusu çözümlenemedi, silip yeniden deneyin",
         "download_and_delete": "İndir ve Sil",
         "enter_name": "Ad Girin",
-        "mark_read_message_manually": "İlgili simgeye tıklayınca mesajları okundu olarak işaretle",
+        "mark_read_message_manually": "Bu simgeye tıklayınca okundu olarak işaretle",
         "mark_read_message_immediately": "Okuma bölmesindeki mesajları hemen okundu olarak işaretle",
         "no_signature": "İmza yok"
     },
@@ -468,8 +468,8 @@
             "set_message_color": "Mesajların ve görüşmelerin rengini etiket rengine göre belirle.",
             "visualization_options": "Görsel Seçenekler",
             "unsend_time": "Gönderim zamanı ayarla",
-            "not_changed_anything": "Değişiklik yapmadınız",
-            "mark_reading_panel": "Okundu Olarak İşaretleme Yönetimi",
+            "not_changed_anything": "Değişiklik yapılmadı",
+            "mark_reading_panel": "Okundu Olarak İşaretle",
             "mark_manually": "Manuel olarak işaretle",
             "filter_name_required": "Filtre adı gerekiyor",
             "default": "Varsayılan"
@@ -605,9 +605,9 @@
             "second_plural": "{{count}} saniye",
             "no_delay": "Gecikme yok"
         },
-        "tag_name_required": "\"Etiketle\" işlemi için bir veya daha fazla değer eksik.",
-        "folder_path_required": "\"Klasöre Taşı\" işlemi için bir veya daha fazla değer eksik.",
-        "address_required": "\"Adrese Yönlendir\" işlemi için bir veya daha fazla değer eksik.",
+        "tag_name_required": "\"Etiketle\" işlemini tamamlamak için \"Etiket\" alanını doldurun.",
+        "folder_path_required": "\"Klasöre Taşı\" işlemini tamamlamak için \"Hedef Klasör\" alanını doldurun.",
+        "address_required": "\"Adrese Yönlendir\" işlemini tamamlamak için \"Adres\" alanını doldurun.",
         "address": "Adres"
     },
     "displayer": {
