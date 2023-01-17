@@ -129,41 +129,35 @@ const Subscription: FC = () => {
 
 	const { t } = useTranslation();
 
-	const server = document.location.hostname; // 'nbm-s02.demo.zextras.io';
-
 	const getLicence = useCallback(() => {
 		fetchSoap('zextras', {
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxCore',
-			action: 'getLicenseInfo',
-			targetServers: server
+			action: 'getLicenseInfo'
 		}).then((res) => {
 			const response = JSON.parse(res.response.content);
-			if (response.ok && response.response[server] && response.response[server].ok) {
-				const formatModules = Object.keys(response.response[server].response.modules).map(
-					(module) => ({
-						...response.response[server].response.modules[module],
-						name: module
-					})
-				);
+			if (response.ok) {
+				const formatModules = Object.keys(response.response.modules).map((module) => ({
+					...response.response.modules[module],
+					name: module
+				}));
 				const orderModules: any = orderBy(formatModules, 'licensed', 'desc');
-				setServices(response.response[server]);
+				setServices(response);
 				setModules(orderModules);
-				setLicenseKey(response.response[server].response.authenticationToken);
+				setLicenseKey(response.response.authenticationToken);
 			}
 		});
 		fetchSoap('zextras', {
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxCore',
-			action: 'getVersion',
-			targetServers: server
+			action: 'getVersion'
 		}).then((res) => {
 			const response = JSON.parse(res.response.content);
-			if (response.ok && response.response[server] && response.response[server].ok) {
-				setVersion(response.response[server].response.version);
+			if (response.ok) {
+				setVersion(response.response.version);
 			}
 		});
-	}, [server]);
+	}, []);
 
 	useEffect(() => {
 		getLicence();
@@ -175,24 +169,25 @@ const Subscription: FC = () => {
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxCore',
 			action: 'activate-license',
-			targetServers: server,
 			token: licenseKey
 		})
 			.then((res) => {
 				setDisableActiveBtn(false);
 				const response = JSON.parse(res.response.content);
-				if (response.ok && response.response[server] && response.response[server].ok) {
+				if (response.ok) {
 					createSnackbar({
 						key: 1,
 						type: 'success',
-						label: response.response[server].message,
+						label: response.message,
 						replace: true
 					});
 				} else {
 					createSnackbar({
 						key: 1,
 						type: 'error',
-						label: response.response[server].message,
+						label:
+							response.message ||
+							t('label.something_wrong_error_msg', 'Something went wrong. Please try again.'),
 						replace: true
 					});
 				}
@@ -206,22 +201,21 @@ const Subscription: FC = () => {
 			_jsns: 'urn:zimbraAdmin',
 			module: 'ZxCore',
 			action: 'doRemoveLicense',
-			iamsure: true,
-			targetServers: server
+			iamsure: true
 		}).then((res) => {
 			const response = JSON.parse(res.response.content);
-			if (response.ok && response.response[server] && response.response[server].ok) {
+			if (response.ok) {
 				createSnackbar({
 					key: 1,
 					type: 'success',
-					label: response.response[server].message,
+					label: response.message,
 					replace: true
 				});
 			} else {
 				createSnackbar({
 					key: 1,
 					type: 'error',
-					label: response.response[server].message,
+					label: response.message,
 					replace: true
 				});
 			}

@@ -14,7 +14,8 @@ import {
 export const getMobileDeviceDetail = async (
 	module: string,
 	accountName: string,
-	deviceId: string
+	deviceId: string,
+	targetServers: string
 ): Promise<any> =>
 	postSoapFetchRequest(
 		`/service/admin/soap/zextras`,
@@ -23,9 +24,8 @@ export const getMobileDeviceDetail = async (
 			module,
 			action: 'getDeviceStatistics',
 			accountName,
-			deviceId
-
-			// targetServers: targetServer
+			deviceId,
+			targetServers
 		},
 		'zextras'
 	);

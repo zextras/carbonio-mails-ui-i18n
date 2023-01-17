@@ -4,7 +4,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
 	Container,
 	Input,
@@ -13,9 +13,11 @@ import {
 	Divider,
 	Padding,
 	Button,
-	Text
+	Text,
+	useSnackbar
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 import ListRow from '../list/list-row';
 import MiliSecondToDate from './functions/miliSecondToDate';
 import {
@@ -27,6 +29,7 @@ import {
 	STOPPING,
 	TRUE_OPERTION
 } from '../../constants';
+import { copyTextToClipboard } from '../utility/utils';
 
 const OperationsWizardDetailPanel: FC<{
 	setWizardDetailToggle: any;
@@ -35,6 +38,7 @@ const OperationsWizardDetailPanel: FC<{
 }> = ({ setWizardDetailToggle, setOpen, selectedData }) => {
 	const [t] = useTranslation();
 	const [status, setStatus] = useState('');
+	const createSnackbar = useSnackbar();
 
 	useEffect(() => {
 		if (selectedData?.state === STARTED) {
@@ -45,6 +49,46 @@ const OperationsWizardDetailPanel: FC<{
 			setStatus(DONE_ROUTE_ID.charAt(0).toUpperCase() + DONE_ROUTE_ID.slice(1));
 		}
 	}, [selectedData?.state]);
+
+	const copyOperation = useCallback(() => {
+		const operationItem = `
+			${t('operations.label.operation_type', 'Operation Type')} : ${selectedData?.module || ''} \n
+			${t('operations.label.who_started_it', 'Who started it?')} : ${
+			selectedData?.parameters?.requesterAddress || ''
+		} \n
+			${t('operations.label.status', 'Status')} : ${status || ''} \n
+			${t('operations.label.submitted_at', 'Submitted at')}:  ${
+			selectedData?.startTime ? MiliSecondToDate(selectedData?.startTime) : ''
+		} \n
+			${t('operations.label.started_at', 'Started at')} : ${
+			selectedData?.queuedTime ? MiliSecondToDate(selectedData?.queuedTime) : ''
+		} \n
+			${t('operations.label.notifications', 'Notifications')} : ${
+			selectedData?.parameters?.additionalNotificationAddresses
+				? selectedData?.parameters?.additionalNotificationAddresses?.length
+				: ''
+		} \n
+			${t('operations.label.create_fake_blob', 'Create Fake Blob')} : ${
+			selectedData?.parameters?.createFakeBlob ? TRUE_OPERTION : FALSE_OPERTION
+		} \n
+			${t('operations.label.Deep', 'Deep')} : ${
+			selectedData?.parameters?.isDeep ? TRUE_OPERTION : FALSE_OPERTION
+		} \n
+		`;
+		copyTextToClipboard(operationItem);
+		createSnackbar({
+			key: 'success',
+			type: 'success',
+			label: t('operations.copy_operation_successfully', 'Operation details copied successfully'),
+			autoHideTimeout: 3000,
+			hideButton: true,
+			replace: true
+		});
+	}, [t, selectedData, createSnackbar, status]);
+
+	const copyOperationHandler = useCallback(() => {
+		copyOperation();
+	}, [copyOperation]);
 
 	return (
 		<Container background="gray6">
@@ -81,6 +125,7 @@ const OperationsWizardDetailPanel: FC<{
 							color="primary"
 							icon="CopyOutline"
 							iconPlacement="right"
+							onClick={copyOperationHandler}
 						/>
 					</Padding>
 					{selectedData?.state !== STOPPING && (

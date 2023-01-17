@@ -131,15 +131,6 @@ const RunningDetailPanel: FC<{ getAllOperationAPICallHandler: any }> = ({
 					height="calc(100vh - 12.5rem)"
 					padding={{ all: 'large' }}
 				>
-					<Row takeAvwidth="fill" mainAlignment="flex-end" crossAlignment="flex-end" width="100%">
-						<Button
-							type="outlined"
-							label={t('operations.stop_opearation_btn', 'STOP OPERATION')}
-							color="error"
-							icon="StopCircleOutline"
-							iconPlacement="right"
-						/>
-					</Row>
 					<Row width="100%" padding={{ top: 'large' }}>
 						{runningData && (
 							<OperationsTable

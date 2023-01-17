@@ -27,6 +27,7 @@ import { useCosStore } from '../../store/cos/store';
 import { getAllServers } from '../../services/get-all-servers-service';
 import { modifyCos } from '../../services/modify-cos-service';
 import { DISABLED, ENABLED } from '../../constants';
+import { useMailstoreListStore } from '../../store/mailstore-list/store';
 
 const CosServerPools: FC = () => {
 	const [t] = useTranslation();
@@ -41,15 +42,13 @@ const CosServerPools: FC = () => {
 	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const setCos = useCosStore((state) => state.setCos);
 	const [searchServer, setSearchServer] = useState<string>('');
+	const allMailStoreList = useMailstoreListStore((state) => state.allMailstoreList);
 
-	const getAllServer = (): any => {
-		getAllServers().then((data) => {
-			const server = data?.server;
-			if (!!data && server && Array.isArray(server)) {
-				setServerList(server);
-			}
-		});
-	};
+	useEffect(() => {
+		if (allMailStoreList && allMailStoreList.length > 0) {
+			setServerList(allMailStoreList);
+		}
+	}, [allMailStoreList]);
 
 	useMemo(() => {
 		if (serverList && serverList.length > 0) {
@@ -92,7 +91,6 @@ const CosServerPools: FC = () => {
 
 	useEffect(() => {
 		if (!!cosInformation && cosInformation.length > 0) {
-			getAllServer();
 			const list = cosInformation.filter((item: any) => item?.n === 'zimbraMailHostPool');
 			if (list) {
 				setZimbraMailHostPoolList(list);

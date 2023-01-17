@@ -131,16 +131,6 @@ const QuededDetailPanel: FC<{ getAllOperationAPICallHandler: any }> = ({
 						saveHandler={stopHandler}
 						selectedData={selectedData}
 					/>
-					<Row takeAvwidth="fill" mainAlignment="flex-end" crossAlignment="flex-end" width="100%">
-						<Button
-							type="outlined"
-							label={t('operations.cancel_opearation_btn', 'CANCEL OPERATION')}
-							color="error"
-							icon="Close"
-							iconPlacement="right"
-							onClick={(): any => setWizardDetailToggle(!wizardDetailToggle)}
-						/>
-					</Row>
 					<Row width="100%" padding={{ top: 'large' }}>
 						{queuedData && (
 							<OperationsTable

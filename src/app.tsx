@@ -64,6 +64,7 @@ import { useAuthIsAdvanced } from './store/auth-advanced/store';
 import SvgBackupOutline from './icons/outline/BackupOutline';
 import { useBucketServersListStore } from './store/bucket-server-list/store';
 import MatomoTracker from './matomo-tracker';
+import { useMailstoreListStore } from './store/mailstore-list/store';
 
 const LazyAppView = lazy(() => import('./views/app-view'));
 
@@ -96,6 +97,7 @@ const App: FC = () => {
 	);
 	const allConfig = useAllConfig();
 	const isAdvanced = useIsAdvanced();
+	const { setAllMailstoreList } = useMailstoreListStore((state) => state);
 
 	useEffect(() => {
 		const sendAnalytics = config.filter((items) => items.n === CARBONIO_SEND_ANALYTICS)[0]
@@ -510,6 +512,18 @@ const App: FC = () => {
 				primarybarSection: { ...servicesSection },
 				tooltip: BackupTooltipView
 			});
+
+			addRoute({
+				route: NOTIFICATION_ROUTE_ID,
+				position: 1,
+				visible: true,
+				label: t('label.notifications', 'Notifications'),
+				primaryBar: 'BellOutline',
+				appView: AppView,
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				primarybarSection: { ...logAndQueuesSection }
+			});
 		}
 		addRoute({
 			route: PRIVACY_ROUTE_ID,
@@ -662,21 +676,24 @@ const App: FC = () => {
 			const server = data?.server;
 			if (server && Array.isArray(server) && server.length > 0) {
 				setServerList(server);
-				checkIsBackupModuleEnable(server);
+				if (isAdvanced) {
+					checkIsBackupModuleEnable(server);
+					getGlobalConfig(server[0]?.name);
+				}
 				setAllServersList(server);
-				getGlobalConfig(server[0]?.name);
 			}
 		});
-	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, getGlobalConfig]);
+	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, getGlobalConfig, isAdvanced]);
 
 	const getMailstoresServersRequest = useCallback(() => {
 		getMailstoresServers().then((data) => {
 			const server = data?.server;
 			if (server && Array.isArray(server) && server.length > 0) {
 				setVolumeList(server);
+				setAllMailstoreList(server);
 			}
 		});
-	}, [setVolumeList]);
+	}, [setVolumeList, setAllMailstoreList]);
 
 	useEffect(() => {
 		getAllServersRequest();
