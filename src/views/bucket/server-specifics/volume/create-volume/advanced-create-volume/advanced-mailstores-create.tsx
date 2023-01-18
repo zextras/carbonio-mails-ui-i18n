@@ -10,76 +10,6 @@ import { volumeTypeList } from '../../../../../utility/utils';
 import { AdvancedVolumeContext } from './create-advanced-volume-context';
 import { DISABLED, ENABLED, NO, S3, YES } from '../../../../../../constants';
 import ListRow from '../../../../../list/list-row';
-// import logo from '../../../../../../assets/gardian.svg';
-
-// const VolumeCreateTable: FC<{
-// 	volumes: Array<any>;
-// 	selectedRows: any;
-// 	onSelectionChange: any;
-// 	headers: any;
-// 	onClick: any;
-// }> = ({ volumes, selectedRows, onSelectionChange, headers, onClick }) => {
-// 	const [t] = useTranslation();
-// 	const tableRows = useMemo(
-// 		() =>
-// 			volumes.map((v, i) => ({
-// 				id: v?.id,
-// 				columns: [
-// 					<Row
-// 						key={i}
-// 						onClick={(): void => {
-// 							onClick(i);
-// 						}}
-// 						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
-// 					>
-// 						{v?.name}
-// 					</Row>,
-// 					<Row
-// 						key={i}
-// 						onClick={(): void => {
-// 							onClick(i);
-// 						}}
-// 						style={{ textAlign: 'left', justifyContent: 'flex-center' }}
-// 					>
-// 						{v?.hsmSchedule === '1' ? YES : NO}
-// 					</Row>,
-// 					<Row
-// 						key={i}
-// 						onClick={(): void => {
-// 							onClick(i);
-// 						}}
-// 						style={{ textAlign: 'left', justifyContent: 'flex-center' }}
-// 					>
-// 						{v?.indexer === '1' ? YES : NO}
-// 					</Row>
-// 				],
-// 				clickable: true
-// 			})),
-// 		[onClick, volumes]
-// 	);
-
-// 	return (
-// 		<Container crossAlignment="flex-start">
-// 			<Table
-// 				headers={headers}
-// 				rows={tableRows}
-// 				showCheckbox={false}
-// 				multiSelect={false}
-// 				selectedRows={selectedRows}
-// 				onSelectionChange={onSelectionChange}
-// 			/>
-// 			{tableRows.length === 0 && (
-// 				<Row padding={{ top: 'extralarge', horizontal: 'extralarge' }} width="fill">
-// 					<Text overflow="break-word" weight="normal" size="large">
-// 						<Padding top="extralarge" />
-// 						<Padding top="large" />
-// 						<img src={logo} alt="logo" />
-// 					</Text>
-// 				</Row>
-// 			)}
-// 		</Container>
-// 	);
-// };
 
 const AdvancedMailstoresCreate: FC<{
 	externalData: string;
@@ -88,19 +18,10 @@ const AdvancedMailstoresCreate: FC<{
 	const context = useContext(AdvancedVolumeContext);
 	const { t } = useTranslation();
 	const { advancedVolumeDetail } = context;
-	// const volConfigHeader = useMemo(() => volumeConfigHeader(t), [t]);
 	const volTypeList = useMemo(() => volumeTypeList(t), [t]);
 	const [volumeType, setVolumeType] = useState<any>('');
 	const [bucketS3, setBucketS3] = useState(false);
-	// const [volumeCreateSelection, setVolumeCreateSelection] = useState(false);
 
-	// const volumeCreateList: Array<any> = [
-	// 	{
-	// 		name: 'servername#1',
-	// 		hsmSchedule: '0',
-	// 		indexer: '1'
-	// 	}
-	// ];
 	useEffect(() => {
 		if (
 			advancedVolumeDetail?.volumeAllocation &&
@@ -249,19 +170,6 @@ const AdvancedMailstoresCreate: FC<{
 						readOnly
 					/>
 				</Row>
-				{/* <Row padding={{ top: 'large' }} width="100%">
-					<VolumeCreateTable
-						volumes={volumeCreateList}
-						headers={volConfigHeader}
-						selectedRows={volumeCreateSelection}
-						onSelectionChange={(selected: any): any => {
-							setVolumeCreateSelection(selected);
-						}}
-						onClick={(i: any): any => {
-							// handleClick(i, volumeList?.primaries);
-						}}
-					/>
-				</Row> */}
 			</Container>
 		</>
 	);
