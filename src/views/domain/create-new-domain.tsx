@@ -158,7 +158,7 @@ const CreateDomain: FC = () => {
 			_content: zimbraDomainMaxAccounts
 		});
 		attributes.push({
-			n: 'zimbraDomainAggregateQuota',
+			n: 'zimbraMailDomainQuota',
 			_content: zimbraMailDomainQuota
 		});
 
@@ -257,7 +257,7 @@ const CreateDomain: FC = () => {
 							background="gray6"
 							padding={{ left: 'large', top: 'large' }}
 						>
-							<Text size="small" weight="bold" color="#414141">
+							<Text size="small" weight="bold" color="gray0">
 								{t('label.general_information', 'General Information')}
 							</Text>
 						</Row>
@@ -280,8 +280,8 @@ const CreateDomain: FC = () => {
 							<Container padding={{ all: 'small' }}>
 								<Input
 									label={t(
-										'label.max_account_you_can_manage_is',
-										'The max accounts you can manage is…'
+										'label.max_number_account_of_this_domain_manage',
+										'The max number of accounts this domain can manage'
 									)}
 									background="gray5"
 									value={zimbraDomainMaxAccounts}
@@ -293,8 +293,8 @@ const CreateDomain: FC = () => {
 							<Container padding={{ all: 'small' }}>
 								<Input
 									label={t(
-										'label.max_email_quota_you_can_manage_is',
-										'The max email quota you can manage is…'
+										'label.default_mail_quota_for_account_domain',
+										'The default email quota for each account in the domain'
 									)}
 									background="gray5"
 									value={zimbraMailDomainQuota}
@@ -328,14 +328,14 @@ const CreateDomain: FC = () => {
 							background="gray6"
 							padding={{ left: 'large', top: 'large' }}
 						>
-							<Text size="small" weight="bold" color="#414141">
+							<Text size="small" weight="bold" color="gray0">
 								{t('label.gal_settings', 'GAL Settings ')}&nbsp;
 							</Text>
 							<Tooltip
 								placement="top"
 								label={t('label.global_address_list', 'Global Address List')}
 							>
-								<Text size="small" color="#414141" style={{ 'text-decoration': 'underline' }}>
+								<Text size="small" color="gray0" style={{ 'text-decoration': 'underline' }}>
 									({t('label.what_is_a_gal', "What's a GAL?")})
 								</Text>
 							</Tooltip>

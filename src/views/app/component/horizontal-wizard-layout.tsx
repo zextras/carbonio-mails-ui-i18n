@@ -254,6 +254,7 @@ export const HorizontalWizardLayout = React.forwardRef<HTMLDivElement, Props>(
 										setCompleteLoading={setCompleteLoading}
 										externalData={externalData}
 										setToggleNextBtn={setToggleNextBtn}
+										setToggleWizardSection={setToggleWizardSection}
 									/>
 								)}
 								{View && isActive && (
@@ -268,6 +269,7 @@ export const HorizontalWizardLayout = React.forwardRef<HTMLDivElement, Props>(
 										setCompleteLoading={setCompleteLoading}
 										externalData={externalData}
 										setToggleNextBtn={setToggleNextBtn}
+										setToggleWizardSection={setToggleWizardSection}
 									/>
 								)}
 							</StepView>

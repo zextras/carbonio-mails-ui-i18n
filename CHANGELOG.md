@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.7](https://github.com/zextras/carbonio-admin-console-ui/compare/v0.9.6...v0.9.7) (2023-01-16)
+
+### [0.9.6](https://github.com/zextras/carbonio-admin-console-ui/compare/v0.9.5...v0.9.6) (2023-01-05)
+
+
+### Features
+
+* add copyrights information configuration in theme ([#216](https://github.com/zextras/carbonio-admin-console-ui/issues/216)) ([8ec7f3c](https://github.com/zextras/carbonio-admin-console-ui/commit/8ec7f3c2464eaac575c476f9f57591f9f25a24f1))
+* added download pdf feature ([a4a4a58](https://github.com/zextras/carbonio-admin-console-ui/commit/a4a4a58461026bb0ab1a9f023c17d4e5b85f5d15))
+* added tooltip of notes and label column ([25d8dbc](https://github.com/zextras/carbonio-admin-console-ui/commit/25d8dbc0d9eabfddce3fbcb552e36713849f14b2))
+* certificate verification done ([2d9bdc3](https://github.com/zextras/carbonio-admin-console-ui/commit/2d9bdc36c60c8d8c7c09afccd8b2e5a21cfd0ce0))
+* end session of user functionality implement ([5ada025](https://github.com/zextras/carbonio-admin-console-ui/commit/5ada025c8cfdb46c6f8bee28c0aa580cab2f98ed))
+* notification detail dialog added ([b57e691](https://github.com/zextras/carbonio-admin-console-ui/commit/b57e6914421dc2135272832da0f4c00effc8445d))
+* notification include inside dashboard ([1d81698](https://github.com/zextras/carbonio-admin-console-ui/commit/1d816982499ede6b7f4a08ef86f7a2041da6608a))
+* notification operation in primary bar added ([7fe4d36](https://github.com/zextras/carbonio-admin-console-ui/commit/7fe4d36b70b2b137c70ca3b7cee3b2ac56ea9085))
+* refactored layout and added bucket filter ([fa1a0f4](https://github.com/zextras/carbonio-admin-console-ui/commit/fa1a0f4461950613c47169e6b901c3c3d6489e8b))
+* refactored the upload and get certificate feature ([1f8baf1](https://github.com/zextras/carbonio-admin-console-ui/commit/1f8baf1a8ad8409fe720d21c909cae77752a9469))
+* server list added in dashboard ([6a3bcb5](https://github.com/zextras/carbonio-admin-console-ui/commit/6a3bcb53894fa09c66968120c46d8b757d74be41))
+
+
+### Bug Fixes
+
+* active sync search open detail device ([5170b3a](https://github.com/zextras/carbonio-admin-console-ui/commit/5170b3a827b6cbc5d3065effddd3a739840f8bca))
+* added mailbox servers function ([1dc268b](https://github.com/zextras/carbonio-admin-console-ui/commit/1dc268bc500d374f006665d71b5319b18e5d3a5c))
+* adding email address to mailing list not working ([fde5f2e](https://github.com/zextras/carbonio-admin-console-ui/commit/fde5f2ec4048163d44d5a1968e5d8bfa045bc26e))
+* applied suggestions ([5c6207b](https://github.com/zextras/carbonio-admin-console-ui/commit/5c6207bc19a9bea81a1ac18f0b99471a72df9ff5))
+* conflicts resolved ([da6baea](https://github.com/zextras/carbonio-admin-console-ui/commit/da6baea6f2eac96fc337bae17a474f8ad68f5f25))
+* conflicts resolved ([c9b8663](https://github.com/zextras/carbonio-admin-console-ui/commit/c9b86639abc3cebe3ab468ad5f809a0b69fa7d16))
+* conflicts resolved ([faddbce](https://github.com/zextras/carbonio-admin-console-ui/commit/faddbcec7d268bb37e211fef8866caa72b96e787))
+* console output temporary ([e6d2035](https://github.com/zextras/carbonio-admin-console-ui/commit/e6d20355e83fff78221fb6ff8c8f5f8cfa1dfee8))
+* disabled list item is enabled in dark mode issue ([#222](https://github.com/zextras/carbonio-admin-console-ui/issues/222)) ([76a41ac](https://github.com/zextras/carbonio-admin-console-ui/commit/76a41acbb8b0ba01d8c6d855d3761d958f41af4c))
+* domain selector issue ([#209](https://github.com/zextras/carbonio-admin-console-ui/issues/209)) ([ea9b323](https://github.com/zextras/carbonio-admin-console-ui/commit/ea9b32324dee6a2e46fbad7b3b63cc51cde4f65b))
+* filter for label also added ([4482d95](https://github.com/zextras/carbonio-admin-console-ui/commit/4482d959e4ce3e7b3177b58893a9637fa87ee324))
+* fixed domain deleted typo ([f4d9914](https://github.com/zextras/carbonio-admin-console-ui/commit/f4d9914a1301eb1dc50eca2d889a727468f5527b))
+* fixed upload certificate with modify domain request ([97c6b9a](https://github.com/zextras/carbonio-admin-console-ui/commit/97c6b9abbdd61015c52fb8c866449fbc43be2baf))
+* if no data in store type ([5b4daf7](https://github.com/zextras/carbonio-admin-console-ui/commit/5b4daf7d7ee94a50def8d688b480bd5c49f24f5e))
+* made prefix optional and removed ([c07c97f](https://github.com/zextras/carbonio-admin-console-ui/commit/c07c97fe2066c75b4ce6b17bd6e2b75426810326))
+* mailboxquota paging not working ([1c12b56](https://github.com/zextras/carbonio-admin-console-ui/commit/1c12b568ceea26ca4cee13b6d18f1f472ada3de3))
+* prefix and store type removed on edit ([71484c4](https://github.com/zextras/carbonio-admin-console-ui/commit/71484c4a8ef1491acee857e494d95b7c9dd3742d))
+* read only prefix and type shown in edit bucket ([5efcece](https://github.com/zextras/carbonio-admin-console-ui/commit/5efcece1bbb8260c5cc46a5c5e75bb80554f773e))
+* remove cos proxy allowed domain ([#229](https://github.com/zextras/carbonio-admin-console-ui/issues/229)) ([31785fd](https://github.com/zextras/carbonio-admin-console-ui/commit/31785fd8a48ffd21060f9e86885b634e16ed2ac7))
+* snackbar error message while create domain ([#218](https://github.com/zextras/carbonio-admin-console-ui/issues/218)) ([0986b0b](https://github.com/zextras/carbonio-admin-console-ui/commit/0986b0bf97f2998dc601781eae66473cf438d5fc))
+* table header translation ([49ef461](https://github.com/zextras/carbonio-admin-console-ui/commit/49ef461771607478ebdb4d9c3cf548fa7a622ce2))
+* wizard footer removed and added custom button ([b0833e6](https://github.com/zextras/carbonio-admin-console-ui/commit/b0833e6f07eddc54f62cb74152187b2797587521))
+
 ### [0.9.5](https://github.com/zextras/carbonio-admin-console-ui/compare/v0.9.4...v0.9.5) (2022-11-25)
 
 

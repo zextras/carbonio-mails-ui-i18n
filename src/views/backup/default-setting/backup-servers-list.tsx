@@ -340,11 +340,14 @@ const ServersList: FC = () => {
 				const name = item?.name;
 				const description = item?.a?.filter((value: any) => value.n === 'description')[0]?._content;
 				if (backupServerList && backupServerList.length > 0) {
-					const backupServer = backupServerList.filter((backupItem) => backupItem[item?.id])[0][
-						item.id
-					]?.ZxBackup;
-					const backupValues = getBackupServerValue(backupServer);
-					sList.push({ id, name, description, ...backupValues });
+					const backupServerItem = backupServerList.filter((backupItem) => backupItem[item?.id])[0];
+					if (backupServerItem) {
+						const zxBackItem = backupServerItem[item?.id];
+						if (zxBackItem && zxBackItem?.ZxBackup) {
+							const backupValues = getBackupServerValue(zxBackItem?.ZxBackup);
+							sList.push({ id, name, description, ...backupValues });
+						}
+					}
 				} else {
 					sList.push({ id, name, description });
 				}

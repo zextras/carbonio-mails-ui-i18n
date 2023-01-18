@@ -69,7 +69,6 @@ const DomainListPanel: FC = () => {
 	const [isDomainSelect, setIsDomainSelect] = useState(false);
 	const [selectedOperationItem, setSelectedOperationItem] = useState('');
 	const setDomain = useDomainStore((state) => state.setDomain);
-	const setDomainListStore = useDomainStore((state) => state.setDomainList);
 	const domainInformation = useDomainStore((state) => state.domain);
 	const [isDetailListExpanded, setIsDetailListExpanded] = useState(true);
 	const [isManageListExpanded, setIsManageListExpanded] = useState(true);
@@ -80,36 +79,39 @@ const DomainListPanel: FC = () => {
 	}, [globalCarbonioSendAnalytics, matomo]);
 
 	const getBackupModuleEnable = useBackupModuleStore((state) => state.backupModuleEnable);
-	const getDomainLists = useCallback(
-		(domainName: string): any => {
-			getDomainList(domainName).then((data) => {
-				const searchResponse: any = data;
-				if (!!searchResponse && searchResponse?.searchTotal > 0) {
-					setDomainList(searchResponse?.domain);
-					setDomainListStore(searchResponse?.domain);
-				} else {
-					setDomainList([]);
-				}
-			});
-		},
-		[setDomainListStore]
-	);
+	const getDomainLists = useCallback((domainName: string): any => {
+		getDomainList(domainName, 0).then((data) => {
+			const searchResponse: any = data;
+			if (!!searchResponse && searchResponse?.searchTotal > 0) {
+				setDomainList(searchResponse?.domain);
+			} else {
+				setDomainList([]);
+			}
+		});
+	}, []);
 
 	useEffect(() => {
 		getDomainLists('');
 	}, [getDomainLists]);
 
-	useEffect(() => {
+	useMemo(() => {
 		if (domainInformation?.name) {
 			setSearchDomainName(domainInformation?.name);
 			setIsDomainSelect(true);
 			setIsDomainListExpand(false);
-			setSelectedOperationItem(GENERAL_SETTINGS);
+
 			if (domainInformation?.id) {
 				setDomainId(domainInformation?.id);
 			}
 		}
 	}, [domainInformation?.id, domainInformation?.name]);
+
+	useMemo(() => {
+		if (selectedOperationItem === '') {
+			const operationItem = locationService?.pathname.split('/').pop();
+			setSelectedOperationItem(operationItem || '');
+		}
+	}, [locationService?.pathname, selectedOperationItem]);
 
 	useEffect(() => {
 		if (
@@ -193,7 +195,7 @@ const DomainListPanel: FC = () => {
 			},
 			{
 				id: VIRTUAL_HOSTS,
-				name: t('label.virtual_hosts', 'Virtual Hosts'),
+				name: t('label.virtual_hosts_and_certificates', 'Virtual Hosts & Certificate'),
 				isSelected: isDomainSelect
 			},
 			{

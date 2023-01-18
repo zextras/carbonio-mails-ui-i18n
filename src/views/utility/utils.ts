@@ -1451,6 +1451,20 @@ export const BucketRegionsInAlibaba = (t: TFunction): Array<{ value?: string; la
 	}
 ];
 
+export const CertificateTypes = (t: TFunction): Array<{ value?: string; label: string }> => [
+	{
+		label: t(
+			'domain.certificate_type_use_letsencrypt',
+			'I want to use a Let’s Encrypt Certificate'
+		),
+		value: '1'
+	},
+	{
+		label: t('domain.certificate_type_use_custom', 'I want to use a Custom Certificate'),
+		value: '2'
+	}
+];
+
 export const getDateFromStr = (serverStr: string): any => {
 	if (serverStr === null || serverStr === undefined) return null;
 	const d = new Date();
@@ -1735,4 +1749,10 @@ export const bytesToSize = (bytes: number): string => {
 	const i: number = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10);
 	if (i === 0) return `${bytes} ${sizes[i]}`;
 	return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
+};
+
+export const copyTextToClipboard = (text: string): void => {
+	if (navigator) {
+		navigator.clipboard.writeText(text);
+	}
 };

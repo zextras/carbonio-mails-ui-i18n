@@ -103,6 +103,7 @@ const EditAccountGeneralSection: FC = () => {
 		<Container
 			mainAlignment="flex-start"
 			padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
+			style={{ overflow: 'auto' }}
 		>
 			<Row mainAlignment="flex-start" padding={{ left: 'small' }} width="100%">
 				<Row padding={{ top: 'large' }} width="100%" mainAlignment="space-between">
@@ -225,7 +226,7 @@ const EditAccountGeneralSection: FC = () => {
 							label={t('account_details.hide_in_gal', 'Hide in GAL')}
 						/>
 						<Tooltip placement="top" label={t('label.global_address_list', 'Global Address List')}>
-							<Text size="small" color="#414141" style={{ 'text-decoration': 'underline' }}>
+							<Text size="small" color="gray0" style={{ 'text-decoration': 'underline' }}>
 								({t('label.what_is_a_gal', "What's a GAL?")})
 							</Text>
 						</Tooltip>
@@ -404,7 +405,7 @@ const EditAccountGeneralSection: FC = () => {
 						{t('label.notes', 'Notes')}
 					</Text>
 				</Row>
-				<Row padding={{ top: 'large', left: 'large' }} width="100%">
+				<Row padding={{ top: 'large', left: 'large', bottom: 'large' }} width="100%">
 					<Input
 						background="gray5"
 						height="85px"

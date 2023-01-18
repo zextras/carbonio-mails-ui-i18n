@@ -4,7 +4,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { FC, Suspense, useCallback, useEffect } from 'react';
+import React, { FC, Suspense } from 'react';
 import { Container } from '@zextras/carbonio-design-system';
 import {
 	Spinner,
@@ -22,8 +22,10 @@ import {
 	COS_ROUTE_ID,
 	DASHBOARD,
 	DOMAINS_ROUTE_ID,
+	LOG_AND_QUEUES,
 	MANAGE_APP_ID,
 	MONITORING,
+	NOTIFICATION_ROUTE_ID,
 	PRIVACY_ROUTE_ID,
 	SERVICES_ROUTE_ID,
 	STORAGES_ROUTE_ID,
@@ -38,11 +40,9 @@ import CosDetailPanel from './cos/cos-detail-panel';
 import BackupListPanel from './backup/backup-list-panel';
 import BackupDetailPanel from './backup/backup-detail-panel';
 import BucketRoutePanel from './bucket/bucket-route-panel';
-import { getAllServers } from '../services/get-all-servers-service';
-import { useServerStore } from '../store/server/store';
-import { useGlobalConfigStore } from '../store/global-config/store';
-import { useBackupModuleStore } from '../store/backup-module/store';
 import PrivacyView from './privacy/privacy-view';
+import NotificationsListPanel from './notifications/notifications-list-panel';
+import NotificationsDetailPanel from './notifications/notifications-detail-panel';
 
 const DetailViewContainer = styled(Container)`
 	max-width: ${({ isPrimaryBarExpanded }): number => (isPrimaryBarExpanded ? 981 : 1125)}px;
@@ -56,7 +56,12 @@ const AppView: FC = () => {
 			<BreadCrumb />
 			<Switch>
 				<Route path={`/${DASHBOARD}`}>
-					<Container orientation="horizontal" mainAlignment="flex-start">
+					<Container
+						orientation="horizontal"
+						mainAlignment="flex-start"
+						background="gray5"
+						height="auto"
+					>
 						<Suspense fallback={<Spinner />}>
 							<Dashboard />
 						</Suspense>
@@ -156,6 +161,23 @@ const AppView: FC = () => {
 							<DetailViewContainer isPrimaryBarExpanded={isPrimaryBarExpanded}>
 								<Suspense fallback={<Spinner />}>
 									<BackupDetailPanel />
+								</Suspense>
+							</DetailViewContainer>
+						</Container>
+					</Container>
+				</Route>
+
+				<Route path={`/${LOG_AND_QUEUES}/${NOTIFICATION_ROUTE_ID}`}>
+					<Container orientation="horizontal" mainAlignment="flex-start">
+						<Container style={{ maxWidth: '265px' }}>
+							<Suspense fallback={<Spinner />}>
+								<NotificationsListPanel />
+							</Suspense>
+						</Container>
+						<Container style={{ maxWidth: '100%' }}>
+							<DetailViewContainer isPrimaryBarExpanded={isPrimaryBarExpanded}>
+								<Suspense fallback={<Spinner />}>
+									<NotificationsDetailPanel />
 								</Suspense>
 							</DetailViewContainer>
 						</Container>

@@ -28,7 +28,7 @@ import DomainGalSettings from './details/domain-gal-settings';
 import DomainGeneralSettings from './details/domain-general-settings';
 import DomainMailboxQuotaSetting from './details/domain-mailbox-quota-settings';
 import ManageAccounts from './manange/accounts/manage-accounts';
-import DomainVirtualHosts from './details/domain-virtual-hosts';
+import DomainVirtualHosts from './details/virtual-hosts-certificates/domain-virtual-hosts';
 import { useDomainStore } from '../../store/domain/store';
 import DomainMailingList from './manange/mailing-list/domain-mailing-list';
 import DomainResources from './manange/resources/domain-resources';

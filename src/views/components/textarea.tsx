@@ -45,7 +45,6 @@ const TextAreaEl = styled.textarea`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	border-top: 16px solid transparent !important;
 	transition: background 0.2s ease-out;
 	padding: ${({ theme }): string =>
 		`calc(${theme.sizes.padding.large} + ${theme.sizes.padding.extrasmall}) ${theme.sizes.padding.large} ${theme.sizes.padding.small}`}!important;

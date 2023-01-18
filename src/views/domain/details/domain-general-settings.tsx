@@ -241,8 +241,8 @@ const DomainGeneralSettings: FC = () => {
 				setZimbraDomainMaxAccounts('');
 			}
 
-			if (obj.zimbraDomainAggregateQuota) {
-				setZimbraMailDomainQuota(obj.zimbraDomainAggregateQuota);
+			if (obj.zimbraMailDomainQuota) {
+				setZimbraMailDomainQuota(obj.zimbraMailDomainQuota);
 			} else {
 				obj.zimbraMailDomainQuota = '';
 				setZimbraMailDomainQuota('');
@@ -328,18 +328,6 @@ const DomainGeneralSettings: FC = () => {
 		}
 	}, [domainData, zimbraDomainDefaultCOSId]);
 
-	useEffect(() => {
-		if (domainData.zimbraDomainMaxAccounts !== zimbraDomainMaxAccounts) {
-			setIsDirty(true);
-		}
-	}, [domainData, zimbraDomainMaxAccounts]);
-
-	useEffect(() => {
-		if (domainData.zimbraDomainAggregateQuota !== zimbraMailDomainQuota) {
-			setIsDirty(true);
-		}
-	}, [domainData, zimbraMailDomainQuota]);
-
 	const onCancel = (): void => {
 		setLoading(true);
 		setTimeout(() => setLoading(false), 10);
@@ -409,14 +397,6 @@ const DomainGeneralSettings: FC = () => {
 		attributes.push({
 			n: 'zimbraHelpDelegatedURL',
 			_content: zimbraHelpDelegatedURL
-		});
-		attributes.push({
-			n: 'zimbraDomainMaxAccounts',
-			_content: zimbraDomainMaxAccounts
-		});
-		attributes.push({
-			n: 'zimbraDomainAggregateQuota',
-			_content: zimbraMailDomainQuota
 		});
 		if (zimbraDomainDefaultCOSId && zimbraDomainDefaultCOSId !== '') {
 			attributes.push({
@@ -593,15 +573,6 @@ const DomainGeneralSettings: FC = () => {
 										onChange={(e: any): any => {}}
 									/>
 								</Container>
-								{/* <Container padding={{ all: 'small' }}>
-									<Input
-										label={t('label.certificate', 'Certificate')}
-										value=""
-										background="gray6"
-										// eslint-disable-next-line @typescript-eslint/no-empty-function
-										onChange={(e: any): any => {}}
-									/>
-								</Container> */}
 							</ListRow>
 
 							<ListRow>
@@ -631,27 +602,23 @@ const DomainGeneralSettings: FC = () => {
 								<Container padding={{ all: 'small' }}>
 									<Input
 										label={t(
-											'label.max_account_you_can_manage_is',
-											'The max accounts you can manage is…'
+											'label.max_number_account_of_this_domain_manage',
+											'The max number of accounts this domain can manage'
 										)}
 										value={zimbraDomainMaxAccounts}
 										background="gray6"
-										onChange={(e: any): any => {
-											setZimbraDomainMaxAccounts(e.target.value);
-										}}
+										readOnly
 									/>
 								</Container>
 								<Container padding={{ all: 'small' }}>
 									<Input
 										label={t(
-											'label.max_email_quota_you_can_manage_is',
-											'The max email quota you can manage is…'
+											'label.default_mail_quota_for_account_domain',
+											'The default email quota for each account in the domain'
 										)}
 										value={zimbraMailDomainQuota}
 										background="gray6"
-										onChange={(e: any): any => {
-											setZimbraMailDomainQuota(e.target.value);
-										}}
+										readOnly
 									/>
 								</Container>
 							</ListRow>
@@ -804,32 +771,6 @@ const DomainGeneralSettings: FC = () => {
 									/>
 								</Container>
 							</ListRow>
-
-							{/* <ListRow>
-								<Container padding={{ all: 'small' }}>
-									<Input
-										label={t('label.admin_help_url', 'Admin Help URL')}
-										value={zimbraHelpAdminURL}
-										background="gray5"
-										onChange={(e: any): any => {
-											setZimbraHelpAdminURL(e.target.value);
-										}}
-									/>
-								</Container>
-							</ListRow> */}
-
-							{/* <ListRow>
-								<Container padding={{ all: 'small' }}>
-									<Input
-										label={t('label.deligated_admin_help_url', 'Delegated Admin Help URL')}
-										value={zimbraHelpDelegatedURL}
-										background="gray5"
-										onChange={(e: any): any => {
-											setZimbraHelpDelegatedURL(e.target.value);
-										}}
-									/>
-								</Container>
-							</ListRow> */}
 							<ListRow>
 								<Container padding={{ all: 'small' }}>
 									<Button

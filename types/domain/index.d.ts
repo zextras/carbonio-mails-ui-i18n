@@ -11,3 +11,8 @@ export type Domain = {
 	name?: string;
 	a?: Array<Attribute>;
 };
+
+export interface ICertificateContent {
+	fileName: string;
+	content: string;
+}

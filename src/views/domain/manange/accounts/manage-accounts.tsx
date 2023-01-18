@@ -147,6 +147,10 @@ const ManageAccounts: FC = () => {
 			pending: {
 				color: '#828282',
 				label: t('label.pending', 'Pending')
+			},
+			lockout: {
+				color: '#D74942',
+				label: t('label.lockout', 'Lockout')
 			}
 		}),
 		[t]
@@ -248,10 +252,10 @@ const ManageAccounts: FC = () => {
 							otpListArr.push({
 								id: item?.id,
 								columns: [
-									<Text size="medium" key={item?.id} color="#414141">
+									<Text size="medium" key={item?.id} color="gray0">
 										{item?.label || ' '}
 									</Text>,
-									<Text size="medium" key={item?.id} color="#414141">
+									<Text size="medium" key={item?.id} color="gray0">
 										{item?.status ? t('label.enabled', 'Enabled') : t('label.disabled', 'Disabled')}
 									</Text>,
 									<Text size="medium" key={item?.id}>
@@ -260,7 +264,7 @@ const ManageAccounts: FC = () => {
 									<Text size="medium" key={item?.id}>
 										{moment(item?.created).format('DD/MMM/YYYY')}
 									</Text>,
-									<Text size="medium" key={item?.id} color="#414141">
+									<Text size="medium" key={item?.id} color="gray0">
 										{item?.description || <>&nbsp;</>}
 									</Text>
 								],
@@ -364,7 +368,7 @@ const ManageAccounts: FC = () => {
 							<Text
 								size="medium"
 								key={item?.id}
-								color="#414141"
+								color="gray0"
 								onClick={(): void => {
 									openDetailView(item);
 								}}
@@ -374,7 +378,7 @@ const ManageAccounts: FC = () => {
 							<Text
 								size="medium"
 								key={item?.id}
-								color="#414141"
+								color="gray0"
 								onClick={(): void => {
 									openDetailView(item);
 								}}
@@ -422,7 +426,7 @@ const ManageAccounts: FC = () => {
 							<Text
 								size="medium"
 								key={item?.id}
-								color="#828282"
+								color="gray0"
 								onClick={(): void => {
 									openDetailView(item);
 								}}
@@ -442,7 +446,7 @@ const ManageAccounts: FC = () => {
 							<Text
 								size="medium"
 								key={item?.id}
-								color="#414141"
+								color="gray0"
 								onClick={(event: { stopPropagation: () => void }): void => {
 									event.stopPropagation();
 									openDetailView(item);

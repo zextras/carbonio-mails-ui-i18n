@@ -32,8 +32,8 @@ const BackupDetailOperation: FC = () => {
 		dumpGlobalConfig(serverName).then((data: any) => {
 			if (data?.Body?.response?.content) {
 				const parseData = JSON.parse(data.Body.response.content);
-				if (parseData?.response?.[serverName]?.response) {
-					setGlobalConfig(parseData?.response?.[serverName]?.response);
+				if (parseData?.response) {
+					setGlobalConfig(parseData?.response);
 				}
 			}
 		});

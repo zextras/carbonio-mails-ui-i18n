@@ -6,11 +6,11 @@
 
 import { soapFetch } from '@zextras/carbonio-shell-ui';
 
-export const getDomainList = async (searchKeyWord: string): Promise<any> =>
+export const getDomainList = async (searchKeyWord: string, offset: number): Promise<any> =>
 	soapFetch(`SearchDirectory`, {
 		_jsns: 'urn:zimbraAdmin',
 		limit: '50',
-		offset: 0,
+		offset: offset || 0,
 		sortBy: 'zimbraDomainName',
 		sortAscending: '1',
 		applyCos: 'false',

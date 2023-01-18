@@ -35,6 +35,7 @@ import { modifyAccountRequest } from '../../../../../services/modify-account';
 import { setPasswordRequest } from '../../../../../services/set-password';
 import { renameAccountRequest } from '../../../../../services/rename-account';
 import { AccountContext } from '../account-context';
+import { getDomainList } from '../../../../../services/search-domain-service';
 
 // eslint-disable-next-line no-empty-pattern
 const EditAccount: FC<{
@@ -53,11 +54,38 @@ const EditAccount: FC<{
 	const { t } = useTranslation();
 	const createSnackbar = useSnackbar();
 	const domainName = useDomainStore((state) => state.domain?.name);
+	const domainList = useDomainStore((state) => state.domainList);
 	const [change, setChange] = useState('general');
 	const [click, setClick] = useState('');
 	const [isDirty, setIsDirty] = useState<boolean>(false);
 	const conext = useContext(AccountContext);
 	const { accountDetail, setAccountDetail, initAccountDetail, setInitAccountDetail } = conext;
+	const setDomainListStore = useDomainStore((state) => state.setDomainList);
+
+	const getDomainLists = useCallback(
+		(offset: number): any => {
+			getDomainList('', offset).then((data) => {
+				const searchResponse: any = data;
+				if (!!searchResponse && searchResponse?.searchTotal > 0) {
+					if (searchResponse?.domain?.length) {
+						setDomainListStore([...domainList, ...searchResponse.domain]);
+						if (searchResponse?.more) {
+							getDomainLists(offset + 50);
+						}
+					}
+				} else {
+					setDomainListStore([]);
+				}
+			});
+		},
+		[domainList, setDomainListStore]
+	);
+
+	useEffect(() => {
+		if (!domainList?.length) {
+			getDomainLists(0);
+		}
+	}, [domainList, getDomainLists]);
 
 	useEffect(() => {
 		const modifiedKeys: any = reduce(
@@ -266,13 +294,34 @@ const EditAccount: FC<{
 					orientation="horizontal"
 					background="white"
 					width="fill"
-					height="48px"
+					height="56px"
 				>
 					<Row padding={{ horizontal: 'small' }}></Row>
 					<Row takeAvailableSpace mainAlignment="flex-start">
 						<Text size="medium" overflow="ellipsis" weight="bold">
 							{`${selectedAccount?.name} ${t('label.detail', 'Detail')}`}
 						</Text>
+					</Row>
+					<Row>
+						{isDirty && (
+							<Container
+								orientation="horizontal"
+								mainAlignment="flex-end"
+								crossAlignment="flex-end"
+								background="gray6"
+							>
+								<Padding right="small">
+									<Button label={t('label.cancel', 'Cancel')} color="secondary" onClick={onUndo} />
+								</Padding>
+								<Padding right="small">
+									<Button
+										label={t('label.save', 'Save')}
+										color="primary"
+										onClick={modifyAccountReq}
+									/>
+								</Padding>
+							</Container>
+						)}
 					</Row>
 					<Row padding={{ right: 'extrasmall' }}>
 						<IconButton
@@ -292,7 +341,6 @@ const EditAccount: FC<{
 					crossAlignment="flex-start"
 					height="calc(100vh - 152px)"
 					background="white"
-					style={{ overflow: 'auto' }}
 				>
 					<Row width="100%" mainAlignment="flex-end" crossAlignment="flex-end">
 						<TabBar
@@ -307,25 +355,6 @@ const EditAccount: FC<{
 						<Divider color="gray2" />
 					</Row>
 					<Container crossAlignment="flex-start" padding={{ all: '0px' }}>
-						{isDirty && (
-							<Container
-								orientation="horizontal"
-								mainAlignment="flex-end"
-								crossAlignment="flex-end"
-								background="gray6"
-								padding={{ all: 'medium' }}
-								height="85px"
-							>
-								<Padding right="small">
-									<Button label={t('label.cancel', 'Cancel')} color="secondary" onClick={onUndo} />
-								</Padding>
-								<Button
-									label={t('label.save', 'Save')}
-									color="primary"
-									onClick={modifyAccountReq}
-								/>
-							</Container>
-						)}
 						{change === 'general' && <EditAccountGeneralSection />}
 						{change === 'configuration' && <EditAccountConfigrationSection />}
 						{change === 'user_preferences' && (

@@ -45,6 +45,7 @@ import {
 	MANAGE_APP_ID,
 	MONITORING,
 	MTA,
+	NOTIFICATION_ROUTE_ID,
 	OPERATIONS,
 	PRIVACY_ROUTE_ID,
 	SERVICES_ROUTE_ID,
@@ -63,6 +64,7 @@ import { useAuthIsAdvanced } from './store/auth-advanced/store';
 import SvgBackupOutline from './icons/outline/BackupOutline';
 import { useBucketServersListStore } from './store/bucket-server-list/store';
 import MatomoTracker from './matomo-tracker';
+import { useMailstoreListStore } from './store/mailstore-list/store';
 
 const LazyAppView = lazy(() => import('./views/app-view'));
 
@@ -95,6 +97,7 @@ const App: FC = () => {
 	);
 	const allConfig = useAllConfig();
 	const isAdvanced = useIsAdvanced();
+	const { setAllMailstoreList } = useMailstoreListStore((state) => state);
 
 	useEffect(() => {
 		const sendAnalytics = config.filter((items) => items.n === CARBONIO_SEND_ANALYTICS)[0]
@@ -262,7 +265,7 @@ const App: FC = () => {
 						label: t('label.authentication', 'Authentication')
 					},
 					{
-						label: t('label.virtual_hosts', 'Virtual Hosts')
+						label: t('label.virtual_hosts_and_certificates', 'Virtual Hosts & Certificate')
 					},
 					{
 						label: t('label.mailbox_quota', 'Mailbox Quota')
@@ -477,6 +480,18 @@ const App: FC = () => {
 				primarybarSection: { ...servicesSection },
 				tooltip: BackupTooltipView
 			});
+
+			addRoute({
+				route: NOTIFICATION_ROUTE_ID,
+				position: 1,
+				visible: true,
+				label: t('label.notifications', 'Notifications'),
+				primaryBar: 'BellOutline',
+				appView: AppView,
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				primarybarSection: { ...logAndQueuesSection }
+			});
 		}
 		addRoute({
 			route: PRIVACY_ROUTE_ID,
@@ -489,18 +504,6 @@ const App: FC = () => {
 			// @ts-ignore
 			primarybarSection: { ...managementSection }
 		});
-
-		/* addRoute({
-			route: OPERATIONS,
-			position: 1,
-			visible: true,
-			label: t('label.operations', 'Operations'),
-			primaryBar: 'ListOutline',
-			appView: AppView,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			primarybarSection: { ...logAndQueuesSection }
-		}); */
 
 		/* addRoute({
 			route: APPLICATION_LOG,
@@ -597,12 +600,11 @@ const App: FC = () => {
 				zextras: {
 					_jsns: 'urn:zimbraAdmin',
 					module: 'ZxConfig',
-					action: 'dump_global_config',
-					targetServers: serverName
+					action: 'dump_global_config'
 				}
 			}).then((data: any) => {
 				const responseData = JSON.parse(data?.Body?.response?.content);
-				const globalConfig = responseData?.response[serverName]?.response;
+				const globalConfig = responseData?.response;
 				if (globalConfig) {
 					setGlobalConfig(globalConfig);
 				}
@@ -616,21 +618,24 @@ const App: FC = () => {
 			const server = data?.server;
 			if (server && Array.isArray(server) && server.length > 0) {
 				setServerList(server);
-				checkIsBackupModuleEnable(server);
+				if (isAdvanced) {
+					checkIsBackupModuleEnable(server);
+					getGlobalConfig(server[0]?.name);
+				}
 				setAllServersList(server);
-				getGlobalConfig(server[0]?.name);
 			}
 		});
-	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, getGlobalConfig]);
+	}, [setServerList, checkIsBackupModuleEnable, setAllServersList, getGlobalConfig, isAdvanced]);
 
 	const getMailstoresServersRequest = useCallback(() => {
 		getMailstoresServers().then((data) => {
 			const server = data?.server;
 			if (server && Array.isArray(server) && server.length > 0) {
 				setVolumeList(server);
+				setAllMailstoreList(server);
 			}
 		});
-	}, [setVolumeList]);
+	}, [setVolumeList, setAllMailstoreList]);
 
 	useEffect(() => {
 		getAllServersRequest();
