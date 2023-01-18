@@ -405,7 +405,6 @@ const VolumesDetailPanel: FC = () => {
 		const bucketDetails = isVolumeAllDetail?.filter(
 			(items: any) => items?.uuid === attr?.bucketConfigurationId
 		);
-		console.log('__bucketDetails', attr);
 		const obj: any = {};
 		obj._jsns = 'urn:zimbraAdmin';
 		obj.module = 'ZxPowerstore';
@@ -414,6 +413,7 @@ const VolumesDetailPanel: FC = () => {
 		obj.volumeName = attr?.volumeName;
 		obj.volumeType = attr?.volumeType;
 		obj.storeType = attr?.storeType;
+		obj.isCurrent = attr?.isCurrent === 1;
 
 		if (
 			attr?.storeType?.toUpperCase() === ALIBABA?.toUpperCase() ||
@@ -476,36 +476,7 @@ const VolumesDetailPanel: FC = () => {
 		await fetchSoap('zextras', obj)
 			.then(async (res: any) => {
 				const result = JSON.parse(res?.Body?.response?.content);
-				console.log('__entered', result);
 				if (result?.ok) {
-					if (attr?.isCurrent === 1) {
-						await fetchSoap('SetCurrentVolumeRequest', {
-							_jsns: 'urn:zimbraAdmin',
-							module: 'ZxCore',
-							action: 'SetCurrentVolumeRequest',
-							id: attr?.bucketConfigurationId,
-							type: attr?.volumeType
-						})
-							.then(() => {
-								createSnackbar({
-									key: '1',
-									type: 'success',
-									label: t('label.volume_active', '{{volumeName}} is Currently active', {
-										volumeName: attr?.volumeName
-									})
-								});
-							})
-							.catch((error) => {
-								createSnackbar({
-									key: 'error',
-									type: 'error',
-									label: t('label.volume_detail_error', '{{message}}', {
-										message: error
-									}),
-									autoHideTimeout: 5000
-								});
-							});
-					}
 					getAllVolumesRequest();
 					createSnackbar({
 						key: '1',
@@ -520,7 +491,7 @@ const VolumesDetailPanel: FC = () => {
 						key: '1',
 						type: 'error',
 						label: t('label.volume_create_error', '{{volumeErrMessage}}', {
-							volumeErrMessage: result?.error?.message
+							volumeErrMessage: result?.error?.message || result?.exception?.message
 						})
 					});
 				}
