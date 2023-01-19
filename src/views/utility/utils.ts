@@ -997,14 +997,6 @@ export const volumeAllocationList = (t: TFunction): Array<{ label: string; value
 	{
 		label: t('volume.volume_allocation_list.external', 'External'),
 		value: 2
-	},
-	{
-		label: t('volume.volume_allocation_list.sproxy', 'Sproxy'),
-		value: 3
-	},
-	{
-		label: t('volume.volume_allocation_list.centralized', 'Centralized'),
-		value: 4
 	}
 ];
 
@@ -1032,8 +1024,8 @@ export const volumeConfigHeader = (
 		bold: true
 	},
 	{
-		id: 'indexer',
-		label: t('volume.volume_config_header.indexer', 'Indexer'),
+		id: 'status',
+		label: t('volume.volume_config_header.status', 'Status'),
 		width: '33%',
 		align: 'center',
 		bold: true

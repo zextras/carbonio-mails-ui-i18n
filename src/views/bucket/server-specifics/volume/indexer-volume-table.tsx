@@ -5,6 +5,7 @@
  */
 import React, { FC, useMemo } from 'react';
 import { Container, Row, Text, Table } from '@zextras/carbonio-design-system';
+import { useTranslation } from 'react-i18next';
 import { NO, YES } from '../../../../constants';
 
 const IndexerVolumeTable: FC<{
@@ -14,6 +15,7 @@ const IndexerVolumeTable: FC<{
 	headers: any;
 	onClick: any;
 }> = ({ volumes, selectedRows, onSelectionChange, headers, onClick }) => {
+	const [t] = useTranslation();
 	const tableRows = useMemo(
 		() =>
 			volumes.map((v, i) => ({
@@ -35,7 +37,7 @@ const IndexerVolumeTable: FC<{
 						}}
 						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
 					>
-						{v.name}
+						{v?.name}
 					</Row>,
 					<Row
 						key={i}
@@ -44,7 +46,7 @@ const IndexerVolumeTable: FC<{
 						}}
 						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
 					>
-						{v.rootpath}
+						{v?.rootpath}
 					</Row>,
 					<Row
 						key={i}
@@ -53,7 +55,7 @@ const IndexerVolumeTable: FC<{
 						}}
 						style={{ textAlign: 'left', justifyContent: 'flex-start' }}
 					>
-						<Text color={v.isCurrent ? 'text' : 'error'}>{v.isCurrent ? YES : NO}</Text>
+						<Text color={v?.isCurrent ? 'text' : 'error'}>{v?.isCurrent ? YES : NO}</Text>
 					</Row>
 				],
 				clickable: true
@@ -70,9 +72,9 @@ const IndexerVolumeTable: FC<{
 				selectedRows={selectedRows}
 				onSelectionChange={onSelectionChange}
 			/>
-			{tableRows.length === 0 && (
+			{tableRows?.length === 0 && (
 				<Row padding={{ top: 'extralarge', horizontal: 'extralarge' }} width="fill">
-					<Text>Empty Table</Text>
+					<Text>{t('label.empty_table_helperText', 'Empty Table')}</Text>
 				</Row>
 			)}
 		</Container>

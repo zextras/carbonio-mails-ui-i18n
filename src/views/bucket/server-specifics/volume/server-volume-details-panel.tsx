@@ -18,8 +18,11 @@ import {
 } from '@zextras/carbonio-design-system';
 import { useTranslation } from 'react-i18next';
 import { soapFetch } from '@zextras/carbonio-shell-ui';
-import { fetchSoap } from '../../../../services/bucket-service';
 import { INDEXERES, PRIMARIES, SECONDARIES } from '../../../../constants';
+import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
+import { useBucketServersListStore } from '../../../../store/bucket-server-list/store';
+import { useServerStore } from '../../../../store/server/store';
+import { fetchSoap } from '../../../../services/bucket-service';
 
 const ServerVolumeDetailsPanel: FC<{
 	setToggleDetailPage: any;
@@ -46,11 +49,16 @@ const ServerVolumeDetailsPanel: FC<{
 }) => {
 	const { t } = useTranslation();
 	const createSnackbar = useSnackbar();
+	const serverList = useServerStore((state) => state?.serverList);
+	const serverName = useBucketServersListStore((state) => state?.volumeList)[0].name;
+	const isAdvanced = useAuthIsAdvanced((state) => state?.isAdvanced);
 	const [typeLabel, setTypeLabel] = useState('');
 	const [toggleSetAsBtnLabel, setToggleSetAsBtnLabel] = useState(
 		t('label.set_as_secondary_button', 'SET AS SECONDARY')
 	);
 	const [toggleSetAsIcon, setToggleSetAsIcon] = useState('ArrowheadDown');
+	const [type, setType] = useState<any>();
+	const [externalVolDetail, setExternalVolDetail] = useState<any>('');
 
 	const getVolumeDetailData = useCallback((): void => {
 		soapFetch(
@@ -73,15 +81,8 @@ const ServerVolumeDetailsPanel: FC<{
 				} else if (response?.volume[0]?.type === 10) {
 					setTypeLabel(INDEXERES);
 				}
-				setDetailData({
-					name: response?.volume[0]?.name,
-					id: response?.volume[0]?.id,
-					type: response?.volume[0]?.type,
-					compressBlobs: response?.volume[0]?.compressBlobs,
-					isCurrent: response?.volume[0]?.isCurrent,
-					rootpath: response?.volume[0]?.rootpath,
-					compressionThreshold: response?.volume[0]?.compressionThreshold
-				});
+				const volData = response?.volume[0];
+				setDetailData(volData);
 			})
 			.catch((error) => {
 				createSnackbar({
@@ -96,69 +97,135 @@ const ServerVolumeDetailsPanel: FC<{
 				getAllVolumesRequest();
 			});
 	}, [
-		getAllVolumesRequest,
-		createSnackbar,
-		setDetailData,
-		setToggleDetailPage,
-		t,
 		volumeDetail?.id,
-		selectedServerId
+		selectedServerId,
+		setDetailData,
+		createSnackbar,
+		t,
+		setToggleDetailPage,
+		getAllVolumesRequest
 	]);
 
 	useEffect(() => {
 		getVolumeDetailData();
 	}, [getVolumeDetailData, volumeDetail, modifyVolumeToggle]);
 
-	const handleTypeToggleClick = useCallback((): void => {
-		soapFetch(
-			'ModifyVolume',
-			{
-				_jsns: 'urn:zimbraAdmin',
-				module: 'ZxCore',
-				action: 'ModifyVolumeRequest',
-				id: detailData?.id,
-				volume: {
+	const handleTypeToggleClick = useCallback(async (): Promise<void> => {
+		if (isAdvanced) {
+			const obj: any = {};
+			obj._jsns = 'urn:zimbraAdmin';
+			obj.module = 'ZxPowerstore';
+			obj.action = 'doUpdateVolume';
+			obj.targetServers = serverName;
+			obj.volumeType =
+				volumeDetail?.volumeType === PRIMARIES.toLocaleLowerCase()
+					? SECONDARIES.toLocaleLowerCase()
+					: PRIMARIES.toLocaleLowerCase();
+			obj.storeType = volumeDetail?.storeType;
+			obj.isCurrent = volumeDetail?.isCurrent;
+			obj.currentVolumeName = volumeDetail?.name;
+
+			await fetchSoap('zextras', obj)
+				.then((res: any) => {
+					const result = JSON.parse(res?.Body?.response?.content);
+					const updateResponse = result?.response?.[`${serverList[0]?.name}`];
+					if (updateResponse?.ok) {
+						createSnackbar({
+							key: '1',
+							type: 'success',
+							label: t('label.external_volume_edited', '{{message}}', {
+								message: updateResponse?.response?.message
+							})
+						});
+						getAllVolumesRequest();
+						setmodifyVolumeToggle(false);
+						setTypeLabel(
+							obj.volumeType === PRIMARIES.toLocaleLowerCase() ? SECONDARIES : PRIMARIES
+						);
+						setToggleDetailPage(false);
+					} else {
+						createSnackbar({
+							key: 'error',
+							type: 'error',
+							label: t('label.volume_detail_error', '{{message}}', {
+								message: updateResponse?.error?.message
+							}),
+							autoHideTimeout: 5000
+						});
+						setmodifyVolumeToggle(false);
+					}
+				})
+				.catch((error: any) => {
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: t('label.volume_detail_error', '{{message}}', {
+							message: error
+						}),
+						autoHideTimeout: 5000
+					});
+					setmodifyVolumeToggle(false);
+				});
+		} else {
+			soapFetch(
+				'ModifyVolume',
+				{
+					_jsns: 'urn:zimbraAdmin',
+					module: 'ZxCore',
+					action: 'ModifyVolumeRequest',
 					id: detailData?.id,
-					type: typeLabel === PRIMARIES ? '2' : '1'
-				}
-			},
-			undefined,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			selectedServerId
-		)
-			.then(() => {
-				createSnackbar({
-					key: '1',
-					type: 'success',
-					label: t('label.volume_type_edited', '{{message}}', {
-						message:
-							typeLabel === PRIMARIES
-								? 'volume type successfully changed to Secondary'
-								: 'volume type successfully changed to Primary'
-					})
+					volume: {
+						id: detailData?.id,
+						type: typeLabel === PRIMARIES ? '2' : '1'
+					}
+				},
+				undefined,
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				selectedServerId
+			)
+				.then(() => {
+					createSnackbar({
+						key: '1',
+						type: 'success',
+						label: t('label.volume_type_edited', '{{message}}', {
+							message:
+								typeLabel === PRIMARIES
+									? 'volume type successfully changed to Secondary'
+									: 'volume type successfully changed to Primary'
+						})
+					});
+					getAllVolumesRequest();
+					getVolumeDetailData();
+				})
+				.catch((error) => {
+					createSnackbar({
+						key: 'error',
+						type: 'error',
+						label: t('label.volume_detail_error', '{{message}}', {
+							message: error
+						}),
+						autoHideTimeout: 5000
+					});
 				});
-				getAllVolumesRequest();
-				getVolumeDetailData();
-			})
-			.catch((error) => {
-				createSnackbar({
-					key: 'error',
-					type: 'error',
-					label: t('label.volume_detail_error', '{{message}}', {
-						message: error
-					}),
-					autoHideTimeout: 5000
-				});
-			});
+		}
 	}, [
-		getAllVolumesRequest,
+		isAdvanced,
+		serverName,
+		volumeDetail?.volumeType,
+		volumeDetail?.storeType,
+		volumeDetail?.isCurrent,
+		volumeDetail?.name,
+		serverList,
 		createSnackbar,
-		detailData?.id,
-		getVolumeDetailData,
 		t,
+		getAllVolumesRequest,
+		setmodifyVolumeToggle,
+		setToggleDetailPage,
+		detailData?.id,
 		typeLabel,
-		selectedServerId
+		selectedServerId,
+		getVolumeDetailData
 	]);
 
 	useEffect(() => {
@@ -178,7 +245,9 @@ const ServerVolumeDetailsPanel: FC<{
 					<Row mainAlignment="flex-start" crossAlignment="center" width="100%" height="auto">
 						<Row mainAlignment="flex-start" padding={{ all: 'large' }} takeAvailableSpace>
 							<Text size="extralarge" weight="bold">
-								{detailData.name} Details
+								{t('label.volume_detail_page_title', '{{message}} Details', {
+									message: detailData?.name
+								})}
 							</Text>
 						</Row>
 						<Row padding={{ horizontal: 'small' }}>
@@ -205,12 +274,12 @@ const ServerVolumeDetailsPanel: FC<{
 							height={36}
 							label=""
 							width={36}
-							style={{ padding: '8px 8px 8px 6px', display: 'block' }}
+							style={{ padding: '0.5rem 0.5rem 0.5rem 0.375rem', display: 'block' }}
 							onClick={(): void => {
 								setmodifyVolumeToggle(true);
 							}}
-							disabled={!detailData?.id || volumeDetail.id !== detailData?.id}
-							loading={!detailData?.id || volumeDetail.id !== detailData?.id}
+							disabled={!detailData?.id || volumeDetail?.id !== detailData?.id}
+							loading={!detailData?.id || volumeDetail?.id !== detailData?.id}
 						/>
 					</Container>
 					<Container
@@ -288,8 +357,8 @@ const ServerVolumeDetailsPanel: FC<{
 											icon={toggleSetAsIcon}
 											iconPlacement="left"
 											color="primary"
-											disabled={!detailData?.id || volumeDetail.id !== detailData?.id}
-											loading={!detailData?.id || volumeDetail.id !== detailData?.id}
+											disabled={!detailData?.id || volumeDetail?.id !== detailData?.id}
+											loading={!detailData?.id || volumeDetail?.id !== detailData?.id}
 											onClick={handleTypeToggleClick}
 										/>
 									</Row>
@@ -305,8 +374,8 @@ const ServerVolumeDetailsPanel: FC<{
 									color="error"
 									width="fill"
 									onClick={(): any => setOpen(true)}
-									disabled={!detailData?.id || volumeDetail.id !== detailData?.id}
-									loading={!detailData?.id || volumeDetail.id !== detailData?.id}
+									disabled={!detailData?.id || volumeDetail?.id !== detailData?.id}
+									loading={!detailData?.id || volumeDetail?.id !== detailData?.id}
 								/>
 							</Row>
 						</Container>
