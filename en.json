@@ -1120,6 +1120,7 @@
         "pending": "Pending",
         "percentage_maximum_conflict": "% Maximum Conflict",
         "percentage_maximum_conflict_allowed": "% Maximum Conflict Allowed",
+        "please_wait": "Please wait",
         "preferences": "Preferences",
         "prefix": "Prefix",
         "prefix_name": "Prefix - all objects will have this prefix in their name",
