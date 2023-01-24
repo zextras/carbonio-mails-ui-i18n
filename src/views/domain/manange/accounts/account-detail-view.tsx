@@ -29,7 +29,6 @@ import { deleteAccount } from '../../../../services/delete-account-service';
 import { CLOSED } from '../../../../constants';
 import { modifyAccountRequest } from '../../../../services/modify-account';
 import { getDelegateAuthRequest } from '../../../../services/get-delegate-auth-request';
-import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 import { endSession } from '../../../../services/end-session';
 import { getSessions } from '../../../../services/get-sessions';
 import Paging from '../../../components/paging';
@@ -72,7 +71,6 @@ const AccountDetailView: FC<any> = ({
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 	const createSnackbar: any = useContext(SnackbarManagerContext);
 	const [accountAliases, setAccountAliases] = useState<any[]>([]);
-	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const [userSessionList, setUserSessionList] = useState<Array<UserSession>>([]);
 	const [sessionListRows, setSessionListRows] = useState<Array<any>>([]);
 	const [selectedSession, setSelectedSession] = useState<any>([]);
@@ -231,6 +229,7 @@ const AccountDetailView: FC<any> = ({
 
 	const getAllUserSession = useCallback(() => {
 		const sessionType: string[] = ['admin', 'imap', 'soap'];
+		setUserSessionList([]);
 		sessionType.forEach((item: string) => {
 			getSessions(item, selectedAccount?.name).then((resp: any) => {
 				if (resp && resp?.s) {

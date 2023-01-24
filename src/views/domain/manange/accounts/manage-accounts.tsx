@@ -33,6 +33,7 @@ import CreateAccount from './create-account/create-account';
 import EditAccount from './edit-account/edit-account';
 import { AccountContext } from './account-context';
 import { fetchSoap } from '../../../../services/listOTP-service';
+import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 
 const ManageAccounts: FC = () => {
 	const [t] = useTranslation();
@@ -43,6 +44,7 @@ const ManageAccounts: FC = () => {
 	const [inDirectMemberList, setInDirectMemberList] = useState<any>({});
 	const [initAccountDetail, setInitAccountDetail] = useState<any>({});
 	const [otpList, setOtpList] = useState<any[]>([]);
+	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 
 	const headers: any = useMemo(
 		() => [
@@ -279,9 +281,11 @@ const ManageAccounts: FC = () => {
 			getAccountDetail(acc?.id);
 			getSignatureDetail(acc?.id);
 			getAccountMembership(acc?.id);
-			getListOtp(acc?.name);
+			if (isAdvanced) {
+				getListOtp(acc?.name);
+			}
 		},
-		[getAccountDetail, getAccountMembership, getSignatureDetail, getListOtp]
+		[getAccountDetail, getAccountMembership, getSignatureDetail, getListOtp, isAdvanced]
 	);
 	const getAccountList = useCallback((): void => {
 		const type = 'accounts';
