@@ -523,7 +523,7 @@
         "many_domain_info_msg": "So many domains! Which one would you like to see? Start typing to filter.",
         "max_result_return_gal_search": "Max results returned by GAL search",
         "most_result_return_gal_search": "Most results returned by GAL search",
-        "private_key_certificate_removed": "The private key certificate have been removed",
+        "private_key_certificate_removed": "The private key certificate has been removed",
         "proceed_without_generating_an_otp_code": "PROCEED WITHOUT GENERATING AN OTP CODE",
         "range": "Range",
         "search_domain": "Search for a domain",
@@ -1469,7 +1469,7 @@
         "notification_details": "Notification Details",
         "notification_mark_read_successfully": "Notification mark as read successfully",
         "notification_mark_unread_successfully": "Notification mark as unread successfully",
-        "notifications_list": "Notifications’ List",
+        "notifications_list": "Notifications List",
         "warning": "WARNING"
     },
     "operations": {
