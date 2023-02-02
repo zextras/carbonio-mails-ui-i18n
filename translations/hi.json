@@ -709,7 +709,10 @@
         "search_for_user_and_clic_to_add": "किसी यूजर के लिए सर्च करने और जोड़ें बटन पर क्लिक करें।",
         "there_are_no_owners": "यहाँ कोई ओनर नहीं हैं।",
         "verify": "वेरिफ़ाई करें",
-        "verify_certificate": "वेरिफ़ाई करें"
+        "verify_certificate": "वेरिफ़ाई करें",
+        "Aliases": "उपनाम",
+        "domain_certificate": "डोमेन प्रमाणपत्र",
+        "domain_certificate_private_key": "डोमेन निजी कुंजी"
     },
     "timezone": {
         "asia_tomsk": "{{value}} तोम्स्क",
@@ -1395,7 +1398,8 @@
         "activesync_remote_access": "ActiveSync रिमोट एक्सेस",
         "Chats": "चैट",
         "domain": "डोमेन",
-        "files": "फाइलें"
+        "files": "फाइलें",
+        "aliases": "उपनाम"
     },
     "privacy": {
         "send_full_error_data_to_zextras": "Carbonio को फुल एरर डाटा भेजें",
@@ -1554,6 +1558,8 @@
         "mark_as_read": "पढ़ा गया मार्क करें",
         "mark_as_unread": "बिना पढ़ा मार्क करें",
         "list": "सूची",
-        "manage": "मैनेज करें"
-    }
+        "manage": "मैनेज करें",
+        "notifications_list": "अधिसूचनाओं की लिस्ट"
+    },
+    "welcome": "आपका स्वागत है"
 }

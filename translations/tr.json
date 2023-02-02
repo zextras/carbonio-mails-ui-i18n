@@ -443,7 +443,7 @@
         "compression": "Sıkıştırma",
         "compression_threshold": "Sıkıştırma Eşiği",
         "contact": "Kişi",
-        "conversation": "Sohbet",
+        "conversation": "Görüşme",
         "current": "Geçerli",
         "date_creation": "Veri Oluşturma",
         "default": "Varsayılan",
@@ -1622,7 +1622,7 @@
         "notification_details": "Bildirim Detayları",
         "notification_mark_read_successfully": "Bildirim başarıyla okundu olarak işaretlendi",
         "notification_mark_unread_successfully": "Bildirim başarıyla okunmadı olarak işaretlendi",
-        "notifications_list": "Bildirimler Listesi",
+        "notifications_list": "Bildirim Listesi",
         "warning": "UYARI"
     },
     "select_bucket_or_create_bucket": "Bucket türü belirlememişsiniz. \nYeni oluşturmak için \"OLUŞTUR +\" tuşuna tıklayın.",

@@ -1003,7 +1003,10 @@
         "bucket_notes": "บันทึก",
         "date": "วันที่",
         "search_for_user_and_clic_to_add": "ค้นหาผู้ใช้และคลิกที่ปุ่มเพิ่ม",
-        "there_are_no_owners": "ที่นี่ยังไม่มีเจ้าของ"
+        "there_are_no_owners": "ที่นี่ยังไม่มีเจ้าของ",
+        "Aliases": "นามแฝง",
+        "domain_certificate": "ใบรับรองโดเมน",
+        "domain_certificate_private_key": "คีย์ส่วนตัวของโดเมน"
     },
     "message": {
         "snackbar": {
@@ -1395,7 +1398,8 @@
         "activesync_remote_access": "การเข้าถึงระยะไกล ActiveSync",
         "Chats": "Chats",
         "domain": "โดเมน",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "นามแฝง"
     },
     "connection": {
         "access_key": "รหัสการเข้าถึง",
@@ -1553,6 +1557,8 @@
         "list": "รายการ",
         "manage": "จัดการ",
         "mark_as_read": "ทำเครื่องหมายว่าอ่านแล้ว",
-        "mark_as_unread": "ทำเครื่องหมายว่ายังไม่ได้อ่าน"
-    }
+        "mark_as_unread": "ทำเครื่องหมายว่ายังไม่ได้อ่าน",
+        "notifications_list": "รายการการแจ้งเตือน"
+    },
+    "welcome": "ยินดีต้อนรับ"
 }

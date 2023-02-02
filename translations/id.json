@@ -1001,7 +1001,10 @@
         "there_are_no_owners": "Tidak ada pemilik di sini.",
         "verify": "Verifikasi",
         "verify_certificate": "Verifikasi",
-        "who_can_send_mails_to_list ": "Siapa yang dapat mengirim email KE daftar ini?"
+        "who_can_send_mails_to_list ": "Siapa yang dapat mengirim email KE daftar ini?",
+        "Aliases": "Alias",
+        "domain_certificate": "Sertifikat Domain",
+        "domain_certificate_private_key": "Kunci Pribadi Domain"
     },
     "message": {
         "snackbar": {
@@ -1393,7 +1396,8 @@
         "activesync_remote_access": "Akses jarak jauh ActiveSync",
         "Chats": "Chats",
         "domain": "Domain",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "Alias"
     },
     "connection": {
         "access_key": "Kunci Akses",
@@ -1551,6 +1555,8 @@
         "list": "Daftar",
         "manage": "Kelola",
         "mark_as_read": "Tandai sebagai dibaca",
-        "mark_as_unread": "Tandai sebagai belum dibaca"
-    }
+        "mark_as_unread": "Tandai sebagai belum dibaca",
+        "notifications_list": "Daftar Notifikasi"
+    },
+    "welcome": "Selamat Datang"
 }

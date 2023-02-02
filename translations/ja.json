@@ -321,7 +321,7 @@
         "page ": "共有リクエストを承認しました",
         "page_": "共有リクエストを承認しました",
         "privacy": "プライバシー",
-        "remove": "削除する",
+        "remove": "すべて削除する",
         "save": "保存する",
         "signature_required": "署名の情報が必要です。",
         "snackbar": {
@@ -1003,7 +1003,10 @@
         "date": "日",
         "there_are_no_owners": "ここには所有者はいません。",
         "verify": "確認する",
-        "verify_certificate": "確認する"
+        "verify_certificate": "確認する",
+        "domain_certificate_private_key": "ドメインの秘密キー",
+        "Aliases": "エイリアス",
+        "domain_certificate": "ドメインの証明書"
     },
     "message": {
         "snackbar": {
@@ -1406,7 +1409,8 @@
         "activesync_remote_access": "ActiveSync リモートアクセス",
         "Chats": "チャット",
         "domain": "ドメイン",
-        "files": "ファイル"
+        "files": "ファイル",
+        "aliases": "エイリアス"
     },
     "connection": {
         "access_key": "アクセスキー",
@@ -1553,6 +1557,8 @@
         "list": "リスト",
         "manage": "管理",
         "mark_as_read": "既読にする",
-        "mark_as_unread": "未読にする"
-    }
+        "mark_as_unread": "未読にする",
+        "notifications_list": "通知リンク"
+    },
+    "welcome": "ようこそ"
 }

@@ -830,7 +830,10 @@
         "search_for_user_and_clic_to_add": "Zoek een gebruiker en klik op de ADD knop.",
         "there_are_no_owners": "Er zijn hier geen eigenaars.",
         "verify_certificate": "Verifiëren",
-        "who_can_send_mails_to_list ": "Wie kan mails sturen naar deze lijst?"
+        "who_can_send_mails_to_list ": "Wie kan mails sturen naar deze lijst?",
+        "domain_certificate": "Domeincertificaat",
+        "domain_certificate_private_key": "Persoonlijke sleutel domein",
+        "Aliases": "Aliassen"
     },
     "timezone": {
         "europe_belgrade": "{{value}} Belgrado, Bratislava, Boedapest, Ljubljana, Praag",
@@ -1395,7 +1398,8 @@
         "activesync_remote_access": "ActiveSync toegang op afstand",
         "Chats": "Chats",
         "domain": "Domein",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "Aliassen"
     },
     "privacy": {
         "send_full_error_data_to_zextras": "Stuur volledige foutgegevens naar Zextras",
@@ -1554,6 +1558,8 @@
         "list": "Lijst",
         "manage": "Beheren",
         "mark_as_read": "Als gelezen markeren",
-        "mark_as_unread": "Markeren als niet geşezen"
-    }
+        "mark_as_unread": "Markeren als niet geşezen",
+        "notifications_list": "Meldingenlijst"
+    },
+    "welcome": "Welkom"
 }

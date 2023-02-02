@@ -743,7 +743,10 @@
         "there_are_no_owners": "此处没有所有者。",
         "verify": "验证",
         "verify_certificate": "验证",
-        "who_can_send_mails_to_list ": "谁可向此列表发送邮件？"
+        "who_can_send_mails_to_list ": "谁可向此列表发送邮件？",
+        "domain_certificate": "域证书",
+        "domain_certificate_private_key": "域私钥",
+        "Aliases": "别名"
     },
     "timezone": {
         "asia_tehran": "{{value}} 德黑兰",
@@ -1406,7 +1409,8 @@
         "activesync_remote_access": "ActiveSync远程访问",
         "Chats": "聊天",
         "domain": "域",
-        "files": "文件"
+        "files": "文件",
+        "aliases": "别名"
     },
     "connection": {
         "access_key": "访问密钥",
@@ -1553,6 +1557,8 @@
         "list": "列表",
         "manage": "管理",
         "mark_as_read": "标记为已读",
-        "mark_as_unread": "标记为未读"
-    }
+        "mark_as_unread": "标记为未读",
+        "notifications_list": "通知列表"
+    },
+    "welcome": "欢迎"
 }

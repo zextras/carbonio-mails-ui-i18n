@@ -1553,6 +1553,7 @@
         "list": "Liste",
         "manage": "Gérer",
         "mark_as_read": "Marqué comme lu",
-        "mark_as_unread": "Marqué comme non lu"
+        "mark_as_unread": "Marqué comme non lu",
+        "notifications_list": "Liste de notification"
     }
 }

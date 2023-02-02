@@ -835,7 +835,10 @@
         "who_can_send_mails_to_list ": "¿Quién puede enviar correos A esta lista?",
         "label": "Etiqueta",
         "verify": "Verificar",
-        "verify_certificate": "Verificar"
+        "verify_certificate": "Verificar",
+        "Aliases": "Alias",
+        "domain_certificate": "Certificado de dominio",
+        "domain_certificate_private_key": "Clave privada de dominio"
     },
     "timezone": {
         "indian_mauritius": "{{value}} Port Louis",
@@ -1407,7 +1410,8 @@
         "activesync_remote_access": "Acceso remoto a ActiveSync",
         "Chats": "Chats",
         "domain": "Dominio",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "Alias"
     },
     "connection": {
         "access_key": "Clave de acceso",
@@ -1554,6 +1558,8 @@
         "list": "Lista",
         "manage": "Administrar",
         "mark_as_read": "Marcar como leído",
-        "mark_as_unread": "Marcar como no leído"
-    }
+        "mark_as_unread": "Marcar como no leído",
+        "notifications_list": "Lista de notificaciones"
+    },
+    "welcome": "Bienvenido"
 }

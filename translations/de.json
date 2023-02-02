@@ -743,7 +743,10 @@
         "search_for_user_and_clic_to_add": "Einen Nutzer suchen und auf den HINZUFÜGEN Button klicken.",
         "verify": "Überprüfen",
         "verify_certificate": "Überprüfen",
-        "who_can_send_mails_to_list ": "Wer kann Emails AN diese Liste schicken?"
+        "who_can_send_mails_to_list ": "Wer kann Emails AN diese Liste schicken?",
+        "domain_certificate_private_key": "Domain-Privatschlüssel",
+        "Aliases": "Aliasnamen",
+        "domain_certificate": "Domain-Zertifikat"
     },
     "timezone": {
         "asia_yerevan": "{{value}} Eriwan",
@@ -1244,7 +1247,8 @@
         "dark_mode": "Dunkler Modus",
         "activesync_remote_access": "ActiveSync Fernsteuerung",
         "create_cos_success_msg": "Sie deaktivieren den Pool auf {{serverName}}. Mailboxen werden nicht entfernt. Möchten Sie fortfahren?",
-        "chats": "Chats"
+        "chats": "Chats",
+        "files": "Dateien"
     },
     "locale": {
         "English": "Englisch",
@@ -1393,7 +1397,9 @@
         "view_mail_as_html": "E-Mail als HTML ansehen",
         "activesync_remote_access": "ActiveSync Fernsteuerung",
         "Chats": "Chats",
-        "domain": "Domain"
+        "domain": "Domain",
+        "aliases": "Aliasnamen",
+        "files": "Dateien"
     },
     "connection": {
         "access_key": "Access Key",
@@ -1548,10 +1554,12 @@
         "list": "Liste",
         "manage": "Verwalten",
         "mark_as_read": "Als gelesen markieren",
-        "mark_as_unread": "Als ungelesen markieren"
+        "mark_as_unread": "Als ungelesen markieren",
+        "notifications_list": "Benachrichtigungsliste"
     },
     "dashboard": {
         "carbonio": "Carbonio",
         "description": "Beschreibung"
-    }
+    },
+    "welcome": "Willkommen"
 }

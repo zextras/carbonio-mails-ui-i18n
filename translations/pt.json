@@ -191,7 +191,7 @@
             "tuesday": "Terça-Feira",
             "wednesday": "Quarta-Feira"
         },
-        "required": "Necessário",
+        "required": "Obrigatório",
         "volume_server": "Servidor",
         "configuration_lbl": "Configuração",
         "disabled": "Desativado",
@@ -673,6 +673,7 @@
         "list": "Lista",
         "manage": "Gerir",
         "mark_as_read": "Marcar como lida",
-        "mark_as_unread": "Marcar como não lído"
+        "mark_as_unread": "Marcar como não lído",
+        "notifications_list": "Lista de notificações"
     }
 }

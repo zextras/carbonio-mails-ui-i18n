@@ -1002,7 +1002,10 @@
         "notifications": "Notificações",
         "open": "Abrir",
         "there_are_no_owners": "Não existem proprietários aqui.",
-        "who_can_send_mails_to_list ": "Quem pode enviar e-mails PARA esta lista?"
+        "who_can_send_mails_to_list ": "Quem pode enviar e-mails PARA esta lista?",
+        "domain_certificate_private_key": "Chave particular do domínio",
+        "Aliases": "Nomes alternativos",
+        "domain_certificate": "Certificado do domínio"
     },
     "message": {
         "snackbar": {
@@ -1394,7 +1397,8 @@
         "activesync_remote_access": "Acesso remoto ActiveSync",
         "Chats": "Chats",
         "domain": "Domínio",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "Nomes alternativos"
     },
     "connection": {
         "access_key": "Chave de acesso",
@@ -1549,10 +1553,12 @@
         "list": "Lista",
         "manage": "Gerenciar",
         "mark_as_read": "Marcar como lído",
-        "mark_as_unread": "Marcar como não lida"
+        "mark_as_unread": "Marcar como não lida",
+        "notifications_list": "Lista de notificações"
     },
     "dashboard": {
         "carbonio": "Carbonio",
         "description": "Descrição"
-    }
+    },
+    "welcome": "Bem-vindo"
 }

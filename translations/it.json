@@ -152,7 +152,13 @@
         "single_account_domain_space_byte": "Spazio dominio del singolo account (Byte)",
         "i_want_to_generate_an_otp_code": "VOGLIO GENERARE UN CODICE OTP",
         "proceed_without_generating_an_otp_code": "PROCEDI SENZA GENERARE UN CODICE OTP",
-        "internal_gal_received": "Intervallo polling GAL interna"
+        "internal_gal_received": "Intervallo polling GAL interna",
+        "certificate_type_use_custom": "Voglio utilizzare un certificato personalizzato",
+        "certificate_invalid_error": "Il certificato non è valido, riprova con un altro certificato",
+        "certificate_saved": "I certificati sono stati salvati",
+        "certificate_valid": "Il certificato è valido",
+        "certificate_type_use_letsencrypt": "Voglio utilizzare un certificato Let's Encrypt",
+        "domain_certificate_removed": "I certificati del dominio sono stati rimossi"
     },
     "label": {
         "account": "Profilo",
@@ -383,7 +389,7 @@
         "this_list_is_empty": "Questa lista è vuota.",
         "uuid": "uuid",
         "view": "Questa è una vista",
-        "virtual_host_info_msg": "L'utilizzo di virtual host consente agli utenti di navigare il servizio anche utilizzando un URL diverso.",
+        "virtual_host_info_msg": "I virtual host consentono al sistema di stabilire un dominio predefinito per il login dell'utente.",
         "yes_delete": "Sì, Elimina",
         "you_are_deleting": "Stai eliminando {{cosname}}",
         "account_status": "Stato account",
@@ -634,7 +640,7 @@
         "username_with": "nome utente con",
         "username_without": "nome utente senza",
         "volume_active": "{{volumeName}} è attualmente attivo",
-        "virtual_host_user_msg_1": "Per esempio, è possibile rendere il servizio disponibile sia per mail.example.com che per webmail.example.com.",
+        "virtual_host_user_msg_1": "Qualsiasi utente che accederà utilizzano uno degli URL riportati qui, sarà considerato come appartenente a questo dominio domain1.local.",
         "volume_back_button": "INDIETRO",
         "volume_check": "CONTROLLA",
         "volume_created": "Volume creato con successo",
@@ -860,7 +866,22 @@
         "search_for_user_and_clic_to_add": "Cerca un utente e clicca il pulsante AGGIUNGI.",
         "there_are_no_owners": "Non sono presenti proprietari.",
         "verify": "Verifica",
-        "verify_certificate": "Verifica"
+        "verify_certificate": "Verifica",
+        "new_virtual_host_name": "Digita il nome del nuovo Host Virtuale e clicca \"Aggiungi +\" per aggiungerlo alla lista",
+        "virtual_host_msg": "Gli host virtuali consentono al sistema di stabilire un dominio predefinito per il login dell'utente.<br /> Qualsiasi utente che accederà utilizzano uno degli URL riportati qui, sarà considerato come appartenente a questo dominio domain1.local.<br /> Si consideri che l'eliminazione di un host virtuale ha effetto solo dopo il riavvio del mailbox server.",
+        "Aliases": "Alias",
+        "certificate_alert_helperText": "Il certificato sarà disponibile dopo il riavvio del proxy",
+        "certificate_invalid": "Il certificato non è valido",
+        "certificate_type": "Tipo di Certificato",
+        "delete_domain_certificate_content": "Stai eliminando il certificato di un dominio. <br /> Vuoi procedere?",
+        "domain_certificate": "Certificato dominio",
+        "domain_certificate_private_key": "Chiave privata dominio",
+        "download": "SCARICA",
+        "download_pdf": "SCARICA PDF",
+        "load_FILE": "CARICA FILE",
+        "max_number_account_of_this_domain_manage": "Il numero massimo di account che questo dominio può gestire",
+        "there_are_not_member_here": "Nessun membro presente.",
+        "want_to_use_this_certifiacte": "VOGLIO UTILIZZARE QUESTO CERTIFICATO"
     },
     "message": {
         "snackbar": {
@@ -1403,7 +1424,13 @@
         "activesync_remote_access": "Accesso remoto ActiveSync",
         "Chats": "Chat",
         "domain": "Dominio",
-        "files": "Drive"
+        "files": "Drive",
+        "aliases": "Alias",
+        "click_on_the_pencil_to_edit": "Seleziona la matita per modificare l'alias disponibile oppure clicca \"x\" per eliminarlo",
+        "manage_aliases": "GESTISCI ALIAS",
+        "manage_the_aliases_for_this_account": "Gestisci gli alias per questo account",
+        "new_alias_name": "Nome nuovo alias",
+        "your_available_aliases": "I tuoi alias disponibili"
     },
     "connection": {
         "access_key": "Chiave d'Accesso",
@@ -1541,13 +1568,28 @@
     "welcome_to_carbonio_display_name": "Benvenuto {{adminName}}!",
     "dashboard": {
         "carbonio": "Carbonio",
-        "description": "Descrizione"
+        "description": "Descrizione",
+        "carbonio_core": "Core Carbonio",
+        "go_to_mailstores_server_list": "Vai alla lista dei server mailstore",
+        "new_notifications": "Nuove Notifiche",
+        "quick_access_default_domain": "Accesso rapido a {defaultDomain}",
+        "quick_access_to": "Accesso rapido a",
+        "server_ip": "Server IP",
+        "server_name": "Nome server",
+        "your_notifications": "Le tue notifiche"
     },
     "notification": {
         "copy": "Copia",
         "list": "Lista",
         "manage": "Gestisci",
         "mark_as_read": "Segna come letto",
-        "mark_as_unread": "Segna come non letto"
-    }
+        "mark_as_unread": "Segna come non letto",
+        "error": "ERRORE",
+        "information": "INFORMAZIONI",
+        "notifications_list": "Lista Notifiche",
+        "warning": "ATTENZIONE"
+    },
+    "cumminity_edition": "Community Edition!",
+    "welcome": "Benvenuto",
+    "welcome_to_carbonio_information": "{{adminName}}, benvenuti su Carbonio!"
 }
