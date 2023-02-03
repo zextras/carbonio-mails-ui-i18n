@@ -25,13 +25,13 @@
         "share": "शेयर करें",
         "resend": "दोबारा भेजें",
         "revoke": "बंद करें",
-        "edit_access": "{{name}} की एक्सेस में बदलाव करें",
+        "edit_access": "एक्सेस में बदलाव करें",
         "sent": "प्रेषित",
         "edit_folder_properties": "{{name}} के गुण में संशोधन",
         "shares_folder_edit": "इस फ़ोल्डर को शेयर करना",
         "revoke_access_tooltip": "एक स्टैंडर्ड नोटिफिकेशन भेजकर एक्सेस बंद करें",
         "revoke_access_without_notification": "बिना किसी सूचना के एक्सेस खत्म करें",
-        "revoke_share": "{{title}} की शेयरिंग बंद करें",
+        "revoke_share": "शेयर कैंसल करें",
         "add_custom_message": "कोई कस्टम मैसेज जोड़ें",
         "allowed_actions": "अनुमत्त क्रियाएँ",
         "automatically_delete_duplicates": "जब किसी मैसेज की डुप्लीकेट कॉपी मिले तो उसे अपने-आप डिलीट कर दें",
@@ -417,7 +417,8 @@
             "default": "डिफ़ॉल्ट",
             "not_changed_anything": "कोई बदलाव नहीं किए गए",
             "mark_manually": "मैनुअल चिन्हित करें",
-            "filter_name_required": "फ़िल्टर नाम आवश्‍यक है"
+            "filter_name_required": "फ़िल्टर नाम आवश्‍यक है",
+            "mark_reading_panel": "पढ़ा गया मार्क करें"
         },
         "msg_from_optn": {
             "discard": "मैसेज ऑटोमैटिक हटाएँ",
