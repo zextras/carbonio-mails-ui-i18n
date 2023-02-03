@@ -66,7 +66,7 @@
         "save": "บันทึก",
         "send": "ส่ง",
         "share": "แชร์",
-        "edit_access": "แก้ไขการเข้าถึงของ {{name}}",
+        "edit_access": "แก้ไขการเข้าถึง",
         "edit_folder_properties": "แก้ไขคุณสมบัติของ {{name}}",
         "add_custom_message": "เพิ่มข้อความที่กำหนดเอง",
         "allowed_actions": "การดำเนินการที่ได้รับอนุญาต",
@@ -77,7 +77,7 @@
         "resend": "ส่งซ้ำ",
         "revoke": "เพิกถอน",
         "revoke_access_without_notification": "ถอนการเข้าถึงโดยไม่ต้องส่งการแจ้งเตือน",
-        "revoke_share": "ถอนการแชร์ของ {{title}}",
+        "revoke_share": "ยกเลิกแชร์",
         "filter_user": "กรองผู้ใช้",
         "find_shares": "ค้นหาการแชร์",
         "flash_browser_title": "แฟลชชื่อเบราว์เซอร์",
@@ -436,7 +436,8 @@
             "set_message_color": "กำหนดสีของข้อความและการสนทนาตามสีแท็ก",
             "visualization_options": "ตัวเลือกการแสดงภาพ",
             "unsend_time": "ตั้งเวลายกเลิกการส่ง",
-            "default": "ค่าเริ่มต้น"
+            "default": "ค่าเริ่มต้น",
+            "mark_reading_panel": "ทำเครื่องหมายว่าอ่านแล้ว"
         },
         "msg_from_optn": {
             "discard": "ยกเลิกข้อความโดยอัตโนมัติ",
