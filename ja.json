@@ -70,7 +70,7 @@
         "save": "保存する",
         "send": "送信",
         "share": "シェアする",
-        "edit_access": "{{name}}のアクセス権を編集する",
+        "edit_access": "アクセスを編集する",
         "edit_folder_properties": "{{name}}のプロパティを編集する",
         "add_custom_message": "カスタムメッセージを追加する",
         "allowed_actions": "許可された操作",
@@ -90,7 +90,7 @@
         "revoke": "取り消す",
         "revoke_access_tooltip": "標準通知の送信へのアクセスを取り消す",
         "revoke_access_without_notification": "通知を送信せずにアクセスを取り消す",
-        "revoke_share": "{{title}}の共有を取り消す",
+        "revoke_share": "シェアを解除する",
         "no_subject": "件名なし",
         "owner": "所有者: ",
         "receive_message": "メッセージの受信",
@@ -441,7 +441,8 @@
             "default": "デフォルト",
             "filter_name_required": "フィルタ名は必須です",
             "mark_manually": "手動でマークする",
-            "not_changed_anything": "変更はありませんでした"
+            "not_changed_anything": "変更はありませんでした",
+            "mark_reading_panel": "既読にする"
         },
         "msg_from_optn": {
             "discard": "メッセージを自動的に破棄する",
