@@ -71,7 +71,7 @@
         "bcc": "Bcc",
         "calendar_color": "Warna item",
         "cc": "Cc",
-        "edit_access": "Edit akses {{name}}",
+        "edit_access": "Edit akses",
         "edit_folder_properties": "Edit properti {{name}}",
         "draft_folder": "[DRAF]",
         "from": "Dari",
@@ -86,7 +86,7 @@
         "revoke": "Batalkan",
         "revoke_access_without_notification": "Batalkan akses tanpa mengirim pemberitahuan",
         "revoke_access_tooltip": "Batalkan akses dengan mengirim pemberitahuan standar",
-        "revoke_share": "Batalkan berbagi {{title}}",
+        "revoke_share": "Hapus berbagi",
         "role": "Peran: ",
         "select_folder": "Pilih folder",
         "send_notification": "Kirim pesan pemberitahuan ke",
@@ -355,7 +355,7 @@
         "options": {
             "share_calendar_role": {
                 "admin": "Admin",
-                "none": "Tidak ada",
+                "none": "Tidak Ada",
                 "manager": "Pengelola",
                 "viewer": "Pemirsa"
             },
@@ -393,7 +393,8 @@
             "set_message_color": "Atur warna pesan dan percakapan menurut warna tag.",
             "visualization_options": "Opsi Visualisasi",
             "unsend_time": "Atur waktu belum kirim",
-            "default": "Default"
+            "default": "Default",
+            "mark_reading_panel": "Tandai sebagai dibaca"
         },
         "msg_from_optn": {
             "discard": "Hapus pesan secara otomatis",
