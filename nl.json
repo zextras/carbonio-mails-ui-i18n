@@ -89,7 +89,7 @@
         "revoke": "Intrekken",
         "revoke_access_tooltip": "Toegang intrekken met een standaardkennisgeving",
         "revoke_access_without_notification": "Toegang intrekken zonder een melding te sturen",
-        "revoke_share": "Delen van {{title}} intrekken",
+        "revoke_share": "Teilen widerrufen",
         "role": "Rol: ",
         "select_folder": "Map selecteren",
         "send_notification": "Een kennisgeving sturen naar",
@@ -452,7 +452,8 @@
             "set_message_color": "De setkleur van berichten en gesprekken instellen volgens de kleur van de tag.",
             "visualization_options": "Visualisatie-opties",
             "unsend_time": "Tijd voor afmelden instellen",
-            "default": "Standaard"
+            "default": "Standaard",
+            "mark_reading_panel": "Als gelezen markeren"
         },
         "msg_from_optn": {
             "discard": "Bericht automatisch verwijderen",
