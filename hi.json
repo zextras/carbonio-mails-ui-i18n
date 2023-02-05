@@ -221,7 +221,9 @@
         "download_and_delete": "डाउनलोड और डिलीट करें",
         "enter_name": "नाम एंटर करें",
         "not_in_list": "{{name}} - आपकी टैग लिस्ट में नहीं है",
-        "no_signature": "कोई हस्ताक्षर नहीं"
+        "no_signature": "कोई हस्ताक्षर नहीं",
+        "mark_read_message_manually": "इस आइकॉन को क्लिक करके मैनुअल पढ़ लिया चिन्हित करें",
+        "mark_read_message_immediately": "डिस्प्लेयर में मैसेज को तुरंत पढ़ लें चिन्हित करें"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -412,7 +414,10 @@
             "set_message_color": "अपने मैसेज और बात-चीतों के कलर टैग कलर के अनुसार सेट करें।",
             "visualization_options": "दिखने के ऑप्शन",
             "unsend_time": "अनसेंड टाइम सेट करें",
-            "default": "डिफ़ॉल्ट"
+            "default": "डिफ़ॉल्ट",
+            "not_changed_anything": "कोई बदलाव नहीं किए गए",
+            "mark_manually": "मैनुअल चिन्हित करें",
+            "filter_name_required": "फ़िल्टर नाम आवश्‍यक है"
         },
         "msg_from_optn": {
             "discard": "मैसेज ऑटोमैटिक हटाएँ",
@@ -541,7 +546,12 @@
             "second": "{{count}} सेकंड",
             "second_plural": "{{count}} सेकंड"
         },
-        "address": "एड्रैस"
+        "address": "एड्रैस",
+        "tag_name_required": "\"इससे टैग करें\" एक्शन पूरी करने के लिए \"टैग\" फील्ड भरें।",
+        "remove_action": "इस एक्शन को हटाएँ",
+        "folder_path_required": "\"फोल्डर में ले जाएँ\" एक्शन पूरी करने के लिए कोई गंतव्य फोल्डर चुनें।",
+        "address_required": "\"एड्रेस में ले जाएँ\" एक्शन पूरी करने के लिए \"पता\" फील्ड भरें।",
+        "add_action": "कोई नई एक्शन जोड़ें"
     },
     "tooltip": {
         "edit": "शेयर गुणों में संशोधन",
