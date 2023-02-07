@@ -27,6 +27,7 @@ import EditAccountGeneralSection from './edit-account-general-section';
 import EditAccountConfigrationSection from './edit-account-configration-section';
 import EditAccountUserPrefrencesSection from './edit-account-user-pref-section';
 import EditAccountSecuritySection from './edit-account-security-section';
+import EditAccountDelegatesSection from './edit-account-delegates-section';
 
 import { addAccountAliasRequest } from '../../../../../services/add-account-alias';
 import { deleteAccountAliasRequest } from '../../../../../services/delete-account-alias';
@@ -87,16 +88,17 @@ const EditAccount: FC<{
 	}, [domainList, getDomainLists]);
 
 	useEffect(() => {
-		const modifiedKeys: any = reduce(
-			accountDetail,
-			function (result, value, key): any {
-				return isEqual(value, initAccountDetail[key]) ? result : [...result, key];
-			},
-			[]
-		);
-		map(modifiedKeys, (ele) => {
-			console.log(ele, initAccountDetail[ele], accountDetail[ele]);
-		});
+		// Uncomment this for debugg change keys
+		// const modifiedKeys: any = reduce(
+		// 	accountDetail,
+		// 	function (result, value, key): any {
+		// 		return isEqual(value, initAccountDetail[key]) ? result : [...result, key];
+		// 	},
+		// 	[]
+		// );
+		// map(modifiedKeys, (ele) => {
+		// 	console.log(ele, initAccountDetail[ele], accountDetail[ele]);
+		// });
 		if (initAccountDetail?.zimbraId && !isEqual(accountDetail, initAccountDetail)) {
 			setIsDirty(true);
 		} else {
@@ -151,6 +153,12 @@ const EditAccount: FC<{
 			label: t('label.security', 'SECURITY'),
 			CustomComponent: ReusedDefaultTabBar,
 			icon: 'LockOutline'
+		},
+		{
+			id: 'delegates',
+			label: t('label.delegates', 'DELEGATES'),
+			CustomComponent: ReusedDefaultTabBar,
+			icon: 'SharedAccountOutline'
 		}
 	];
 
@@ -272,10 +280,10 @@ const EditAccount: FC<{
 				mainAlignment="flex-start"
 				style={{
 					position: 'absolute',
-					left: `${'max(calc(100% - 840px), 12px)'}`,
+					left: `${'max(calc(100% - 940px), 12px)'}`,
 					top: '43px',
 					height: 'auto',
-					width: '840px',
+					width: '940px',
 					overflow: 'hidden',
 					transition: 'left 0.2s ease-in-out',
 					'box-shadow': '-6px 4px 5px 0px rgba(0, 0, 0, 0.1)'
@@ -341,7 +349,7 @@ const EditAccount: FC<{
 							defaultSelected="general"
 							onChange={setChange}
 							onItemClick={setClick}
-							width={785}
+							width={915}
 						/>
 					</Row>
 					<Row width="100%">
@@ -357,6 +365,7 @@ const EditAccount: FC<{
 							/>
 						)}
 						{change === 'security' && <EditAccountSecuritySection />}
+						{change === 'delegates' && <EditAccountDelegatesSection />}
 					</Container>
 				</Container>
 			</Container>
