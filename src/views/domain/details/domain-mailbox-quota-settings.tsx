@@ -42,6 +42,7 @@ import Paging from '../../components/paging';
 import { useDomainStore } from '../../../store/domain/store';
 import { RouteLeavingGuard } from '../../ui-extras/nav-guard';
 import ListRow from '../../list/list-row';
+import DownloadCSV from '../../app/shared/download-csv';
 
 export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
@@ -479,6 +480,73 @@ const DomainMailboxQuotaSetting: FC = () => {
 		const it = quotaPolicy.find((item: any) => item.value === v);
 		setZimbraDomainAggregateQuotaPolicy(it);
 	};
+	const [isShowDownload, setIsShowDownload] = useState<boolean>(false);
+	const csvHeader: any = useMemo(
+		() => [
+			{
+				label: t('label.account', 'Account'),
+				key: 'account'
+			},
+			{
+				label: t('label.quota', 'Quota'),
+				key: 'quota'
+			},
+			{
+				label: t('label.mail_size', 'Mail Size'),
+				key: 'mailsize'
+			},
+			{
+				label: t('label.quota_used_lbl', 'Quota used'),
+				key: 'quota_used'
+			}
+		],
+		[t]
+	);
+	const [csvQuotaData, setCsvQuotaData] = useState<Array<any>>();
+	const downloadQuotaReport = useCallback(() => {
+		getQuotaUsage(domainData?.zimbraDomainName, 0, 1000, selectedSortType).then((data) => {
+			const usedQuota: any = data?.account;
+			if (usedQuota && Array.isArray(usedQuota)) {
+				const quota: any = [];
+				usedQuota.forEach((item: any, index): any => {
+					let diskUsed: any = 0;
+					let quotaLimit: any = 0;
+					let percentage: any = 0;
+
+					if (item?.used) {
+						diskUsed = ((item?.used || 0) / BYTE_PER_MB).toFixed(2);
+					}
+					if (item?.limit === 0) {
+						quotaLimit = t('label.unlimited', 'Unlimited');
+						percentage = 0;
+					} else {
+						if (item?.limit >= BYTE_PER_MB) {
+							quotaLimit = ((item?.limit || 0) / BYTE_PER_MB).toFixed();
+						} else {
+							quotaLimit = 1;
+						}
+						percentage = ((diskUsed * 100) / quotaLimit).toFixed();
+					}
+					diskUsed += ` ${t('label.mb', 'MB')}`;
+					quotaLimit += ` ${t('label.mb', 'MB')}`;
+					percentage += '%';
+					quota.push({
+						account: item?.name,
+						quota: quotaLimit,
+						mailsize: diskUsed,
+						quota_used: percentage
+					});
+				});
+				if (quota && quota.length > 0) {
+					setCsvQuotaData(quota);
+					setIsShowDownload(true);
+				}
+			}
+			setTimeout(() => {
+				setIsShowDownload(false);
+			}, 100);
+		});
+	}, [domainData?.zimbraDomainName, selectedSortType, t]);
 
 	return (
 		<Container padding={{ all: 'large' }} mainAlignment="flex-start" background="gray6">
@@ -631,6 +699,20 @@ const DomainMailboxQuotaSetting: FC = () => {
 						</Row>
 						<Container padding={{ all: 'large' }}>
 							<ListRow>
+								<Container
+									mainAlignment="flex-end"
+									crossAlignment="flex-end"
+									padding={{ all: 'extralarge' }}
+								>
+									<Button
+										type="ghost"
+										label={t('label.download_quota_Report', 'Download Quota Report')}
+										color="primary"
+										onClick={downloadQuotaReport}
+									/>
+								</Container>
+							</ListRow>
+							<ListRow>
 								<Row>
 									<Table
 										HeaderFactory={HeaderFactory}
@@ -670,6 +752,7 @@ const DomainMailboxQuotaSetting: FC = () => {
 								<Paging totalItem={totalAccount} setOffset={setOffset} pageSize={limit} />
 							</Row>
 						</Container>
+						{isShowDownload && <DownloadCSV data={csvQuotaData} header={csvHeader} />}
 					</Container>
 				</Row>
 			</Container>
