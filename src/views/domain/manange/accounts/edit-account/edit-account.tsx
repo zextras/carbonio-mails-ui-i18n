@@ -36,6 +36,7 @@ import { setPasswordRequest } from '../../../../../services/set-password';
 import { renameAccountRequest } from '../../../../../services/rename-account';
 import { AccountContext } from '../account-context';
 import { getDomainList } from '../../../../../services/search-domain-service';
+import { useAuthIsAdvanced } from '../../../../../store/auth-advanced/store';
 
 // eslint-disable-next-line no-empty-pattern
 const EditAccount: FC<{
@@ -61,6 +62,7 @@ const EditAccount: FC<{
 	const conext = useContext(AccountContext);
 	const { accountDetail, setAccountDetail, initAccountDetail, setInitAccountDetail } = conext;
 	const setDomainListStore = useDomainStore((state) => state.setDomainList);
+	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 
 	const getDomainLists = useCallback(
 		(offset: number): any => {
@@ -153,14 +155,17 @@ const EditAccount: FC<{
 			label: t('label.security', 'SECURITY'),
 			CustomComponent: ReusedDefaultTabBar,
 			icon: 'LockOutline'
-		},
-		{
+		}
+	];
+
+	if (isAdvanced) {
+		items.push({
 			id: 'delegates',
 			label: t('label.delegates', 'DELEGATES'),
 			CustomComponent: ReusedDefaultTabBar,
 			icon: 'SharedAccountOutline'
-		}
-	];
+		});
+	}
 
 	const modifyAccountReq = useCallback((): void => {
 		const modifiedKeys: any = reduce(

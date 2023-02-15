@@ -10,7 +10,8 @@ import React, {
 	useState,
 	ReactElement,
 	useEffect,
-	useCallback
+	useCallback,
+	useRef
 } from 'react';
 import {
 	Container,
@@ -21,13 +22,13 @@ import {
 	useSnackbar,
 	Table,
 	Divider,
-	Select,
+	ChipInput,
 	Dropdown,
 	Input,
 	Icon
 } from '@zextras/carbonio-design-system';
 import styled from 'styled-components';
-import { find, filter } from 'lodash';
+import { find, filter, map, debounce } from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,6 +48,7 @@ import { delegateType } from '../../../../utility/utils';
 import DelegateSelectModeSection from './add-delegate-section/delegate-selectmode-section';
 import DelegateSetRightsSection from './add-delegate-section/delegate-setright-section';
 import DelegateAddSection from './add-delegate-section/delegate-add-section';
+import { accountListDirectory } from '../../../../../services/account-list-directory-service';
 
 const SelectItem = styled(Row)``;
 
@@ -89,6 +91,7 @@ const WizardInSection: FC<any> = ({ wizard, wizardFooter, setToggleWizardSection
 
 const EditAccountDelegatesSection: FC = () => {
 	const conext = useContext(AccountContext);
+	const domainName = useDomainStore((state) => state.domain?.name);
 	const {
 		identitiesList,
 		accountDetail,
@@ -104,6 +107,7 @@ const EditAccountDelegatesSection: FC = () => {
 	const createSnackbar = useSnackbar();
 	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
 	const [identityListItem, setIdentityListItem] = useState<any>([]);
+	const [isSimplified, setIsSimplified] = useState<boolean>(true);
 
 	useEffect(() => {
 		const identitiesArr: any = [];
@@ -469,9 +473,138 @@ const EditAccountDelegatesSection: FC = () => {
 		],
 		[handleCreateDelegateAPI, t]
 	);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const allOptions: any = [];
+	const [selectedAccounts, setSelectedAccounts] = useState<any>([]);
+	const [options, setOptions] = useState<any>([]);
+
+	const inputRef = useRef<any>(null);
+
+	const [searchQuery, setSearchQuery] = useState<string>('');
+	const iconAction = useCallback(() => {
+		setOptions((prevState: any) => {
+			if (inputRef.current && inputRef.current.value.length > 0) {
+				return prevState;
+			}
+			return [...allOptions];
+		});
+	}, [allOptions]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const searchAccountList = useCallback(
+		debounce((searchText) => {
+			if (searchText) {
+				setSearchQuery(
+					`(|(mail=*${searchText}*)(cn=*${searchText}*)(sn=*${searchText}*)(gn=*${searchText}*)(displayName=*${searchText}*)(zimbraMailDeliveryAddress=*${searchText}*))`
+				);
+			} else {
+				setSearchQuery('');
+			}
+		}, 700),
+		[debounce]
+	);
+	const filterOptions = useCallback(
+		({ textContent }) => {
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			searchAccountList(textContent);
+		},
+		[searchAccountList]
+	);
+	const initOptions = useCallback(() => {
+		filterOptions({ textContent: inputRef.current ? inputRef.current.value : '' });
+	}, [filterOptions]);
+	// useEffect(() => {
+	// 	searchAccountList(searchDelegateAccountName);
+	// }, [searchAccountList, searchDelegateAccountName]);
+	const getAccountList = useCallback((): void => {
+		const type = 'distributionlists,accounts';
+		const attrs =
+			'displayName,zimbraId,zimbraAliasTargetId,cn,sn,zimbraMailHost,uid,zimbraCOSId,zimbraAccountStatus,zimbraLastLogonTimestamp,description,zimbraIsSystemAccount,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraAuthTokenValidityValue,zimbraIsExternalVirtualAccount,zimbraMailStatus,zimbraIsAdminGroup,zimbraCalResType,zimbraDomainType,zimbraDomainName,zimbraDomainStatus,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraIsSystemAccount,zimbraIsExternalVirtualAccount,zimbraCreateTimestamp,zimbraLastLogonTimestamp,zimbraMailQuota,zimbraNotes,mail';
+		accountListDirectory(attrs, type, domainName, searchQuery, 0, 10).then((data) => {
+			const accountListResponse: any = data?.account || [];
+
+			if (accountListResponse && Array.isArray(accountListResponse)) {
+				const accountListArr: any[] = [];
+
+				data?.account.map((delegateAccount: any) =>
+					accountListArr.push({
+						id: delegateAccount.id,
+						label: delegateAccount.name
+					})
+				);
+				data?.dl.map((delegateAccount: any) =>
+					accountListArr.push({
+						id: delegateAccount.id,
+						label: delegateAccount.name
+					})
+				);
+				setOptions(accountListArr);
+			}
+		});
+	}, [domainName, searchQuery]);
+
+	useEffect(() => {
+		getAccountList();
+	}, [getAccountList, searchQuery]);
 	return (
 		<>
-			{isAdvanced && (
+			<Container mainAlignment="center" crossAlignment="center">
+				<Row width="100%">
+					{!isSimplified && (
+						<Text
+							color="primary"
+							size="small"
+							weight="bold"
+							onClick={(): void => setIsSimplified(true)}
+						>
+							{t('account_details.switch_simplified', 'Switch to Simplified View')}
+						</Text>
+					)}
+					{isSimplified && (
+						<Text
+							color="primary"
+							size="small"
+							weight="bold"
+							onClick={(): void => setIsSimplified(false)}
+						>
+							{t('account_details.switch_advanced', 'Switch to Advanced View')}
+						</Text>
+					)}
+				</Row>
+			</Container>
+
+			{isSimplified && (
+				<>
+					<Container
+						mainAlignment="flex-start"
+						padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
+					>
+						<Container style={{ gap: '0.625rem' }} onClick={initOptions}>
+							<ChipInput
+								placeholder="Options are filtered on typing"
+								options={options}
+								disableOptions
+								background="gray5"
+								bottomBorderColor="gray3"
+								onInputType={filterOptions}
+								icon="ChevronDown"
+								iconAction={iconAction}
+								inputRef={inputRef}
+								value={selectedAccounts}
+								onChange={(contacts: any): void => {
+									const data: any = [];
+									map(contacts, (contact: any) => {
+										data.push(contact);
+									});
+									setSelectedAccounts(data);
+								}}
+								description="Here options are shown when user starts typing or when the chevron icon is clicked"
+							/>
+						</Container>
+					</Container>
+				</>
+			)}
+
+			{!isSimplified && isAdvanced && (
 				<Container
 					mainAlignment="flex-start"
 					padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
