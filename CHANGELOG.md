@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.9.9](https://github.com/zextras/carbonio-admin-console-ui/compare/v0.9.8...v0.9.9) (2023-02-15)
+
+
+### Bug Fixes
+
+* local volume create getting error ([ca92f6f](https://github.com/zextras/carbonio-admin-console-ui/commit/ca92f6ff3b2cf9c71ab2a1013c75a7e16de7d187))
+* notification and operation should show in carbonio Advance ([8788df1](https://github.com/zextras/carbonio-admin-console-ui/commit/8788df162882b0f412b3909a370f067ec69a2bd7))
+
 ### [0.9.8](https://github.com/zextras/carbonio-admin-console-ui/compare/v0.9.7...v0.9.8) (2023-02-02)
 
 
