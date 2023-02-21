@@ -351,14 +351,6 @@ const App: FC = () => {
 			// @ts-ignore
 			tooltip: HomeTooltipView
 		});
-		addRoute({
-			route: MONITORING,
-			position: 2,
-			visible: false,
-			label: t('label.monitoring', 'Monitoring'),
-			primaryBar: 'ActivityOutline',
-			appView: AppView
-		});
 
 		addRoute({
 			route: DOMAINS_ROUTE_ID,
@@ -374,9 +366,9 @@ const App: FC = () => {
 		});
 		addRoute({
 			route: STORAGES_ROUTE_ID,
-			position: 2,
+			position: 3,
 			visible: true,
-			label: t('label.mailstores', 'Mailstores'),
+			label: t('label.storage', 'Storage'),
 			primaryBar: 'HardDriveOutline',
 			appView: AppView,
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -386,7 +378,7 @@ const App: FC = () => {
 		});
 		addRoute({
 			route: COS_ROUTE_ID,
-			position: 3,
+			position: 2,
 			visible: true,
 			label: t('label.cos', 'COS'),
 			primaryBar: 'CosOutline',

@@ -1320,6 +1320,7 @@
         "stop_operation_sucess": "The {{name}} operation has been stopped successfully",
         "stop_operations_message": "Are you sure you want to STOP this operation? <br /> By clicking STOP OPERATION, it will be stopped and <br /> removed from the operations queue list.",
         "stop_operations_msg": "Are you sure you want to STOP this operation? <br /> By clicking STOP OPERATION, it will be stopped and removed from the operations queue list.",
+        "storage": "Storage",
         "storage_centralized": "I want this Storage to be centralized",
         "storage_centralized_helpertext": "<bold>Use the CLI to manage the centralization.</bold> Centralized data becomes useful when two or more servers need access to the same data. By keeping data in one place, it’s easier to manage both the hardware and the data itself. ",
         "storage_centralized_helptext": "Centralized data becomes useful when two or more servers need access to the same data. \n By keeping data in one place, it’s easier to manage both the hardware and the data itself. ",
