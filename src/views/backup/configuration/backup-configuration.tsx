@@ -873,7 +873,7 @@ const BackupConfiguration: FC = () => {
 				mainAlignment="flex-start"
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
-					<Container orientation="vertical" mainAlignment="space-around" height="56px">
+					<Container orientation="vertical" mainAlignment="space-around" height="3.5rem">
 						<Row orientation="horizontal" width="100%">
 							<Row
 								padding={{ all: 'large' }}
@@ -920,7 +920,7 @@ const BackupConfiguration: FC = () => {
 					crossAlignment="flex-end"
 					style={{ overflow: 'auto' }}
 					padding={{ all: 'large' }}
-					height="calc(100vh - 150px)"
+					height="calc(100vh - 9.375rem)"
 				>
 					<Container
 						mainAlignment="flex-end"
@@ -953,6 +953,7 @@ const BackupConfiguration: FC = () => {
 							onClick={serviceStartStop}
 							disabled={isRequestInProgress}
 							loading={isRequestInProgress}
+							size="large"
 						/>
 					</Container>
 
@@ -1006,13 +1007,13 @@ const BackupConfiguration: FC = () => {
 								color="primary"
 								icon="PowerOutline"
 								iconPlacement="right"
-								height={36}
 								width="100%"
 								style={{ width: '100%' }}
 								disabled={isBackupInitialized}
 								onClick={(): void => {
 									doInitializeBackup(true);
 								}}
+								size="large"
 							/>
 						</Container>
 					</ListRow>
@@ -1226,7 +1227,7 @@ const BackupConfiguration: FC = () => {
 									color="primary"
 									icon="HardDriveOutline"
 									iconPlacement="right"
-									height={36}
+									size="large"
 									style={{ width: '100%' }}
 									width="100%"
 									disabled={!isBackupInitialized}
@@ -1301,7 +1302,7 @@ const BackupConfiguration: FC = () => {
 								color="primary"
 								icon="PowerOutline"
 								iconPlacement="right"
-								height={36}
+								size="large"
 								style={{ width: '100%' }}
 								width="100%"
 								disabled={!isBackupInitialized}
@@ -1460,6 +1461,7 @@ const BackupConfiguration: FC = () => {
 								onClick={(): void => {
 									doBackupPurge();
 								}}
+								size="large"
 							/>
 						</Container>
 					</ListRow>

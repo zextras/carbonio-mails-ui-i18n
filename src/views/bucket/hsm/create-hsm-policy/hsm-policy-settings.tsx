@@ -238,9 +238,9 @@ const HSMpolicySettings: FC<any> = () => {
 		<Container
 			mainAlignment="flex-start"
 			crossAlignment="flex-start"
-			height="calc(100vh - 280px)"
+			height="calc(100vh - 17.5rem)"
 			background="white"
-			style={{ overflow: 'auto', padding: '16px' }}
+			style={{ overflow: 'auto', padding: '1rem' }}
 		>
 			<ListRow>
 				<Container padding={{ bottom: 'large' }}>
@@ -398,24 +398,30 @@ const HSMpolicySettings: FC<any> = () => {
 						}}
 					/>
 				</Container>
-				<Container width="fit" padding={{ right: 'small' }}>
+				<Container padding={{ right: 'small' }}>
 					<Button
 						type="outlined"
 						label={t('label.add', 'Add')}
 						icon="PlusOutline"
 						iconPlacement="right"
 						color="primary"
-						height={46}
 						onClick={onAdd}
+						size="large"
 					/>
 				</Container>
-				<Container style={{ border: '1px solid rgb(215, 73, 66)' }} width="fit">
+				<Container
+					style={{
+						border: '0.063rem solid rgb(215, 73, 66)',
+						'max-width': '4.25rem',
+						height: '2.25rem',
+						'margin-top': '0.375rem'
+					}}
+				>
 					<IconButton
 						iconColor="error"
 						icon="Trash2Outline"
-						height={44}
-						width={44}
 						onClick={onDeletePolicy}
+						size="extralarge"
 					/>
 				</Container>
 			</ListRow>

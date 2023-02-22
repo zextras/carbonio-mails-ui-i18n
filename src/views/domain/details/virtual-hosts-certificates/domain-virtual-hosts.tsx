@@ -414,22 +414,25 @@ const DomainVirtualHosts: FC = () => {
 						</Padding>
 						<Padding vertical="large" width="100%">
 							<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%" wrap="nowrap">
-								<Input
-									label={t(
-										'label.new_virtual_host_name',
-										'Type a new Virtual Host Name and click on “Add +” to add it to the list'
-									)}
-									background="gray5"
-									value={virtualHostValue}
-									onChange={(e: any): any => {
-										setVirutalHostValue(e.target.value);
-										if (e.target.value) {
-											setAddButtonDisabled(false);
-										} else {
-											setAddButtonDisabled(true);
-										}
-									}}
-								/>
+								<Container width="85%">
+									<Input
+										label={t(
+											'label.new_virtual_host_name',
+											'Type a new Virtual Host Name and click on “Add +” to add it to the list'
+										)}
+										background="gray5"
+										value={virtualHostValue}
+										onChange={(e: any): any => {
+											setVirutalHostValue(e.target.value);
+											if (e.target.value) {
+												setAddButtonDisabled(false);
+											} else {
+												setAddButtonDisabled(true);
+											}
+										}}
+									/>
+								</Container>
+
 								<Padding left="large">
 									<Button
 										type="ghost"

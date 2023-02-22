@@ -1668,12 +1668,12 @@ const EditMailingListView: FC<any> = ({
 			style={{
 				position: 'absolute',
 				left: `${'max(calc(100% - 680px), 12px)'}`,
-				top: '43px',
+				top: '2.688rem',
 				height: 'auto',
 				width: 'auto',
 				overflow: 'hidden',
 				transition: 'left 0.2s ease-in-out',
-				'box-shadow': '-6px 4px 5px 0px rgba(0, 0, 0, 0.1)',
+				'box-shadow': '-0.375rem 0.25rem 0.313rem 0 rgba(0, 0, 0, 0.1)',
 				right: 0
 			}}
 		>
@@ -2028,6 +2028,7 @@ const EditMailingListView: FC<any> = ({
 												height={44}
 												iconPlacement="right"
 												onClick={onAdd}
+												size="extralarge"
 												disabled={searchMember === ''}
 											/>
 										</Padding>
@@ -2039,6 +2040,7 @@ const EditMailingListView: FC<any> = ({
 											color="error"
 											icon="Trash2Outline"
 											iconPlacement="right"
+											size="extralarge"
 											disabled={selectedDistributionListMember.length === 0}
 											height={44}
 											onClick={onDeleteFromList}
@@ -2201,6 +2203,7 @@ const EditMailingListView: FC<any> = ({
 										height={44}
 										iconPlacement="right"
 										onClick={onAddOwner}
+										size="extralarge"
 										disabled={searchOwner === ''}
 									/>
 								</Padding>
@@ -2212,6 +2215,7 @@ const EditMailingListView: FC<any> = ({
 									color="error"
 									icon="Trash2Outline"
 									iconPlacement="right"
+									size="extralarge"
 									disabled={selectedOwnerListMember.length === 0}
 									height={44}
 									onClick={onDeleteFromOwnerList}
@@ -2317,7 +2321,7 @@ const EditMailingListView: FC<any> = ({
 						crossAlignment="flex-start"
 						orientation="horizontal"
 						padding={{ top: 'large', right: 'small' }}
-						width="65%"
+						width="60%"
 					>
 						<Dropdown
 							items={grantItems}
@@ -2359,6 +2363,7 @@ const EditMailingListView: FC<any> = ({
 							iconPlacement="right"
 							height={44}
 							onClick={onAddGrantEmail}
+							size="extralarge"
 							disabled={grantEmailItem === ''}
 						/>
 					</Container>
@@ -2376,6 +2381,7 @@ const EditMailingListView: FC<any> = ({
 							icon="Trash2Outline"
 							iconPlacement="right"
 							height={44}
+							size="extralarge"
 							onClick={onDeleteFromGrantEmail}
 							disabled={selectedGrantEmail && selectedGrantEmail.length === 0}
 						/>

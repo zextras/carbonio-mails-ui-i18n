@@ -430,10 +430,10 @@ const CosServerPools: FC = () => {
 													label={t('label.enable', 'enable')}
 													color="primary"
 													icon="CheckmarkCircleOutline"
-													height={44}
 													iconPlacement="right"
 													disabled={!enable}
 													onClick={onEnable}
+													size="extralarge"
 												/>
 											</Padding>
 
@@ -444,7 +444,7 @@ const CosServerPools: FC = () => {
 												color="error"
 												icon="CloseCircleOutline"
 												iconPlacement="right"
-												height={44}
+												size="extralarge"
 												disabled={!disable}
 												onClick={onDisable}
 											/>

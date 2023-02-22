@@ -403,11 +403,7 @@ const ModifyVolume: FC<{
 						</Text>
 					</Row>
 					<Row padding={{ horizontal: 'small' }}>
-						<IconButton
-							icon="CloseOutline"
-							color="gray1"
-							onClick={(): void => setmodifyVolumeToggle(false)}
-						/>
+						<IconButton icon="CloseOutline" onClick={(): void => setmodifyVolumeToggle(false)} />
 					</Row>
 				</Row>
 				<Divider />
