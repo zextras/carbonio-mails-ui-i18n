@@ -437,8 +437,7 @@ const AccountDetailView: FC<any> = ({
 								iconColor="primary"
 								backgroundColor="gray6"
 								icon="EditAsNewOutline"
-								height={42}
-								width={42}
+								size="large"
 								onClick={(): void => {
 									setShowAccountDetailView(false);
 									setShowEditAccountView(true);
@@ -456,12 +455,10 @@ const AccountDetailView: FC<any> = ({
 								iconColor="error"
 								backgroundColor="gray6"
 								icon="Trash2Outline"
-								height={42}
-								width={42}
+								size="large"
 								disabled={
 									!accountDetail?.zimbraId || accountDetail?.zimbraId !== selectedAccount.id
 								}
-								// loading={!accountDetail?.zimbraId || accountDetail?.zimbraId !== selectedAccount.id}
 								onClick={onDeleteAccount}
 							/>
 						</Container>
@@ -473,7 +470,7 @@ const AccountDetailView: FC<any> = ({
 						icon="EmailReadOutline"
 						iconPlacement="right"
 						color="primary"
-						height={44}
+						size="large"
 						onClick={onViewMail}
 					/>
 				</Row>

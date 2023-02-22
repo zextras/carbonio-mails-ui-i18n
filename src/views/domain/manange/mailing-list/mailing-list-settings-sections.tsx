@@ -600,7 +600,7 @@ const MailingListSettingsSection: FC<any> = () => {
 							color="primary"
 							icon="PlusOutline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							onClick={onAdd}
 							disabled={member === ''}
 						/>
@@ -618,7 +618,7 @@ const MailingListSettingsSection: FC<any> = () => {
 							color="error"
 							icon="Trash2Outline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							onClick={onDeleteFromList}
 							disabled={selectedDistributionListOwner && selectedDistributionListOwner.length === 0}
 						/>
@@ -733,7 +733,7 @@ const MailingListSettingsSection: FC<any> = () => {
 							color="primary"
 							icon="PlusOutline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							onClick={onAddGrantEmail}
 							disabled={grantEmailItem === ''}
 						/>
@@ -751,7 +751,7 @@ const MailingListSettingsSection: FC<any> = () => {
 							color="error"
 							icon="Trash2Outline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							onClick={onDeleteFromGrantEmail}
 							disabled={selectedGrantEmail && selectedGrantEmail.length === 0}
 						/>

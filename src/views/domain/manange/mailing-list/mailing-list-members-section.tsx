@@ -247,7 +247,7 @@ const MailingListMembersSection: FC<any> = () => {
 							color="primary"
 							icon="PlusOutline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							disabled={member === ''}
 							onClick={onAdd}
 						/>
@@ -265,7 +265,7 @@ const MailingListMembersSection: FC<any> = () => {
 							color="error"
 							icon="PlusOutline"
 							iconPlacement="right"
-							height={44}
+							size="large"
 							disabled={
 								selectedDistributionListMember && selectedDistributionListMember.length === 0
 							}
