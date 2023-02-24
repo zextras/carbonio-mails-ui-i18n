@@ -102,28 +102,10 @@ const CosServerPools: FC = () => {
 
 	const onFilterApply = useCallback(
 		(e) => {
-			if (e.length > 1) {
-				const allRows = serverList.map((item: any) => ({
-					id: item?.id,
-					columns: [
-						<Text size="small" weight="light" key={item?.id} color="gray0">
-							{item?.name}
-						</Text>,
-						<Text key={item?.id}>
-							{zimbraMailHostPoolList.find((sp: any) => item?.id === sp?._content)?.c ? (
-								<Text size="small" weight="light">
-									{t('cos.enabled', 'Enabled')}
-								</Text>
-							) : (
-								<Text size="small" weight="light" color="error">
-									{t('cos.disabled', 'Disabled')}
-								</Text>
-							)}
-						</Text>
-					]
-				}));
-				setServerTableRows(allRows);
-			} else if (e.length === 1 && e.find((item: any) => item?.value === ENABLED)) {
+			if (e === null) {
+				return;
+			}
+			if (e === ENABLED) {
 				const allRows = serverList
 					.filter(
 						(item: any) =>
@@ -149,7 +131,8 @@ const CosServerPools: FC = () => {
 						]
 					}));
 				setServerTableRows(allRows);
-			} else if (e.length === 1 && e.find((item: any) => item?.value === DISABLED)) {
+			}
+			if (e === DISABLED) {
 				const allRows = serverList
 					.filter(
 						(item: any) => !zimbraMailHostPoolList.find((sp: any) => item?.id === sp?._content)?.c
@@ -190,7 +173,7 @@ const CosServerPools: FC = () => {
 			{
 				id: 'status',
 				label: t('cos.status', 'Status'),
-				width: '100px',
+				width: '20%',
 				align: 'left',
 				bold: true,
 				items: [
@@ -471,6 +454,7 @@ const CosServerPools: FC = () => {
 									selectedRows={selectedTableRows}
 									onSelectionChange={(selected: any): void => setSelectedTableRows(selected)}
 									RowFactory={CustomRowFactory}
+									HeaderFactory={CustomHeaderFactory}
 								/>
 							</Row>
 							{/* <ListRow>
