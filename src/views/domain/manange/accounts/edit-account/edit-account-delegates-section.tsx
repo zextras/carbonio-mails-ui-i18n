@@ -23,12 +23,9 @@ import {
 	Table,
 	Divider,
 	ChipInput,
-	Dropdown,
-	Input,
-	Icon
+	Checkbox
 } from '@zextras/carbonio-design-system';
-import styled from 'styled-components';
-import { find, filter, map, debounce } from 'lodash';
+import { find, filter, map, debounce, cloneDeep, findIndex, pullAt } from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -40,36 +37,11 @@ import { AccountContext } from '../account-context';
 import { HorizontalWizard } from '../../../../app/component/hwizard';
 import logo from '../../../../../assets/gardian.svg';
 import { Section } from '../../../../app/component/section';
-import { fetchSoap } from '../../../../../services/fetch-soap';
-
 import { useAuthIsAdvanced } from '../../../../../store/auth-advanced/store';
-
-import { delegateType } from '../../../../utility/utils';
 import DelegateSelectModeSection from './add-delegate-section/delegate-selectmode-section';
 import DelegateSetRightsSection from './add-delegate-section/delegate-setright-section';
 import DelegateAddSection from './add-delegate-section/delegate-add-section';
 import { accountListDirectory } from '../../../../../services/account-list-directory-service';
-
-const SelectItem = styled(Row)``;
-
-const emailRegex =
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, max-len, no-control-regex
-	/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-
-const StaticCodesContainer = styled(Row)`
-	max-width: 350px;
-`;
-const StaticCodesWrapper = styled.div`
-	position: relative;
-	width: 100%;
-	column-count: 2;
-	padding: 16px;
-`;
-const StaticCode = styled.label`
-	display: block;
-	font-family: monospace;
-	padding: 4.95px 0;
-`;
 
 const WizardInSection: FC<any> = ({ wizard, wizardFooter, setToggleWizardSection }) => {
 	const { t } = useTranslation();
@@ -103,11 +75,18 @@ const EditAccountDelegatesSection: FC = () => {
 	const [showCreateIdentity, setShowCreateIdentity] = useState<boolean>(false);
 	const [editMode, setEditMode] = useState<boolean>(false);
 	const [selectedRows, setSelectedRows] = useState([]);
+	const [readWriteSelectedRows, setReadWriteSelectedRows] = useState([]);
+	const [readSelectedRows, setReadSelectedRows] = useState([]);
+	const [sendSelectedRows, setSendSelectedRows] = useState([]);
 	const [t] = useTranslation();
 	const createSnackbar = useSnackbar();
 	const isAdvanced = useAuthIsAdvanced((state) => state.isAdvanced);
+	const [simpleSelectedList, setSimpleSelectedList] = useState<any>([]);
 	const [identityListItem, setIdentityListItem] = useState<any>([]);
 	const [isSimplified, setIsSimplified] = useState<boolean>(true);
+	const [readRightCheck, setReadRightCheck] = useState<boolean>(false);
+	const [readRightWriteCheck, setReadWriteRightCheck] = useState<boolean>(false);
+	const [sendWriteCheck, setSendRightCheck] = useState<boolean>(false);
 
 	useEffect(() => {
 		const identitiesArr: any = [];
@@ -126,16 +105,16 @@ const EditAccountDelegatesSection: FC = () => {
 						{item?.right?.[0]?._content === 'sendOnBehalfOf' ? 'Send on Behalf Of' : ''}
 					</Text>,
 					<Text size="medium" key={item?.grantee?.[0]?.id} color="#414141">
-						{/* {'Read, Send, Write'} */}
-						{/* {item?.right?.[0]?._content ? 'Send, ' : ' '} */}
-						{find(item?.folder || [], (ele: any) => ele.perm.includes('r')) ? 'Read, ' : ' '}
-						{find(item?.folder || [], (ele: any) => ele.perm.includes('w')) ? 'Write' : ' '}
+						{find(item?.folder || [], (ele: any) => ele.perm.includes('r')) ? 'Read' : ' '}
+						{find(item?.folder || [], (ele: any) => ele.perm.includes('w')) ? 'Read, Write' : ' '}
 					</Text>
-					// <Text size="medium" key={item?.grantee?.[0]?.id} color="#414141">
-					// 	{'Save it on the Delegated Account'}
-					// </Text>
 				],
-				item,
+				sendRights: !!(
+					item?.right?.[0]?._content === 'sendAs' || item?.right?.[0]?._content === 'sendOnBehalfOf'
+				),
+				readFolder: !!find(item?.folder || [], (ele: any) => ele.perm.includes('r')),
+				writeFolder: !!find(item?.folder || [], (ele: any) => ele.perm.includes('w')),
+				...item,
 				clickable: true
 			});
 			return '';
@@ -169,16 +148,20 @@ const EditAccountDelegatesSection: FC = () => {
 				width: '25%',
 				bold: true
 			}
-			// {
-			// 	id: 'save-mails-to',
-			// 	label: t('label.save_mails_to', 'Save Mails to'),
-			// 	width: '20%',
-			// 	bold: true
-			// }
 		],
 		[t]
 	);
-
+	const simplifiedViewTableHeader: any = useMemo(
+		() => [
+			{
+				id: 'accounts',
+				label: t('label.accounts_groups', 'Accounts / Groups'),
+				width: '100%',
+				bold: true
+			}
+		],
+		[t]
+	);
 	const handleCreateDelegate = (): void => {
 		setEditMode(false);
 		setDeligateDetail({});
@@ -473,22 +456,13 @@ const EditAccountDelegatesSection: FC = () => {
 		],
 		[handleCreateDelegateAPI, t]
 	);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const allOptions: any = [];
 	const [selectedAccounts, setSelectedAccounts] = useState<any>([]);
 	const [options, setOptions] = useState<any>([]);
 
 	const inputRef = useRef<any>(null);
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
-	const iconAction = useCallback(() => {
-		setOptions((prevState: any) => {
-			if (inputRef.current && inputRef.current.value.length > 0) {
-				return prevState;
-			}
-			return [...allOptions];
-		});
-	}, [allOptions]);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const searchAccountList = useCallback(
 		debounce((searchText) => {
@@ -509,232 +483,696 @@ const EditAccountDelegatesSection: FC = () => {
 		},
 		[searchAccountList]
 	);
-	const initOptions = useCallback(() => {
-		filterOptions({ textContent: inputRef.current ? inputRef.current.value : '' });
-	}, [filterOptions]);
-	// useEffect(() => {
-	// 	searchAccountList(searchDelegateAccountName);
-	// }, [searchAccountList, searchDelegateAccountName]);
+	const addAccountGroupRights = useCallback((): void => {
+		simpleSelectedList?.forEach((ele: any): void => {
+			if (sendWriteCheck) {
+				postSoapFetchRequest(
+					`/service/admin/soap/GrantRightRequest`,
+					{
+						_jsns: 'urn:zimbraAdmin',
+						target: {
+							_content: accountDetail?.zimbraMailDeliveryAddress,
+							type: 'account',
+							by: 'name'
+						},
+						grantee: {
+							by: 'name',
+							type: ele.type,
+							_content: ele?.ele?.name
+						},
+						right: {
+							_content: 'sendAs'
+						}
+					},
+					'GrantRightRequest',
+					accountDetail?.zimbraId
+				).then((res: any) => {
+					getIdentitiesList({
+						id: accountDetail?.zimbraId,
+						name: accountDetail?.zimbraMailDeliveryAddress
+					});
+					setShowCreateIdentity(false);
+				});
+			}
+			if (readRightWriteCheck || readRightCheck) {
+				postSoapFetchRequest(
+					`/service/admin/soap/FolderActionRequest`,
+					{
+						_jsns: 'urn:zimbraMail',
+						action: {
+							op: 'grant',
+							id: '1',
+							grant: {
+								perm: readRightWriteCheck ? 'rwidxa' : 'r',
+								gt: ele?.type,
+								d: ele?.ele?.name,
+								pw: ''
+							}
+						}
+					},
+					'FolderActionRequest',
+					accountDetail?.zimbraId
+				).then((res: any) => {
+					getIdentitiesList({
+						id: accountDetail?.zimbraId,
+						name: accountDetail?.zimbraMailDeliveryAddress
+					});
+					setShowCreateIdentity(false);
+					createSnackbar({
+						key: 'success',
+						type: 'success',
+						label: editMode
+							? t('account_details.delegate_updated_successfully', 'Delegate updated successfully')
+							: t('account_details.delegate_created_successfully', 'Delegate created successfully'),
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				});
+			}
+		});
+		setSelectedAccounts([]);
+		setSimpleSelectedList([]);
+		setReadRightCheck(false);
+		setReadWriteRightCheck(false);
+		setSendRightCheck(false);
+	}, [
+		simpleSelectedList,
+		sendWriteCheck,
+		readRightWriteCheck,
+		readRightCheck,
+		accountDetail?.zimbraMailDeliveryAddress,
+		accountDetail?.zimbraId,
+		getIdentitiesList,
+		createSnackbar,
+		editMode,
+		t
+	]);
+	const handleSimpleDeleteDelegate = useCallback(
+		(single: boolean, rightsType: string): void => {
+			const selectedDelegateArr = [];
+			if (rightsType === 'readWrite') {
+				if (
+					single &&
+					find(identitiesList, (o) => o?.grantee?.[0].id === readWriteSelectedRows[0])
+				) {
+					selectedDelegateArr.push(
+						find(identitiesList, (o) => o?.grantee?.[0].id === readWriteSelectedRows[0])
+					);
+				}
+				if (!single) {
+					selectedDelegateArr.push(
+						...filter(identityListItem, { writeFolder: true, readFolder: true })
+					);
+				}
+				setReadWriteSelectedRows([]);
+			} else if (rightsType === 'read') {
+				if (single && find(identitiesList, (o) => o?.grantee?.[0].id === readSelectedRows[0])) {
+					selectedDelegateArr.push(
+						find(identitiesList, (o) => o?.grantee?.[0].id === readSelectedRows[0])
+					);
+				}
+				if (!single) {
+					selectedDelegateArr.push(
+						...filter(identityListItem, { writeFolder: false, readFolder: true })
+					);
+				}
+				setReadSelectedRows([]);
+			} else if (rightsType === 'send') {
+				if (single && find(identitiesList, (o) => o?.grantee?.[0].id === sendSelectedRows[0])) {
+					selectedDelegateArr.push(
+						find(identitiesList, (o) => o?.grantee?.[0].id === sendSelectedRows[0])
+					);
+				}
+				if (!single) {
+					selectedDelegateArr.push(...filter(identityListItem, { sendRights: true }));
+				}
+				setReadSelectedRows([]);
+			}
+			selectedDelegateArr.forEach((selectedDelegate: any) => {
+				if (selectedDelegate) {
+					if (
+						(rightsType === 'readWrite' || rightsType === 'read') &&
+						selectedDelegate?.folder?.length
+					) {
+						selectedDelegate.folder.forEach((ele: any) => {
+							postSoapFetchRequest(
+								`/service/admin/soap/FolderActionRequest`,
+								{
+									_jsns: 'urn:zimbraMail',
+									action: {
+										op: '!grant',
+										id: ele.id,
+										zid: ele.zid
+									}
+								},
+								'FolderActionRequest',
+								accountDetail?.zimbraId
+							).then((res: any) => {
+								getIdentitiesList({
+									id: accountDetail?.zimbraId,
+									name: accountDetail?.zimbraMailDeliveryAddress
+								});
+							});
+						});
+					}
+					if (rightsType === 'send' && selectedDelegate?.right?.[0]?._content) {
+						postSoapFetchRequest(
+							`/service/admin/soap/RevokeRightRequest`,
+							{
+								_jsns: 'urn:zimbraAdmin',
+								target: {
+									_content: accountDetail?.zimbraMailDeliveryAddress,
+									type: 'account',
+									by: 'name'
+								},
+								grantee: {
+									by: 'name',
+									type: selectedDelegate?.grantee?.[0]?.type,
+									_content: selectedDelegate?.grantee?.[0]?.name
+								},
+								right: {
+									_content: selectedDelegate?.right?.[0]?._content
+								}
+							},
+							'RevokeRightRequest',
+							accountDetail?.zimbraId
+						).then((res: any) => {
+							setShowCreateIdentity(false);
+							getIdentitiesList({
+								id: accountDetail?.zimbraId,
+								name: accountDetail?.zimbraMailDeliveryAddress
+							});
+						});
+					}
+					createSnackbar({
+						key: 'success',
+						type: 'success',
+						label: t(
+							'account_details.delegate_deleted_successfully',
+							'Delegate deleted successfully'
+						),
+						autoHideTimeout: 3000,
+						hideButton: true,
+						replace: true
+					});
+				}
+			});
+		},
+		[
+			accountDetail?.zimbraId,
+			accountDetail?.zimbraMailDeliveryAddress,
+			createSnackbar,
+			getIdentitiesList,
+			identitiesList,
+			identityListItem,
+			readSelectedRows,
+			readWriteSelectedRows,
+			sendSelectedRows,
+			t
+		]
+	);
+
 	const getAccountList = useCallback((): void => {
 		const type = 'distributionlists,accounts';
 		const attrs =
 			'displayName,zimbraId,zimbraAliasTargetId,cn,sn,zimbraMailHost,uid,zimbraCOSId,zimbraAccountStatus,zimbraLastLogonTimestamp,description,zimbraIsSystemAccount,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraAuthTokenValidityValue,zimbraIsExternalVirtualAccount,zimbraMailStatus,zimbraIsAdminGroup,zimbraCalResType,zimbraDomainType,zimbraDomainName,zimbraDomainStatus,zimbraIsDelegatedAdminAccount,zimbraIsAdminAccount,zimbraIsSystemResource,zimbraIsSystemAccount,zimbraIsExternalVirtualAccount,zimbraCreateTimestamp,zimbraLastLogonTimestamp,zimbraMailQuota,zimbraNotes,mail';
 		accountListDirectory(attrs, type, domainName, searchQuery, 0, 10).then((data) => {
-			const accountListResponse: any = data?.account || [];
-
-			if (accountListResponse && Array.isArray(accountListResponse)) {
-				const accountListArr: any[] = [];
-
-				data?.account.map((delegateAccount: any) =>
-					accountListArr.push({
-						id: delegateAccount.id,
-						label: delegateAccount.name
-					})
-				);
-				data?.dl.map((delegateAccount: any) =>
-					accountListArr.push({
-						id: delegateAccount.id,
-						label: delegateAccount.name
-					})
-				);
-				setOptions(accountListArr);
-			}
+			const accountListArr: any[] = [];
+			data?.account?.map((delegateAccount: any) =>
+				accountListArr.push({
+					id: delegateAccount.id,
+					label: delegateAccount.name,
+					type: 'usr',
+					ele: delegateAccount
+				})
+			);
+			data?.dl?.map((delegateAccount: any) =>
+				accountListArr.push({
+					id: delegateAccount.id,
+					label: delegateAccount.name,
+					type: 'grp',
+					ele: delegateAccount
+				})
+			);
+			setOptions(accountListArr);
 		});
 	}, [domainName, searchQuery]);
 
 	useEffect(() => {
-		getAccountList();
+		if (searchQuery) getAccountList();
 	}, [getAccountList, searchQuery]);
 	return (
 		<>
-			<Container mainAlignment="center" crossAlignment="center">
-				<Row width="100%">
-					{!isSimplified && (
-						<Text
-							color="primary"
-							size="small"
-							weight="bold"
-							onClick={(): void => setIsSimplified(true)}
-						>
-							{t('account_details.switch_simplified', 'Switch to Simplified View')}
-						</Text>
-					)}
-					{isSimplified && (
-						<Text
-							color="primary"
-							size="small"
-							weight="bold"
-							onClick={(): void => setIsSimplified(false)}
-						>
-							{t('account_details.switch_advanced', 'Switch to Advanced View')}
-						</Text>
-					)}
-				</Row>
-			</Container>
+			<Container mainAlignment="flex-start" crossAlignment="flex-start" orientation="vertical">
+				<Container
+					mainAlignment="flex-start"
+					crossAlignment="flex-start"
+					height="auto"
+					padding={{ top: 'large', bottom: 'large' }}
+				>
+					<Row width="100%">
+						{!isSimplified && (
+							<Text
+								color="primary"
+								size="small"
+								weight="bold"
+								onClick={(): void => setIsSimplified(true)}
+								style={{ cursor: 'pointer' }}
+							>
+								{t('account_details.switch_simplified', 'Switch to Simplified View')}
+							</Text>
+						)}
+						{isSimplified && (
+							<Text
+								color="primary"
+								size="small"
+								weight="bold"
+								onClick={(): void => setIsSimplified(false)}
+								style={{ cursor: 'pointer' }}
+							>
+								{t('account_details.switch_advanced', 'Switch to Advanced View')}
+							</Text>
+						)}
+					</Row>
+				</Container>
 
-			{isSimplified && (
-				<>
+				{isSimplified && (
 					<Container
 						mainAlignment="flex-start"
+						height="auto"
 						padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
 					>
-						<Container style={{ gap: '0.625rem' }} onClick={initOptions}>
+						<Container
+							mainAlignment="flex-start"
+							crossAlignment="flex-start"
+							style={{ gap: '0.625rem' }}
+							onClick={getAccountList}
+						>
 							<ChipInput
-								placeholder="Options are filtered on typing"
+								placeholder={t(
+									'account_details.start_typing_account',
+									'Start typing an Account / Group to add it to the rights'
+								)}
 								options={options}
 								disableOptions
 								background="gray5"
 								bottomBorderColor="gray3"
 								onInputType={filterOptions}
 								icon="ChevronDown"
-								iconAction={iconAction}
+								iconAction={filterOptions}
 								inputRef={inputRef}
 								value={selectedAccounts}
 								onChange={(contacts: any): void => {
 									const data: any = [];
+									let listArr = cloneDeep(simpleSelectedList);
 									map(contacts, (contact: any) => {
 										data.push(contact);
+										if (
+											!find(listArr, { label: contact.label }) &&
+											find(options, { label: contact.label })
+										) {
+											listArr.push(find(options, { label: contact.label }));
+										}
 									});
+									const pullIndex: any = [];
+									map(listArr, (ele: any, index) => {
+										const indexEle = findIndex(contacts, { label: ele.label });
+										if (indexEle < 0) {
+											pullIndex.push(index);
+										}
+									});
+									if (pullIndex.length) {
+										listArr = pullAt(listArr, pullIndex);
+									}
+									setSimpleSelectedList(listArr);
 									setSelectedAccounts(data);
+
+									setSearchQuery('');
 								}}
-								description="Here options are shown when user starts typing or when the chevron icon is clicked"
+								requireUniqueChips
 							/>
 						</Container>
-					</Container>
-				</>
-			)}
-
-			{!isSimplified && isAdvanced && (
-				<Container
-					mainAlignment="flex-start"
-					padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
-				>
-					{!showCreateIdentity && (
-						<>
-							<Row mainAlignment="flex-start" padding={{ left: 'small' }} width="100%">
-								<Row padding={{ top: 'large' }} width="100%" mainAlignment="space-between">
-									<Text size="small" color="gray0" weight="bold">
-										{t('label.delegates', 'DELEGATES')}
-									</Text>
-								</Row>
-								<Row width="100%" mainAlignment="flex-end" crossAlignment="flex-end">
-									<Padding right="large">
-										<Button
-											type="outlined"
-											label={t('label.ADD_NEW', 'ADD NEW')}
-											icon="PlusOutline"
-											iconPlacement="right"
-											color="primary"
-											height={44}
-											onClick={(): void => handleCreateDelegate()}
-										/>
-									</Padding>
-									<Padding right="large">
-										<Button
-											type="outlined"
-											label={t('label.EDIT', 'EDIT')}
-											icon="Edit2Outline"
-											iconPlacement="right"
-											color="secondary"
-											height={44}
-											onClick={(): void => handleEditDelegate()}
-										/>
-									</Padding>
-									<Button
-										type="outlined"
-										label={t('label.REMOVE', 'REMOVE')}
-										icon="CloseOutline"
-										iconPlacement="right"
-										color="error"
-										height={44}
-										disabled={!selectedRows?.length}
-										onClick={(): void => handleDeleteeDelegate()}
+						<Container mainAlignment="flex-start">
+							<Row
+								width="100%"
+								padding={{ top: 'large', left: 'large' }}
+								mainAlignment="space-between"
+							>
+								<Row width="30%" mainAlignment="flex-start">
+									<Checkbox
+										value={readRightWriteCheck}
+										onClick={(): void => {
+											if (!readRightWriteCheck) {
+												setReadRightCheck(false);
+											}
+											setReadWriteRightCheck(!readRightWriteCheck);
+										}}
+										label={t('account_details.read_write', 'Read / Write')}
 									/>
 								</Row>
-								<Row
-									padding={{ top: 'large', left: 'large' }}
-									width="100%"
-									mainAlignment="space-between"
-								>
-									<Row
-										orientation="horizontal"
-										mainAlignment="space-between"
-										crossAlignment="flex-start"
-										width="fill"
-										height="calc(100vh - 340px)"
-									>
-										{identityListItem.length !== 0 && (
-											<Table
-												rows={identityListItem}
-												headers={headers}
-												multiSelect={false}
-												onSelectionChange={setSelectedRows}
-												style={{ overflow: 'auto', height: '100%' }}
+								<Row width="30%" mainAlignment="flex-start">
+									<Checkbox
+										value={readRightCheck}
+										onClick={(): void => {
+											if (!readRightCheck) {
+												setReadWriteRightCheck(false);
+											}
+											setReadRightCheck(!readRightCheck);
+										}}
+										label={t('account_details.read_only', 'Read Only')}
+									/>
+								</Row>
+								<Row width="30%" mainAlignment="flex-start">
+									<Checkbox
+										defaultChecked={sendWriteCheck}
+										onClick={(): void => setSendRightCheck(!sendWriteCheck)}
+										label={t('account_details.send_check', 'Send')}
+									/>
+								</Row>
+							</Row>
+						</Container>
+						<Container mainAlignment="flex-start">
+							<Row
+								width="100%"
+								padding={{ top: 'large', left: 'large' }}
+								margin={{ top: 'large' }}
+								mainAlignment="space-between"
+							>
+								<Button
+									label={t(
+										'account_details.add_the_account_group_with_selected_rights',
+										'ADD THE ACCOUNT / GROUP WITH SELECTED RIGHTS'
+									)}
+									onClick={(): void => addAccountGroupRights()}
+									width="fill"
+									type="outlined"
+									disabled={
+										!(sendWriteCheck || readRightCheck || readRightWriteCheck) ||
+										!selectedAccounts?.length
+									}
+								/>
+							</Row>
+						</Container>
+						<Row width="100%" padding={{ top: 'medium' }}>
+							<Divider color="gray2" />
+						</Row>
+						<Container mainAlignment="flex-start" height="auto">
+							<Container
+								width="100%"
+								padding={{ top: 'large', left: 'large' }}
+								mainAlignment="space-between"
+								crossAlignment="flex-start"
+								height="auto"
+								orientation="horizontal"
+							>
+								<Row width="30%" mainAlignment="flex-start" height="auto">
+									<Row width="11rem" padding={{ bottom: 'large' }}>
+										<Text
+											weight="light"
+											size="large"
+											overflow="break-word"
+											margin={{ bottom: 'large' }}
+										>
+											<Trans
+												i18nKey="account_details.account_read_write_rights"
+												defaults="This account has <bold>Read / Write</bold> rights on"
+												components={{ bold: <strong /> }}
 											/>
-										)}
-										{identityListItem.length === 0 && (
-											<Container
-												orientation="column"
-												crossAlignment="center"
-												mainAlignment="center"
-											>
-												<Row>
-													<img src={logo} alt="logo" />
-												</Row>
-												<Row
-													padding={{ top: 'extralarge' }}
-													orientation="vertical"
-													crossAlignment="center"
-													style={{ textAlign: 'center' }}
-												>
-													<Text weight="light" color="#828282" size="large" overflow="break-word">
-														{t('label.this_list_is_empty', 'This list is empty.')}
-													</Text>
-												</Row>
-												<Row
-													orientation="vertical"
-													crossAlignment="center"
-													style={{ textAlign: 'center' }}
-													padding={{ top: 'small' }}
-													width="53%"
-												>
-													<Text weight="light" color="#828282" size="large" overflow="break-word">
-														<Trans
-															i18nKey="label.create_otp_list_msg"
-															defaults="You can create a new OTP by clicking on <bold>NEW OTP</bold> button up here"
-															components={{ bold: <strong /> }}
-														/>
-													</Text>
-												</Row>
-											</Container>
-										)}
+										</Text>
+									</Row>
+									<Table
+										rows={filter(identityListItem, { writeFolder: true, readFolder: true })}
+										headers={simplifiedViewTableHeader}
+										multiSelect={false}
+										onSelectionChange={setReadWriteSelectedRows}
+										style={{ overflow: 'auto', height: '100%' }}
+									/>
+									<Row
+										width="100%"
+										padding={{ top: 'large', bottom: 'large' }}
+										mainAlignment="space-between"
+									>
+										<Row width="40%" mainAlignment="space-between">
+											<Button
+												type="ghost"
+												label={t('account_details.remove', 'REMOVE')}
+												color="error"
+												disabled={!readWriteSelectedRows?.length}
+												onClick={(): void => handleSimpleDeleteDelegate(true, 'readWrite')}
+											/>
+										</Row>
+										<Row width="60%" mainAlignment="space-between">
+											<Button
+												type="outlined"
+												label={t('account_details.remove_all', 'REMOVE ALL')}
+												color="error"
+												disabled={
+													findIndex(identityListItem, {
+														writeFolder: true,
+														readFolder: true
+													}) < 0
+												}
+												onClick={(): void => handleSimpleDeleteDelegate(false, 'readWrite')}
+											/>
+										</Row>
+									</Row>
+								</Row>
+								<Row width="30%" mainAlignment="flex-start" height="auto">
+									<Row width="11rem" padding={{ bottom: 'large' }}>
+										<Text
+											weight="light"
+											size="large"
+											overflow="break-word"
+											margin={{ bottom: 'large' }}
+										>
+											<Trans
+												i18nKey="account_details.account_read_only_rights"
+												defaults="This account has <bold>Read Only</bold> rights on"
+												components={{ bold: <strong /> }}
+											/>
+										</Text>
+									</Row>
+									<Table
+										rows={filter(identityListItem, { writeFolder: false, readFolder: true })}
+										headers={simplifiedViewTableHeader}
+										multiSelect={false}
+										onSelectionChange={setReadSelectedRows}
+										style={{ overflow: 'auto', height: '100%' }}
+									/>
+									<Row
+										width="100%"
+										padding={{ top: 'large', bottom: 'large' }}
+										mainAlignment="space-between"
+									>
+										<Row width="40%" mainAlignment="space-between">
+											<Button
+												type="ghost"
+												label={t('account_details.remove', 'REMOVE')}
+												color="error"
+												disabled={!readSelectedRows?.length}
+												onClick={(): void => handleSimpleDeleteDelegate(true, 'read')}
+											/>
+										</Row>
+										<Row width="60%" mainAlignment="space-between">
+											<Button
+												type="outlined"
+												label={t('account_details.remove_all', 'REMOVE ALL')}
+												color="error"
+												disabled={
+													findIndex(identityListItem, {
+														writeFolder: false,
+														readFolder: true
+													}) < 0
+												}
+												onClick={(): void => handleSimpleDeleteDelegate(false, 'read')}
+											/>
+										</Row>
+									</Row>
+								</Row>
+								<Row width="30%" mainAlignment="flex-start" height="auto">
+									<Row width="11rem" padding={{ bottom: 'large' }}>
+										<Text
+											weight="light"
+											size="large"
+											overflow="break-word"
+											margin={{ bottom: 'large' }}
+										>
+											<Trans
+												i18nKey="account_details.account_send_rights"
+												defaults="This account has <bold>Send</bold> rights on"
+												components={{ bold: <strong /> }}
+											/>
+										</Text>
+									</Row>
+									<Table
+										rows={filter(identityListItem, { sendRights: true })}
+										headers={simplifiedViewTableHeader}
+										onSelectionChange={setSendSelectedRows}
+										multiSelect={false}
+										style={{ overflow: 'auto', height: '100%' }}
+									/>
+									<Row
+										width="100%"
+										padding={{ top: 'large', bottom: 'large' }}
+										mainAlignment="space-between"
+									>
+										<Row width="40%" mainAlignment="space-between">
+											<Button
+												type="ghost"
+												label={t('account_details.remove', 'REMOVE')}
+												color="error"
+												onClick={(): void => handleSimpleDeleteDelegate(true, 'send')}
+											/>
+										</Row>
+										<Row width="60%" mainAlignment="space-between">
+											<Button
+												type="outlined"
+												label={t('account_details.remove_all', 'REMOVE ALL')}
+												color="error"
+												disabled={findIndex(identityListItem, { sendRights: true }) < 0}
+												onClick={(): void => handleSimpleDeleteDelegate(false, 'send')}
+											/>
+										</Row>
+									</Row>
+								</Row>
+							</Container>
+						</Container>
+					</Container>
+				)}
+
+				{!isSimplified && isAdvanced && (
+					<Container
+						mainAlignment="flex-start"
+						padding={{ left: 'large', right: 'extralarge', bottom: 'large' }}
+					>
+						{!showCreateIdentity && (
+							<>
+								<Row mainAlignment="flex-start" padding={{ left: 'small' }} width="100%">
+									<Row padding={{ top: 'large' }} width="100%" mainAlignment="space-between">
+										<Text size="small" color="gray0" weight="bold">
+											{t('label.delegates', 'DELEGATES')}
+										</Text>
+									</Row>
+									<Row width="100%" mainAlignment="flex-end" crossAlignment="flex-end">
+										<Padding right="large">
+											<Button
+												type="outlined"
+												label={t('label.ADD_NEW', 'ADD NEW')}
+												icon="PlusOutline"
+												iconPlacement="right"
+												color="primary"
+												height={44}
+												onClick={(): void => handleCreateDelegate()}
+											/>
+										</Padding>
+										<Padding right="large">
+											<Button
+												type="outlined"
+												label={t('label.EDIT', 'EDIT')}
+												icon="Edit2Outline"
+												iconPlacement="right"
+												color="secondary"
+												height={44}
+												onClick={(): void => handleEditDelegate()}
+											/>
+										</Padding>
+										<Button
+											type="outlined"
+											label={t('label.REMOVE', 'REMOVE')}
+											icon="CloseOutline"
+											iconPlacement="right"
+											color="error"
+											height={44}
+											disabled={!selectedRows?.length}
+											onClick={(): void => handleDeleteeDelegate()}
+										/>
+									</Row>
+									<Row
+										padding={{ top: 'large', left: 'large' }}
+										width="100%"
+										mainAlignment="space-between"
+									>
 										<Row
 											orientation="horizontal"
 											mainAlignment="space-between"
 											crossAlignment="flex-start"
 											width="fill"
-											padding={{ top: 'medium' }}
+											height="calc(100vh - 340px)"
 										>
-											<Divider />
+											{identityListItem.length !== 0 && (
+												<Table
+													rows={identityListItem}
+													headers={headers}
+													multiSelect={false}
+													onSelectionChange={setSelectedRows}
+													style={{ overflow: 'auto', height: '100%' }}
+												/>
+											)}
+											{identityListItem.length === 0 && (
+												<Container
+													orientation="column"
+													crossAlignment="center"
+													mainAlignment="center"
+												>
+													<Row>
+														<img src={logo} alt="logo" />
+													</Row>
+													<Row
+														padding={{ top: 'extralarge' }}
+														orientation="vertical"
+														crossAlignment="center"
+														style={{ textAlign: 'center' }}
+													>
+														<Text weight="light" color="#828282" size="large" overflow="break-word">
+															{t('label.this_list_is_empty', 'This list is empty.')}
+														</Text>
+													</Row>
+													<Row
+														orientation="vertical"
+														crossAlignment="center"
+														style={{ textAlign: 'center' }}
+														padding={{ top: 'small' }}
+														width="53%"
+													>
+														<Text weight="light" color="#828282" size="large" overflow="break-word">
+															<Trans
+																i18nKey="label.create_otp_list_msg"
+																defaults="You can create a new OTP by clicking on <bold>NEW OTP</bold> button up here"
+																components={{ bold: <strong /> }}
+															/>
+														</Text>
+													</Row>
+												</Container>
+											)}
+											<Row
+												orientation="horizontal"
+												mainAlignment="space-between"
+												crossAlignment="flex-start"
+												width="fill"
+												padding={{ top: 'medium' }}
+											>
+												<Divider />
+											</Row>
 										</Row>
 									</Row>
 								</Row>
-							</Row>
-						</>
-					)}
-					{showCreateIdentity && (
-						<>
-							<Row mainAlignment="flex-start" padding={{ left: 'small' }} width="100%">
-								<HorizontalWizard
-									steps={wizardSteps}
-									Wrapper={WizardInSection}
-									setToggleWizardSection={setShowCreateIdentity}
-								/>
-							</Row>
-						</>
-					)}
-				</Container>
-			)}
+							</>
+						)}
+						{showCreateIdentity && (
+							<>
+								<Row mainAlignment="flex-start" padding={{ left: 'small' }} width="100%">
+									<HorizontalWizard
+										steps={wizardSteps}
+										Wrapper={WizardInSection}
+										setToggleWizardSection={setShowCreateIdentity}
+									/>
+								</Row>
+							</>
+						)}
+					</Container>
+				)}
+			</Container>
 		</>
 	);
 };
