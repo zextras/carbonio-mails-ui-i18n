@@ -1022,6 +1022,7 @@ const EditAccountDelegatesSection: FC = () => {
 												type="ghost"
 												label={t('account_details.remove', 'REMOVE')}
 												color="error"
+												disabled={!sendSelectedRows?.length}
 												onClick={(): void => handleSimpleDeleteDelegate(true, 'send')}
 											/>
 										</Row>
