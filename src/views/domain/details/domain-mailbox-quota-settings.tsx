@@ -3,16 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {
-	FC,
-	useEffect,
-	useState,
-	useMemo,
-	useContext,
-	useCallback,
-	SVGProps,
-	useRef
-} from 'react';
+import React, { FC, useEffect, useState, useMemo, useContext, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
 	Container,
@@ -24,10 +15,8 @@ import {
 	Padding,
 	SnackbarManagerContext,
 	Table,
-	Divider,
-	Icon
+	Divider
 } from '@zextras/carbonio-design-system';
-import { isEmpty } from 'lodash';
 import {
 	ALLOW_SEND_RECEIVE,
 	BLOCK_SEND,
@@ -44,123 +33,8 @@ import { RouteLeavingGuard } from '../../ui-extras/nav-guard';
 import ListRow from '../../list/list-row';
 import DownloadCSV from '../../app/shared/download-csv';
 import { MailBoxQuota } from '../../app/types/mailbox_quota';
-
-export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
-
-export interface ThemeObj {
-	icons: Record<string, IconComponent>;
-}
-
-export type DefaultTheme = ThemeObj;
-
-type IconButtonProps = {
-	icon: keyof DefaultTheme['icons'];
-	onClick: (e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => void;
-};
-
-type THeader = {
-	id: string;
-	label: string;
-	align?: React.ThHTMLAttributes<HTMLTableHeaderCellElement>['align'];
-	width?: string;
-	i18nAllLabel?: string;
-	bold?: boolean;
-	items?: any;
-	onChange: (value: string | null) => void;
-};
-
-interface THeaderProps {
-	headers: THeader[];
-	onChange: () => void;
-	allSelected: boolean;
-	selectionMode: boolean;
-	multiSelect: boolean;
-	showCheckbox: boolean;
-}
-
-type HeaderFactoryCustomProps = Omit<THeaderProps, 'headers'> & {
-	headers: Array<
-		THeaderProps['headers'][number] & {
-			onClick?: IconButtonProps['onClick'];
-			icon?: keyof DefaultTheme['icons'];
-		}
-	>;
-};
-
-const HeaderFactory = ({ headers }: HeaderFactoryCustomProps): JSX.Element => {
-	const trRef = useRef<HTMLTableRowElement>(null);
-	const LabelFactory = useCallback(
-		({ label, open, focus, bold }: any) => (
-			<Container
-				orientation="horizontal"
-				width="fill"
-				crossAlignment="center"
-				mainAlignment="space-between"
-				borderRadius="half"
-				padding={{
-					vertical: 'small'
-				}}
-			>
-				<Row
-					takeAvailableSpace
-					mainAlignment="unset"
-					style={{ display: 'inline-table' }}
-					width="auto"
-				>
-					<Text
-						size="medium"
-						weight={bold ? 'bold' : 'regular'}
-						color={open || focus ? 'primary' : 'text'}
-					>
-						{label}
-					</Text>
-				</Row>
-				<Container>
-					<Icon
-						size="medium"
-						icon={open ? 'ChevronUpOutline' : 'ChevronDownOutline'}
-						color={open || focus ? 'primary' : 'text'}
-						style={{ alignSelf: 'center' }}
-					/>
-				</Container>
-			</Container>
-		),
-		[]
-	);
-
-	const headerData = useMemo(
-		() =>
-			headers.map((column) => {
-				const hasItems = !isEmpty(column.items);
-				return (
-					<th key={column.id} align={column.align || 'left'} style={{ width: column?.width }}>
-						{hasItems && (
-							<Container width="4rem">
-								<Select
-									label={column.label}
-									false
-									items={column.items}
-									dropdownWidth="auto"
-									onChange={column.onChange}
-									display={column.align ? 'inline-block' : 'block'}
-									LabelFactory={(props: any): JSX.Element =>
-										LabelFactory({ ...props, bold: column.bold })
-									}
-									selection={{
-										label: column.label,
-										value: PERCENT_USED
-									}}
-								/>
-							</Container>
-						)}
-						{!hasItems && <Text weight={column.bold ? 'bold' : 'regular'}>{column.label}</Text>}
-					</th>
-				);
-			}),
-		[headers, LabelFactory]
-	);
-	return <tr ref={trRef}>{headerData}</tr>;
-};
+import CustomRowFactory from '../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../app/shared/customTableHeaderFactory';
 
 const DomainMailboxQuotaSetting: FC = () => {
 	const [t] = useTranslation();
@@ -229,18 +103,6 @@ const DomainMailboxQuotaSetting: FC = () => {
 
 	const headers: any = useMemo(
 		() => [
-			{
-				id: 'index',
-				label: '',
-				width: '1.875rem',
-				bold: true
-			},
-			{
-				id: 'index1',
-				label: '',
-				width: '5%',
-				bold: true
-			},
 			{
 				id: 'account',
 				label: t('label.account', 'Account'),
@@ -341,7 +203,6 @@ const DomainMailboxQuotaSetting: FC = () => {
 						quotaData.push({
 							id: index.toString(),
 							columns: [
-								'',
 								<Text size="medium" weight="bold" key={item?.id} color="#828282">
 									{item?.name}
 								</Text>,
@@ -359,6 +220,8 @@ const DomainMailboxQuotaSetting: FC = () => {
 
 	useEffect(() => {
 		if (selectedSortType) {
+			getQuotaUsageInformation();
+		} else {
 			getQuotaUsageInformation();
 		}
 	}, [selectedSortType, getQuotaUsageInformation]);
@@ -731,10 +594,11 @@ const DomainMailboxQuotaSetting: FC = () => {
 							<ListRow>
 								<Row>
 									<Table
-										HeaderFactory={HeaderFactory}
 										rows={usageQuota}
 										headers={headers}
 										showCheckbox={false}
+										RowFactory={CustomRowFactory}
+										HeaderFactory={CustomHeaderFactory}
 									/>
 									{isRequestInProgress && (
 										<Container

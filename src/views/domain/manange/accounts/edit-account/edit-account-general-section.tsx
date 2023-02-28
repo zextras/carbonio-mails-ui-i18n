@@ -445,10 +445,10 @@ const EditAccountGeneralSection: FC = () => {
 							orientation="horizontal"
 							mainAlignment="space-between"
 							crossAlignment="flex-start"
-							width="fill"
+							width="100%"
 							wrap={'nowrap'}
 						>
-							<Container mainAlignment="flex-start" crossAlignment="flex-start">
+							<Container mainAlignment="flex-start" crossAlignment="flex-start" width="40%">
 								<Input
 									label={t('account_details.new_alias_name', 'New Alias Name')}
 									backgroundColor="gray5"
@@ -459,13 +459,14 @@ const EditAccountGeneralSection: FC = () => {
 									}}
 								/>
 							</Container>
-							<Container width="fit" padding={{ top: 'large', left: 'small', right: 'small' }}>
+							<Container padding={{ top: 'large', left: 'small', right: 'small' }} width="10%">
 								<Icon icon="AtOutline" size="large" />
 							</Container>
 							<Container
 								mainAlignment="flex-start"
 								crossAlignment="flex-start"
 								padding={{ right: 'large' }}
+								width="40%"
 							>
 								<Select
 									items={domainList.map((ele) => ({
@@ -486,11 +487,12 @@ const EditAccountGeneralSection: FC = () => {
 									onChange={onDomainOptionChange}
 								/>
 							</Container>
-							<Container style={{ border: '1px solid #2b73d2' }} width="fit">
+							<Container width="10%">
 								<IconButton
 									type="outlined"
 									icon="PlusOutline"
 									iconColor="primary"
+									size="extralarge"
 									onClick={(): void => {
 										if (!aliesNameValue.trim()) return;
 										let aliaes = cloneDeep(accountAliases);

@@ -22,7 +22,6 @@ const PrimaryBarTooltip: FC<{ items: any[] }> = ({ items }) => (
 						size="medium"
 						color="text"
 						weight="regular"
-						className="yyyyyyy"
 						style={{ 'white-space': 'break-spaces' }}
 					>
 						{item.header}

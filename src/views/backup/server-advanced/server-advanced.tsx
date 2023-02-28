@@ -592,7 +592,7 @@ const ServerAdvanced: FC = () => {
 				mainAlignment="flex-start"
 			>
 				<Row takeAvwidth="fill" mainAlignment="flex-start" width="100%">
-					<Container orientation="vertical" mainAlignment="space-around" height="56px">
+					<Container orientation="vertical" mainAlignment="space-around" height="3.5rem">
 						<Row orientation="horizontal" width="100%">
 							<Row
 								padding={{ all: 'large' }}
@@ -640,7 +640,7 @@ const ServerAdvanced: FC = () => {
 					crossAlignment="flex-end"
 					style={{ overflow: 'auto' }}
 					padding={{ all: 'large' }}
-					height="calc(100vh - 150px)"
+					height="calc(100vh - 9.375rem)"
 				>
 					<ListRow>
 						<Container
@@ -682,6 +682,7 @@ const ServerAdvanced: FC = () => {
 							mainAlignment="flex-start"
 							crossAlignment="flex-start"
 							padding={{ top: 'large' }}
+							style={{ display: 'block' }}
 						>
 							<Button
 								type="outlined"
@@ -689,11 +690,12 @@ const ServerAdvanced: FC = () => {
 								color="primary"
 								icon="ActivityOutline"
 								iconPlacement="right"
-								height={36}
-								width="fit"
 								onClick={checkLdapStatus}
 								disabled={isRequestInProgress}
 								loading={isRequestInProgress}
+								style={{ width: '100%' }}
+								width="100%"
+								size="large"
 							/>
 						</Container>
 					</ListRow>

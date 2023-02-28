@@ -29,6 +29,8 @@ import { getDistributionListMembership } from '../../../../services/get-distribu
 import { getDateFromStr } from '../../../utility/utils';
 import { deleteDistributionList } from '../../../../services/delete-distribution-list';
 import { getGrant } from '../../../../services/get-grant';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
 
 // eslint-disable-next-line no-shadow
 export enum SUBSCRIBE_UNSUBSCRIBE {
@@ -579,9 +581,8 @@ const MailingListDetail: FC<any> = ({
 							iconColor="primary"
 							backgroundColor="gray6"
 							icon="EditAsNewOutline"
-							height={44}
-							width={44}
 							onClick={onEditMailingList}
+							size="large"
 						/>
 					</Container>
 				</Padding>
@@ -590,10 +591,9 @@ const MailingListDetail: FC<any> = ({
 						iconColor="error"
 						backgroundColor="gray6"
 						icon="Trash2Outline"
-						height={44}
-						width={44}
 						loading={isDeleteBtnLoading}
 						onClick={handleClickDeleteEvent}
+						size="large"
 					/>
 				</Container>
 			</Container>
@@ -601,7 +601,7 @@ const MailingListDetail: FC<any> = ({
 				padding={{ all: 'extralarge' }}
 				mainAlignment="flex-start"
 				crossAlignment="flex-start"
-				height="calc(100vh - 250px)"
+				height="calc(100vh - 14.375rem)"
 				background="white"
 				style={{ overflow: 'auto' }}
 			>
@@ -749,6 +749,8 @@ const MailingListDetail: FC<any> = ({
 								headers={listMemberOfHeaders}
 								showCheckbox={false}
 								style={{ overflow: 'auto', height: '100%' }}
+								RowFactory={CustomRowFactory}
+								HeaderFactory={CustomHeaderFactory}
 							/>
 						</Container>
 					</ListRow>
@@ -765,6 +767,8 @@ const MailingListDetail: FC<any> = ({
 								headers={memberHeaders}
 								showCheckbox={false}
 								style={{ overflow: 'auto', height: '100%' }}
+								RowFactory={CustomRowFactory}
+								HeaderFactory={CustomHeaderFactory}
 							/>
 						</Container>
 					)}
@@ -782,6 +786,8 @@ const MailingListDetail: FC<any> = ({
 							headers={ownerHeaders}
 							showCheckbox={false}
 							style={{ overflow: 'auto', height: '100%' }}
+							RowFactory={CustomRowFactory}
+							HeaderFactory={CustomHeaderFactory}
 						/>
 					</Container>
 				</ListRow>

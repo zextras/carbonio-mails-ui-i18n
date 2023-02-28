@@ -40,6 +40,8 @@ import ListRow from '../../list/list-row';
 import NotificationDetail from './notification-detail-view';
 import { copyTextToClipboard } from '../../utility/utils';
 import { readUnreadNotification } from '../../../services/read-unread-notification';
+import CustomRowFactory from './customTableRowFactory';
+import CustomHeaderFactory from './customTableHeaderFactory';
 
 const ReusedDefaultTabBar: FC<{
 	item: any;
@@ -60,7 +62,6 @@ const ReusedDefaultTabBar: FC<{
 			crossAlignment="flex-start"
 			padding={{ all: 'medium' }}
 			takeAvailableSpace
-			style={{ 'justify-content': 'center', display: 'flex' }}
 		>
 			<Container width="2rem" padding={{ right: 'small' }}>
 				<Icon
@@ -438,9 +439,12 @@ const NotificationView: FC<{
 				<Container mainAlignment="flex-end" crossAlignment="flex-end">
 					<TabBar
 						items={items}
-						defaultSelected={NOTIFICATION_ALL}
-						onChange={setChange}
+						selected={change}
+						onChange={(ev: unknown, selectedId: string): void => {
+							setChange(selectedId);
+						}}
 						onItemClick={setClick}
+						underlineColor="primary"
 					/>
 				</Container>
 			</ListRow>
@@ -479,6 +483,7 @@ const NotificationView: FC<{
 							onClick={(): void => {
 								markAsReadUnread(selectedNotification);
 							}}
+							size="medium"
 						/>
 					</Padding>
 				</Container>
@@ -499,6 +504,8 @@ const NotificationView: FC<{
 						showCheckbox={false}
 						multiSelect={false}
 						style={{ overflow: 'auto', height: '100%' }}
+						RowFactory={CustomRowFactory}
+						HeaderFactory={CustomHeaderFactory}
 					/>
 				</Container>
 			</ListRow>

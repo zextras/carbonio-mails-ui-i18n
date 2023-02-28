@@ -41,6 +41,8 @@ import { ALL, EMAIL, GRP, PUB, RECORD_DISPLAY_LIMIT } from '../../../../constant
 import { searchGal } from '../../../../services/search-gal-service';
 import { getGrant } from '../../../../services/get-grant';
 import helmetLogo from '../../../../assets/helmet_logo.svg';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
 
 // eslint-disable-next-line no-shadow
 export enum SUBSCRIBE_UNSUBSCRIBE {
@@ -524,7 +526,15 @@ const EditMailingListView: FC<any> = ({
 			const allRows = dlm.map((item: any) => ({
 				id: item,
 				columns: [
-					<Text size="medium" weight="light" key={item} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedDistributionListMember([item]);
+						}}
+					>
 						{item}
 					</Text>,
 					''
@@ -541,7 +551,15 @@ const EditMailingListView: FC<any> = ({
 			const allRows = ownersList.map((item: any) => ({
 				id: item?.name,
 				columns: [
-					<Text size="medium" weight="light" key={item?.id} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item?.id}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedOwnerListMember([item?.name]);
+						}}
+					>
 						{item?.name}
 					</Text>
 				]
@@ -858,11 +876,7 @@ const EditMailingListView: FC<any> = ({
 				? setOwnerOfList(previousDetail?.ownerOfList)
 				: setOwnerOfList([]);
 		}
-
 		setGrantType(previousDetail?.grantType);
-		previousDetail?.grantEmails !== undefined
-			? setGrantEmailsList(previousDetail?.grantEmails)
-			: setGrantEmailsList([]);
 		setIsDirty(false);
 	};
 
@@ -1650,7 +1664,15 @@ const EditMailingListView: FC<any> = ({
 			const allRows = grantEmailsList.map((item: any) => ({
 				id: item,
 				columns: [
-					<Text size="medium" weight="light" key={item} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedGrantEmail([item]);
+						}}
+					>
 						{item}
 					</Text>
 				]
@@ -1668,12 +1690,12 @@ const EditMailingListView: FC<any> = ({
 			style={{
 				position: 'absolute',
 				left: `${'max(calc(100% - 680px), 12px)'}`,
-				top: '43px',
+				top: '2.688rem',
 				height: 'auto',
 				width: 'auto',
 				overflow: 'hidden',
 				transition: 'left 0.2s ease-in-out',
-				'box-shadow': '-6px 4px 5px 0px rgba(0, 0, 0, 0.1)',
+				'box-shadow': '-0.375rem 0.25rem 0.313rem 0 rgba(0, 0, 0, 0.1)',
 				right: 0
 			}}
 		>
@@ -1724,7 +1746,7 @@ const EditMailingListView: FC<any> = ({
 						</Container>
 					)}
 				</Row>
-				<Row padding={{ right: 'extrasmall' }}>
+				<Row padding={{ right: 'extrasmall', left: 'small' }}>
 					<IconButton
 						size="medium"
 						icon="CloseOutline"
@@ -2028,6 +2050,7 @@ const EditMailingListView: FC<any> = ({
 												height={44}
 												iconPlacement="right"
 												onClick={onAdd}
+												size="extralarge"
 												disabled={searchMember === ''}
 											/>
 										</Padding>
@@ -2039,6 +2062,7 @@ const EditMailingListView: FC<any> = ({
 											color="error"
 											icon="Trash2Outline"
 											iconPlacement="right"
+											size="extralarge"
 											disabled={selectedDistributionListMember.length === 0}
 											height={44}
 											onClick={onDeleteFromList}
@@ -2068,9 +2092,8 @@ const EditMailingListView: FC<any> = ({
 								headers={memberHeaders}
 								showCheckbox={false}
 								selectedRows={selectedDistributionListMember}
-								onSelectionChange={(selected: any): void =>
-									setSelectedDistributionListMember(selected)
-								}
+								RowFactory={CustomRowFactory}
+								HeaderFactory={CustomHeaderFactory}
 							/>
 						</Container>
 					)}
@@ -2201,6 +2224,7 @@ const EditMailingListView: FC<any> = ({
 										height={44}
 										iconPlacement="right"
 										onClick={onAddOwner}
+										size="extralarge"
 										disabled={searchOwner === ''}
 									/>
 								</Padding>
@@ -2212,6 +2236,7 @@ const EditMailingListView: FC<any> = ({
 									color="error"
 									icon="Trash2Outline"
 									iconPlacement="right"
+									size="extralarge"
 									disabled={selectedOwnerListMember.length === 0}
 									height={44}
 									onClick={onDeleteFromOwnerList}
@@ -2246,7 +2271,8 @@ const EditMailingListView: FC<any> = ({
 							headers={ownerHeaders}
 							showCheckbox={false}
 							selectedRows={selectedOwnerListMember}
-							onSelectionChange={(selected: any): void => setSelectedOwnerListMember(selected)}
+							RowFactory={CustomRowFactory}
+							HeaderFactory={CustomHeaderFactory}
 						/>
 					</Container>
 				</ListRow>
@@ -2317,7 +2343,7 @@ const EditMailingListView: FC<any> = ({
 						crossAlignment="flex-start"
 						orientation="horizontal"
 						padding={{ top: 'large', right: 'small' }}
-						width="65%"
+						width="60%"
 					>
 						<Dropdown
 							items={grantItems}
@@ -2359,6 +2385,7 @@ const EditMailingListView: FC<any> = ({
 							iconPlacement="right"
 							height={44}
 							onClick={onAddGrantEmail}
+							size="extralarge"
 							disabled={grantEmailItem === ''}
 						/>
 					</Container>
@@ -2376,6 +2403,7 @@ const EditMailingListView: FC<any> = ({
 							icon="Trash2Outline"
 							iconPlacement="right"
 							height={44}
+							size="extralarge"
 							onClick={onDeleteFromGrantEmail}
 							disabled={selectedGrantEmail && selectedGrantEmail.length === 0}
 						/>
@@ -2389,7 +2417,8 @@ const EditMailingListView: FC<any> = ({
 							headers={grantEmailHeaders}
 							showCheckbox={false}
 							selectedRows={selectedGrantEmail}
-							onSelectionChange={(selected: any): void => setSelectedGrantEmail(selected)}
+							RowFactory={CustomRowFactory}
+							HeaderFactory={CustomHeaderFactory}
 						/>
 					</Container>
 				</ListRow>
@@ -2447,7 +2476,7 @@ const EditMailingListView: FC<any> = ({
 								<Button
 									label={t('label.go_back', 'Go Back')}
 									color="secondary"
-									size="fill"
+									size="medium"
 									onClick={(): void => {
 										setOpenAddMailingListDialog(false);
 									}}

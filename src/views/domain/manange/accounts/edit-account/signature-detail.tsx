@@ -25,6 +25,8 @@ import { modifySignature } from '../../../../../services/modify-signature-servic
 import { createSignature } from '../../../../../services/create-signature-service';
 // import Textarea from '../../../../components/textarea';
 import logo from '../../../../../assets/gardian.svg';
+import CustomRowFactory from '../../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../../app/shared/customTableHeaderFactory';
 
 const EditorWrapper = styled.div`
 	width: 100%;
@@ -367,6 +369,8 @@ export const SignatureDetail: FC<any> = ({
 							style={{ overflow: 'auto', height: '100%' }}
 							selectedRows={selectedSignature}
 							onSelectionChange={(selected: any): void => setSelectedSignature(selected)}
+							RowFactory={CustomRowFactory}
+							HeaderFactory={CustomHeaderFactory}
 						/>
 					)}
 					{signatureListRows?.length === 0 && (

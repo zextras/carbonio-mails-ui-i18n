@@ -32,6 +32,8 @@ import { getDelegateAuthRequest } from '../../../../services/get-delegate-auth-r
 import { endSession } from '../../../../services/end-session';
 import { getSessions } from '../../../../services/get-sessions';
 import Paging from '../../../components/paging';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
 
 const AccountDetailContainer = styled(Container)`
 	z-index: 10;
@@ -437,8 +439,7 @@ const AccountDetailView: FC<any> = ({
 								iconColor="primary"
 								backgroundColor="gray6"
 								icon="EditAsNewOutline"
-								height={42}
-								width={42}
+								size="large"
 								onClick={(): void => {
 									setShowAccountDetailView(false);
 									setShowEditAccountView(true);
@@ -456,12 +457,10 @@ const AccountDetailView: FC<any> = ({
 								iconColor="error"
 								backgroundColor="gray6"
 								icon="Trash2Outline"
-								height={42}
-								width={42}
+								size="large"
 								disabled={
 									!accountDetail?.zimbraId || accountDetail?.zimbraId !== selectedAccount.id
 								}
-								// loading={!accountDetail?.zimbraId || accountDetail?.zimbraId !== selectedAccount.id}
 								onClick={onDeleteAccount}
 							/>
 						</Container>
@@ -473,7 +472,7 @@ const AccountDetailView: FC<any> = ({
 						icon="EmailReadOutline"
 						iconPlacement="right"
 						color="primary"
-						height={44}
+						size="large"
 						onClick={onViewMail}
 					/>
 				</Row>
@@ -698,7 +697,7 @@ const AccountDetailView: FC<any> = ({
 								type="outlined"
 								icon="StopCircleOutline"
 								iconPlacement="right"
-								height={44}
+								size="extralarge"
 								disabled={selectedSession.length === 0 || isRequestInProgress}
 								onClick={onEndSession}
 								loading={isRequestInProgress}
@@ -720,6 +719,8 @@ const AccountDetailView: FC<any> = ({
 							onSelectionChange={(selected: any): any => {
 								setSelectedSession(selected);
 							}}
+							HeaderFactory={CustomHeaderFactory}
+							RowFactory={CustomRowFactory}
 						></Table>
 					</Row>
 

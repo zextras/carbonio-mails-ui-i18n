@@ -48,7 +48,6 @@ const ListPanelItem: FC<{
 					<IconButton
 						icon={isListExpanded ? 'ChevronDownOutline' : 'ChevronUpOutline'}
 						size="small"
-						color="text"
 					/>
 				</Padding>
 			</Row>

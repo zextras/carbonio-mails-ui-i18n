@@ -47,6 +47,8 @@ import { delegateType } from '../../../../utility/utils';
 import DelegateSelectModeSection from './add-delegate-section/delegate-selectmode-section';
 import DelegateSetRightsSection from './add-delegate-section/delegate-setright-section';
 import DelegateAddSection from './add-delegate-section/delegate-add-section';
+import CustomRowFactory from '../../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../../app/shared/customTableHeaderFactory';
 
 const SelectItem = styled(Row)``;
 
@@ -537,6 +539,8 @@ const EditAccountDelegatesSection: FC = () => {
 												multiSelect={false}
 												onSelectionChange={setSelectedRows}
 												style={{ overflow: 'auto', height: '100%' }}
+												RowFactory={CustomRowFactory}
+												HeaderFactory={CustomHeaderFactory}
 											/>
 										)}
 										{identityListItem.length === 0 && (

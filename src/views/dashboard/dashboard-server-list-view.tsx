@@ -13,6 +13,8 @@ import { useServerStore } from '../../store/server/store';
 import { Server } from '../../../types';
 import { getVersionInfo } from '../../services/get-version-info';
 import { useAuthIsAdvanced } from '../../store/auth-advanced/store';
+import CustomRowFactory from '../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../app/shared/customTableHeaderFactory';
 
 export const VersionText = styled(Text)`
 	background: #2b73d2;
@@ -164,6 +166,7 @@ const DashboardServerList: FC<{
 						label={t('dashboard.go_to_mailstores_server_list', 'Go to mailstores servers list')}
 						color="primary"
 						onClick={goToMailStoreServerList}
+						size="large"
 					/>
 				</Container>
 			</ListRow>
@@ -182,6 +185,8 @@ const DashboardServerList: FC<{
 						showCheckbox={false}
 						multiSelect={false}
 						style={{ overflow: 'auto', height: '100%' }}
+						RowFactory={CustomRowFactory}
+						HeaderFactory={CustomHeaderFactory}
 					/>
 				</Container>
 			</ListRow>

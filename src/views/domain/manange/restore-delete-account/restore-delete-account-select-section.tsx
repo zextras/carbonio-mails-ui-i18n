@@ -27,6 +27,8 @@ import Paging from '../../../components/paging';
 import { useDomainStore } from '../../../../store/domain/store';
 import { RestoreDeleteAccountContext } from './restore-delete-account-context';
 import { getFormatedShortDate } from '../../../utility/utils';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
 
 const RestoreDeleteAccountSelectSection: FC<any> = () => {
 	const { t } = useTranslation();
@@ -256,6 +258,8 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 									onSelectionChange={(selected: any): void => {
 										setSelectedAccountRows(selected);
 									}}
+									RowFactory={CustomRowFactory}
+									HeaderFactory={CustomHeaderFactory}
 								/>
 								{isRequestInProgress && (
 									<Container

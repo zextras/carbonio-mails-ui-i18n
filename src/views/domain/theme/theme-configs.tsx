@@ -227,8 +227,10 @@ export const ThemeConfigs: FC<{
 					>
 						<TabBar
 							items={items}
-							defaultSelected="end_user"
-							onChange={setChange}
+							selected={change}
+							onChange={(ev: unknown, selectedId: string): void => {
+								setChange(selectedId);
+							}}
 							onItemClick={setClick}
 							width={300}
 						/>
@@ -1018,14 +1020,16 @@ export const ThemeConfigs: FC<{
 						<Divider color="gray2" />
 					</Container>
 					<ListRow>
-						<Container padding={{ all: 'small' }}>
+						<Container padding={{ all: 'small' }} width="100%" style={{ display: 'block' }}>
 							<Padding vertical="large" width="100%">
 								<Button
 									type="outlined"
 									label={t('label.reset', 'Reset')}
 									color="error"
-									size="fill"
+									size="large"
+									width="100%"
 									onClick={onResetTheme}
+									style={{ width: '100%' }}
 								/>
 							</Padding>
 						</Container>

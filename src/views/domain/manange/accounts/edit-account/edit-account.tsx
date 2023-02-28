@@ -417,8 +417,10 @@ const EditAccount: FC<{
 					<Row width="100%" mainAlignment="flex-end" crossAlignment="flex-end">
 						<TabBar
 							items={items}
-							defaultSelected="general"
-							onChange={setChange}
+							selected={change}
+							onChange={(ev: unknown, selectedId: string): void => {
+								setChange(selectedId);
+							}}
 							onItemClick={setClick}
 							width={915}
 						/>

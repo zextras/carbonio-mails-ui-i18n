@@ -39,6 +39,8 @@ import EditAccount from './edit-account/edit-account';
 import { AccountContext } from './account-context';
 import { fetchSoap } from '../../../../services/listOTP-service';
 import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
 import useOutsideClick from '../../../app/hooks/useoutsideclick';
 
 const ManageAccounts: FC = () => {
@@ -652,6 +654,8 @@ const ManageAccounts: FC = () => {
 									showCheckbox={false}
 									multiSelect={false}
 									style={{ overflow: 'auto', height: '100%' }}
+									RowFactory={CustomRowFactory}
+									HeaderFactory={CustomHeaderFactory}
 								/>
 							)}
 							{accountList.length === 0 && (

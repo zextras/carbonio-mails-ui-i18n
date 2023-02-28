@@ -479,7 +479,7 @@ const Connection: FC<{
 					}}
 				/>
 			</Row>
-			<Row width="100%" padding={{ top: 'large' }}>
+			<Row width="100%" padding={{ top: 'large' }} style={{ display: 'block' }}>
 				<Button
 					type="outlined"
 					label={buttonDetail}
@@ -487,6 +487,8 @@ const Connection: FC<{
 					iconPlacement="right"
 					color={buttonColor}
 					width="100%"
+					size="large"
+					style={{ width: '100%' }}
 					onClick={handleVerifyConnector}
 					disabled={bucketDetailButton}
 				/>

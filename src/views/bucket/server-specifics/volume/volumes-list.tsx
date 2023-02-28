@@ -53,6 +53,8 @@ import { useAuthIsAdvanced } from '../../../../store/auth-advanced/store';
 import { useBucketServersListStore } from '../../../../store/bucket-server-list/store';
 import { createVoume } from '../../../../services/create-volume-service';
 import { setCurrentVolumeRequest } from '../../../../services/set-current-volume-service';
+import CustomRowFactory from '../../../app/shared/customTableRowFactory';
+import CustomHeaderFactory from '../../../app/shared/customTableHeaderFactory';
 
 const RelativeContainer = styled(Container)`
 	position: relative;
@@ -132,6 +134,8 @@ const VolumeListTable: FC<{
 				multiSelect={false}
 				selectedRows={selectedRows}
 				onSelectionChange={onSelectionChange}
+				RowFactory={CustomRowFactory}
+				HeaderFactory={CustomHeaderFactory}
 			/>
 			{tableRows?.length === 0 && (
 				<Row padding={{ top: 'extralarge', horizontal: 'extralarge' }} width="fill">
