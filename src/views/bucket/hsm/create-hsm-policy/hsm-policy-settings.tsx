@@ -181,7 +181,15 @@ const HSMpolicySettings: FC<any> = () => {
 				return {
 					id: index,
 					columns: [
-						<Text size="medium" weight="bold" key={index} color="#828282">
+						<Text
+							size="medium"
+							weight="bold"
+							key={index}
+							color="#828282"
+							onClick={(): void => {
+								setSelectedPolicies([index]);
+							}}
+						>
 							{displayPolicy}
 						</Text>
 					]
@@ -436,7 +444,6 @@ const HSMpolicySettings: FC<any> = () => {
 						showCheckbox={false}
 						multiSelect={false}
 						selectedRows={selectedPolicies}
-						onSelectionChange={(selected: any): void => setSelectedPolicies(selected)}
 						RowFactory={CustomRowFactory}
 						HeaderFactory={CustomHeaderFactory}
 					/>

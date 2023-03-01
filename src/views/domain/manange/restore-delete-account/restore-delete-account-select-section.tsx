@@ -139,16 +139,48 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 			const allRows = accounts.map((item: any) => ({
 				id: item?.id,
 				columns: [
-					<Text size="medium" weight="light" key={item?.name} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item?.name}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedAccountRows([item?.id]);
+						}}
+					>
 						{item?.name}
 					</Text>,
-					<Text size="medium" weight="light" key={item?.status} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item?.status}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedAccountRows([item?.id]);
+						}}
+					>
 						{item?.status}
 					</Text>,
-					<Text size="medium" weight="light" key={item?.creationTimestamp} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item?.creationTimestamp}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedAccountRows([item?.id]);
+						}}
+					>
 						{getFormatedShortDate(new Date(item?.creationTimestamp))}
 					</Text>,
-					<Text size="medium" weight="light" key={item?.id} color="gray0">
+					<Text
+						size="medium"
+						weight="light"
+						key={item?.id}
+						color="gray0"
+						onClick={(): void => {
+							setSelectedAccountRows([item?.id]);
+						}}
+					>
 						{item?.deletedTimestamp ? getFormatedShortDate(new Date(item?.deletedTimestamp)) : ''}
 					</Text>
 				]
@@ -255,9 +287,6 @@ const RestoreDeleteAccountSelectSection: FC<any> = () => {
 									headers={accountHeader}
 									showCheckbox={false}
 									selectedRows={selectedAccountRows}
-									onSelectionChange={(selected: any): void => {
-										setSelectedAccountRows(selected);
-									}}
 									RowFactory={CustomRowFactory}
 									HeaderFactory={CustomHeaderFactory}
 								/>

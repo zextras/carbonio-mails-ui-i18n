@@ -290,7 +290,15 @@ const EditHsmPolicyDetailSection: FC<{
 				return {
 					id: index,
 					columns: [
-						<Text size="medium" weight="bold" key={index} color="#828282">
+						<Text
+							size="medium"
+							weight="bold"
+							key={index}
+							color="#828282"
+							onClick={(): void => {
+								setSelectedPolicies([index]);
+							}}
+						>
 							{displayPolicy}
 						</Text>
 					]
