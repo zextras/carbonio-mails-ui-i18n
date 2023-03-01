@@ -49,6 +49,7 @@ export const SignatureDetail: FC<any> = ({
 	const [isEditSignature, setIsEditSignature] = useState<boolean>(false);
 	const [signatureName, setSignatureName] = useState<string>('');
 	const [signatureContent, setSignatureContent] = useState<string>('');
+	const [defaultSignatureContent, setDefaultSignatureContent] = useState<string>('');
 	const [searchSignatureName, setSearchSignatureName]: any = useState('');
 	const [isOpenCreateEditSignatureDialog, setIsOpenCreateEditSignatureDialog] =
 		useState<boolean>(false);
@@ -266,6 +267,7 @@ export const SignatureDetail: FC<any> = ({
 			const content = _signature?.content;
 			if (content && content[0]?._content) {
 				setSignatureContent(content[0]?._content);
+				setDefaultSignatureContent(content[0]?._content);
 			}
 			if (_signature?.name) {
 				setSignatureName(_signature?.name);
@@ -278,6 +280,7 @@ export const SignatureDetail: FC<any> = ({
 	useEffect(() => {
 		if (!isOpenCreateEditSignatureDialog) {
 			setIsEditSignature(false);
+			setDefaultSignatureContent('');
 			setSignatureContent('');
 			setSignatureName('');
 		}
@@ -492,7 +495,7 @@ export const SignatureDetail: FC<any> = ({
 									<Composer
 										// eslint-disable-next-line no-use-before-define, @typescript-eslint/ban-ts-comment
 										// @ts-ignore
-										value={unescape(signatureContent)}
+										value={unescape(defaultSignatureContent)}
 										onEditorChange={(ev: any): void => {
 											setSignatureContent(escape(ev[1]));
 										}}
