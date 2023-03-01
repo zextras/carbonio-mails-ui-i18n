@@ -20,7 +20,7 @@
         "reply_all": "Responder a todos",
         "reset": "Restablecer",
         "send_anyway": "Enviar de todas formas",
-        "share_folder": "Compartir carpeta",
+        "share_folder": "Compartir",
         "show_details": "Mostrar detalles",
         "show_original": "Mostrar original",
         "unflag": "Remover marca de seguimiento",
@@ -69,7 +69,7 @@
         "save": "Guardar",
         "send": "Enviar",
         "share": "Compartir",
-        "edit_access": "Editar el acceso",
+        "edit_access": "Editar permisos",
         "resend": "Enviar de nuevo",
         "revoke": "Revocar",
         "add_custom_message": "Añadir mensaje personalizado",
@@ -200,11 +200,11 @@
         "retention_range": "Rango de retención",
         "set_default_signatures": "Firmas por defecto",
         "behalf_of": "en nombre de",
-        "create_tag": "Crear Etiqueta",
-        "delete_tag": "Eliminar etiqueta",
-        "delete_tag_name": "Eliminar etiqueta \"{{name}}\"",
+        "create_tag": "Nueva Etiqueta",
+        "delete_tag": "Eliminar Etiqueta",
+        "delete_tag_name": "Eliminar la etiqueta \"{{name}}\"",
         "edit_tag": "Editar etiqueta",
-        "edit_tag_name": "Editar etiqueta \"{{name}}\"",
+        "edit_tag_name": "Editar Etiqueta \"{{name}}\"",
         "tag_max_length": "Máximo 128 caracteres permitidos",
         "tag_name": "Nombre de la etiqueta",
         "no_special_char_allowed": "El nombre no debe contener ningún carácter especial",
@@ -370,11 +370,11 @@
             },
             "share_calendar_with": {
                 "internal_users_groups": "Usuarios o grupos internos",
-                "external_guests": "Invitados externos (solo pueden ver)",
-                "public": "Público (solo ver, no necesita contraseña)"
+                "external_guests": "Invitados externos (solo visualizar)",
+                "public": "Público (solo ver, no necesitan contraseña)"
             }
         },
-        "recipients_address": "Direcciones de e-mail de los destinatarios",
+        "recipients_address": "Direcciones de Email de los destinatarios",
         "send_notification": "Enviar una notificación sobre esta compartición",
         "share_note": "El mensaje estándar muestra tu nombre, el nombre del elemento compartido, los permisos otorgados a los destinatarios y la información de acceso.",
         "standard_message": "Adjuntar una nota al mensaje estándar",
@@ -399,7 +399,7 @@
     },
     "message": {
         "snackbar": {
-            "settings_saved": "Ediciones guardadas correctamente",
+            "settings_saved": "Se han guardado los cambios",
             "share": {
                 "accepted": "Has aceptado la solicitud de compartir",
                 "declined": "Has rechazado la solicitud de compartir"
@@ -434,9 +434,9 @@
     },
     "snackbar": {
         "folder_shared": "Carpeta compartida",
-        "share_resend": "Invitación para la compartición reenviada",
+        "share_resend": "Invitación para compartir reenviada",
         "share_updated": "\"Derechos de acceso actualizados\"",
-        "share_revoke": "Acceso a la compartición revocado",
+        "share_revoke": "Acceso compartido cancelado",
         "email_moved_to_trash": "Mensaje movido a la papelera",
         "tag_applied": "Etiqueta \"{{tag}}\" aplicada",
         "tag_removed": "Etiqueta \"{{tag}}\" eliminada"
@@ -695,12 +695,12 @@
         "search_description1": "O elige \"Filtros avanzados\" para refinar la búsqueda.",
         "search_description2": "Intenta iniciar otra búsqueda.",
         "search_list_title1": "No hay resultados. ¡Sigue buscando!",
-        "search_list_title2": "No hay elementos que coincidan con tu búsqueda.",
+        "search_list_title2": "No hay elementos que coincidan con la búsqueda.",
         "search_title1": "Iniciar otra búsqueda",
-        "search_title2": "Lo sentimos pero no hay resultados para tu búsqueda",
+        "search_title2": "No hay resultados para la búsqueda",
         "list_trash_title": "La papelera está vacía",
         "search_description3": "Comprueba la ortografía y las opciones de los filtros, o intenta con otra palabra.",
-        "search_title4": "Elige uno o más resultados para realizar acciones o para mostrar los detalles.",
+        "search_title4": "Selecciona uno o más resultados para realizar acciones o mostrar sus detalles.",
         "title1": "Crea un nuevo e-mail haciendo clic en el botón \"NUEVO\"",
         "title2": "Haz clic en el botón \"NUEVO\"",
         "sent_title2": "Elige un mensaje para mostrar lo que has enviado.",
