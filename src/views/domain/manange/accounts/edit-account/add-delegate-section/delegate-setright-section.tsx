@@ -100,7 +100,7 @@ const DelegateSetRightsSection: FC = () => {
 									<Radio
 										label={t(
 											'account_details.send_as_recepients',
-											`Send as (recepients will see the sender {{targetEmail}})`,
+											`Send as (recipients will see the sender {{targetEmail}})`,
 											{
 												targetEmail: accountDetail?.zimbraMailDeliveryAddress
 											}
