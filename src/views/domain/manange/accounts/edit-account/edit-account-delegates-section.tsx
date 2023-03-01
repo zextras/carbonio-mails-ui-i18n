@@ -748,7 +748,10 @@ const EditAccountDelegatesSection: FC = () => {
 								color="primary"
 								size="small"
 								weight="bold"
-								onClick={(): void => setIsSimplified(false)}
+								onClick={(): void => {
+									setOptions([]);
+									setIsSimplified(false);
+								}}
 								style={{ cursor: 'pointer' }}
 							>
 								{t('account_details.switch_advanced', 'Switch to Advanced View')}
@@ -906,7 +909,7 @@ const EditAccountDelegatesSection: FC = () => {
 										headers={simplifiedViewTableHeader}
 										multiSelect={false}
 										onSelectionChange={setReadWriteSelectedRows}
-										style={{ overflow: 'auto', height: '100%' }}
+										style={{ overflow: 'auto', height: '11rem' }}
 									/>
 									<Row
 										width="100%"
@@ -958,7 +961,7 @@ const EditAccountDelegatesSection: FC = () => {
 										headers={simplifiedViewTableHeader}
 										multiSelect={false}
 										onSelectionChange={setReadSelectedRows}
-										style={{ overflow: 'auto', height: '100%' }}
+										style={{ overflow: 'auto', height: '11rem' }}
 									/>
 									<Row
 										width="100%"
@@ -1010,7 +1013,7 @@ const EditAccountDelegatesSection: FC = () => {
 										headers={simplifiedViewTableHeader}
 										onSelectionChange={setSendSelectedRows}
 										multiSelect={false}
-										style={{ overflow: 'auto', height: '100%' }}
+										style={{ overflow: 'auto', height: '11rem' }}
 									/>
 									<Row
 										width="100%"
