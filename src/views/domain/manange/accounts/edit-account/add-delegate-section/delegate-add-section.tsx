@@ -84,7 +84,7 @@ const DelegateAddSection: FC = () => {
 								backgroundColor="gray5"
 								defaultValue={t(
 									'account_details.send_recepients_see_the_mail',
-									'Send {{right}} (recepients will see the mail from {{targetEmail}})',
+									'Send {{right}} (recipients will display this sender email {{targetEmail}})',
 									{
 										granteeEmail: deligateDetail?.grantee?.[0]?.name,
 										targetEmail: accountDetail?.zimbraMailDeliveryAddress,
@@ -96,7 +96,7 @@ const DelegateAddSection: FC = () => {
 								)}
 								value={t(
 									'account_details.send_recepients_see_the_mail',
-									'Send {{right}} (recepients will see the mail from {{targetEmail}})',
+									'Send {{right}} (recipients will display this sender email {{targetEmail}})',
 									{
 										granteeEmail: deligateDetail?.grantee?.[0]?.name,
 										targetEmail: accountDetail?.zimbraMailDeliveryAddress,
