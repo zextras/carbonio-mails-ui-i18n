@@ -91,17 +91,7 @@ const DelegateSetRightsSection: FC = () => {
 							mainAlignment="space-between"
 						>
 							<Row width="100%" mainAlignment="flex-start">
-								<RadioGroup
-									value={sendingOption || deligateDetail?.right?.[0]?._content}
-									// onChange={(newValue: string): void => {
-									// 	console.log('deligateDetail', newValue, deligateDetail);
-									// 	setSendingOption(newValue);
-									// 	setDeligateDetail((prev: any) => ({
-									// 		...prev,
-									// 		right: [{ _content: newValue }]
-									// 	}));
-									// }}
-								>
+								<RadioGroup value={sendingOption || deligateDetail?.right?.[0]?._content}>
 									<Radio
 										label={t(
 											'account_details.send_as_recepients',
@@ -112,9 +102,6 @@ const DelegateSetRightsSection: FC = () => {
 										)}
 										value="sendAs"
 										onClick={(): void => {
-											// console.log('deligateDetail boolean', newValue, deligateDetail);
-											// setSendingOption(newValue);
-											console.log('deligateDetail boolean', deligateDetail);
 											setDeligateDetail((prev: any) => ({
 												...prev,
 												right: [{ _content: 'sendAs' }]
@@ -130,17 +117,7 @@ const DelegateSetRightsSection: FC = () => {
 											}
 										)}
 										value="sendOnBehalfOf"
-										// onChange={(newValue: boolean): void => {
-										// console.log('deligateDetail boolean', newValue, deligateDetail);
-										// setSendingOption(newValue);
-										// setDeligateDetail((prev: any) => ({
-										// 	...prev,
-										// 	right: [{ _content: newValue ? 'sendOnBehalfOf' : 'sendAs' }]
-										// }));
-										// }}
 										onClick={(): void => {
-											console.log('deligateDetail boolean', deligateDetail);
-											// setSendingOption(newValue);
 											setDeligateDetail((prev: any) => ({
 												...prev,
 												right: [{ _content: 'sendOnBehalfOf' }]
