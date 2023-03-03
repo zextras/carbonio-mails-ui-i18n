@@ -174,7 +174,7 @@ const DelegateSetRightsSection: FC = () => {
 													`All Folders (include future folders)`
 												)}
 												value="all_folders"
-												width="300px"
+												width="19rem"
 												onChange={(newValue: string): void => {
 													// setFolderSelection(newValue);
 													setDeligateDetail((prev: any) => ({
