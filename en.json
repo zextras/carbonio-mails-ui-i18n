@@ -920,7 +920,7 @@
         "domain_certificate": "Domain Certificate",
         "domain_certificate_ca_chain": "Domain Certificate CA Chain",
         "domain_certificate_private_key": "Domain Private Key",
-        "domain_lbl": "<bold>Domain</bold>",
+        "domains_lbl": "<bold>Domains</bold>",
         "domain_name": "Domain Name",
         "domain_primarybar_tooltip": "View your <bold>domains details</bold> and <bold>manage</bold> their resources such as <bold>accounts, mailing lists,resources</bold> and <bold>more</bold>.",
         "domain_quota_settings": "Domain Quota Settings",
