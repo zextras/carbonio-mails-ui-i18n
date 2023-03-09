@@ -1181,6 +1181,7 @@
         "preferences": "Preferences",
         "prefix": "Prefix",
         "prefix_name": "Prefix - all objects will have this prefix in their name",
+        "prefix_volume": "Prefix - {{volumePrefix}}",
         "primary_volume": "This is a Primary Volume",
         "privacy": "Privacy",
         "privacy_primarybar_tooltip": "Manage the <bold>Privacy</bold> settings such as <bold>data reports, error logs</bold> and <bold>surveys</bold>.",
