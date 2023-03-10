@@ -921,12 +921,12 @@
         "domain_certificate": "Domain Certificate",
         "domain_certificate_ca_chain": "Domain Certificate CA Chain",
         "domain_certificate_private_key": "Domain Private Key",
-        "domains_lbl": "<bold>Domains</bold>",
         "domain_name": "Domain Name",
         "domain_primarybar_tooltip": "View your <bold>domains details</bold> and <bold>manage</bold> their resources such as <bold>accounts, mailing lists,resources</bold> and <bold>more</bold>.",
         "domain_quota_settings": "Domain Quota Settings",
         "domain_status": "Domain Status",
         "domains": "Domains",
+        "domains_lbl": "<bold>Domains</bold>",
         "domains_that_use_this_cos": "Domains that use this CoS",
         "done": "Done",
         "dont_save_a_copy_of_sent_messages": "Don’t save a copy of sent messages",
@@ -1205,6 +1205,7 @@
         "preferences": "Preferences",
         "prefix": "Prefix",
         "prefix_name": "Prefix - all objects will have this prefix in their name",
+        "prefix_volume": "Prefix - {{volumePrefix}}",
         "primary_volume": "This is a Primary Volume",
         "privacy": "Privacy",
         "privacy_lbl": "<bold>Privacy</bold>",
@@ -1356,6 +1357,7 @@
         "storage_centralized_helptext": "Centralized data becomes useful when two or more servers need access to the same data. \n By keeping data in one place, it’s easier to manage both the hardware and the data itself. ",
         "storage_lbl": "<bold>Storage</bold>",
         "storage_primarybar_tooltip": "View your <bold>server status</bold>, your <bold>volumes</bold> and <bold>HSM policies</bold>. You’ll also be able to <bold>connect buckets</bold>.",
+        "storage_type": "Storage Type",
         "storages": "Storages",
         "subscription": "Subscription",
         "subscription_lbl": "<bold>Subscription</bold>",
@@ -1457,6 +1459,7 @@
         "volume_deleted": "Volume deleted successfully",
         "volume_detail_error": "{{message}}",
         "volume_detail_page_title": "{{message}} Details",
+        "volume_detail_success": "All changes have been saved successfully",
         "volume_edited": "Volume edited successfully",
         "volume_id": "Volume ID",
         "volume_main": "Volume Main",
@@ -1548,6 +1551,14 @@
             "share": {
                 "accepted": "You have accepted the share request"
             }
+        }
+    },
+    "modal": {
+        "iscurrent_confirm": {
+            "body_message": "The current {{type}} {{currentVolumeName}}.<br />Are you sure you want to <strong>set {{name}} as current</strong>?",
+            "confirm_label": "YES, PROCEED",
+            "secondary_label": "NO, GO BACK",
+            "title": "You are setting {{name}} as current"
         }
     },
     "newOtp": {
@@ -1645,6 +1656,8 @@
             "whenToUse": ""
         }
     },
+    "the_change_will_not_move_the_data": "The change will not move the data… !!",
+    "this_will_not_affect_data_already_stored": "This will not affect data already stored",
     "timezone": {
         "africa_algiers": "{{value}} West Central Africa",
         "africa_cairo": "{{value}} Egypt",
@@ -1799,6 +1812,7 @@
         "secondary_helperText": "Secondary",
         "serverName_volumes": "{{serverName}} Volumes",
         "serverName_volumes_create_mailstores_volume": "{{serverName}} Create Mailstores Volume",
+        "serverName_volumes_create_storage_volume": "{{serverName}} | Create Storage Volume",
         "server_list_header": {
             "HSM Scheduling": "HSM Schedule",
             "description": "Description",
@@ -1813,6 +1827,8 @@
             "centralized": "Centralized",
             "external": "External",
             "local": "Local",
+            "local_block_device": "Local Block Device",
+            "object_storage": "ObjectStorage",
             "sproxy": "Sproxy"
         },
         "volume_config_header": {
@@ -1826,7 +1842,8 @@
             "current": "Current",
             "id": "ID",
             "name": "Name",
-            "path": "Path"
+            "path": "Path",
+            "storageType": "Storage Type"
         },
         "volume_indexer_header": {
             "current": "Current",
@@ -1839,6 +1856,9 @@
             "primary": "Primary",
             "secondary": "Secondary"
         }
+    },
+    "warning": {
+        "is_current": "You have to set another volume as current before."
     },
     "welcome": "Welcome",
     "welcome_to_carbonio": "Welcome {{adminName}} to Carbonio {{carbonioVersion}}!",

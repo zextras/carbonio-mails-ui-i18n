@@ -187,6 +187,10 @@ export const PERCENT_USED = 'percentUsed';
 export const TOTAL_USED = 'totalUsed';
 export const LDAP_QUERY = 'ldap:///??sub?(&(objectClass=inetOrgPerson)(mail=*@domain.tld))';
 export const CARBONIO = 'carbonio';
+export const AMAZON_USERGUIDE_STORAGE_CLASS_LINK =
+	'https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html';
+export const AMAZON_USERGUIDE_INTELLIGENT_TIERING_LINK =
+	'https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html';
 export const SEND_MAILS_ONLY = 'send_mails_only';
 export const READ_MAILS_ONLY = 'read_mails_only';
 export const SEND_READ_MAILS = 'send_read_mails';
