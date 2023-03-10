@@ -47,8 +47,8 @@ import {
 import { useBucketServersListStore } from '../../../../../store/bucket-server-list/store';
 import { useServerStore } from '../../../../../store/server/store';
 import ListRow from '../../../../list/list-row';
-import { AdvancedVolumeContext } from '../create-volume/advanced-create-volume/create-advanced-volume-context';
 import { useBucketVolumeStore } from '../../../../../store/bucket-volume/store';
+import { Bucket, BucketVolume, Volume, VolumeType } from '../../../../../../types';
 
 const ModifyVolume: FC<{
 	setmodifyVolumeToggle: any;
@@ -74,7 +74,7 @@ const ModifyVolume: FC<{
 	const volAllocationList = useMemo(() => volumeAllocationList(t), [t]);
 	const [isDirty, setIsDirty] = useState(false);
 	const [name, setName] = useState(volumeDetail?.name);
-	const [type, setType] = useState<any>();
+	const [type, setType] = useState<VolumeType>();
 	const [id, setId] = useState(volumeDetail?.id);
 	const [rootpath, setRootpath] = useState(volumeDetail?.rootpath);
 	const [compressBlobs, setCompressBlobs] = useState(volumeDetail?.compressBlobs);
@@ -86,31 +86,35 @@ const ModifyVolume: FC<{
 	);
 	const [previousDetail, setPreviousDetail] = useState<any>({});
 	// const [currentVolumeName, setCurrentVolumeName] = useState('');
-	const [externalVolDetail, setExternalVolDetail] = useState<any>('');
-	const [backupUnusedBucketList, setBackupUnusedBucketList] = useState<any>([]);
+	const [externalVolDetail, setExternalVolDetail] = useState<Volume>({});
+	const [backupUnusedBucketList, setBackupUnusedBucketList] = useState<Array<Bucket>>([]);
 	const [allocation, setAllocation] = useState<any>();
-	const [bucketList, setBucketList] = useState<Array<object | any>>([]);
+	const [bucketList, setBucketList] = useState<Array<object | Bucket>>([]);
 	const [bucketName, setBucketName] = useState('');
-	const [storeType, setStoreType] = useState('');
-	const [bucketConfigurationId, setBucketConfigurationId] = useState();
+	const [storeType, setStoreType] = useState<string | undefined>('');
+	const [bucketConfigurationId, setBucketConfigurationId] = useState<string | undefined>();
 	const [bucketS3, setBucketS3] = useState(false);
-	const [volumePrefix, setVolumePrefix] = useState<any>(externalVolDetail?.volumePrefix);
-	const [useInfrequentAccess, setUseInfrequentAccess] = useState<boolean>(
+	const [volumePrefix, setVolumePrefix] = useState<string | undefined>(
+		externalVolDetail?.volumePrefix
+	);
+	const [useInfrequentAccess, setUseInfrequentAccess] = useState<boolean | undefined>(
 		externalVolDetail?.useInfrequentAccess
 	);
-	const [useIntelligentTiering, setUseIntelligentTiering] = useState<boolean>(
+	const [useIntelligentTiering, setUseIntelligentTiering] = useState<boolean | undefined>(
 		externalVolDetail?.useIntelligentTiering
 	);
-	const [infrequentAccessThreshold, setInfrequentAccessThreshold] = useState<string>(
-		externalVolDetail?.infrequentAccessThreshold
-	);
+	const [infrequentAccessThreshold, setInfrequentAccessThreshold] = useState<
+		number | string | undefined
+	>(externalVolDetail?.infrequentAccessThreshold);
 	const [isCurrentToggle, setIsCurrentToggle] = useState<boolean>(false);
-	const [isCurrentVolume, setIsCurrentVolume] = useState<any>();
+	const [currentVolume, setCurrentVolume] = useState<Volume>();
 	const createSnackbar = useSnackbar();
 	const { isVolumeAllDetail, setIsVolumeAllDetail } = useBucketVolumeStore((state) => state);
 
-	const onUnusedBucketListChange = (e: any): any => {
-		const selectedBucketDetail = isVolumeAllDetail?.filter((item: any) => item?.uuid === e)[0];
+	const onUnusedBucketListChange = (e: string): void => {
+		const selectedBucketDetail = isVolumeAllDetail?.filter(
+			(item: BucketVolume) => item?.uuid === e
+		)[0];
 
 		setBucketName(selectedBucketDetail?.bucketName);
 		setStoreType(selectedBucketDetail?.storeType);
@@ -143,7 +147,7 @@ const ModifyVolume: FC<{
 			obj.volumeCurrent = isCurrent;
 			obj.storeType = externalVolDetail?.storeType;
 
-			if (externalVolDetail === '') {
+			if (Object.keys(externalVolDetail)?.length === 0) {
 				obj.volumePath = rootpath;
 				obj.volumeCompressed = compressBlobs;
 				obj.compressionThreshold = compressionThreshold;
@@ -307,7 +311,9 @@ const ModifyVolume: FC<{
 
 	const onUndo = (): void => {
 		previousDetail?.name ? setName(previousDetail?.name) : setName(volumeDetail?.name);
-		const volumeTypeObject = volTypeList?.find((item: any) => item?.value === volumeDetail?.type);
+		const volumeTypeObject = volTypeList?.find(
+			(item: VolumeType) => item?.value === volumeDetail?.type
+		);
 		previousDetail?.type ? setType(previousDetail?.type) : setType(volumeTypeObject);
 		previousDetail?.id ? setId(previousDetail?.id) : setId(volumeDetail?.id);
 		previousDetail?.rootpath
@@ -326,8 +332,10 @@ const ModifyVolume: FC<{
 	};
 
 	const onVolumeTypeChange = useCallback(
-		(e: any): void => {
-			const volumeObject: any = volTypeList?.find((item: any): any => item?.value === e);
+		(e: number): void => {
+			const volumeObject: VolumeType = volTypeList?.find(
+				(item: VolumeType): boolean => item?.value === e
+			);
 			setType(volumeObject);
 		},
 		[volTypeList]
@@ -354,11 +362,11 @@ const ModifyVolume: FC<{
 				setStoreType(externalVolDetail?.storeType);
 				setBucketConfigurationId(externalVolDetail?.bucketConfigurationId);
 
-				const volUnusedBucketList: any = [];
+				const volUnusedBucketList: object[] = [];
 				const allData = response?.response?.values
 					?.filter((items: any) => items[USAGE_IN_EXTERNAL_BACKUP] === UNUSED)
 					.map((items: any) => {
-						const volumeObject: any = bucketTypeItems?.find(
+						const volumeObject: string | undefined = bucketTypeItems?.find(
 							(s) => s?.value?.toLowerCase() === items?.storeType?.toLowerCase()
 						)?.label;
 						volUnusedBucketList.push({
@@ -472,7 +480,9 @@ const ModifyVolume: FC<{
 
 	useEffect(() => {
 		setName(volumeDetail?.name);
-		const volumeTypeObject = volTypeList?.find((item: any) => item?.value === volumeDetail?.type);
+		const volumeTypeObject = volTypeList?.find(
+			(item: VolumeType) => item?.value === volumeDetail?.type
+		);
 		setType(volumeTypeObject);
 		setId(volumeDetail?.id);
 		setRootpath(volumeDetail?.rootpath);
@@ -510,47 +520,47 @@ const ModifyVolume: FC<{
 				// const volName = volumeList?.primaries?.filter((items: any) => items?.isCurrent)[0]?.name;
 				// setCurrentVolumeName(volName);
 				const volDetail = volumeList?.primaries?.filter(
-					(items: any) => items?.id === volumeDetail?.id
+					(items: Volume) => items?.id === volumeDetail?.id
 				)[0];
 				if (volDetail?.bucketConfigurationId) {
 					setExternalVolDetail(volDetail);
 					setVolumePrefix(volDetail?.volumePrefix);
 				} else {
-					setExternalVolDetail('');
+					setExternalVolDetail({});
 				}
-				const currentVolume = volumeList?.primaries?.find((v: any) => v?.isCurrent);
-				setIsCurrentVolume(currentVolume);
+				const volume = volumeList?.primaries?.find((v: Volume) => v?.isCurrent);
+				setCurrentVolume(volume);
 			}
 			if (volumeDetail?.type === 2) {
 				// const volName = volumeList?.secondaries?.filter((items: any) => items?.isCurrent)[0]?.name;
 				// setCurrentVolumeName(volName);
 				const volDetail = volumeList?.secondaries?.filter(
-					(items: any) => items?.id === volumeDetail?.id
+					(items: Volume) => items?.id === volumeDetail?.id
 				)[0];
 				if (volDetail?.bucketConfigurationId) {
 					setExternalVolDetail(volDetail);
 					setVolumePrefix(volDetail?.volumePrefix);
 				} else {
-					setExternalVolDetail('');
+					setExternalVolDetail({});
 				}
 
-				const currentVolume = volumeList?.secondaries?.find((v: any) => v?.isCurrent);
-				setIsCurrentVolume(currentVolume);
+				const volume = volumeList?.secondaries?.find((v: Volume) => v?.isCurrent);
+				setCurrentVolume(volume);
 			}
 			if (volumeDetail?.type === 10) {
 				// const volName = volumeList?.indexes?.filter((items: any) => items?.isCurrent)[0]?.name;
 				// setCurrentVolumeName(volName);
 				const volDetail = volumeList?.indexes?.filter(
-					(items: any) => items?.id === volumeDetail?.id
+					(items: Volume) => items?.id === volumeDetail?.id
 				)[0];
 				if (volDetail?.bucketConfigurationId) {
 					setExternalVolDetail(volDetail);
 					setVolumePrefix(volDetail?.volumePrefix);
 				} else {
-					setExternalVolDetail('');
+					setExternalVolDetail({});
 				}
-				const currentVolume = volumeList?.indexes?.find((v: any) => v?.isCurrent);
-				setIsCurrentVolume(currentVolume);
+				const volume = volumeList?.indexes?.find((v: Volume) => v?.isCurrent);
+				setCurrentVolume(volume);
 			}
 		}
 	}, [
@@ -564,7 +574,7 @@ const ModifyVolume: FC<{
 
 	useEffect(() => {
 		const volumeTypeObject = volAllocationList?.find(
-			(item: any) => item?.value === volumeDetail?.type
+			(item: VolumeType) => item?.value === volumeDetail?.type
 		);
 		setAllocation(volumeTypeObject);
 	}, [volAllocationList, volumeDetail?.type]);
@@ -605,7 +615,7 @@ const ModifyVolume: FC<{
 					</Padding>
 					{isDirty && <Button label={t('label.save', 'Save')} color="primary" onClick={onSave} />}
 				</Container>
-				{externalVolDetail === '' ? (
+				{Object.keys(externalVolDetail)?.length === 0 ? (
 					<Container
 						padding={{ horizontal: 'large', bottom: 'large' }}
 						mainAlignment="flex-start"
@@ -798,7 +808,7 @@ const ModifyVolume: FC<{
 										)}
 										showCheckbox={false}
 										selection={backupUnusedBucketList?.find(
-											(b: any) => b.value === bucketConfigurationId
+											(b: Bucket) => b.value === bucketConfigurationId
 										)}
 										onChange={onUnusedBucketListChange}
 									/>
@@ -1015,7 +1025,7 @@ const ModifyVolume: FC<{
 								i18nKey="modal.iscurrent_confirm.body_message"
 								defaults="The current {{type}} {{currentVolumeName}}.<br />Are you sure you want to <strong>set {{name}} as current</strong>?"
 								components={{ break: <br />, bold: <strong /> }}
-								values={{ type: type?.label, currentVolumeName: isCurrentVolume?.name, name }}
+								values={{ type: type?.label, currentVolumeName: currentVolume?.name, name }}
 							/>
 						</Text>
 					</Padding>
