@@ -158,7 +158,7 @@ const App: FC = () => {
 						{'\n\n'}
 						<Trans
 							i18nKey="label.backup_primarybar_tooltip"
-							defaults="Manage your <bold>backup services, view</bold> its <bold>status</bold>, the <bold>server’s list</bold> or <bold>import an existing one</bold>."
+							defaults="Manage your <bold>backup services</bold>, view their <bold>status</bold>, the <bold>servers list</bold> or <bold>import an existing backup</bold>."
 							components={{ bold: <strong /> }}
 						/>
 					</>
