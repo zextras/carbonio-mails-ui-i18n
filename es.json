@@ -36,7 +36,7 @@
                 "rename_warning": "No puedes renombrar una carpeta como una del sistema.",
                 "add_share": "Compartir",
                 "retention_duration_warning": "La duración de la retención debe ser un valor positivo",
-                "retention_message": "Los mensajes de esta carpeta que estén dentro del rango de retención requerirán una confirmación antes de ser eliminados",
+                "retention_message": "Los mensajes en esta carpeta que estén dentro del intervalo de retención, requerirán una confirmación antes de ser eliminados",
                 "threshold_message": "Los mensajes de esta carpeta que excedan el umbral establecido, serán eliminados automáticamente."
             }
         }
