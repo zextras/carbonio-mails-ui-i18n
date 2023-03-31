@@ -187,7 +187,7 @@
         "create_tag": "Criar marcador",
         "edit_tag_name": "Editar o marcador \"{{name}}\"",
         "delete_tag": "Excluir marcador",
-        "delete_tag_name": "Excluir marcador",
+        "delete_tag_name": "Excluir marcador \"{{name}}\"",
         "edit_tag": "Editar marcador",
         "no_special_char_allowed": "O nome não pode conter caracteres especiais",
         "tag_max_length": "Máximo de 128 caracteres permitidos",
