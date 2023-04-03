@@ -83,7 +83,7 @@
         "edit_folder_properties": "Editar propiedades de {{name}}",
         "filter_user": "Filtrar usuarios",
         "find_shares": "Encontrar uso compartido",
-        "flash_browser_title": "Hacer parpadear el navegador",
+        "flash_browser_title": "Parpadear la barra de título del navegador",
         "from": "De",
         "keywords": "Palabras clave",
         "no_subject": "Sin asunto",
@@ -93,7 +93,7 @@
         "revoke_access_tooltip": "Revocar acceso enviando la notificación estándar",
         "revoke_access_without_notification": "Revocar acceso sin enviar ninguna notificación",
         "revoke_share": "Revocar acceso compartido",
-        "role": "Permisos: ",
+        "role": "Rol: ",
         "select_folder": "Seleccionar carpeta",
         "send_notification": "Enviar notificación personalizada",
         "sent": "Enviado",
@@ -137,12 +137,12 @@
         "single_advanced_filter": "Filtros avanzados",
         "size": "Tamaño",
         "tag": "Etiqueta",
-        "wipe": "Vaciar",
+        "wipe": "Limpiar",
         "workflow": "Flujo de trabajo",
         "write": "Escribir",
         "results_for": "Resultados de: ",
         "add": "Añadir",
-        "administer": "Control total",
+        "administer": "Administrador",
         "delete_permanently": "Eliminar permanentemente",
         "new_folder": "Nueva carpeta",
         "no_search_results_found": "No se encontraron resultados",
@@ -198,7 +198,7 @@
         "enable_message_disposal": "Activar auto-eliminación de mensajes",
         "enable_message_retention": "Activar retención de mensajes",
         "notify_organizer": "Notificar al organizador",
-        "retention_range": "Rango de retención",
+        "retention_range": "Período de retención",
         "set_default_signatures": "Firmas predeterminadas",
         "behalf_of": "En nombre de",
         "create_tag": "Nueva Etiqueta",
@@ -236,7 +236,7 @@
         "read_receipt": "Confirmación de lectura",
         "message_from_me": "Mensajes enviados por mi",
         "time_zone": "Zona horaria",
-        "warning": "Advertencia",
+        "warning": "Atenção",
         "trusted_addresses": "Remitentes de confianza",
         "as_text": "Como texto sin formato",
         "read_receipt_sent": "Se ha enviado una confirmación de lectura",
@@ -267,10 +267,10 @@
         "download_and_delete": "Descargar y eliminar",
         "enter_name": "Nueva firma",
         "invalid_query": "No se pudo completar la búsqueda. Bórrala e intenta nuevamente",
-        "not_in_list": "{{name}} - No está en tu lista de etiquetas",
+        "not_in_list": "{{name}} - No está en la lista de etiquetas",
         "no_signature": "Sin firma",
         "mark_read_message_manually": "Marcar manualmente como leído haciendo clic en el ícono",
-        "mark_read_message_immediately": "Marcar mensajes como leídos inmediatamente al seleccionarlos",
+        "mark_read_message_immediately": "Marcar mensaje como leído inmediatamente al seleccionarlo",
         "attachment_with_count": "{{count}} Adjunto",
         "attachment_with_count_plural": "{{count}} Adjuntos",
         "attachments_disclaimer": "Estás viendo un mensaje adjunto. La autenticidad del mismo no se puede verificar.",
@@ -332,7 +332,7 @@
             "folder_move_error": "Algo salió mal, la carpeta no pudo ser movida. Intenta nuevamente.",
             "folder_moved": "Se ha movido la carpeta",
             "folder_moved_to_trash": "La carpeta ha sido movida a la Papelera",
-            "folder_wiped": "La carpeta ha sido vaciada",
+            "folder_wiped": "Se ha vaciado la carpeta",
             "marked_as_spam": "Has clasificado este mensaje como \"Spam\"",
             "message_delete_error": "Algo salió mal, el mensaje no pudo ser eliminado. Intenta nuevamente.",
             "message_deleted": "Mensaje eliminado",
@@ -386,10 +386,10 @@
     "share": {
         "options": {
             "share_calendar_role": {
-                "admin": "Control total",
+                "admin": "Administrador",
                 "none": "Ninguno",
-                "manager": "Administrar",
-                "viewer": "Visualizar"
+                "manager": "Controlador",
+                "viewer": "Visualizador"
             },
             "share_calendar_with": {
                 "internal_users_groups": "Usuarios o grupos internos",
@@ -460,8 +460,8 @@
     "snackbar": {
         "folder_shared": "Se ha compartido la carpeta",
         "share_resend": "Se ha reenviado la invitación de uso compartido",
-        "share_updated": "Permisos de acceso actualizados",
-        "share_revoke": "Permiso de uso compartido anulado",
+        "share_updated": "Permisos de uso compartido actualizados",
+        "share_revoke": "Permiso de uso compartido revocado",
         "email_moved_to_trash": "El correo se ha movido a la Papelera",
         "tag_applied": "Etiqueta \"{{tag}}\" aplicada",
         "tag_removed": "Etiqueta \"{{tag}}\" removida"
@@ -469,10 +469,10 @@
     "tooltip": {
         "add_attachments": "Adjuntar archivos",
         "disable_rich_text": "Desactivar editor de texto enriquecido",
-        "disable_urgent": "Desactivar urgente",
+        "disable_urgent": "Desactivar Urgente",
         "edit": "Editar propiedades de uso compartido",
         "enable_rich_text": "Activar editor de texto enriquecido",
-        "enable_urgent": "Activar urgente",
+        "enable_urgent": "Activar Urgente",
         "resend": "Reenviar notificación sobre este uso compartido",
         "revoke": "Revocar acceso",
         "folder_sharing_status": "Compartido con {{count}} usuario",
@@ -552,8 +552,8 @@
         "facebook_notification": "Notificación de Facebook",
         "field": "Campo",
         "filter_deleted": "El filtro ha sido eliminado",
-        "filter_folder_message": "Selecciona la carpeta para aplicar el filtro:",
-        "filter_name": "Filtrar nombre",
+        "filter_folder_message": "Selecciona una carpeta para aplicar el filtro:",
+        "filter_name": "Nombre del filtro",
         "from_distribution_list": "De la Lista de Distribución",
         "gb": "GB",
         "header_name": "Nombre del encabezado",
@@ -681,7 +681,7 @@
         "action": {
             "edit_properties": "Editar propiedades",
             "wipe": {
-                "folder_panel": "Vaciar carpeta"
+                "folder_panel": "Limpiar carpeta"
             },
             "empty": {
                 "trash": "Vaciar Papelera"
