@@ -36,9 +36,6 @@
                 "threshold_message": "As mensagens nesta pasta mais antigas que o limite de descarte estarão sujeitas a limpeza e exclusão automáticas.",
                 "add_share": "Adicionar partilha"
             }
-        },
-        "action": {
-            "edit_properties": "Editar propriedades"
         }
     },
     "label": {
