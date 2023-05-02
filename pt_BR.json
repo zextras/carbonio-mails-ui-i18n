@@ -271,7 +271,8 @@
         "need_to_select_atleast_one_item": "Você precisa selecionar ao menos um item para realizar esta ação",
         "path": "Caminho",
         "select_all": "Selecionar tudo",
-        "using_signatures": "Uso de assinaturas"
+        "using_signatures": "Uso de assinaturas",
+        "admin_disabled_action": "O administrador desativou o redirecionamento"
     },
     "title": {
         "new_messages": "Novas mensagens",
