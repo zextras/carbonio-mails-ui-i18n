@@ -287,7 +287,8 @@
         "need_to_select_atleast_one_item": "Debes seleccionar al menos un elemento para realizar la acción",
         "path": "Ruta",
         "select_all": "Seleccionar todo",
-        "using_signatures": "Uso de firmas"
+        "using_signatures": "Uso de firmas",
+        "admin_disabled_action": "El administrador ha desactivado el redireccionamiento"
     },
     "messages": {
         "modal": {
