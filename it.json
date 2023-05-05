@@ -309,7 +309,8 @@
             "save_to_files_disabled": "Salva su Files"
         },
         "received_from_address": "Ricevuto da (address)",
-        "sent_to_address": "Inviato a (indirizzo)"
+        "sent_to_address": "Inviato a (indirizzo)",
+        "admin_disabled_action": "L'amministratore ha disattivato l'opzione di reindirizzamento"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
