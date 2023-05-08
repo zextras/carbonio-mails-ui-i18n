@@ -359,12 +359,12 @@
     },
     "message": {
         "snackbar": {
-            "settings_saved": "Zmiany zostały zapisane pomyślnie",
+            "settings_saved": "Zmiany zostały zapisane",
             "share": {
                 "accepted": "Zaakceptowano propozycję udostępnienia",
                 "declined": "Odrzucono propozycję udostępnienia"
             },
-            "calendar_edits_saved": "Zmiany zostały zapisane pomyślnie",
+            "calendar_edits_saved": "Zmiany zostały zapisane",
             "all_att_added": "Załączniki zostały dodane pomyślnie",
             "all_att_saved": "Złączniki zostały zapisane w wybranym folderze",
             "att_err": "Wystąpił problem przy zapisywaniu, spróbuj ponownie",
@@ -500,7 +500,7 @@
         "invalid_address": "Wygląda na to, że ten adres jest nieprawidłowy",
         "permanent_delete_body": "Jeśli trwale usuniesz ten element, nie będziesz w stanie go już odzyskać. Kontynuować?",
         "snackbar": {
-            "folder_edited": "Zmiany zostały zapisane pomyślnie",
+            "folder_edited": "Zmiany zostały zapisane",
             "folder_move_error": "Coś poszło nie tak, folder nie został przeniesiony. Spróbuj ponownie.",
             "marked_as_spam": "Oznaczyłeś ten e-mail jako Spam",
             "message_delete_error": "Coś poszło nie tak, wiadomość nie została usunięta. Spróbuj ponownie.",
