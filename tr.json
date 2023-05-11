@@ -330,7 +330,10 @@
         "using_signatures": "İmza Kullanımı",
         "sent_to_address": "Gönderilen (adres)",
         "received_from_address": "Gönderen (adres)",
-        "admin_disabled_action": "Yönetici yönlendirme eylemini devre dışı bıraktı"
+        "admin_disabled_action": "Yönetici yönlendirme eylemini devre dışı bıraktı",
+        "time": "Zaman",
+        "exit_selection_mode": "Seçme modundan çık",
+        "all_items_selected": "Tüm görünür öğeler seçildi"
     },
     "share": {
         "options": {
