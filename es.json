@@ -803,6 +803,5 @@
         "delete_draft": {
             "message1": "¿Quieres conservar el borrador o eliminarlo?"
         }
-    },
-    "": "Para completar esta operación Carbonio precisa abrir una nueva ventana.\nVerifica los ajustes del navegador"
+    }
 }
