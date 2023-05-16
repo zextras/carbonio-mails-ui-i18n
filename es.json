@@ -289,7 +289,10 @@
         "path": "Ruta",
         "select_all": "Seleccionar todo",
         "using_signatures": "Uso de firmas",
-        "admin_disabled_action": "El administrador ha desactivado el redireccionamiento"
+        "admin_disabled_action": "El administrador ha desactivado el redireccionamiento",
+        "exit_selection_mode": "Salir del modo de selección",
+        "all_items_selected": "Todos los elementos visibles seleccionados",
+        "time": "Hora"
     },
     "messages": {
         "modal": {
@@ -683,7 +686,7 @@
         "action": {
             "edit_properties": "Editar propiedades",
             "wipe": {
-                "folder_panel": "Limpiar carpeta"
+                "folder_panel": "Vaciar carpeta"
             },
             "empty": {
                 "trash": "Vaciar Papelera"
