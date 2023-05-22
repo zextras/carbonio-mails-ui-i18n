@@ -310,7 +310,9 @@
         },
         "received_from_address": "Ricevuto da (address)",
         "sent_to_address": "Inviato a (indirizzo)",
-        "admin_disabled_action": "L'amministratore ha disattivato l'opzione di reindirizzamento"
+        "admin_disabled_action": "L'amministratore ha disattivato l'opzione di reindirizzamento",
+        "time": "Ora",
+        "all_items_selected": "Tutti gli elementi visibili sono stati selezionati"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
