@@ -288,7 +288,8 @@
         "received_from_address": "（アドレス）から受信",
         "sent_to_address": "（アドレス）へ送信",
         "exit_selection_mode": "選択モードを終了する",
-        "time": "時間"
+        "time": "時間",
+        "all_items_selected": "表示されている項目がすべて選択されました"
     },
     "messages": {
         "modal": {
