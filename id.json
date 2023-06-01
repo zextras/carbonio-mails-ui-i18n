@@ -284,7 +284,8 @@
         "received_from_address": "Diterima dari (alamat)",
         "sent_to_address": "Dikirim ke (alamat)",
         "exit_selection_mode": "Keluar dari mode pemilihan",
-        "time": "Waktu"
+        "time": "Waktu",
+        "all_items_selected": "Semua item yang terlihat telah dipilih"
     },
     "messages": {
         "snackbar": {
