@@ -301,7 +301,10 @@
         "path": "Chemin",
         "select_all": "Tout SÉLECTIONNER",
         "using_signatures": "Utilisation des signatures",
-        "admin_disabled_action": "L'administrateur a désactivé l'action de redirection"
+        "admin_disabled_action": "L'administrateur a désactivé l'action de redirection",
+        "all_items_selected": "Tous les éléments visibles ont été sélectionnés",
+        "exit_selection_mode": "Sortir du mode sélection",
+        "time": "Horaire"
     },
     "message": {
         "snackbar": {
