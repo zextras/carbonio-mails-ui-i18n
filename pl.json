@@ -385,7 +385,7 @@
         "email_saved_at": "E-mail został zapisany jako wersja robocza o {{time}}",
         "view_rights": "Wyświetlać",
         "delete_tag_message1": "Czy na pewno chcesz usunąć Tag \"{{name}}\"?",
-        "delete_tag_message2": "Po usunięciu Tag zostanie zdjęty z każdego elementu oznaczonego nim.",
+        "delete_tag_message2": "Po usunięciu tag zostanie zdjęty z każdego elementu oznaczonego nim.",
         "admin_rights": "Wyświetlanie, Edytowanie, Dodawanie, Usuwanie, Zarządzanie",
         "manager_rights": "Wyświetlanie, Edytowanie, Dodawanie, Usuwanie",
         "external_images_blocked": "Obrazki z innych domen zostały zablokowane, aby chronić Cię przed potencjalnym spamem",
