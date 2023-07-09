@@ -280,7 +280,10 @@
         "select_all": "Alle auswählen",
         "admin_disabled_action": "Der Administrator hat die Weiterleitungsaktion deaktiviert",
         "received_from_address": "Empfangen von (Adresse)",
-        "sent_to_address": "Gesendet an (Adresse)"
+        "sent_to_address": "Gesendet an (Adresse)",
+        "all_items_selected": "Alle sichtbaren Elemente wurden ausgewählt",
+        "exit_selection_mode": "Auswahlmodus verlassen",
+        "time": "Zeit"
     },
     "share": {
         "options": {
