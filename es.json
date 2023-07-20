@@ -371,8 +371,7 @@
         "cal_name_exist_warning": "Ya existe un calendario con el mismo nombre en esta localización",
         "extra_windows": {
             "opening_blocked": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador",
-            "popup_blocked": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador",
-            "": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador"
+            "popup_blocked": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador"
         }
     },
     "placeholder": {
@@ -460,8 +459,7 @@
         "schedule_time": "para el {{date}} a las {{time}}",
         "schedule_mail": "Se enviará el: {{date}} a la(s) {{time}}",
         "delete_attachment_message1": "El adjunto se eliminará de forma permanente de Carbonio.",
-        "delete_attachment_message2": "¿Quieres decargarlo antes?",
-        "": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica los ajustes del navegador"
+        "delete_attachment_message2": "¿Quieres decargarlo antes?"
     },
     "snackbar": {
         "folder_shared": "Se ha compartido la carpeta",

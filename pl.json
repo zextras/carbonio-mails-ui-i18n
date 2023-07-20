@@ -394,8 +394,7 @@
         "send_later_success": "Twój e-mail zostanie wysłany {{date}} o {{time}}",
         "select_date_time": "Wybierz datę i godzinę, o której ta wiadomość zostanie wysłana",
         "delete_attachment_message2": "Czy chcesz pobrać go przed tym?",
-        "delete_attachment_message1": "Załącznik zostanie trwale usunięty z Carbonio.",
-        "": "Aby ukończyć operację, Carbonio musi móc otworzyć nowe okno.\nSprawdź ustawienia przeglądarki i udziel odpowiednich uprawnień"
+        "delete_attachment_message1": "Załącznik zostanie trwale usunięty z Carbonio."
     },
     "search": {
         "flagged_note": "Wyszukaj wszystkie oflagowane e-maile.",
@@ -573,7 +572,6 @@
         "cal_name_exist_warning": "Kalendarz z wybraną nazwą już istnieje w tej ścieżce",
         "edit_schedule_warning": "Edytując ten e-mail, poprzednio ustawiona data i czas opóźnionego wysyłania zostanie zresetowana.",
         "extra_windows": {
-            "": "Aby ukończyć operację, Carbonio musi móc otworzyć nowe okno.\nSprawdź ustawienia przeglądarki i udziel odpowiednich uprawnień",
             "popup_blocked": "Aby ukończyć operację, Carbonio musi móc otworzyć nowe okno.\nSprawdź ustawienia przeglądarki i udziel odpowiednich uprawnień",
             "opening_blocked": "Aby ukończyć operację, Carbonio musi móc otworzyć nowe okno.\nSprawdź ustawienia przeglądarki i udziel odpowiednich uprawnień"
         }

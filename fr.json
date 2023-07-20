@@ -340,8 +340,7 @@
         "send_later_success": "Votre email sera envoyé le {{date}} à {{time}}",
         "select_date_time": "Sélectionner une date et une heure pour envoyer le message",
         "delete_attachment_message2": "Souhaitez-vous le télécharger avant ?",
-        "delete_attachment_message1": "Votre pièce jointe sera définitivement supprimée de Carbonio.",
-        "": "Pour compléter l'opération, Carbonio a besoin d'ouvrir une nouvelle fenêtre.\nVérifiez les paramètres de votre navigateur"
+        "delete_attachment_message1": "Votre pièce jointe sera définitivement supprimée de Carbonio."
     },
     "messages": {
         "invalid_address": "L'adresse suivante semble être invalide",
@@ -418,7 +417,6 @@
         "cal_name_exist_warning": "Un calendrier porte déjà ce nom sur ce point de montage",
         "edit_schedule_warning": "En éditant cet email, l'heure et la date définie précédemment pour l'envoi planifiées seront annulées.",
         "extra_windows": {
-            "": "Pour terminer l'opération, Carbonio a besoin d'ouvrir une nouvelle fenêtre.\nVérifiez les paramètres de votre navigateur",
             "opening_blocked": "Pour terminer l'opération, Carbonio a besoin d'ouvrir une nouvelle fenêtre.\nVérifiez les paramètres de votre navigateur",
             "popup_blocked": "Pour terminer l'opération, Carbonio a besoin d'ouvrir une nouvelle fenêtre.\nVérifiez les paramètres de votre navigateur"
         }
