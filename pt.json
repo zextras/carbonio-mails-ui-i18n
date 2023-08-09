@@ -403,7 +403,7 @@
             },
             "share_calendar_with": {
                 "external_guests": "Convidados externos (apenas visualizar)",
-                "internal_users_groups": "Usuários ou grupos internos",
+                "internal_users_groups": "Utilizadores ou grupos internos",
                 "public": "Público (apenas ver, senha não requerida)"
             }
         },
@@ -642,7 +642,7 @@
         "folder_sharing_status_0": "Partilhado com {{count}} utilizador",
         "folder_sharing_status_1": "Partilhado com {{count}} utilizadores",
         "folder_sharing_status_2": "Partilhado com {{count}} utilizadores",
-        "folder_linked_status": "Compartilhado comigo",
+        "folder_linked_status": "Partilhado comigo",
         "marked_as_important": "Marcar como importante"
     },
     "folder_panel": {
