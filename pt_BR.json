@@ -39,7 +39,8 @@
                 "threshold_message": "As mensagens nesta pasta que excederem o limiar definido serão excluídas automaticamente.",
                 "add_share": "Adicionar compartilhamento",
                 "invalid_folder_name_warning_msg": "Caracteres especiais não permitidos. Comprimento máximo: 128 caracteres.",
-                "special_chars_warning_msg": "O nome da pasta não permite caracteres especiais"
+                "special_chars_warning_msg": "O nome da pasta não permite caracteres especiais",
+                "enter_valid_folder_name": "Digite un nome de pasta válido"
             }
         }
     },
