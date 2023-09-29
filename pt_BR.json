@@ -38,7 +38,9 @@
                 "retention_message": "As mensagens nesta pasta que se enquadram no período de retenção necessitam de confirmação expressa antes de serem excluídas",
                 "threshold_message": "As mensagens nesta pasta que excederem o limiar definido serão excluídas automaticamente.",
                 "add_share": "Adicionar compartilhamento",
-                "invalid_folder_name_warning_msg": "Caracteres especiais não permitidos. Comprimento máximo: 128 caracteres."
+                "invalid_folder_name_warning_msg": "Caracteres especiais não permitidos. Comprimento máximo: 128 caracteres.",
+                "special_chars_warning_msg": "O nome da pasta não permite caracteres especiais",
+                "enter_valid_folder_name": "Digite un nome de pasta válido"
             }
         }
     },
@@ -278,7 +280,9 @@
         "admin_disabled_action": "O administrador desativou o redirecionamento",
         "all_items_selected": "Todos os items visíveis foram selecionados",
         "exit_selection_mode": "Sair do modo de seleção",
-        "time": "Hora"
+        "time": "Hora",
+        "do_not_have_perm": "Você não tem permissões",
+        "folder_not_valid_destination": "A pasta selecionada não é um destino válido"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -377,7 +381,8 @@
         "extra_windows": {
             "popup_blocked": "Para completar a operação, o Carbonio precisa abrir uma nova janela.\nVerifique as configurações do seu navegador",
             "opening_blocked": "Para completar a operação, o Carbonio precisa abrir uma nova janela.\nVerifique as configurações do seu navegador"
-        }
+        },
+        "enter_calendar_name": "Digite um nome para aceitar o calendário"
     },
     "placeholder": {
         "add_new_recipients": "Adicionar destinatários"
@@ -675,7 +680,9 @@
                     "message1": "Selecione uma pasta onde mover a selecionada:",
                     "message2": "Selecione uma pasta para restaurar:"
                 },
-                "title_modal_conversation": "Selecione a pasta de destino"
+                "title_modal_conversation": "Selecione a pasta de destino",
+                "title_modal_message": "Mover mensagem",
+                "title_modal": "Mover conversa"
             },
             "wipe": {
                 "body": {
