@@ -64,7 +64,7 @@
         "draft_folder": "[RASCUNHO]",
         "edit_access": "Editar permissões",
         "edit_folder_properties": "Editar as propriedades de {{name}}",
-        "automatically_delete_duplicates": "Excluir automaticamente as cópias duplicadas da mesma mensagem após o recebimento",
+        "automatically_delete_duplicates": "Apagar automaticamente as cópias duplicadas da mesma mensagem após o recebimento",
         "bcc": "Cco",
         "calendar_color": "Cor",
         "cc": "Cc",
@@ -101,8 +101,8 @@
         "advanced_filters": "Filtro avançado",
         "advanced_filters_plural": "Filtros avançados",
         "create": "Criar",
-        "delete": "Excluir",
-        "delete_permanently": "Excluir permanentemente",
+        "delete": "Apagar",
+        "delete_permanently": "Apagar permanentemente",
         "move": "Mover",
         "single_advanced_filter": "Filtros avançados",
         "add": "Adicionar",
@@ -191,7 +191,7 @@
         "show_quoted_text": "Exibir texto citado",
         "create_tag": "Criar Etiqueta",
         "edit_tag_name": "Editar a etiqueta \"{{name}}\"",
-        "delete_tag": "Excluir Etiqueta",
+        "delete_tag": "Apagar etiqueta",
         "delete_tag_name": "Remover a Etiqueta \"{{name}}\"",
         "edit_tag": "Editar Etiqueta",
         "no_special_char_allowed": "O nome não pode conter caracteres especiais",
@@ -230,7 +230,7 @@
         "message_arrival": "Recebimento de mensagens",
         "enter_email_address": "Insira um endereço de e-mail ou domínio",
         "duplicate_messages": "Mensagens duplicadas",
-        "delete_draft": "Excluir rascunho",
+        "delete_draft": "Apagar rascunho",
         "arrival_notifications": "Avisos de chegada",
         "warning": "Atenção",
         "read_reciept": "Confirmação de leitura",
@@ -255,7 +255,7 @@
         "enter_name": "Nova assinatura",
         "invalid_query": "Não foi possível efectuar a análise da sua pesquisa. Remova-a e e tente novamente",
         "send_scheduled": "Envío programado",
-        "download_and_delete": "Baixar e excluir",
+        "download_and_delete": "Descarregar e apagar",
         "not_in_list": "{{name}} - Não está na lista de Etiquetas",
         "no_signature": "Sem assinatura",
         "mark_read_message_immediately": "Marcar mensagem selecionada como lida imediatamente",
@@ -299,7 +299,7 @@
     },
     "header": {
         "warning": "Atenção",
-        "delete_email": "Excluir e-mail",
+        "delete_email": "Apagar e-mail",
         "edit_draft": "Editar rascunho",
         "message_not_sent": "Erro - Mensagem não enviada",
         "redirect_email": "Redirecionar e-mail",
@@ -342,8 +342,8 @@
         "invalid_address_plural": "Os seguintes endereços parecem ser inválidos",
         "modal": {
             "delete": {
-                "if_delete_lost_forever": "Se você excluir a mensagem, ela será perdida para sempre.",
-                "sure_delete_email": "Tem certeza que deseja excluir o e-mail selecionado?"
+                "if_delete_lost_forever": "Se apagar a mensagem, ela será perdida para sempre.",
+                "sure_delete_email": "Tem certeza que deseja apagar o e-mail selecionado?"
             },
             "redirect": {
                 "second": "O e-mail aparecerá como originalmente destinado ao novo destinatário",
@@ -367,8 +367,8 @@
         },
         "new_email": "Novo e-mail",
         "no_content": "Essa mensagem não possui conteúdo de texto",
-        "permanent_delete_title": "Confirma que deseja excluir permanentemente este elemento?",
-        "permanent_delete_body": "Se você excluir permanentemente este elemento, você não poderá mais recuperá-lo. Continuar?",
+        "permanent_delete_title": "Confirma que deseja apagar permanentemente este elemento?",
+        "permanent_delete_body": "Se apagar permanentemente este elemento, não poderá recuperá-lo. Continuar?",
         "powered_by": "powered by",
         "check_and_try_again": "Verifique o Carbonio e tente novamente",
         "could_not_find_to_show": "Desculpe, não encontramos nada para exibir",
@@ -481,7 +481,7 @@
         },
         "message": "Mensagem",
         "add_condition": "Adicionar nova condição",
-        "delete_filter": "Excluir filtro",
+        "delete_filter": "Apagar filtro",
         "invite_not_replied": "o convite não foi respondido ",
         "keep_in_inbox": "Manter na Caixa de Entrada",
         "twitter_notification": "Notificações do Twitter",
@@ -506,7 +506,7 @@
         "conv_is_participated": "nas conversas que eu participei",
         "conv_is_started": "nas conversas que eu iniciei",
         "create_new_filter": "Criar novo filtro",
-        "delete_filter_text": "Tem certeza que deseja excluir o filtro? ",
+        "delete_filter_text": "Tem certeza que deseja apagar o filtro? ",
         "do_not_process_additional_filters": "Não processar mais filtros",
         "does_not_contain": "não contém",
         "does_not_exists": "não existe",
@@ -657,8 +657,8 @@
                 "body": {
                     "message3": "Ao excluí-la, todo o seu conteúdo será movido para a lixeira e a pasta não ficará mais visível.",
                     "message4": "Ao excluí-la, todo o seu conteúdo será excluído permanentemente e não poderá mais ser recuperado.",
-                    "message1": "Deseja excluir todo o conteúdo da pasta selecionada?",
-                    "message2": "Deseja excluir permanentemente a pasta selecionada?"
+                    "message1": "Deseja apagar todo o conteúdo da pasta selecionada?",
+                    "message2": "Deseja apagar permanentemente a pasta selecionada?"
                 }
             },
             "empty": {
@@ -724,8 +724,8 @@
     "displayer": {
         "list_junk_title": "Não existem e-mails de Spam",
         "list_sent_title": "Você ainda não enviou nenhum e-mail",
-        "spam_title2": "Clique no ícone da lixeira para excluir um e-mail de Spam.",
-        "trash_title1": "Clique no ícone da lixeira para excluir um e-mail",
+        "spam_title2": "Clique no ícone da lixeira para apagar um e-mail de Spam.",
+        "trash_title1": "Clique no ícone da lixeira para apagar um e-mail",
         "archive_title1": "Arquivar e-mail para consultá-lo posteriormente.",
         "archive_title2": "Selecione um e-mail arquivado para revisá-lo.",
         "description2": "Envie documentos, imagens e mais ao criar um novo e-mail.",
@@ -735,7 +735,7 @@
         "description7": "Selecione um e-mail para responder.",
         "draft_title2": "Selecione e edite um e-mail para enviá-lo a outros usuários.",
         "junk_title1": "Não existem e-mails de Spam para você se preocupar",
-        "junk_title2": "Clique no ícone da lixeira para excluir um e-mail de spam",
+        "junk_title2": "Clique no ícone da lixeira para apagar um e-mail de spam",
         "list_draft_title": "Não existem rascunhos guardados",
         "list_folder_title": "Parece que ainda não existem e-mails",
         "search_description2": "Tente iniciar uma nova pesquisa.",
@@ -752,7 +752,7 @@
         "title2": "Clique no botão \"NOVO\"",
         "title3": "Mantenha contato com outros usuários.",
         "title4": "Selecione um e-mail para ler",
-        "title8": "Selecione um e-mail para ler ou excluir.",
+        "title8": "Selecione um e-mail para ler ou apagar.",
         "trash_title2": "Selecione e recupere e-mails da lixeira.",
         "search_description1": "Ou selecione \"Filtros Avançados\" para refinar a sua pesquisa.",
         "search_list_title1": "Não foram encontrados resultados. Continue a pesquisa!",
@@ -815,7 +815,7 @@
     "go_back": "Voltar",
     "modal": {
         "delete_draft": {
-            "message1": "Deseja manter ou excluir este rascunho?"
+            "message1": "Deseja guardar ou apagar este rascunho?"
         }
     }
 }
