@@ -56,7 +56,7 @@
                 "attach": "allega",
                 "enclosing": "includere",
                 "attaching": "allegare",
-                "subject": "Manca l'oggetto"
+                "subject": "Oggetto mancante"
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
