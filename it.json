@@ -327,7 +327,8 @@
         "missing_recipients": "non ci sono destinatari validi",
         "missing_sender": "non è specificato il mittente del messaggio",
         "no_sender": "non è specificato il mittente del messaggio",
-        "upload_failed": "Caricamento non riuscito"
+        "upload_failed": "Caricamento non riuscito",
+        "no_identity_selected": "<nessuna identità selezionata>"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
