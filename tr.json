@@ -28,7 +28,8 @@
         "click_preview": "Önizleme için tıklayın",
         "edit_anyway": "Yine de düzenle",
         "mark_all_read": "Tümünü okundu olarak işaretle",
-        "click_open": "Açmak için tıklayın"
+        "click_open": "Açmak için tıklayın",
+        "preview_on_separated_window": "Yeni pencerede aç"
     },
     "composer": {
         "attachment": {
