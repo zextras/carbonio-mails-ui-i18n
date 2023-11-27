@@ -35,7 +35,10 @@
             "tag_deleted": "{{name}} Тег успешно удален",
             "tag_updated": "Тег успешно обновлен",
             "tag_not_updated": "Что-то пошло не так, тег не обновился. Повторите попытку.",
-            "message_sending_aborted": "отменено пользователем"
+            "message_sending_aborted": "отменено пользователем",
+            "apply_filter_rules_started": "Фильтр «{{filterName}}» применяется к сообщениям папки «{{folderPath}}»",
+            "apply_filter_rules_error": "Произошла ошибка при применении фильтра «{{filterName}}»",
+            "apply_filter_rules_completed": "Фильтр \"{{filterName}}\" успешно применен к сообщениям {{involvedMessagesCount}} в папке \"{{folderPath}}\""
         },
         "modal": {
             "delete": {
@@ -669,7 +672,8 @@
         "share_resend": "Уведомление о доступе отправлено повторно",
         "email_moved_to_trash": "Письмо перенесено в Корзину",
         "tag_applied": "Тег \"{{tag}}\" применен",
-        "tag_removed": "Тег \"{{tag}}\" удален"
+        "tag_removed": "Тег \"{{tag}}\" удален",
+        "email_copied_to_clipboard": "Письмо скопировано в буфер обмена."
     },
     "title": {
         "new_messages": "Новые Сообщения",
@@ -843,5 +847,13 @@
         "compose_colin": "Создать:",
         "composing_messages": "Создание сообщений"
     },
-    "messages,new_email": "Новое письмо"
+    "messages,new_email": "Новое письмо",
+    "modals": {
+        "apply_filters": {
+            "button_apply": "Применить",
+            "title": "Фильтр приложения \"{{filterName}}\"",
+            "label_confirm_request": "Применить фильтр?",
+            "label_involved_messages": "Сообщения <0>{{involvedMessagesCount}}</0> будут обрабатываться внутри выбранной папки."
+        }
+    }
 }
