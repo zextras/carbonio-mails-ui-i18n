@@ -334,7 +334,12 @@
         "upload_failed": "Загрузка не удалась",
         "errors": {
             "upload_failed_generic": "Не удалось загрузить файл «{{filename}}»"
-        }
+        },
+        "message_send_in_progress": "идет отправка сообщения",
+        "missing_recipients": "нет действительных получателей",
+        "missing_sender": "отправитель письма не установлен",
+        "no_sender": "отправитель сообщения не установлен",
+        "no_folder_selected": "Папка не выбрана"
     },
     "header": {
         "warning": "Предупреждение",
@@ -373,7 +378,10 @@
         "click_preview": "Нажмите для предпросмотр",
         "edit_anyway": "Редактировать",
         "mark_all_read": "Пометить все как прочитанные",
-        "click_open": "Нажмите, чтобы открыть"
+        "click_open": "Нажмите, чтобы открыть",
+        "select_folders": "Выбрать папки",
+        "preview_on_separated_window": "Открыть в новом окне",
+        "apply_filter_on_folder": "Применить фильтр к папке"
     },
     "tooltip": {
         "add_attachments": "Добавить вложения",
@@ -618,7 +626,9 @@
         "select_date_time": "Выберите дату и время для отправки этого сообщения",
         "send_later_success": "Ваше письмо будет отправлено {{date}} в {{time}}",
         "delete_attachment_message1": "Ваше вложение будет удалено из Carbonio.",
-        "delete_attachment_message2": "Вы хотели бы загрузить вложение?"
+        "delete_attachment_message2": "Вы хотели бы загрузить вложение?",
+        "copy": "Копировать",
+        "send_email": "Отправить письмо"
     },
     "search": {
         "flagged_note": "Поиск всех помеченных писем.",
@@ -710,7 +720,8 @@
         "filters": "Фильтры",
         "incoming_msg_filters": "Фильтры входящих сообщений",
         "outgoing_message_filters": "Фильтры исходящих сообщений",
-        "run": "Запустить"
+        "run": "Запустить",
+        "apply": "Применить"
     },
     "board": {
         "show": "Открыть окно"
