@@ -16,7 +16,7 @@
         "reply_all": "Répondre à tous",
         "send_anyway": "Envoyer quand même",
         "share_folder": "Partager le dossier",
-        "unflag": "Retirer le marqueur",
+        "unflag": "Enlever le marqueur",
         "show_details": "Afficher les détails",
         "show_original": "Voir l'original",
         "mark_as_unread": "Marqué comme non lu",
@@ -179,7 +179,7 @@
         "size": "Taille",
         "size_larger": "Taille supérieure à (MB)",
         "size_smaller": "Taille inférieure à (MB)",
-        "tag": "Etiquette",
+        "tag": "Étiquette",
         "workflow": "Flux de travail",
         "write": "Ecrire",
         "undo": "Annuler",
@@ -455,7 +455,7 @@
     },
     "search": {
         "unread": "Non lu",
-        "flagged_note": "Recherchez tous les emails qui ont une étiquette.",
+        "flagged_note": "Rechercher tous les emails marqués.",
         "unread_note": "Recherche de tous les éléments d'emails non lus.",
         "attachment_note": "Recherchez tous les emails qui ont une pièce jointe.",
         "sent_after": "Envoyé après",
@@ -485,8 +485,8 @@
         },
         "msg_from_optn": {
             "discard": "Rejeter le message automatiquement",
-            "inbox": "Placer dans la Boîte de Réception",
-            "inbox_if_cc": "Placer dans la Boîte de Réception si je suis dans À : ou Cc :"
+            "inbox": "Placer dans la boîte de Réception",
+            "inbox_if_cc": "Placer dans la boîte de Réception si je suis dans À : ou Cc :"
         },
         "msg_selection_optn": {
             "above_deleted": "Sélectionner le message au-dessus du message supprimé ou déplacé",
@@ -501,7 +501,7 @@
             "minute_2": "{{count}} minutes"
         },
         "notify_folder_optn": {
-            "new_message_inbox": "Afficher les notifications pour les nouveaux messages de la Boîte de Réception",
+            "new_message_inbox": "Afficher les notifications pour les nouveaux messages de la boîte de Réception",
             "new_message_folder": "Afficher les notifications pour les nouveaux messages de n'importe quel dossier"
         },
         "read_rcpt_optn": {
@@ -683,7 +683,7 @@
         "trash_title1": "Cliquer sur l'icône de la corbeille pour supprimer un email",
         "archive_title2": "Sélectionnez un email archivé pour le consulter.",
         "description2": "Envoyer des documents, des images et bien plus encore en composant un nouvel email.",
-        "description4": "Vous pouvez le signaler, y répondre ou le transmettre à d'autres utilisateurs.",
+        "description4": "Vous pouvez le marquer, y répondre ou le transmettre à d'autres utilisateurs.",
         "description6": "Répondre à cet e-mail ou le transmettre à d'autres utilisateurs.",
         "description7": "Sélectionner un email à répondre.",
         "draft_title2": "Sélectionner et modifier un email pour l'envoyer à d'autres utilisateurs.",
@@ -799,7 +799,7 @@
         "unreplied": "auquel je n'ai pas répondu",
         "unread": "non lu",
         "unforwarded": "non transféré",
-        "unflagged": "non étiquetté",
+        "unflagged": "non marqué",
         "tome": "pour moi",
         "tofromme": "pour moi ou de moi",
         "tofromccme": "qui m'est envoyé, pour moi ou avec moi en copie",
@@ -815,7 +815,7 @@
         "fromme": "de ma part",
         "fromccme": "de moi ou en copie pour moi",
         "forwarded": "transféré",
-        "flagged": "étiquetté",
+        "flagged": "marqué",
         "draft": "brouillon",
         "ccme": "avec moi en copie",
         "anywhere": "dans tous les dossiers"
