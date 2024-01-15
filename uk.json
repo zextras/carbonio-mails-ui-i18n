@@ -15,5 +15,23 @@
         "mark_as_non_spam": "Не спам",
         "mark_as_read": "Позначити як прочитане",
         "mark_all_read": "Позначити все як прочитане"
+    },
+    "label": {
+        "cancel": "Скасувати",
+        "delete": "Видалити",
+        "discard_changes": "СКАСУВАТИ ЗМІНИ",
+        "filter_folders": "Фільтр папок",
+        "go_back": "Назад",
+        "new_folder": "Нова папка",
+        "save": "Зберегти",
+        "time_zone": "Часовий пояс"
+    },
+    "messages": {
+        "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
+    },
+    "message": {
+        "snackbar": {
+            "settings_saved": "Зміни збережено"
+        }
     }
 }
