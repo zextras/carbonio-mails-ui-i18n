@@ -7,7 +7,7 @@
         "archive_title2": "Wybierz zarchiwizowany e-mail aby go przeglądnąć.",
         "description4": "Możesz oflagować, odpowiedzieć lub przekazać go dalej innym użytkownikom.",
         "description2": "Wyślij dokumenty, obrazy i wiele więcej tworząc nowy e-mail.",
-        "description5": "Zobacz o czym chcą rozmawiać z tobą inni użytkownicy.",
+        "description5": "Zobacz o czym chcą rozmawiać z Tobą inni użytkownicy.",
         "description6": "Odpowiedz na ten e-mail lub przekaż go dalej innym użytkownikom.",
         "description7": "Wybierz e-mail, na który chcesz odpowiedzieć.",
         "draft_title1": "Zapisanie e-maila jako wersję roboczą pozwala ci zachować wiadomości, które chciał(a)byś wysłać póżniej.",
@@ -537,7 +537,7 @@
             "conversation_deleted": "Konwersacja została usunięta",
             "conversation_move": "Konwersacja została przeniesiona pomyślnie",
             "conversation_move_error": "Coś poszło nie tak, przeniesienie konwersacji nie zostało wykonane. Spróbuj ponownie.",
-            "email_moved_to_trash": "E-mail został przeniesiony do Kosza",
+            "email_moved_to_trash": "E-mail został przeniesiony do kosza",
             "email_restored": "E-mail został przywrócony w wyznaczonym folderze",
             "folder_created": "Nowy folder został stworzony",
             "folder_deleted": "Folder został usunięty.",
@@ -773,7 +773,7 @@
         "name": "Nazwa"
     },
     "snackbar": {
-        "email_moved_to_trash": "E-mail został przeniesiony do Kosza",
+        "email_moved_to_trash": "E-mail został przeniesiony do kosza",
         "folder_shared": "Folder został udostępniony",
         "share_resend": "Zaproszenie do udostępnienia zostało wysłane ponownie",
         "share_updated": "\"Uprawnienia dostępu zostały zaktualizowane\"",
