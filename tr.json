@@ -29,7 +29,8 @@
         "edit_anyway": "Yine de düzenle",
         "mark_all_read": "Tümünü okundu olarak işaretle",
         "click_open": "Açmak için tıklayın",
-        "preview_on_separated_window": "Yeni pencerede aç"
+        "preview_on_separated_window": "Yeni pencerede aç",
+        "apply_filter_on_folder": "Klasöre filtre uygula"
     },
     "composer": {
         "attachment": {
