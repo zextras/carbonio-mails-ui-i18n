@@ -847,5 +847,12 @@
             "title": "Traitement du filtre '{{filterName}}'",
             "label_involved_messages": "<0>{{involvedMessagesCount}} messages</0> seront traités dans le dossier sélectionné."
         }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "attachmentAscending": "Ordre croissant de rattachement",
+            "attachmentDescending": "Ordre décroissant par rattachement",
+            "dateAscending": "Ordre croissant par taille"
+        }
     }
 }
