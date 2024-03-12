@@ -243,7 +243,7 @@
         "notification_folders": "Notifications de Dossiers",
         "save_to_files": "Enregistrer dans Files",
         "upload_from_files": "Téléverser depuis Files",
-        "always_allow_domain": "Toujours autorisé depuis le domaine <strong>{{domain}}</strong>",
+        "always_allow_domain": "Toujours autoriser depuis le domaine <strong>{{domain}}</strong>",
         "no_name": "<Pas de Nom>",
         "view_images": "VISUALISER LES IMAGES",
         "always_allow_address": "Toujours autoriser depuis <strong>{{from}}</strong>",
