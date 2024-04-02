@@ -651,7 +651,7 @@
         "email_moved_to_trash": "L'email a été déplacé dans la corbeille",
         "tag_applied": "Étiquette \"{{tag}}\" appliquée",
         "tag_removed": "L'étiquette \"{{tag}}\" a été supprimée",
-        "email_copied_to_clipboard": "L'email a été copié dans le presse papier."
+        "email_copied_to_clipboard": "Email copié dans le presse papier."
     },
     "title": {
         "new_messages": "Nouveaux messages",
