@@ -225,7 +225,7 @@
         "send_notification": "Wyślij powiadomienie tekstowe do",
         "sending": "Wysyłanie",
         "sent": "Wysłane",
-        "shared_folders": "Udostępnione Foldery",
+        "shared_folders": "Udostępnione foldery",
         "shared_item": "Udostępniony element",
         "shares_folder_edit": "Udostępnianie tego folderu",
         "shares_info": "Informacje o udostępnionym folderze",
@@ -375,7 +375,7 @@
         "message_send_in_progress": "trwa wysyłanie wiadomości",
         "upload_failed": "Przesyłanie się nie powiodło",
         "errors": {
-            "upload_failed_generic": "Nie udało się przesłać pliku \"{{filename}}\""
+            "upload_failed_generic": "Przesyłanie pliku {{filename}} się nie powiodło"
         },
         "no_identity_selected": "<Nie wybrano tożsamości>",
         "attachment_upload_in_progress": "trwa przesyłanie załącznika",
