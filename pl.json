@@ -44,7 +44,7 @@
                 "add_share": "Dodaj udostępnienie",
                 "rename_warning": "Nie możesz zmienić nazwy folderu na nazwę znajdującą się już w systemie.",
                 "retention_duration_warning": "Okres przechowywania musi być liczbą większą od zera",
-                "threshold_message": "Wiadomości z tego folderu, wykraczające poza Próg pozbywania się będą poddawane automatycznemu usunięciu.",
+                "threshold_message": "Wiadomości z tego folderu, wykraczające poza próg pozbywania się będą poddawane automatycznemu usunięciu.",
                 "enter_valid_folder_name": "Wprowadź prawidłową nazwę folderu",
                 "invalid_folder_name_warning_msg": "Znaki specjalne nie są dozwolone. Max. długość to 128 znaków.",
                 "special_chars_warning_msg": "Znaki specjalne w nazwie folderu nie są dozwolone"
@@ -198,7 +198,7 @@
         "insert": "Wstaw",
         "keywords": "Słowa kluczowe",
         "loading_results": "Ładowanie wyników…",
-        "mail_folder": "Folder E-maile",
+        "mail_folder": "Folder e-mail",
         "mail_settings": "Ustawienia skrzynki odbiorczej",
         "me": "Ja",
         "messages": "Wiadomości",
@@ -255,7 +255,7 @@
         "set_default_signatures": "Ustaw domyślne podpisy",
         "show_quoted_text": "Pokaż zacytowany tekst",
         "share_with": "Udostępnij",
-        "contact_folder": "Folder Kontakty",
+        "contact_folder": "Folder kontaktów",
         "create_and_move": "Stwórz i przenieś",
         "error": "Błąd",
         "no_subject_with_tags": "<Brak tematu>",
@@ -468,8 +468,8 @@
                 "body": {
                     "message1": "Czy na pewno chcesz opróżnić wybrany folder?",
                     "message2": "Czy na pewno chcesz trwale usunąć wybrany folder?",
-                    "message3": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do Kosza oraz folder przestanie być widoczny.",
-                    "message4": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do Kosza. Folderu nie będzie można odzyskać."
+                    "message3": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do kosza oraz folder przestanie być widoczny.",
+                    "message4": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do kosza. Folderu nie będzie można odzyskać."
                 }
             },
             "empty": {
