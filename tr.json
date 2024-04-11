@@ -31,7 +31,9 @@
         "click_open": "Açmak için tıklayın",
         "preview_on_separated_window": "Yeni pencerede aç",
         "apply_filter_on_folder": "Klasöre filtre uygula",
-        "select_folders": "Klasörleri seçin"
+        "select_folders": "Klasörleri seçin",
+        "create_appointment": "Randevu Oluştur",
+        "download_eml": "EML'yi indir"
     },
     "composer": {
         "attachment": {
