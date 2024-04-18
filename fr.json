@@ -591,7 +591,7 @@
         "not_in": "pas dans",
         "not_over": "pas plus que",
         "not_under": "pas moins que",
-        "over": "sur",
+        "over": "au delà de",
         "perform_following_action": "Effectuez les actions suivantes :",
         "read_receipt": "Lire le reçu",
         "redirect_to_address": "Rediriger vers l'adresse",
@@ -600,7 +600,7 @@
         "tag_with": "Marquer avec",
         "to_cc": "A ou CC",
         "twitter_notification": "Notifications Twitter",
-        "under": "sous",
+        "under": "en dessous de",
         "conv_is_started": "Dans la conversation que j'ai lancé",
         "fonts": {
             "wide_block": "Wide Block",
