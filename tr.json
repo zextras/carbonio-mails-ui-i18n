@@ -846,5 +846,10 @@
             "label_involved_messages": "<0>{{involvedMessagesCount}} iletileri</0> seçilen klasör içinde işlenecektir.",
             "title": "Uygulama filtresi \"{{filterName}}\""
         }
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "Mesaj boyutu sınırı aşıyor. Lütfen bazı ekleri akıllı bağlantı olarak değiştirin"
+        }
     }
 }
