@@ -15,15 +15,15 @@
   },
   "label": {
     "save": "सेव करें",
-    "attachment": "{{count}} अटैचमेंट",
-    "attachment_plural": "{{count}} अटैचमेंट्स",
+    "attachment_one": "{{count}} अटैचमेंट",
+    "attachment_other": "{{count}} अटैचमेंट्स",
     "cancel": "कैंसल करें",
-    "download": "डाऊनलोड करें",
-    "download_plural": "सभी डाऊनलोड करें",
+    "download_one": "डाऊनलोड करें",
+    "download_other": "सभी डाऊनलोड करें",
     "edit": "बदलाव करें",
     "me": "मैं",
-    "remove": "हटाएँ",
-    "remove_plural": "सभी हटाएँ",
+    "remove_one": "हटाएँ",
+    "remove_other": "सभी हटाएँ",
     "send": "भेजें",
     "share": "शेयर करें",
     "resend": "दोबारा भेजें",
@@ -65,8 +65,8 @@
     "filter_user": "यूज़र फिल्टर करें",
     "find_shares": "शेअर ढूंढें",
     "highlight_tab": "मेल टैब हाइलाइट करें",
-    "advanced_filters": "एड्वान्स्ड फ़िल्टर",
-    "advanced_filters_plural": "एड्वान्स्ड फ़िल्टर्स",
+    "advanced_filters_one": "एड्वान्स्ड फ़िल्टर",
+    "advanced_filters_other": "एड्वान्स्ड फ़िल्टर्स",
     "insert": "सम्मिलित करना",
     "messages": "मैसेज",
     "move": "ले जाएँ",
@@ -108,8 +108,8 @@
     "hide": "छिपाएँ",
     "loading_results": "रिज़ल्ट लोड कर रहा है…",
     "mail_folder": "ई-मेल फोल्डर",
-    "mail_selected": "{{count}} ई-मेल चुनी गई",
-    "mail_selected_plural": "{{count}} ई-मेल चुनी गईं",
+    "mail_selected_one": "{{count}} ई-मेल चुनी गई",
+    "mail_selected_other": "{{count}} ई-मेल चुनी गईं",
     "mail_settings": "Mails सेटिंग्स",
     "show_all_attachments_other": "सभी दिखाएँ {{count}} अटैचमेंट्स",
     "signature_required": "सिग्नेचर जानकारी जरूरी है।",
@@ -225,8 +225,8 @@
     "no_signature": "कोई हस्ताक्षर नहीं",
     "mark_read_message_manually": "इस आइकॉन को क्लिक करके मैनुअल पढ़ लिया चिन्हित करें",
     "mark_read_message_immediately": "डिस्प्लेयर में मैसेज को तुरंत पढ़ लें चिन्हित करें",
-    "attachment_with_count": "{{count}} अटैचमेंट",
-    "attachment_with_count_plural": "{{count}} अटैचमेंट",
+    "attachment_with_count_one": "{{count}} अटैचमेंट",
+    "attachment_with_count_other": "{{count}} अटैचमेंट",
     "attachments_disclaimer": "आप एक अटैच किया मैसेज देख रहे हैं। अटैच मैसेज असली हैं या नहीं यह सत्यापित नहीं किया जा सकता।",
     "choose_file": "फाइल चुनें",
     "extra_window": {
@@ -252,8 +252,8 @@
     "folder_not_valid_destination": "सिलेक्ट किया फ़ोल्डर एक मान्य गंतव्य नहीं है"
   },
   "messages": {
-    "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
-    "invalid_address_plural": "निम्नलिखित एड्रेस अमान्य लग रहे हैं",
+    "invalid_address_one": "निम्नलिखित एड्रेस अमान्य लग रहा है",
+    "invalid_address_other": "निम्नलिखित एड्रेस अमान्य लग रहे हैं",
     "modal": {
       "delete": {
         "if_delete_lost_forever": "यदि आप इस ई-मेल को डिलीट कर देंगे तो ये हमेशा के लिए उड़ जाएगी।",
@@ -307,8 +307,8 @@
       "message_delete_error": "कुछ गड़बड़ हुई, मैसेज डिलीट नहीं हुआ। दोबारा कोशिश करें।",
       "mail_saved_to_drafts": "मेल ड्राफ्ट में सेव हो गई",
       "folder_restored": "फोल्डर वापस लाया गया",
-      "sending_mail_in_count": "आपके मैसेज को {{count}} सेकंड में भेज रहा है",
-      "sending_mail_in_count_plural": "आपके मैसेज को {{count}} सेकंड में भेज रहा है",
+      "sending_mail_in_count_one": "आपके मैसेज को {{count}} सेकंड में भेज रहा है",
+      "sending_mail_in_count_other": "आपके मैसेज को {{count}} सेकंड में भेज रहा है",
       "tag_created": "टैग {{name}} बन गया",
       "tag_deleted": "{{name}} टैग डिलीट हो गया",
       "tag_not_updated": "कुछ गड़बड़ हुई, टैग अपडेट नहीं हुआ। दोबारा कोशिश करें।",
@@ -459,8 +459,8 @@
     },
     "new_mail_optn": {
       "manually": "मैनुअल",
-      "minute": "{{count}} मिनट",
-      "minute_plural": "{{count}} मिनट",
+      "minute_one": "{{count}} मिनट",
+      "minute_other": "{{count}} मिनट",
       "when_arrive": "जब नई ई-मेल आती है"
     },
     "read_rcpt_optn": {
@@ -572,12 +572,12 @@
       "console": "Console",
       "comic": "Comic"
     },
-    "font_size": "{{count}} pt",
-    "font_size_plural": "{{count}} pt",
+    "font_size_one": "{{count}} pt",
+    "font_size_other": "{{count}} pt",
     "mail_unsend_time": {
       "no_delay": "कोई देर नहीं",
-      "second": "{{count}} सेकंड",
-      "second_plural": "{{count}} सेकंड"
+      "second_one": "{{count}} सेकंड",
+      "second_other": "{{count}} सेकंड"
     },
     "address": "एड्रैस",
     "tag_name_required": "\"इससे टैग करें\" एक्शन पूरी करने के लिए \"टैग\" फील्ड भरें।",
@@ -595,8 +595,8 @@
     "resend": "इस शेयर के बारे में मेल नोटिफिकेशन फिर से भेजें",
     "add_attachments": "अटैचमेंट लगाएं",
     "disable_rich_text": "रिच टेक्स्ट एडिटर बंद करें",
-    "folder_sharing_status": "{{count}} यूजर के साथ शेयर किया गया",
-    "folder_sharing_status_plural": "{{count}} यूजरों के साथ शेयर किया गया",
+    "folder_sharing_status_one": "{{count}} यूजर के साथ शेयर किया गया",
+    "folder_sharing_status_other": "{{count}} यूजरों के साथ शेयर किया गया",
     "folder_linked_status": "मेरे साथ शेयर",
     "marked_as_important": "महत्वपूर्ण के रूप में चिह्नित किया गया"
   },

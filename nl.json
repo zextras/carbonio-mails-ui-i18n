@@ -61,15 +61,15 @@
     "attention": "Opgepast"
   },
   "label": {
-    "attachment": "{{count}} Bijlage",
-    "attachment_plural": "{{count}} Bijlagen",
+    "attachment_one": "{{count}} Bijlage",
+    "attachment_other": "{{count}} Bijlagen",
     "cancel": "Annuleren",
-    "download": "Downloaden",
-    "download_plural": "Alles downloaden",
+    "download_one": "Downloaden",
+    "download_other": "Alles downloaden",
     "edit": "Bewerken",
     "me": "Me",
-    "remove": "Verwijderen",
-    "remove_plural": "Alles verwijderen",
+    "remove_one": "Verwijderen",
+    "remove_other": "Alles verwijderen",
     "save": "Opslaan",
     "send": "Versturen",
     "share": "Delen",
@@ -112,8 +112,8 @@
     "automatically_delete_duplicates": "Automatisch verwijderen van dubbele kopieën van hetzelfde bericht bij ontvangst",
     "retention_policy": "Retentiebeleid",
     "show_popup": "Een popup-melding weergeven",
-    "advanced_filters": "Geavanceerd Filter",
-    "advanced_filters_plural": "Geavanceerde Filters",
+    "advanced_filters_one": "Geavanceerd Filter",
+    "advanced_filters_other": "Geavanceerde Filters",
     "empty": "Leeg",
     "error_try_again": "Er is iets misgegaan, probeer het opnieuw",
     "expand": "Uitklappen",
@@ -172,8 +172,8 @@
     "show_all_attachments_other": "Alles weergeven {{count}} Bijlagen",
     "select_signature": "Een handtekening selecteren",
     "signature_required": "Informatie over handtekening is vereist.",
-    "mail_selected": "{{count}} e-mail geselecteerd",
-    "mail_selected_plural": "{{count}} e-mails geselecteerd",
+    "mail_selected_one": "{{count}} e-mail geselecteerd",
+    "mail_selected_other": "{{count}} e-mails geselecteerd",
     "forwarded": "Doorgestuurd",
     "send_email": "E-mail sturen",
     "draft": "Concept",
@@ -272,8 +272,8 @@
     "no_signature": "Geen handtekening",
     "mark_read_message_immediately": "Markeer berichten in displayer als onmiddellijk lezen",
     "mark_read_message_manually": "Handmatig als gelezen markeren door op dit pictogram te klikken",
-    "attachment_with_count": "{{count}} Bijlage",
-    "attachment_with_count_plural": "{{count}} Bijlagen",
+    "attachment_with_count_one": "{{count}} Bijlage",
+    "attachment_with_count_other": "{{count}} Bijlagen",
     "attachments_disclaimer": "U bekijkt een bijgevoegd bericht. De authenticiteit van de bijgevoegde berichten kan niet worden gecontroleerd.",
     "choose_file": "Bestand kiezen",
     "deselect_all": "Alles DESELECTEREN",
@@ -299,8 +299,8 @@
     "folder_not_valid_destination": "De geselecteerde map is geen geldige bestemming"
   },
   "messages": {
-    "invalid_address": "Het volgende adres lijkt ongeldig te zijn",
-    "invalid_address_plural": "De volgende adressen blijken ongeldig te zijn",
+    "invalid_address_one": "Het volgende adres lijkt ongeldig te zijn",
+    "invalid_address_other": "De volgende adressen blijken ongeldig te zijn",
     "modal": {
       "delete": {
         "sure_delete_email": "Weet u zeker dat u de geselecteerde e-mail wilt verwijderen?",
@@ -354,8 +354,8 @@
       "message_redirected": "Het bericht is doorgestuurd",
       "mail_saved_to_drafts": "Mail opgeslagen in concepten",
       "folder_restored": "Map hersteld",
-      "sending_mail_in_count": "Uw bericht verzenden in {{count}} seconde",
-      "sending_mail_in_count_plural": "Uw bericht verzenden in {{count}} seconden",
+      "sending_mail_in_count_one": "Uw bericht verzenden in {{count}} seconde",
+      "sending_mail_in_count_other": "Uw bericht verzenden in {{count}} seconden",
       "tag_created": "Tag {{name}} met succes gecreëerd",
       "tag_deleted": "{{name}} Tag met succes verwijderd",
       "tag_updated": "Tag met succes bijgewerkt",
@@ -510,8 +510,8 @@
     "new_mail_optn": {
       "manually": "Handmatig",
       "when_arrive": "Als er nieuwe mail binnenkomt",
-      "minute": "{{count}} minuut",
-      "minute_plural": "{{count}} minuten"
+      "minute_one": "{{count}} minuut",
+      "minute_other": "{{count}} minuten"
     },
     "read_rcpt_optn": {
       "always": "Altijd een leesontvangst sturen",
@@ -617,12 +617,12 @@
       "console": "Console",
       "comic": "Comic"
     },
-    "font_size": "{{count}} pt",
-    "font_size_plural": "{{count}} pt",
+    "font_size_one": "{{count}} pt",
+    "font_size_other": "{{count}} pt",
     "mail_unsend_time": {
       "no_delay": "Geen vertraging",
-      "second": "{{count}} seconde",
-      "second_plural": "{{count}} seconden"
+      "second_one": "{{count}} seconde",
+      "second_other": "{{count}} seconden"
     },
     "address": "Adres",
     "address_required": "Vul het veld \"Adres\" in om de actie \"Omleiden naar adres\" te voltooien.",
@@ -640,8 +640,8 @@
     "enable_rich_text": "Rich Text Editor inschakelen",
     "enable_urgent": "Dringend inschakelen",
     "resend": "Bericht over dit aandeel verzenden",
-    "folder_sharing_status": "Gedeeld met {{count}} gebruiker",
-    "folder_sharing_status_plural": "Gedeeld met {{count}} gebruikers",
+    "folder_sharing_status_one": "Gedeeld met {{count}} gebruiker",
+    "folder_sharing_status_other": "Gedeeld met {{count}} gebruikers",
     "folder_linked_status": "Mit mir geteilt",
     "marked_as_important": "Gemarkeerd als belangrijk"
   },

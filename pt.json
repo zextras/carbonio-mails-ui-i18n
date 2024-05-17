@@ -50,8 +50,8 @@
     }
   },
   "label": {
-    "attachment": "{{count}} Anexo",
-    "attachment_plural": "{{count}} Anexos",
+    "attachment_one": "{{count}} Anexo",
+    "attachment_other": "{{count}} Anexos",
     "cancel": "Cancelar",
     "download_0": "Descarregar",
     "download_1": "Descarregar tudo",
@@ -103,8 +103,8 @@
     "with_you": "com você",
     "would_like_to_share": "compartilhou seu",
     "revoke_access_without_notification": "Revogar acesso sem enviar notificação",
-    "advanced_filters": "Filtro avançado",
-    "advanced_filters_plural": "Filtros avançados",
+    "advanced_filters_one": "Filtro avançado",
+    "advanced_filters_other": "Filtros avançados",
     "create": "Criar",
     "delete": "Apagar",
     "delete_permanently": "Apagar permanentemente",
@@ -153,8 +153,8 @@
     "hide": "Ocultar",
     "loading_results": "Carregando resultados…",
     "mail_folder": "Pasta de e-mail",
-    "mail_selected": "{{count}} e-mail selecionado",
-    "mail_selected_plural": "{{count}} e-mails selecionados",
+    "mail_selected_one": "{{count}} e-mail selecionado",
+    "mail_selected_other": "{{count}} e-mails selecionados",
     "mail_settings": "Configurações de e-mails",
     "on_behalf_of": "em nome de",
     "search_activate_selection_mode": "O modo de seleção ainda não está disponível para os resultados da pesquisa",
@@ -352,8 +352,8 @@
       "folder_will_be_moved_in_time": "Esta pasta será movida dentro de {{remainingTime}}",
       "folder_restored": "Pasta restaurada",
       "mail_saved_to_drafts": "O E-mail foi guardado nos rascunhos",
-      "sending_mail_in_count": "Enviando sua mensagem em {{count}} segundo",
-      "sending_mail_in_count_plural": "Enviando sua mensagem em {{count}} segundos",
+      "sending_mail_in_count_one": "Enviando sua mensagem em {{count}} segundo",
+      "sending_mail_in_count_other": "Enviando sua mensagem em {{count}} segundos",
       "tag_created": "Etiqueta \"{{name}}\" criada com sucesso",
       "tag_deleted": "Etiqueta \"{{name}}\" removida com sucesso",
       "tag_not_updated": "Ocorreu um erro e a Etiqueta não foi atualizada. Por favor, tente novamente.",
@@ -363,8 +363,8 @@
       "apply_filter_rules_started": "O filtro '{{filterName}}' está sendo aplicado às mensagens da pasta '{{folderPath}}'",
       "message_sending_aborted": "cancelado pelo usuário"
     },
-    "invalid_address": "O seguinte endereço parece ser inválido",
-    "invalid_address_plural": "Os seguintes endereços parecem ser inválidos",
+    "invalid_address_one": "O seguinte endereço parece ser inválido",
+    "invalid_address_other": "Os seguintes endereços parecem ser inválidos",
     "modal": {
       "delete": {
         "if_delete_lost_forever": "Se apagar a mensagem, ela será perdida para sempre.",
@@ -484,8 +484,8 @@
     },
     "new_mail_optn": {
       "manually": "Manualmente",
-      "minute": "{{count}} minuto",
-      "minute_plural": "{{count}} minutos",
+      "minute_one": "{{count}} minuto",
+      "minute_other": "{{count}} minutos",
       "when_arrive": "À medida que cheguem novos e-mails"
     },
     "read_rcpt_optn": {
