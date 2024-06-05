@@ -129,7 +129,7 @@
         "discard_changes": "ODRZUĆ ZMIANY",
         "edit": "Edytuj",
         "edit_access": "Edytuj dostęp",
-        "empty": "Pusty",
+        "empty": "Opróżnij",
         "error_try_again": "Coś poszło nie tak, spróbuj ponownie",
         "cancel": "Anuluj",
         "move": "Przenieś",
@@ -364,7 +364,10 @@
         "create_smart_links": "stwórz inteligentne linki",
         "convert_back_to_attachment": "Przekształć na załącznik",
         "convert_to_smart_link": "Przekształć na inteligentny link",
-        "smart_links_created": "inteligentne linki zostały stworzone"
+        "smart_links_created": "inteligentne linki zostały stworzone",
+        "download_one": "Pobierz",
+        "download_few": "Pobierz wszystkie",
+        "download_many": "Pobierz wszystkie"
     },
     "message": {
         "snackbar": {
@@ -493,7 +496,7 @@
         "action": {
             "edit_properties": "Edytuj Właściwości",
             "empty": {
-                "trash": "Opróżnij Kosz"
+                "trash": "Opróżnij kosz"
             },
             "wipe": {
                 "folder_panel": "Wyczyść Folder"
