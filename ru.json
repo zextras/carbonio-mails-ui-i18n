@@ -35,7 +35,10 @@
             "message_sending_aborted": "Отменено пользователем",
             "apply_filter_rules_started": "Фильтр «{{filterName}}» применяется к сообщениям папки «{{folderPath}}»",
             "apply_filter_rules_error": "Произошла ошибка при применении фильтра «{{filterName}}»",
-            "apply_filter_rules_completed": "Фильтр \"{{filterName}}\" успешно применен к сообщениям {{involvedMessagesCount}} в папке \"{{folderPath}}\""
+            "apply_filter_rules_completed": "Фильтр \"{{filterName}}\" успешно применен к сообщениям {{involvedMessagesCount}} в папке \"{{folderPath}}\"",
+            "sending_mail_in_count_one": "Отправка вашего сообщения через {{count}}секунду",
+            "sending_mail_in_count_few": "Отправка вашего сообщения через {{count}}секунд",
+            "sending_mail_in_count_many": "Отправка вашего сообщения через {{count}} секунд"
         },
         "modal": {
             "delete": {
@@ -84,7 +87,8 @@
         "enter_calendar_name": "Введите имя, чтобы принять календарь",
         "warning": {
             "sending_to_yourself": "Вы отправляете это сообщение самому себе"
-        }
+        },
+        "invalid_address": "Следующий адрес кажется недействительным"
     },
     "label": {
         "to": "Кому",
@@ -329,7 +333,22 @@
         "smart_links_created": "созданы умные ссылки",
         "download_one": "Скачать",
         "download_few": "Скачать все",
-        "download_many": "Скачать все"
+        "download_many": "Скачать все",
+        "advanced_filters_one": "Расширенный фильтр",
+        "advanced_filters_few": "Расширенные фильтры",
+        "advanced_filters_many": "Расширенные фильтры",
+        "attachment_one": "Вложение",
+        "attachment_few": "Вложения",
+        "attachment_many": "Вложений",
+        "attachment_with_count_one": "{{count}} Вложение",
+        "attachment_with_count_few": "{{count}} Вложения",
+        "attachment_with_count_many": "{{count}} Вложений",
+        "mail_selected_one": "{{count}} выбранный адрес электронной почты",
+        "mail_selected_few": "{{count}} выбранных адреса электронной почты",
+        "mail_selected_many": "{{count}} выбранных адресов электронной почты",
+        "remove_one": "Удалить",
+        "remove_few": "Удалить все",
+        "remove_many": "Удалить все"
     },
     "header": {
         "warning": "Предупреждение",
@@ -385,7 +404,10 @@
         "revoke": "Отозвать доступ",
         "edit": "Изменить свойства общего доступа",
         "marked_as_important": "Высокий приоритет",
-        "folder_linked_status": "Поделились со мной"
+        "folder_linked_status": "Поделились со мной",
+        "folder_sharing_status_one": "Общий доступ предоставлен {{count}} пользователю",
+        "folder_sharing_status_few": "Общий доступ предоставлен {{count}} пользователям",
+        "folder_sharing_status_many": "Общий доступ предоставлен {{count}} пользователям"
     },
     "composer": {
         "attachment": {
@@ -457,7 +479,10 @@
         },
         "new_mail_optn": {
             "when_arrive": "По мере поступления новой почты",
-            "manually": "Вручную"
+            "manually": "Вручную",
+            "minute_one": "{{count}} минута",
+            "minute_few": "{{count}} минуты",
+            "minute_many": "{{count}} минут"
         },
         "notify_folder_optn": {
             "new_message_folder": "Отображать уведомления о новых сообщениях в любой папке",
@@ -563,7 +588,10 @@
             "wide": "Широкий"
         },
         "mail_unsend_time": {
-            "no_delay": "Без задержки"
+            "no_delay": "Без задержки",
+            "second_one": "{{count}} секунда",
+            "second_few": "{{count}} секунды",
+            "second_many": "{{count}} секунд"
         },
         "address": "Адрес",
         "address_required": "Заполните поле \"Адрес\" для завершения действия «Перенаправить на адрес».",
