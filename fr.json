@@ -33,7 +33,8 @@
         "select_folders": "Sélection des dossiers",
         "apply_filter_on_folder": "Appliquer le filtre sur le dossier",
         "create_appointment": "Créer un rendez-vous",
-        "download_eml": "Télécharger le fichier EML"
+        "download_eml": "Télécharger le fichier EML",
+        "preview_on_separated_tab": "Ouvrir un nouvel onglet"
     },
     "composer": {
         "attachment": {
@@ -335,7 +336,39 @@
         "mail_selected_other": "{{count}} emails selectionnés",
         "remove_one": "Supprimer",
         "remove_many": "Tout supprimer",
-        "remove_other": "Tout supprimer"
+        "remove_other": "Tout supprimer",
+        "displayer_restore_emails_title": "Sélectionner l'email que vous souhaitez restaurer",
+        "backup_search": "Recherche de backup",
+        "clear_search_query": "NETTOYER LA RECHERCHE",
+        "import_to_contacts": "Importer dans contacts",
+        "date_created": "Date de création",
+        "end_date": "Date de fin",
+        "error_no_backup_messages": "Votre recherche n'a pas trouvé de message",
+        "folder": "Dossier",
+        "date_deleted": "Date de suppression",
+        "deleted_folder": "Dossier supprimé",
+        "last_14_days": "Les 14 derniers jours",
+        "displayer_restore_emails_description": "Une fois la récupération de l'email sélectionné terminée, \\n vous recevrez un email contenant des informations sur les résultats.",
+        "error_recovering_emails": "Erreur lors de la récupération des emails",
+        "last_30_days": "Les 30 derniers jours",
+        "recover_messages": "Messages récupérés",
+        "last_7_days": "Les 7 derniers jours",
+        "last_90_days": "Les 90 derniers jours",
+        "search_emails": "RECHERCHER LES EMAILS",
+        "recovery_period": "Sélection de la période de récupération",
+        "searching_recover_emails": "Recherche des emails à récupérer en cours",
+        "recover_selected_emails": "RÉCUPÉRER LES EMAILS SÉLECTIONNÉS",
+        "start_date": "Date de début",
+        "send_mail": "Envoyer l'email",
+        "select_recovery_date": "Sélection de la date de récupération",
+        "start_recovery": "Date de récupération",
+        "signature_size_exceed": "Une ou plusieurs informations de Signature sont requises.",
+        "start_recovery_description": "Une fois le processus terminé, vous recevrez une notification dans votre boîte de réception et trouverez les emails récupérés dans un tout nouveau dossier.",
+        "start_recovery_process": "Démarrer le processus de récupération",
+        "start_search": "Lancer la recherche",
+        "want_to_continue": "Souhaitez-vous continuer ?",
+        "recover_emails": "Le processus de récupération a commencé, vous serez informé une fois qu'il sera terminé.",
+        "search_recover_emails": "Rechercher les emails à récupérer"
     },
     "message": {
         "snackbar": {
@@ -461,7 +494,9 @@
         "enter_calendar_name": "Entrer un nom pour accepter le calendrier",
         "warning": {
             "sending_to_yourself": "Vous êtes sur le point d'envoyer un email à vous-même"
-        }
+        },
+        "recover_messages_modal_body": "Une fois le processus terminé, vous recevrez une notification dans votre boîte de réception et trouverez les emails récupérés dans un tout nouveau dossier.",
+        "searching_deleted_emails": "La recherche d'emails supprimés dans la corbeille peut prendre un certain temps. Une fois l'opération terminée, vous serez dirigé vers les résultats."
     },
     "placeholder": {
         "add_new_recipients": "Ajouter de nouveaux destinataires"
@@ -494,7 +529,8 @@
             "mark_manually": "Marquer manuellement",
             "not_changed_anything": "Aucun changement n'a été réalisé",
             "default": "Par défaut",
-            "mark_reading_panel": "Marquer comme lu"
+            "mark_reading_panel": "Marquer comme lu",
+            "recover_messages_infotext": "Récupérez les emails supprimés de la Corbeille en tapant un mot-clé inclus dans les 100 premiers caractères du message ou en sélectionnant une date.\\nLa date sélectionnée inclura les emails supprimés 3 jours avant et 3 jours après.\\nUne fois la recherche terminée, vous serez redirigé vers la page de résultats où vous pourrez choisir les éléments à restaurer."
         },
         "msg_from_optn": {
             "discard": "Rejeter le message automatiquement",
