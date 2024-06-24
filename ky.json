@@ -241,7 +241,17 @@
         "write": "Жазуу",
         "from": "-",
         "download_one": "Жүктөө",
-        "download_other": "Барын жүктөө"
+        "download_other": "Барын жүктөө",
+        "remove_one": "Өчүрүү (жок кылуу)",
+        "remove_other": "Барын өчүрүү (жок кылуу)",
+        "mail_selected_one": "{{count}} тандалып алынган электрондук почтанын дареги",
+        "mail_selected_other": "{{count}} тандалып алынган электрондук почтанын даректери",
+        "advanced_filters_one": "Өркүндөтүлгөн чыпка",
+        "advanced_filters_other": "Өркүндөтүлгөн чыпкалар",
+        "attachment_one": "Тиркеме",
+        "attachment_other": "Тиркемелер",
+        "attachment_with_count_one": "{{count}} тиркеме",
+        "attachment_with_count_other": "{{count}} тиркемелер"
     },
     "action": {
         "forward": "Кайра жөнөтүү",
@@ -566,7 +576,13 @@
             "email_restored": "кат көздөгөн папкада калыбына келтирилди",
             "folder_created": "Жаңы папка түзүлдү",
             "folder_deleted": "Папка ийгиликтүү өчүрүлдү.",
-            "mail_sent": "Билдирүү жөнөтүлдү"
+            "mail_sent": "Билдирүү жөнөтүлдү",
+            "folder_moved": "Папка ийгиликтүү жайгаштырылды",
+            "sending_mail_in_count_one": "Билдирүүңүздү {{count}} секундадан кийин жөнөтүү",
+            "sending_mail_in_count_other": "Билдирүүңүздү {{count}} секундадан кийин жөнөтүү",
+            "conversation_move": "Сүйлөшүү ийгиликтүү жылдырылды",
+            "folder_will_be_moved_in_time": "Бул папка {{RemainTime}} аркылуу жылдырылды.",
+            "message_move": "Билдирүү ийгиликтүү жылдырылды"
         },
         "trustee_addresses": "Бул даректерден же домендерден келген каттар ишенимдүү деп эсептелет жана сүрөттөр автоматтык түрдө көрсөтүлөт.",
         "cal_name_exist_warning": "Мындай аталышта календарь бар",
@@ -606,7 +622,9 @@
         "matches_wildcard_condition": "алмаштыруу шартына туура келет",
         "new_mail_optn": {
             "manually": "Кол менен",
-            "when_arrive": "Жаңы почтанын келгенине жараша"
+            "when_arrive": "Жаңы почтанын келгенине жараша",
+            "minute_one": "{{count}} мүнөт",
+            "minute_other": "{{count}} мүнөт"
         },
         "not_under": "табылган жок",
         "notify_folder_optn": {
@@ -715,7 +733,9 @@
             "visualization_options": "Визуалдаштыруу параметрлери"
         },
         "mail_unsend_time": {
-            "no_delay": "Күттүрбөстөн"
+            "no_delay": "Күттүрбөстөн",
+            "second_one": "{{count}} секунд",
+            "second_other": "{{count}} секунд"
         },
         "mark_as": "катары белгилөө",
         "mass_marketing": "массалык маркетинг (bulk)",
@@ -738,7 +758,11 @@
         "tag_with": "... жокко чыгаруу",
         "to_cc": "Кимге же СС",
         "under": "төмөндө",
-        "localpart": "локалдык бөлүк"
+        "localpart": "локалдык бөлүк",
+        "in": "-",
+        "b": "В",
+        "font_size_one": "{{count}} pt",
+        "font_size_other": "{{count}} pt"
     },
     "modals": {
         "apply_filters": {
@@ -842,7 +866,9 @@
         "resend": "Бул жарыя жөнүндө кабарлоо жөнөтүү",
         "revoke": "Кирүү мүмкүнчүлүгүн жокко чыгаруу",
         "add_attachments": "Тиркеме кошуу",
-        "disable_rich_text": "Текстти форматтоону өчүрүү"
+        "disable_rich_text": "Текстти форматтоону өчүрүү",
+        "folder_sharing_status_one": "Жалпы кирүү мүмкүнчүлүгү {{count}} пайдалануучуга берилди",
+        "folder_sharing_status_other": "Жалпы кирүү мүмкүнчүлүгү {{count}} пайдалануучуларга берилди"
     },
     "signatures": {
         "add_signature": "Кол коюу",
