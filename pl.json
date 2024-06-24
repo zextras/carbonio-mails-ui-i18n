@@ -85,7 +85,8 @@
         "preview_on_separated_window": "Otwórz w nowym oknie",
         "apply_filter_on_folder": "Zastosuj filtr na folderze",
         "create_appointment": "Stwórz spotkanie",
-        "download_eml": "Pobierz EML"
+        "download_eml": "Pobierz EML",
+        "preview_on_separated_tab": "Otwórz w nowej karcie"
     },
     "composer": {
         "attachment": {
@@ -233,7 +234,7 @@
         "workflow": "Organizacja Pracy",
         "would_like_to_share": "udostępnił(a) swój",
         "write": "Pisanie",
-        "signature_required": "Informacje dot. podpisu są wymagane.",
+        "signature_required": "Informacje o podpisie są wymagane.",
         "cc_bcc": "DW UDW",
         "from_identity": "Od: {{identity}}",
         "new_email": "Nowy e-mail",
@@ -385,7 +386,39 @@
         "attachment_many": "Załączników",
         "remove_one": "Usuń",
         "remove_few": "Usuń wszystkie",
-        "remove_many": "Usuń wszystkie"
+        "remove_many": "Usuń wszystkie",
+        "backup_search": "Wyszukiwanie w kopii zapasowej",
+        "clear_search_query": "WYCZYŚĆ WYSZUKIWANIE",
+        "date_created": "Data utworzenia",
+        "date_deleted": "Data usunięcia",
+        "end_date": "Data zakończenia",
+        "folder": "Folder",
+        "error_recovering_emails": "Błąd przy odzyskiwaniu e-maili",
+        "import_to_contacts": "Importuj do kontaktów",
+        "last_14_days": "Ostatnie 14 dni",
+        "last_30_days": "Ostatnie 30 dni",
+        "recover_messages": "Odzyskaj wiadomości",
+        "last_7_days": "Ostatnie 7 dni",
+        "last_90_days": "Ostatnie 90 dni",
+        "recover_emails": "Proces odzyskiwania się rozpoczął, poinformujemy Cię kiedy się zakończy",
+        "search_emails": "WYSZUKAJ E-MAILE",
+        "recovery_period": "Wybierz okres odzyskiwania",
+        "recover_selected_emails": "ODZYSKAJ WYBRANE E-MAILE",
+        "search_recover_emails": "Wyszukaj e-maile do odzyskania",
+        "searching_recover_emails": "Wyszukiwanie e-maili do odzyskania",
+        "send_mail": "Wyślij e-maila",
+        "select_recovery_date": "Wybierz datę odzyskiwania",
+        "signature_size_exceed": "Wymagana jest jedna lub więcej informacji o podpisie.",
+        "start_date": "Data rozpoczęcia",
+        "start_recovery": "Rozpocznij odzyskiwanie",
+        "start_recovery_process": "Rozpocznij proces odzyskiwania",
+        "start_search": "Rozpocznij wyszukiwanie",
+        "want_to_continue": "Czy chcesz kontynuować?",
+        "deleted_folder": "Usunięty folder",
+        "displayer_restore_emails_description": "Po ukończeniu wybranego odzyskiwania, otrzymasz wiadomość e-mail z informacjami dot. wyników.",
+        "error_no_backup_messages": "Nie znaleziono żadnej wiadomości",
+        "displayer_restore_emails_title": "Wybierz e-maile, które chcesz przywrócić",
+        "start_recovery_description": "Po ukończeniu procesu otrzymasz powiadomienie w Twojej skrzynce odbiorczej a odzyskane e-maile znajdziesz w nowym folderze."
     },
     "message": {
         "snackbar": {
@@ -614,7 +647,9 @@
         "enter_calendar_name": "Wprowadź nazwę, aby zaakceptować kalendarz",
         "warning": {
             "sending_to_yourself": "Wysyłasz tę wiadomość do siebie"
-        }
+        },
+        "recover_messages_modal_body": "Po ukończeniu procesu otrzymasz powiadomienie w Twojej skrzynce odbiorczej a odzyskane e-maile znajdziesz w nowym folderze.",
+        "searching_deleted_emails": "Wyszukiwanie usuniętych e-maili w koszu może zająć trochę czasu. Po ukończeniu operacji, zostaniesz przekierowany do wyników."
     },
     "settings": {
         "conv_is_participated": "w konwersacjach, w których uczestniczyłem",
@@ -634,7 +669,8 @@
             "mark_reading_panel": "Oznaczone jako przeczytane",
             "mark_manually": "Oznaczaj manualnie",
             "filter_name_required": "Nazwa filtra jest wymagana",
-            "default": "Domyślne"
+            "default": "Domyślne",
+            "recover_messages_infotext": "Odzyskaj e-maile usunięte z kosza wpisując słowo kluczowe uwzględnione w pierwszych 100 znakach wiadomości lub wybierając datę.\\nWybrana data będzie uwzględniać e-maile usunięte do 3 dni przed nią i do 3 dni po niej.\\nPo ukończeniu wyszukiwania zostaniesz przekierowany na stronę z wynikami, gdzie będziesz mógł wybrać, które elementy przywrócić."
         },
         "actions": "Czynności",
         "active_filter": "Filtr aktywny",
