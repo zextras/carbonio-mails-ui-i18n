@@ -317,7 +317,10 @@
         "no_sender": "non è specificato il mittente del messaggio",
         "upload_failed": "Caricamento non riuscito",
         "no_identity_selected": "<nessuna identità selezionata>",
-        "no_folder_selected": "Nessuna cartella selezionata"
+        "no_folder_selected": "Nessuna cartella selezionata",
+        "download_one": "Scarica",
+        "download_many": "Scaricat tutto",
+        "download_other": "Scaricat tutti"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
