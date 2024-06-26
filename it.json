@@ -61,7 +61,6 @@
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
-        "invalid_address_plural": "I seguenti indirizzi sembrano essere non validi",
         "new_email": "Nuova e-mail",
         "no_content": "Questo messaggio non ha contenuto",
         "permanent_delete_body": "Eliminando definitivamente questo elemento non sarà possibile ripristinarlo in futuro. Vuoi continuare?",
@@ -375,7 +374,8 @@
         "click_open": "Clicca per aprire",
         "apply_filter_on_folder": "Applica filtro a questa cartella",
         "select_folders": "Seleziona cartelle",
-        "preview_on_separated_window": "Apri in una nuova finestra"
+        "preview_on_separated_window": "Apri in una nuova finestra",
+        "preview_on_separated_tab": "Apri in una nuova scheda"
     },
     "folder": {
         "modal": {
