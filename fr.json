@@ -91,7 +91,7 @@
         "edit_folder_properties": "Modifier les propriétés de {{name}}",
         "filter_user": "Utilisateurs du filtre",
         "find_shares": "Trouver les partages",
-        "flash_browser_title": "Flasher le titre du navigateur",
+        "flash_browser_title": "Faire scintiller le titre du navigateur",
         "from": "De",
         "grantee": "Bénéficiaire : ",
         "highlight_tab": "Surligner l'onglet des Mails",
@@ -555,7 +555,7 @@
         },
         "read_rcpt_optn": {
             "always": "Toujours envoyer un accusé de réception",
-            "ask_me": "Demande moi",
+            "ask_me": "Me demander",
             "never": "Ne jamais envoyer d'accusé de réception"
         },
         "conv_sort_option": {
