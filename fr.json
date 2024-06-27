@@ -368,7 +368,11 @@
         "start_search": "Lancer la recherche",
         "want_to_continue": "Souhaitez-vous continuer ?",
         "recover_emails": "Le processus de récupération a commencé, vous serez informé une fois qu'il sera terminé.",
-        "search_recover_emails": "Rechercher les emails à récupérer"
+        "search_recover_emails": "Rechercher les emails à récupérer",
+        "blocked_addresses": "Liste des expéditeurs bloqués",
+        "enter_single_email_address": "Saisir l'adresse email",
+        "allowed_addresses": "Liste des expéditeurs autorisés",
+        "do_not_use_signature": "Ne pas utiliser de signature"
     },
     "message": {
         "snackbar": {
@@ -496,7 +500,10 @@
             "sending_to_yourself": "Vous êtes sur le point d'envoyer un email à vous-même"
         },
         "recover_messages_modal_body": "Une fois le processus terminé, vous recevrez une notification dans votre boîte de réception et trouverez les emails récupérés dans un tout nouveau dossier.",
-        "searching_deleted_emails": "La recherche d'emails supprimés dans la corbeille peut prendre un certain temps. Une fois l'opération terminée, vous serez dirigé vers les résultats."
+        "searching_deleted_emails": "La recherche d'emails supprimés dans la corbeille peut prendre un certain temps. Une fois l'opération terminée, vous serez dirigé vers les résultats.",
+        "invalid_sender_address": "Veuillez saisir uniquement des adresses email",
+        "allowed_addresses": "Les emails envoyés à partir d'adresses figurant sur votre liste d'expéditeurs autorisés contourneront toujours votre filtre anti-spam et atterriront directement dans votre boîte de réception.",
+        "blocked_addresses": "Les emails envoyés à partir d'adresses figurant sur la liste des expéditeurs bloqués seront automatiquement déplacés vers votre dossier spam."
     },
     "placeholder": {
         "add_new_recipients": "Ajouter de nouveaux destinataires"
