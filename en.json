@@ -527,7 +527,8 @@
         "start_search": "Start Search",
         "enter_single_email_address": "Enter email address",
         "blocked_addresses": "Blocked senders list",
-        "allowed_addresses": "Allowed senders list"
+        "allowed_addresses": "Allowed senders list",
+        "do_not_use_signature": "Do not use a signature"
     },
     "labels": {
         "compose_colin": "Compose :",
