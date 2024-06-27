@@ -524,7 +524,10 @@
         "want_to_continue": "Do you want to continue?",
         "start_recovery_description": "Once the process is completed you will receive a notification in your Inbox and find the recovered e-mails in a brand new folder.",
         "start_recovery_process": "Start recovery process",
-        "start_search": "Start Search"
+        "start_search": "Start Search",
+        "enter_single_email_address": "Enter email address",
+        "blocked_addresses": "Blocked senders list",
+        "allowed_addresses": "Allowed senders list"
     },
     "labels": {
         "compose_colin": "Compose :",
@@ -655,7 +658,10 @@
             "sending_to_yourself": "You are sending this message to yourself"
         },
         "recover_messages_modal_body": "Once the process is completed you will receive a notification in your Inbox and find the recovered e-mails in a brand new folder.",
-        "searching_deleted_emails": "Searching deleted e-mails from Trash may take some time. Once the operation is completed, you will be directed to the results."
+        "searching_deleted_emails": "Searching deleted e-mails from Trash may take some time. Once the operation is completed, you will be directed to the results.",
+        "invalid_sender_address": "Please enter only e-mail addresses",
+        "allowed_addresses": "Mails sent from addresses on your allowed senders list will always bypass your spam filter and land directly in your inbox.",
+        "blocked_addresses": "Mails sent from addresses on the blocked senders list will be automatically moved to your spam folder."
     },
     "messages,new_email": "new email",
     "modal": {
