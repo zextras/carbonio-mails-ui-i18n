@@ -418,7 +418,11 @@
         "displayer_restore_emails_description": "Po ukończeniu wybranego odzyskiwania, otrzymasz wiadomość e-mail z informacjami dot. wyników.",
         "error_no_backup_messages": "Nie znaleziono żadnej wiadomości",
         "displayer_restore_emails_title": "Wybierz e-maile, które chcesz przywrócić",
-        "start_recovery_description": "Po ukończeniu procesu otrzymasz powiadomienie w Twojej skrzynce odbiorczej a odzyskane e-maile znajdziesz w nowym folderze."
+        "start_recovery_description": "Po ukończeniu procesu otrzymasz powiadomienie w Twojej skrzynce odbiorczej a odzyskane e-maile znajdziesz w nowym folderze.",
+        "blocked_addresses": "Lista zablokowanych nadawców",
+        "do_not_use_signature": "Nie używaj podpisu",
+        "allowed_addresses": "Lista dozwolonych nadawców",
+        "enter_single_email_address": "Wprowadź adres e-mail"
     },
     "message": {
         "snackbar": {
@@ -649,7 +653,10 @@
             "sending_to_yourself": "Wysyłasz tę wiadomość do siebie"
         },
         "recover_messages_modal_body": "Po ukończeniu procesu otrzymasz powiadomienie w Twojej skrzynce odbiorczej a odzyskane e-maile znajdziesz w nowym folderze.",
-        "searching_deleted_emails": "Wyszukiwanie usuniętych e-maili w koszu może zająć trochę czasu. Po ukończeniu operacji, zostaniesz przekierowany do wyników."
+        "searching_deleted_emails": "Wyszukiwanie usuniętych e-maili w koszu może zająć trochę czasu. Po ukończeniu operacji, zostaniesz przekierowany do wyników.",
+        "invalid_sender_address": "Wprowadź tylko adresy e-mail",
+        "allowed_addresses": "E-maile wysłane przez adresy znajdujące się na Twojej liście dozwolonych nadawców zawsze będą omijać filtr spamu i będą trafiać bezpośrednio do Twojej skrzynki odbiorczej.",
+        "blocked_addresses": "E-maile wysłane przez adresy znajdujące się na liście zablokowanych nadawców zostaną automatycznie przeniesione do Twojego folderu spamu."
     },
     "settings": {
         "conv_is_participated": "w konwersacjach, w których uczestniczyłem",
