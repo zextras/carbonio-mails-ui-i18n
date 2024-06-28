@@ -11,7 +11,7 @@
             "folder_edited": "Modifiche salvate correttamente",
             "folder_empty": "Pulizia cestino completata",
             "folder_move_error": "Qualcosa è andato storto, questa cartella non è stata spostata, riprova.",
-            "folder_moved": "Cartella spostata correttamente",
+            "folder_moved": "Cartella spostata con successo",
             "folder_empty_error": "Qualcosa è andato storto, le modifiche non sono stati applicate. Riprova.",
             "folder_will_be_moved_in_time": "Questa cartella sarà spostata in {{remainingTime}}",
             "folder_wiped": "Cartella eliminata con successo",
@@ -79,7 +79,11 @@
             "popup_blocked": "Per completare l'operazione, Carbonio deve aprire una nuova finestra.\nControlla le impostazioni del tuo browser",
             "opening_blocked": "Per completare l'operazione, Carbonio deve aprire una nuova finestra.\nControlla le impostazioni del tuo browser"
         },
-        "enter_calendar_name": "Inserisci un nome per accettare il calendario"
+        "enter_calendar_name": "Inserisci un nome per accettare il calendario",
+        "invalid_sender_address": "Inserisci solo indirizzi email",
+        "warning": {
+            "sending_to_yourself": "Stai inviato questo messaggio a te stesso"
+        }
     },
     "label": {
         "cc": "Cc",
@@ -320,7 +324,46 @@
         "no_folder_selected": "Nessuna cartella selezionata",
         "download_one": "Scarica",
         "download_many": "Scaricat tutto",
-        "download_other": "Scaricat tutti"
+        "download_other": "Scaricat tutti",
+        "convert_back_to_attachment": "Riconverti come allegato",
+        "convert_to_smart_link": "Converti come smart link",
+        "create_smart_links": "crea smart link",
+        "clear_search_query": "PULISCI RICERCA",
+        "deleted_folder": "Cartella eliminata",
+        "displayer_restore_emails_title": "Seleziona le email che vuoi ripristinare",
+        "end_date": "Data di fine",
+        "folder": "Cartella",
+        "last_14_days": "Ultimi 14 giorni",
+        "last_30_days": "Ultimi 30 giorni",
+        "last_7_days": "Ultimi 7 giorni",
+        "last_90_days": "Ultimi 90 giorni",
+        "recover_emails": "Il processo di recupero è iniziato, sarai informato una volta completato",
+        "search_emails": "CERCA EMAIL",
+        "start_date": "Data di inizio",
+        "start_search": "Inizia Ricerca",
+        "want_to_continue": "Vuoi continuare?",
+        "allowed_addresses": "Elenco mittenti autorizzati",
+        "blocked_addresses": "Elenco mittenti bloccati",
+        "do_not_use_signature": "Non utilizzare una firma",
+        "import_to_contacts": "Importa in contatti",
+        "send_mail": "Invia Email",
+        "enter_single_email_address": "Inserisci indirizzo email",
+        "advanced_filters_one": "Filtro Avanzato",
+        "advanced_filters_many": "Filtri Avanzati",
+        "advanced_filters_other": "",
+        "attachment_one": "Allegato",
+        "attachment_many": "Allegati",
+        "attachment_other": "",
+        "attachment_with_count_one": "{{count}} Allegato",
+        "attachment_with_count_many": "{{count}} Allegati",
+        "attachment_with_count_other": "",
+        "mail_selected_one": "{{count}} email selezionata",
+        "mail_selected_many": "{{count}} email selezionate",
+        "mail_selected_other": "{{count}} email selezionate",
+        "remove_one": "Rimuovi",
+        "remove_many": "Rimuovi tutto",
+        "remove_other": "Rimuovi tutto",
+        "smart_links_created": "smart link creati"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -332,7 +375,10 @@
         "disable_urgent": "Disabilita Urgente",
         "enable_urgent": "Abilita Urgente",
         "folder_linked_status": "Condivisa con me",
-        "marked_as_important": "Contrassegnato come importante"
+        "marked_as_important": "Contrassegnato come importante",
+        "folder_sharing_status_one": "Condiviso con {{count}} utente",
+        "folder_sharing_status_many": "Condiviso con {{count}} utenti",
+        "folder_sharing_status_other": "Condiviso con {{count}} utenti"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -378,7 +424,9 @@
         "apply_filter_on_folder": "Applica filtro a questa cartella",
         "select_folders": "Seleziona cartelle",
         "preview_on_separated_window": "Apri in una nuova finestra",
-        "preview_on_separated_tab": "Apri in una nuova scheda"
+        "preview_on_separated_tab": "Apri in una nuova scheda",
+        "create_appointment": "Crea Appuntamento",
+        "download_eml": "Scarica EML"
     },
     "folder": {
         "modal": {
@@ -508,7 +556,10 @@
         },
         "new_mail_optn": {
             "manually": "Manualmente",
-            "when_arrive": "Quando arriva una nuova e-mail"
+            "when_arrive": "Quando arriva una nuova e-mail",
+            "minute_one": "{{count}} minuto",
+            "minute_many": "{{count}} minuti",
+            "minute_other": "{{count}} minuti"
         },
         "read_rcpt_optn": {
             "ask_me": "Chiedimi",
@@ -629,14 +680,20 @@
         },
         "font": "Carattere",
         "mail_unsend_time": {
-            "no_delay": "Nessun ritardo"
+            "no_delay": "Nessun ritardo",
+            "second_one": "{{count}} secondo",
+            "second_many": "{{count}} secondi",
+            "second_other": "{{count}} secondi"
         },
         "folder_path_required": "Seleziona una cartella di destinazione per completare l'azione \"Sposta nella cartella\".",
         "tag_name_required": "Completa il campo \"Tag\" per completare l'azione \"Tagga con\".",
         "address_required": "Completa il campo \"Indirizzo\" per completare l'azione \"Reindirizza a Indirizzo\".",
         "address": "Indirizzo",
         "remove_action": "Rimuovi questa azione",
-        "add_action": "Aggiungi nuova azione"
+        "add_action": "Aggiungi nuova azione",
+        "font_size_one": "{{count}} pt",
+        "font_size_many": "",
+        "font_size_other": ""
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
