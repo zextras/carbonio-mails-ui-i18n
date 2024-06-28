@@ -528,7 +528,8 @@
         "enter_single_email_address": "Enter email address",
         "blocked_addresses": "Blocked senders list",
         "allowed_addresses": "Allowed senders list",
-        "do_not_use_signature": "Do not use a signature"
+        "do_not_use_signature": "Do not use a signature",
+        "error_unable_load_signatures": "Unable to load signatures. Please reload or try again later."
     },
     "labels": {
         "compose_colin": "Compose :",
