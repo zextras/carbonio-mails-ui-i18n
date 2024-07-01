@@ -422,7 +422,8 @@
         "blocked_addresses": "Lista zablokowanych nadawców",
         "do_not_use_signature": "Nie używaj podpisu",
         "allowed_addresses": "Lista dozwolonych nadawców",
-        "enter_single_email_address": "Wprowadź adres e-mail"
+        "enter_single_email_address": "Wprowadź adres e-mail",
+        "error_unable_load_signatures": "Nie udało się załadować podpisów. Odśwież lub spróbuj ponownie później."
     },
     "message": {
         "snackbar": {
