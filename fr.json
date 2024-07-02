@@ -372,7 +372,8 @@
         "blocked_addresses": "Liste des expéditeurs bloqués",
         "enter_single_email_address": "Saisir l'adresse email",
         "allowed_addresses": "Liste des expéditeurs autorisés",
-        "do_not_use_signature": "Ne pas utiliser de signature"
+        "do_not_use_signature": "Ne pas utiliser de signature",
+        "error_unable_load_signatures": "Impossible de charger les signatures. Veuillez recharger ou réessayer plus tard."
     },
     "message": {
         "snackbar": {
