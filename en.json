@@ -946,5 +946,11 @@
         "marked_as_important": "Marked as important",
         "resend": "Resend mail notification about this share",
         "revoke": "Revoke access"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Horizontal View",
+            "vertical": "Vertical View"
+        }
     }
 }
