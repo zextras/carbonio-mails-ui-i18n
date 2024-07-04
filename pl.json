@@ -678,7 +678,7 @@
             "mark_manually": "Oznaczaj manualnie",
             "filter_name_required": "Nazwa filtra jest wymagana",
             "default": "Domyślne",
-            "recover_messages_infotext": "Odzyskaj e-maile usunięte z kosza wpisując słowo kluczowe uwzględnione w pierwszych 100 znakach wiadomości lub wybierając datę.\\nWybrana data będzie uwzględniać e-maile usunięte do 3 dni przed nią i do 3 dni po niej.\\nPo ukończeniu wyszukiwania zostaniesz przekierowany na stronę z wynikami, gdzie będziesz mógł wybrać, które elementy przywrócić."
+            "recover_messages_infotext": "Odzyskaj e-maile usunięte z kosza wpisując słowo kluczowe uwzględnione w pierwszych 100 znakach wiadomości lub wybierając datę.\nWybrana data będzie uwzględniać e-maile usunięte do 3 dni przed nią i do 3 dni po niej.\nPo ukończeniu wyszukiwania zostaniesz przekierowany na stronę z wynikami, gdzie będziesz mógł wybrać, które elementy przywrócić."
         },
         "actions": "Czynności",
         "active_filter": "Filtr aktywny",
@@ -943,6 +943,12 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "Rozmiar wiadomości przekracza limit. Przekształć załączniki w inteligentne linki"
+        }
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Widok horyzontalny",
+            "vertical": "Widok pionowy"
         }
     }
 }
