@@ -500,7 +500,7 @@
         "date_created": "Date created",
         "date_deleted": "Date deleted",
         "deleted_folder": "Deleted Folder",
-        "displayer_restore_emails_description": "Once the selected email recovery is complete, \\n you will receive an email with information regarding the results.",
+        "displayer_restore_emails_description": "Once the selected email recovery is complete, you will receive an email with information regarding the results.",
         "end_date": "End Date",
         "error_no_backup_messages": "Your search did not find any message",
         "error_recovering_emails": "Error recovering emails",
@@ -800,7 +800,7 @@
             "set_message_color": "Set color of messages and conversations according to tag color.",
             "unsend_time": "Set send time",
             "visualization_options": "Visualization Options",
-            "recover_messages_infotext": "Recover e-mails deleted from the Trash by typing a keyword included within the first 100 characters of the message or by selecting a date.\\nThe selected date will include emails deleted 3 days before and 3 days after.\\nOnce the search is completed you will be redirected to the results page where you can choose which items to restore."
+            "recover_messages_infotext": "Recover e-mails deleted from the Trash by typing a keyword included within the first 100 characters of the message or by selecting a date.\nThe selected date will include emails deleted 3 days before and 3 days after.\nOnce the search is completed you will be redirected to the results page where you can choose which items to restore."
         },
         "linkedin_msg": "LinkedIn messages and connections",
         "localpart": "localpart",
