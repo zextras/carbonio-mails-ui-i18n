@@ -114,7 +114,7 @@
         "go_back": "Voltar",
         "insert": "Inserir",
         "messages": "Mensagens",
-        "new_folder": "Nova pasta",
+        "new_folder": "Nova Pasta",
         "no_search_results_found": "Nenhum resultado encontrado",
         "of": "de",
         "private": "Privado",
@@ -289,7 +289,10 @@
         "convert_to_smart_link": "Converter para link inteligente",
         "create_smart_links": "criar links inteligentes",
         "no_folder_selected": "Nenhuma pasta selecionada",
-        "smart_links_created": "links inteligentes criados"
+        "smart_links_created": "links inteligentes criados",
+        "advanced_filters_one": "Filtro Avançado",
+        "advanced_filters_many": "Filtros Avançados",
+        "advanced_filters_other": "Filtros Avançados"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -347,7 +350,6 @@
             "apply_filter_rules_started": "O filtro '{{filterName}}' está sendo aplicado às mensagens da pasta '{{folderPath}}'"
         },
         "invalid_address": "O seguinte endereço parece ser inválido",
-        "invalid_address_plural": "Os seguintes endereços parecem ser inválidos",
         "modal": {
             "delete": {
                 "if_delete_lost_forever": "Se você excluir a mensagem, ela será perdida para sempre.",
