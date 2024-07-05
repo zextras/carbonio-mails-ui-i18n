@@ -28,7 +28,8 @@
         "click_preview": "Clic para visualizar",
         "mark_all_read": "Marcar todo como leído",
         "edit_anyway": "Editar de todos modos",
-        "click_open": "Clic para abrir"
+        "click_open": "Clic para abrir",
+        "apply_filter_on_folder": "Aplicar filtro en la carpeta"
     },
     "folder": {
         "modal": {
@@ -360,7 +361,6 @@
             "message_sending_aborted": "Cancelado por el usuario"
         },
         "invalid_address": "La siguiente dirección no parece válida",
-        "invalid_address_plural": "Las siguientes direcciones no parecen válidas",
         "check_and_try_again": "Verifica Carbonio e intenta nuevamente",
         "could_not_find_to_show": "Lo sentimos, no hay resultados para mostrar",
         "something_went_wrong": "ALGO SALIÓ MAL",
