@@ -29,7 +29,10 @@
         "mark_all_read": "Marcar todo como leído",
         "edit_anyway": "Editar de todos modos",
         "click_open": "Clic para abrir",
-        "apply_filter_on_folder": "Aplicar filtro en la carpeta"
+        "apply_filter_on_folder": "Aplicar filtro en la carpeta",
+        "download_eml": "Descargar EML",
+        "select_folders": "Elegir carpetas",
+        "preview_on_separated_window": "Abrir en una ventana nueva"
     },
     "folder": {
         "modal": {
