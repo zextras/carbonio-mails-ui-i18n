@@ -348,7 +348,7 @@
         "date_deleted": "Date de suppression",
         "deleted_folder": "Dossier supprimé",
         "last_14_days": "Les 14 derniers jours",
-        "displayer_restore_emails_description": "Une fois la récupération de l'email sélectionné terminée, \\n vous recevrez un email contenant des informations sur les résultats.",
+        "displayer_restore_emails_description": "Une fois la récupération de l'email sélectionné terminée, vous recevrez un email contenant des informations sur les résultats.",
         "error_recovering_emails": "Erreur lors de la récupération des emails",
         "last_30_days": "Les 30 derniers jours",
         "recover_messages": "Messages récupérés",
@@ -538,7 +538,7 @@
             "not_changed_anything": "Aucun changement n'a été réalisé",
             "default": "Par défaut",
             "mark_reading_panel": "Marquer comme lu",
-            "recover_messages_infotext": "Récupérez les emails supprimés de la Corbeille en tapant un mot-clé inclus dans les 100 premiers caractères du message ou en sélectionnant une date.\\nLa date sélectionnée inclura les emails supprimés 3 jours avant et 3 jours après.\\nUne fois la recherche terminée, vous serez redirigé vers la page de résultats où vous pourrez choisir les éléments à restaurer."
+            "recover_messages_infotext": "Récupérez les emails supprimés de la Corbeille en tapant un mot-clé inclus dans les 100 premiers caractères du message ou en sélectionnant une date.\nLa date sélectionnée inclura les emails supprimés 3 jours avant et 3 jours après.\nUne fois la recherche terminée, vous serez redirigé vers la page de résultats où vous pourrez choisir les éléments à restaurer."
         },
         "msg_from_optn": {
             "discard": "Rejeter le message automatiquement",
@@ -944,6 +944,12 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "Le message dépasse la taille limite. Merci de convertir des pièces jointes en \"smart links\""
+        }
+    },
+    "layoutView": {
+        "tooltip": {
+            "vertical": "Vue verticale",
+            "horizontal": "Vue horizontale"
         }
     }
 }
