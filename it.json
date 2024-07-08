@@ -32,7 +32,10 @@
             "message_sending_aborted": "annullato dall'utente",
             "apply_filter_rules_error": "Si è verificato un errore durante l'applicazione del filtro '{{filterName}}'",
             "apply_filter_rules_started": "Filtro '{{filterName}}' viene applicato ai messaggi della cartella '{{folderPath}}'",
-            "apply_filter_rules_completed": "Filtro '{{filterName}}' applicato correttamente a {{involvedMessagesCount}} messaggi della cartella '{{folderPath}}'"
+            "apply_filter_rules_completed": "Filtro '{{filterName}}' applicato correttamente a {{involvedMessagesCount}} messaggi della cartella '{{folderPath}}'",
+            "sending_mail_in_count_one": "Invio del messaggio tra {{count}} secondo",
+            "sending_mail_in_count_many": "Invio del messaggio tra {{count}} secondi",
+            "sending_mail_in_count_other": "Invio del messaggio tra {{count}} secondi"
         },
         "modal": {
             "delete": {
@@ -83,7 +86,11 @@
         "invalid_sender_address": "Inserisci solo indirizzi email",
         "warning": {
             "sending_to_yourself": "Stai inviato questo messaggio a te stesso"
-        }
+        },
+        "recover_messages_modal_body": "Una volta che il processo sarà completato, riceverai una notifica nella casella di posta in entrata e troverai le email ripristinate in una nuova cartella dedicata.",
+        "searching_deleted_emails": "La ricerca all'interno del cestino delle email eliminate può richiedere del tempo. Una volta che l'operazione sarà completata, verrai reindirizzato ai risultati.",
+        "blocked_addresses": "Le email inviate da indirizzi inclusi nella lista dei mittenti bloccati verranno automaticamente spostate nella cartella di spam.",
+        "allowed_addresses": "Le email inviate da un indirizzo incluso tra nella lista dei mittenti consentiti supereranno sempre il filtro spam e arriveranno direttamente nella tua casella di posta."
     },
     "label": {
         "cc": "Cc",
@@ -363,7 +370,14 @@
         "remove_one": "Rimuovi",
         "remove_many": "Rimuovi tutto",
         "remove_other": "Rimuovi tutto",
-        "smart_links_created": "smart link creati"
+        "smart_links_created": "smart link creati",
+        "search_recover_emails": "Cerca le email da ripristinare",
+        "searching_recover_emails": "Ricerca delle email da ripristinare…",
+        "start_recovery": "Inizia Ripristino",
+        "start_recovery_description": "Una volta che il processo sarà completato, riceverai una notifica nella casella di posta in entrata e troverai le email ripristinate in una nuova cartella dedicata.",
+        "start_recovery_process": "Inizia il processo di ripristino",
+        "displayer_restore_emails_description": "Una volta che il ripristino del messaggio selezionato sarà completato, riceverai un' email con le informazioni relative al risultato.",
+        "error_unable_load_signatures": "Impossibile caricare le firme. Ricarica o riprova più tardi."
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -915,5 +929,16 @@
         "subject": "Oggetto",
         "to": "A",
         "unread": "Non letto"
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "La dimensione del messaggio supera il limite consentito. Converti alcuni allegati in smart link"
+        }
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Vista Orizzontale",
+            "vertical": "Vista Verticale"
+        }
     }
 }
