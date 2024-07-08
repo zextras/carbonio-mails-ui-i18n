@@ -33,7 +33,8 @@
         "download_eml": "Baixar EML",
         "apply_filter_on_folder": "Aplicar filtro na pasta",
         "select_folders": "Selecionar pastas",
-        "preview_on_separated_window": "Abrir em uma nova janela"
+        "preview_on_separated_window": "Abrir em uma nova janela",
+        "preview_on_separated_tab": "Abrir em uma nova aba"
     },
     "folder": {
         "modal": {
@@ -292,7 +293,59 @@
         "smart_links_created": "links inteligentes criados",
         "advanced_filters_one": "Filtro Avançado",
         "advanced_filters_many": "Filtros Avançados",
-        "advanced_filters_other": "Filtros Avançados"
+        "advanced_filters_other": "Filtros Avançados",
+        "backup_search": "Busca de Backup",
+        "clear_search_query": "LIMPAR BUSCA",
+        "date_created": "Data de criação",
+        "date_deleted": "Data de exclusão",
+        "deleted_folder": "Pasta Excluída",
+        "displayer_restore_emails_title": "Selecione os e-mails que você deseja recuperar",
+        "end_date": "Data Final",
+        "error_no_backup_messages": "Sua busca não localizou nenhuma mensagem",
+        "folder": "Pasta",
+        "error_recovering_emails": "Erro ao recuperar os e-mails",
+        "import_to_contacts": "Importar para Contatos",
+        "last_14_days": "Últimos 14 dias",
+        "last_30_days": "Últimos 30 dias",
+        "recover_messages": "Recuperar Mensagens",
+        "last_7_days": "Últimos 7 dias",
+        "last_90_days": "Últimos 90 dias",
+        "recover_emails": "O processo de recuperação foi iniciado, você será avisado quando estiver concluído",
+        "search_emails": "BUSCAR E-MAILS",
+        "recovery_period": "Selecionar período de recuperação",
+        "recover_selected_emails": "RECUPERAR E-MAILS SELECIONADOS",
+        "search_recover_emails": "Buscar e-mails para recuperar",
+        "searching_recover_emails": "Buscando e-mails para recuperar",
+        "select_recovery_date": "Selecionar data de recuperação",
+        "send_mail": "Enviar E-mail",
+        "signature_size_exceed": "Uma ou mais informações de Assinatura são necessárias.",
+        "start_date": "Data de Início",
+        "start_recovery": "Iniciar Recuperação",
+        "start_recovery_process": "Iniciar processo de recuperação",
+        "start_search": "Iniciar Busca",
+        "want_to_continue": "Deseja continuar?",
+        "enter_single_email_address": "Inserir endereço de e-mail",
+        "blocked_addresses": "Lista de remetentes bloqueados",
+        "allowed_addresses": "Lista de remetentes permitidos",
+        "do_not_use_signature": "Não usar uma assinatura",
+        "start_recovery_description": "Quando o processo for concluído, você receberá uma notificação na sua caixa de entrada e encontrará os e-mails recuperados em uma nova pasta.",
+        "displayer_restore_emails_description": "Uma vez concluída a recuperação do e-mail selecionado, você irá receber um e-mail com informações sobre os resultados.",
+        "error_unable_load_signatures": "Não foi possível carregar as assinaturas. Recarregue ou tente novamente mais tarde.",
+        "attachment_with_count_one": "{{count}} Anexo",
+        "attachment_with_count_many": "{{count}} Anexos",
+        "attachment_with_count_other": "{{count}} Anexos",
+        "attachment_one": "Anexo",
+        "attachment_many": "Anexos",
+        "attachment_other": "Anexos",
+        "download_one": "Baixar",
+        "download_many": "Baixar tudo",
+        "download_other": "Baixar tudo",
+        "mail_selected_one": "{{count}} e-mail selecionado",
+        "mail_selected_many": "{{count}} e-mails selecionados",
+        "mail_selected_other": "{{count}} e-mails selecionados",
+        "remove_one": "Remover",
+        "remove_many": "Remover tudo",
+        "remove_other": "Remover tudo"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -347,7 +400,10 @@
             "message_sending_aborted": "cancelado pelo usuário",
             "apply_filter_rules_completed": "O filtro '{{filterName}}' foi aplicado com sucesso a {{involvedMessagesCount}} mensagens da pasta '{{folderPath}}'",
             "apply_filter_rules_error": "Erro ao aplicar o filtro '{{filterName}}'",
-            "apply_filter_rules_started": "O filtro '{{filterName}}' está sendo aplicado às mensagens da pasta '{{folderPath}}'"
+            "apply_filter_rules_started": "O filtro '{{filterName}}' está sendo aplicado às mensagens da pasta '{{folderPath}}'",
+            "sending_mail_in_count_one": "Enviando sua mensagem em {{count}} segundo",
+            "sending_mail_in_count_many": "Enviando sua mensagem em {{count}} segundos",
+            "sending_mail_in_count_other": "Enviando sua mensagem em {{count}} segundos"
         },
         "invalid_address": "O seguinte endereço parece ser inválido",
         "modal": {
@@ -397,7 +453,12 @@
         "enter_calendar_name": "Digite um nome para aceitar o calendário",
         "warning": {
             "sending_to_yourself": "Você está enviando essa mensagem para si mesmo"
-        }
+        },
+        "recover_messages_modal_body": "Quando o processo for concluído, você receberá uma notificação na sua caixa de entrada e encontrará os e-mails recuperados em uma nova pasta.",
+        "searching_deleted_emails": "A busca de e-mails excluídos da Lixeira pode levar algum tempo. Quando a operação for concluída, você será redirecionado para os resultados.",
+        "allowed_addresses": "Os e-mails enviados desses endereços na sua lista de remetentes permitidos sempre vão burlar o filtro de spam e aparecer na sua caixa de entrada.",
+        "invalid_sender_address": "Insira apenas endereços de e-mail",
+        "blocked_addresses": "Os e-mails enviados desses endereços na lista de remetentes bloqueados serão automaticamente movidos para a sua pasta de spam."
     },
     "placeholder": {
         "add_new_recipients": "Adicionar destinatários"
@@ -455,7 +516,8 @@
             "default": "Padrão",
             "filter_name_required": "O nome do filtro é requerido",
             "mark_manually": "Marcar manualmente",
-            "not_changed_anything": "Nenhuma alteração foi feita"
+            "not_changed_anything": "Nenhuma alteração foi feita",
+            "recover_messages_infotext": "Recupere e-mails excluídos da Lixeira digitando uma palavra-chave incluída nos primeiros 100 caracteres da mensagem ou selecionando uma data.\nA data selecionada vai incluir os e-mails excluídos 3 dias antes e 3 dias depois.\nQuando a busca for concluída, você será redirecionado para a página de resultados, onde poderá escolher quais itens restaurar."
         },
         "msg_from_optn": {
             "discard": "Descartar mensagem automaticamente",
@@ -469,7 +531,10 @@
         },
         "new_mail_optn": {
             "manually": "Manualmente",
-            "when_arrive": "À medida que cheguem novos e-mails"
+            "when_arrive": "À medida que cheguem novos e-mails",
+            "minute_one": "{{count}} minuto",
+            "minute_many": "{{count}} minutos",
+            "minute_other": "{{count}} minutos"
         },
         "read_rcpt_optn": {
             "always": "Sempre enviar uma confirmação de leitura",
@@ -576,14 +641,20 @@
             "comic": "Comic"
         },
         "mail_unsend_time": {
-            "no_delay": "Sem atraso"
+            "no_delay": "Sem atraso",
+            "second_one": "{{count}} segundo",
+            "second_many": "{{count}} segundos",
+            "second_other": "{{count}} segundos"
         },
         "address": "Endereço",
         "address_required": "Preencha o campo \"Endereço\" para completar a ação \"Redirecionar para\".",
         "tag_name_required": "Selecionar marcador a fim de completar a ação \"Aplicar marcador\".",
         "folder_path_required": "Selecione a pasta de destino a fim de completar a ação \" Mover para pasta\".",
         "add_action": "Adicionar nova ação",
-        "remove_action": "Remover ação"
+        "remove_action": "Remover ação",
+        "font_size_one": "{{count}} ponto",
+        "font_size_many": "{{count}} pontos",
+        "font_size_other": "{{count}} pontos"
     },
     "composer": {
         "attachment": {
@@ -655,7 +726,10 @@
         "enable_rich_text": "Ativar editor de texto enriquecido",
         "enable_urgent": "Ativar Urgente",
         "folder_linked_status": "Compartilhado comigo",
-        "marked_as_important": "Marcar como importante"
+        "marked_as_important": "Marcar como importante",
+        "folder_sharing_status_one": "Compartilhado com {{count}} usuário",
+        "folder_sharing_status_many": "Compartilhado com {{count}} usuários",
+        "folder_sharing_status_other": "Compartilhado com {{count}} usuários"
     },
     "folder_panel": {
         "modal": {
@@ -870,6 +944,12 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "O tamanho da mensagem excedeu o limite. Transforme alguns anexos em links inteligentes"
+        }
+    },
+    "layoutView": {
+        "tooltip": {
+            "vertical": "Visualização Vertical",
+            "horizontal": "Visualização Horizontal"
         }
     }
 }
