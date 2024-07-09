@@ -42,7 +42,12 @@
         "click_preview": "คลิกเพื่อดูตัวอย่าง",
         "mark_all_read": "ทำเครื่องหมายทั้งหมดว่าอ่านแล้ว",
         "edit_anyway": "แก้ไขต่อไป",
-        "click_open": "คลิกเพื่อเปิด"
+        "click_open": "คลิกเพื่อเปิด",
+        "apply_filter_on_folder": "ใช้ตัวกรองในโฟลเดอร์",
+        "select_folders": "เลือกโฟลเดอร์",
+        "preview_on_separated_window": "เปิดในหน้าต่างใหม่",
+        "create_appointment": "สร้างการนัดหมาย",
+        "download_eml": "ดาวน์โหลด EML"
     },
     "folders": {
         "trash": "ถังขยะ",
@@ -787,6 +792,11 @@
     "modal": {
         "delete_draft": {
             "message1": "คุณต้องการเก็บฉบับร่างนี้ไว้หรือลบทิ้ง?"
+        }
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "ขนาดข้อความเกินขีดจำกัด โปรดแปลงไฟล์แนบบางส่วนเป็นสมาร์ทลิงก์"
         }
     }
 }
