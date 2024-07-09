@@ -33,7 +33,8 @@
         "download_eml": "Unduh EML",
         "apply_filter_on_folder": "Terapkan filter pada folder",
         "preview_on_separated_window": "Buka di jendela baru",
-        "select_folders": "Pilih folder"
+        "select_folders": "Pilih folder",
+        "preview_on_separated_tab": "Buka di tab baru"
     },
     "folder": {
         "modal": {
@@ -308,7 +309,47 @@
         "missing_recipients": "tidak ada penerima yang valid",
         "remove_other": "Hapus semua",
         "smart_links_created": "tautan cerdas dibuat",
-        "upload_failed": "Gagal mengunggah"
+        "upload_failed": "Gagal mengunggah",
+        "displayer_restore_emails_title": "Pilih email yang ingin Anda pulihkan",
+        "backup_search": "Pencarian Cadangan",
+        "clear_search_query": "BERSIHKAN PENCARIAN",
+        "deleted_folder": "Folder yang Dihapus",
+        "end_date": "Tanggal Selesai",
+        "error_no_backup_messages": "Pencarian Anda tidak menemukan hasil apa pun",
+        "folder": "Folder",
+        "error_recovering_emails": "Terjadi kesalahan saat memulihkan email",
+        "import_to_contacts": "Impor ke Kontak",
+        "last_14_days": "14 hari terakhir",
+        "last_30_days": "30 hari terakhir",
+        "recover_messages": "Pulihkan Pesan",
+        "last_7_days": "7 hari terakhir",
+        "last_90_days": "90 hari terakhir",
+        "recover_emails": "Proses pemulihan telah dimulai, Anda akan diberitahu setelah selesai",
+        "search_emails": "CARI EMAIL",
+        "recovery_period": "Pilih periode pemulihan",
+        "recover_selected_emails": "PULIHKAN EMAIL YANG DIPILIH",
+        "search_recover_emails": "Cari email yang akan dipulihkan",
+        "start_date": "Tanggal Mulai",
+        "searching_recover_emails": "Sedang mencari email yang akan dipulihkan",
+        "select_recovery_date": "Pilih tanggal pemulihan",
+        "start_recovery": "Mulai Pemulihan",
+        "signature_size_exceed": "Diperlukan satu informasi Tanda Tangan atau lebih.",
+        "start_recovery_process": "Mulai proses pemulihan",
+        "start_recovery_description": "Setelah proses selesai, Anda akan menerima notifikasi di Kotak Masuk dan menemukan email yang dipulihkan di folder baru.",
+        "start_search": "Mulai Pencarian",
+        "want_to_continue": "Anda ingin melanjutkan?",
+        "blocked_addresses": "Daftar pengirim yang diblokir",
+        "allowed_addresses": "Daftar pengirim yang diizinkan",
+        "do_not_use_signature": "Jangan gunakan tanda tangan",
+        "send_mail": "Kirim Email",
+        "error_unable_load_signatures": "Tidak dapat memuat tanda tangan. Muat ulang atau coba lagi nanti.",
+        "displayer_restore_emails_description": "Setelah pemulihan email yang dipilih selesai, Anda akan menerima email berisi informasi tentang hasilnya.",
+        "date_deleted": "Tanggal penghapusan",
+        "date_created": "Tanggal pembuatan",
+        "enter_single_email_address": "Masukkan alamat email",
+        "missing_sender": "pengirim pesan belum diatur",
+        "no_identity_selected": "<Tidak ada identitas yang dipilih>",
+        "no_sender": "pengirim pesan belum diatur"
     },
     "messages": {
         "snackbar": {
@@ -342,7 +383,9 @@
             "tag_updated": "Tag berhasil diperbarui",
             "apply_filter_rules_error": "Terjadi kesalahan saat menerapkan filter '{{filterName}}'",
             "message_sending_aborted": "dibatalkan oleh pengguna",
-            "sending_mail_in_count_other": "Mengirim pesan Anda dalam {{count}} detik"
+            "sending_mail_in_count_other": "Mengirim pesan Anda dalam {{count}} detik",
+            "apply_filter_rules_started": "Filter '{{filterName}}' diterapkan ke pesan di folder '{{folderPath}}'",
+            "apply_filter_rules_completed": "Filter '{{filterName}}' berhasil diterapkan ke {{involvedMessagesCount}} pesan di folder '{{folderPath}}'"
         },
         "modal": {
             "delete": {
@@ -366,7 +409,8 @@
                 "no_attachments": "Anda tidak melampirkan file apa pun.",
                 "no_subject": "Subjek email kosong.",
                 "no_subject_no_attachments": "Subjek email kosong dan Anda tidak melampirkan file apa pun.",
-                "second": "Anda ingin tetap mengirim email?"
+                "second": "Anda ingin tetap mengirim email?",
+                "subject": "Subjek tidak ada"
             }
         },
         "new_email": "Email baru",
@@ -388,7 +432,15 @@
             "opening_blocked": "Untuk menyelesaikan operasi, Carbonio perlu membuka jendela baru.\nPeriksa pengaturan browser Anda",
             "popup_blocked": "Untuk menyelesaikan operasi, Carbonio perlu membuka jendela baru.\nPeriksa pengaturan browser Anda"
         },
-        "enter_calendar_name": "Masukkan nama untuk menerima kalender"
+        "enter_calendar_name": "Masukkan nama untuk menerima kalender",
+        "recover_messages_modal_body": "Setelah proses selesai, Anda akan menerima notifikasi di Kotak Masuk dan menemukan email yang dipulihkan di folder baru.",
+        "searching_deleted_emails": "Diperlukan waktu untuk mencari email yang dihapus dari Tempat Sampah. Setelah operasi selesai, Anda akan diarahkan ke hasilnya.",
+        "invalid_sender_address": "Hanya masukkan alamat email",
+        "allowed_addresses": "Email yang dikirim dari alamat di daftar pengirim yang diizinkan akan selalu melewati filter spam dan langsung masuk ke kotak masuk Anda.",
+        "blocked_addresses": "Email yang dikirim dari alamat di daftar pengirim yang diblokir akan otomatis dipindahkan ke folder spam Anda.",
+        "warning": {
+            "sending_to_yourself": "Anda mengirim pesan ini ke diri Anda sendiri"
+        }
     },
     "placeholder": {
         "add_new_recipients": "Tambahkan penerima baru"
@@ -450,7 +502,8 @@
             "mark_reading_panel": "Tandai sebagai dibaca",
             "not_changed_anything": "Tidak membuat perubahan apa pun",
             "mark_manually": "Tandai Secara Manual",
-            "filter_name_required": "Nama filter wajib diisi"
+            "filter_name_required": "Nama filter wajib diisi",
+            "recover_messages_infotext": "Pulihkan email yang dihapus dari Tempat Sampah dengan mengetik kata kunci yang disertakan dalam 100 karakter pesan atau dengan memilih tanggal.\nTanggal yang dipilih akan mencakup email yang dihapus 3 hari sebelum dan 3 hari sesudahnya.\nSetelah pencarian selesai, Anda akan diarahkan kembali ke halaman hasil dan memilih item yang akan dipulihkan."
         },
         "msg_from_optn": {
             "discard": "Hapus pesan secara otomatis",
@@ -580,7 +633,8 @@
         "remove_action": "Hapus tindakan ini",
         "folder_path_required": "Pilih folder tujuan untuk menyelesaikan tindakan \"Pindahkan ke folder\".",
         "address_required": "Isi di kolom \"Alamat\" untuk menyelesaikan tindakan \"Alihkan ke Alamat\".",
-        "add_action": "Tambahkan tindakan baru"
+        "add_action": "Tambahkan tindakan baru",
+        "font_size_other": "{{count}} pt"
     },
     "composer": {
         "attachment": {
@@ -652,7 +706,8 @@
         "enable_rich_text": "Aktifkan editor teks kaya",
         "enable_urgent": "Aktifkan mendesak",
         "folder_linked_status": "Dibagikan dengan saya",
-        "marked_as_important": "Ditandai sebagai penting"
+        "marked_as_important": "Ditandai sebagai penting",
+        "folder_sharing_status_other": "Dibagikan dengan {{count}} pengguna"
     },
     "folder_panel": {
         "modal": {
@@ -776,7 +831,7 @@
     "email_status": {
         "unread": "belum dibaca",
         "unforwarded": "tidak diteruskan",
-        "unflagged": "tidak dibenderai",
+        "unflagged": "tidak diberi tanda bendera",
         "tome": "ke saya",
         "sent": "dikirim oleh saya",
         "received": "diterima saya",
@@ -832,7 +887,47 @@
         "apply_filters": {
             "button_apply": "Terapkan",
             "label_confirm_request": "Anda ingin menerapkan filter?",
-            "title": "Filter aplikasi \"{{filterName}}\""
+            "title": "Filter aplikasi \"{{filterName}}\"",
+            "label_involved_messages": "<0>{{involvedMessagesCount}} pesan</0> akan diproses di dalam folder yang dipilih."
+        }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "sizeDescending": "Urutan turun berdasarkan Ukuran",
+            "flaggedDescending": "Urutan turun berdasarkan Diberi Tanda Bendera",
+            "dateAscending": "Urutan naik berdasarkan Ukuran",
+            "dateDescending": "Urutan turun berdasarkan Tanggal",
+            "fromAscending": "Urutan naik berdasarkan Dari",
+            "flaggedAscending": "Urutan naik berdasarkan Diberi Tanda Bendera",
+            "fromDescending": "Urutan turun berdasarkan Dari",
+            "importantAscending": "Urutan naik berdasarkan Penting",
+            "importantDescending": "Urutan turun berdasarkan Penting",
+            "subjectAscending": "Urutan naik berdasarkan Subjek",
+            "subjectDescending": "Urutan turun berdasarkan Subjek",
+            "toAscending": "Urutan naik berdasarkan Kepada",
+            "toDescending": "Urutan turun berdasarkan Kepada",
+            "unreadAscending": "Urutan naik berdasarkan Belum Dibaca",
+            "unreadDescending": "Urutan turun berdasarkan Belum Dibaca",
+            "attachmentAscending": "Urutan naik berdasarkan Lampiran",
+            "attachmentDescending": "Urutan turun berdasarkan Lampiran"
+        }
+    },
+    "sorting_dropdown": {
+        "unread": "Belum dibaca",
+        "attachment": "Lampiran",
+        "descendingOrder": "Urutan turun",
+        "flagged": "Diberi tanda bendera",
+        "ascendingOrder": "Urutan naik",
+        "date": "Tanggal",
+        "from": "Dari",
+        "important": "Penting",
+        "subject": "Subjek",
+        "to": "Kepada"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Tampilan Horisontal",
+            "vertical": "Tampilan Vertikal"
         }
     }
 }
