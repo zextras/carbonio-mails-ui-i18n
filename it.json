@@ -377,7 +377,14 @@
         "start_recovery_description": "Una volta che il processo sarà completato, riceverai una notifica nella casella di posta in entrata e troverai le email ripristinate in una nuova cartella dedicata.",
         "start_recovery_process": "Inizia il processo di ripristino",
         "displayer_restore_emails_description": "Una volta che il ripristino del messaggio selezionato sarà completato, riceverai un' email con le informazioni relative al risultato.",
-        "error_unable_load_signatures": "Impossibile caricare le firme. Ricarica o riprova più tardi."
+        "error_unable_load_signatures": "Impossibile caricare le firme. Ricarica o riprova più tardi.",
+        "error_no_backup_messages": "La ricerca non ha trovato alcun messaggio",
+        "error_recovering_emails": "Errore durante il ripristino delle email",
+        "recover_messages": "Ripristina Email",
+        "recovery_period": "Seleziona periodo di ripristino",
+        "recover_selected_emails": "RIPRISTINA LE EMAIL SELEZIONATE",
+        "date_created": "Creata il",
+        "date_deleted": "Eliminata il"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
