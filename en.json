@@ -498,7 +498,7 @@
         "clear_search_query": "CLEAR SEARCH",
         "last_7_days": "Last 7 days",
         "date_created": "Creation date",
-        "date_deleted": "Date deleted",
+        "date_deleted": "Deletion date",
         "deleted_folder": "Deleted Folder",
         "displayer_restore_emails_description": "Once the selected email recovery is complete, you will receive an email with information regarding the results.",
         "end_date": "End Date",
