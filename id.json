@@ -28,7 +28,12 @@
         "click_preview": "Klik untuk melihat pratinjau",
         "mark_all_read": "Tandai semua sebagai telah dibaca",
         "edit_anyway": "Tetap edit",
-        "click_open": "Klik untuk membuka"
+        "click_open": "Klik untuk membuka",
+        "create_appointment": "Buat Janji Temu",
+        "download_eml": "Unduh EML",
+        "apply_filter_on_folder": "Terapkan filter pada folder",
+        "preview_on_separated_window": "Buka di jendela baru",
+        "select_folders": "Pilih folder"
     },
     "folder": {
         "modal": {
@@ -284,7 +289,26 @@
         "time": "Waktu",
         "all_items_selected": "Semua item yang terlihat telah dipilih",
         "do_not_have_perm": "Anda tidak memiliki izin",
-        "folder_not_valid_destination": "Folder tujuan yang dipilih tidak valid"
+        "folder_not_valid_destination": "Folder tujuan yang dipilih tidak valid",
+        "message_send_in_progress": "pengiriman pesan sedang berlangsung",
+        "attachment_upload_in_progress": "pengunggahan lampiran sedang berlangsung",
+        "advanced_filters_other": "Filter Lanjutan",
+        "download_other": "Unduh semua",
+        "attachment_other": "Lampiran",
+        "attachment_with_count_other": "{{count}} Lampiran",
+        "convert_back_to_attachment": "Konversikan kembali ke lampiran",
+        "convert_to_smart_link": "Konversikan ke tautan cerdas",
+        "create_smart_links": "buat tautan cerdas",
+        "errors": {
+            "upload_failed_generic": "Gagal mengunggah file \"{{filename}}\""
+        },
+        "invalid_recipients": "Alamat penerima salah dieja",
+        "mail_selected_other": "{{count}} email dipilih",
+        "no_folder_selected": "Tidak ada folder yang dipilih",
+        "missing_recipients": "tidak ada penerima yang valid",
+        "remove_other": "Hapus semua",
+        "smart_links_created": "tautan cerdas dibuat",
+        "upload_failed": "Gagal mengunggah"
     },
     "messages": {
         "snackbar": {
@@ -315,7 +339,10 @@
             "tag_not_updated": "Terjadi kesalahan. Tag tidak diperbarui. Coba lagi nanti.",
             "tag_created": "Tag {{name}} berhasil dibuat",
             "tag_deleted": "Tag {{name}} berhasil dihapus",
-            "tag_updated": "Tag berhasil diperbarui"
+            "tag_updated": "Tag berhasil diperbarui",
+            "apply_filter_rules_error": "Terjadi kesalahan saat menerapkan filter '{{filterName}}'",
+            "message_sending_aborted": "dibatalkan oleh pengguna",
+            "sending_mail_in_count_other": "Mengirim pesan Anda dalam {{count}} detik"
         },
         "modal": {
             "delete": {
@@ -432,7 +459,8 @@
         },
         "new_mail_optn": {
             "manually": "Secara manual",
-            "when_arrive": "Saat email baru masuk"
+            "when_arrive": "Saat email baru masuk",
+            "minute_other": "{{count}} menit"
         },
         "read_rcpt_optn": {
             "ask_me": "Tanya saya",
@@ -544,7 +572,8 @@
             "comic": "Comic"
         },
         "mail_unsend_time": {
-            "no_delay": "Tidak ada penundaan"
+            "no_delay": "Tidak ada penundaan",
+            "second_other": "{{count}} detik"
         },
         "address": "Alamat",
         "tag_name_required": "Isi kolom \"Tandai\" untuk menyelesaikan tindakan \"Tandai bersama\".",
@@ -599,7 +628,9 @@
         "schedule_time": "untuk {{date}} pukul {{time}}",
         "send_later_success": "Email Anda akan dikirim pada {{date}} pukul {{time}}",
         "delete_attachment_message1": "Lampiran Anda akan dihapus permanen dari Carbonio.",
-        "delete_attachment_message2": "Ingin mengunduhnya dulu?"
+        "delete_attachment_message2": "Ingin mengunduhnya dulu?",
+        "copy": "Salin",
+        "send_email": "Kirim email"
     },
     "snackbar": {
         "share_resend": "Undangan berbagi dikirim ulang",
@@ -608,7 +639,8 @@
         "folder_shared": "Folder dibagikan",
         "email_moved_to_trash": "Email dipindahkan ke Sampah",
         "tag_applied": "Tag \"{{tag}}\" diterapkan",
-        "tag_removed": "Tag \"{{tag}}: dihapus"
+        "tag_removed": "Tag \"{{tag}}: dihapus",
+        "email_copied_to_clipboard": "Email disalin ke clipboard."
     },
     "tooltip": {
         "add_attachments": "Tambahkan lampiran",
@@ -685,7 +717,8 @@
         "filter_note": "Catatan: perubahan pada aturan filter disimpan langsung",
         "incoming_msg_filters": "Filter Pesan Masuk",
         "outgoing_message_filters": "Filter Pesan Keluar",
-        "run": "Jalankan"
+        "run": "Jalankan",
+        "apply": "Terapkan"
     },
     "signatures": {
         "name": "Nama",
@@ -787,6 +820,19 @@
     "modal": {
         "delete_draft": {
             "message1": "Anda ingin menyimpan draf ini atau menghapusnya?"
+        }
+    },
+    "messages,new_email": "email baru",
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "Ukuran pesan melebihi batas. Konversikan beberapa lampiran ke tautan cerdas"
+        }
+    },
+    "modals": {
+        "apply_filters": {
+            "button_apply": "Terapkan",
+            "label_confirm_request": "Anda ingin menerapkan filter?",
+            "title": "Filter aplikasi \"{{filterName}}\""
         }
     }
 }
