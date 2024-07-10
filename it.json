@@ -576,7 +576,8 @@
             "mark_reading_panel": "Contrassegna come letto",
             "filter_name_required": "Il nome del filtro è obbligatorio",
             "mark_manually": "Contrassegna manualmente",
-            "default": "Predefinito"
+            "default": "Predefinito",
+            "recover_messages_infotext": "Ripristina dal cestino le email eliminate digitando una parola che è inclusa nei primi 100 caratteri del messaggio oppure seleziona una data di riferimento.\nSelezionando una data, verranno incluse tutte le email che sono state eliminate sia tre giorni prima sia 3 giorni dopo rispetto alla stessa.\nUna volta che la ricerca sarà completata, verrai reindirizzato alla pagina dei risultati dove potrai scegliere quali elementi ripristinare."
         },
         "new_mail_optn": {
             "manually": "Manualmente",
