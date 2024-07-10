@@ -384,7 +384,10 @@
         "recovery_period": "Seleziona periodo di ripristino",
         "recover_selected_emails": "RIPRISTINA LE EMAIL SELEZIONATE",
         "date_created": "Creata il",
-        "date_deleted": "Eliminata il"
+        "date_deleted": "Eliminata il",
+        "backup_search": "Ricerca Backup",
+        "select_recovery_date": "Seleziona data da ripristinare",
+        "signature_size_exceed": "Una o più firme superano la dimensione massima."
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
