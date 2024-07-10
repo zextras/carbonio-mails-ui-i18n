@@ -333,7 +333,7 @@
         "searching_recover_emails": "Sedang mencari email yang akan dipulihkan",
         "select_recovery_date": "Pilih tanggal pemulihan",
         "start_recovery": "Mulai Pemulihan",
-        "signature_size_exceed": "Diperlukan satu informasi Tanda Tangan atau lebih.",
+        "signature_size_exceed": "Diperlukan satu tanda tangan atau lebih melebihi batas ukuran.",
         "start_recovery_process": "Mulai proses pemulihan",
         "start_recovery_description": "Setelah proses selesai, Anda akan menerima notifikasi di Kotak Masuk dan menemukan email yang dipulihkan di folder baru.",
         "start_search": "Mulai Pencarian",
