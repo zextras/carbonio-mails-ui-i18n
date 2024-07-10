@@ -726,7 +726,7 @@
         "revoke": "Révoquer les accès",
         "enable_rich_text": "Activer l'éditeur de texte riche",
         "marked_as_important": "Marquer comme important",
-        "folder_linked_status": "Partagés avec moi",
+        "folder_linked_status": "Partagé avec moi",
         "folder_sharing_status_one": "Partagé avec {{count}} utilisateur",
         "folder_sharing_status_many": "Partagé avec {{count}} utilisateurs",
         "folder_sharing_status_other": "Partagé avec {{count}} utilisateurs"
