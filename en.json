@@ -519,7 +519,7 @@
         "search_recover_emails": "Search e-mails to recover",
         "start_date": "Start Date",
         "send_mail": "Send E-mail",
-        "signature_size_exceed": "One or more Signature information is required.",
+        "signature_size_exceed": "One or more signatures exceed the size limit.",
         "start_recovery": "Start Recovery",
         "want_to_continue": "Do you want to continue?",
         "start_recovery_description": "Once the process is completed you will receive a notification in your Inbox and find the recovered e-mails in a brand new folder.",
