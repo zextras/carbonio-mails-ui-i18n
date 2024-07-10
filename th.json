@@ -47,7 +47,8 @@
         "select_folders": "เลือกโฟลเดอร์",
         "preview_on_separated_window": "เปิดในหน้าต่างใหม่",
         "create_appointment": "สร้างการนัดหมาย",
-        "download_eml": "ดาวน์โหลด EML"
+        "download_eml": "ดาวน์โหลด EML",
+        "preview_on_separated_tab": "เปิดในแท็บใหม่"
     },
     "folders": {
         "trash": "ถังขยะ",
@@ -90,7 +91,7 @@
         "from": "จาก",
         "highlight_tab": "ไฮไลท์แท็บจดหมาย",
         "keywords": "คำหลัก",
-        "no_subject": "ไม่มีหัวข้อ",
+        "no_subject": "ไม่มีหัวเรื่อง",
         "owner": "เจ้าของ ",
         "receive_message": "การรับข้อความ",
         "role": "บทบาท: ",
@@ -99,7 +100,7 @@
         "sent": "ส่งแล้ว",
         "shares_folder_edit": "การแชร์ของโฟลเดอร์นี้",
         "show_popup": "แสดงการแจ้งเตือนแบบป๊อปอัป",
-        "subject": "หัวข้อ",
+        "subject": "หัวเรื่อง",
         "to": "ถึง",
         "type": "ประเภท",
         "type_name_here": "ชื่อรายการ",
@@ -209,15 +210,15 @@
         "preview": "ดูตัวอย่าง",
         "tags": "แท็ก",
         "contact_folder": "โฟลเดอร์ผู้ติดต่อ",
-        "save_to_files": "บันทึกลงในไฟล์",
+        "save_to_files": "บันทึกลงใน Files",
         "calendar": "ปฏิทิน",
         "confirm": "ยืนยัน",
         "create_and_move": "สร้างและย้าย",
         "error": "ผิดพลาด",
-        "no_subject_with_tags": "<ไม่มีหัวข้อ>",
+        "no_subject_with_tags": "<ไม่มีหัวเรื่อง>",
         "invalid_destination": "โหนดนี้ไม่ใช่ปลายทางที่ถูกต้อง",
         "notification_folders": "การแจ้งเตือนโฟลเดอร์",
-        "upload_from_files": "อัปโหลดจากไฟล์",
+        "upload_from_files": "อัปโหลดจาก Files",
         "notification_audio": "เล่นเสียงเมื่อมีการแจ้งเตือนใหม่ปรากฏขึ้น",
         "view_images": "ดูภาพ",
         "share_public_link": "แชร์ลิงก์สาธารณะ",
@@ -271,7 +272,7 @@
         "choose_file": "เลือกไฟล์",
         "deselect_all": "ยกเลิกการเลือกทั้งหมด",
         "extra_window": {
-            "save_to_files_disabled": "บันทึกลงในไฟล์"
+            "save_to_files_disabled": "บันทึกลงใน Files"
         },
         "extra_windows": {
             "opening_blocked": {
@@ -289,7 +290,66 @@
         "exit_selection_mode": "ออกจากโหมดการเลือก",
         "time": "เวลา",
         "do_not_have_perm": "คุณไม่ได้รับอนุญาต",
-        "folder_not_valid_destination": "โฟลเดอร์ที่เลือกไม่ใช่ปลายทางที่ถูกต้อง"
+        "folder_not_valid_destination": "โฟลเดอร์ที่เลือกไม่ใช่ปลายทางที่ถูกต้อง",
+        "message_send_in_progress": "อยู่ระหว่างการส่งข้อความ",
+        "missing_recipients": "ไม่มีผู้รับที่ถูกต้อง",
+        "no_sender": "ไม่ได้ตั้งค่าผู้ส่งข้อความ",
+        "backup_search": "ค้นหาข้อมูลสำรอง",
+        "clear_search_query": "ล้างการค้นหา",
+        "deleted_folder": "โฟลเดอร์ที่ลบ",
+        "displayer_restore_emails_title": "เลือกอีเมลที่คุณต้องการกู้คืน",
+        "end_date": "วันที่สุดท้าย",
+        "error_recovering_emails": "ข้อผิดพลาดในการกู้คืนอีเมล",
+        "folder": "โฟลเดอร์",
+        "import_to_contacts": "นำเข้าไปยังผู้ติดต่อ",
+        "last_14_days": "14 วันที่ผ่านมา",
+        "last_30_days": "30 วันที่ผ่านมา",
+        "recover_messages": "กู้คืนข้อความ",
+        "last_7_days": "7 วันที่ผ่านมา",
+        "last_90_days": "90 วันที่ผ่านมา",
+        "search_emails": "ค้นหาอีเมล",
+        "recovery_period": "เลือกระยะเวลาการกู้คืน",
+        "search_recover_emails": "ค้นหาอีเมลเพื่อกู้คืน",
+        "searching_recover_emails": "กำลังค้นหาอีเมลเพื่อกู้คืน",
+        "select_recovery_date": "เลือกวันที่กู้คืน",
+        "start_date": "วันที่เริ่มต้น",
+        "start_recovery": "เริ่มการกู้คืน",
+        "start_recovery_process": "เริ่มกระบวนการกู้คืน",
+        "start_search": "เริ่มค้นหา",
+        "want_to_continue": "คุณต้องการดำเนินการต่อหรือไม่?",
+        "enter_single_email_address": "ป้อนที่อยู่อีเมล",
+        "blocked_addresses": "รายชื่อผู้ส่งที่ถูกบล็อก",
+        "allowed_addresses": "รายชื่อผู้ส่งที่ได้รับอนุญาต",
+        "do_not_use_signature": "ห้ามใช้ลายเซ็น",
+        "attachment_upload_in_progress": "อยู่ระหว่างการอัปโหลดเอกสารแนบ",
+        "create_smart_links": "สร้างสมาร์ทลิงก์",
+        "invalid_recipients": "สะกดที่อยู่ของผู้รับไม่ถูกต้อง",
+        "missing_sender": "ไม่ได้ตั้งค่าผู้ส่งข้อความ",
+        "no_identity_selected": "<No identity selected>",
+        "date_created": "วันที่สร้าง",
+        "date_deleted": "วันที่ลบ",
+        "download_other": "ดาวน์โหลดทั้งหมด",
+        "attachment_with_count_other": "สิ่งที่แนบมา {{count}} รายการ",
+        "smart_links_created": "สร้างสมาร์ทลิงก์แล้ว",
+        "displayer_restore_emails_description": "เมื่อการกู้คืนอีเมลที่เลือกเสร็จสมบูรณ์ คุณจะได้รับอีเมลพร้อมข้อมูลเกี่ยวกับผลลัพธ์",
+        "recover_selected_emails": "กู้คืนอีเมลที่เลือก",
+        "send_mail": "ส่งอีเมล",
+        "recover_emails": "กระบวนการกู้คืนได้เริ่มต้นขึ้นแล้ว คุณจะได้รับการแจ้งเตือนเมื่อดำเนินการเสร็จสิ้น",
+        "error_no_backup_messages": "การค้นหาของคุณไม่พบข้อความใด ๆ",
+        "signature_size_exceed": "ลายเซ็นอย่างน้อยหนึ่งรายการมีขนาดเกินขีดจำกัด",
+        "start_recovery_description": "เมื่อกระบวนการเสร็จสิ้น คุณจะได้รับการแจ้งเตือนในกล่องจดหมายของคุณ และพบอีเมลที่กู้คืนได้ในโฟลเดอร์ใหม่",
+        "error_unable_load_signatures": "ไม่สามารถโหลดลายเซ็นได้ โปรดโหลดซ้ำหรือลองใหม่อีกครั้งในภายหลัง",
+        "advanced_filters_other": "ตัวกรองขั้นสูง",
+        "attachment_other": "สิ่งที่แนบมา",
+        "convert_back_to_attachment": "แปลงกลับเป็นสิ่งที่แนบมา",
+        "convert_to_smart_link": "แปลงกลับเป็นสมาร์ทลิงก์",
+        "errors": {
+            "upload_failed_generic": "การอัปโหลดไฟล์ \"{{filename}}\" ล้มเหลว"
+        },
+        "mail_selected_other": "อีเมลที่เลือก {{count}} รายการ",
+        "no_folder_selected": "ไม่ได้เลือกโฟลเดอร์",
+        "remove_other": "ลบทั้งหมด",
+        "upload_failed": "การอัปโหลดล้มเหลว"
     },
     "messages": {
         "modal": {
@@ -314,7 +374,8 @@
                 "enclose": "แนบ",
                 "attaching": "กำลังแนบ",
                 "attached": "ที่แนบมาด้วย",
-                "attach": "แนบ"
+                "attach": "แนบ",
+                "subject": "ไม่มีหัวเรื่อง"
             }
         },
         "new_email": "อีเมลใหม่",
@@ -347,7 +408,12 @@
             "tag_created": "สร้างแท็ก {{name}} สำเร็จแล้ว",
             "tag_deleted": "แท็ก {{name}} ถูกลบเรียบร้อยแล้ว",
             "tag_not_updated": "มีบางอย่างผิดพลาด ไม่สามารถอัปเดตแท็ก โปรดลองใหม่อีกครั้ง",
-            "tag_updated": "อัปเดตแท็กเรียบร้อยแล้ว"
+            "tag_updated": "อัปเดตแท็กเรียบร้อยแล้ว",
+            "apply_filter_rules_completed": "ตัวกรอง '{{filterName}}' นำไปใช้กับข้อความ {{involvedMessagesCount}} ของโฟลเดอร์ '{{folderPath}}' สำเร็จแล้ว",
+            "apply_filter_rules_error": "เกิดข้อผิดพลาดขณะใช้ตัวกรอง '{{filterName}}'",
+            "apply_filter_rules_started": "มีการใช้ตัวกรอง '{{filterName}}' กับข้อความของโฟลเดอร์ '{{folderPath}}'",
+            "message_sending_aborted": "ถูกยกเลิกโดยผู้ใช้",
+            "sending_mail_in_count_other": "ส่งข้อความของคุณใน {{count}} วินาที"
         },
         "permanent_delete_title": "คุณแน่ใจหรือไม่ว่าต้องการลบองค์ประกอบนี้อย่างถาวร?",
         "invalid_address": "ที่อยู่ต่อไปนี้ดูเหมือนจะไม่ถูกต้อง",
@@ -366,7 +432,15 @@
             "opening_blocked": "เพื่อให้การดำเนินการเสร็จสิ้น Carbonio ต้องเปิดหน้าต่างใหม่\nตรวจสอบการตั้งค่าเบราว์เซอร์ของคุณ",
             "popup_blocked": "เพื่อให้การดำเนินการเสร็จสิ้น Carbonio ต้องเปิดหน้าต่างใหม่\nตรวจสอบการตั้งค่าเบราว์เซอร์ของคุณ"
         },
-        "enter_calendar_name": "กรอกชื่อเพื่อยอมรับปฏิทิน"
+        "enter_calendar_name": "กรอกชื่อเพื่อยอมรับปฏิทิน",
+        "recover_messages_modal_body": "เมื่อกระบวนการเสร็จสิ้น คุณจะได้รับการแจ้งเตือนในกล่องจดหมายของคุณ และพบอีเมลที่กู้คืนได้ในโฟลเดอร์ใหม่",
+        "invalid_sender_address": "โปรดป้อนเฉพาะที่อยู่อีเมลเท่านั้น",
+        "searching_deleted_emails": "การค้นหาอีเมลที่ถูกลบจากถังขยะอาจใช้เวลาสักครู่ เมื่อการดำเนินการเสร็จสิ้น คุณจะถูกนำไปยังผลลัพธ์",
+        "allowed_addresses": "อีเมลที่ส่งจากที่อยู่ในรายชื่อผู้ส่งที่อนุญาตจะข้ามตัวกรองสแปมของคุณและไปที่กล่องจดหมายโดยตรงเสมอ",
+        "blocked_addresses": "อีเมลที่ส่งจากที่อยู่ในรายชื่อผู้ส่งที่ถูกบล็อกจะถูกย้ายไปยังโฟลเดอร์สแปมของคุณโดยอัตโนมัติ",
+        "warning": {
+            "sending_to_yourself": "คุณกำลังส่งข้อความนี้ถึงตัวคุณเอง"
+        }
     },
     "placeholder": {
         "add_new_recipients": "เพิ่มผู้รับใหม่"
@@ -415,7 +489,7 @@
                 "title": "โหมด Drag&Drop",
                 "content": "วางไฟล์แนบของคุณที่นี่เพื่อเพิ่มลงในอีเมลนี้ได้อย่างรวดเร็ว"
             },
-            "files": "เพิ่มจากไฟล์",
+            "files": "เพิ่มจาก Files",
             "url": "เพิ่มลิงก์สาธารณะจาก Files"
         }
     },
@@ -453,7 +527,9 @@
         "schedule_time": "สำหรับ {{date}} เวลา {{time}}",
         "schedule_mail": "จะถูกส่งเมื่อ: {{date}} เวลา {{time}}",
         "delete_attachment_message1": "ไฟล์แนบของคุณจะถูกลบออกจาก Carbonio อย่างถาวร",
-        "delete_attachment_message2": "คุณต้องการดาวน์โหลดไว้ก่อนหรือไม่?"
+        "delete_attachment_message2": "คุณต้องการดาวน์โหลดไว้ก่อนหรือไม่?",
+        "copy": "คัดลอก",
+        "send_email": "ส่งอีเมล"
     },
     "settings": {
         "label": {
@@ -472,7 +548,8 @@
             "mark_reading_panel": "ทำเครื่องหมายว่าอ่านแล้ว",
             "not_changed_anything": "ไม่มีการเปลี่ยนแปลงใดๆ",
             "mark_manually": "ทำเครื่องหมายด้วยตนเอง",
-            "filter_name_required": "ต้องระบุชื่อตัวกรอง"
+            "filter_name_required": "ต้องระบุชื่อตัวกรอง",
+            "recover_messages_infotext": "กู้คืนอีเมลที่ถูกลบออกจากถังขยะโดยการพิมพ์คำสำคัญที่รวมอยู่ในอักขระ 100 ตัวแรกของข้อความหรือโดยการเลือกวันที่\nวันที่เลือกจะรวมอีเมลที่ถูกลบเมื่อ 3 วันก่อนและ 3 วันหลังจากนั้น\nเมื่อการค้นหาเสร็จสิ้น คุณจะถูกเปลี่ยนเส้นทางไปยังหน้าผลลัพธ์ ซึ่งคุณสามารถเลือกรายการที่จะกู้คืนได้"
         },
         "msg_from_optn": {
             "discard": "ยกเลิกข้อความโดยอัตโนมัติ",
@@ -486,7 +563,8 @@
         },
         "new_mail_optn": {
             "manually": "ด้วยตนเอง",
-            "when_arrive": "เมื่อได้รับอีเมลใหม่"
+            "when_arrive": "เมื่อได้รับอีเมลใหม่",
+            "minute_other": "{{count}} นาที"
         },
         "read_rcpt_optn": {
             "always": "ส่งใบตอบรับการอ่านทุกครั้ง",
@@ -597,14 +675,16 @@
             "comic": "Comic"
         },
         "mail_unsend_time": {
-            "no_delay": "ไม่มีความล่าช้า"
+            "no_delay": "ไม่มีความล่าช้า",
+            "second_other": "{{count}} วินาที"
         },
         "address": "ที่อยู่",
         "tag_name_required": "กรอกข้อมูลในช่อง \"แท็ก\" เพื่อดำเนินการ \"แท็กด้วย\" ให้เสร็จสมบูรณ์",
         "remove_action": "ลบการกระทำนี้",
         "folder_path_required": "เลือกโฟลเดอร์ปลายทางเพื่อดำเนินการ \"ย้ายไปยังโฟลเดอร์\" ให้เสร็จสมบูรณ์",
         "address_required": "กรอกข้อมูลในช่อง \"ที่อยู่\" เพื่อดำเนินการ \"เปลี่ยนเส้นทางไปยังที่อยู่\" ให้เสร็จสมบูรณ์",
-        "add_action": "เพิ่มการกระทำใหม่"
+        "add_action": "เพิ่มการกระทำใหม่",
+        "font_size_other": "{{count}} pt"
     },
     "snackbar": {
         "share_resend": "ส่งการแชร์คำเชิญอีกครั้ง",
@@ -613,7 +693,8 @@
         "folder_shared": "โฟลเดอร์ที่ใช้ร่วมกัน",
         "email_moved_to_trash": "ย้ายอีเมลไปที่ถังขยะแล้ว",
         "tag_applied": "ใช้แท็ก \"{{tag}}\" แล้ว",
-        "tag_removed": "นำแท็ก \"{{tag}}\" ออกแล้ว"
+        "tag_removed": "นำแท็ก \"{{tag}}\" ออกแล้ว",
+        "email_copied_to_clipboard": "คัดลอกอีเมลไปยังคลิปบอร์ดแล้ว"
     },
     "tooltip": {
         "revoke": "เพิกถอนการเข้าถึง",
@@ -625,7 +706,8 @@
         "disable_rich_text": "ปิดการใช้งานตัวแก้ไข Rich Text",
         "enable_urgent": "เปิดการใช้งานแบบเร่งด่วน",
         "folder_linked_status": "แชร์กับฉัน",
-        "marked_as_important": "ทำเครื่องหมายว่าสำคัญแล้ว"
+        "marked_as_important": "ทำเครื่องหมายว่าสำคัญแล้ว",
+        "folder_sharing_status_other": "แชร์กับผู้ใช้ {{count}} ราย"
     },
     "folder_panel": {
         "modal": {
@@ -695,7 +777,8 @@
         "filter_note": "หมายเหตุ: การเปลี่ยนแปลงกฎการกรองจะถูกบันทึกในทันที",
         "incoming_msg_filters": "ตัวกรองข้อความขาเข้า",
         "outgoing_message_filters": "ตัวกรองข้อความขาออก",
-        "run": "ดำเนินงาน"
+        "run": "ดำเนินงาน",
+        "apply": "นำไปใช้"
     },
     "displayer": {
         "description7": "เลือกอีเมลเพื่อตอบกลับ",
@@ -798,5 +881,47 @@
         "warning": {
             "mail_size_exceeds_limit": "ขนาดข้อความเกินขีดจำกัด โปรดแปลงไฟล์แนบบางส่วนเป็นสมาร์ทลิงก์"
         }
+    },
+    "messages,new_email": "อีเมลใหม่",
+    "modals": {
+        "apply_filters": {
+            "button_apply": "นำไปใช้",
+            "label_confirm_request": "คุณต้องการใช้ตัวกรองหรือไม่?",
+            "label_involved_messages": "<0>ข้อความ {{involvedMessagesCount}}</0> จะถูกประมวลผลภายในโฟลเดอร์ที่เลือก",
+            "title": "ตัวกรองแอปพลิเคชัน \"{{filterName}}\""
+        }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "importantAscending": "เรียงลำดับจากน้อยไปหามากตามความสำคัญ",
+            "flaggedAscending": "เรียงลำดับจากน้อยไปหามากตามการตั้งค่าสถานะ",
+            "importantDescending": "เรียงลำดับจากมากไปน้อยตามความสำคัญ",
+            "unreadAscending": "เรียงลำดับจากน้อยไปหามากตามยังไม่ได้อ่าน",
+            "attachmentDescending": "เรียงลำดับจากมากไปหาน้อยตามไฟล์แนบ",
+            "dateAscending": "เรียงลำดับจากน้อยไปหามากตามขนาด",
+            "dateDescending": "เรียงลำดับจากมากไปน้อยตามวันที่",
+            "flaggedDescending": "เรียงลำดับจากมากไปหาน้อยตามการตั้งค่าสถานะ",
+            "fromAscending": "เรียงลำดับจากน้อยไปหามากตามจาก",
+            "fromDescending": "เรียงลำดับจากมากไปน้อยตามจาก",
+            "sizeDescending": "เรียงลำดับจากมากไปน้อยตามขนาด",
+            "subjectAscending": "เรียงลำดับจากน้อยไปมากตามหัวเรื่อง",
+            "subjectDescending": "เรียงลำดับจากมากไปน้อยตามหัวเรื่อง",
+            "toAscending": "ลำดับจากน้อยไปหามากตามถึง",
+            "toDescending": "เรียงลำดับจากมากไปหาน้อยตามถึง",
+            "unreadDescending": "เรียงลำดับจากมากไปหาน้อยตามยังไม่ได้อ่าน",
+            "attachmentAscending": "เรียงลำดับจากน้อยไปหามากตามไฟล์แนบ"
+        }
+    },
+    "sorting_dropdown": {
+        "date": "วันที่",
+        "ascendingOrder": "ลำดับจากน้อยไปหามาก",
+        "attachment": "สิ่งที่แนบมา",
+        "descendingOrder": "ลำดับจากมากไปน้อย",
+        "flagged": "ถูกตั้งค่าสถานะ",
+        "from": "จาก",
+        "important": "ความสำคัญ",
+        "subject": "หัวเรื่อง",
+        "to": "ถึง",
+        "unread": "ยังไม่ได้อ่าน"
     }
 }
