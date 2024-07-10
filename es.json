@@ -32,7 +32,9 @@
         "apply_filter_on_folder": "Aplicar filtro en la carpeta",
         "download_eml": "Descargar EML",
         "select_folders": "Elegir carpetas",
-        "preview_on_separated_window": "Abrir en una ventana nueva"
+        "preview_on_separated_window": "Abrir en una ventana nueva",
+        "create_appointment": "Crear Cita",
+        "preview_on_separated_tab": "Abrir en una pestaña nueva"
     },
     "folder": {
         "modal": {
@@ -143,7 +145,7 @@
         "add": "Añadir",
         "administer": "Administrador",
         "delete_permanently": "Eliminar permanentemente",
-        "new_folder": "Nueva carpeta",
+        "new_folder": "Carpeta nueva",
         "no_search_results_found": "No se encontraron resultados",
         "remove_from_this_list": "Remover de esta lista",
         "restore": "Restaurar",
@@ -296,10 +298,70 @@
         "upload_failed": "Carga fallida",
         "attachment_upload_in_progress": "Carga de adjunto en progreso",
         "errors": {
-            "upload_failed_generic": "Carga de archivo \" {{filename}}\" fallida"
+            "upload_failed_generic": "Subida fallida para el archivo \"{{filename}}\""
         },
         "invalid_recipients": "La dirección de un destinatario está mal escrita",
-        "no_sender": "El remitente del mensaje no ha sido definido"
+        "no_sender": "El remitente del mensaje no ha sido definido",
+        "convert_to_smart_link": "Convertir en link inteligente",
+        "convert_back_to_attachment": "Convertir de nuevo en adjunto",
+        "clear_search_query": "BÚSQUEDA LIMPIA",
+        "last_7_days": "Últimos 7 días",
+        "deleted_folder": "Carpeta borrada",
+        "end_date": "Fecha de finalización",
+        "error_no_backup_messages": "Tu búsqueda no encontró ningún mensaje",
+        "error_recovering_emails": "Error recuperando los correos electrónicos",
+        "folder": "Carpeta",
+        "last_30_days": "Últimos 30 días",
+        "import_to_contacts": "Importar a contactos",
+        "last_14_days": "Últimos 14 días",
+        "recover_selected_emails": "RECUPERAR LOS EMAILS SELECCIONADOS",
+        "recover_messages": "Recuperar mensajes",
+        "last_90_days": "Últimos 90 días",
+        "recover_emails": "El proceso de recuperación ha empezado, se te informará cuando esté completo",
+        "search_emails": "BUSCAR EMAILS",
+        "recovery_period": "Elegir periodo de recuperación",
+        "searching_recover_emails": "Buscando emails para recuperar",
+        "search_recover_emails": "Buscar emails para recuperar",
+        "start_date": "Fecha de inicio",
+        "select_recovery_date": "Elegir fecha de recuperación",
+        "start_recovery": "Iniciar recuperación",
+        "signature_size_exceed": "Es necesaria una o más informaciones de búsqueda.",
+        "start_recovery_description": "Cuando el proceso esté completado recibirás una notificación en tu bandeja de entrada y encontrarás los e-mails recuperados e una nueva carpeta.",
+        "start_recovery_process": "Empezar proceso de recuperación",
+        "start_search": "Iniciar búsqueda",
+        "want_to_continue": "¿Quieres continuar?",
+        "enter_single_email_address": "Introduce dirección de correo electrónico",
+        "blocked_addresses": "Lista de remitentes bloqueados",
+        "allowed_addresses": "Lista de remitentes permitidos",
+        "do_not_use_signature": "No utilizar una firma",
+        "send_mail": "Enviar email",
+        "date_created": "Fecha de creación",
+        "date_deleted": "Fecha de borrado",
+        "mail_selected_one": "{{count}} e-mail seleccionado",
+        "mail_selected_many": "{{count}} e-mails seleccionados",
+        "mail_selected_other": "{{count}} e-mails seleccionados",
+        "attachment_with_count_one": "{{count}} Adjunto",
+        "attachment_with_count_many": "{{count}} Adjuntos",
+        "attachment_with_count_other": "{{count}} Adjuntos",
+        "displayer_restore_emails_title": "Elige los correos que quieres restaurar",
+        "backup_search": "Búsqueda de copia de seguridad",
+        "displayer_restore_emails_description": "Cuando la recuperación del correo electrónico esté completa, recibirás un correo electrónico con información sobre los resultados.",
+        "error_unable_load_signatures": "No se pueden cargar las firmas. Por favor, recarga o prueba más tarde.",
+        "advanced_filters_one": "Filtro avanzado",
+        "advanced_filters_many": "Filtros avanzados",
+        "advanced_filters_other": "Filtros avanzados",
+        "attachment_one": "Adjunto",
+        "attachment_many": "Adjuntos",
+        "attachment_other": "Adjuntos",
+        "create_smart_links": "crear links inteligentes",
+        "download_one": "Descargar",
+        "download_many": "Descargar todos",
+        "download_other": "Descargar todos",
+        "no_folder_selected": "Carpeta no seleccionada",
+        "remove_one": "Quitar",
+        "remove_many": "Quitar todos",
+        "remove_other": "Quitar todos",
+        "smart_links_created": "enlaces inteligentes creados"
     },
     "messages": {
         "modal": {
@@ -334,7 +396,7 @@
         "permanent_delete_title": "¿Seguro que quieres eliminarlo de forma permanente?",
         "snackbar": {
             "conversation_deleted": "Se ha eliminado la conversación",
-            "conversation_move": "Se ha movido la conversación",
+            "conversation_move": "Conversación movida con éxito",
             "conversation_move_error": "Algo salió mal, la conversación no pudo ser movida. Intenta nuevamente.",
             "email_moved_to_trash": "El correo se ha movido a la Papelera",
             "email_restored": "El correo ha sido restaurado en su carpeta",
@@ -343,13 +405,13 @@
             "folder_edited": "Se han guardado los cambios",
             "folder_empty": "La Papelera ha sido vaciada",
             "folder_move_error": "Algo salió mal, la carpeta no pudo ser movida. Intenta nuevamente.",
-            "folder_moved": "Se ha movido la carpeta",
+            "folder_moved": "Carpeta movida con éxito",
             "folder_moved_to_trash": "La carpeta ha sido movida a la Papelera",
             "folder_wiped": "Se ha vaciado la carpeta",
             "marked_as_spam": "Has clasificado este mensaje como \"Spam\"",
             "message_delete_error": "Algo salió mal, el mensaje no pudo ser eliminado. Intenta nuevamente.",
             "message_deleted": "Mensaje eliminado",
-            "message_move": "El mensaje ha sido movido",
+            "message_move": "Mensaje movido con éxito",
             "message_redirected": "El mensaje ha sido redireccionado",
             "folder_empty_error": "Algo salió mal, los cambios no han podido aplicarse. Intenta nuevamente.",
             "folder_will_be_moved_in_time": "Esta carpeta se moverá en {{remainingTime}}",
@@ -361,7 +423,13 @@
             "tag_created": "Se ha creado la etiqueta \"{{name}}\"",
             "tag_deleted": "Se ha eliminado la etiqueta \"{{name}}\"",
             "tag_updated": "La etiqueta ha sido actualizada",
-            "message_sending_aborted": "Cancelado por el usuario"
+            "message_sending_aborted": "Cancelado por el usuario",
+            "apply_filter_rules_completed": "Filtro \"{{filterName}}\" aplicado con éxito a los mensajes {{involvedMessagesCount}} de la carpeta \"{{folderPath}}\"",
+            "apply_filter_rules_error": "Ha ocurrido un error mientras se aplicaba el filtro \"{{filterName}}\"",
+            "apply_filter_rules_started": "El filtro \"{{filterName}}\" está siendo aplicado a los mensajes de la carpeta \"{{folderPath}}\"",
+            "sending_mail_in_count_one": "Enviándote un mensaje en {{count}} segundo",
+            "sending_mail_in_count_many": "Enviándote un mensaje en {{count}} segundos",
+            "sending_mail_in_count_other": "Enviándote un mensaje en {{count}} segundos"
         },
         "invalid_address": "La siguiente dirección no parece válida",
         "check_and_try_again": "Verifica Carbonio e intenta nuevamente",
@@ -378,7 +446,15 @@
             "opening_blocked": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador",
             "popup_blocked": "Para completar la operación Carbonio necesita abrir una nueva ventana.\nVerifica las configuraciones del navegador"
         },
-        "enter_calendar_name": "Ingresa un nombre para aceptar la invitación"
+        "enter_calendar_name": "Ingresa un nombre para aceptar la invitación",
+        "warning": {
+            "sending_to_yourself": "Te estás enviando este mensaje a ti mismo"
+        },
+        "recover_messages_modal_body": "Cuando el proceso esté completo, recibirás una notificación en tu bandeja de entrada y encontrarás los emails recuperados en una nueva carpeta.",
+        "searching_deleted_emails": "Buscar los emails borrados de la papelera llevará algún tiempo. Cuando la operación esté completada, serás redirigido a los resultados.",
+        "invalid_sender_address": "Por favor, introduce solo direcciones de correo electrónico",
+        "blocked_addresses": "Los correos electrónicos enviados de direcciones que se encuentren en tu lista de remitentes bloqueados serán movidos automáticamente a tu carpeta de Spam.",
+        "allowed_addresses": "Los correos enviados de direcciones que estén en tu lista de remitentes permitidos siempre esquivarán tu filtro de Spam y llegarán directos a tu bandeja de entrada."
     },
     "placeholder": {
         "add_new_recipients": "Añadir destinatarios"
@@ -465,7 +541,9 @@
         "schedule_time": "para el {{date}} a las {{time}}",
         "schedule_mail": "Se enviará el: {{date}} a la(s) {{time}}",
         "delete_attachment_message1": "El adjunto se eliminará de forma permanente de Carbonio.",
-        "delete_attachment_message2": "¿Quieres decargarlo antes?"
+        "delete_attachment_message2": "¿Quieres decargarlo antes?",
+        "copy": "Copiar",
+        "send_email": "Enviar e-mail"
     },
     "snackbar": {
         "folder_shared": "Se ha compartido la carpeta",
@@ -474,7 +552,8 @@
         "share_revoke": "Permiso de uso compartido revocado",
         "email_moved_to_trash": "El correo se ha movido a la Papelera",
         "tag_applied": "Etiqueta \"{{tag}}\" aplicada",
-        "tag_removed": "Etiqueta \"{{tag}}\" removida"
+        "tag_removed": "Etiqueta \"{{tag}}\" removida",
+        "email_copied_to_clipboard": "Email copiado al portapapeles."
     },
     "tooltip": {
         "add_attachments": "Adjuntar archivos",
@@ -486,7 +565,10 @@
         "resend": "Reenviar notificación sobre este uso compartido",
         "revoke": "Revocar acceso",
         "folder_linked_status": "Compartido conmigo",
-        "marked_as_important": "Marcado como importante"
+        "marked_as_important": "Marcado como importante",
+        "folder_sharing_status_one": "Compartido con {{count}} usuario",
+        "folder_sharing_status_many": "Compartido con {{count}} usuarios",
+        "folder_sharing_status_other": "Compartido con {{count}} usuarios"
     },
     "settings": {
         "label": {
@@ -505,7 +587,8 @@
             "default": "Predeterminado",
             "not_changed_anything": "No se han hecho cambios",
             "mark_manually": "Marcar manualmente",
-            "filter_name_required": "El nombre del filtro es requerido"
+            "filter_name_required": "El nombre del filtro es requerido",
+            "recover_messages_infotext": "Recupera los correos electrónicos eliminados de la Papelera escribiendo una palabra clave incluidas en los 100 primeros caracteres del mensaje o seleccionando una fecha.\nLa fecha seleccionada incluirá los correos eliminados 3 días antes y 3 días después de la misma.\nCuando se complete la búsqueda, serás redirigido a la página de los resultados, en la que podrás elegir qué elementos quieres restaurar."
         },
         "msg_from_optn": {
             "discard": "Descartar",
@@ -519,7 +602,10 @@
         },
         "new_mail_optn": {
             "manually": "Manualmente",
-            "when_arrive": "A medida que llegan los mensajes"
+            "when_arrive": "A medida que llegan los mensajes",
+            "minute_one": "{{count}} minuto",
+            "minute_many": "{{count}} minutos",
+            "minute_other": "{{count}} minutos"
         },
         "notify_folder_optn": {
             "new_message_inbox": "Mostrar notificaciones solo para los mensajes que lleguen a la Bandeja de entrada",
@@ -630,14 +716,20 @@
         },
         "font": "Fuente",
         "mail_unsend_time": {
-            "no_delay": "Sin atraso"
+            "no_delay": "Sin atraso",
+            "second_one": "{{count}} segundo",
+            "second_many": "{{count}} segundos",
+            "second_other": "{{count}} segundos"
         },
         "address": "Dirección",
         "tag_name_required": "Seleccionar la etiqueta para completar la acción \"Etiquetar con\".",
         "remove_action": "Eliminar acción",
         "folder_path_required": "Selecciona la carpeta de destino para completar la acción \"Mover a la carpeta\".",
         "address_required": "Rellenar el campo \"Dirección\" para completar la acción \"Redirigir a\".",
-        "add_action": "Añadir nueva acción"
+        "add_action": "Añadir nueva acción",
+        "font_size_one": "{{count}} pt",
+        "font_size_many": "{{count}} pts",
+        "font_size_other": "{{count}} pts"
     },
     "folder_panel": {
         "modal": {
@@ -711,7 +803,8 @@
         "available_filters": "Filtros disponibles",
         "incoming_msg_filters": "Filtros de correos entrantes",
         "outgoing_message_filters": "Filtros de correos salientes",
-        "run": "Aplicar"
+        "run": "Aplicar",
+        "apply": "Aplicar"
     },
     "displayer": {
         "draft_title1": "Al guardar un correo como borrador, podrás editarlo y enviarlo más tarde.",
@@ -806,5 +899,57 @@
             "message1": "¿Quieres conservar el borrador o eliminarlo?"
         }
     },
-    "messages,new_email": "Nuevo email"
+    "messages,new_email": "Nuevo email",
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "El tamaño del mensaje excede el límite. Por favor, convierte algunos adjuntos en enlaces inteligentes"
+        }
+    },
+    "modals": {
+        "apply_filters": {
+            "button_apply": "Aplicar",
+            "label_confirm_request": "¿Quieres aplicar el filtro?",
+            "label_involved_messages": "<0>{{involvedMessagesCount}} mensajes</0> serán procesados dentro de la carpeta seleccionada.",
+            "title": "Aplicación de filtro \"{{filterName}}\""
+        }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "unreadDescending": "Orden descendente por No leído",
+            "attachmentAscending": "Orden ascendente por Adjunto",
+            "attachmentDescending": "Orden descendente por Adjunto",
+            "dateAscending": "Orden ascendente por Tamaño",
+            "dateDescending": "Orden descendente por Tamaño",
+            "flaggedAscending": "Orden ascendente por Marcado",
+            "flaggedDescending": "Orden descendente por Marcado",
+            "fromAscending": "Orden ascendente por De",
+            "fromDescending": "Orden descendente para De",
+            "importantAscending": "Orden ascendente por Importante",
+            "importantDescending": "Orden descendente por Importante",
+            "sizeDescending": "Orden descendente por Tamaño",
+            "subjectAscending": "Orden ascendente por Asunto",
+            "subjectDescending": "Orden descendente por Asunto",
+            "toAscending": "Orden ascendente por Para",
+            "toDescending": "Orden descendente por Para",
+            "unreadAscending": "Orden ascendente por No leído"
+        }
+    },
+    "sorting_dropdown": {
+        "ascendingOrder": "Orden ascendente",
+        "attachment": "Adjunto",
+        "date": "Fecha",
+        "descendingOrder": "Orden descendente",
+        "flagged": "Marcado",
+        "from": "De",
+        "important": "Importante",
+        "to": "Para",
+        "unread": "No leído",
+        "subject": "Asunto"
+    },
+    "layoutView": {
+        "tooltip": {
+            "vertical": "Vista vertical",
+            "horizontal": "Vista horizontal"
+        }
+    }
 }
