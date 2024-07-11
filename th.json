@@ -923,5 +923,11 @@
         "subject": "หัวเรื่อง",
         "to": "ถึง",
         "unread": "ยังไม่ได้อ่าน"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "มุมมองแนวนอน",
+            "vertical": "มุมมองแนวตั้ง"
+        }
     }
 }
