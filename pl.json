@@ -408,7 +408,7 @@
         "searching_recover_emails": "Wyszukiwanie e-maili do odzyskania",
         "send_mail": "Wyślij e-maila",
         "select_recovery_date": "Wybierz datę odzyskiwania",
-        "signature_size_exceed": "Wymagana jest jedna lub więcej informacji o podpisie.",
+        "signature_size_exceed": "Jeden lub więcej podpisów przekracza limit rozmiaru.",
         "start_date": "Data rozpoczęcia",
         "start_recovery": "Rozpocznij odzyskiwanie",
         "start_recovery_process": "Rozpocznij proces odzyskiwania",
