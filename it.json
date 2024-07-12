@@ -360,7 +360,7 @@
         "advanced_filters_other": "",
         "attachment_one": "Allegato",
         "attachment_many": "Allegati",
-        "attachment_other": "",
+        "attachment_other": "Allegati",
         "attachment_with_count_one": "{{count}} Allegato",
         "attachment_with_count_many": "{{count}} Allegati",
         "attachment_with_count_other": "",
