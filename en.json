@@ -529,7 +529,11 @@
         "blocked_addresses": "Blocked senders list",
         "allowed_addresses": "Allowed senders list",
         "do_not_use_signature": "Do not use a signature",
-        "error_unable_load_signatures": "Unable to load signatures. Please reload or try again later."
+        "error_unable_load_signatures": "Unable to load signatures. Please reload or try again later.",
+        "weeks": "Weeks",
+        "months": "Months",
+        "days": "Days",
+        "years": "Years"
     },
     "labels": {
         "compose_colin": "Compose :",
