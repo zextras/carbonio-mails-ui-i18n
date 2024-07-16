@@ -387,7 +387,11 @@
         "date_deleted": "Eliminata il",
         "backup_search": "Ricerca Backup",
         "select_recovery_date": "Seleziona data da ripristinare",
-        "signature_size_exceed": "Una o più firme superano la dimensione massima."
+        "signature_size_exceed": "Una o più firme superano la dimensione massima.",
+        "weeks": "Settimane",
+        "months": "Mesi",
+        "years": "Anni",
+        "days": "Giorni"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
