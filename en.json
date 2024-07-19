@@ -656,7 +656,8 @@
             "tag_created": "Tag {{name}} successfully created",
             "tag_deleted": "{{name}} Tag deleted successfully",
             "tag_not_updated": "Something went wrong, the tag was not updated. Please try again.",
-            "tag_updated": "Tag successfully updated"
+            "tag_updated": "Tag successfully updated",
+            "apply_filter_error": "Filter is still running on the server but it’s taking too much time to report the affected items. The filter keeps working on the server without additional information."
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
