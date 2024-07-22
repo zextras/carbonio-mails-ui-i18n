@@ -85,7 +85,7 @@
         "enter_calendar_name": "Inserisci un nome per accettare il calendario",
         "invalid_sender_address": "Inserisci solo indirizzi email",
         "warning": {
-            "sending_to_yourself": "Stai inviato questo messaggio a te stesso"
+            "sending_to_yourself": "Stai inviando questo messaggio a te stesso"
         },
         "recover_messages_modal_body": "Una volta che il processo sarà completato, riceverai una notifica nella casella di posta in entrata e troverai le email ripristinate in una nuova cartella dedicata.",
         "searching_deleted_emails": "La ricerca all'interno del cestino delle email eliminate può richiedere del tempo. Una volta che l'operazione sarà completata, verrai reindirizzato ai risultati.",
