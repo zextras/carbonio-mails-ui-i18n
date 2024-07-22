@@ -608,7 +608,8 @@
             "apply_filter_rules_completed": "Filtr \"{{filterName}}\" został zastosowany do {{involvedMessagesCount}} wiadomości w folderze \"{{folderPath}}\"",
             "sending_mail_in_count_one": "Twoja wiadomość zostanie wysłana za {{count}} sekundę",
             "sending_mail_in_count_few": "Twoja wiadomość zostanie wysłana za {{count}} sekundy",
-            "sending_mail_in_count_many": "Twoja wiadomość zostanie wysłana za {{count}} sekund"
+            "sending_mail_in_count_many": "Twoja wiadomość zostanie wysłana za {{count}} sekund",
+            "apply_filter_error": "Filtr dalej działa na serwerze, ale zgłoszenie dotkniętych elementów zajmuje zbyt dużo czasu. Filtr dalej pracuje na serwerze bez dodatkowych informacji."
         },
         "modal": {
             "delete": {
