@@ -543,7 +543,7 @@
                     "name_exist": "Wybrana nazwa już istnieje w tej ścieżce"
                 },
                 "name_exist_warning": "Wybrana nazwa już istnieje",
-                "restore_create_footer": "Stwórz i Przywróć",
+                "restore_create_footer": "Stwórz i przywróć",
                 "title": "Stwórz nowy folder"
             },
             "wipe": {
@@ -909,7 +909,8 @@
             "button_apply": "Zastosuj",
             "label_confirm_request": "Czy chcesz zastosować filtr?",
             "label_involved_messages": "<0>{{involvedMessagesCount}} wiadomości</0> zostanie przetworzonych w wybranym folderze.",
-            "title": "Zastosowywanie filtra \"{{filterName}}\""
+            "title": "Zastosowywanie filtra \"{{filterName}}\"",
+            "label_confirm_msg": "Im więcej wiadomości, tym więcej czasu będzie potrzebne, aby zastosować filtr."
         }
     },
     "sortingDropdown": {
