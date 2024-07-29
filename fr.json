@@ -373,7 +373,11 @@
         "enter_single_email_address": "Saisir l'adresse email",
         "allowed_addresses": "Liste des expéditeurs autorisés",
         "do_not_use_signature": "Ne pas utiliser de signature",
-        "error_unable_load_signatures": "Impossible de charger les signatures. Veuillez recharger ou réessayer plus tard."
+        "error_unable_load_signatures": "Impossible de charger les signatures. Veuillez recharger ou réessayer plus tard.",
+        "days": "Jours",
+        "months": "Mois",
+        "years": "Années",
+        "weeks": "Semaines"
     },
     "message": {
         "snackbar": {
@@ -480,7 +484,8 @@
             "apply_filter_rules_completed": "Le filtre'{{filterName}}' a été appliqué avec succès à {{involvedMessagesCount}} messages du dossier '{{folderPath}}'",
             "sending_mail_in_count_one": "Envoi de votre message dans {{count}} seconde",
             "sending_mail_in_count_many": "Envoi de votre message dans {{count}} secondes",
-            "sending_mail_in_count_other": "Envoi de votre message dans {{count}} secondes"
+            "sending_mail_in_count_other": "Envoi de votre message dans {{count}} secondes",
+            "apply_filter_error": "Le filtre est toujours en cours sur le serveur, mais il prend trop de temps pour indiquer les éléments concernés. Le filtre continue de fonctionner sur le serveur sans informations supplémentaires."
         },
         "check_and_try_again": "Merci de vérifier Carbonio et de réessayer",
         "could_not_find_to_show": "Désolé, il n'est pas possible de trouver un élément à afficher",
@@ -905,7 +910,8 @@
             "button_apply": "Appliquer",
             "label_confirm_request": "Souhaitez-vous appliquer le filtre ?",
             "title": "Traitement du filtre '{{filterName}}'",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} messages</0> seront traités dans le dossier sélectionné."
+            "label_involved_messages": "<0>{{involvedMessagesCount}} messages</0> seront traités dans le dossier sélectionné.",
+            "label_confirm_msg": "Plus il y a de messages, plus il faut de temps pour appliquer le filtre."
         }
     },
     "sortingDropdown": {
