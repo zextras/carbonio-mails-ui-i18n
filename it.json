@@ -909,7 +909,8 @@
             "label_involved_messages": "<0>{{involvedMessagesCount}} messaggi</0> verranno elaborati all'interno della cartella selezionata.",
             "title": "Applicazione filtro \"{{filterName}}\"",
             "label_confirm_request": "Vuoi applicare il filtro?",
-            "button_apply": "Applica"
+            "button_apply": "Applica",
+            "label_confirm_msg": "Maggiore è il numero di messaggi inclusi nella cartella, maggiore sarà il tempo necessario per l'applicazione del filtro."
         }
     },
     "sortingDropdown": {
