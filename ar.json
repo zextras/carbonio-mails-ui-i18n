@@ -1,1 +1,35 @@
-{}
+{
+    "action": {
+        "click_open": "انقر للفتح",
+        "edit_anyway": "تحرير على أي حال",
+        "edit_as_new": "تحرير كجديدة",
+        "click_preview": "انقر للمعاينة",
+        "create_appointment": "إنشاء موعد",
+        "download_eml": "تحميل بصيغة EML",
+        "edit_share": "تحرير المشاركة",
+        "flag": "إضافة علامة",
+        "forward": "اعاده توجيهها",
+        "goto_folder": "الانتقال إلى مجلد",
+        "hide_details": "إخفاء التفاصيل",
+        "mark_all_read": "جعل كل الرسائل مقروءة",
+        "mark_as_non_spam": "ليست رسالة مزعجة",
+        "reply_all": "الرد على الكل",
+        "reset": "اعاده تعيين",
+        "apply_filter_on_folder": "تطبيق التصفية على المجلد",
+        "mark_as_unread": "رسالة غير مقروءة",
+        "ok": "حسناً",
+        "search": "بحث",
+        "select_folders": "تحديد المجلدات",
+        "mark_as_spam": "رسالة مزعجة",
+        "mark_as_read": "رسالة مقروءة",
+        "preview": "معاينتها",
+        "reply": "الرد على الرسالة",
+        "send_anyway": "إرسال على أي حال",
+        "preview_on_separated_window": "إفتح الرسالة في نافذة جديدة",
+        "print": "طباعه",
+        "redirect": "اعاده توجيه الرسالة",
+        "share_folder": "مشاركة المجلد",
+        "goto_drafts": "الانتقال إلى المسودات",
+        "preview_new_tab": "انقر لمعاينة الرسالة في صفحة أخرى"
+    }
+}
