@@ -159,11 +159,126 @@
                 "folder_panel": "مسح المجلد"
             },
             "edit_properties": "تحرير الخصائص"
+        },
+        "lists_item": {
+            "root": "/المجلد الرئيسي"
+        },
+        "modal": {
+            "delete": {
+                "body": {
+                    "message3": "إذا قمت بحذفه، سيتم نقل كل المحتوى المرتبط به إلى سلة المهملات ولن يكون المجلد مرئيًا بعد الآن.",
+                    "message4": "إذا قمت بحذفه، فسيتم إزالة كل المحتوى المرتبط به بشكل دائم ولن يكون من الممكن استرداد المجلد بعد الآن.",
+                    "message1": "هل تريد إفراغ المجلد المحدد؟",
+                    "message2": "هل تريد حذف المجلد المحدد نهائياً؟"
+                }
+            },
+            "empty": {
+                "body": {
+                    "message1": "هل تريد إفراغ المجلد المحدد؟",
+                    "message2": "إذا قمت بإفراغه، فسيتم حذف كل المحتوى المرتبط به بشكل دائم."
+                }
+            },
+            "move": {
+                "body": {
+                    "message2": "حدد المجلد الذي تريد الاستعاده إليه:",
+                    "message1": "حدد المجلد الذي تريد نقل الشخص إليه:"
+                },
+                "title_modal": "انقل المحادثة",
+                "title_modal_message": "نقل الرسالة",
+                "title_modal_conversation": "نقل المحادثة"
+            },
+            "new": {
+                "create_footer": "إنشاء ونقل",
+                "input": {
+                    "name": "أدخل اسم المجلد",
+                    "name_exist": "الاسم موجود بالفعل في هذا المسار",
+                    "position": "المجلد الأصل"
+                },
+                "name_exist_warning": "الاسم مستخدم",
+                "restore_create_footer": "إنشاء واستعادة",
+                "title": "انشاء مجلد جديد"
+            },
+            "wipe": {
+                "body": {
+                    "message1": "هل تريد مسح المجلد المحدد؟",
+                    "message2": "إذا قمت بمسحها، فسيتم حذف كل المحتوى المرتبط بها بشكل دائم."
+                }
+            }
         }
     },
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "يتجاوز حجم الرسالة الحد المسموح. يرجى تحويل بعض المرفقات إلى روابط ذكية"
         }
-    }
+    },
+    "label": {
+        "attachment_upload_in_progress": "جاري تحميل المرفق",
+        "attachment_type": "نوع المرفق",
+        "by_conversation": "بالمحادثة",
+        "calendar_color": "لون العنصر",
+        "allowed_actions": "الإجراءات المسموح بها",
+        "app_name": "البريد",
+        "any": "الجميع",
+        "add_custom_message": "أضف رسالة مخصصة",
+        "add_task": "إذا كنت بحاجة إلى تدوين ملاحظة، يمكنك إضافة مهمة إلى قائمة المهام الخاصة بك",
+        "admin_disabled_action": "قام المسؤول بتعطيل إجراء إعادة التوجيه",
+        "administer": "المدير",
+        "accept": "قبول",
+        "activate_selection_mode": "تفعيل وضع الاختيار",
+        "add": "أضف",
+        "as_html": "كـ HTML",
+        "addresses_not_accepted": "لم يتم قبول عنوان واحد أو أكثر. العناوين المرفوضة:",
+        "all": "الكل",
+        "all_items_selected": "تم تحديد كل العناصر المرئية",
+        "always_allow_address": "السماح دائمًا من <strong>{{from}}</strong>",
+        "always_allow_domain": "السماح من نطاق <strong>{{domain}}</strong>",
+        "arrival_notifications": "إشعارات الوصول",
+        "as_text": "كنص",
+        "attachment_zero": "لا مرفقات",
+        "attachment_one": "مرفق",
+        "attachment_two": "مرفقان",
+        "attachment_few": "مرفقات",
+        "attachment_many": "مرفق",
+        "attachment_other": "مرفق",
+        "attachment_status": "حالة عنصر البريد الإلكتروني",
+        "automatically_delete_duplicates": "حذف النسخ المكررة من نفس الرسالة تلقائيًا عند استلامها",
+        "back": "عودة للخلف",
+        "bcc": "نسخة مخفية",
+        "before_you_leave": "قبل أن تغادر",
+        "behalf_of": "نيابة عن",
+        "by_message": "بالرسالة",
+        "calendar": "التقويم",
+        "cancel": "إلغاء",
+        "advanced_filters_zero": "لم تختر تصفية متقدمة",
+        "advanced_filters_one": "تصفية متقدمة واحد",
+        "advanced_filters_two": "تصفيتان متقدمتان",
+        "advanced_filters_few": "تصفيات متقدمة",
+        "advanced_filters_many": "تصفيةً متقدمةً",
+        "advanced_filters_other": "تصفيةٍ متقدمةٍ",
+        "attachement_unknown": "صيغة غير معروفة <{{mimeType}}>",
+        "attachments_disclaimer": "أنت تشاهد رسالة مرفقة. لا يمكن التحقق من صحة الرسائل المرفقة.",
+        "attachment_with_count_zero": "{{count}} مرفق",
+        "attachment_with_count_one": "مرفق واحد",
+        "attachment_with_count_two": "مرفقان",
+        "attachment_with_count_few": "{{count}} مرفقات",
+        "attachment_with_count_many": "{{count}} مرفق",
+        "attachment_with_count_other": "{{count}} مرفق"
+    },
+    "header": {
+        "edit_draft": "تعديل المسودة",
+        "delete_email": "حذف البريد الإلكتروني",
+        "message_not_sent": "خطأ - لم يتم إرسال الرسالة",
+        "redirect_email": "إعادة توجيه البريد الإلكتروني",
+        "attention": "انتباه",
+        "warning": "تحذير"
+    },
+    "folders": {
+        "drafts": "المسودات",
+        "inbox": "البريد الوارد",
+        "spam": "البريد المزعج",
+        "junk": "البريد المهمل",
+        "sent": "البريد المرسل",
+        "trash": "سلة المهملات"
+    },
+    "go_back": "عُد للخلف"
 }
