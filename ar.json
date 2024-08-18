@@ -438,7 +438,56 @@
         "select_folder": "حدد المجلد",
         "select_signature": "حدد التوقيع",
         "send": "أرسل",
-        "remove_request_receipt": "إزالة طلب إشعار القراءة"
+        "remove_request_receipt": "إزالة طلب إشعار القراءة",
+        "send_email": "ارسل البريد",
+        "sent_to_address": "أرسلت إلى (العناوين)",
+        "set_default_signatures": "تعيين التواقيع الافتراضية",
+        "size": "الحجم",
+        "spam": "البريد المزعج",
+        "subject": "عنوان",
+        "tag": "علامه",
+        "tag_max_length": "يسمح بحد أقصى 128 حرفا",
+        "upload_failed": "فشل التحميل",
+        "shares_items": "المجلدات المشتركة للمستخدم {{value}}",
+        "smart_links_created": "إنشاء روابط ذكية",
+        "upload_from_files": "تحميل من الملفات",
+        "using_signatures": "استخدام التوقيعات",
+        "time_zone": "المنطقة الزمنية",
+        "send_later": "إرساله لاحقا",
+        "send_notification": "إرسال رسالة إعلام إلى",
+        "send_scheduled": "إرسال رسالة مجدوله",
+        "sending": "الخادم يرسل الرسالة",
+        "sent": "اُرسلت",
+        "share": "مشاركة",
+        "share_public_link": "مشاركة رابط عام",
+        "share_with": "شارك مع",
+        "shared_folders": "المجلدات المشتركة",
+        "shared_item": "العناصر المشتركة",
+        "shares_folder_edit": "مشاركة هذا المجلد",
+        "shares_info": "معلومات المجلد المشترك",
+        "show_all": "عرض الكل",
+        "show_more_info": "عرض المزيد من المعلومات",
+        "show_quoted_text": "إظهار النص المقتبس",
+        "signature_required": "معلومات التوقيع مطلوبة.",
+        "single_advanced_filter": "مرشحات متقدمة",
+        "size_larger": "حجم أكبر من (ميغابايت)",
+        "tag_name": "اسم العلامة",
+        "tags": "علامات",
+        "time": "الوقت",
+        "to": "لـ",
+        "trusted_addresses": "العناوين الموثوق بها",
+        "type": "النوع",
+        "type_name_here": "اسم العنصر",
+        "undo": "تراجع",
+        "view_images": "أعرض الصور",
+        "warning": "تحذير",
+        "wipe": "مسح",
+        "with_you": "معك",
+        "workflow": "سير العمل",
+        "would_like_to_share": "‪مشاركة مع",
+        "write": "كتابة",
+        "show_popup": "إظهار إشعار منبثق",
+        "size_smaller": "حجم أصغر من (ميغابايت)"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -456,5 +505,46 @@
         "sent": "البريد المرسل",
         "trash": "سلة المهملات"
     },
-    "go_back": "عُد للخلف"
+    "go_back": "عُد للخلف",
+    "messages": {
+        "modal": {
+            "send_anyway": {
+                "subject": "الموضوع غير موجود",
+                "second": "هل تريد إرسال البريد الإلكتروني على أي حال؟"
+            }
+        },
+        "powered_by": "مدعوم بواسطة",
+        "snackbar": {
+            "conversation_deleted": "تم حذف المحادثة",
+            "conversation_move": "تم نقل المحادثة بنجاح",
+            "folder_moved": "تم نقل المجلد بنجاح",
+            "folder_move_error": "حدث خطأ ما ، لم يتم نقل المجلد. يرجى المحاولة مرة أخرى.",
+            "apply_filter_rules_error": "حدث خطأ أثناء تطبيق التصفية '{{filterName}}'",
+            "apply_filter_rules_started": "يتم تطبيق التصفية '{{filterName}}' على رسائل المجلد '{{folderPath}}'",
+            "conversation_move_error": "حدث خطأ ما ، لم يكتمل نقل المحادثة. يرجى المحاولة مرة أخرى.",
+            "email_moved_to_trash": "تم نقل البريد الإلكتروني إلى سلة المهملات",
+            "email_restored": "تمت استعادة البريد الإلكتروني في المجلد المقصود",
+            "folder_created": "تم إنشاء مجلد جديد",
+            "folder_deleted": "تم حذف المجلد بنجاح.",
+            "folder_edited": "تم حفظ التغييرات بنجاح",
+            "folder_empty": "تم إفراغ سلة المهملات بنجاح",
+            "folder_empty_error": "حدث خطأ ما ، لم تتم التغييرات. يرجى المحاولة مرة أخرى.",
+            "apply_filter_rules_completed": "تم تطبيق التصفية التالية {{filterName}} بنجاح على {{involvedMessagesCount}} للمجلد {{folderPath}}"
+        },
+        "read_receipt_1": "طلب مرسل هذه الرسالة إعلامه عند قرائتك لهذه الرسالة.",
+        "new_email": "بريد إلكتروني جديد",
+        "no_content": "لا تحتوي هذه الرسالة على نص",
+        "permanent_delete_title": "هل أنت متأكد من حذف هذا العنصر نهائيا؟",
+        "read_receipt_2": "هل ترغب في إعلام المرسل؟",
+        "permanent_delete_body": "إذا قمت بحذف هذا العنصر نهائيا ، فلن تتمكن من استعادته. هل تريد الاستمرار؟"
+    },
+    "labels": {
+        "compose_colin": "أنشأ:",
+        "composing_messages": "إنشاء الرسائل"
+    },
+    "message": {
+        "copy": "نسخ",
+        "delete_attachment_message1": "سيتم حذف المرفق الخاص بك نهائيا من كاربونيو.",
+        "admin_rights": "عرض، تحرير، إضافة، إزالة، إدارة"
+    }
 }
