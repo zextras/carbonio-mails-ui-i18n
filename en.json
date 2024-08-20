@@ -951,10 +951,7 @@
         "folder_sharing_status_other": "Shared with {{count}} users",
         "marked_as_important": "Marked as important",
         "resend": "Resend mail notification about this share",
-        "revoke": "Revoke access",
-        "list_navigation": {
-            "loadingEmail": "Loading next email"
-        }
+        "revoke": "Revoke access"
     },
     "layoutView": {
         "tooltip": {
