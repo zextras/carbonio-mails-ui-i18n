@@ -953,8 +953,7 @@
         "resend": "Resend mail notification about this share",
         "revoke": "Revoke access",
         "list_navigation": {
-            "loadingNextEmail": "Loading next email",
-            "UnableToLoadNextEmail": "Unable to load next email. Try again later"
+            "loadingNextEmail": "Loading next email"
         }
     },
     "layoutView": {
