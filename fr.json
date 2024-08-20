@@ -377,7 +377,12 @@
         "days": "Jours",
         "months": "Mois",
         "years": "Années",
-        "weeks": "Semaines"
+        "weeks": "Semaines",
+        "layoutView": {
+            "horizontalSplit": "Séparation horizontale",
+            "noSplit": "Pas de séparation",
+            "verticalSplit": "Séparation verticale"
+        }
     },
     "message": {
         "snackbar": {
@@ -734,7 +739,16 @@
         "folder_linked_status": "Partagé avec moi",
         "folder_sharing_status_one": "Partagé avec {{count}} utilisateur",
         "folder_sharing_status_many": "Partagé avec {{count}} utilisateurs",
-        "folder_sharing_status_other": "Partagé avec {{count}} utilisateurs"
+        "folder_sharing_status_other": "Partagé avec {{count}} utilisateurs",
+        "list_navigation": {
+            "loadingNextEmail": "Chargement du prochain email",
+            "noMoreEmails": "Il n'y a plus d'autres emails",
+            "goToPrevious": "Aller à l'aperçu de l'email",
+            "goToNext": "Aller au prochain email",
+            "unableToLoadNextEmail": "Impossible de charger le prochain email. Merci de réessayer plus tard",
+            "closeToNavigate": "Fermer cet email pour naviguer",
+            "noPreviousEmails": "Il n'y a pas d'emails précédents"
+        }
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
@@ -955,7 +969,10 @@
     "layoutView": {
         "tooltip": {
             "vertical": "Vue verticale",
-            "horizontal": "Vue horizontale"
+            "horizontal": "Vue horizontale",
+            "switchToNoSplit": "Passer à ne pas diviser",
+            "switchToVertical": "Passer à l'affichage vertical",
+            "switchToHorizontal": "Passer à l'affichage horizontal"
         }
     }
 }
