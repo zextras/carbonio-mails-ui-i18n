@@ -408,8 +408,7 @@
         "folder_sharing_status_many": "Condiviso con {{count}} utenti",
         "folder_sharing_status_other": "Condiviso con {{count}} utenti",
         "list_navigation": {
-            "loadingNextEmail": "Caricamento email successiva",
-            "UnableToLoadNextEmail": "Impossibile caricare email successiva. Riprova più tardi"
+            "loadingNextEmail": "Caricamento email successiva"
         }
     },
     "placeholder": {
