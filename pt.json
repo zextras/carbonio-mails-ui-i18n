@@ -347,7 +347,6 @@
             "message_sending_aborted": "cancelado pelo usuário"
         },
         "invalid_address": "O seguinte endereço parece ser inválido",
-        "invalid_address_plural": "Os seguintes endereços parecem ser inválidos",
         "modal": {
             "delete": {
                 "if_delete_lost_forever": "Se apagar a mensagem, ela será perdida para sempre.",

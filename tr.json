@@ -461,7 +461,6 @@
             "apply_filter_rules_completed": "'{{filterName}}' filtresi, '{{folderPath}}' klasörünün {{involvedMessagesCount}} iletilerine başarıyla uygulandı"
         },
         "invalid_address": "Şu adres geçersiz görünüyor",
-        "invalid_address_plural": "Şu adres geçersiz görünüyor",
         "permanent_delete_body": "Bu öğeyi kalıcı olarak silerseniz geri alamazsınız, devam edilsin mi?",
         "powered_by": "sağlayıcı",
         "check_and_try_again": "Lütfen Carbonio'yu kontrol edin ve tekrar deneyin",

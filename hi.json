@@ -241,7 +241,6 @@
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
-        "invalid_address_plural": "निम्नलिखित एड्रेस अमान्य लग रहे हैं",
         "modal": {
             "delete": {
                 "if_delete_lost_forever": "यदि आप इस ई-मेल को डिलीट कर देंगे तो ये हमेशा के लिए उड़ जाएगी।",

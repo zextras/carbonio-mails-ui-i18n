@@ -372,7 +372,6 @@
             "tag_updated": "Tag erfolgreich aktualisiert"
         },
         "invalid_address": "Die folgende Adresse scheint ungültig zu sein",
-        "invalid_address_plural": "Die folgenden Adressen scheinen ungültig zu sein",
         "powered_by": "Betrieben von",
         "check_and_try_again": "Bitte überprüfen Sie Carbonio und versuchen Sie es erneut",
         "could_not_find_to_show": "Sorry, wir konnten nichts zum Anzeigen finden",

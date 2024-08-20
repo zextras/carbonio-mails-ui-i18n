@@ -288,7 +288,6 @@
     },
     "messages": {
         "invalid_address": "Het volgende adres lijkt ongeldig te zijn",
-        "invalid_address_plural": "De volgende adressen blijken ongeldig te zijn",
         "modal": {
             "delete": {
                 "sure_delete_email": "Weet u zeker dat u de geselecteerde e-mail wilt verwijderen?",
