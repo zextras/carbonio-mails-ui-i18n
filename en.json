@@ -533,7 +533,12 @@
         "weeks": "Weeks",
         "months": "Months",
         "days": "Days",
-        "years": "Years"
+        "years": "Years",
+        "layoutView": {
+            "verticalSplit": "Vertical split",
+            "horizontalSplit": "Horizontal split",
+            "noSplit": "No split"
+        }
     },
     "labels": {
         "compose_colin": "Compose :",
@@ -953,13 +958,22 @@
         "resend": "Resend mail notification about this share",
         "revoke": "Revoke access",
         "list_navigation": {
-            "loadingNextEmail": "Loading next email"
+            "loadingNextEmail": "Loading next email",
+            "goToPrevious": "Go to previous email",
+            "closeToNavigate": "Close this email to navigate",
+            "unableToLoadNextEmail": "Unable to load next email. Try again later",
+            "noMoreEmails": "There are no more emails",
+            "noPreviousEmails": "There are no previous emails",
+            "goToNext": "Go to next email"
         }
     },
     "layoutView": {
         "tooltip": {
             "horizontal": "Horizontal View",
-            "vertical": "Vertical View"
+            "vertical": "Vertical View",
+            "switchToVertical": "Switch to vertical split",
+            "switchToNoSplit": "Switch to no split",
+            "switchToHorizontal": "Switch to horizontal split"
         }
     }
 }
