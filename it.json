@@ -391,7 +391,12 @@
         "weeks": "Settimane",
         "months": "Mesi",
         "years": "Anni",
-        "days": "Giorni"
+        "days": "Giorni",
+        "layoutView": {
+            "verticalSplit": "Divisione verticale",
+            "horizontalSplit": "Divisione orizzontale",
+            "noSplit": "Nessuna divisione"
+        }
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -408,7 +413,13 @@
         "folder_sharing_status_many": "Condiviso con {{count}} utenti",
         "folder_sharing_status_other": "Condiviso con {{count}} utenti",
         "list_navigation": {
-            "loadingNextEmail": "Caricamento email successiva"
+            "loadingNextEmail": "Caricamento email successiva",
+            "noPreviousEmails": "Non ci sono email precedenti",
+            "unableToLoadNextEmail": "Impossibile caricare email successiva. Riprova più tardi",
+            "noMoreEmails": "Non ci sono ulteriori email",
+            "closeToNavigate": "Chiudi questa email per navigare",
+            "goToPrevious": "Vai all'email precedente",
+            "goToNext": "Vai all'email successiva"
         }
     },
     "placeholder": {
@@ -957,7 +968,10 @@
     "layoutView": {
         "tooltip": {
             "horizontal": "Vista Orizzontale",
-            "vertical": "Vista Verticale"
+            "vertical": "Vista Verticale",
+            "switchToNoSplit": "Passa a nessuna divisione",
+            "switchToHorizontal": "Passa a divisione orizzontale",
+            "switchToVertical": "Passa a divisione verticale"
         }
     }
 }
