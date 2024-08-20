@@ -406,10 +406,7 @@
         "marked_as_important": "Contrassegnato come importante",
         "folder_sharing_status_one": "Condiviso con {{count}} utente",
         "folder_sharing_status_many": "Condiviso con {{count}} utenti",
-        "folder_sharing_status_other": "Condiviso con {{count}} utenti",
-        "list_navigation": {
-            "loadingEmail": "Caricamento email successiva"
-        }
+        "folder_sharing_status_other": "Condiviso con {{count}} utenti"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
