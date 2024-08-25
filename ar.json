@@ -15,7 +15,7 @@
         "mark_as_non_spam": "ليست رسالة مزعجة",
         "reply_all": "الرد على الكل",
         "reset": "اعاده تعيين",
-        "apply_filter_on_folder": "تطبيق التصفية على المجلد",
+        "apply_filter_on_folder": "تطبيق المرشح على المجلد",
         "mark_as_unread": "رسالة غير مقروءة",
         "ok": "حسناً",
         "search": "بحث",
@@ -112,9 +112,9 @@
         "list_draft_title": "لا توجد مسودات محفوظة",
         "list_folder_title": "يبدو أنه لا توجد رسائل بريد إلكتروني حتى الآن",
         "list_junk_title": "لا توجد رسائل بريد إلكتروني غير مرغوب فيها",
-        "search_description1": "أو حدد \"تصفية متقدمة\" لتحسين بحثك.",
+        "search_description1": "أو حدد \"ترَشّيح متقدم\" لتحسين بحثك.",
         "search_description2": "حاول بدء بحث آخر.",
-        "search_description3": "تحقق من خيارات التدقيق الإملائي وخيار التصفية أو جرب استخدام كلمة رئيسية أخرى.",
+        "search_description3": "تحقق من خيارات التدقيق الإملائي وخيار الترشيح أو جرب استخدام كلمة رئيسية أخرى.",
         "search_list_title1": "يبدو أنه لا توجد نتائج. استمر في البحث!",
         "search_title1": "بدء بحث آخر",
         "search_title3": "لا توجد نتائج لبحثك.",
@@ -142,14 +142,14 @@
         "trash_title1": "انقر فوق أيقونة سلة المهملات لحذف رسالة بريد إلكتروني"
     },
     "filters": {
-        "run": "تشغيل عوامل التصفية",
-        "filters": "عوامل التصفية",
-        "incoming_msg_filters": "عوامل تصفية الرسائل الواردة",
-        "outgoing_message_filters": "عوامل تصفية الرسائل الصادرة",
-        "active_filters": "عوامل التصفية النشطة",
-        "available_filters": "عوامل التصفية المتاحة",
-        "apply": "طبق",
-        "filter_note": "ملاحظة: يتم حفظ التغييرات التي تطرأ على قواعد العلامات على الفور"
+        "run": "تشغيل المرشح",
+        "filters": "المرشحات",
+        "incoming_msg_filters": "مرشحات الرسائل الواردة",
+        "outgoing_message_filters": "مرشحات الرسائل الصادرة",
+        "active_filters": "المرشحات النشطة",
+        "available_filters": "المرشحات المتاحة",
+        "apply": "طبق المرشح",
+        "filter_note": "ملاحظة: يتم حفظ التغييرات التي تطرأ على قواعد الترشيح على الفور"
     },
     "folder_panel": {
         "action": {
@@ -250,12 +250,12 @@
         "by_message": "بالرسالة",
         "calendar": "التقويم",
         "cancel": "إلغاء",
-        "advanced_filters_zero": "لم تختر تصفية متقدمة",
-        "advanced_filters_one": "تصفية متقدمة واحد",
-        "advanced_filters_two": "تصفيتان متقدمتان",
-        "advanced_filters_few": "تصفيات متقدمة",
-        "advanced_filters_many": "تصفيةً متقدمةً",
-        "advanced_filters_other": "تصفيةٍ متقدمةٍ",
+        "advanced_filters_zero": "لم تختر عامل فرز متقدم",
+        "advanced_filters_one": "عامل فرز متقدم واحد",
+        "advanced_filters_two": "عاملان فرز متقدمان",
+        "advanced_filters_few": "عوامل فرز متقدمة",
+        "advanced_filters_many": "عامل فرز متقدم",
+        "advanced_filters_other": "عامل فرز متقدم",
         "attachement_unknown": "صيغة غير معروفة <{{mimeType}}>",
         "attachments_disclaimer": "أنت تشاهد رسالة مرفقة. لا يمكن التحقق من صحة الرسائل المرفقة.",
         "attachment_with_count_zero": "{{count}} مرفق",
@@ -276,7 +276,7 @@
         "cc_bcc": "نسخة لـ نسخه مخفية لـ",
         "delete_draft": "حذف المسودة",
         "folder_name": "اسم المجلد",
-        "filter_user": "تصفية المستخدمين",
+        "filter_user": "فرز المستخدمين",
         "cc": "نسخة لـ",
         "choose_folder": "اختر مجلد",
         "convert_to_smart_link": "التحويل إلى رابط ذكي",
@@ -313,8 +313,8 @@
         "create_new_task": "انشئ مهمة جديدة",
         "delete_tag": "حذف العلامة",
         "do_not_have_perm": "ليس لديك إذن",
-        "filter_folders": "تصفية المجلدات",
-        "filter_modified": "تم تعديل التصفية بنجاح",
+        "filter_folders": "فرز المجلدات",
+        "filter_modified": "تم تعديل الفرز بنجاح",
         "from_identity": "من: {{identity}}",
         "include_shared_folders": "ضمن المجلدات المشتركة",
         "invalid_query": "غير قادر على تحليل استعلام البحث ، امسحها وأعد المحاولة",
@@ -470,7 +470,7 @@
         "show_more_info": "عرض المزيد من المعلومات",
         "show_quoted_text": "إظهار النص المقتبس",
         "signature_required": "معلومات التوقيع مطلوبة.",
-        "single_advanced_filter": "مرشحات متقدمة",
+        "single_advanced_filter": "عوامل فرز متقدمة",
         "size_larger": "حجم أكبر من (ميغابايت)",
         "tag_name": "اسم العلامة",
         "tags": "علامات",
@@ -552,7 +552,27 @@
         "modal": {
             "send_anyway": {
                 "subject": "الموضوع غير موجود",
-                "second": "هل تريد إرسال البريد الإلكتروني على أي حال؟"
+                "second": "هل تريد إرسال البريد الإلكتروني على أي حال؟",
+                "attach": "أرفق",
+                "enclosed": "مرفقة",
+                "no_subject_no_attachments": "عنوان البريد الإلكتروني فارغٌ ولم تقم بإرفاق أي ملف.",
+                "attaching": "ارفاق",
+                "attachment": "مرفق",
+                "attached": "تم إرفاقه",
+                "attachments": "مرفقات",
+                "enclose": "أَرْفَق",
+                "enclosing": "إرفاق",
+                "no_attachments": "لم تقم بإرفاق أي ملفات.",
+                "no_subject": "عنوان البريد الإلكتروني فارغ.",
+                "first": "عنوان البريد الإلكتروني فارغ ولم تقم بإرفاق أي ملف."
+            },
+            "delete": {
+                "sure_delete_email": "هل أنت متأكد من حذف البريد الإلكتروني المحدد؟",
+                "if_delete_lost_forever": "إذا قمت بحذف البريد الإلكتروني ، فستفقده إلى الأبد."
+            },
+            "redirect": {
+                "first": "سيتم إرسال هذا البريد الإلكتروني إلى مستلم جديد مع الحفاظ على عنوان البريد الإلكتروني للمرسل الأصلي.",
+                "second": "سيظهر البريد الإلكتروني كما هو مخصص في الأصل للمستلم الجديد"
             }
         },
         "powered_by": "مدعوم بواسطة",
@@ -561,8 +581,8 @@
             "conversation_move": "تم نقل المحادثة بنجاح",
             "folder_moved": "تم نقل المجلد بنجاح",
             "folder_move_error": "حدث خطأ ما ، لم يتم نقل المجلد. يرجى المحاولة مرة أخرى.",
-            "apply_filter_rules_error": "حدث خطأ أثناء تطبيق التصفية '{{filterName}}'",
-            "apply_filter_rules_started": "يتم تطبيق التصفية '{{filterName}}' على رسائل المجلد '{{folderPath}}'",
+            "apply_filter_rules_error": "حدث خطأ أثناء تطبيق الفرز '{{filterName}}'",
+            "apply_filter_rules_started": "يتم تطبيق عامل الفرز '{{filterName}}' على رسائل المجلد '{{folderPath}}'",
             "conversation_move_error": "حدث خطأ ما ، لم يكتمل نقل المحادثة. يرجى المحاولة مرة أخرى.",
             "email_moved_to_trash": "تم نقل البريد الإلكتروني إلى سلة المهملات",
             "email_restored": "تمت استعادة البريد الإلكتروني في المجلد المقصود",
@@ -571,7 +591,30 @@
             "folder_edited": "تم حفظ التغييرات بنجاح",
             "folder_empty": "تم إفراغ سلة المهملات بنجاح",
             "folder_empty_error": "حدث خطأ ما ، لم تتم التغييرات. يرجى المحاولة مرة أخرى.",
-            "apply_filter_rules_completed": "تم تطبيق التصفية التالية {{filterName}} بنجاح على {{involvedMessagesCount}} للمجلد {{folderPath}}"
+            "apply_filter_rules_completed": "تم تطبيق عوامل الفرز التالية {{filterName}} بنجاح على {{involvedMessagesCount}} للمجلد {{folderPath}}",
+            "folder_restored": "تم استعادة المجلد",
+            "marked_as_spam": "لقد قمت بوضع علامة على هذا البريد الإلكتروني كبريد عشوائي",
+            "message_sending_aborted": "تم إلغاؤه من قبل المستخدم",
+            "tag_updated": "تم تحديث العلامة بنجاح",
+            "tag_created": "تم إنشاء العلامة {{name}} بنجاح",
+            "folder_moved_to_trash": "تم نقل المجلد إلى سلة المهملات",
+            "mail_saved_to_drafts": "تم حفظ البريد في المسودات",
+            "mail_sent": "تم إرسال الرسالة",
+            "marked_as_non_spam": "لقد قمت بوضع علامة على هذا البريد الإلكتروني على أنه ليس بريدا عشوائيا",
+            "message_delete_error": "حدث خطأ ما ، لم يتم حذف هذه الرسالة. يرجى المحاولة مرة أخرى.",
+            "tag_deleted": "تم حذف العلامة {{name}} بنجاح",
+            "tag_not_updated": "حدث خطأ ما ، لم يتم تحديث العلامة. يرجى المحاولة مرة أخرى.",
+            "message_deleted": "تم حذف الرسالة",
+            "message_move": "تم نقل الرسالة بنجاح",
+            "message_redirected": "تمت إعادة توجيه الرسالة",
+            "sending_mail_in_count_zero": "سيتم إرسال رسالتك اﻵن",
+            "sending_mail_in_count_one": "ثانية {{count}} وسيتم إرسال رسالتك",
+            "sending_mail_in_count_two": "ثانيتان {{count}} وسيتم إرسال رسالتك",
+            "sending_mail_in_count_few": "{{count}} ثواني وسيتم إرسال رسالتك",
+            "sending_mail_in_count_many": "{{count}} ثانية وسيتم إرسال رسالتك",
+            "sending_mail_in_count_other": "{{count}} ثانية وسيتم إرسال رسالتك",
+            "folder_wiped": "تم مسح المجلد بنجاح",
+            "apply_filter_error": "لا يزال عامل الفرز قيد التشغيل على الخادم ولكنه يستغرق وقتا طويلا للإبلاغ عن العناصر المتأثرة. سيستمر فرز في العمل على الخادم دون معلومات إضافية."
         },
         "read_receipt_1": "طلب مرسل هذه الرسالة إعلامه عند قرائتك لهذه الرسالة.",
         "new_email": "بريد إلكتروني جديد",
@@ -580,8 +623,19 @@
         "read_receipt_2": "هل ترغب في إعلام المرسل؟",
         "permanent_delete_body": "إذا قمت بحذف هذا العنصر نهائيا ، فلن تتمكن من استعادته. هل تريد الاستمرار؟",
         "invalid_sender_address": "الرجاء إدخال عناوين البريد الإلكتروني فقط",
-        "allowed_addresses": "ستتجاوز الرسائل المرسلة من العناوين المدرجة في قائمة المرسلين المسموح بهم دائما فلتر الرسائل غير المرغوب فيها وتصل مباشرة إلى صندوق الوارد الخاص بك.",
-        "blocked_addresses": "سيتم نقل رسائل البريد المرسلة من العناوين الموجودة في قائمة المرسلين المحظورين تلقائيا إلى مجلد الرسائل غير المرغوب فيها."
+        "allowed_addresses": "ستتجاوز الرسائل المرسلة من العناوين المدرجة في قائمة المرسلين المسموح بهم دائما فرز الرسائل غير المرغوب فيها وتصل مباشرة إلى صندوق الوارد الخاص بك.",
+        "blocked_addresses": "سيتم نقل رسائل البريد المرسلة من العناوين الموجودة في قائمة المرسلين المحظورين تلقائيا إلى مجلد الرسائل غير المرغوب فيها.",
+        "invalid_trustee_address": "الرجاء إدخال عناوين بريد إلكتروني أو مجالات فقط",
+        "cal_name_exist_warning": "تقويم بنفس الاسم موجود بالفعل في هذا المسار",
+        "invalid_address": "يبدو أن العنوان التالي غير صالح",
+        "could_not_find_to_show": "عذرا ، لم نتمكن من العثور على أي شيء لإظهاره",
+        "edit_schedule_warning": "من خلال تحرير هذا البريد الإلكتروني ، سيتم إعادة تعيين الوقت والتاريخ المحددين مسبقا للإرسال المتأخر.",
+        "extra_windows": {
+            "opening_blocked": "لإكمال العملية ، يحتاج Carbonio إلى فتح نافذة جديدة.\nتحقق من إعدادات المتصفح",
+            "popup_blocked": "لإكمال العملية ، يحتاج Carbonio إلى فتح نافذة جديدة.\nتحقق من إعدادات المتصفح"
+        },
+        "check_and_try_again": "من فضلك ، تحقق من Carbonio وحاول مرة أخرى",
+        "enter_calendar_name": "أدخل اسما لقبول التقويم"
     },
     "labels": {
         "compose_colin": "أنشأ:",
@@ -600,7 +654,17 @@
             "all_att_saved": "تم حفظ المرفقات بنجاح في المجلد المحدد",
             "all_link_copied": "تم نسخ الرابط العام بنجاح",
             "att_err": "‬يبدو أن هناك مشكلة عند الحفظ، يرجى المحاولة مرة أخرى",
-            "calendar_edits_saved": "تم حفظ التعديلات بشكل صحيح"
+            "calendar_edits_saved": "تم حفظ التعديلات بشكل صحيح",
+            "eml_download_failed": "حُفظ المرفق في المجلد المحدد",
+            "settings_saved": "تم حفظ التعديلات بشكل صحيح",
+            "some_att_fails": "يبدو أن هناك مشكلة عند حفظ بعض الملفات ، يرجى المحاولة مرة أخرى",
+            "link_copying_error": "يبدو أن هناك مشكلة أثناء إنشاء رابط عام ، يرجى المحاولة مرة أخرى",
+            "share": {
+                "accepted": "لقد قبلت طلب المشاركة",
+                "declined": "لقد رفضت طلب المشاركة"
+            },
+            "some_att_add_fails": "يبدو أن هناك مشكلة عند إضافة بعض المرفقات ، يرجى المحاولة مرة أخرى",
+            "some_link_copying_error": "يبدو أن هناك مشكلة أثناء إنشاء رابط عام لبعض الملفات ، يرجى المحاولة مرة أخرى"
         },
         "delete_attachment_message2": "هل تريد تنزيله ؟",
         "send_email": "إرسال بريد إلكتروني",
@@ -612,16 +676,17 @@
         "manager_rights": "عرض، تحرير، إضافة، إزالة",
         "schedule_mail": "سيتم الإرسال بتاريخ: {{date}} في الساعة {{time}}",
         "select_date_time": "حدد التاريخ والوقت لإرسال هذه الرسالة",
-        "send_later_success": "سيتم إرسال بريدك الإلكتروني بتاريخ {{date}} في الساعة {{time}}"
+        "send_later_success": "سيتم إرسال بريدك الإلكتروني بتاريخ {{date}} في الساعة {{time}}",
+        "view_rights": "طريقه العرض"
     },
     "messages,new_email": "بريد جديد",
     "modals": {
         "apply_filters": {
-            "button_apply": "طبق",
+            "button_apply": "طبق الفرز",
             "label_involved_messages": "ستتم معالجة <0>{{involvedMessagesCount}}</0> رسالة داخل المجلد المحدد.",
-            "label_confirm_request": "هل تريد تطبيق التصفية؟",
-            "title": "عامل تصفية التطبيق \"{{filterName}}\"",
-            "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق التصفية."
+            "label_confirm_request": "هل تريد تطبيق الفرز؟",
+            "title": "فرز التطبيق \"{{filterName}}\"",
+            "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق الفرز."
         }
     },
     "notification": {
@@ -648,5 +713,21 @@
         "delete_draft": {
             "message1": "هل تريد الاحتفاظ بهذه المسودة أو حذفها؟"
         }
+    },
+    "settings": {
+        "do_not_process_additional_filters": "لا تقم بمعالجة عوامل الفرز الإضافية",
+        "create_new_filter": "أنشئ عامل فرز جديد",
+        "filter_name": "اسم عامل الفرز",
+        "active_filter": "عامل الفرز النشط",
+        "delete_filter": "حذف عامل الفرز",
+        "delete_filter_text": "هل أنت متأكد من حذف عامل الفرز. ",
+        "filter_deleted": "تم حذف عامل الفرز بنجاح",
+        "filter_folder_message": "حدد مجلدا لتطبيق الفرز:",
+        "label": {
+            "filter_name_required": "اسم عامل الفرز مطلوب"
+        }
+    },
+    "share": {
+        "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه"
     }
 }
