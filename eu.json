@@ -1,1 +1,166 @@
-{}
+{
+    "action": {
+        "click_open": "Egin klik irekitzeko",
+        "download_eml": "Deskargatu EML",
+        "edit_anyway": "Editatu hala ere",
+        "edit_as_new": "Editatu berri gisa",
+        "flag": "Gehitu bandera",
+        "forward": "Birbidali",
+        "goto_folder": "JOAN KARPETARA",
+        "hide_details": "Ezkutatu xehetasunak",
+        "mark_all_read": "Markatu guztiak irakurria gisa",
+        "mark_as_read": "Markatu irakurrita gisa",
+        "mark_as_spam": "Markatu spam gisa",
+        "mark_as_unread": "Markatu irakurri gabeko gisa",
+        "ok": "Ados",
+        "preview": "Aurrebista",
+        "preview_on_separated_window": "Leiho berrian ireki",
+        "print": "Inprimatu",
+        "redirect": "Berbideratu",
+        "reply": "Erantzun",
+        "reset": "Berrezarri",
+        "search": "Bilatu",
+        "select_folders": "Hautatu karpetak",
+        "send_anyway": "Bidali halere",
+        "share_folder": "Partekatu karpeta",
+        "show_original": "Erakutsi jatorrizkoa",
+        "unflag": "Kendu bandera",
+        "apply_filter_on_folder": "Aplikatu iragazkia karpetan",
+        "create_appointment": "Sortu hitzordua",
+        "click_preview": "Egin klik aurrebista ikusteko",
+        "goto_drafts": "Joan zirriborroetara",
+        "edit_share": "Editatu Partekatzea",
+        "mark_as_non_spam": "Ez da spama",
+        "preview_new_tab": "Egin klik beste fitxa batean aurrebista ikusteko",
+        "show_details": "Erakutsi xehetasunak",
+        "reply_all": "Erantzun guztiei",
+        "preview_on_separated_tab": "Ireki fitxa berrian"
+    },
+    "attachment_type": {
+        "application": "Aplikazioa",
+        "excel": "Excel",
+        "html": "HTML",
+        "image": "Irudia",
+        "pdf": "PDF",
+        "powerpoint": "Powerpoint",
+        "text_document": "Testu dokumentua",
+        "video": "Bideoa",
+        "word": "Word",
+        "zipped_file": "Konprimitutako fitxategia",
+        "email": "Posta elektronikoa"
+    },
+    "board": {
+        "show": "Erakutsi taula"
+    },
+    "composer": {
+        "attachment": {
+            "contacts_mod": "Gehitu kontaktu txartela",
+            "drag_and_drop": {
+                "title": "Arrastatu eta Jaregin modua",
+                "content": "Jarri hemen zure eranskinak mezu elektroniko honetara azkar gehitzeko"
+            },
+            "files": "Gehitu Fitxategietatik",
+            "local": "Gehitu lokaletik",
+            "url": "Gehitu esteka publikoa Fitxategietatik"
+        }
+    },
+    "displayer": {
+        "archive_title1": "Gorde mezu elektroniko bat artxiboan, geroago berrikusi ahal izateko.",
+        "description2": "Bidali dokumentuak, irudiak eta gehiago mezu elektroniko berri bat idatziz.",
+        "description5": "Begiratu beste erabiltzaileek zurekin zertaz hitz egin nahi duten.",
+        "description7": "Hautatu e-mail bat erantzuteko.",
+        "draft_title2": "Hautatu eta editatu mezu elektroniko bat beste erabiltzaile batzuei bidaltzeko.",
+        "list_draft_title": "Ez dago gordetako zirriborrorik",
+        "list_folder_title": "Badirudi oraindik ez dagoela mezu elektronikorik",
+        "list_junk_title": "Ez dago spam mezurik",
+        "list_spam_title": "Ez dago spam mezurik",
+        "list_trash_title": "Zaborrontzia hutsik dago",
+        "search_description1": "Edo hautatu \"Iragazki aurreratuak\" bilaketa hobetzeko.",
+        "search_description2": "Saiatu beste bilaketa bat egiten.",
+        "search_list_title1": "Emaitzarik ez dagoela ematen du. Segi bila!",
+        "search_list_title2": "Zure elementuetako bat ere ez dator bat zure bilaketarekin.",
+        "search_title1": "Hasi beste bilaketa bat",
+        "sent_title2": "Hautatu mezu elektroniko bat bidalitakoa bistaratzeko.",
+        "spam_title1": "Zein zortea! Ez dago spam mezurik, kezka bat gutxiago!",
+        "spam_title2": "Egin klik zakarrontziaren ikonoan spam-mezu bat ezabatzeko.",
+        "title2": "Egin klik \"BERRIA\" botoian",
+        "title3": "Egon harremanetan beste erabiltzaileekin.",
+        "title8": "Hautatu mezu elektroniko bat irakurtzeko edo ezabatzeko.",
+        "draft_title1": "Mezu elektroniko bat zirriborro gisa gordetzeak, beranduago bidali nahiko zenituzkeen mezuak gordetzeko aukera ematen dizu.",
+        "junk_title2": "Egin klik zakarrontziaren ikonoan spam-mezu bat ezabatzeko",
+        "archive_title2": "Hautatu artxibatutako mezu elektroniko bat berrikusteko.",
+        "description6": "Erantzun mezu elektroniko honi edo birbidali beste erabiltzaile batzuei.",
+        "description4": "Markatu, erantzun edo beste erabiltzaile batzuei birbidali diezaiekezu.",
+        "junk_title1": "Zein zortea! Ez dago spam mezurik, kezka bat gutxiago!",
+        "list_sent_title": "Oraindik ez duzu mezu elektronikorik bidali",
+        "search_description3": "Egiaztatu ortografia eta iragazkien aukerak edo saiatu beste gako-hitz batekin.",
+        "search_title4": "Hautatu emaitza bat edo gehiago ekintzak egiteko edo xehetasunak bistaratzeko.",
+        "search_title2": "Sentitzen dugu baina ez dago zure bilaketarako emaitzarik",
+        "search_title3": "Ez dago zure bilaketarako emaitzarik.",
+        "title1": "Idatzi mezu elektroniko berri bat \"BERRIA\" botoian klik eginez",
+        "trash_title1": "Egin klik zakarrontziaren ikonoan mezu elektroniko bat ezabatzeko",
+        "title4": "Hautatu mezu elektroniko bat irakurtzeko",
+        "trash_title2": "Hautatu eta berreskuratu posta elektronikoak zaborrontzitik."
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "Mezuaren tamainak muga gainditzen du. Mesedez, bihurtu fitxategi erantsi batzuk esteka adimendun"
+        }
+    },
+    "email_status": {
+        "anywhere": "karpeta guztietan",
+        "ccme": "niri kopian",
+        "flagged": "bandera du",
+        "forwarded": "birbidalita",
+        "fromccme": "nigandik edo niri kopian",
+        "invitations": "gonbidapenak",
+        "read": "irakurrita",
+        "received": "nik jasoa",
+        "remote": "nik partekatutako karpeta batean",
+        "sent": "nik bidalia",
+        "toccme": "niri edo niri kopian",
+        "tofromccme": "niri, nigandik edo niri kopian",
+        "tofromme": "niri edo nigandik",
+        "unflagged": "banderarik gabea",
+        "unread": "irakurri gabe",
+        "unreplied": "nik erantzun gabe",
+        "local": "nire karpetetan",
+        "replied": "nik erantzunda",
+        "unforwarded": "birbidali gabea",
+        "draft": "zirriborroa",
+        "fromme": "nigandik",
+        "solo": "mezu bakarreko elkarrizketak",
+        "tome": "niri"
+    },
+    "filters": {
+        "active_filters": "Iragazki aktiboak",
+        "available_filters": "Eskuragarri dauden iragazkiak",
+        "filters": "Iragazkiak",
+        "outgoing_message_filters": "Irteteko dauden mezuen iragazkiak",
+        "run": "Exekutatu",
+        "filter_note": "Oharra: Iragazkien arauei egindako aldaketak berehala gordetzen dira",
+        "incoming_msg_filters": "Sartzen diren mezuen iragazkiak",
+        "apply": "Aplikatu"
+    },
+    "folder": {
+        "modal": {
+            "edit": {
+                "add_share": "Gehitu partekatzea",
+                "retention_duration_warning": "Atxikitze-epea zenbaki positibo bat izan behar da",
+                "retention_message": "Atxikitze-tartean sartzen diren karpeta honetako mezuak ezabatzeko, berariaz berretsi behar da",
+                "threshold_message": "Ezabatzeko mugaren aurrekoak diren karpeta honetako mezuak automatikoki garbituko eta ezabatuko dira."
+            }
+        }
+    },
+    "folder_panel": {
+        "action": {
+            "edit_properties": "Editatu propietateak",
+            "empty": {
+                "trash": "Hustu zakarrontzia"
+            }
+        },
+        "lists_item": {
+            "root": "/Erroa"
+        }
+    }
+}
