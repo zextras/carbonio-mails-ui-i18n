@@ -747,8 +747,53 @@
         "contacts": "جهات الاتصال",
         "conv_is_started": "في المحادثة التي بدأتها",
         "conv_sort_option": {
-            "asc": "من الاقدم إلى الاحدث"
-        }
+            "asc": "من الاقدم إلى الاحدث",
+            "desc": "من الجديد إلى القديم"
+        },
+        "field": "الحقل",
+        "fonts": {
+            "comic": "خط كوميك Comic",
+            "console": "خط كونسول console",
+            "monospaced": "خط أحادي المسافة Monospaced",
+            "professional": "خط محترف Professional",
+            "modern": "الخط العصري Modern",
+            "serif": "خط سريف Serif",
+            "elegant": "خط اليقينت elegant",
+            "garamond": "خط غاراموند Garamond",
+            "sans_serif": "خط سانس سيرف Sans Serif",
+            "terminal": "خط الطرفية Terminal",
+            "wide": "الخط الواسع Wide",
+            "wide_block": "خط الكتلة الواسعة Wide Block"
+        },
+        "display_mail_options": {
+            "html": "كلغة برمجة صفحات الويب HTML (عندما يكون ذلك ممكنا)",
+            "text": "كنص"
+        },
+        "discard": "تجاهل",
+        "does_not_contain": "لا يحتوي على",
+        "body": "الهيكل",
+        "does_not_exists": "غير موجود",
+        "does_not_match_exactly": "لا يتطابق تماما",
+        "before": "قبل",
+        "folder_path_required": "حدد المجلد الذي تريد النقل له لإكمال الإجراء \"نقل إلى مجلد\".",
+        "add_condition": "إضافة شرط جديد",
+        "address": "العنوان",
+        "address_in": "العنوان في",
+        "address_required": "املأ حقل \"العنوان\" لإكمال الإجراء \"إعادة التوجيه إلى العنوان\".",
+        "after": "بعد",
+        "date": "التاريخ",
+        "domain": "النطاق",
+        "exists": "موجود",
+        "does_not_match_wildcard_condition": "لا يتطابق مع شرط حرف البدل (*)",
+        "facebook_notification": "إشعارات الفيسبوك",
+        "font": "الخطوط",
+        "font_size_zero": "{{count}} نقطة",
+        "font_size_one": "نقطة {{count}}",
+        "font_size_two": "نقطتان {{count}}",
+        "font_size_few": "{{count}} نقاط",
+        "font_size_many": "{{count}} نقطة",
+        "font_size_other": "{{count}} نقطة",
+        "from_distribution_list": "من قائمة التوزيع"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه"
