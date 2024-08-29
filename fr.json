@@ -281,7 +281,7 @@
         "enter_name": "Saisir le nom",
         "no_signature": "Pas de signature",
         "mark_read_message_immediately": "Marquer les messages comme lu immédiatement",
-        "mark_read_message_manually": "Marquer les message lu manuellement en cliquant sur l'icone",
+        "mark_read_message_manually": "Marquer les messages lu manuellement en cliquant sur l'icone",
         "attachments_disclaimer": "Vous consultez un message joint. L'authenticité des messages joints ne peut être vérifiée.",
         "choose_file": "Choisir un fichier",
         "deselect_all": "Tout DÉSÉLECTIONNER",
@@ -558,7 +558,7 @@
         "msg_selection_optn": {
             "above_deleted": "Sélectionner le message au-dessus du message supprimé ou déplacé",
             "based_on_previous": "Sélectionner le prochain message basé sur les sélections précédentes",
-            "below_deleted": "Sélectionner les messages en-dessous des messages supprimés ou déplacé"
+            "below_deleted": "Sélectionner les messages en-dessous des messages supprimés ou déplacés"
         },
         "new_mail_optn": {
             "when_arrive": "Au fur et à mesure que de nouveaux emails arrivent",
@@ -970,7 +970,7 @@
         "tooltip": {
             "vertical": "Vue verticale",
             "horizontal": "Vue horizontale",
-            "switchToNoSplit": "Passer à ne pas diviser",
+            "switchToNoSplit": "Passer à l'affichage sans séparation",
             "switchToVertical": "Passer à l'affichage vertical",
             "switchToHorizontal": "Passer à l'affichage horizontal"
         }
