@@ -733,7 +733,15 @@
         "filter_deleted": "تم حذف عامل الفرز بنجاح",
         "filter_folder_message": "حدد مجلدا لتطبيق الفرز:",
         "label": {
-            "filter_name_required": "اسم عامل الفرز مطلوب"
+            "filter_name_required": "اسم عامل الفرز مطلوب",
+            "conversation_ordering": "ترتيب المحادثة",
+            "default": "الافتراضي",
+            "check_new_mail": "التحقق من رسائل البريد الإلكتروني الجديدة",
+            "mark_reading_panel": "علمها كمقروءة",
+            "default_mail_search": "البحث الافتراضي في البريد",
+            "display_mail": "عرض البريد",
+            "display_messages": "عرض الرسائل",
+            "mark_manually": "علمها يدوياً"
         },
         "browse": "تصفح",
         "conv_is_participated": "في المحادثات التي شاركت فيها",
@@ -793,7 +801,24 @@
         "font_size_few": "{{count}} نقاط",
         "font_size_many": "{{count}} نقطة",
         "font_size_other": "{{count}} نقطة",
-        "from_distribution_list": "من قائمة التوزيع"
+        "from_distribution_list": "من قائمة التوزيع",
+        "invite_not_requested": "الدعوة غير مطلوبة",
+        "gb": "جيجابايت",
+        "invite_requested": "تم طلب الدعوة",
+        "is": "هل",
+        "is_me": "هو أنا",
+        "is_not_me": "ليس أنا",
+        "keep_in_inbox": "الاحتفاظ في البريد الوارد",
+        "keyword": "الكلمه الرئيسية",
+        "invite_replied": "تم الرد على الدعوة",
+        "invite_not_replied": "لم يتم الرد على الدعوة ",
+        "is_not": "ليس",
+        "keep_in_sent": "ابق في المرسل",
+        "b": "بايت",
+        "kb": "كيلوبايت",
+        "header_name": "تسمية العناوين",
+        "if": "إذا",
+        "in": "في"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه"
