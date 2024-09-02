@@ -896,6 +896,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Vuoi tenere oppure eliminare questa bozza?"
+        },
+        "initializeError": {
+            "title": "Oops!...Qualcosa è andato storto",
+            "content": "Per favore, ricarica la pagina o riprova più tardi",
+            "buttonConfirm": "RICARICA"
         }
     },
     "attachment_type": {
