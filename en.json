@@ -679,6 +679,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Do you want to keep this draft or delete it?"
+        },
+        "initializeError": {
+            "title": "Oops!…Something went wrong",
+            "content": "Please reload the page or try again later",
+            "buttonConfirm": "RELOAD"
         }
     },
     "modals": {
