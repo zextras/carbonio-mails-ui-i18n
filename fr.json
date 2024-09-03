@@ -872,6 +872,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Souhaitez-vous conserver ou supprimer ce brouillon ?"
+        },
+        "initializeError": {
+            "title": "Oups !... Quelque chose s'est mal passé",
+            "content": "Merci de recharger la page ou d'essayer plus tard",
+            "buttonConfirm": "RECHARGER"
         }
     },
     "email_status": {
