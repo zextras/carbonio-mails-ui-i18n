@@ -871,6 +871,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Czy chcesz zachować tą wersję roboczą?"
+        },
+        "initializeError": {
+            "buttonConfirm": "ODŚWIEŻ",
+            "content": "Odśwież stronę lub spróbuj ponownie później",
+            "title": "Ups! Coś poszło nie tak"
         }
     },
     "email_status": {
