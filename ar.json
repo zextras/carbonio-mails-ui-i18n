@@ -741,7 +741,15 @@
             "default_mail_search": "البحث الافتراضي في البريد",
             "display_mail": "عرض البريد",
             "display_messages": "عرض الرسائل",
-            "mark_manually": "علمها يدوياً"
+            "mark_manually": "علمها يدوياً",
+            "visualization_options": "خيارات العرض",
+            "recover_messages_infotext": "استرجع رسائل البريد الإلكتروني المحذوفة من سلة المهملات عن طريق كتابة كلمة أساسية مضمنة في أول 100 حرف من الرسالة أو عن طريق تحديد تاريخ.\nسيتضمن التاريخ المحدد رسائل البريد الإلكتروني المحذوفة 3 أيام قبلها و 3 أيام بعدها.\nبمجرد اكتمال البحث ، ستتم إعادة توجيهك إلى صفحة النتائج حيث يمكنك اختيار العناصر التي تريد استعادتها.",
+            "message_color": "لون الرسالة",
+            "message_selection": "اختيار الرسالة",
+            "not_changed_anything": "لم يتم إجراء أي تغيير",
+            "search_query": "الاستعلام الافتراضي",
+            "set_message_color": "قم بتعيين لون الرسائل والمحادثات وفقا للون العلامة.",
+            "unsend_time": "تعيين وقت الإرسال"
         },
         "browse": "تصفح",
         "conv_is_participated": "في المحادثات التي شاركت فيها",
@@ -818,7 +826,51 @@
         "kb": "كيلوبايت",
         "header_name": "تسمية العناوين",
         "if": "إذا",
-        "in": "في"
+        "in": "في",
+        "mass_marketing": "الرسائل التسويقيه (بالجملة)",
+        "not_after": "ليس بعد",
+        "msg_selection_optn": {
+            "below_deleted": "حدد رسالة أسفل الرسالة المحذوفة أو المنقولة",
+            "above_deleted": "حدد رسالة أعلى الرسالة المحذوفة أو المنقولة",
+            "based_on_previous": "حدد الرسالة التالية بناء على التحديدات السابقة"
+        },
+        "new_mail_optn": {
+            "minute_zero": "{{count}} دقيقه",
+            "minute_one": "{{count}} دقيقه",
+            "minute_two": "{{count}} دقيقه",
+            "minute_few": "{{count}} دقائق",
+            "minute_many": "{{count}} دقيقه",
+            "minute_other": "{{count}} دقيقه",
+            "manually": "يدويا",
+            "when_arrive": "عند وصول بريد إلكتروني جديد"
+        },
+        "linkedin_msg": "رسائل واتصالات لينكد إن -LinkedIn-",
+        "localpart": "الجزء المحلي",
+        "msg_from_optn": {
+            "discard": "تجاهل الرسالة تلقائيا",
+            "inbox": "ضع في البريد الوارد",
+            "inbox_if_cc": "ضع في البريد الوارد إذا كنت في إلى: أو نسخة إلى:"
+        },
+        "not_under": "ليس تحت",
+        "mark_as": "حددها كـ",
+        "mail_unsend_time": {
+            "no_delay": "لا تأخير",
+            "second_zero": "{{count}} ثانية",
+            "second_one": "{{count}} ثانية",
+            "second_two": "{{count}} ثانيه",
+            "second_few": "{{count}} ثواني",
+            "second_many": "{{count}} ثانيه",
+            "second_other": "{{count}} ثانيه"
+        },
+        "matches_exactly": "يتطابق تماما",
+        "matches_wildcard_condition": "تطابق شرط حرف البدل",
+        "mb": "ميجابايت",
+        "message": "الرسالة",
+        "move_into_folder": "إنقل إلى المجلد",
+        "my_frequent_emails": "رسائل البريد الإلكتروني المتكررة الخاصة بي",
+        "not_before": "ليس قبل",
+        "not_in": "ليس في",
+        "not_over": "ليس عبر"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه"
