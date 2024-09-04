@@ -223,7 +223,7 @@
         "add_custom_message": "أضف رسالة مخصصة",
         "add_task": "إذا كنت بحاجة إلى تدوين ملاحظة، يمكنك إضافة مهمة إلى قائمة المهام الخاصة بك",
         "admin_disabled_action": "قام المسؤول بتعطيل إجراء إعادة التوجيه",
-        "administer": "المدير",
+        "administer": "المسؤول",
         "accept": "قبول",
         "activate_selection_mode": "تفعيل وضع الاختيار",
         "add": "أضف",
@@ -870,9 +870,63 @@
         "my_frequent_emails": "رسائل البريد الإلكتروني المتكررة الخاصة بي",
         "not_before": "ليس قبل",
         "not_in": "ليس في",
-        "not_over": "ليس عبر"
+        "not_over": "ليس عبر",
+        "read_rcpt_optn": {
+            "ask_me": "اسألني",
+            "always": "أرسل دائما تنبيه بالقراءة",
+            "never": "لا ترسل أبدا تنبيه بالقراءة"
+        },
+        "twitter_notification": "تنبيهات منصه تويتر Twitter",
+        "to_cc": "إلى أو نسخة لـ",
+        "notify_folder_optn": {
+            "new_message_folder": "عرض إشعارات للرسائل الجديدة التي تصل إلى أي مجلد",
+            "new_message_inbox": "عرض إشعارات الرسائل الجديدة التي تصل إلى البريد الوارد"
+        },
+        "over": "اكثر",
+        "remove_condition": "إزالة هذا الشرط",
+        "social": "الشبكات اﻹجتماعية",
+        "tag_name_required": "املأ حقل \"العلامة\" لإكمال الإجراء \"وضع علامة\".",
+        "tag_with": "وضع علامة",
+        "read_receipt": "قراءة الإيصال",
+        "redirect_to_address": "إعادة التوجيه إلى العنوان",
+        "remove_action": "إزالة هذا الإجراء",
+        "perform_following_action": "قم بتنفيذ الإجراءات التالية:",
+        "under": "تحت"
     },
     "share": {
-        "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه"
+        "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
+        "options": {
+            "share_calendar_role": {
+                "none": "لا",
+                "manager": "مدير",
+                "admin": "المسؤول",
+                "viewer": "عارض"
+            },
+            "share_calendar_with": {
+                "external_guests": "الضيوف الخارجيون (للعرض فقط)",
+                "internal_users_groups": "المستخدمون الداخليون أو المجموعات الداخلية",
+                "public": "عام (للعرض فقط، لا يلزم وجود كلمة مرور)"
+            }
+        },
+        "recipients_address": "عناوين البريد الإلكتروني للمستلمين",
+        "is_contained_in": "ويحتوي على",
+        "send_notification": "إرسال إشعار حول هذه المشاركة",
+        "share_note": "تعرض الرسالة العامه اسمك واسم العنصر المشترك والأذونات الممنوحة للمستلمين ومعلومات تسجيل الدخول.",
+        "standard_message": "إضافة ملاحظة إلى الرسالة القياسية"
+    },
+    "signatures": {
+        "name": "الاسم",
+        "add_signature": "إضافة توقيع",
+        "signature_heading": "التواقيع"
+    },
+    "snackbar": {
+        "share_resend": "إعادة إرسال الدعوة",
+        "share_revoke": "تم إلغاء حق الوصول إلى المشاركة",
+        "tag_removed": "تم إزالة العلامة \"{{tag}}\"",
+        "email_copied_to_clipboard": "تم نسخ البريد الإلكتروني إلى الحافظة.",
+        "share_updated": "\"تم تحديث حقوق الوصول\"",
+        "tag_applied": "تم تطبيق العلامه \"{{tag}}\"",
+        "email_moved_to_trash": "تم نقل البريد الإلكتروني إلى المهملات",
+        "folder_shared": "المجلد المشترك"
     }
 }
