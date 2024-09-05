@@ -529,7 +529,12 @@
         "send_mail": "ارسل البريد الالكتروني",
         "start_recovery": "بدء الاسترداد",
         "blocked_addresses": "قائمة المرسلين المحظورين",
-        "weeks": "أسابيع"
+        "weeks": "أسابيع",
+        "layoutView": {
+            "verticalSplit": "التقسيم العمودي",
+            "horizontalSplit": "التقسيم الأفقي",
+            "noSplit": "عرض كامل"
+        }
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -721,6 +726,11 @@
     "modal": {
         "delete_draft": {
             "message1": "هل تريد الاحتفاظ بهذه المسودة أو حذفها؟"
+        },
+        "initializeError": {
+            "title": "عفوا!... حدث خطأ ما",
+            "content": "يرجى إعادة تحميل الصفحة أو المحاولة مرة أخرى لاحقا",
+            "buttonConfirm": "إعادة التحميل"
         }
     },
     "settings": {
@@ -928,5 +938,37 @@
         "tag_applied": "تم تطبيق العلامه \"{{tag}}\"",
         "email_moved_to_trash": "تم نقل البريد الإلكتروني إلى المهملات",
         "folder_shared": "المجلد المشترك"
+    },
+    "tooltip": {
+        "list_navigation": {
+            "loadingNextEmail": "تحميل البريد الإلكتروني التالي",
+            "noMoreEmails": "لا يوجد المزيد من رسائل البريد الإلكتروني",
+            "closeToNavigate": "أغلق هذا البريد الإلكتروني للتنقل",
+            "noPreviousEmails": "لا توجد رسائل بريد إلكتروني سابقة",
+            "goToNext": "انتقل إلى البريد الإلكتروني التالي",
+            "unableToLoadNextEmail": "غير قادر على تحميل البريد الإلكتروني التالي. حاول مرة أخرى لاحقا",
+            "goToPrevious": "الانتقال إلى البريد الإلكتروني السابق"
+        },
+        "folder_linked_status": "تمت مشاركتها معي",
+        "enable_urgent": "تمكين عاجل",
+        "enable_rich_text": "تمكين محرر النصوص الثري",
+        "marked_as_important": "تم وضع علامة على أنها مهمة",
+        "resend": "إعادة الإعلام عن طريق البريد حول هذه المشاركة",
+        "folder_sharing_status_zero": "تمت مشاركتها مع {{count}} مستخدم",
+        "folder_sharing_status_one": "تمت مشاركتها مع {{count}} مستخدم",
+        "folder_sharing_status_two": "تمت مشاركتها مع {{count}} مستخدمين",
+        "folder_sharing_status_few": "تمت مشاركتها مع {{count}} مستخدمين",
+        "folder_sharing_status_many": "تمت مشاركتها مع {{count}} مستخدم",
+        "folder_sharing_status_other": "تمت مشاركتها مع {{count}} مستخدم",
+        "revoke": "تعطيل الوصول"
+    },
+    "layoutView": {
+        "tooltip": {
+            "switchToHorizontal": "التبديل إلى العرض المنقسم أفقياً",
+            "switchToNoSplit": "التبديل إلى العرض الغير منقسام",
+            "switchToVertical": "التبديل إلى العرض المنقسم رأسياً",
+            "horizontal": "عرض أفقي",
+            "vertical": "عرض عمودي"
+        }
     }
 }
