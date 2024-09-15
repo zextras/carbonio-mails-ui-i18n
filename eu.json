@@ -151,7 +151,8 @@
                 "threshold_message": "Ezabatzeko mugaren aurrekoak diren karpeta honetako mezuak automatikoki garbituko eta ezabatuko dira.",
                 "enter_valid_folder_name": "Sartu baliozko karpeta-izen bat",
                 "special_chars_warning_msg": "Karpeta-izenean karaktere bereziak ez dira onartzen",
-                "invalid_folder_name_warning_msg": "Karaktere bereziak ez dira onartzen. Gehieneko luzera 128 karakterekoa da"
+                "invalid_folder_name_warning_msg": "Karaktere bereziak ez dira onartzen. Gehieneko luzera 128 karakterekoa da",
+                "rename_warning": "Karpeta bati ezin diozu sistemako karpeta baten izena eman."
             }
         }
     },
@@ -660,6 +661,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Zirriborro hau gorde edo ezabatu nahi duzu?"
+        },
+        "initializeError": {
+            "content": "Mesedez, berriro kargatu orria edo saiatu berriro geroago",
+            "buttonConfirm": "BIRKARGATU",
+            "title": "Ups!... Zerbait gaizki atera da."
         }
     },
     "modals": {
@@ -892,7 +898,49 @@
     },
     "layoutView": {
         "tooltip": {
-            "switchToHorizontal": "Aldatu zatiketa horizontalera"
+            "switchToHorizontal": "Aldatu zatiketa horizontalera",
+            "vertical": "Ikuspegi bertikala",
+            "switchToNoSplit": "Aldatu zatiketarik gabeko ikuspegira",
+            "horizontal": "Ikuspegi horizontala",
+            "switchToVertical": "Aldatu zatiketa bertikalera"
         }
+    },
+    "sorting_dropdown": {
+        "date": "Data",
+        "descendingOrder": "Beheranzko ordena",
+        "flagged": "Markatua",
+        "important": "Garrantzitsua",
+        "subject": "Gaia",
+        "to": "Hartzailea",
+        "unread": "Irakurri gabe",
+        "attachment": "Eranskina",
+        "from": "Igorlea"
+    },
+    "title": {
+        "replies_forwards": "Erantzunak eta birbidaltzeak",
+        "new_messages": "Mezu berriak"
+    },
+    "tooltip": {
+        "add_attachments": "Gehitu eranskinak",
+        "disable_urgent": "Desgaitu premiazkoa",
+        "edit": "Editatu partekatze-propietateak",
+        "enable_urgent": "Gaitu premiazkoa",
+        "folder_linked_status": "Nirekin partekatua",
+        "marked_as_important": "Garrantzitsu gisa markatuta",
+        "revoke": "Ezeztatu sarbidea",
+        "list_navigation": {
+            "loadingNextEmail": "Hurrengo mezu elektronikoa kargatzen",
+            "goToPrevious": "Joan aurreko posta elektronikora",
+            "goToNext": "Joan hurrengo posta elektronikora",
+            "closeToNavigate": "Itxi mezu elektroniko hau nabigatzeko",
+            "noPreviousEmails": "Ez dago aurreko mezu elektronikorik",
+            "unableToLoadNextEmail": "Ezin da hurrengo mezu elektronikoa kargatu. Saiatu beranduago",
+            "noMoreEmails": "Ez dago mezu elektroniko gehiago"
+        },
+        "disable_rich_text": "Desgaitu testu aberatsen editorea",
+        "enable_rich_text": "Gaitu testu aberatsen editorea",
+        "folder_sharing_status_one": "Erabiltzaile batekin partekatua",
+        "folder_sharing_status_other": "{{count}} erabiltzaileekin partekatua",
+        "resend": "Partekatze honi buruzko jakinarazpena berriro bidali"
     }
 }
