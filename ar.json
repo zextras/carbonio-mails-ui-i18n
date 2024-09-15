@@ -64,7 +64,7 @@
         "solo": "المحادثات برسالة واحدة",
         "toccme": "رسائل لي أو في نسخة لي",
         "ccme": "في نسخة لي",
-        "flagged": "وضع علامه",
+        "flagged": "مُعلمة",
         "read": "مقروءة",
         "received": "استلمت من قبلي",
         "tofromccme": "لي ، مني أو في نسخة لي",
@@ -271,7 +271,7 @@
         "confirm": "أكد",
         "contact_folder": "مجلد جهات الاتصال",
         "delete": "حذف",
-        "flagged": "معلمه",
+        "flagged": "المُعلمة",
         "hide": "أخفى",
         "cc_bcc": "نسخة لـ نسخه مخفية لـ",
         "delete_draft": "حذف المسودة",
@@ -468,7 +468,7 @@
         "shares_info": "معلومات المجلد المشترك",
         "show_all": "عرض الكل",
         "show_more_info": "عرض المزيد من المعلومات",
-        "show_quoted_text": "إظهار النص المقتبس",
+        "show_quoted_text": "‬إظهار النص المقتبس",
         "signature_required": "معلومات التوقيع مطلوبة.",
         "single_advanced_filter": "عوامل فرز متقدمة",
         "size_larger": "حجم أكبر من (ميغابايت)",
@@ -707,7 +707,7 @@
     },
     "search": {
         "attachment_note": "ابحث عن جميع رسائل البريد الإلكتروني التي تحتوي على مرفق.",
-        "flagged_note": "ابحث عن جميع رسائل البريد الإلكتروني التي تم الإبلاغ عنها.",
+        "flagged_note": "ابحث عن جميع رسائل البريد الإلكتروني المُعلمة.",
         "sent_after": "أرسلت بعد",
         "sent_before": "أرسلت قبل",
         "sent_on": "أرسلت على",
@@ -951,7 +951,7 @@
         },
         "folder_linked_status": "تمت مشاركتها معي",
         "enable_urgent": "تمكين عاجل",
-        "enable_rich_text": "تمكين محرر النصوص الثري",
+        "enable_rich_text": "تمكين محرر النصوص المنسقه",
         "marked_as_important": "تم وضع علامة على أنها مهمة",
         "resend": "إعادة الإعلام عن طريق البريد حول هذه المشاركة",
         "folder_sharing_status_zero": "تمت مشاركتها مع {{count}} مستخدم",
@@ -960,7 +960,11 @@
         "folder_sharing_status_few": "تمت مشاركتها مع {{count}} مستخدمين",
         "folder_sharing_status_many": "تمت مشاركتها مع {{count}} مستخدم",
         "folder_sharing_status_other": "تمت مشاركتها مع {{count}} مستخدم",
-        "revoke": "تعطيل الوصول"
+        "revoke": "تعطيل الوصول",
+        "disable_rich_text": "لتعطيل محرر النصوص المنسقه",
+        "edit": "تحرير خصائص المشاركة",
+        "add_attachments": "لإضافة المرفقات",
+        "disable_urgent": "لتعطيل العاجل"
     },
     "layoutView": {
         "tooltip": {
@@ -969,6 +973,43 @@
             "switchToVertical": "التبديل إلى العرض المنقسم رأسياً",
             "horizontal": "عرض أفقي",
             "vertical": "عرض عمودي"
+        }
+    },
+    "sorting_dropdown": {
+        "flagged": "الرسائل المُعلمه",
+        "descendingOrder": "تنازلي",
+        "attachment": "المرفق",
+        "date": "التاريخ",
+        "from": "المرسل",
+        "important": "المهم",
+        "subject": "عنوان الرسالة",
+        "to": "المُستقبِل",
+        "unread": "الغير مقروئة",
+        "ascendingOrder": "ترتيب تصاعدي"
+    },
+    "title": {
+        "new_messages": "الرسائل الجديدة",
+        "replies_forwards": "الردود والمعاد توجيها"
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "toDescending": "ترتيب تنازلي حسب المُستقبل",
+            "unreadDescending": "ترتيب تنازلي حسب الرسائل الغير مقروئة",
+            "unreadAscending": "ترتيب تصاعدي حسب الرسائل الغير مقروئة",
+            "toAscending": "ترتيب تصاعدي حسب المُستقبل",
+            "attachmentAscending": "ترتيب تصاعدي حسب المرفق",
+            "attachmentDescending": "ترتيب تنازلي حسب المرفق",
+            "dateAscending": "ترتيب تصاعدي حسب الحجم",
+            "dateDescending": "ترتيب تنازلي حسب التاريخ",
+            "fromAscending": "ترتيب تصاعدي حسب المرسل",
+            "flaggedAscending": "ترتيب تصاعدي حسب الرسائل المُعلمة",
+            "flaggedDescending": "ترتيب تنازلي حسب الرسائل المُعلمة",
+            "fromDescending": "ترتيب تنازلي حسب المرسل",
+            "importantAscending": "ترتيب تصاعدي حسب الأهم",
+            "importantDescending": "ترتيب تنازلي حسب الأهم",
+            "sizeDescending": "ترتيب تنازلي حسب الحجم",
+            "subjectAscending": "ترتيب تصاعدي حسب الموضوع",
+            "subjectDescending": "ترتيب تنازلي حسب الموضوع"
         }
     }
 }
