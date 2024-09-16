@@ -21,14 +21,20 @@
         "reset": "Visszaállítás",
         "search": "Keresés",
         "send_anyway": "Küldés mégis",
-        "share_folder": "Mappa megosztás",
+        "share_folder": "Mappa megosztása",
         "show_details": "Mutassa a részleteket",
         "show_original": "Mutassa az eredetit",
         "unflag": "Jelölés eltávolítása",
         "preview": "Előnézet",
         "preview_new_tab": "Kattintson az előnézethez egy új lapon",
         "click_open": "Kattintson a megnyitáshoz",
-        "click_preview": "Kattintson az előnézethez"
+        "click_preview": "Kattintson az előnézethez",
+        "create_appointment": "Találkozó létrehozása",
+        "download_eml": "Letöltés EML-ben",
+        "select_folders": "Mappák kiválasztása",
+        "apply_filter_on_folder": "Szűrő alkalmazása a mappára",
+        "preview_on_separated_window": "Megnyitás új ablakban",
+        "preview_on_separated_tab": "Megnyitás új lapon"
     },
     "attachment_type": {
         "application": "Alkalmazás",
@@ -128,7 +134,8 @@
         "filters": "Szűrők",
         "outgoing_message_filters": "Kimenő üzenetek szűrői",
         "run": "Futtat",
-        "incoming_msg_filters": "Bejövő üzenetek szűrői"
+        "incoming_msg_filters": "Bejövő üzenetek szűrői",
+        "apply": "Alkalmaz"
     },
     "folder": {
         "modal": {
@@ -230,7 +237,7 @@
         "add_custom_message": "Egyedi üzenet hozzáadása",
         "add_task": "Ha jegyzetelnie kell, hozzáadhat egy feladatot a tennivalók listájához",
         "admin_disabled_action": "A rendszergazda letiltotta az átirányítási műveletet",
-        "always_allow_domain": "Engedélyezés mindig innen<strong>: {{domain}}</strong> domain",
+        "always_allow_domain": "Engedélyezés mindig innen: <strong>{{domain}}</strong> domain",
         "any": "bármely",
         "app_name": "Levelek",
         "arrival_notifications": "Érkezési értesítések",
@@ -452,7 +459,75 @@
         "with_you": "önnel",
         "workflow": "Munkafolyamat",
         "would_like_to_share": "megosztotta az",
-        "write": "írás"
+        "write": "írás",
+        "advanced_filters_one": "Bővített szűrő",
+        "advanced_filters_other": "Bővített szűrők",
+        "attachment_one": "Melléklet",
+        "attachment_other": "Mellékletek",
+        "download_one": "Letöltés",
+        "download_other": "Összes letöltése",
+        "layoutView": {
+            "verticalSplit": "Függőleges osztás",
+            "horizontalSplit": "Vízszintes osztás",
+            "noSplit": "Osztatlan nézet"
+        },
+        "smart_links_created": "smart hivatkozások létrehozva",
+        "create_smart_links": "smart hivatkozás létrehozása",
+        "displayer_restore_emails_title": "Válassza ki a visszaállítani kívánt leveleket",
+        "backup_search": "Biztonsági mentés keresése",
+        "displayer_restore_emails_description": "Amint a kiválasztott e-mailek visszaállítása befejeződik, értesítést fog kapni e-mailben az eredményekről.",
+        "recover_emails": "A visszaállítási folyamat elkezdődött, értesítést fog kapni, amint befejeződik",
+        "mail_selected_one": "{{count}} levél kiválasztva",
+        "mail_selected_other": "{{count}} levél kiválasztva",
+        "signature_size_exceed": "Egy vagy több aláírás meghaladja a méretkorlátot.",
+        "clear_search_query": "KERESÉS TÖRLÉSE",
+        "searching_recover_emails": "Visszaállítható levelek keresése",
+        "start_recovery_description": "Amint a folyamat befejeződik, értesítést kap a Beérkezett üzenetek mappájában, és a visszaállított levelek egy új mappába kerülnek.",
+        "enter_single_email_address": "Adjon meg egy e-mail címet",
+        "attachment_error_status": {
+            "failed": "Feltöltés sikertelen",
+            "uploading": "Feltöltés folyamatban"
+        },
+        "draft_save_in_progress": "Piszkozat mentése folyamatban",
+        "date_deleted": "Törlés dátuma",
+        "days": "Napok",
+        "attachment_with_count_one": "{{count}} Melléklet",
+        "attachment_with_count_other": "{{count}} Mellékletek",
+        "convert_back_to_attachment": "Visszakonvertálás mellékletté",
+        "convert_to_smart_link": "Konvertálás smart hivatkozásra",
+        "no_folder_selected": "Nincs mappa kiválasztva",
+        "remove_one": "Eltávolítás",
+        "remove_other": "Összes eltávolítása",
+        "last_7_days": "Utolsó 7 nap",
+        "date_created": "Létrehozás dátuma",
+        "deleted_folder": "Törölt mappa",
+        "end_date": "Záró dátum",
+        "error_no_backup_messages": "A keresés nem talált üzenetet",
+        "error_recovering_emails": "Hiba történt a levelek helyreállítása során",
+        "folder": "Mappa",
+        "import_to_contacts": "Importálás a Partnerekhez",
+        "last_30_days": "Utolsó 30 nap",
+        "last_14_days": "Utolsó 14 nap",
+        "recover_selected_emails": "KIVÁLASZTOTT LEVELEK VISSZAÁLLÍTÁSA",
+        "recover_messages": "Levelek visszaállítása",
+        "last_90_days": "Utolsó 90 nap",
+        "search_emails": "LEVELEK KERESÉSE",
+        "select_recovery_date": "Visszaállítás dátumának kiválasztása",
+        "recovery_period": "Válassza ki a visszaállítási időszakot",
+        "search_recover_emails": "Visszaállítható levelek keresése",
+        "start_date": "Kezdő dátum",
+        "send_mail": "Levél küldése",
+        "start_recovery": "Visszaállítás megkezdése",
+        "want_to_continue": "Szeretné folytatni?",
+        "start_recovery_process": "Visszaállítási folyamat megkezdése",
+        "start_search": "Keresés indítása",
+        "blocked_addresses": "Blokkolt feladók listája",
+        "allowed_addresses": "Engedélyezett feladók listája",
+        "do_not_use_signature": "Ne használjon aláírást",
+        "error_unable_load_signatures": "Az aláírások betöltése nem sikerült. Kérem, próbálja újra később.",
+        "weeks": "Hetek",
+        "months": "Hónapok",
+        "years": "Évek"
     },
     "message": {
         "copy": "Másolat",
@@ -547,7 +622,13 @@
             "tag_created": "{{name}} címke sikeresen létrehozva",
             "tag_deleted": "{{name}} címke sikeresen törölve",
             "tag_not_updated": "Hiba történt, a címke nem lett frissítve. Próbálja újra.",
-            "tag_updated": "Sikeresen frissítve"
+            "tag_updated": "Sikeresen frissítve",
+            "apply_filter_rules_completed": "A(z) '{{filterName}}' szűrő sikeresen alkalmazva lett {{involvedMessagesCount}} üzenetre a(z) '{{folderPath}}' mappában",
+            "apply_filter_rules_started": "A(z) '{{filterName}}' szűrő alkalmazásra kerül a(z) '{{folderPath}}' mappa üzeneteire",
+            "apply_filter_rules_error": "Hiba történt a(z) '{{filterName}}' szűrő alkalmazása közben",
+            "apply_filter_error": "A szűrő még fut a szerveren, de túl sok időt vesz igénybe az érintett elemek lekérdezése.",
+            "sending_mail_in_count_one": "Üzenet küldése {{count}} másodperc múlva",
+            "sending_mail_in_count_other": "Üzenet küldése {{count}} másodperc múlva"
         },
         "cal_name_exist_warning": "Már létezik ilyen nevű naptár ezen az útvonalon",
         "check_and_try_again": "Kérjük ellenőrizze, majd próbálkozzon újra",
@@ -568,11 +649,24 @@
         "powered_by": "kiszolgálja a",
         "read_receipt_1": "Az üzenet küldője értesítést kér, hogy Ön átvette-e.",
         "something_went_wrong": "Valami hiba történt",
-        "trustee_addresses": "Az ezekről a címekről vagy tartományokból érkező leveleket megbízhatónak ítélje és a képeket automatikusan jelenítse meg."
+        "trustee_addresses": "Az ezekről a címekről vagy tartományokból érkező leveleket megbízhatónak ítélje és a képeket automatikusan jelenítse meg.",
+        "searching_deleted_emails": "A Törölt elemek mappából törölt levelek keresése időt vehet igénybe. Amint a művelet befejeződik, az eredményekhez lesz irányítva.",
+        "warning": {
+            "sending_to_yourself": "Ön saját magának küldi ezt az üzenetet"
+        },
+        "recover_messages_modal_body": "Amint a folyamat befejeződik, értesítést kap a Beérkezett üzenetek mappájában, és a visszaállított levelek egy új mappába kerülnek.",
+        "invalid_sender_address": "Kérem, csak e-mail címeket adjon meg",
+        "allowed_addresses": "Az engedélyezett feladók listáján szereplő címekről érkező üzenetek mindig megkerülik a spam szűrőt, és közvetlenül a beérkezett üzenetek közé érkeznek.",
+        "blocked_addresses": "A blokkolt feladók listáján szereplő címekről érkező levelek automatikusan a spam mappába kerülnek."
     },
     "modal": {
         "delete_draft": {
             "message1": "Megtartja vagy törli ezt a vázlatot?"
+        },
+        "initializeError": {
+            "buttonConfirm": "ÚJRATÖLTÉS",
+            "title": "Hoppá, valami hiba történt",
+            "content": "Kérjük töltse be újra az oldalt, vagy próbálkozzon újra később!"
         }
     },
     "new_folder": "Új mappa",
@@ -648,10 +742,13 @@
             "filter_name_required": "A szűrő neve kötelező",
             "set_message_color": "A címke színének megfelelően állítja be az üzenetek és a párbeszédek színét.",
             "unsend_time": "Küldési idő beállítása",
-            "visualization_options": "Adatvizualizációs lehetőségek"
+            "visualization_options": "Adatvizualizációs lehetőségek",
+            "recover_messages_infotext": "A Törölt elemek mappából törölt e-mailek visszaállításához írjon be egy kulcsszót, amely szerepel az üzenet első 100 karakterében, vagy válasszon ki egy dátumot.\nA kiválasztott dátum szűrés tartalmazza azokat az e-maileket is, amelyeket 3 nappal a dátum előtt és után töröltek.\nAmint a keresés befejeződik, átirányításra kerül az eredmények oldalára, ahol kiválaszthatja, mely elemeket szeretné visszaállítani."
         },
         "mail_unsend_time": {
-            "no_delay": "Nincs késleltetés"
+            "no_delay": "Nincs késleltetés",
+            "second_one": "{{count}} másodperc",
+            "second_other": "{{count}} másodperc"
         },
         "mass_marketing": "tömegmarketing (köteg)",
         "matches_exactly": "pontosan egyezik",
@@ -721,7 +818,9 @@
         },
         "new_mail_optn": {
             "manually": "Manuálisan",
-            "when_arrive": "Új e-mail érkezésekor"
+            "when_arrive": "Új e-mail érkezésekor",
+            "minute_one": "{{count}} perc",
+            "minute_other": "{{count}} perc"
         },
         "not_after": "nem utána",
         "my_frequent_emails": "gyakori e-mailjeim",
@@ -736,7 +835,9 @@
             "never": "Soha ne küldjön olvasási visszaigazolást"
         },
         "read_receipt": "Olvasási visszaigazolás",
-        "redirect_to_address": "Átirányítás a következő címre"
+        "redirect_to_address": "Átirányítás a következő címre",
+        "font_size_one": "{{count}} pt",
+        "font_size_other": "{{count}} pt"
     },
     "share": {
         "options": {
@@ -774,7 +875,18 @@
         "folder_linked_status": "Velem megosztva",
         "enable_rich_text": "Rich text szerkesztő engedélyezése",
         "revoke": "Hozzáférés visszavonása",
-        "resend": "E-mail értesítés újraküldése erről a megosztásról"
+        "resend": "E-mail értesítés újraküldése erről a megosztásról",
+        "list_navigation": {
+            "loadingNextEmail": "Következő levél betöltése",
+            "unableToLoadNextEmail": "Nem sikerült betölteni a következő üzenetet. Próbálja újra később!",
+            "closeToNavigate": "A navigáláshoz zárd be ezt a levelet",
+            "noPreviousEmails": "Nincsenek korábbi levelek",
+            "goToPrevious": "Ugrás az előző levélre",
+            "goToNext": "Ugrás a következő levélre",
+            "noMoreEmails": "Nincsenek további levelek"
+        },
+        "folder_sharing_status_one": "{{count}} felhasználóval megosztva",
+        "folder_sharing_status_other": "{{count}} felhasználóval megosztva"
     },
     "notification": {
         "new_message": "Új üzenet",
@@ -804,5 +916,61 @@
     "title": {
         "new_messages": "Új üzenetek",
         "replies_forwards": "Válaszok és továbbítások"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Vízszintes nézet",
+            "switchToNoSplit": "Váltás megosztás nélküli nézetre",
+            "switchToVertical": "Váltás függőleges felosztású nézetre",
+            "vertical": "Függőleges nézet",
+            "switchToHorizontal": "Váltás vízszintes felosztású nézetre"
+        }
+    },
+    "modals": {
+        "apply_filters": {
+            "label_involved_messages": "<0>{{involvedMessagesCount}} üzenet</0> lesz feldolgozva a kiválasztott mappában.",
+            "title": "A(z) \"{{filterName}}\" szűrő alkalmazása",
+            "button_apply": "Alkalmaz",
+            "label_confirm_msg": "Minél több üzenetre alkalmazza a szűrőt, annál több időre lesz szükség ehhez.",
+            "label_confirm_request": "Szeretné alkalmazni a szűrőt?"
+        }
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "Az üzenet mérete meghaladja a korlátot. Kérjük, alakítson át néhány mellékletet smart hivatkozásokká!"
+        }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "toDescending": "Csökkenő sorrend címzett szerint",
+            "attachmentAscending": "Növekvő sorrend melléklet szerint",
+            "attachmentDescending": "Csökkenő sorrend melléklet szerint",
+            "dateAscending": "Növekvő sorrend méret szerint",
+            "dateDescending": "Csökkenő sorrend dátum szerint",
+            "flaggedAscending": "Növekvő sorrend jelölés szerint",
+            "flaggedDescending": "Csökkenő sorrend jelölés szerint",
+            "fromAscending": "Növekvő sorrend feladó szerint",
+            "fromDescending": "Csökkenő sorrend feladó szerint",
+            "importantAscending": "Növekvő sorrend fontosság szerint",
+            "importantDescending": "Csökkenő sorrend fontosság szerint",
+            "sizeDescending": "Csökkenő sorrend méret szerint",
+            "subjectAscending": "Növekvő sorrend tárgy szerint",
+            "subjectDescending": "Csökkenő sorrend tárgy szerint",
+            "toAscending": "Növekvő sorrend címzett szerint",
+            "unreadAscending": "Növekvő sorrend olvasatlanság szerint",
+            "unreadDescending": "Csökkenő sorrend olvasatlanság szerint"
+        }
+    },
+    "sorting_dropdown": {
+        "descendingOrder": "Csökkenő sorrend",
+        "flagged": "Megjelölt",
+        "from": "Feladó",
+        "important": "Fontos",
+        "subject": "Tárgy",
+        "to": "Címzett",
+        "unread": "Olvasatlan",
+        "ascendingOrder": "Növekvő sorrend",
+        "attachment": "Melléklet",
+        "date": "Dátum"
     }
 }
