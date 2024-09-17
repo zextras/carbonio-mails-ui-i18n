@@ -349,7 +349,16 @@
         "enter_single_email_address": "Masukkan alamat email",
         "missing_sender": "pengirim pesan belum diatur",
         "no_identity_selected": "<Tidak ada identitas yang dipilih>",
-        "no_sender": "pengirim pesan belum diatur"
+        "no_sender": "pengirim pesan belum diatur",
+        "layoutView": {
+            "verticalSplit": "Split vertikal",
+            "horizontalSplit": "Split horizontal",
+            "noSplit": "Tidak ada split"
+        },
+        "days": "Hari",
+        "weeks": "Minggu",
+        "months": "Bulan",
+        "years": "Tahun"
     },
     "messages": {
         "snackbar": {
@@ -385,7 +394,8 @@
             "message_sending_aborted": "dibatalkan oleh pengguna",
             "sending_mail_in_count_other": "Mengirim pesan Anda dalam {{count}} detik",
             "apply_filter_rules_started": "Filter '{{filterName}}' diterapkan ke pesan di folder '{{folderPath}}'",
-            "apply_filter_rules_completed": "Filter '{{filterName}}' berhasil diterapkan ke {{involvedMessagesCount}} pesan di folder '{{folderPath}}'"
+            "apply_filter_rules_completed": "Filter '{{filterName}}' berhasil diterapkan ke {{involvedMessagesCount}} pesan di folder '{{folderPath}}'",
+            "apply_filter_error": "Filter masih berjalan di server tetapi butuh waktu lama untuk melaporkan item yang terpengaruh. Filter tetap bekerja di server tanpa informasi tambahan."
         },
         "modal": {
             "delete": {
@@ -707,7 +717,16 @@
         "enable_urgent": "Aktifkan mendesak",
         "folder_linked_status": "Dibagikan dengan saya",
         "marked_as_important": "Ditandai sebagai penting",
-        "folder_sharing_status_other": "Dibagikan dengan {{count}} pengguna"
+        "folder_sharing_status_other": "Dibagikan dengan {{count}} pengguna",
+        "list_navigation": {
+            "loadingNextEmail": "Memuat email berikutnya",
+            "unableToLoadNextEmail": "Tidak dapat memuat email berikutnya. Coba lagi nanti",
+            "noMoreEmails": "Tidak ada email lagi",
+            "closeToNavigate": "Tutup email ini untuk membuka",
+            "noPreviousEmails": "Tidak ada email sebelumnya",
+            "goToPrevious": "Buka email sebelumnya",
+            "goToNext": "Buka email berikutnya"
+        }
     },
     "folder_panel": {
         "modal": {
@@ -875,6 +894,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Anda ingin menyimpan draf ini atau menghapusnya?"
+        },
+        "initializeError": {
+            "title": "Ups!…Ada yang salah",
+            "content": "Muat ulang halaman atau coba lagi nanti",
+            "buttonConfirm": "MUAT ULANG"
         }
     },
     "messages,new_email": "email baru",
@@ -888,7 +912,8 @@
             "button_apply": "Terapkan",
             "label_confirm_request": "Anda ingin menerapkan filter?",
             "title": "Filter aplikasi \"{{filterName}}\"",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} pesan</0> akan diproses di dalam folder yang dipilih."
+            "label_involved_messages": "<0>{{involvedMessagesCount}} pesan</0> akan diproses di dalam folder yang dipilih.",
+            "label_confirm_msg": "Semakin banyak pesan yang ada, semakin banyak waktu yang dibutuhkan untuk menerapkan filter."
         }
     },
     "sortingDropdown": {
@@ -927,7 +952,10 @@
     "layoutView": {
         "tooltip": {
             "horizontal": "Tampilan Horisontal",
-            "vertical": "Tampilan Vertikal"
+            "vertical": "Tampilan Vertikal",
+            "switchToNoSplit": "Beralih ke tidak ada split",
+            "switchToHorizontal": "Beralih ke split horizontal",
+            "switchToVertical": "Beralih ke split vertikal"
         }
     }
 }
