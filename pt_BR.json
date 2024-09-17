@@ -209,7 +209,7 @@
         "view_images": "Ver imágens",
         "share_public_link": "Compartilhar link público",
         "no_name": "<Sem nome>",
-        "always_allow_domain": "Permitir sempre do domínio <strong>{{domain}}</strong>",
+        "always_allow_domain": "Sempre permitir do domínio <strong>{{domain}}</strong>",
         "always_allow_address": "Permitir sempre de <strong>{{from}}</strong>",
         "time_zone": "Fuso horário",
         "searching": "Buscando…",
@@ -318,7 +318,7 @@
         "searching_recover_emails": "Buscando e-mails para recuperar",
         "select_recovery_date": "Selecionar data de recuperação",
         "send_mail": "Enviar E-mail",
-        "signature_size_exceed": "Uma ou mais informações de Assinatura são necessárias.",
+        "signature_size_exceed": "Uma ou mais assinaturas excederam o limite de tamanho.",
         "start_date": "Data de Início",
         "start_recovery": "Iniciar Recuperação",
         "start_recovery_process": "Iniciar processo de recuperação",
@@ -345,7 +345,16 @@
         "mail_selected_other": "{{count}} e-mails selecionados",
         "remove_one": "Remover",
         "remove_many": "Remover tudo",
-        "remove_other": "Remover tudo"
+        "remove_other": "Remover tudo",
+        "layoutView": {
+            "verticalSplit": "Divisão vertical",
+            "horizontalSplit": "Divisão horizontal",
+            "noSplit": "Sem divisão"
+        },
+        "weeks": "Semanas",
+        "months": "Meses",
+        "days": "Dias",
+        "years": "Anos"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -403,7 +412,8 @@
             "apply_filter_rules_started": "O filtro '{{filterName}}' está sendo aplicado às mensagens da pasta '{{folderPath}}'",
             "sending_mail_in_count_one": "Enviando sua mensagem em {{count}} segundo",
             "sending_mail_in_count_many": "Enviando sua mensagem em {{count}} segundos",
-            "sending_mail_in_count_other": "Enviando sua mensagem em {{count}} segundos"
+            "sending_mail_in_count_other": "Enviando sua mensagem em {{count}} segundos",
+            "apply_filter_error": "O filtro ainda está em execução no servidor, mas está demorando muito para indicar os itens afetados. O filtro continua funcionando no servidor sem informações adicionais."
         },
         "invalid_address": "O seguinte endereço parece ser inválido",
         "modal": {
@@ -729,7 +739,16 @@
         "marked_as_important": "Marcar como importante",
         "folder_sharing_status_one": "Compartilhado com {{count}} usuário",
         "folder_sharing_status_many": "Compartilhado com {{count}} usuários",
-        "folder_sharing_status_other": "Compartilhado com {{count}} usuários"
+        "folder_sharing_status_other": "Compartilhado com {{count}} usuários",
+        "list_navigation": {
+            "loadingNextEmail": "Carregando próximo e-mail",
+            "closeToNavigate": "Feche este e-mail para navegar",
+            "noPreviousEmails": "Não há e-mails anteriores",
+            "goToPrevious": "Ir para e-mail anterior",
+            "goToNext": "Ir para o próximo e-mail",
+            "noMoreEmails": "Não há mais e-mails",
+            "unableToLoadNextEmail": "Não foi possível carregar o próximo e-mail. Tente novamente"
+        }
     },
     "folder_panel": {
         "modal": {
@@ -897,6 +916,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Deseja manter ou excluir este rascunho?"
+        },
+        "initializeError": {
+            "title": "Oops!… Algo deu errado",
+            "content": "Atualize a página ou tente novamente",
+            "buttonConfirm": "ATUALIZAR"
         }
     },
     "messages,new_email": "Novo email",
@@ -905,7 +929,8 @@
             "button_apply": "Aplicar",
             "label_confirm_request": "Deseja aplicar o filtro?",
             "label_involved_messages": "<0>{{involvedMessagesCount}} mensagens</0> serão processadas na pasta selecionada.",
-            "title": "Aplicação do filtro \"{{filterName}}\""
+            "title": "Aplicação do filtro \"{{filterName}}\"",
+            "label_confirm_msg": "Quanto mais mensagens, mais tempo será necessário para aplicar o filtro."
         }
     },
     "sortingDropdown": {
@@ -949,7 +974,10 @@
     "layoutView": {
         "tooltip": {
             "vertical": "Visualização Vertical",
-            "horizontal": "Visualização Horizontal"
+            "horizontal": "Visualização Horizontal",
+            "switchToNoSplit": "Alterar para sem divisão",
+            "switchToHorizontal": "Alterar para divisão horizontal",
+            "switchToVertical": "Alterar para divisão vertical"
         }
     }
 }
