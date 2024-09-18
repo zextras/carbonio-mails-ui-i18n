@@ -325,7 +325,7 @@
         "start_date": "Fecha de inicio",
         "select_recovery_date": "Elegir fecha de recuperación",
         "start_recovery": "Iniciar recuperación",
-        "signature_size_exceed": "Es necesaria una o más informaciones de búsqueda.",
+        "signature_size_exceed": "Una o varias firmas superan el límite de tamaño.",
         "start_recovery_description": "Cuando el proceso esté completado recibirás una notificación en tu bandeja de entrada y encontrarás los e-mails recuperados e una nueva carpeta.",
         "start_recovery_process": "Empezar proceso de recuperación",
         "start_search": "Iniciar búsqueda",
@@ -361,7 +361,16 @@
         "remove_one": "Quitar",
         "remove_many": "Quitar todos",
         "remove_other": "Quitar todos",
-        "smart_links_created": "enlaces inteligentes creados"
+        "smart_links_created": "enlaces inteligentes creados",
+        "layoutView": {
+            "verticalSplit": "Separación vertical",
+            "horizontalSplit": "Separación horizontal",
+            "noSplit": "Sin separación"
+        },
+        "days": "Días",
+        "weeks": "Semanas",
+        "months": "Meses",
+        "years": "Años"
     },
     "messages": {
         "modal": {
@@ -429,7 +438,8 @@
             "apply_filter_rules_started": "El filtro \"{{filterName}}\" está siendo aplicado a los mensajes de la carpeta \"{{folderPath}}\"",
             "sending_mail_in_count_one": "Enviándote un mensaje en {{count}} segundo",
             "sending_mail_in_count_many": "Enviándote un mensaje en {{count}} segundos",
-            "sending_mail_in_count_other": "Enviándote un mensaje en {{count}} segundos"
+            "sending_mail_in_count_other": "Enviándote un mensaje en {{count}} segundos",
+            "apply_filter_error": "El filtro todavía está aplicándose en el servidor pero está tardando mucho en informar sobre los elementos afectados. El filtro sigue funcionando en el servidor sin información adicional."
         },
         "invalid_address": "La siguiente dirección no parece válida",
         "check_and_try_again": "Verifica Carbonio e intenta nuevamente",
@@ -568,7 +578,16 @@
         "marked_as_important": "Marcado como importante",
         "folder_sharing_status_one": "Compartido con {{count}} usuario",
         "folder_sharing_status_many": "Compartido con {{count}} usuarios",
-        "folder_sharing_status_other": "Compartido con {{count}} usuarios"
+        "folder_sharing_status_other": "Compartido con {{count}} usuarios",
+        "list_navigation": {
+            "loadingNextEmail": "Cargando siguiente correo",
+            "unableToLoadNextEmail": "No se puede cargar el siguiente correo. Prueba de nuevo más tarde",
+            "noMoreEmails": "No hay más correos electrónicos",
+            "closeToNavigate": "Cierra este correo electrónico para navegar",
+            "noPreviousEmails": "No hay correos electrónicos anteriores",
+            "goToNext": "Ir al siguiente correo electrónico",
+            "goToPrevious": "Ir al correo electrónico anterior"
+        }
     },
     "settings": {
         "label": {
@@ -897,6 +916,11 @@
     "modal": {
         "delete_draft": {
             "message1": "¿Quieres conservar el borrador o eliminarlo?"
+        },
+        "initializeError": {
+            "title": "¡Vaya! Algo salió mal",
+            "content": "Por favor, recarga la página o prueba de nuevo más tarde",
+            "buttonConfirm": "RECARGAR"
         }
     },
     "messages,new_email": "Nuevo email",
@@ -910,7 +934,8 @@
             "button_apply": "Aplicar",
             "label_confirm_request": "¿Quieres aplicar el filtro?",
             "label_involved_messages": "<0>{{involvedMessagesCount}} mensajes</0> serán procesados dentro de la carpeta seleccionada.",
-            "title": "Aplicación de filtro \"{{filterName}}\""
+            "title": "Aplicación de filtro \"{{filterName}}\"",
+            "label_confirm_msg": "Cuantos más mensajes hayan, más tiempo se necesitará para aplicar el filtro."
         }
     },
     "sortingDropdown": {
@@ -949,7 +974,10 @@
     "layoutView": {
         "tooltip": {
             "vertical": "Vista vertical",
-            "horizontal": "Vista horizontal"
+            "horizontal": "Vista horizontal",
+            "switchToNoSplit": "Cambiar a no separado",
+            "switchToVertical": "Cambiar a separación vertical",
+            "switchToHorizontal": "Cambiar a separación horizontal"
         }
     }
 }
