@@ -348,7 +348,17 @@
         "mail_selected_many": "{{count}} выбранных адресов электронной почты",
         "remove_one": "Удалить",
         "remove_few": "Удалить все",
-        "remove_many": "Удалить все"
+        "remove_many": "Удалить все",
+        "clear_search_query": "ОЧИСТИТЬ ПОИСК",
+        "displayer_restore_emails_title": "Выберите электронные письма, которые вы хотите восстановить",
+        "recover_selected_emails": "Восстановить выбранное электронное письмо",
+        "date_deleted": "Дата удаления",
+        "backup_search": "Поиск резервной копии",
+        "last_7_days": "Последние 7 дней",
+        "date_created": "Дата создания",
+        "deleted_folder": "Удаленная папка",
+        "recover_messages": "Восстановить сообщение",
+        "last_90_days": "Последние 90 дней"
     },
     "header": {
         "warning": "Предупреждение",
@@ -392,7 +402,8 @@
         "preview_on_separated_window": "Открыть в новом окне",
         "apply_filter_on_folder": "Применить фильтр к папке",
         "download_eml": "Скачать EML",
-        "create_appointment": "Создать встречу"
+        "create_appointment": "Создать встречу",
+        "preview_on_separated_tab": "Открыть в новой вкладке"
     },
     "tooltip": {
         "add_attachments": "Добавить вложения",
