@@ -349,7 +349,16 @@
         "mail_selected_other": "อีเมลที่เลือก {{count}} รายการ",
         "no_folder_selected": "ไม่ได้เลือกโฟลเดอร์",
         "remove_other": "ลบทั้งหมด",
-        "upload_failed": "การอัปโหลดล้มเหลว"
+        "upload_failed": "การอัปโหลดล้มเหลว",
+        "layoutView": {
+            "verticalSplit": "แยกแนวตั้ง",
+            "horizontalSplit": "แยกแนวนอน",
+            "noSplit": "ไม่มีการแยก"
+        },
+        "days": "วัน",
+        "weeks": "สัปดาห์",
+        "months": "เดือน",
+        "years": "ปี"
     },
     "messages": {
         "modal": {
@@ -413,7 +422,8 @@
             "apply_filter_rules_error": "เกิดข้อผิดพลาดขณะใช้ตัวกรอง '{{filterName}}'",
             "apply_filter_rules_started": "มีการใช้ตัวกรอง '{{filterName}}' กับข้อความของโฟลเดอร์ '{{folderPath}}'",
             "message_sending_aborted": "ถูกยกเลิกโดยผู้ใช้",
-            "sending_mail_in_count_other": "ส่งข้อความของคุณใน {{count}} วินาที"
+            "sending_mail_in_count_other": "ส่งข้อความของคุณใน {{count}} วินาที",
+            "apply_filter_error": "ตัวกรองยังคงทำงานบนเซิร์ฟเวอร์ แต่ใช้เวลานานเกินไปในการรายงานรายการที่ได้รับผลกระทบ ตัวกรองยังคงทำงานบนเซิร์ฟเวอร์ต่อไปโดยไม่มีข้อมูลเพิ่มเติม"
         },
         "permanent_delete_title": "คุณแน่ใจหรือไม่ว่าต้องการลบองค์ประกอบนี้อย่างถาวร?",
         "invalid_address": "ที่อยู่ต่อไปนี้ดูเหมือนจะไม่ถูกต้อง",
@@ -707,7 +717,16 @@
         "enable_urgent": "เปิดการใช้งานแบบเร่งด่วน",
         "folder_linked_status": "แชร์กับฉัน",
         "marked_as_important": "ทำเครื่องหมายว่าสำคัญแล้ว",
-        "folder_sharing_status_other": "แชร์กับผู้ใช้ {{count}} ราย"
+        "folder_sharing_status_other": "แชร์กับผู้ใช้ {{count}} ราย",
+        "list_navigation": {
+            "loadingNextEmail": "กําลังโหลดอีเมลถัดไป",
+            "closeToNavigate": "ปิดอีเมลนี้เพื่อนําทาง",
+            "noPreviousEmails": "ไม่มีอีเมลก่อนหน้า",
+            "goToNext": "ไปที่อีเมลถัดไป",
+            "goToPrevious": "ไปที่อีเมลก่อนหน้า",
+            "noMoreEmails": "ไม่มีอีเมลแล้ว",
+            "unableToLoadNextEmail": "ไม่สามารถโหลดอีเมลถัดไปได้ ลองใหม่อีกครั้ง"
+        }
     },
     "folder_panel": {
         "modal": {
@@ -875,6 +894,11 @@
     "modal": {
         "delete_draft": {
             "message1": "คุณต้องการเก็บฉบับร่างนี้ไว้หรือลบทิ้ง?"
+        },
+        "initializeError": {
+            "title": "อุ๊ย!…มีบางอย่างผิดพลาด",
+            "buttonConfirm": "โหลดซ้ำ",
+            "content": "โปรดโหลดหน้าเพจนี้ใหม่หรือลองอีกครั้งในภายหลัง"
         }
     },
     "editor": {
@@ -888,7 +912,8 @@
             "button_apply": "นำไปใช้",
             "label_confirm_request": "คุณต้องการใช้ตัวกรองหรือไม่?",
             "label_involved_messages": "<0>ข้อความ {{involvedMessagesCount}}</0> จะถูกประมวลผลภายในโฟลเดอร์ที่เลือก",
-            "title": "ตัวกรองแอปพลิเคชัน \"{{filterName}}\""
+            "title": "ตัวกรองแอปพลิเคชัน \"{{filterName}}\"",
+            "label_confirm_msg": "ยิ่งมีข้อความมากเท่าไหร่ ก็ยิ่งต้องใช้เวลาในการใช้ตัวกรองมากขึ้นเท่านั้น"
         }
     },
     "sortingDropdown": {
@@ -927,7 +952,10 @@
     "layoutView": {
         "tooltip": {
             "horizontal": "มุมมองแนวนอน",
-            "vertical": "มุมมองแนวตั้ง"
+            "vertical": "มุมมองแนวตั้ง",
+            "switchToHorizontal": "สลับเป็นการแยกแนวนอน",
+            "switchToVertical": "สลับเป็นการแยกแนวตั้ง",
+            "switchToNoSplit": "สลับเป็นแบบไม่แยก"
         }
     }
 }
