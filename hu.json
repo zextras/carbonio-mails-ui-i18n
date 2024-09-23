@@ -213,7 +213,7 @@
         "junk": "Levélszemét",
         "sent": "Elküldött üzenetek",
         "spam": "Spam",
-        "trash": "Törölt üzenetek"
+        "trash": "Szemetes"
     },
     "go_back": "Vissza",
     "header": {
@@ -300,7 +300,7 @@
         "error": "Hiba",
         "error_address": "Érvényes e-mail cím szükséges",
         "errors": {
-            "upload_failed_generic": "A (z) „{{filename}}” fájl feltöltése nem sikerült"
+            "upload_failed_generic": "A(z) „{{filename}}” fájl feltöltése nem sikerült"
         },
         "exit_selection_mode": "Kilépés a kiválasztási módból",
         "expand": "Kibontás",
