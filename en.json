@@ -257,8 +257,8 @@
         "attachment_one": "Attachment",
         "attachment_other": "Attachments",
         "attachment_error_status": {
-            "failed": "",
-            "uploading": ""
+            "failed": "one or more attachments failed to upload",
+            "uploading": "Attachments are being uploaded"
         },
         "attachment_status": "Status of e-mail item",
         "attachment_type": "Attachment type",
