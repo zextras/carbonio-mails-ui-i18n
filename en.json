@@ -983,7 +983,8 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "The message is too long and has been cropped"
+            "label": "The message is too long and has been cropped",
+            "button": "LOAD MESSAGE"
         }
     }
 }
