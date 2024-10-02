@@ -469,7 +469,7 @@
             "folder_empty_error": "Quelque chose s'est mal passé, les changements n'ont pas été appliqués. Veuillez recommencer.",
             "folder_move_error": "Quelque chose s'est mal passé, ce dossier n'a pas été déplacé. Veuillez recommencer.",
             "folder_moved": "Le dossier a été déplacé avec succès",
-            "folder_will_be_moved_in_time": "Ce dossier sera déplacé dans {{remainingTime}}",
+            "folder_will_be_moved_in_time": "Ce dossier sera déplacé dans {{remainingTime}}.",
             "folder_wiped": "Dossier nettoyé avec succès",
             "message_delete_error": "Quelque chose s'est mal passé, ce message n'a pas été supprimé. Veuillez recommencer.",
             "message_deleted": "Message supprimé",
@@ -982,6 +982,12 @@
             "switchToNoSplit": "Passer à l'affichage sans séparation",
             "switchToVertical": "Passer à l'affichage vertical",
             "switchToHorizontal": "Passer à l'affichage horizontal"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Le message est trop long et a été tronqué",
+            "button": "CHARGEMENT DU MESSAGE"
         }
     }
 }
