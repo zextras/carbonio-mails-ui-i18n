@@ -645,7 +645,7 @@
             "folder_moved": "Folder successfully moved",
             "folder_moved_to_trash": "Folder moved to trash",
             "folder_restored": "Folder restored",
-            "folder_will_be_moved_in_time": "",
+            "folder_will_be_moved_in_time": "This folder will be moved in {{remainingTime}}.",
             "folder_wiped": "Folder successfully wiped",
             "mail_saved_to_drafts": "Mail saved to drafts",
             "mail_sent": "Message sent",
