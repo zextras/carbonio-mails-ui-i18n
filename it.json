@@ -898,8 +898,8 @@
             "message1": "Vuoi tenere oppure eliminare questa bozza?"
         },
         "initializeError": {
-            "title": "Oops!...Qualcosa è andato storto",
-            "content": "Per favore, ricarica la pagina o riprova più tardi",
+            "title": "Qualcosa è andato storto",
+            "content": "Per favore, aggiorna la pagina o riprova più tardi. Altri moduli potrebbero essere ancora disponibili con funzionalità limitate.",
             "buttonConfirm": "RICARICA"
         }
     },
