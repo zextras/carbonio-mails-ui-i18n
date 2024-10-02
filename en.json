@@ -681,8 +681,8 @@
             "message1": "Do you want to keep this draft or delete it?"
         },
         "initializeError": {
-            "title": "Oops!…Something went wrong",
-            "content": "Please reload the page or try again later",
+            "title": "Something went wrong",
+            "content": "Please refresh the page or try again later. Other modules might still be available on limited functionality.",
             "buttonConfirm": "RELOAD"
         }
     },
