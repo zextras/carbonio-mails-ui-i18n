@@ -980,5 +980,10 @@
             "switchToNoSplit": "Switch to no split",
             "switchToHorizontal": "Switch to horizontal split"
         }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "The message is too long and has been cropped"
+        }
     }
 }
