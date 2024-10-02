@@ -978,5 +978,11 @@
             "switchToHorizontal": "Passa a divisione orizzontale",
             "switchToVertical": "Passa a divisione verticale"
         }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Il messaggio è troppo lungo ed è stato tagliato",
+            "button": "CARICA MESSAGGIO"
+        }
     }
 }
