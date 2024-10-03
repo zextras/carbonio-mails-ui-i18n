@@ -441,6 +441,10 @@
             "horizontalSplit": "Podział poziomy",
             "noSplit": "Brak podziału",
             "verticalSplit": "Podział pionowy"
+        },
+        "attachment_error_status": {
+            "failed": "nie udało się przesłać jednego lub więcej załączników",
+            "uploading": "Załączniki się przesyłają"
         }
     },
     "message": {
@@ -623,7 +627,8 @@
             "sending_mail_in_count_one": "Twoja wiadomość zostanie wysłana za {{count}} sekundę",
             "sending_mail_in_count_few": "Twoja wiadomość zostanie wysłana za {{count}} sekundy",
             "sending_mail_in_count_many": "Twoja wiadomość zostanie wysłana za {{count}} sekund",
-            "apply_filter_error": "Filtr dalej działa na serwerze, ale zgłoszenie dotkniętych elementów zajmuje zbyt dużo czasu. Filtr dalej pracuje na serwerze bez dodatkowych informacji."
+            "apply_filter_error": "Filtr dalej działa na serwerze, ale zgłoszenie dotkniętych elementów zajmuje zbyt dużo czasu. Filtr dalej pracuje na serwerze bez dodatkowych informacji.",
+            "folder_will_be_moved_in_time": "Folder zostanie przeniesiony za {{remainingTime}}."
         },
         "modal": {
             "delete": {
@@ -977,6 +982,12 @@
             "switchToNoSplit": "Przełącz na brak podziału",
             "switchToHorizontal": "Przełącz na podział poziomy",
             "switchToVertical": "Przełącz na podział pionowy"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "button": "ZAŁADUJ WIADOMOŚĆ",
+            "label": "Wiadomość jest zbyt długa i nie została załadowana w całości"
         }
     }
 }
