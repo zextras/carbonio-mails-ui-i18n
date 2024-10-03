@@ -33,7 +33,8 @@
         "apply_filter_on_folder": "Klasöre filtre uygula",
         "select_folders": "Klasörleri seçin",
         "create_appointment": "Randevu Oluştur",
-        "download_eml": "EML'yi indir"
+        "download_eml": "EML'yi indir",
+        "preview_on_separated_tab": "Yeni Sekmede Aç"
     },
     "composer": {
         "attachment": {
@@ -345,7 +346,24 @@
         "no_sender": "mesajın göndericisi ayarlanmadı",
         "upload_failed": "Yükleme başarısız",
         "no_identity_selected": "<No identity selected>",
-        "no_folder_selected": "Hiçbir klasör seçilmedi"
+        "no_folder_selected": "Hiçbir klasör seçilmedi",
+        "advanced_filters_one": "Gelişmiş Filtre",
+        "advanced_filters_other": "Gelişmiş Filtreler",
+        "attachment_one": "Ek",
+        "attachment_other": "Ekler",
+        "attachment_with_count_one": "{{count}} Ek",
+        "attachment_with_count_other": "{{count}} Ekler",
+        "download_one": "İndir",
+        "download_other": "Tümünü İndir",
+        "mail_selected_one": "{{count}} e-posta seçildi",
+        "mail_selected_other": "{{count}} e-posta seçildi",
+        "attachment_error_status": {
+            "failed": "bir veya daha fazla ek yüklenemedi",
+            "uploading": "Ekler yükleniyor"
+        },
+        "convert_back_to_attachment": "Eke geri dönüştür",
+        "convert_to_smart_link": "Akıllı bağlantıya dönüştür",
+        "create_smart_links": "akıllı bağlantılar oluşturun"
     },
     "share": {
         "options": {
@@ -377,7 +395,7 @@
         "edit": "Paylaşım özelliklerini düzenle",
         "enable_rich_text": "Gelişmiş metin düzenleyici kullan",
         "enable_urgent": "Acil simgesi ekle",
-        "folder_linked_status": "Benimle paylaşıldı",
+        "folder_linked_status": "Benimle paylaşılan",
         "marked_as_important": "Önemli olarak işaretlendi"
     },
     "folders": {
@@ -769,6 +787,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Taslağı saklamak veya silmek istiyor musunuz?"
+        },
+        "initializeError": {
+            "content": "Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin. Diğer modüller halen sınırlı olarak kullanılabilir durumda olabilir.",
+            "buttonConfirm": "YENİDEN YÜKLE",
+            "title": "Bir hata oluştu"
         }
     },
     "email_status": {
