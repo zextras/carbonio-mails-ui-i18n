@@ -982,7 +982,8 @@
     "warningBanner": {
         "truncatedMessage": {
             "label": "Il messaggio è troppo lungo ed è stato tagliato",
-            "button": "CARICA MESSAGGIO"
+            "button": "CARICA MESSAGGIO",
+            "loadingButton": "CARICAMENTO . . ."
         }
     }
 }
