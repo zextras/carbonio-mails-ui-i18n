@@ -987,7 +987,8 @@
     "warningBanner": {
         "truncatedMessage": {
             "button": "ZAŁADUJ WIADOMOŚĆ",
-            "label": "Wiadomość jest zbyt długa i nie została załadowana w całości"
+            "label": "Wiadomość jest zbyt długa i nie została załadowana w całości",
+            "loadingButton": "ŁADOWANIE . . ."
         }
     }
 }
