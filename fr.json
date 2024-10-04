@@ -878,8 +878,8 @@
             "message1": "Souhaitez-vous conserver ou supprimer ce brouillon ?"
         },
         "initializeError": {
-            "title": "Oups !... Quelque chose s'est mal passé",
-            "content": "Merci de recharger la page ou d'essayer plus tard",
+            "title": "Quelque chose s'est mal passé",
+            "content": "Merci de rafraîchir la page ou d'essayer plus tard. D'autres modules peuvent encore être disponibles avec des fonctionnalités limitées.",
             "buttonConfirm": "RECHARGER"
         }
     },
@@ -987,7 +987,8 @@
     "warningBanner": {
         "truncatedMessage": {
             "label": "Le message est trop long et a été tronqué",
-            "button": "CHARGEMENT DU MESSAGE"
+            "button": "CHARGEMENT DU MESSAGE",
+            "loadingButton": "CHARGEMENT..."
         }
     }
 }
