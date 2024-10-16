@@ -386,7 +386,10 @@
         "attachment_error_status": {
             "uploading": "Les pièces joints vont être téléversées",
             "failed": "Une ou plusieurs pièces jointes n'ont pas été téléversées"
-        }
+        },
+        "show_details": "Afficher les détails",
+        "valid_signature": "Signature valide",
+        "invalid_signature": "Signature invalide"
     },
     "message": {
         "snackbar": {
