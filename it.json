@@ -396,7 +396,10 @@
             "verticalSplit": "Divisione verticale",
             "horizontalSplit": "Divisione orizzontale",
             "noSplit": "Nessuna divisione"
-        }
+        },
+        "show_details": "Mostra dettagli",
+        "valid_signature": "Firma valida",
+        "invalid_signature": "Firma non valida"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
