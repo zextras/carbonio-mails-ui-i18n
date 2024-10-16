@@ -538,7 +538,10 @@
             "verticalSplit": "Vertical split",
             "horizontalSplit": "Horizontal split",
             "noSplit": "No split"
-        }
+        },
+        "invalid_signature": "Invalid signature",
+        "show_details": "Show details",
+        "valid_signature": "Valid signature"
     },
     "labels": {
         "compose_colin": "Compose :",
