@@ -80,7 +80,7 @@
         "owner": "Proprietário: ",
         "receive_message": "Recebimento de mensagens",
         "retention_policy": "Política de retenção",
-        "revoke_share": "Revogar compartilhamento",
+        "revoke_share": "Interromper compartilhamento",
         "role": "Papel: ",
         "select_folder": "Selecionar pasta",
         "send_notification": "Enviar notificação personalizada",
@@ -206,7 +206,7 @@
         "notification_audio": "Reproduzir sinal sonoro quando uma nova notificação aparecer",
         "notification_folders": "Notificações de pastas",
         "upload_from_files": "Fazer upload a partir do Files",
-        "view_images": "Ver imágens",
+        "view_images": "VISUALIZAR IMAGENS",
         "share_public_link": "Compartilhar link público",
         "no_name": "<Sem nome>",
         "always_allow_domain": "Sempre permitir do domínio <strong>{{domain}}</strong>",
@@ -354,7 +354,11 @@
         "weeks": "Semanas",
         "months": "Meses",
         "days": "Dias",
-        "years": "Anos"
+        "years": "Anos",
+        "attachment_error_status": {
+            "failed": "um ou mais anexos falharam ao carregar",
+            "uploading": "Anexos estão sendo enviados"
+        }
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -918,8 +922,8 @@
             "message1": "Deseja manter ou excluir este rascunho?"
         },
         "initializeError": {
-            "title": "Oops!… Algo deu errado",
-            "content": "Atualize a página ou tente novamente",
+            "title": "Algo deu errado",
+            "content": "Atualize a página ou tente novamente mais tarde. Outros módulos ainda podem estar disponíveis com funcionalidade limitada.",
             "buttonConfirm": "ATUALIZAR"
         }
     },
