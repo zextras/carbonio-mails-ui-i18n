@@ -63,7 +63,17 @@
                 "subject": "Oggetto mancante"
             },
             "smime": {
-                "title": "Dettagli certificato"
+                "title": "Dettagli certificato",
+                "invalid_title": "La firma digitale non è valida",
+                "valid_title": "Il messaggio è firmato",
+                "valid_msg": "Questo messaggio include una firma digitale valida. Il messaggio non è stato modificato da quando è stato inviato.",
+                "invalid_msg": "Questo messaggio include una firma digitale, ma la firma non è valida.",
+                "untrusted_title": "Messaggio da una fonte non attendibile",
+                "cert_expired_title": "Il certificato del firmatario è scaduto",
+                "untrusted_msg": "Questo messaggio include una firma digitale, ma il firmatario non è attendibile. Il certificato potrebbe non essere stato emesso da un'autorità di certificazione riconosciuta.",
+                "cert_not_found_title": "Certificato del firmatario non trovato",
+                "cert_expired_msg": "Questo messaggio include una firma digitale, ma il certificato del firmatario è scaduto. Non è più considerato valido.",
+                "cert_not_found_msg": "Questo messaggio include una firma digitale, ma il certificato del firmatario non può essere trovato. La firma non può essere convalidata."
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
