@@ -445,7 +445,10 @@
         "attachment_error_status": {
             "failed": "nie udało się przesłać jednego lub więcej załączników",
             "uploading": "Załączniki się przesyłają"
-        }
+        },
+        "valid_signature": "Poprawny podpis",
+        "invalid_signature": "Niepoprawny podpis",
+        "show_details": "Pokaż szczegóły"
     },
     "message": {
         "snackbar": {
@@ -654,6 +657,19 @@
                 "attached": "załączone",
                 "attach": "załącz",
                 "subject": "Brak tematu"
+            },
+            "smime": {
+                "title": "Szczegóły certyfikatu",
+                "valid_msg": "Ta wiadomość zawiera poprawny podpis cyfrowy. Wiadomość nie została zmieniona od czasu jej wysłania.",
+                "invalid_msg": "Ta wiadomość zawiera podpis cyfrowy, ale podpis jest nieprawidłowy.",
+                "untrusted_title": "Wiadomość z niezaufanego źródła",
+                "valid_title": "Wiadomość jest podpisana",
+                "invalid_title": "Podpis cyfrowy jest niepoprawny",
+                "untrusted_msg": "Ta wiadomość zawiera podpis cyfrowy, ale podpisujący jest niezaufany. Certyfikat może nie być wydany przez autoryzowanego wydawcę certyfikatu.",
+                "cert_expired_title": "Certyfikat podpisującego wygasł",
+                "cert_expired_msg": "Ta wiadomość zawiera podpis cyfrowy, ale certyfikat podpisującego wygasł. Nie jest już uznawany za poprawny.",
+                "cert_not_found_title": "Nie znaleziono certyfikatu podpisującego",
+                "cert_not_found_msg": "Ta wiadomość zawiera podpis cyfrowy, ale nie znaleziono certyfikatu podpisującego. Nie można sprawdzić poprawności certyfikatu."
             }
         },
         "new_email": "Nowy e-mail",
