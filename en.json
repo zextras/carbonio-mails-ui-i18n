@@ -621,6 +621,10 @@
                 "no_subject_no_attachments": "Email subject is empty and you didn’t attach any files.",
                 "second": "Do you want to send the email anyway?",
                 "subject": "Subject is missing"
+            },
+            "smime": {
+                "title": "Certificate details",
+                "valid_title": "Message is Signed"
             }
         },
         "new_email": "New e-mail",
