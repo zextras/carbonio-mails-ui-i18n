@@ -624,7 +624,16 @@
             },
             "smime": {
                 "title": "Certificate details",
-                "valid_title": "Message is Signed"
+                "valid_title": "Message is Signed",
+                "valid_msg": "This message includes a valid digital signature. The message has not been altered since it was sent.",
+                "invalid_title": "Digital Signature is Not Valid",
+                "invalid_msg": "This message includes a digital signature, but the signature is invalid.",
+                "untrusted_title": "Message from an Untrusted Source",
+                "untrusted_msg": "This message includes a digital signature, but the signer is not trusted. The certificate might not be issued by a recognized certificate authority.",
+                "cert_expired_title": "The Signer's Certificate Has Expired",
+                "cert_expired_msg": "This message includes a digital signature, but the signer's certificate has expired. It is no longer considered valid.",
+                "cert_not_found_title": "Signer's Certificate Not Found",
+                "cert_not_found_msg": "This message includes a digital signature, but the signer's certificate could not be found. The signature cannot be validated."
             }
         },
         "new_email": "New e-mail",
