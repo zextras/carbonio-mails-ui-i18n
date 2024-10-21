@@ -358,7 +358,10 @@
         "attachment_error_status": {
             "failed": "um ou mais anexos falharam ao carregar",
             "uploading": "Anexos estão sendo enviados"
-        }
+        },
+        "show_details": "Exibir detalhes",
+        "invalid_signature": "Assinatura inválida",
+        "valid_signature": "Assinatura válida"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -403,7 +406,7 @@
             "message_move": "Mensagem movida com sucesso",
             "message_redirected": "A mensagem foi redirecionada",
             "conversation_move_error": "Algo deu errado, a conversa não foi movida. Tente novamente.",
-            "folder_will_be_moved_in_time": "Esta pasta será movida dentro de {{remainingTime}}",
+            "folder_will_be_moved_in_time": "Esta pasta será movida em {{remainingTime}}.",
             "folder_restored": "Pasta restaurada",
             "mail_saved_to_drafts": "E-mail salvo nos rascunhos",
             "tag_created": "Marcador \"{{name}}\" criado com sucesso",
@@ -444,6 +447,23 @@
                 "no_subject_no_attachments": "O assunto está vazio e você não anexou nenhum arquivo.",
                 "first": "O assunto está vazio e você não anexou nenhum arquivo.",
                 "subject": "O assunto está faltando"
+            },
+            "smime": {
+                "valid_msg": "Esta mensagem inclui uma assinatura digital válida. A mensagem não foi alterada desde que foi enviada.",
+                "invalid_msg": "Esta mensagem inclui uma assinatura digital, mas a assinatura é inválida.",
+                "cert_expired_title": "O Certificado do Signatário Expirou",
+                "cert_not_found_title": "Certificado do Signatário Não Encontrado",
+                "title": "Detalhes do certificado",
+                "valid_title": "Mensagem Assinada",
+                "cert_expired_msg": "Esta mensagem inclui uma assinatura digital, mas o certificado do signatário expirou. Não é mais considerado válido.",
+                "cert_not_found_msg": "Esta mensagem inclui uma assinatura digital, mas o certificado do signatário não pôde ser encontrado. Não é possível validar a assinatura.",
+                "invalid_title": "Assinatura Digital Não é Válida",
+                "untrusted_title": "Mensagem de uma origem Não Confiável",
+                "untrusted_msg": "Esta mensagem inclui uma assinatura digital, mas o signatário não é confiável. O certificado pode não ter sido emitido por uma autoridade de certificação reconhecida.",
+                "issuer_not_found_title": "Certificado do Emissor Não Encontrado",
+                "issuer_not_found_msg": "Esta mensagem inclui uma assinatura digital, mas não foi possível encontrar o certificado da autoridade emissora.",
+                "error_title": "Ocorreu um Erro Durante a Verificação da Assinatura",
+                "error_msg": "Houve um erro ao processar a assinatura digital. Não foi possível verificar a assinatura."
             }
         },
         "new_email": "Novo e-mail",
@@ -982,6 +1002,13 @@
             "switchToNoSplit": "Alterar para sem divisão",
             "switchToHorizontal": "Alterar para divisão horizontal",
             "switchToVertical": "Alterar para divisão vertical"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "A mensagem é muito longa e foi cortada",
+            "button": "CARREGAR MENSAGEM",
+            "loadingButton": "CARREGANDO..."
         }
     }
 }
