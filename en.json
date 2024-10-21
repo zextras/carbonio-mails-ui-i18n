@@ -633,7 +633,11 @@
                 "cert_expired_title": "The Signer's Certificate Has Expired",
                 "cert_expired_msg": "This message includes a digital signature, but the signer's certificate has expired. It is no longer considered valid.",
                 "cert_not_found_title": "Signer's Certificate Not Found",
-                "cert_not_found_msg": "This message includes a digital signature, but the signer's certificate could not be found. The signature cannot be validated."
+                "cert_not_found_msg": "This message includes a digital signature, but the signer's certificate could not be found. The signature cannot be validated.",
+                "error_msg": "There was an error processing the digital signature. The signature could not be verified.",
+                "issuer_not_found_msg": "This message includes a digital signature, but the certificate of the issuing authority could not be found.",
+                "issuer_not_found_title": "Issuer's Certificate Not Found",
+                "error_title": "An Error Occurred During Signature Verification"
             }
         },
         "new_email": "New e-mail",
