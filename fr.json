@@ -455,6 +455,23 @@
                 "attached": "attaché",
                 "attach": "attacher",
                 "subject": "Le sujet est manquant"
+            },
+            "smime": {
+                "title": "Détails du certificat",
+                "cert_expired_msg": "Ce message inclus une signature numérique, mais le certificat du signataire a expiré. Il ne peut plus être considéré comme valide.",
+                "valid_title": "Le message est signé",
+                "invalid_title": "La signature numérique n'est pas valide",
+                "valid_msg": "Ce message inclus une signature numérique valide. Le message n'a pas été altéré depuis son envoi.",
+                "invalid_msg": "Le message inclus une signature numérique, mais la signature n'est pas valide.",
+                "untrusted_title": "Message ne provenant pas d'une source de confiance",
+                "untrusted_msg": "Ce message inclus une signature numérique, mais le signataire n'est pas de confiance. Il se peut que le certificat ne soit pas émis par une autorité de certification reconnue.",
+                "cert_not_found_title": "Le certificat du signataire n'a pas été trouvé",
+                "cert_not_found_msg": "Ce message inclus une signature numérique, mais le certificat du signataire ne peut être trouvé. La signature ne peut être validée.",
+                "error_msg": "Une erreur s'est produite lors du traitement de la signature numérique. La signature n'a pas pu être vérifiée.",
+                "cert_expired_title": "Le certificat du signataire a expiré",
+                "issuer_not_found_title": "Le certificat de l'utilisateur n'a pas été trouvé",
+                "issuer_not_found_msg": "Ce message inclus une signature numérique, mais le certificat de l'autorité émettrice n'a pas pu être trouvé.",
+                "error_title": "Une erreur est arrivé lors de la vérification de la signature numérique"
             }
         },
         "new_email": "Nouvel email",
