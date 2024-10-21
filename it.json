@@ -73,7 +73,11 @@
                 "untrusted_msg": "Questo messaggio include una firma digitale, ma il firmatario non è attendibile. Il certificato potrebbe non essere stato emesso da un'autorità di certificazione riconosciuta.",
                 "cert_not_found_title": "Certificato del firmatario non trovato",
                 "cert_expired_msg": "Questo messaggio include una firma digitale, ma il certificato del firmatario è scaduto. Non è più considerato valido.",
-                "cert_not_found_msg": "Questo messaggio include una firma digitale, ma il certificato del firmatario non può essere trovato. La firma non può essere convalidata."
+                "cert_not_found_msg": "Questo messaggio include una firma digitale, ma il certificato del firmatario non può essere trovato. La firma non può essere convalidata.",
+                "issuer_not_found_title": "Certificato dell'emittente non trovato",
+                "issuer_not_found_msg": "Questo messaggio include una firma digitale, ma il certificato dell'autorità emittente non è stato trovato.",
+                "error_title": "Si è verificato un errore durante la verifica della firma",
+                "error_msg": "Si è verificato un errore durante l'elaborazione della firma digitale. La firma non può essere verificata."
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
