@@ -541,7 +541,8 @@
         },
         "invalid_signature": "Invalid signature",
         "show_details": "Show details",
-        "valid_signature": "Valid signature"
+        "valid_signature": "Valid signature",
+        "distribution_list_app_name": "Distribution Lists"
     },
     "labels": {
         "compose_colin": "Compose :",
@@ -637,7 +638,10 @@
                 "error_msg": "There was an error processing the digital signature. The signature could not be verified.",
                 "issuer_not_found_msg": "This message includes a digital signature, but the certificate of the issuing authority could not be found.",
                 "issuer_not_found_title": "Issuer's Certificate Not Found",
-                "error_title": "An Error Occurred During Signature Verification"
+                "error_title": "An Error Occurred During Signature Verification",
+                "issuer": "Issuer",
+                "signed_by": "Signed By",
+                "validity": "Validity"
             }
         },
         "new_email": "New e-mail",
