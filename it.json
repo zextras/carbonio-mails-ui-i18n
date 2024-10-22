@@ -77,7 +77,10 @@
                 "issuer_not_found_title": "Certificato dell'emittente non trovato",
                 "issuer_not_found_msg": "Questo messaggio include una firma digitale, ma il certificato dell'autorità emittente non è stato trovato.",
                 "error_title": "Si è verificato un errore durante la verifica della firma",
-                "error_msg": "Si è verificato un errore durante l'elaborazione della firma digitale. La firma non può essere verificata."
+                "error_msg": "Si è verificato un errore durante l'elaborazione della firma digitale. La firma non può essere verificata.",
+                "signed_by": "Firmato da",
+                "issuer": "Emittente",
+                "validity": "Validità"
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
@@ -416,7 +419,8 @@
         },
         "show_details": "Mostra dettagli",
         "valid_signature": "Firma valida",
-        "invalid_signature": "Firma non valida"
+        "invalid_signature": "Firma non valida",
+        "distribution_list_app_name": "Liste di distribuzione"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
