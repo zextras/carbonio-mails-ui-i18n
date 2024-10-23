@@ -389,7 +389,8 @@
         },
         "show_details": "Afficher les détails",
         "valid_signature": "Signature valide",
-        "invalid_signature": "Signature invalide"
+        "invalid_signature": "Signature invalide",
+        "distribution_list_app_name": "Listes de distribution"
     },
     "message": {
         "snackbar": {
@@ -471,7 +472,10 @@
                 "cert_expired_title": "Le certificat du signataire a expiré",
                 "issuer_not_found_title": "Le certificat de l'utilisateur n'a pas été trouvé",
                 "issuer_not_found_msg": "Ce message inclus une signature numérique, mais le certificat de l'autorité émettrice n'a pas pu être trouvé.",
-                "error_title": "Une erreur est arrivé lors de la vérification de la signature numérique"
+                "error_title": "Une erreur est arrivé lors de la vérification de la signature numérique",
+                "issuer": "Émetteur",
+                "signed_by": "Signé par",
+                "validity": "Validité"
             }
         },
         "new_email": "Nouvel email",
