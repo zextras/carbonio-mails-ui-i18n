@@ -448,7 +448,8 @@
         },
         "valid_signature": "Poprawny podpis",
         "invalid_signature": "Niepoprawny podpis",
-        "show_details": "Pokaż szczegóły"
+        "show_details": "Pokaż szczegóły",
+        "distribution_list_app_name": "Listy dystrybucyjne"
     },
     "message": {
         "snackbar": {
@@ -673,7 +674,10 @@
                 "issuer_not_found_title": "Nie znaleziono certyfikatu wystawcy",
                 "issuer_not_found_msg": "Ta wiadomość zawiera podpis cyfrowy, ale nie znaleziono certyfikatu wystawcy.",
                 "error_title": "Wystąpił błąd podczas weryfikacji podpisu",
-                "error_msg": "Wystąpił błąd przy przetwarzaniu podpisu cyfrowego. Nie udało się zweryfikować podpisu."
+                "error_msg": "Wystąpił błąd przy przetwarzaniu podpisu cyfrowego. Nie udało się zweryfikować podpisu.",
+                "signed_by": "Podpisane przez",
+                "validity": "Ważność",
+                "issuer": "Wystawca"
             }
         },
         "new_email": "Nowy e-mail",
