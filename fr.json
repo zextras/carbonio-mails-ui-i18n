@@ -390,7 +390,8 @@
         "show_details": "Afficher les détails",
         "valid_signature": "Signature valide",
         "invalid_signature": "Signature invalide",
-        "distribution_list_app_name": "Listes de distribution"
+        "distribution_list_app_name": "Listes de distribution",
+        "close": "Fermer"
     },
     "message": {
         "snackbar": {
