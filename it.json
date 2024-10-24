@@ -420,7 +420,8 @@
         "show_details": "Mostra dettagli",
         "valid_signature": "Firma valida",
         "invalid_signature": "Firma non valida",
-        "distribution_list_app_name": "Liste di distribuzione"
+        "distribution_list_app_name": "Liste di distribuzione",
+        "close": "Chiudi"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
