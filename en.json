@@ -542,7 +542,8 @@
         "invalid_signature": "Invalid signature",
         "show_details": "Show details",
         "valid_signature": "Valid signature",
-        "distribution_list_app_name": "Distribution Lists"
+        "distribution_list_app_name": "Distribution Lists",
+        "close": "Close"
     },
     "labels": {
         "compose_colin": "Compose :",
