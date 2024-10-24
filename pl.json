@@ -449,7 +449,8 @@
         "valid_signature": "Poprawny podpis",
         "invalid_signature": "Niepoprawny podpis",
         "show_details": "Pokaż szczegóły",
-        "distribution_list_app_name": "Listy dystrybucyjne"
+        "distribution_list_app_name": "Listy dystrybucyjne",
+        "close": "Zamknij"
     },
     "message": {
         "snackbar": {
