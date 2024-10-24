@@ -237,7 +237,11 @@
         "exit_selection_mode": "सिलेक्शन मोड से बाहर जाएँ",
         "time": "समय",
         "do_not_have_perm": "आपके पास अनुमति नहीं है",
-        "folder_not_valid_destination": "सिलेक्ट किया फ़ोल्डर एक मान्य गंतव्य नहीं है"
+        "folder_not_valid_destination": "सिलेक्ट किया फ़ोल्डर एक मान्य गंतव्य नहीं है",
+        "attachment_one": "संलग्नक",
+        "attachment_other": "संलग्नक",
+        "advanced_filters_one": "आधुनिक फ़िल्टर",
+        "advanced_filters_other": "आधुनिक फ़िल्टर"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -345,7 +349,13 @@
         "click_preview": "प्रीव्यू के लिए क्लिक करें",
         "mark_all_read": "सभी को पढ़ा गया मार्क करें",
         "edit_anyway": "फिर भी बदलें",
-        "click_open": "खोलने के लिए क्लिक करें"
+        "click_open": "खोलने के लिए क्लिक करें",
+        "apply_filter_on_folder": "फ़ोल्डर पर फ़िल्टर लागू करें",
+        "create_appointment": "अपॉइंटमेंट बनाएं",
+        "download_eml": "ईएमएल डाउनलोड करें",
+        "preview_on_separated_window": "एक नई विंडो पर खोलें",
+        "select_folders": "फ़ोल्डर चुनें",
+        "preview_on_separated_tab": "नये टैब में खोलें"
     },
     "folders": {
         "trash": "रद्दी",
@@ -690,7 +700,8 @@
         "filter_note": "नोट: फिल्टर नियमों में बदलाव तुरंत सेव हो जाते हैं",
         "incoming_msg_filters": "इनकमिंग मैसेज फिल्टर",
         "outgoing_message_filters": "आउटगोइंग मैसेज फिल्टर",
-        "run": "रन करें"
+        "run": "रन करें",
+        "apply": "लागू"
     },
     "displayer": {
         "search_description1": "या \"एड्वान्स्ड फिल्टर\" सिलेक्ट करके अपनी सर्च को और बारीक करें।",
@@ -787,6 +798,11 @@
     "modal": {
         "delete_draft": {
             "message1": "क्या आप इस ड्राफ्ट को रखना चाहते हैं या डिलीट कर दें?"
+        }
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "संदेश का आकार सीमा से अधिक है। कृपया कुछ अनुलग्नकों को स्मार्ट लिंक में बदलें"
         }
     }
 }
