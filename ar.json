@@ -542,7 +542,8 @@
         "attachment_error_status": {
             "failed": "فشل تحميل مرفق واحد أو أكثر",
             "uploading": "جاري تحميل المرفقات"
-        }
+        },
+        "close": "اغلق"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
