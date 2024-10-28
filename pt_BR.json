@@ -361,7 +361,9 @@
         },
         "show_details": "Exibir detalhes",
         "invalid_signature": "Assinatura inválida",
-        "valid_signature": "Assinatura válida"
+        "valid_signature": "Assinatura válida",
+        "distribution_list_app_name": "Listas de Distribuição",
+        "close": "Fechar"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -463,7 +465,10 @@
                 "issuer_not_found_title": "Certificado do Emissor Não Encontrado",
                 "issuer_not_found_msg": "Esta mensagem inclui uma assinatura digital, mas não foi possível encontrar o certificado da autoridade emissora.",
                 "error_title": "Ocorreu um Erro Durante a Verificação da Assinatura",
-                "error_msg": "Houve um erro ao processar a assinatura digital. Não foi possível verificar a assinatura."
+                "error_msg": "Houve um erro ao processar a assinatura digital. Não foi possível verificar a assinatura.",
+                "signed_by": "Assinado Por",
+                "issuer": "Emissor",
+                "validity": "Validade"
             }
         },
         "new_email": "Novo e-mail",
