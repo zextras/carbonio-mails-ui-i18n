@@ -363,7 +363,8 @@
         "invalid_signature": "Assinatura inválida",
         "valid_signature": "Assinatura válida",
         "distribution_list_app_name": "Listas de Distribuição",
-        "close": "Fechar"
+        "close": "Fechar",
+        "error_folder_exists": "Já existe uma pasta com este nome, escolha um diferente"
     },
     "title": {
         "new_messages": "Novas mensagens",
