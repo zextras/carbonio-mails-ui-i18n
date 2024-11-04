@@ -421,7 +421,8 @@
         "valid_signature": "Firma valida",
         "invalid_signature": "Firma non valida",
         "distribution_list_app_name": "Liste di distribuzione",
-        "close": "Chiudi"
+        "close": "Chiudi",
+        "error_folder_exists": "Esiste già una cartella con questo nome, per favore scegline un altro"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
