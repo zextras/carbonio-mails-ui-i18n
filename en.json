@@ -543,7 +543,8 @@
         "show_details": "Show details",
         "valid_signature": "Valid signature",
         "distribution_list_app_name": "Distribution Lists",
-        "close": "Close"
+        "close": "Close",
+        "error_folder_exists": "A folder with the same name already exists, please choose a different one"
     },
     "labels": {
         "compose_colin": "Compose :",
