@@ -391,7 +391,8 @@
         "valid_signature": "Signature valide",
         "invalid_signature": "Signature invalide",
         "distribution_list_app_name": "Listes de distribution",
-        "close": "Fermer"
+        "close": "Fermer",
+        "error_folder_exists": "Un dossier portant le même nom existe déjà, veuillez en choisir un autre"
     },
     "message": {
         "snackbar": {
