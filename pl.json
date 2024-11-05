@@ -450,7 +450,8 @@
         "invalid_signature": "Niepoprawny podpis",
         "show_details": "Pokaż szczegóły",
         "distribution_list_app_name": "Listy dystrybucyjne",
-        "close": "Zamknij"
+        "close": "Zamknij",
+        "error_folder_exists": "Folder z tą sama nazwą już istnieje, wybierz inną nazwę"
     },
     "message": {
         "snackbar": {
