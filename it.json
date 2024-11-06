@@ -81,6 +81,9 @@
                 "signed_by": "Firmato da",
                 "issuer": "Emittente",
                 "validity": "Validità"
+            },
+            "info_details": {
+                "title": "Dettagli messaggio"
             }
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
