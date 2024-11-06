@@ -644,6 +644,9 @@
                 "issuer": "Issuer",
                 "signed_by": "Signed By",
                 "validity": "Validity"
+            },
+            "info_details": {
+                "title": "Message details"
             }
         },
         "new_email": "New e-mail",
