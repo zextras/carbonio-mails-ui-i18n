@@ -680,6 +680,9 @@
                 "signed_by": "Podpisane przez",
                 "validity": "Ważność",
                 "issuer": "Wystawca"
+            },
+            "info_details": {
+                "title": "Szczegóły wiadomości"
             }
         },
         "new_email": "Nowy e-mail",
