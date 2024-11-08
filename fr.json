@@ -478,6 +478,9 @@
                 "issuer": "Émetteur",
                 "signed_by": "Signé par",
                 "validity": "Validité"
+            },
+            "info_details": {
+                "title": "Détails du message"
             }
         },
         "new_email": "Nouvel email",
