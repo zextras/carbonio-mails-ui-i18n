@@ -937,7 +937,7 @@
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
         "options": {
             "share_calendar_role": {
-                "none": "لا",
+                "none": "بلا",
                 "manager": "مدير",
                 "admin": "المسؤول",
                 "viewer": "عارض"
