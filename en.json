@@ -105,11 +105,6 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "The message size exceeds the limit. Please convert some attachments to smart links"
-        },
-        "daily_planner": {
-            "button": {
-                "show": "SHOW ORGANIZER TOOL"
-            }
         }
     },
     "email_status": {
