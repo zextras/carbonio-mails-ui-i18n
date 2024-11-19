@@ -497,7 +497,8 @@
         "preview_on_separated_window": "Apri in una nuova finestra",
         "preview_on_separated_tab": "Apri in una nuova scheda",
         "create_appointment": "Crea Appuntamento",
-        "download_eml": "Scarica EML"
+        "download_eml": "Scarica EML",
+        "forward_as_attachment": "Inoltra come allegato"
     },
     "folder": {
         "modal": {
