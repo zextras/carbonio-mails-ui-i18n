@@ -34,7 +34,8 @@
         "apply_filter_on_folder": "Appliquer le filtre sur le dossier",
         "create_appointment": "Créer un rendez-vous",
         "download_eml": "Télécharger le fichier EML",
-        "preview_on_separated_tab": "Ouvrir un nouvel onglet"
+        "preview_on_separated_tab": "Ouvrir un nouvel onglet",
+        "forward_as_attachment": "Transférer comme pièce jointe"
     },
     "composer": {
         "attachment": {
@@ -46,6 +47,10 @@
             },
             "files": "Ajouter à partir de Files",
             "url": "Ajouter un lien public à partir de Files"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "L'adresse électronique du certificat ne correspond pas à celle de l'expéditeur",
+            "failed": "Échec du téléchargement du certificat"
         }
     },
     "folder": {
@@ -753,7 +758,10 @@
         "email_moved_to_trash": "L'email a été déplacé dans la corbeille",
         "tag_applied": "Étiquette \"{{tag}}\" appliquée",
         "tag_removed": "L'étiquette \"{{tag}}\" a été supprimée",
-        "email_copied_to_clipboard": "Email copié dans le presse papier."
+        "email_copied_to_clipboard": "Email copié dans le presse papier.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Échec lors de la vérification du certificat"
+        }
     },
     "title": {
         "new_messages": "Nouveaux messages",
@@ -910,6 +918,12 @@
             "title": "Quelque chose s'est mal passé",
             "content": "Merci de rafraîchir la page ou d'essayer plus tard. D'autres modules peuvent encore être disponibles avec des fonctionnalités limitées.",
             "buttonConfirm": "RECHARGER"
+        },
+        "uploadCertificate": {
+            "uploadCertificate": "Téléverser le certificat",
+            "certificatePassword": "Mot de passe du certificat",
+            "smimeCertificate": "Certificat S/MIME (ex : certificate.p12)",
+            "upload": "Téléverser"
         }
     },
     "email_status": {
