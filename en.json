@@ -34,7 +34,8 @@
         "show_details": "Show details",
         "show_original": "Show original",
         "unflag": "Remove flag",
-        "preview_on_separated_tab": "Open in a new tab"
+        "preview_on_separated_tab": "Open in a new tab",
+        "forward_as_attachment": "Forward as attachment"
     },
     "attachment_type": {
         "application": "Application",
