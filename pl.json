@@ -86,7 +86,8 @@
         "apply_filter_on_folder": "Zastosuj filtr na folderze",
         "create_appointment": "Stwórz spotkanie",
         "download_eml": "Pobierz EML",
-        "preview_on_separated_tab": "Otwórz w nowej karcie"
+        "preview_on_separated_tab": "Otwórz w nowej karcie",
+        "forward_as_attachment": "Przekaż dalej jako załącznik"
     },
     "composer": {
         "attachment": {
@@ -98,6 +99,10 @@
             },
             "files": "Dodaj z Plików",
             "url": "Dodaj publiczny link z Plików"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "E-mail certyfikatu nie pasuje do e-maila nadawcy",
+            "failed": "Nie udało się przesłać certyfikatu"
         }
     },
     "board": {
@@ -886,7 +891,10 @@
         "share_revoke": "Dostęp do udostępniania został odebrany",
         "tag_applied": "Etykieta \"{{tag}}\" została zastosowana",
         "tag_removed": "Etykieta \"{{tag}}\" została zdjęta",
-        "email_copied_to_clipboard": "E-mail został skopiowany do schowka."
+        "email_copied_to_clipboard": "E-mail został skopiowany do schowka.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Nie udało się zweryfikować certyfikatu"
+        }
     },
     "title": {
         "new_messages": "Nowe wiadomości",
@@ -910,6 +918,12 @@
             "buttonConfirm": "ODŚWIEŻ",
             "content": "Odśwież stronę lub spróbuj ponownie później. Inne moduły dalej mogą być dostępne z ograniczonymi funkcjonalnościami.",
             "title": "Coś poszło nie tak"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "Certyfikat S/MIME (np. certyfikat.p12)",
+            "upload": "Prześlij",
+            "uploadCertificate": "Prześlij certyfikat",
+            "certificatePassword": "Hasło certyfikatu"
         }
     },
     "email_status": {
