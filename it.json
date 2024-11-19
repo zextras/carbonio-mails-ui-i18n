@@ -84,7 +84,19 @@
             },
             "info_details": {
                 "title": "Dettagli messaggio"
-            }
+            },
+            "mail_authentication_headers": {
+                "missing": "Mancante"
+            },
+            "mail_general_info": {
+                "title": "Informazioni Generali"
+            },
+            "mail_info": {
+                "message_id": "ID Messaggio:",
+                "message_created_at": "Creato il:"
+            },
+            "distribution_list": "Questa email proviene da una lista di distribuzione",
+            "external_domain": "Questa email proviene da un dominio esterno"
         },
         "invalid_address": "Il seguente indirizzo sembra essere non valido",
         "new_email": "Nuova e-mail",
@@ -425,7 +437,8 @@
         "invalid_signature": "Firma non valida",
         "distribution_list_app_name": "Liste di distribuzione",
         "close": "Chiudi",
-        "error_folder_exists": "Esiste già una cartella con questo nome, per favore scegline un altro"
+        "error_folder_exists": "Esiste già una cartella con questo nome, per favore scegline un altro",
+        "from_external_domain": "Questa email proviene da un dominio esterno"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -449,7 +462,8 @@
             "closeToNavigate": "Chiudi questa email per navigare",
             "goToPrevious": "Vai all'email precedente",
             "goToNext": "Vai all'email successiva"
-        }
+        },
+        "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -532,6 +546,12 @@
             },
             "files": "Aggiungi da Files",
             "url": "Aggiungi link pubblico da Files"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "L'email del certificato non corrisponde all'email del mittente",
+            "failed": "Caricamento del certificato non riuscito",
+            "removeCertificateToSign": "Rimuovi certificato per la firma (S/MIME)",
+            "useCertificateToSign": "Usa certificato per la firma (S/MIME)"
         }
     },
     "message": {
@@ -580,7 +600,10 @@
         "email_moved_to_trash": "E-mail spostata nel cestino",
         "tag_applied": "Etichetta \"{{tag}}\" applicata",
         "tag_removed": "Etichetta \"{{tag}}\" rimossa",
-        "email_copied_to_clipboard": "Email copiata negli appunti."
+        "email_copied_to_clipboard": "Email copiata negli appunti.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Verifica del certificato non riuscita"
+        }
     },
     "share": {
         "options": {
@@ -931,6 +954,12 @@
             "title": "Qualcosa è andato storto",
             "content": "Per favore, aggiorna la pagina o riprova più tardi. Altri moduli potrebbero essere ancora disponibili con funzionalità limitate.",
             "buttonConfirm": "RICARICA"
+        },
+        "uploadCertificate": {
+            "uploadCertificate": "Carica Certificato",
+            "certificatePassword": "Password Certificato",
+            "smimeCertificate": "Certificato S/MIME (ad es. certificate.p12)",
+            "upload": "Carica"
         }
     },
     "attachment_type": {
