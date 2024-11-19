@@ -63,6 +63,12 @@
             "files": "Add from Files",
             "local": "Add from local",
             "url": "Add public link from Files"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "Certificate email does not match with sender email",
+            "failed": "Failed to upload certificate",
+            "removeCertificateToSign": "Remove certificate to sign (S/MIME)",
+            "useCertificateToSign": "Use certificate to sign (S/MIME)"
         }
     },
     "displayer": {
@@ -545,7 +551,8 @@
         "valid_signature": "Valid signature",
         "distribution_list_app_name": "Distribution Lists",
         "close": "Close",
-        "error_folder_exists": "A folder with the same name already exists, please choose a different one"
+        "error_folder_exists": "A folder with the same name already exists, please choose a different one",
+        "from_external_domain": "This email is from an external Domain"
     },
     "labels": {
         "compose_colin": "Compose :",
@@ -648,7 +655,19 @@
             },
             "info_details": {
                 "title": "Message details"
-            }
+            },
+            "mail_authentication_headers": {
+                "missing": "Missing"
+            },
+            "mail_general_info": {
+                "title": "General Information"
+            },
+            "mail_info": {
+                "message_id": "Message ID:",
+                "message_created_at": "Created at:"
+            },
+            "distribution_list": "This email is from a Distribution List",
+            "external_domain": "This email is from an External Domain"
         },
         "new_email": "New e-mail",
         "no_content": "This message has no text content",
@@ -714,6 +733,12 @@
             "title": "Something went wrong",
             "content": "Please refresh the page or try again later. Other modules might still be available on limited functionality.",
             "buttonConfirm": "RELOAD"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "S/MIME Certificate (i.e. certificate.p12)",
+            "uploadCertificate": "Upload Certificate",
+            "certificatePassword": "Certificate Password",
+            "upload": "Upload"
         }
     },
     "modals": {
@@ -940,7 +965,10 @@
         "share_revoke": "Share access revoked",
         "share_updated": "\"Access rights updated\"",
         "tag_applied": "\"{{tag}}\" tag applied",
-        "tag_removed": "\"{{tag}}\" tag removed"
+        "tag_removed": "\"{{tag}}\" tag removed",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Failed to verify certificate"
+        }
     },
     "sortingDropdown": {
         "tooltip": {
@@ -1000,7 +1028,8 @@
             "noMoreEmails": "There are no more emails",
             "noPreviousEmails": "There are no previous emails",
             "goToNext": "Go to next email"
-        }
+        },
+        "markedAsSingedSmime": "Marked as signed (S/MIME)"
     },
     "layoutView": {
         "tooltip": {
