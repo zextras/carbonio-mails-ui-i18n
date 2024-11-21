@@ -93,7 +93,8 @@
             },
             "mail_info": {
                 "message_id": "ID Messaggio:",
-                "message_created_at": "Creato il:"
+                "message_created_at": "Creato il:",
+                "message_sensitivity": "Sensibilità:"
             },
             "distribution_list": "Questa email proviene da una lista di distribuzione",
             "external_domain": "Questa email proviene da un dominio esterno"
@@ -438,7 +439,11 @@
         "distribution_list_app_name": "Liste di distribuzione",
         "close": "Chiudi",
         "error_folder_exists": "Esiste già una cartella con questo nome, per favore scegline un altro",
-        "from_external_domain": "Questa email proviene da un dominio esterno"
+        "from_external_domain": "Questa email proviene da un dominio esterno",
+        "distribution_list": "Questa email proviene da una lista di distribuzione",
+        "mail_sensitivity_private": "Sensibilità Privato",
+        "mail_sensitivity_company_confidential": "Sensibilità Riservato per l'Azienda",
+        "mail_sensitivity_unknown": "Sensibilità Sconosciuta"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
