@@ -552,7 +552,11 @@
         "distribution_list_app_name": "Distribution Lists",
         "close": "Close",
         "error_folder_exists": "A folder with the same name already exists, please choose a different one",
-        "from_external_domain": "This email is from an external Domain"
+        "from_external_domain": "This email is from an external Domain",
+        "distribution_list": "This email is from a Distribution List",
+        "mail_sensitivity_private": "Sensitivity Private",
+        "mail_sensitivity_company_confidential": "Sensitivity Company-Confidential",
+        "mail_sensitivity_unknown": "Sensitivity Unknown"
     },
     "labels": {
         "compose_colin": "Compose :",
@@ -664,7 +668,8 @@
             },
             "mail_info": {
                 "message_id": "Message ID:",
-                "message_created_at": "Created at:"
+                "message_created_at": "Created at:",
+                "message_sensitivity": "Sensitivity:"
             },
             "distribution_list": "This email is from a Distribution List",
             "external_domain": "This email is from an External Domain"
