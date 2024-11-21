@@ -50,7 +50,9 @@
         },
         "uploadCertificate": {
             "emailNotMatch": "L'adresse électronique du certificat ne correspond pas à celle de l'expéditeur",
-            "failed": "Échec du téléchargement du certificat"
+            "failed": "Échec du téléchargement du certificat",
+            "removeCertificateToSign": "Supprimer le certificat à signer (S/MIME)",
+            "useCertificateToSign": "Utiliser un certificat pour signer (S/MIME)"
         }
     },
     "folder": {
@@ -397,7 +399,8 @@
         "invalid_signature": "Signature invalide",
         "distribution_list_app_name": "Listes de distribution",
         "close": "Fermer",
-        "error_folder_exists": "Un dossier portant le même nom existe déjà, veuillez en choisir un autre"
+        "error_folder_exists": "Un dossier portant le même nom existe déjà, veuillez en choisir un autre",
+        "from_external_domain": "Cet email provient d'un domaine externe"
     },
     "message": {
         "snackbar": {
@@ -486,6 +489,18 @@
             },
             "info_details": {
                 "title": "Détails du message"
+            },
+            "mail_info": {
+                "message_id": "Identifiant du message :",
+                "message_created_at": "Date de création :"
+            },
+            "distribution_list": "Cet email provient d'une liste de distribution",
+            "mail_authentication_headers": {
+                "missing": "Manquant"
+            },
+            "external_domain": "Cet email provient d'un domaine externe",
+            "mail_general_info": {
+                "title": "Informations générales"
             }
         },
         "new_email": "Nouvel email",
@@ -789,7 +804,8 @@
             "unableToLoadNextEmail": "Impossible de charger le prochain email. Merci de réessayer plus tard",
             "closeToNavigate": "Fermer cet email pour naviguer",
             "noPreviousEmails": "Il n'y a pas d'emails précédents"
-        }
+        },
+        "markedAsSingedSmime": "Marqué comme signé (S/MIME)"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
