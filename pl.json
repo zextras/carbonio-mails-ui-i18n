@@ -102,7 +102,9 @@
         },
         "uploadCertificate": {
             "emailNotMatch": "E-mail certyfikatu nie pasuje do e-maila nadawcy",
-            "failed": "Nie udało się przesłać certyfikatu"
+            "failed": "Nie udało się przesłać certyfikatu",
+            "removeCertificateToSign": "Usuń certyfikat użyty do podpisania (S/MIME)",
+            "useCertificateToSign": "Użyj certyfikatu, aby podpisać (S/MIME)"
         }
     },
     "board": {
@@ -140,7 +142,8 @@
             "noMoreEmails": "Nie ma już e-maili",
             "closeToNavigate": "Zamknij ten e-mail, aby nawigować",
             "noPreviousEmails": "Nie ma poprzednich e-maili"
-        }
+        },
+        "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)"
     },
     "label": {
         "create": "Stwórz",
@@ -456,7 +459,12 @@
         "show_details": "Pokaż szczegóły",
         "distribution_list_app_name": "Listy dystrybucyjne",
         "close": "Zamknij",
-        "error_folder_exists": "Folder z tą sama nazwą już istnieje, wybierz inną nazwę"
+        "error_folder_exists": "Folder z tą sama nazwą już istnieje, wybierz inną nazwę",
+        "from_external_domain": "Ten e-mail jest z domeny zewnętrznej",
+        "distribution_list": "Ten e-mail jest z listy dystrybucyjnej",
+        "mail_sensitivity_private": "Poufność prywatna",
+        "mail_sensitivity_company_confidential": "Poufność firmowa-tajna",
+        "mail_sensitivity_unknown": "Poufność nieznana"
     },
     "message": {
         "snackbar": {
@@ -688,6 +696,19 @@
             },
             "info_details": {
                 "title": "Szczegóły wiadomości"
+            },
+            "mail_authentication_headers": {
+                "missing": "Brak"
+            },
+            "mail_info": {
+                "message_id": "ID wiadomości:",
+                "message_created_at": "Stworzono:",
+                "message_sensitivity": "Poufność:"
+            },
+            "distribution_list": "Ten e-mail jest z listy dystrybucyjnej",
+            "external_domain": "Ten e-mail jest z domeny zewnętrznej",
+            "mail_general_info": {
+                "title": "Informacje ogólne"
             }
         },
         "new_email": "Nowy e-mail",
