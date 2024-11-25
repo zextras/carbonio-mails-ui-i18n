@@ -400,7 +400,11 @@
         "distribution_list_app_name": "Listes de distribution",
         "close": "Fermer",
         "error_folder_exists": "Un dossier portant le même nom existe déjà, veuillez en choisir un autre",
-        "from_external_domain": "Cet email provient d'un domaine externe"
+        "from_external_domain": "Cet email provient d'un domaine externe",
+        "distribution_list": "Cet email provient d'une liste de distribution",
+        "mail_sensitivity_private": "Sensibilité privée",
+        "mail_sensitivity_company_confidential": "Sensibilité Confidentialité de l'entreprise",
+        "mail_sensitivity_unknown": "Sensibilité Inconnue"
     },
     "message": {
         "snackbar": {
@@ -492,7 +496,8 @@
             },
             "mail_info": {
                 "message_id": "Identifiant du message :",
-                "message_created_at": "Date de création :"
+                "message_created_at": "Date de création :",
+                "message_sensitivity": "Sensibilité :"
             },
             "distribution_list": "Cet email provient d'une liste de distribution",
             "mail_authentication_headers": {
