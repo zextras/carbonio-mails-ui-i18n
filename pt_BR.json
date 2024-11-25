@@ -34,7 +34,8 @@
         "apply_filter_on_folder": "Aplicar filtro na pasta",
         "select_folders": "Selecionar pastas",
         "preview_on_separated_window": "Abrir em uma nova janela",
-        "preview_on_separated_tab": "Abrir em uma nova aba"
+        "preview_on_separated_tab": "Abrir em uma nova aba",
+        "forward_as_attachment": "Encaminhar como anexo"
     },
     "folder": {
         "modal": {
@@ -364,7 +365,12 @@
         "valid_signature": "Assinatura válida",
         "distribution_list_app_name": "Listas de Distribuição",
         "close": "Fechar",
-        "error_folder_exists": "Já existe uma pasta com este nome, escolha um diferente"
+        "error_folder_exists": "Já existe uma pasta com este nome, escolha um diferente",
+        "from_external_domain": "Este e-mail é de um domínio externo",
+        "mail_sensitivity_private": "Sensibilidade Privada",
+        "mail_sensitivity_company_confidential": "Sensibilidade Confidencial da Empresa",
+        "mail_sensitivity_unknown": "Sensibilidade Desconhecida",
+        "distribution_list": "Este e-mail é de uma Lista de Distribuição"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -470,7 +476,23 @@
                 "signed_by": "Assinado Por",
                 "issuer": "Emissor",
                 "validity": "Validade"
-            }
+            },
+            "info_details": {
+                "title": "Detalhes da mensagem"
+            },
+            "mail_authentication_headers": {
+                "missing": "Ausente"
+            },
+            "mail_general_info": {
+                "title": "Informações Gerais"
+            },
+            "mail_info": {
+                "message_id": "ID da mensagem:",
+                "message_created_at": "Criado em:",
+                "message_sensitivity": "Sensibilidade:"
+            },
+            "distribution_list": "Este e-mail é de uma Lista de Distribuição",
+            "external_domain": "Este e-mail é de um Domínio Externo"
         },
         "new_email": "Novo e-mail",
         "no_content": "Essa mensagem não possui conteúdo de texto",
@@ -706,6 +728,12 @@
             },
             "files": "Adicionar do Files",
             "url": "Adicionar link público a partir do Files"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "O e-mail do certificado não corresponde ao e-mail do remetente",
+            "failed": "Falha ao carregar o certificado",
+            "removeCertificateToSign": "Remover certificado para assinar (S/MIME)",
+            "useCertificateToSign": "Utilizar certificado para assinar (S/MIME)"
         }
     },
     "message": {
@@ -754,7 +782,10 @@
         "email_moved_to_trash": "E-mail movido para a Lixeira",
         "tag_removed": "Marcador \"{{tag}}\" removido",
         "tag_applied": "Marcador \"{{tag}}\" aplicado",
-        "email_copied_to_clipboard": "E-mail copiado para área de transferência."
+        "email_copied_to_clipboard": "E-mail copiado para área de transferência.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Falha ao verificar o certificado"
+        }
     },
     "tooltip": {
         "add_attachments": "Adicionar anexos",
@@ -778,7 +809,8 @@
             "goToNext": "Ir para o próximo e-mail",
             "noMoreEmails": "Não há mais e-mails",
             "unableToLoadNextEmail": "Não foi possível carregar o próximo e-mail. Tente novamente"
-        }
+        },
+        "markedAsSingedSmime": "Marcado como assinado (S/MIME)"
     },
     "folder_panel": {
         "modal": {
@@ -951,6 +983,12 @@
             "title": "Algo deu errado",
             "content": "Atualize a página ou tente novamente mais tarde. Outros módulos ainda podem estar disponíveis com funcionalidade limitada.",
             "buttonConfirm": "ATUALIZAR"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "Certificado S/MIME (p.ex. certificado.p12)",
+            "certificatePassword": "Senha do Certificado",
+            "upload": "Carregar",
+            "uploadCertificate": "Carregar Certificado"
         }
     },
     "messages,new_email": "Novo email",
