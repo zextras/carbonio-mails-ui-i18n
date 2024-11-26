@@ -443,7 +443,11 @@
         "distribution_list": "Questa email proviene da una lista di distribuzione",
         "mail_sensitivity_private": "Sensibilità Privato",
         "mail_sensitivity_company_confidential": "Sensibilità Riservato per l'Azienda",
-        "mail_sensitivity_unknown": "Sensibilità Sconosciuta"
+        "mail_sensitivity_unknown": "Sensibilità Sconosciuta",
+        "attachment_error_status": {
+            "failed": "non è stato possibile caricare uno o più allegati",
+            "uploading": "Caricamento allegati in corso"
+        }
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
