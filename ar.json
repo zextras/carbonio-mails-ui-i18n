@@ -34,7 +34,8 @@
         "show_original": "إظهار الأصل",
         "unflag": "إزالة العلامة",
         "show_details": "اظهر التفاصيل",
-        "preview_on_separated_tab": "فتح في علامة تبويب جديدة"
+        "preview_on_separated_tab": "فتح في علامة تبويب جديدة",
+        "forward_as_attachment": "إرسالها كمرفق"
     },
     "folder": {
         "modal": {
@@ -101,6 +102,12 @@
             },
             "local": "إضافة من الجهاز",
             "url": "إضافة رابط عام من الملفات"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "لا يتطابق بريد الشهادة مع بريد المرسل",
+            "failed": "فشل تحميل الشهادة",
+            "removeCertificateToSign": "إزالة الشهادة للتوقيع (S/MIME)",
+            "useCertificateToSign": "استخدام الشهادة للتوقيع (S/MIME)"
         }
     },
     "displayer": {
@@ -543,7 +550,13 @@
             "failed": "فشل تحميل مرفق واحد أو أكثر",
             "uploading": "جاري تحميل المرفقات"
         },
-        "close": "اغلق"
+        "close": "اغلق",
+        "from_external_domain": "هذا البريد الإلكتروني من نطاق خارجي",
+        "distribution_list": "هذا البريد من قائمة توزيع",
+        "mail_sensitivity_private": "الحساسية خاصة",
+        "mail_sensitivity_company_confidential": "الحساسية سرية للشركة",
+        "mail_sensitivity_unknown": "الحساسية غير معروفة",
+        "error_folder_exists": "يوجد مجلد يحمل نفس الاسم، يرجى اختيار أسم آخر"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -607,7 +620,23 @@
                 "error_msg": "حدث خطأ أثناء معالجة التوقيع الرقمي. لم يتم التحقق من التوقيع.",
                 "error_title": "حدث خطأ أثناء التحقق من التوقيع",
                 "issuer": "الجهة المصدرة"
-            }
+            },
+            "info_details": {
+                "title": "تفاصيل الرسالة"
+            },
+            "mail_authentication_headers": {
+                "missing": "لم يعرف"
+            },
+            "mail_general_info": {
+                "title": "المعلومات العامة"
+            },
+            "mail_info": {
+                "message_id": "مُعرِف الرسالة:",
+                "message_sensitivity": "الحساسية:",
+                "message_created_at": "أُنشأت في:"
+            },
+            "distribution_list": "هذا البريد من قائمة توزيع",
+            "external_domain": "هذا البريد من نطاق خارجي"
         },
         "powered_by": "مدعوم بواسطة",
         "snackbar": {
@@ -761,6 +790,12 @@
             "title": "حدث خطأ ما",
             "content": "يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا. قد تظل وحدات أخرى متاحة بوظائف محدودة.",
             "buttonConfirm": "إعادة التحميل"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "شهادة S/MIME (مثلاً شهادة.p12)",
+            "uploadCertificate": "تحميل الشهادة",
+            "certificatePassword": "كلمة سر الشهادة",
+            "upload": "تحميل"
         }
     },
     "settings": {
@@ -967,7 +1002,10 @@
         "share_updated": "\"تم تحديث حقوق الوصول\"",
         "tag_applied": "تم تطبيق العلامه \"{{tag}}\"",
         "email_moved_to_trash": "تم نقل البريد الإلكتروني إلى المهملات",
-        "folder_shared": "المجلد المشترك"
+        "folder_shared": "المجلد المشترك",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "فشل التحقق من الشهادة"
+        }
     },
     "tooltip": {
         "list_navigation": {
@@ -994,7 +1032,8 @@
         "disable_rich_text": "لتعطيل محرر النصوص المنسقه",
         "edit": "تحرير خصائص المشاركة",
         "add_attachments": "لإضافة المرفقات",
-        "disable_urgent": "لتعطيل العاجل"
+        "disable_urgent": "لتعطيل العاجل",
+        "markedAsSingedSmime": "معلمة كموقعه (S/MIME)"
     },
     "layoutView": {
         "tooltip": {
