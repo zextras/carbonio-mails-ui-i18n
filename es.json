@@ -370,7 +370,8 @@
         "days": "Días",
         "weeks": "Semanas",
         "months": "Meses",
-        "years": "Años"
+        "years": "Años",
+        "show_details": "Mostrar detalles"
     },
     "messages": {
         "modal": {
@@ -423,7 +424,7 @@
             "message_move": "Mensaje movido con éxito",
             "message_redirected": "El mensaje ha sido redireccionado",
             "folder_empty_error": "Algo salió mal, los cambios no han podido aplicarse. Intenta nuevamente.",
-            "folder_will_be_moved_in_time": "Esta carpeta se moverá en {{remainingTime}}",
+            "folder_will_be_moved_in_time": "Esta carpeta se moverá en {{remainingTime}}.",
             "mail_sent": "Mensaje enviado",
             "marked_as_non_spam": "Has clasificado este mensaje como \"No es Spam\"",
             "mail_saved_to_drafts": "El mensaje se ha guardado en Borradores",
@@ -918,7 +919,7 @@
             "message1": "¿Quieres conservar el borrador o eliminarlo?"
         },
         "initializeError": {
-            "title": "¡Vaya! Algo salió mal",
+            "title": "Algo salió mal",
             "content": "Por favor, recarga la página o prueba de nuevo más tarde",
             "buttonConfirm": "RECARGAR"
         }
