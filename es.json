@@ -34,7 +34,8 @@
         "select_folders": "Elegir carpetas",
         "preview_on_separated_window": "Abrir en una ventana nueva",
         "create_appointment": "Crear Cita",
-        "preview_on_separated_tab": "Abrir en una pestaña nueva"
+        "preview_on_separated_tab": "Abrir en una pestaña nueva",
+        "forward_as_attachment": "Reenviar como adjunto"
     },
     "folder": {
         "modal": {
@@ -371,7 +372,21 @@
         "weeks": "Semanas",
         "months": "Meses",
         "years": "Años",
-        "show_details": "Mostrar detalles"
+        "show_details": "Mostrar detalles",
+        "valid_signature": "Firma válida",
+        "invalid_signature": "Firma no válida",
+        "distribution_list_app_name": "Listas de distribución",
+        "close": "Cerrar",
+        "from_external_domain": "Este correo proviene de un Dominio externo",
+        "distribution_list": "Este correo es de una Lista de Distribución",
+        "mail_sensitivity_private": "Sensibilidad Privada",
+        "mail_sensitivity_company_confidential": "Sensibilidad Compañía-Confidencial",
+        "mail_sensitivity_unknown": "Sensibilidad Desconocida",
+        "error_folder_exists": "Ya existe una carpeta con el mismo nombre, por favor, elige uno diferente",
+        "attachment_error_status": {
+            "uploading": "Se están subiendo los archivos adjuntos",
+            "failed": "fallo al subir uno o más archivos adjuntos"
+        }
     },
     "messages": {
         "modal": {
@@ -398,7 +413,43 @@
                 "attached": "adjuntado",
                 "attach": "adjuntar",
                 "subject": "Falta el asunto"
-            }
+            },
+            "smime": {
+                "title": "Detalles del certificado",
+                "valid_msg": "Este mensaje incluye una firma digital válida. El mensaje no ha sido modificado desde que fue enviado.",
+                "invalid_title": "Firma digital no válida",
+                "invalid_msg": "Este mensaje incluye una firma digital, pero la firma no es válida.",
+                "untrusted_title": "Mensaje de una fuente que no es de confianza",
+                "cert_expired_title": "El certificado del firmante ha caducado",
+                "cert_expired_msg": "Este mensaje incluye una firma digital, pero el certificado del firmante ha caducado. Ya no está considerado válido.",
+                "cert_not_found_title": "Certificado del firmante no encontrado",
+                "cert_not_found_msg": "Este mensaje incluye una firma digital, pero el certificado del firmante no pudo ser encontrado. La firma no puede ser validada.",
+                "issuer_not_found_msg": "Este mensaje incluye una firma digital, pero el certificado del la autoridad emisora no pudo ser encontrado.",
+                "issuer_not_found_title": "Certificado del emisor no encontrado",
+                "error_title": "Ocurrió un error durante la verificación de la firma",
+                "issuer": "Emisor",
+                "signed_by": "Firmado por",
+                "validity": "Validez",
+                "error_msg": "Ocurrió un error al procesar la firma digital. La firma no pudo ser verificada.",
+                "valid_title": "El mensaje está firmado",
+                "untrusted_msg": "Este mensaje incluye una firma digital, pero el firmante no es de confianza. El certificado podría haber sido emitido por una autoridad de certificados no reconocida."
+            },
+            "info_details": {
+                "title": "Detalles del mensaje"
+            },
+            "mail_authentication_headers": {
+                "missing": "Falta"
+            },
+            "mail_info": {
+                "message_id": "ID del Mensaje:",
+                "message_created_at": "Creado:",
+                "message_sensitivity": "Sensibilidad:"
+            },
+            "mail_general_info": {
+                "title": "Información general"
+            },
+            "distribution_list": "Este correo proviene de una Lista de Distribución",
+            "external_domain": "Este correo es de un Dominio Externo"
         },
         "new_email": "Nuevo correo",
         "no_content": "Este mensaje no contiene texto",
@@ -516,6 +567,12 @@
             },
             "files": "Adjuntar desde Files",
             "url": "Adjuntar enlace público desde Files"
+        },
+        "uploadCertificate": {
+            "removeCertificateToSign": "Eliminar certificado de firma (S/MIME)",
+            "useCertificateToSign": "Utilizar certificado para firmar (S/MIME)",
+            "emailNotMatch": "El correo certificado no coincide con el correo del emisor",
+            "failed": "Error al cargar el certificado"
         }
     },
     "message": {
@@ -564,7 +621,10 @@
         "email_moved_to_trash": "El correo se ha movido a la Papelera",
         "tag_applied": "Etiqueta \"{{tag}}\" aplicada",
         "tag_removed": "Etiqueta \"{{tag}}\" removida",
-        "email_copied_to_clipboard": "Email copiado al portapapeles."
+        "email_copied_to_clipboard": "Email copiado al portapapeles.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Error al verificar el certificado"
+        }
     },
     "tooltip": {
         "add_attachments": "Adjuntar archivos",
@@ -588,7 +648,8 @@
             "noPreviousEmails": "No hay correos electrónicos anteriores",
             "goToNext": "Ir al siguiente correo electrónico",
             "goToPrevious": "Ir al correo electrónico anterior"
-        }
+        },
+        "markedAsSingedSmime": "Marcado como firmado (S/MIME)"
     },
     "settings": {
         "label": {
@@ -920,8 +981,14 @@
         },
         "initializeError": {
             "title": "Algo salió mal",
-            "content": "Por favor, recarga la página o prueba de nuevo más tarde",
+            "content": "Por favor, recarga la página o prueba de nuevo más tarde. Puede que otros módulos sigan disponibles aunque con una funcionalidad limitada.",
             "buttonConfirm": "RECARGAR"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "S/MIME Certificate (i.e. certificado.p12)",
+            "upload": "Subir",
+            "uploadCertificate": "Cargar certificado",
+            "certificatePassword": "Contraseña del certificado"
         }
     },
     "messages,new_email": "Nuevo email",
@@ -979,6 +1046,13 @@
             "switchToNoSplit": "Cambiar a no separado",
             "switchToVertical": "Cambiar a separación vertical",
             "switchToHorizontal": "Cambiar a separación horizontal"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "El mensaje es muy largo y ha sido recortado",
+            "button": "CARGAR MENSAJE",
+            "loadingButton": "CARGANDO..."
         }
     }
 }
