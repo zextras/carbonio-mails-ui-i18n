@@ -34,7 +34,8 @@
         "apply_filter_on_folder": "Terapkan filter pada folder",
         "preview_on_separated_window": "Buka di jendela baru",
         "select_folders": "Pilih folder",
-        "preview_on_separated_tab": "Buka di tab baru"
+        "preview_on_separated_tab": "Buka di tab baru",
+        "forward_as_attachment": "Teruskan sebagai lampiran"
     },
     "folder": {
         "modal": {
@@ -358,7 +359,22 @@
         "days": "Hari",
         "weeks": "Minggu",
         "months": "Bulan",
-        "years": "Tahun"
+        "years": "Tahun",
+        "show_details": "Tampilkan detail",
+        "valid_signature": "Tanda tangan yang valid",
+        "invalid_signature": "Tanda tangan tidak valid",
+        "distribution_list_app_name": "Daftar Distribusi",
+        "close": "Tutup",
+        "from_external_domain": "Email ini berasal dari Domain eksternal",
+        "distribution_list": "Email ini berasal dari Daftar Distribusi",
+        "mail_sensitivity_private": "Sensitivitas Pribadi",
+        "mail_sensitivity_company_confidential": "Informasi Rahasia Perusahaan",
+        "mail_sensitivity_unknown": "Sensitivitas Tidak Diketahui",
+        "error_folder_exists": "Folder dengan nama yang sama sudah ada, silakan pilih nama yang berbeda",
+        "attachment_error_status": {
+            "failed": "satu atau beberapa lampiran gagal diunggah",
+            "uploading": "Lampiran sedang diunggah"
+        }
     },
     "messages": {
         "snackbar": {
@@ -383,7 +399,7 @@
             "folder_move_error": "Terjadi kesalahan, folder belum dipindahkan. Coba lagi.",
             "marked_as_spam": "Anda telah menandai email ini sebagai Spam",
             "folder_empty_error": "Terjadi kesalahan, tidak ada perubahan. Coba lagi.",
-            "folder_will_be_moved_in_time": "Folder ini akan dipindahkan di {{remainingTime}}",
+            "folder_will_be_moved_in_time": "Folder ini akan dipindahkan dalam {{remainingTime}}.",
             "folder_restored": "Folder dipulihkan",
             "mail_saved_to_drafts": "Email disimpan ke draf",
             "tag_not_updated": "Terjadi kesalahan. Tag tidak diperbarui. Coba lagi nanti.",
@@ -421,7 +437,43 @@
                 "no_subject_no_attachments": "Subjek email kosong dan Anda tidak melampirkan file apa pun.",
                 "second": "Anda ingin tetap mengirim email?",
                 "subject": "Subjek tidak ada"
-            }
+            },
+            "smime": {
+                "title": "Detail sertifikat",
+                "valid_title": "Pesan Ditandatangani",
+                "valid_msg": "Pesan ini dibubuhi tanda tangan digital yang valid. Pesan tersebut belum diubah sejak dikirim.",
+                "invalid_title": "Tanda Tangan Digital Tidak Valid",
+                "invalid_msg": "Pesan ini dibubuhi tanda tangan digital, tetapi tanda tangan tersebut tidak valid.",
+                "untrusted_msg": "Pesan ini dibubuhi tanda tangan digital, tetapi penanda tangan tidak tepercaya. Sertifikat tersebut mungkin tidak diterbitkan oleh otoritas sertifikat yang diakui.",
+                "cert_expired_title": "Sertifikat Penanda Tangan Telah Kedaluwarsa",
+                "cert_expired_msg": "Pesan ini dibubuhi tanda tangan digital, tetapi sertifikat penanda tangan telah kedaluwarsa. Sertifikat tidak lagi dianggap valid.",
+                "cert_not_found_title": "Sertifikat Penanda Tangan Tidak Ditemukan",
+                "issuer_not_found_title": "Sertifikat Penerbit Tidak Ditemukan",
+                "signed_by": "Ditandatangani Oleh",
+                "issuer": "Penerbit",
+                "validity": "Validitas",
+                "untrusted_title": "Pesan dari Sumber yang Tidak Tepercaya",
+                "cert_not_found_msg": "Pesan ini dibubuhi tanda tangan digital, tetapi sertifikat penanda tangan tidak dapat ditemukan. Tanda tangan ini tidak dapat divalidasi.",
+                "error_title": "Terjadi Kesalahan Selama Verifikasi Tanda Tangan",
+                "issuer_not_found_msg": "Pesan ini dibubuhi tanda tangan digital, tetapi sertifikat otoritas penerbit tidak dapat ditemukan.",
+                "error_msg": "Terjadi kesalahan saat memproses tanda tangan digital. Tanda tangan tidak dapat diverifikasi."
+            },
+            "info_details": {
+                "title": "Detail pesan"
+            },
+            "mail_authentication_headers": {
+                "missing": "Tidak ada"
+            },
+            "mail_general_info": {
+                "title": "Informasi Umum"
+            },
+            "mail_info": {
+                "message_id": "ID Pesan:",
+                "message_created_at": "Dibuat pada:",
+                "message_sensitivity": "Sensitivitas:"
+            },
+            "distribution_list": "Email ini berasal dari Daftar Distribusi",
+            "external_domain": "Email ini berasal dari Domain Eksternal"
         },
         "new_email": "Email baru",
         "no_content": "Pesan ini tidak berisi teks",
@@ -656,6 +708,12 @@
             },
             "files": "Tambahkan dari Files",
             "url": "Tambahkan tautan publik dari Files"
+        },
+        "uploadCertificate": {
+            "failed": "Gagal mengunggah sertifikat",
+            "removeCertificateToSign": "Hapus sertifikat untuk ditandatangani (S/MIME)",
+            "useCertificateToSign": "Gunakan sertifikat untuk ditandatangani (S/MIME)",
+            "emailNotMatch": "Email sertifikat tidak cocok dengan email pengirim"
         }
     },
     "message": {
@@ -704,7 +762,10 @@
         "email_moved_to_trash": "Email dipindahkan ke Sampah",
         "tag_applied": "Tag \"{{tag}}\" diterapkan",
         "tag_removed": "Tag \"{{tag}}: dihapus",
-        "email_copied_to_clipboard": "Email disalin ke clipboard."
+        "email_copied_to_clipboard": "Email disalin ke clipboard.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Gagal memverifikasi sertifikat"
+        }
     },
     "tooltip": {
         "add_attachments": "Tambahkan lampiran",
@@ -726,7 +787,8 @@
             "noPreviousEmails": "Tidak ada email sebelumnya",
             "goToPrevious": "Buka email sebelumnya",
             "goToNext": "Buka email berikutnya"
-        }
+        },
+        "markedAsSingedSmime": "Ditandai sebagai ditandatangani (S/MIME)"
     },
     "folder_panel": {
         "modal": {
@@ -897,8 +959,14 @@
         },
         "initializeError": {
             "title": "Ada yang salah",
-            "content": "Muat ulang halaman atau coba lagi nanti",
+            "content": "Segarkan halaman atau coba lagi nanti. Modul lain mungkin masih tersedia dengan fungsionalitas terbatas.",
             "buttonConfirm": "MUAT ULANG"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "Sertifikat S/MIME (misalnya certificate.p12)",
+            "uploadCertificate": "Unggah Sertifikat",
+            "certificatePassword": "Kata Sandi Sertifikat",
+            "upload": "Unggah"
         }
     },
     "messages,new_email": "email baru",
@@ -956,6 +1024,13 @@
             "switchToNoSplit": "Beralih ke tidak ada split",
             "switchToHorizontal": "Beralih ke split horizontal",
             "switchToVertical": "Beralih ke split vertikal"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Pesan terlalu panjang dan telah dipotong",
+            "button": "MUAT PESAN",
+            "loadingButton": "MEMUAT . . ."
         }
     }
 }
