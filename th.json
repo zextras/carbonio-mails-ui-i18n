@@ -48,7 +48,8 @@
         "preview_on_separated_window": "เปิดในหน้าต่างใหม่",
         "create_appointment": "สร้างการนัดหมาย",
         "download_eml": "ดาวน์โหลด EML",
-        "preview_on_separated_tab": "เปิดในแท็บใหม่"
+        "preview_on_separated_tab": "เปิดในแท็บใหม่",
+        "forward_as_attachment": "ส่งต่อเป็นไฟล์แนบ"
     },
     "folders": {
         "trash": "ถังขยะ",
@@ -358,7 +359,22 @@
         "days": "วัน",
         "weeks": "สัปดาห์",
         "months": "เดือน",
-        "years": "ปี"
+        "years": "ปี",
+        "show_details": "แสดงรายละเอียด",
+        "valid_signature": "ลายเซ็นที่ถูกต้อง",
+        "invalid_signature": "ลายเซ็นไม่ถูกต้อง",
+        "distribution_list_app_name": "รายการแจกจ่าย",
+        "close": "ปิด",
+        "error_folder_exists": "มีโฟลเดอร์ที่มีชื่อเดียวกันอยู่แล้ว โปรดเลือกโฟลเดอร์อื่น",
+        "from_external_domain": "อีเมลนี้มาจากโดเมนภายนอก",
+        "distribution_list": "อีเมลนี้มาจากรายการแจกจ่าย",
+        "mail_sensitivity_private": "ความละเอียดอ่อนส่วนตัว",
+        "mail_sensitivity_unknown": "ความละเอียดอ่อนไม่ระบุ",
+        "attachment_error_status": {
+            "failed": "ไฟล์แนบอย่างน้อยหนึ่งรายการไม่สามารถอัปโหลดได้",
+            "uploading": "กำลังอัปโหลดไฟล์แนบ"
+        },
+        "mail_sensitivity_company_confidential": "ความอ่อนไหวของบริษัท-ความลับ"
     },
     "messages": {
         "modal": {
@@ -385,7 +401,43 @@
                 "attached": "ที่แนบมาด้วย",
                 "attach": "แนบ",
                 "subject": "ไม่มีหัวเรื่อง"
-            }
+            },
+            "smime": {
+                "title": "รายละเอียดใบรับรอง",
+                "valid_title": "ข้อความได้รับการลงนามแล้ว",
+                "valid_msg": "ข้อความนี้ประกอบด้วยลายเซ็นดิจิทัลที่ถูกต้อง ข้อความไม่มีการเปลี่ยนแปลงตั้งแต่ถูกส่งไป",
+                "invalid_title": "ลายเซ็นดิจิทัลไม่ถูกต้อง",
+                "invalid_msg": "ข้อความนี้มีลายเซ็นดิจิทัล แต่ลายเซ็นไม่ถูกต้อง",
+                "untrusted_title": "ข้อความจากแหล่งที่ไม่น่าเชื่อถือ",
+                "untrusted_msg": "ข้อความนี้มีลายเซ็นดิจิทัล แต่ผู้ลงนามไม่น่าเชื่อถือ ใบรับรองอาจไม่ได้ออกโดยผู้มีอำนาจออกใบรับรองที่ได้รับการยอมรับ",
+                "cert_expired_title": "ใบรับรองของผู้ลงนามหมดอายุแล้ว",
+                "cert_expired_msg": "ข้อความนี้มีลายเซ็นดิจิทัล แต่ใบรับรองของผู้ลงนามหมดอายุแล้ว จึงถือว่าไม่ถูกต้องอีกต่อไป",
+                "cert_not_found_title": "ไม่พบใบรับรองของผู้ลงนาม",
+                "cert_not_found_msg": "ข้อความนี้มีลายเซ็นดิจิทัล แต่ไม่พบใบรับรองของผู้ลงนาม ไม่สามารถตรวจสอบลายเซ็นได้",
+                "issuer_not_found_title": "ไม่พบใบรับรองของผู้ออก",
+                "issuer_not_found_msg": "ข้อความนี้มีลายเซ็นดิจิทัล แต่ไม่พบใบรับรองของหน่วยงานที่ออกใบรับรอง",
+                "error_title": "เกิดข้อผิดพลาดระหว่างการตรวจสอบลายเซ็น",
+                "error_msg": "เกิดข้อผิดพลาดในการประมวลผลลายเซ็นดิจิทัล ไม่สามารถตรวจสอบลายเซ็นได้",
+                "signed_by": "ลงนามโดย",
+                "issuer": "ผู้ออก",
+                "validity": "การมีผลบังคับใช้"
+            },
+            "info_details": {
+                "title": "รายละเอียดข้อความ"
+            },
+            "mail_authentication_headers": {
+                "missing": "ขาดหายไป"
+            },
+            "mail_general_info": {
+                "title": "ข้อมูลทั่วไป"
+            },
+            "mail_info": {
+                "message_id": "รหัสข้อความ:",
+                "message_created_at": "สร้างเมื่อ:",
+                "message_sensitivity": "ความละเอียดอ่อน:"
+            },
+            "distribution_list": "อีเมลนี้มาจากรายการแจกจ่าย",
+            "external_domain": "อีเมลนี้มาจากโดเมนภายนอก"
         },
         "new_email": "อีเมลใหม่",
         "permanent_delete_body": "หากคุณลบองค์ประกอบนี้อย่างถาวร คุณจะไม่สามารถกู้คืนได้ ดำเนินการต่อ?",
@@ -501,6 +553,12 @@
             },
             "files": "เพิ่มจาก Files",
             "url": "เพิ่มลิงก์สาธารณะจาก Files"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "อีเมลใบรับรองไม่ตรงกับอีเมลผู้ส่ง",
+            "useCertificateToSign": "ใช้ใบรับรองเพื่อลงนาม (S/MIME)",
+            "failed": "การอัปโหลดใบรับรองล้มเหลว",
+            "removeCertificateToSign": "นำใบรับรองออกเพื่อลงนาม (S/MIME)"
         }
     },
     "message": {
@@ -704,7 +762,10 @@
         "email_moved_to_trash": "ย้ายอีเมลไปที่ถังขยะแล้ว",
         "tag_applied": "ใช้แท็ก \"{{tag}}\" แล้ว",
         "tag_removed": "นำแท็ก \"{{tag}}\" ออกแล้ว",
-        "email_copied_to_clipboard": "คัดลอกอีเมลไปยังคลิปบอร์ดแล้ว"
+        "email_copied_to_clipboard": "คัดลอกอีเมลไปยังคลิปบอร์ดแล้ว",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "การตรวจสอบใบรับรองล้มเหลว"
+        }
     },
     "tooltip": {
         "revoke": "เพิกถอนการเข้าถึง",
@@ -726,7 +787,8 @@
             "goToPrevious": "ไปที่อีเมลก่อนหน้า",
             "noMoreEmails": "ไม่มีอีเมลแล้ว",
             "unableToLoadNextEmail": "ไม่สามารถโหลดอีเมลถัดไปได้ ลองใหม่อีกครั้ง"
-        }
+        },
+        "markedAsSingedSmime": "ทำเครื่องหมายว่าลงนามแล้ว (S/MIME)"
     },
     "folder_panel": {
         "modal": {
@@ -896,9 +958,15 @@
             "message1": "คุณต้องการเก็บฉบับร่างนี้ไว้หรือลบทิ้ง?"
         },
         "initializeError": {
-            "title": "อุ๊ย!…มีบางอย่างผิดพลาด",
+            "title": "มีบางอย่างผิดพลาด",
             "buttonConfirm": "โหลดซ้ำ",
-            "content": "โปรดโหลดหน้าเพจนี้ใหม่หรือลองอีกครั้งในภายหลัง"
+            "content": "โปรดรีเฟรชหน้าเพจหรือลองอีกครั้งในภายหลัง โมดูลอื่น ๆ อาจยังใช้งานได้ในฟังก์ชันที่จำกัด"
+        },
+        "uploadCertificate": {
+            "uploadCertificate": "อัปโหลดใบรับรอง",
+            "certificatePassword": "รหัสผ่านใบรับรอง",
+            "upload": "อัปโหลด",
+            "smimeCertificate": "ใบรับรอง S/MIME (เช่น ใบรับรอง.p12)"
         }
     },
     "editor": {
@@ -956,6 +1024,13 @@
             "switchToHorizontal": "สลับเป็นการแยกแนวนอน",
             "switchToVertical": "สลับเป็นการแยกแนวตั้ง",
             "switchToNoSplit": "สลับเป็นแบบไม่แยก"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "ข้อความยาวเกินไปและถูกตัดออก",
+            "button": "โหลดข้อความ",
+            "loadingButton": "กำลังโหลด..."
         }
     }
 }
