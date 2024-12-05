@@ -112,6 +112,9 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "The message size exceeds the limit. Please convert some attachments to smart links"
+        },
+        "info": {
+            "bannerLargeAttachments": "You are uploading a large attachment. It may take a while, please be patient..."
         }
     },
     "email_status": {
