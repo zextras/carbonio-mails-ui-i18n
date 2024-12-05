@@ -1036,6 +1036,9 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "La dimensione del messaggio supera il limite consentito. Converti alcuni allegati in smart link"
+        },
+        "info": {
+            "bannerLargeAttachments": "Stai caricando un allegato di grandi dimensioni. Potrebbe volerci del tempo, ti preghiamo di essere paziente..."
         }
     },
     "layoutView": {
