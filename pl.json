@@ -1037,6 +1037,9 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "Rozmiar wiadomości przekracza limit. Przekształć załączniki w inteligentne linki"
+        },
+        "info": {
+            "bannerLargeAttachments": "Przesyłasz duży załącznik. Może to chwilę zająć, zachowaj cierpliwość..."
         }
     },
     "layoutView": {
