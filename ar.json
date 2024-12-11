@@ -15,7 +15,7 @@
         "mark_as_non_spam": "ليست رسالة مزعجة",
         "reply_all": "الرد على الكل",
         "reset": "اعاده تعيين",
-        "apply_filter_on_folder": "تطبيق المرشح على المجلد",
+        "apply_filter_on_folder": "تطبيق الفرز على المجلد",
         "mark_as_unread": "رسالة غير مقروءة",
         "ok": "حسناً",
         "search": "بحث",
@@ -119,9 +119,9 @@
         "list_draft_title": "لا توجد مسودات محفوظة",
         "list_folder_title": "يبدو أنه لا توجد رسائل بريد إلكتروني حتى الآن",
         "list_junk_title": "لا توجد رسائل بريد إلكتروني غير مرغوب فيها",
-        "search_description1": "أو حدد \"ترَشّيح متقدم\" لتحسين بحثك.",
+        "search_description1": "أو حدد \"فرز متقدم\" لتحسين بحثك.",
         "search_description2": "حاول بدء بحث آخر.",
-        "search_description3": "تحقق من خيارات التدقيق الإملائي وخيار الترشيح أو جرب استخدام كلمة رئيسية أخرى.",
+        "search_description3": "تحقق من خيارات التدقيق الإملائي وخيار الفرز أو جرب استخدام كلمة رئيسية أخرى.",
         "search_list_title1": "يبدو أنه لا توجد نتائج. استمر في البحث!",
         "search_title1": "بدء بحث آخر",
         "search_title3": "لا توجد نتائج لبحثك.",
@@ -149,14 +149,14 @@
         "trash_title1": "انقر فوق أيقونة سلة المهملات لحذف رسالة بريد إلكتروني"
     },
     "filters": {
-        "run": "تشغيل المرشح",
-        "filters": "المرشحات",
-        "incoming_msg_filters": "مرشحات الرسائل الواردة",
-        "outgoing_message_filters": "مرشحات الرسائل الصادرة",
-        "active_filters": "المرشحات النشطة",
-        "available_filters": "المرشحات المتاحة",
-        "apply": "طبق المرشح",
-        "filter_note": "ملاحظة: يتم حفظ التغييرات التي تطرأ على قواعد الترشيح على الفور"
+        "run": "افرز",
+        "filters": "الفروز",
+        "incoming_msg_filters": "فرز الرسائل الواردة",
+        "outgoing_message_filters": "فرز الرسائل الصادرة",
+        "active_filters": "المفرزات النشطة",
+        "available_filters": "الفروز المتاحة",
+        "apply": "افرز",
+        "filter_note": "ملاحظة: يتم حفظ التغييرات التي تطرأ على قواعد الفرز على الفور"
     },
     "folder_panel": {
         "action": {
@@ -260,7 +260,7 @@
         "by_message": "بالرسالة",
         "calendar": "التقويم",
         "cancel": "إلغاء",
-        "advanced_filters_zero": "لم تختر عامل فرز متقدم",
+        "advanced_filters_zero": "لم تختر فرز متقدم",
         "advanced_filters_one": "عامل فرز متقدم واحد",
         "advanced_filters_two": "عاملان فرز متقدمان",
         "advanced_filters_few": "عوامل فرز متقدمة",
@@ -759,7 +759,7 @@
             "button_apply": "طبق الفرز",
             "label_involved_messages": "ستتم معالجة <0>{{involvedMessagesCount}}</0> رسالة داخل المجلد المحدد.",
             "label_confirm_request": "هل تريد تطبيق الفرز؟",
-            "title": "فرز التطبيق \"{{filterName}}\"",
+            "title": "تطبيق عامل الفرز \"{{filterName}}\"",
             "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق الفرز."
         }
     },
