@@ -34,7 +34,7 @@
         "show_original": "إظهار الأصل",
         "unflag": "إزالة العلامة",
         "show_details": "اظهر التفاصيل",
-        "preview_on_separated_tab": "فتح في علامة تبويب جديدة",
+        "preview_on_separated_tab": "إفتح في صفحة متصفح جديد",
         "forward_as_attachment": "إرسالها كمرفق"
     },
     "folder": {
@@ -315,7 +315,7 @@
         "go_back": "الرجوع للخلف",
         "grantee": "المستفيد: ",
         "hide_more_info": "أخفى المعلومات",
-        "highlight_tab": "سلط الضوء على علامة تبويب \"البريد\"",
+        "highlight_tab": "سلط الضوء على صفحة \"البريد\"",
         "invalid_destination": "هذه العقدة الشبكية ليست وجهة صالحة",
         "convert_back_to_attachment": "التحويل إلى مرفق",
         "choose_file": "اختر ملف",
