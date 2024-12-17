@@ -798,7 +798,8 @@
         "add_action": "Aggiungi nuova azione",
         "font_size_one": "{{count}} pt",
         "font_size_many": "",
-        "font_size_other": ""
+        "font_size_other": "",
+        "condition_met": "delle seguenti condizioni sono soddisfatte:"
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
