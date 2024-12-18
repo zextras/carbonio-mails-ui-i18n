@@ -897,7 +897,8 @@
         "add_action": "Dodaj nową czynność",
         "font_size_one": "{{count}} punkt",
         "font_size_few": "{{count}} punkty",
-        "font_size_many": "{{count}} punktów"
+        "font_size_many": "{{count}} punktów",
+        "condition_met": "z następujących warunków jest spełniony:"
     },
     "signatures": {
         "signature_heading": "Podpisy",
