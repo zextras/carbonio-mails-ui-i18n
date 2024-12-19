@@ -969,7 +969,8 @@
         "redirect_to_address": "إعادة التوجيه إلى العنوان",
         "remove_action": "إزالة هذا الإجراء",
         "perform_following_action": "قم بتنفيذ الإجراءات التالية:",
-        "under": "تحت"
+        "under": "تحت",
+        "condition_met": "من الشروط التالية:"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
