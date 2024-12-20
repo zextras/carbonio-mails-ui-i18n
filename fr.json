@@ -747,7 +747,8 @@
         "tag_name_required": "Remplir le champ \"Étiquette\" pour terminer l'action \"Étiqueter avec\".",
         "font_size_one": "{{count}} pt",
         "font_size_many": "{{count}} pt",
-        "font_size_other": "{{count}} pt"
+        "font_size_other": "{{count}} pt",
+        "condition_met": "parmi les conditions suivantes sont remplies :"
     },
     "share": {
         "options": {
@@ -1037,6 +1038,9 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "Le message dépasse la taille limite. Merci de convertir des pièces jointes en \"smart links\""
+        },
+        "info": {
+            "bannerLargeAttachments": "Vous téléversez une pièce jointe volumineuse. Cela peut prendre un certain temps, soyez patient..."
         }
     },
     "layoutView": {
