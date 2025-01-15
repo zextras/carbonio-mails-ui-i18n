@@ -241,7 +241,14 @@
         "attachment_one": "संलग्नक",
         "attachment_other": "संलग्नक",
         "advanced_filters_one": "आधुनिक फ़िल्टर",
-        "advanced_filters_other": "आधुनिक फ़िल्टर"
+        "advanced_filters_other": "आधुनिक फ़िल्टर",
+        "attachment_with_count_one": "{{count}} अनुलग्नक",
+        "attachment_with_count_other": "{{count}} अनुलग्नक",
+        "attachment_error_status": {
+            "failed": "एक या अधिक अनुलग्नक अपलोड होने में विफल",
+            "uploading": "अनुलग्नक अपलोड किए जा रहे हैं"
+        },
+        "attachment_upload_in_progress": "अनुलग्नक अपलोड प्रगति पर है"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
