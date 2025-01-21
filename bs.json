@@ -1,1 +1,149 @@
-{}
+{
+    "action": {
+        "apply_filter_on_folder": "Primjeni filter na folder",
+        "click_open": "Kliknite za otvaranje",
+        "click_preview": "Kliknite za pregled",
+        "create_appointment": "Kreirajte sastanak",
+        "download_eml": "Preuzmite EML",
+        "edit_anyway": "Uredi ipak",
+        "edit_as_new": "Uredi kao novo",
+        "edit_share": "Uredi Dijeljenje",
+        "flag": "Dodaj zastavicu",
+        "forward": "Naprijed",
+        "goto_drafts": "Idi na skice",
+        "goto_folder": "OTIĐI U FOLDER",
+        "hide_details": "Sakrij detalje",
+        "mark_all_read": "Označi sve kao pročitano",
+        "mark_as_non_spam": "Nije spam",
+        "mark_as_spam": "Označi kao spam",
+        "mark_as_unread": "Označi kao nepročitano",
+        "ok": "U redu",
+        "preview": "Pregled",
+        "preview_on_separated_window": "Otvori u novom prozoru",
+        "print": "Štampaj",
+        "redirect": "Preusmjerenje",
+        "reply": "Odgovori",
+        "reply_all": "Odgovori svima",
+        "reset": "Resetiranje",
+        "search": "Pretraga",
+        "select_folders": "Odaberite foldere",
+        "send_anyway": "Svejedno pošalji",
+        "share_folder": "Podijeli folder",
+        "show_details": "Prikaži detalje",
+        "show_original": "Prikaži original",
+        "unflag": "Ukloni zastavicu",
+        "forward_as_attachment": "Prosledi kao priloženi dokument",
+        "mark_as_read": "Označi kao pročitano",
+        "preview_on_separated_tab": "Otvari u novom tabu",
+        "preview_new_tab": "Kliknite za pregled u drugom tabu"
+    },
+    "displayer": {
+        "search_description3": "Provjerite pravopis i opcije filtera ili pokušajte s drugom ključnom riječju.",
+        "search_title2": "Izvinjavamo se, ali nema rezultata za vašu pretragu",
+        "archive_title1": "Spremi e-mail u arhivu kako biste ga mogli pregledati kasnije.",
+        "archive_title2": "Izaberite arhivirani e-mail za pregled.",
+        "description2": "Pošalji dokumente, slike i još sadržaja komponovanjem novog e-pisma.",
+        "description4": "Možete ga obilježiti, odgovoriti ili proslijediti drugim korisnicima.",
+        "description5": "Pregledajte što drugi korisnici žele razgovarati s vama.",
+        "description6": "Odgovorite na ovu e-poštu ili je proslijedite drugim korisnicima.",
+        "description7": "Odaberite e-poštu za odgovor.",
+        "draft_title1": "Spremanje e-pošte kao nacrta omogućava da sačuvate poruke koje želite kasnije poslati.",
+        "draft_title2": "Odaberite i uredite e-poštu za slanje drugim korisnicima.",
+        "junk_title1": "Kakva sreća! Nema neželjenih e-mailova o kojima morate da brinete",
+        "junk_title2": "Kliknite na ikonu kante za smeće kako biste obrisali spam e-poštu",
+        "list_draft_title": "Nema sačuvanih nacrta",
+        "list_folder_title": "Izgleda da još uvijek nema e-pošte",
+        "list_junk_title": "Ne postoji spam e-pošte",
+        "list_sent_title": "Niste još poslali nijedan e-mail",
+        "list_spam_title": "Ne postoji spam e-pošte",
+        "list_trash_title": "Smeće je prazno",
+        "search_description1": "Ili odaberite “Napredni filteri” da precizirate pretragu.",
+        "search_description2": "Pokušajte pokrenuti novu pretragu.",
+        "search_list_title1": "Izgleda da nema rezultata. Nastavite pretragu!",
+        "search_list_title2": "Nijedna od vaših stavki ne odgovara vašoj potrazi.",
+        "search_title1": "Pokreni novu pretragu",
+        "search_title3": "Nema rezultata za Vašu pretragu.",
+        "search_title4": "Odaberite jedan ili više rezultata za izvršavanje radnji ili prikaz detalja.",
+        "sent_title2": "Odaberite e-poštu da prikažete šta ste poslali.",
+        "spam_title2": "Kliknite na ikonu kante za smeće kako biste obrisali spam e-poštu.",
+        "title1": "Kliknite na dugme \"NOVO\" za sastavljanje nove e-pošte",
+        "title4": "Odaberite e-poštu za čitanje",
+        "title8": "Odaberite e-poštu za čitanje ili ga izbrišite.",
+        "trash_title1": "Kliknite na ikonu smeća kako biste obrisali e-poštu",
+        "trash_title2": "Odaberi i vrati e-poruke iz smeća.",
+        "title2": "Kliknite na dugme \"NOVO\"",
+        "title3": "Ostanite u kontaktu s drugim korisnicima.",
+        "spam_title1": "Kakva sreća! Nema neželjenih e-mailova o kojima morate da brinete"
+    },
+    "attachment_type": {
+        "application": "Aplikacija",
+        "email": "Email",
+        "excel": "Excel",
+        "html": "HTML",
+        "pdf": "PDF",
+        "powerpoint": "Powerpoint",
+        "video": "Video",
+        "word": "Word",
+        "zipped_file": "Zipovana datoteka",
+        "image": "Slika",
+        "text_document": "Dokument tekst"
+    },
+    "board": {
+        "show": "Prikaži ploču"
+    },
+    "composer": {
+        "attachment": {
+            "contacts_mod": "Dodaj karticu za kontakt",
+            "drag_and_drop": {
+                "title": "Drag&Drop način rada",
+                "content": "Ovde otpustite svoje priloge kako biste ih brzo dodali u ovu e-poštu"
+            },
+            "files": "Dodaj iz datoteka",
+            "local": "Dodajte iz lokalnog",
+            "url": "Dodaj javni link iz Datoteka"
+        },
+        "uploadCertificate": {
+            "emailNotMatch": "Certifikat e-pošte ne odgovara sa e-poštom pošiljaoca",
+            "failed": "Neuspješan upload certifikata",
+            "removeCertificateToSign": "Ukloni certifikat za potpisivanje (S/MIME)",
+            "useCertificateToSign": "Koristite certifikat za potpisivanje (S/MIME)"
+        }
+    },
+    "editor": {
+        "info": {
+            "bannerLargeAttachments": "Učitavate veliki prilog. Može potrajati, budite strpljivi..."
+        },
+        "warning": {
+            "mail_size_exceeds_limit": "Veličina poruke premašuje ograničenje. Konvertujte neke priloge u pametne linkove"
+        }
+    },
+    "email_status": {
+        "anywhere": "u svim folderima",
+        "ccme": "u kopiji za mene",
+        "draft": "nacrt",
+        "flagged": "označeno",
+        "forwarded": "proslijeđeno",
+        "fromccme": "od mene ili u kopiji meni",
+        "fromme": "od mene",
+        "invitations": "Pozivnice",
+        "local": "u mojim folderima",
+        "read": "čitanje",
+        "received": "primljeno od mene",
+        "replied": "odgovorio sam",
+        "sent": "poslao sam",
+        "solo": "razgovora sa jednom porukom",
+        "toccme": "meni ili u kopiji meni",
+        "tofromccme": "meni, od mene ili u kopiji meni",
+        "tofromme": "meni ili od mene",
+        "tome": "meni",
+        "unflagged": "nije označen",
+        "unread": "nepročitan",
+        "unreplied": "nisam odgovorio/la",
+        "unforwarded": "nije proslijeđen",
+        "remote": "u folder koji dijelim ja"
+    },
+    "filters": {
+        "active_filters": "Aktivni filteri",
+        "apply": "Primijeni"
+    }
+}
