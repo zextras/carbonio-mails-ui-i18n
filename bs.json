@@ -219,6 +219,9 @@
                     "message2": "Ako ga obrišete, sav povezani sadržaj će biti trajno obrisan.",
                     "message1": "Želite li obrisati odabrani folder?"
                 }
+            },
+            "lists-item": {
+                "empty": "liste stavke su prazne"
             }
         }
     },
@@ -306,7 +309,7 @@
         "disposal_threshold": "Prag odlaganja",
         "do_not_notify": "Nemoj obavještavati",
         "download_and_delete": "Preuzmi i izbriši",
-        "draft_folder": "[DRAFT]",
+        "draft_folder": "[NACRT]",
         "edit": "Uredi",
         "edit_access": "Uredi pristup",
         "edit_folder_properties": "Izmijeni svojstva {{name}}",
@@ -464,6 +467,559 @@
         "shared_item": "Dijeljena stavka",
         "show_popup": "Prikaži obavještenje u obliku popup poruke",
         "search_activate_selection_mode": "Režim selekcije još nije dostupan za rezultate pretrage",
-        "send_later": "Pošalji kasnije"
+        "send_later": "Pošalji kasnije",
+        "draft_save_in_progress": "spremanje nacrta u toku",
+        "no_subject": "Nema predmeta",
+        "save_draft": {
+            "incomplete_response": "nekompletan odgovor"
+        },
+        "size": "Veličina",
+        "size_larger": "Veličina veća od (MB)",
+        "size_smaller": "Veličina manja od (MB)",
+        "spam": "Neželjena pošta",
+        "to": "Za",
+        "trusted_addresses": "Provjerene adrese",
+        "type_name_here": "Naziv stavke",
+        "upload_failed": "Prijenos nije uspjeo",
+        "upload_from_files": "Prenesi iz datoteka",
+        "using_signatures": "Upotreba potpisa",
+        "view_images": "PRIKAŽI SLIKE",
+        "wipe": "Obriši",
+        "with_you": "s vama",
+        "workflow": "Tok rada",
+        "would_like_to_share": "podijelio svoje",
+        "write": "Piši",
+        "backup_search": "Pretraga backup-a",
+        "last_7_days": "Poslednjih 7 dana",
+        "date_created": "Datum kreiranja",
+        "date_deleted": "Datum brisanja",
+        "deleted_folder": "Izbrisani folder",
+        "end_date": "Datum završetka",
+        "error_no_backup_messages": "Vaša pretraga nije pronašla nijednu poruku",
+        "error_recovering_emails": "Greška pri oporavku e-pošte",
+        "folder": "Folder",
+        "import_to_contacts": "Importuj u Kontakte",
+        "last_14_days": "Poslednjih 14 dana",
+        "recover_selected_emails": "OPORAVI ODABRANE E-PORUKE",
+        "recover_messages": "Oporaviti poruke",
+        "last_90_days": "Posljednjih 90 dana",
+        "select_recovery_date": "Odaberite datum oporavka",
+        "recovery_period": "Odaberite period oporavka",
+        "search_recover_emails": "Pretraži e-poštu za oporavak",
+        "start_date": "Datum početka",
+        "signature_size_exceed": "Jedan ili više potpisa premašuje ograničenje veličine.",
+        "start_recovery": "Pokreni oporavak",
+        "want_to_continue": "Želite li nastaviti?",
+        "start_recovery_process": "Pokreni proces oporavka",
+        "start_search": "Počni pretragu",
+        "enter_single_email_address": "Unesite e-mail adresu",
+        "blocked_addresses": "Spisak blokiranih pošiljaoca",
+        "allowed_addresses": "Lista dopuštenih pošiljalaca",
+        "do_not_use_signature": "Nemojte koristiti potpis",
+        "weeks": "Sedmicе",
+        "years": "Godine",
+        "layoutView": {
+            "verticalSplit": "Vertikalna podjela",
+            "horizontalSplit": "Vodoravna podijela",
+            "noSplit": "Bez razdvajanja"
+        },
+        "valid_signature": "Važeći potpis",
+        "close": "Zatvori",
+        "from_external_domain": "Ova e-pošta je s vanjske domene",
+        "distribution_list": "Ova e-pošta dolazi iz liste za distribuciju",
+        "mail_sensitivity_private": "Osetljivost Privatno",
+        "mail_sensitivity_company_confidential": "Osetljivost Kompanija-Poverljivo",
+        "mail_sensitivity_unknown": "Osjetljivost nije poznata",
+        "displayer_restore_emails_title": "Odaberite e-poruke koje želite oporaviti",
+        "recover_emails": "Proces oporavka je počeo, bit ćete obaviješteni kada bude završen",
+        "smart_links_created": "kreirani pametni linkovi",
+        "displayer_restore_emails_description": "Kada se odabrani oporavak e-pošte završi, primit ćete e-poruku s informacijama o rezultatima.",
+        "last_30_days": "Poslednjih 30 dana",
+        "send_mail": "Pošalji e-mail",
+        "start_recovery_description": "Kada se proces završi, primit ćete obavijest u svom prijemnom sandučetu i pronaći oporavljene e-poruke u potpuno novom folderu.",
+        "searching_recover_emails": "Pretraga e-mail poruka za oporavak",
+        "search_emails": "TRAŽI E-PORUKE",
+        "error_unable_load_signatures": "Nije moguće učitati potpise. Pokušajte ponovno učitati ili pokušajte kasnije.",
+        "distribution_list_app_name": "Distribucijske liste",
+        "error_folder_exists": "Folder sa istim imenom već postoji, molimo odaberite drugi",
+        "invalid_signature": "Nevažeći potpis",
+        "show_details": "Prikaži detalje"
+    },
+    "labels": {
+        "compose_colin": "Sastavi :",
+        "composing_messages": "Sastavljanje poruka"
+    },
+    "message": {
+        "admin_rights": "Pregled, Uredi, Dodaj, Ukloni, Administracija",
+        "delete_attachment_message2": "Želite li preuzeti prije?",
+        "email_saved_at": "E-pošta spremljena kao nacrt u {{time}}",
+        "external_images_blocked": "Vanjske slike su blokirane kako biste bili zaštićeni od potencijalnog spama",
+        "invalid_search_message": "Nismo našli nijedno podudaranje",
+        "manager_rights": "Pogledaj, Uredi, Dodaj, Ukloni",
+        "schedule_mail": "Biće poslato: {{date}} u {{time}}",
+        "schedule_time": "za {{date}} na {{time}}",
+        "send_email": "Pošalji e-mail",
+        "send_later_success": "Vaš e-mail će biti poslat {{date}} u {{time}}",
+        "sending_mail_to_self": "Izgleda da šaljete e-mail samom sebi",
+        "snackbar": {
+            "att_err": "Čini se da postoji problem prilikom spašavanja, pokušajte ponovo",
+            "att_saved": "Prilog sačuvan u odabranom folderu",
+            "eml_download_failed": "Prilog sačuvan u odabranom folderu",
+            "share": {
+                "accepted": "Prihvatili ste zahtjev za dijeljenje",
+                "declined": "Odbili ste zahtjev za dijeljenje"
+            },
+            "all_att_saved": "Prilozi uspješno spašeni u odabranom folderu",
+            "some_att_fails": "Čini se da postoji problem pri spremanju nekih datoteka, pokušajte ponovo"
+        },
+        "view_rights": "Pregled",
+        "delete_attachment_message1": "Vaš prilog će biti trajno izbrisan sa mail servera.",
+        "select_date_time": "Odaberite datum i vrijeme za slanje ove poruke"
+    },
+    "messages": {
+        "cal_name_exist_warning": "Kalendar sa istim imenom već postoji na ovoj putanji",
+        "check_and_try_again": "Molimo, provjerite mail klijent i pokušajte ponovo",
+        "could_not_find_to_show": "Žao nam je, nismo pronašli ništa za prikazivanje",
+        "enter_calendar_name": "Unesite ime za prihvaćanje kalendara",
+        "extra_windows": {
+            "opening_blocked": "Da bi dovršio operaciju, Carbonio mora otvoriti novi prozor.\nProvjerite postavke vašeg pretraživača",
+            "popup_blocked": "Da bi dovršio operaciju, Carbonio mora otvoriti novi prozor.\nProvjerite postavke vašeg pretraživača"
+        },
+        "invalid_address": "Čini se da sljedeća adresa nije validna",
+        "modal": {
+            "delete": {
+                "sure_delete_email": "Jeste li sigurni da želite izbrisati odabrani e-mail?",
+                "if_delete_lost_forever": "Ako izbrišete e-mail, bit će izgubljen zauvjek."
+            },
+            "redirect": {
+                "first": "Ovaj e-mail će biti poslan novom primaocu uz očuvanje e-mail adrese prvobitnog pošiljaoca.",
+                "second": "E-mail će se pojaviti kao što je prvobitno bilo namijenjeno novom primaocu"
+            },
+            "send_anyway": {
+                "attach": "priloži",
+                "attached": "priloženi",
+                "attaching": "prilaganje",
+                "attachment": "prilog",
+                "attachments": "prilozi",
+                "enclose": "ogradi",
+                "enclosed": "ograđen",
+                "enclosing": "ograđivanje",
+                "first": "Predmet e-maila je prazan i niste priložili nijedan fajl.",
+                "no_attachments": "Niste priložili nijedan fajl.",
+                "no_subject": "Predmet e-maila je prazan.",
+                "second": "Želite li ipak poslati e-mail?",
+                "subject": "Predmet nedostaje",
+                "no_subject_no_attachments": "Predmet e-maila je prazan i niste priložili nijedan fajl."
+            },
+            "smime": {
+                "title": "Detalji o certifikatu",
+                "valid_title": "Poruka je potpisana",
+                "valid_msg": "Ova poruka sadrži važeći digitalni potpis. Poruka nije mijenjana od kad je poslana.",
+                "invalid_title": "Digitalni potpis nije validan",
+                "untrusted_title": "Poruka iz nepouzdanog izvora",
+                "cert_expired_title": "Certifikat potpisa je istekao",
+                "cert_expired_msg": "Ova poruka sadrži digitalni potpis, ali je certifikat potpisnika istekao. Više se ne smatra validnim.",
+                "cert_not_found_title": "Nije pronađen certifikat potpisnika",
+                "cert_not_found_msg": "Ova poruka sadrži digitalni potpis, ali certifikat potpisnika nije moguće naći. Potpis ne može biti verificiran.",
+                "error_msg": "Dogodila se greška pri obradi digitalnog potpisa. Potpis nije mogao biti verificiran.",
+                "issuer_not_found_msg": "Ova poruka uključuje digitalni potpis, ali certifikat tijela koji ga je izdao nije pronađen.",
+                "issuer_not_found_title": "Certifikat izdavača nije pronađen",
+                "issuer": "Izdavač",
+                "signed_by": "Potpisan od",
+                "validity": "Validnost",
+                "untrusted_msg": "Ova poruka uključuje digitalni potpis, ali potpisniku se ne vjeruje. Certifikat možda nije izdao priznati autoritet za izdavanje certifikata.",
+                "error_title": "Došlo je do greške tokom verifikacije potpisa",
+                "invalid_msg": "Ova poruka sadrži digitalni potpis, ali potpis nije validan."
+            },
+            "info_details": {
+                "title": "Detalji poruke"
+            },
+            "mail_authentication_headers": {
+                "missing": "Nedostajući"
+            },
+            "mail_general_info": {
+                "title": "Opšte informacije"
+            },
+            "mail_info": {
+                "message_id": "ID poruke:",
+                "message_created_at": "Kreirano u:",
+                "message_sensitivity": "Osjetljivost:"
+            },
+            "distribution_list": "Ova e-pošta dolazi iz liste za distribuciju",
+            "external_domain": "Ovaj e-mail je s vanjske domene"
+        },
+        "new_email": "Novi e-mail",
+        "no_content": "Ova poruka nema tekstualni sadržaj",
+        "powered_by": "podržano od",
+        "read_receipt_1": "Pošiljalac ove poruke je zatražio da bude obaviješten kada pročitate ovu poruku.",
+        "read_receipt_2": "Da li želite obavijestiti posiljaoca?",
+        "snackbar": {
+            "apply_filter_rules_error": "Došla je greška prilikom primjene filtra '{{filterName}}'",
+            "apply_filter_rules_started": "Filter '{{filterName}}' se primjenjuje na poruke foldera '{{folderPath}}'",
+            "conversation_deleted": "Razgovor je izbrisan",
+            "conversation_move_error": "Nešto je pošlo naopako, premještanje razgovora nije završeno. Molimo pokušajte ponovo.",
+            "email_moved_to_trash": "E-mail premješten u smeće",
+            "email_restored": "E-mail restauriran u destinacijski folder",
+            "folder_created": "Novi folder kreiran",
+            "folder_edited": "Promjene su uspješno spremljene",
+            "folder_empty": "Otpad je uspješno ispražnjen",
+            "folder_empty_error": "Došlo je do greške, izmjene nisu spremljene. Pokušajte ponovo.",
+            "folder_moved_to_trash": "Folder prebačen u smeće",
+            "folder_restored": "Folder je restauriran",
+            "folder_will_be_moved_in_time": "Ovaj folder će biti premješten za {{remainingTime}}.",
+            "folder_wiped": "Folder je uspješno obrisan",
+            "mail_saved_to_drafts": "E-mail spremljen u nacrtima",
+            "mail_sent": "Poruka poslata",
+            "marked_as_non_spam": "Označili ste ovaj e-mail kao da nije neželjena pošta",
+            "message_delete_error": "Došlo je do pogreške, ova poruka nije obrisana. Pokušajte ponovo.",
+            "message_deleted": "Poruka obrisana",
+            "message_redirected": "Poruka je preusmjerena",
+            "message_sending_aborted": "otkazano od strane korisnika",
+            "sending_mail_in_count_one": "Slanje vaše poruke za {{count}} sekundi",
+            "sending_mail_in_count_few": "Slanje vaših poruka za {{count}} sekundi",
+            "sending_mail_in_count_other": "Slanje vaših poruka za {{count}} sekundi",
+            "tag_not_updated": "Nešto nije u redu, oznaka nije ažurirana. Molimo pokušajte ponovo.",
+            "apply_filter_rules_completed": "Filter '{{filterName}}' je uspješno primijenjen na {{involvedMessagesCount}} poruke foldera '{{folderPath}}'",
+            "folder_deleted": "Folder uspješno izbrisan.",
+            "marked_as_spam": "Označili ste ovaj e-mail kao Spam neželjenu poštu",
+            "folder_move_error": "Došlo je do pogreške, folder nije premještena. Molim vas pokušajte ponovo.",
+            "apply_filter_error": "Filter još uvijek radi na serveru, ali je potrebno previše vremena da se prijave stavke na koje se to odnosi. Filter nastavlja raditi na serveru bez dodatnih informacija."
+        },
+        "something_went_wrong": "NEŠTO JE POŠLO POGREŠNO",
+        "trustee_addresses": "Pošta s ovih adresa ili domena smatrat će se pouzdanom i slike će se automatski prikazivati.",
+        "warning": {
+            "sending_to_yourself": "Šaljete ovu poruku sami sebi"
+        },
+        "recover_messages_modal_body": "Kada se proces završi, primit ćete obavijest u svom prijemnom sandučetu i pronaći oporavljene e-poruke u potpuno novom folderu.",
+        "searching_deleted_emails": "Pretraživanje izbrisanih e-mail poruka iz Otpada može potrajati neko vrijeme. Kada se operacija završi, bit ćete upućeni na rezultate.",
+        "invalid_sender_address": "Unesite samo e-mail adrese",
+        "blocked_addresses": "Pošta poslata sa adresa na listi blokiranih pošiljalaca automatski će se premjestiti u vaš spam folder.",
+        "edit_schedule_warning": "Uređivanjem ovog e-maila, vrijeme i datum koji su prethodno postavljeni za odloženo slanje će biti resetirani.",
+        "allowed_addresses": "E-pošta poslata sa adresa na vašoj listi dozvoljenih pošiljalaca uvijek će zaobići vaš filter za neželjenu poštu i doći će direktno u vaš inbox.",
+        "permanent_delete_body": "Ako trajno obrišete ovaj element, nećete ga moći vratiti. Nastavite?",
+        "invalid_trustee_address": "Unesite samo e-mail adrese ili domene"
+    },
+    "messages,new_email": "novi email",
+    "modal": {
+        "delete_draft": {
+            "message1": "Želite li sačuvati ovaj nacrt ili ga izbrisati?"
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "S/MIME certifikat (npr. certificate.p12)",
+            "uploadCertificate": "Upload certifikata",
+            "certificatePassword": "Lozinka certifikata",
+            "upload": "Upload"
+        },
+        "initializeError": {
+            "title": "Nešto nije u redu"
+        }
+    },
+    "modals": {
+        "apply_filters": {
+            "button_apply": "Primijeni",
+            "label_confirm_request": "Želite li primijeniti filter?",
+            "title": "Filter aplikacije \"{{filterName}}\"",
+            "label_confirm_msg": "Što je više poruka prisutno, više će vremena biti potrebno za primijenu filtera.",
+            "label_involved_messages": "<0>{{involvedMessagesCount}} poruke</0> će biti obrađene unutar odabranog foldera."
+        }
+    },
+    "new_folder": "Novi folder",
+    "notification": {
+        "new_message": "Nova poruka",
+        "no_content": "Poruka bez sadržaja"
+    },
+    "placeholder": {
+        "add_new_recipients": "Dodaj nove primaoce"
+    },
+    "preview": {
+        "close": "Zatvori pregled"
+    },
+    "search": {
+        "attachment_note": "Potražite sve e-mail poruke koje imaju prilog.",
+        "flagged_note": "Pretraži sve označene e-mail poruke.",
+        "sent_after": "Poslato nakon",
+        "sent_before": "Poslato prethodno",
+        "shared_folders_note": "Uključi zajedničke stavke u pretrage.",
+        "size_error": "Dozvoljeni su samo brojevi",
+        "unread": "Nepročitano",
+        "sent_on": "Poslato na",
+        "unread_note": "Pretraži sve nepročitane e-mail stavke."
+    },
+    "settings": {
+        "actions": "Akcije",
+        "active_filter": "Aktivni filter",
+        "add_action": "Dodaj novu akciju",
+        "add_condition": "Dodaj novi uvjet",
+        "address": "Adresa",
+        "address_in": "Adresa u",
+        "after": "nakon",
+        "b": "B",
+        "before": "prethodno",
+        "body": "Tijelo",
+        "browse": "Pregledaj",
+        "calendar": "Kalendar",
+        "choose_date": "Izaberi Datum",
+        "condition_met": "od sledećih uslova su ispunjeni:",
+        "conditions": "Uslovi",
+        "contacts": "kontakti",
+        "contains": "sadrži",
+        "conv_is_participated": "u razgovorima u kojima sam učestvovao/la",
+        "conv_is_started": "u razgovorima koje sam startao/la",
+        "conv_sort_option": {
+            "asc": "Od starog do novog",
+            "desc": "Od novog do starog"
+        },
+        "date": "Datum",
+        "delete_filter": "Obriši filter",
+        "delete_filter_text": "Da li ste sigurni da želite izbrisati filter? ",
+        "discard": "Odbaci",
+        "display_mail_options": {
+            "html": "Kao HTML (Kad god je moguće)",
+            "text": "Kao tekst"
+        },
+        "does_not_contain": "ne sadrži",
+        "does_not_exists": "ne postoji",
+        "does_not_match_exactly": "ne poklapa se tačno",
+        "does_not_match_wildcard_condition": "ne odgovara uvjetu zamjenskog znaka",
+        "domain": "domena",
+        "exists": "postoji",
+        "facebook_notification": "Facebook obavještenje",
+        "field": "Polje",
+        "filter_deleted": "Uspješno izbrisan filter",
+        "filter_name": "Naziv filterа",
+        "folder_path_required": "Odaberite odredišni folder kako biste dovršili akciju \"Premjesti u folder\".",
+        "font": "Font",
+        "font_size_one": "{{count}} pt",
+        "font_size_few": "{{count}} pt",
+        "font_size_other": "{{count}} pt",
+        "fonts": {
+            "comic": "Comic",
+            "console": "Console",
+            "elegant": "Elegant",
+            "garamond": "Garamond",
+            "modern": "Modern",
+            "monospaced": "Monospaced",
+            "professional": "Professional",
+            "sans_serif": "Sans Serif",
+            "serif": "Serif",
+            "terminal": "Terminal",
+            "wide_block": "Wide Block",
+            "wide": "Wide"
+        },
+        "from_distribution_list": "Iz liste distribucije",
+        "gb": "GB",
+        "header_name": "Zaglavlje nazvano",
+        "if": "Ako",
+        "in": "u",
+        "invite_not_replied": "na poziv nije odgovoreno ",
+        "invite_not_requested": "pozivnica nije zatražena",
+        "invite_replied": "na poziv je odgovoreno",
+        "invite_requested": "poziv je zatražen",
+        "is": "je",
+        "is_me": "ja sam",
+        "is_not": "nije",
+        "is_not_me": "nisam ja",
+        "kb": "KB",
+        "keep_in_inbox": "Zadrži u Inboxu",
+        "keep_in_sent": "Zadrži u Poslato",
+        "keyword": "Ključna riječ",
+        "label": {
+            "check_new_mail": "Provjeri nove e-mail poruke",
+            "conversation_ordering": "Redosljed razgovora",
+            "default": "Zadano default",
+            "default_mail_search": "Pretraga pošte po zadanom",
+            "display_mail": "Prikaži poštu",
+            "display_messages": "Prikazivanje poruka",
+            "filter_name_required": "Naziv filtra je obavezan",
+            "mark_manually": "Označi ručno",
+            "mark_reading_panel": "Označi kao pročitano",
+            "message_color": "Boja poruke",
+            "message_selection": "Odabir poruke",
+            "not_changed_anything": "Nije napravljena nijedna promjena",
+            "search_query": "Zadani upit",
+            "set_message_color": "Postavi boju poruka i razgovora u skladu s bojom oznake.",
+            "unsend_time": "Postavi vrijeme slanja",
+            "visualization_options": "Opcije za vizuelizaciju",
+            "recover_messages_infotext": "Oporavite e-poruke izbrisane iz smeća upisivanjem ključne riječi unutar prvih 100 znakova poruke ili odabirom datuma.\nOdabrani datum će uključivati e-poruke izbrisane 3 dana prije i 3 dana poslije.\nKada se pretraga završi, bit ćete preusmjereni na stranicu s rezultatima gdje možete odabrati koje stavke želite vratiti."
+        },
+        "linkedin_msg": "LinkedIn poruke i veze",
+        "localpart": "lokalni dio",
+        "mail_unsend_time": {
+            "no_delay": "Nema kašnjenja",
+            "second_one": "{{count}} sekunda",
+            "second_few": "{{count}} sekundi",
+            "second_other": "{{count}} sekundi"
+        },
+        "mark_as": "Označi kao",
+        "mass_marketing": "masovni marketing (na veliko)",
+        "matches_exactly": "odgovara tačno",
+        "matches_wildcard_condition": "odgovara uvjetu zamjenskog wildcard znaka",
+        "mb": "MB",
+        "message": "Poruka",
+        "move_into_folder": "Premjesti u folder",
+        "msg_from_optn": {
+            "inbox": "Stavi u inbox",
+            "inbox_if_cc": "Stavi u inbox ako sam u Za: ili Cc:",
+            "discard": "Odbaci poruku automatski"
+        },
+        "msg_selection_optn": {
+            "based_on_previous": "Izaberi sledeću poruku na osnovu prethodnih izbora",
+            "below_deleted": "Odaberi poruku ispod izbrisane ili premještene poruke",
+            "above_deleted": "Selektuj poruku iznad izbrisane ili premještene poruke"
+        },
+        "my_frequent_emails": "moji učestali e-mailovi",
+        "new_mail_optn": {
+            "manually": "Ručno",
+            "minute_one": "{{count}} minut",
+            "minute_few": "{{count}} minuta",
+            "minute_other": "{{count}} minuta",
+            "when_arrive": "Kada stigne novi e-mail"
+        },
+        "not_after": "ne poslije",
+        "not_before": "ne prije",
+        "not_in": "ne u",
+        "not_over": "nije gotovo",
+        "not_under": "ne ispod",
+        "notify_folder_optn": {
+            "new_message_inbox": "Prikažite obavještenja za nove poruke koje stižu u inbox",
+            "new_message_folder": "Prikažite obavještenja za nove poruke koje stignu u bilo koji folder"
+        },
+        "over": "preko",
+        "perform_following_action": "Izvrsite sljedeće radnje:",
+        "read_rcpt_optn": {
+            "always": "Uvijek šalji potvrdu o prijemu",
+            "ask_me": "Pitaj me",
+            "never": "Nikada ne šaljite potvrdu o čitanju"
+        },
+        "read_receipt": "Potvrda o čitanju",
+        "redirect_to_address": "Preusmjeri na adresu",
+        "remove_action": "Ukloni ovu akciju",
+        "social": "Društveni",
+        "tag_name_required": "Popunite polje \"Oznaka\" kako biste dovršili akciju \"Označi sa\".",
+        "tag_with": "Označi sa",
+        "to_cc": "To ili CC",
+        "twitter_notification": "Twitter obavještenja",
+        "under": "ispod",
+        "address_required": "Popunite polje \"Adresa\" kako biste dovršili akciju \"Preusmjeravanje na adresu\".",
+        "create_new_filter": "Kreiraj novi filter",
+        "do_not_process_additional_filters": "Nemoj procesuirati dodatne filtere",
+        "remove_condition": "Ukloni ovaj uslov",
+        "filter_folder_message": "Odaberite folder za primjenu filtera:"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "admin": "Admin",
+                "manager": "Menadžer",
+                "none": "Nijedan",
+                "viewer": "Gledalac"
+            },
+            "share_calendar_with": {
+                "external_guests": "Vanjski gosti (samo za pregled)",
+                "internal_users_groups": "Interni Korisnici ili Grupe",
+                "public": "Javno (samo pregled, bez lozinke)"
+            }
+        },
+        "recipients_address": "E-mail adrese primatelja",
+        "standard_message": "Dodajte napomenu u standardnu poruku",
+        "filter_folder_message": "Odaberite folder u kojem ćete započeti naprednu pretragu",
+        "send_notification": "Pošaljite obavještenje o ovom dijeljenju",
+        "share_note": "Standardna poruka prikazuje vaše ime, ime dijeljene stavke, dozvole date primaocima i informacije za prijavu."
+    },
+    "signatures": {
+        "add_signature": "Dodaj potpis",
+        "name": "Ime",
+        "signature_heading": "Potpisi"
+    },
+    "snackbar": {
+        "email_copied_to_clipboard": "E-mail poruka kopirana u međuspremnik.",
+        "email_moved_to_trash": "E-mail premješten u smeće",
+        "folder_shared": "Folder je podijeljen",
+        "share_resend": "Ponovna poslata pozivnica za dijeljenje",
+        "share_revoke": "Otkazano dijeljenje pristupa",
+        "share_updated": "\"Ažurirana prava pristupa\"",
+        "tag_removed": "Oznaka \"{{tag}}\" je uklonjena",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Provjera certifikata nije uspjela"
+        },
+        "tag_applied": "Primijenjena je oznaka \"{{tag}}\""
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "attachmentAscending": "Uzlazni redoslijed po prilogu",
+            "attachmentDescending": "Silazni redoslijed prema prilogu",
+            "dateDescending": "Silazni redoslijed prema datumu",
+            "flaggedAscending": "Uzlazni redoslijed prema Označeno",
+            "flaggedDescending": "Silazni redoslijed prema Označeno",
+            "fromAscending": "Uzlazni redoslijed po Od",
+            "fromDescending": "Silaznim redoslijedom po Od",
+            "importantDescending": "Silaznim redoslijedom po Važno",
+            "sizeDescending": "Silaznim redoslijedom prema veličini",
+            "subjectAscending": "Uzlazni redoslijed prema Predmetu",
+            "subjectDescending": "Silazni redoslijed prema Predmetu",
+            "toAscending": "Uzlazni redoslijed prema Za",
+            "toDescending": "Silaznim redoslijedom prema Za",
+            "unreadDescending": "Silazni redoslijed prema Nepročitano",
+            "unreadAscending": "Uzlazni redoslijed prema Nepročitano",
+            "importantAscending": "Uzlazni redoslijed po Važno",
+            "dateAscending": "Rastući redosled po veličini"
+        }
+    },
+    "sorting_dropdown": {
+        "ascendingOrder": "Uzlazni redosljed",
+        "attachment": "Prilog",
+        "date": "Datum",
+        "descendingOrder": "Silaznim redoslijedom",
+        "flagged": "Označeno",
+        "from": "Od",
+        "important": "Važno",
+        "subject": "Predmet",
+        "to": "Za",
+        "unread": "Nepročitano"
+    },
+    "title": {
+        "new_messages": "Nova Poruka",
+        "replies_forwards": "Odgovori & Proslijedi"
+    },
+    "tooltip": {
+        "add_attachments": "Dodaj priloge",
+        "disable_rich_text": "Onemogući rich text editor",
+        "disable_urgent": "Onemogući hitno",
+        "edit": "Uredite svojstva dijeljenja",
+        "enable_rich_text": "Omogući rich text editor",
+        "enable_urgent": "Omogući hitno",
+        "folder_linked_status": "Dijeljeno sa mnom",
+        "folder_sharing_status_one": "Dijeljeno s {{count}} korisnikom",
+        "folder_sharing_status_few": "Dijeljeno s {{count}} korisnika",
+        "folder_sharing_status_other": "Dijeljeno s {{count}} korisnika",
+        "marked_as_important": "Označeno kao važno",
+        "resend": "Ponovo pošalji mail obavještenje o ovom dijeljenju",
+        "revoke": "Otkaži pristup",
+        "list_navigation": {
+            "loadingNextEmail": "Učitavanje sledećeg e-maila",
+            "goToPrevious": "Idi na prethodni e-mail",
+            "closeToNavigate": "Zatvorite ovaj e-mail da biste navigirali",
+            "unableToLoadNextEmail": "Nije moguće učitati sljedeću e-mail poruku. Pokušajte ponovo kasnije",
+            "noMoreEmails": "Nema više e-mail poruka",
+            "noPreviousEmails": "Nema prethodne e-mail poruke",
+            "goToNext": "Idi na sljedeći e-mail"
+        },
+        "markedAsSingedSmime": "Označeno kao potpisano (S/MIME)"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Vodoravni Pregled",
+            "vertical": "Vertikalni pregled",
+            "switchToVertical": "Prebaciti na vertikalni raspored",
+            "switchToNoSplit": "Prebaci se na bez podjele",
+            "switchToHorizontal": "Prebaci se na horizontalnu podjelu"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Poruka je predugačka i izrezana je",
+            "button": "UČITAJ PORUKU",
+            "loadingButton": "UČITAVANJE . . ."
+        }
     }
 }
