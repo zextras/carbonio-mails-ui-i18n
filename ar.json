@@ -979,7 +979,7 @@
                 "none": "بلا",
                 "manager": "مدير",
                 "admin": "المسؤول",
-                "viewer": "عارض"
+                "viewer": "مُشاهد"
             },
             "share_calendar_with": {
                 "external_guests": "الضيوف الخارجيون (للعرض فقط)",
