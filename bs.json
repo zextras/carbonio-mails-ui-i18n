@@ -253,7 +253,7 @@
         "advanced_filters_one": "Napredni filter",
         "advanced_filters_few": "Napredni filteri",
         "advanced_filters_other": "Napredni filteri",
-        "all": "svi",
+        "all": "sve",
         "all_items_selected": "Svi vidljivi elementi su odabrani",
         "allowed_actions": "Dozvoljene akcije",
         "always_allow_domain": "Uvijek dozvoliti sa <strong>{{domain}}</strong> domene",
