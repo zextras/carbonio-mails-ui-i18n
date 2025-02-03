@@ -1050,7 +1050,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "The message is too long and has been cropped",
+            "label": "This message has been clipped due to length",
             "button": "LOAD MESSAGE",
             "loadingButton": "LOADING . . ."
         }
