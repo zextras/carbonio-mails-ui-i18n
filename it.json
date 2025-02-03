@@ -1053,7 +1053,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "Il messaggio è troppo lungo ed è stato tagliato",
+            "label": "Questo messaggio è stato tagliato perché troppo lungo",
             "button": "CARICA MESSAGGIO",
             "loadingButton": "CARICAMENTO . . ."
         }
