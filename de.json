@@ -28,7 +28,13 @@
         "click_preview": "Klicken zur Vorschau",
         "mark_all_read": "Alle als gelesen markieren",
         "edit_anyway": "Trotzdem bearbeiten",
-        "click_open": "Zum Öffnen anklicken"
+        "click_open": "Zum Öffnen anklicken",
+        "create_appointment": "Termin erstellen",
+        "download_eml": "EML herunterladen",
+        "apply_filter_on_folder": "Filter für den Ordner anwenden",
+        "preview_on_separated_window": "Neues Fenster öffnen",
+        "select_folders": "Ordner auswählen",
+        "preview_on_separated_tab": "In einem neuen Tab öffnen"
     },
     "folder": {
         "modal": {
@@ -276,7 +282,73 @@
         "exit_selection_mode": "Auswahlmodus verlassen",
         "time": "Zeit",
         "do_not_have_perm": "Sie haben keine Berechtigung",
-        "folder_not_valid_destination": "Der ausgewählte Ordner ist kein gültiges Ziel"
+        "folder_not_valid_destination": "Der ausgewählte Ordner ist kein gültiges Ziel",
+        "attachment_one": "Anhang",
+        "attachment_other": "Anhänge",
+        "attachment_with_count_one": "{{count}} Anhang",
+        "attachment_with_count_other": "{{count}} Anhänge",
+        "message_send_in_progress": "Nachricht wird gesendet",
+        "smart_links_created": "Smart Link erstellt",
+        "upload_failed": "Hochladen fehlgeschlagen",
+        "convert_to_smart_link": "In Smart Link umwandeln",
+        "last_7_days": "Letzte 7 Tage",
+        "end_date": "Enddatum",
+        "folder": "Ordner",
+        "last_14_days": "Letzte 14 Tage",
+        "recover_selected_emails": "Ausgewählte E-Mails wiederherstellen",
+        "start_recovery": "Wiederherstellung beginnen",
+        "send_mail": "E-Mail senden",
+        "displayer_restore_emails_description": "Sobald die ausgewählte E-Mail-Wiederherstellung abgeschlossen ist, erhalten Sie eine E-Mail mit Informationen zu den Ergebnissen.",
+        "date_created": "Datum der Erstellung",
+        "date_deleted": "Datum der Löschung",
+        "signature_size_exceed": "Eine oder mehrere Unterschriften überschreiten die Größenbegrenzung.",
+        "download_one": "Herunterladen",
+        "download_other": "Alle herunterladen",
+        "no_folder_selected": "Keinen Ordner ausgewählt",
+        "attachment_error_status": {
+            "uploading": "Anhänge werden hochgeladen",
+            "failed": "Ein oder mehrere Anhänge konnten nicht hochgeladen werden"
+        },
+        "attachment_upload_in_progress": "Anhang wird hochgeladen",
+        "create_smart_links": "Smart Link erstellen",
+        "errors": {
+            "upload_failed_generic": "Hochladen von \"{{filename}}\" fehlgeschlagen"
+        },
+        "no_identity_selected": "<Keine Identität ausgewählt>",
+        "mail_selected_one": "{{count}} E-Mail ausgewählt",
+        "mail_selected_other": "{{count}} E-Mails ausgewählt",
+        "missing_recipients": "Kein gültiger Empfänger vorhanden",
+        "missing_sender": "Der Absender der Nachricht wurde nicht festgelegt",
+        "no_sender": "Der Sender der Nachricht wurde nicht festgelegt",
+        "backup_search": "Backup durchsuchen",
+        "deleted_folder": "Gelöschter Ordner",
+        "error_no_backup_messages": "Deine Suche ergab keine Ergebnisse",
+        "error_recovering_emails": "Fehler beim Wiederherstellungsprozess der E-Mails",
+        "import_to_contacts": "Importieren in Kontakte",
+        "last_30_days": "Letzte 30 Tage",
+        "recover_messages": "Nachrichten wiederherstellen",
+        "last_90_days": "Letzte 90 Tage",
+        "search_emails": "E-Mails durchsuchen",
+        "select_recovery_date": "Wiederherstellungsdatum auswählen",
+        "recovery_period": "Wiederherstellungszeitraum auswählen",
+        "searching_recover_emails": "Suche nache E-Mails zum Wiederherstellen",
+        "search_recover_emails": "E-Mails suchen und wiederherstellen",
+        "start_date": "Startdatum",
+        "want_to_continue": "Möchten Sie fortfahren?",
+        "start_recovery_process": "Starten Sie den Wiederherstellungsprozess",
+        "start_search": "Suche starten",
+        "blocked_addresses": "Geblockte Sender-Liste",
+        "allowed_addresses": "Erlaubte Sender-Liste",
+        "do_not_use_signature": "Keine Signatur verwenden",
+        "start_recovery_description": "Sobald der Vorgang abgeschlossen ist, erhalten Sie eine Benachrichtigung in Ihrem Posteingang und finden die wiederhergestellten E-Mails in einem brandneuen Ordner.",
+        "enter_single_email_address": "Geben Sie die E-Mail Adresse ein",
+        "remove_one": "Entfernen",
+        "remove_other": "Alle entfernen",
+        "recover_emails": "Der Wiederherstellungsprozess hat begonnen. Sie werden informiert, sobald dieser abgeschlossen ist",
+        "invalid_recipients": "Die Adresse des Empfängers ist falsch geschrieben",
+        "displayer_restore_emails_title": "Wählen Sie die E-Mails aus die Sie wiederherstellen wollen",
+        "advanced_filters_one": "Erweiterter Filter",
+        "advanced_filters_other": "Erweiterte Filter"
     },
     "share": {
         "options": {
@@ -690,7 +762,8 @@
         "run": "ausführen",
         "active_filters": "Aktive Filter",
         "available_filters": "Verfügbare Filter",
-        "filter_note": "Hinweis: Änderungen an den Filterregeln werden sofort gespeichert"
+        "filter_note": "Hinweis: Änderungen an den Filterregeln werden sofort gespeichert",
+        "apply": "Anwenden"
     },
     "displayer": {
         "search_list_title1": "Es sieht so aus, als gäbe es keine Ergebnisse. Suchen Sie weiter!",
@@ -787,6 +860,11 @@
     "modal": {
         "delete_draft": {
             "message1": "Möchten Sie diesen Entwurf behalten oder löschen?"
+        }
+    },
+    "editor": {
+        "warning": {
+            "mail_size_exceeds_limit": "Die Größe der Nachricht überschreitet das Limit. Bitte konvertieren Sie einige Anhänge in Smart Links"
         }
     }
 }
