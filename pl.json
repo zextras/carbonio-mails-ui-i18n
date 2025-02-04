@@ -1055,7 +1055,7 @@
     "warningBanner": {
         "truncatedMessage": {
             "button": "ZAŁADUJ WIADOMOŚĆ",
-            "label": "Wiadomość jest zbyt długa i nie została załadowana w całości",
+            "label": "Wiadomość została przycięta z powodu jej długości",
             "loadingButton": "ŁADOWANIE . . ."
         }
     }
