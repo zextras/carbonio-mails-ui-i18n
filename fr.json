@@ -1054,7 +1054,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "Le message est trop long et a été tronqué",
+            "label": "Ce message a été coupé en raison de sa longueur",
             "button": "CHARGEMENT DU MESSAGE",
             "loadingButton": "CHARGEMENT..."
         }
