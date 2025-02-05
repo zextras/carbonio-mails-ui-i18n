@@ -560,7 +560,8 @@
             "emailNotMatch": "L'email del certificato non corrisponde all'email del mittente",
             "failed": "Caricamento del certificato non riuscito",
             "removeCertificateToSign": "Rimuovi certificato per la firma (S/MIME)",
-            "useCertificateToSign": "Usa certificato per la firma (S/MIME)"
+            "useCertificateToSign": "Usa certificato per la firma (S/MIME)",
+            "removeCertificateToEncrypt": "Rimuovi certificato per crittografia (S/MIME)"
         }
     },
     "message": {
