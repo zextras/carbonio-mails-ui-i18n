@@ -126,7 +126,8 @@
         "recover_messages_modal_body": "Una volta che il processo sarà completato, riceverai una notifica nella casella di posta in entrata e troverai le email ripristinate in una nuova cartella dedicata.",
         "searching_deleted_emails": "La ricerca all'interno del cestino delle email eliminate può richiedere del tempo. Una volta che l'operazione sarà completata, verrai reindirizzato ai risultati.",
         "blocked_addresses": "Le email inviate da indirizzi inclusi nella lista dei mittenti bloccati verranno automaticamente spostate nella cartella di spam.",
-        "allowed_addresses": "Le email inviate da un indirizzo incluso tra nella lista dei mittenti consentiti supereranno sempre il filtro spam e arriveranno direttamente nella tua casella di posta."
+        "allowed_addresses": "Le email inviate da un indirizzo incluso tra nella lista dei mittenti consentiti supereranno sempre il filtro spam e arriveranno direttamente nella tua casella di posta.",
+        "encrypted_message": "Questo messaggio è stato crittografato. Per visualizzarlo fare clic su \"Decrittografa messaggio\""
     },
     "label": {
         "cc": "Cc",
@@ -447,7 +448,8 @@
         "attachment_error_status": {
             "failed": "non è stato possibile caricare uno o più allegati",
             "uploading": "Caricamento allegati in corso"
-        }
+        },
+        "decrypt_message": "Decifra Messaggio"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -472,7 +474,8 @@
             "goToPrevious": "Vai all'email precedente",
             "goToNext": "Vai all'email successiva"
         },
-        "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)"
+        "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)",
+        "markedAsEncryptedSmime": "Contrassegnato come criptato (S/MIME)"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -561,7 +564,8 @@
             "failed": "Caricamento del certificato non riuscito",
             "removeCertificateToSign": "Rimuovi certificato per la firma (S/MIME)",
             "useCertificateToSign": "Usa certificato per la firma (S/MIME)",
-            "removeCertificateToEncrypt": "Rimuovi certificato per crittografia (S/MIME)"
+            "removeCertificateToEncrypt": "Rimuovi certificato per crittografia (S/MIME)",
+            "useCertificateToEncrypt": "Utilizza certificato per crittografare (S/MIME)"
         }
     },
     "message": {
@@ -800,7 +804,60 @@
         "font_size_one": "{{count}} pt",
         "font_size_many": "",
         "font_size_other": "",
-        "condition_met": "delle seguenti condizioni sono soddisfatte:"
+        "condition_met": "delle seguenti condizioni sono soddisfatte:",
+        "certificatePassword": {
+            "resetPasswordMsg1": "Reimpostare la tua password revocherà l'accesso a tutti i tuoi certificati personali. Ciò significa che dovrai ricaricare i tuoi certificati per recuperare l'accesso.",
+            "confirmPassword": "Conferma password",
+            "createPasswordMsg1": "Per garantire la sicurezza delle tue comunicazioni e-mail, devi creare una password che verrà utilizzata per ogni operazione S/MIME.",
+            "createPasswordMsg3": "Se dimentichi questa password, non saremo in grado di recuperare i tuoi certificati né di accedere ai tuoi messaggi crittografati. Ti preghiamo di conservarla in modo sicuro in un gestore di password o in un altro luogo sicuro.",
+            "create_password_header": "Crea una password per le operazioni S/MIME",
+            "createPasswordMsg2": "Questa password è essenziale per firmare, crittografare e decrittografare le e-mail.",
+            "createPasswordRule": "La tua password deve essere:",
+            "createPasswordRule1": "Almeno 8 caratteri di lunghezza.",
+            "createPasswordRule2": "Includere una combinazione di lettere maiuscole e minuscole, numeri e caratteri speciali",
+            "enter": "Accedi",
+            "important": "Importante",
+            "passwordCreated": "Password creata con successo",
+            "passwordCreatedFailed": "Creazione password non riuscita",
+            "passwordLengthNotMatch": "La password deve essere lunga almeno 8 caratteri",
+            "passwordNotMatch": "Le password non corrispondono",
+            "pswdNotIncludeCharacters": "La password deve includere lettere maiuscole, minuscole, numeri e caratteri speciali",
+            "reset_password": "Reimposta Password",
+            "resetPasswordMsg2": "Se sei sicuro di voler procedere, fai clic su 'Reimposta password' per crearne una nuova."
+        },
+        "uploadCertificate": {
+            "EnterPasswordMsg": "Per utilizzare le azioni relative a S/MIME inserisci la password",
+            "passwordIsInCorrect": "La password non è corretta",
+            "enter_password": "Inserisci password",
+            "uploadCertificateInSettings": "Per favore carica il tuo certificato dalle impostazioni",
+            "active": "Attivo",
+            "certificatePassword": "Password Certificato",
+            "certtificateUploaded": "Certificato caricato con successo",
+            "createPasswordFromSettings": "Per favore crea la tua password di crittografia dalle impostazioni",
+            "delete_certificate": "Elimina Certificato",
+            "delete_certificate_text": "Sei sicuro di voler eliminare il certificato di",
+            "emailNotMatch": "L'e-mail del certificato non corrisponde all'e-mail del mittente",
+            "enter": "Accedi",
+            "errorWhileFetchingCert": "Errore durante il recupero dei certificati",
+            "errorWhileUploadCert": "Errore durante il caricamento del certificato",
+            "expired": "Scaduto",
+            "failed": "Caricamento del certificato non riuscito",
+            "inactive": "Inattivo",
+            "issuer": "Emittente",
+            "mailAddress": "Indirizzo mail",
+            "password": "Password",
+            "passwordIsCorrect": "La password è corretta",
+            "resetPassword": "Reimposta password",
+            "serial": "Seriale",
+            "smimeCertificate": "Certificato S/MIME (ad es. certificate.p12)",
+            "status": "Stato",
+            "unableToDecrypt": "Impossibile decriptare",
+            "upload": "Carica",
+            "uploadCertificate": "Carica Certificato",
+            "validFrom": "Valido da",
+            "validTo": "Valido a"
+        },
+        "smime_certificates": "Certificati S/MIME"
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
