@@ -127,7 +127,7 @@
         "searching_deleted_emails": "La ricerca all'interno del cestino delle email eliminate può richiedere del tempo. Una volta che l'operazione sarà completata, verrai reindirizzato ai risultati.",
         "blocked_addresses": "Le email inviate da indirizzi inclusi nella lista dei mittenti bloccati verranno automaticamente spostate nella cartella di spam.",
         "allowed_addresses": "Le email inviate da un indirizzo incluso tra nella lista dei mittenti consentiti supereranno sempre il filtro spam e arriveranno direttamente nella tua casella di posta.",
-        "encrypted_message": "Questo messaggio è stato crittografato. Per visualizzarlo fare clic su \"Decrittografa messaggio\""
+        "encrypted_message": "Questo messaggio è stato criptato. Per visualizzarlo fare clic su \"Decifra messaggio\""
     },
     "label": {
         "cc": "Cc",
@@ -811,7 +811,7 @@
             "createPasswordMsg1": "Per garantire la sicurezza delle tue comunicazioni e-mail, devi creare una password che verrà utilizzata per ogni operazione S/MIME.",
             "createPasswordMsg3": "Se dimentichi questa password, non saremo in grado di recuperare i tuoi certificati né di accedere ai tuoi messaggi crittografati. Ti preghiamo di conservarla in modo sicuro in un gestore di password o in un altro luogo sicuro.",
             "create_password_header": "Crea una password per le operazioni S/MIME",
-            "createPasswordMsg2": "Questa password è essenziale per firmare, crittografare e decrittografare le e-mail.",
+            "createPasswordMsg2": "Questa password è essenziale per firmare, criptare e decriptare le e-mail.",
             "createPasswordRule": "La tua password deve essere:",
             "createPasswordRule1": "Almeno 8 caratteri di lunghezza.",
             "createPasswordRule2": "Includere una combinazione di lettere maiuscole e minuscole, numeri e caratteri speciali",
