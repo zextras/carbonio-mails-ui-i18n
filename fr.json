@@ -406,7 +406,8 @@
         "distribution_list": "Cet email provient d'une liste de distribution",
         "mail_sensitivity_private": "Sensibilité privée",
         "mail_sensitivity_company_confidential": "Sensibilité Confidentialité de l'entreprise",
-        "mail_sensitivity_unknown": "Sensibilité Inconnue"
+        "mail_sensitivity_unknown": "Sensibilité Inconnue",
+        "decrypt_message": "Décrypter le message"
     },
     "message": {
         "snackbar": {
@@ -574,7 +575,8 @@
         "searching_deleted_emails": "La recherche d'emails supprimés dans la corbeille peut prendre un certain temps. Une fois l'opération terminée, vous serez dirigé vers les résultats.",
         "invalid_sender_address": "Veuillez saisir uniquement des adresses email",
         "allowed_addresses": "Les emails envoyés à partir d'adresses figurant sur votre liste d'expéditeurs autorisés contourneront toujours votre filtre anti-spam et atterriront directement dans votre boîte de réception.",
-        "blocked_addresses": "Les emails envoyés à partir d'adresses figurant sur la liste des expéditeurs bloqués seront automatiquement déplacés vers votre dossier spam."
+        "blocked_addresses": "Les emails envoyés à partir d'adresses figurant sur la liste des expéditeurs bloqués seront automatiquement déplacés vers votre dossier spam.",
+        "encrypted_message": "Ce message a été crypté. Pour le visualiser, cliquez sur « Décrypter le message »"
     },
     "placeholder": {
         "add_new_recipients": "Ajouter de nouveaux destinataires"
@@ -750,7 +752,61 @@
         "font_size_one": "{{count}} pt",
         "font_size_many": "{{count}} pt",
         "font_size_other": "{{count}} pt",
-        "condition_met": "parmi les conditions suivantes sont remplies :"
+        "condition_met": "parmi les conditions suivantes sont remplies :",
+        "app": "Paramètres",
+        "certificatePassword": {
+            "createPasswordMsg3": "Si vous oubliez ce mot de passe, nous ne pourrons pas récupérer vos certificats ni accéder à vos messages cryptés. Veuillez le conserver en toute sécurité dans un gestionnaire de mots de passe ou dans un autre endroit sûr.",
+            "createPasswordMsg1": "Pour garantir la sécurité de vos communications email, vous devez créer un mot de passe qui sera utilisé pour chaque opération S/MIME.",
+            "resetPasswordMsg1": "La réinitialisation de votre mot de passe révoquera l'accès à tous vos certificats personnels. Cela signifie que vous devrez recharger vos certificats pour y avoir à nouveau accès.",
+            "confirmPassword": "Confirmer le mot de passe",
+            "create_password_header": "Créer un mot de passe pour les opérations S/MIME",
+            "createPasswordMsg2": "Ce mot de passe est essentiel pour la signature, le cryptage et le décryptage des emails.",
+            "createPasswordRule": "Votre mot de passe doit être :",
+            "createPasswordRule1": "Au moins 8 caractères.",
+            "createPasswordRule2": "Inclure un mélange de lettres majuscules et minuscules, de chiffres et de caractères spéciaux",
+            "enter": "Entrer",
+            "important": "Important",
+            "passwordCreated": "Mot de passe créé avec succès",
+            "passwordCreatedFailed": "La création du mot de passe a échoué",
+            "passwordLengthNotMatch": "Le mot de passe doit comporter au moins 8 caractères",
+            "passwordNotMatch": "Les mots de passe ne correspondent pas",
+            "pswdNotIncludeCharacters": "Le mot de passe doit comprendre des majuscules, des minuscules, des chiffres et des caractères spéciaux",
+            "reset_password": "Réinitialiser le mot de passe",
+            "resetPasswordMsg2": "Si vous êtes certain de vouloir continuer, cliquez sur « Réinitialiser le mot de passe » pour en créer un nouveau."
+        },
+        "uploadCertificate": {
+            "delete_certificate_text": "Êtes-vous sûr de supprimer le certificat de",
+            "errorWhileUploadCert": "Erreur lors du téléchargement du certificat",
+            "smimeCertificate": "Certificat S/MIME (i.e. certificate.p12)",
+            "validTo": "Valable jusqu'au",
+            "active": "Actif",
+            "certificatePassword": "Mot de passe du certificat",
+            "certtificateUploaded": "Certificat téléchargé avec succès",
+            "createPasswordFromSettings": "Veuillez créer votre mot de passe de cryptage dans les paramètres",
+            "delete_certificate": "Supprimer le certificat",
+            "emailNotMatch": "L'email du certificat ne correspond pas à celle de l'expéditeur",
+            "enter": "Entrer",
+            "enter_password": "Saisir le mot de passe",
+            "EnterPasswordMsg": "Pour utiliser les actions liées à S/MIME, entrez le mot de passe",
+            "errorWhileFetchingCert": "Erreur lors de la recherche de certificats",
+            "expired": "Expiré",
+            "failed": "Échec du téléchargement du certificat",
+            "inactive": "Inactif",
+            "issuer": "Émetteur",
+            "mailAddress": "Adresse email",
+            "password": "Mot de passe",
+            "passwordIsCorrect": "Le mot de passe est correct",
+            "passwordIsInCorrect": "Mot de passe incorrect",
+            "resetPassword": "Réinitialisation le mot de passe",
+            "serial": "En série",
+            "status": "Statut",
+            "unableToDecrypt": "Impossible de décrypter",
+            "upload": "Téléverser",
+            "uploadCertificate": "Téléverser le certificat",
+            "uploadCertificateInSettings": "Veuillez télécharger votre certificat à partir des paramètres",
+            "validFrom": "Valable à partir de"
+        },
+        "smime_certificates": "Certificats S/MIME"
     },
     "share": {
         "options": {
@@ -813,7 +869,8 @@
             "closeToNavigate": "Fermer cet email pour naviguer",
             "noPreviousEmails": "Il n'y a pas d'emails précédents"
         },
-        "markedAsSingedSmime": "Marqué comme signé (S/MIME)"
+        "markedAsSingedSmime": "Marqué comme signé (S/MIME)",
+        "markedAsEncryptedSmime": "Marqué comme crypté (S/MIME)"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
