@@ -52,7 +52,9 @@
             "emailNotMatch": "L'adresse électronique du certificat ne correspond pas à celle de l'expéditeur",
             "failed": "Échec du téléchargement du certificat",
             "removeCertificateToSign": "Supprimer le certificat à signer (S/MIME)",
-            "useCertificateToSign": "Utiliser un certificat pour signer (S/MIME)"
+            "useCertificateToSign": "Utiliser un certificat pour signer (S/MIME)",
+            "removeCertificateToEncrypt": "Supprimer le certificat pour crypter (S/MIME)",
+            "useCertificateToEncrypt": "Utiliser un certificat pour crypter (S/MIME)"
         }
     },
     "folder": {
