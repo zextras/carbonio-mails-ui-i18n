@@ -911,7 +911,7 @@
             "createPasswordMsg1": "Aby zapewnić bezpieczeństwo Twojej komunikacji e-mail, musisz stworzyć hasło, które będzie używane do każdej operacji S/MIME.",
             "resetPasswordMsg1": "Zresetowanie hasła spowoduje cofnięcie dostępu do wszystkich Twoich osobistych certyfikatów. To oznacza, że będziesz musiał ponownie przesłać Twoje certyfikaty, aby odzyskać dostęp.",
             "confirmPassword": "Potwierdź hasło",
-            "enter": "Dołącz",
+            "enter": "Wprowadź",
             "createPasswordMsg2": "To hasło jest niezbędne do podpisywania, szyfrowania i odszyfrowywania e-maili.",
             "createPasswordMsg3": "Jeśli zapomnisz te hasło, nie będziemy w stanie przywrócić Twoich certyfikatów ani uzyskać dostępu do Twoich zaszyfrowanych wiadomości. Przechowuj je w menedżerze haseł lub innym bezpiecznym miejscu.",
             "createPasswordRule": "Twoje hasło musi:",
