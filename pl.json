@@ -104,7 +104,9 @@
             "emailNotMatch": "E-mail certyfikatu nie pasuje do e-maila nadawcy",
             "failed": "Nie udało się przesłać certyfikatu",
             "removeCertificateToSign": "Usuń certyfikat użyty do podpisania (S/MIME)",
-            "useCertificateToSign": "Użyj certyfikatu, aby podpisać (S/MIME)"
+            "useCertificateToSign": "Użyj certyfikatu, aby podpisać (S/MIME)",
+            "useCertificateToEncrypt": "Użyj certyfikatu do szyfrowania (S/MIME)",
+            "removeCertificateToEncrypt": "Usuń certyfikat, aby zaszyfrować (S/MIME)"
         }
     },
     "board": {
@@ -143,7 +145,8 @@
             "closeToNavigate": "Zamknij ten e-mail, aby nawigować",
             "noPreviousEmails": "Nie ma poprzednich e-maili"
         },
-        "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)"
+        "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)",
+        "markedAsEncryptedSmime": "Oznaczony jako zaszyfrowany (S/MIME)"
     },
     "label": {
         "create": "Stwórz",
@@ -464,7 +467,8 @@
         "distribution_list": "Ten e-mail jest z listy dystrybucyjnej",
         "mail_sensitivity_private": "Poufność prywatna",
         "mail_sensitivity_company_confidential": "Poufność firmowa-tajna",
-        "mail_sensitivity_unknown": "Poufność nieznana"
+        "mail_sensitivity_unknown": "Poufność nieznana",
+        "decrypt_message": "Odszyfruj wiadomość"
     },
     "message": {
         "snackbar": {
@@ -736,7 +740,8 @@
         "searching_deleted_emails": "Wyszukiwanie usuniętych e-maili w koszu może zająć trochę czasu. Po ukończeniu operacji, zostaniesz przekierowany do wyników.",
         "invalid_sender_address": "Wprowadź tylko adresy e-mail",
         "allowed_addresses": "E-maile wysłane przez adresy znajdujące się na Twojej liście dozwolonych nadawców zawsze będą omijać filtr spamu i będą trafiać bezpośrednio do Twojej skrzynki odbiorczej.",
-        "blocked_addresses": "E-maile wysłane przez adresy znajdujące się na liście zablokowanych nadawców zostaną automatycznie przeniesione do Twojego folderu spamu."
+        "blocked_addresses": "E-maile wysłane przez adresy znajdujące się na liście zablokowanych nadawców zostaną automatycznie przeniesione do Twojego folderu spamu.",
+        "encrypted_message": "Ta wiadomość została zaszyfrowana. Aby ją zobaczyć, kliknij na \"Odszyfruj wiadomość\""
     },
     "settings": {
         "conv_is_participated": "w konwersacjach, w których uczestniczyłem",
@@ -898,7 +903,61 @@
         "font_size_one": "{{count}} punkt",
         "font_size_few": "{{count}} punkty",
         "font_size_many": "{{count}} punktów",
-        "condition_met": "z następujących warunków jest spełniony:"
+        "condition_met": "z następujących warunków jest spełniony:",
+        "app": "Ustawienia",
+        "certificatePassword": {
+            "create_password_header": "Stwórz hasło do operacji S/MIME",
+            "passwordLengthNotMatch": "Hasło musi zawierać co najmniej 8 znaków",
+            "createPasswordMsg1": "Aby zapewnić bezpieczeństwo Twojej komunikacji e-mail, musisz stworzyć hasło, które będzie używane do każdej operacji S/MIME.",
+            "resetPasswordMsg1": "Zresetowanie hasła spowoduje cofnięcie dostępu do wszystkich Twoich osobistych certyfikatów. To oznacza, że będziesz musiał ponownie przesłać Twoje certyfikaty, aby odzyskać dostęp.",
+            "confirmPassword": "Potwierdź hasło",
+            "enter": "Wprowadź",
+            "createPasswordMsg2": "To hasło jest niezbędne do podpisywania, szyfrowania i odszyfrowywania e-maili.",
+            "createPasswordMsg3": "Jeśli zapomnisz te hasło, nie będziemy w stanie przywrócić Twoich certyfikatów ani uzyskać dostępu do Twoich zaszyfrowanych wiadomości. Przechowuj je w menedżerze haseł lub innym bezpiecznym miejscu.",
+            "createPasswordRule": "Twoje hasło musi:",
+            "createPasswordRule1": "Mieć co najmniej 8 znaków.",
+            "createPasswordRule2": "Zawierać wielką literę, małą literę, cyfrę i znak specjalny",
+            "important": "Ważne",
+            "passwordCreated": "Hasło zostało stworzone",
+            "passwordCreatedFailed": "Nie udało się stworzyć hasła",
+            "passwordNotMatch": "Hasła się nie zgadzają",
+            "pswdNotIncludeCharacters": "Hasło musi zawierać wielką literę, małą literę, cyfrę i znak specjalny",
+            "reset_password": "Zresetuj hasło",
+            "resetPasswordMsg2": "Jeśli jesteś pewien, że chcesz kontynuować, kliknij \"Zresetuj hasło\", aby stworzyć nowe."
+        },
+        "uploadCertificate": {
+            "smimeCertificate": "Certyfikat S/MIME (np. certyfikat.p12)",
+            "EnterPasswordMsg": "Aby wykonywać czynności związane z S/MIME, wprowadź hasło",
+            "issuer": "Wystawca",
+            "active": "Aktywny",
+            "certificatePassword": "Hasło certyfikatu",
+            "certtificateUploaded": "Certyfikat został przesłany",
+            "createPasswordFromSettings": "Stwórz hasło szyfrowania z poziomu ustawień",
+            "delete_certificate": "Usuń certyfikat",
+            "delete_certificate_text": "Czy na pewno chcesz usunąć certyfikat",
+            "emailNotMatch": "E-mail certyfikatu nie pasuje do e-maila nadawcy",
+            "enter": "Wprowadź",
+            "enter_password": "Wprowadź hasło",
+            "errorWhileFetchingCert": "Wystąpił błąd podczas pobierania certyfikatów",
+            "errorWhileUploadCert": "Wystąpił błąd podczas przesyłania certyfikatu",
+            "expired": "Wygasł",
+            "failed": "Nie udało się przesłać certyfikatu",
+            "inactive": "Nieaktywny",
+            "mailAddress": "Adres e-mail",
+            "password": "Hasło",
+            "passwordIsCorrect": "Hasło jest poprawne",
+            "passwordIsInCorrect": "Hasło jest niepoprawne",
+            "resetPassword": "Zresetuj hasło",
+            "serial": "Seryjny",
+            "status": "Status",
+            "unableToDecrypt": "Nie udało się odszyfrować",
+            "upload": "Prześlij",
+            "uploadCertificate": "Prześlij certyfikat",
+            "uploadCertificateInSettings": "Prześlij Twój certyfikat z poziomu ustawień",
+            "validFrom": "Ważny od",
+            "validTo": "Ważny do"
+        },
+        "smime_certificates": "Certyfikaty S/MIME"
     },
     "signatures": {
         "signature_heading": "Podpisy",
