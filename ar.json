@@ -107,7 +107,9 @@
             "emailNotMatch": "لا يتطابق بريد الشهادة مع بريد المرسل",
             "failed": "فشل تحميل الشهادة",
             "removeCertificateToSign": "إزالة الشهادة للتوقيع (S/MIME)",
-            "useCertificateToSign": "استخدام الشهادة للتوقيع (S/MIME)"
+            "useCertificateToSign": "استخدام الشهادة للتوقيع (S/MIME)",
+            "removeCertificateToEncrypt": "إزالة الشهادة للتشفير (S/MIME)",
+            "useCertificateToEncrypt": "استخدام الشهادة للتشفير (S/MIME)"
         }
     },
     "displayer": {
@@ -559,7 +561,8 @@
         "mail_sensitivity_private": "الحساسية خاصة",
         "mail_sensitivity_company_confidential": "الحساسية سرية للشركة",
         "mail_sensitivity_unknown": "الحساسية غير معروفة",
-        "error_folder_exists": "يوجد مجلد يحمل نفس الاسم، يرجى اختيار أسم آخر"
+        "error_folder_exists": "يوجد مجلد يحمل نفس الاسم، يرجى اختيار أسم آخر",
+        "decrypt_message": "فك تشفير الرسالة"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -709,7 +712,8 @@
         },
         "trustee_addresses": "سيتم اعتبار البريد من هذه العناوين أو النطاقات موثوقا بها وسيتم عرض الصور تلقائيا.",
         "recover_messages_modal_body": "بمجرد اكتمال العملية ، ستتلقى إشعارا في صندوق الوارد الخاص بك وتجد رسائل البريد الإلكتروني المستردة في مجلد جديد تماما.",
-        "searching_deleted_emails": "قد يستغرق البحث في رسائل البريد الإلكتروني المحذوفة من المهملات بعض الوقت. بمجرد اكتمال العملية ، سيتم توجيهك إلى النتائج."
+        "searching_deleted_emails": "قد يستغرق البحث في رسائل البريد الإلكتروني المحذوفة من المهملات بعض الوقت. بمجرد اكتمال العملية ، سيتم توجيهك إلى النتائج.",
+        "encrypted_message": "تم تشفير هذه الرسالة. لعرضها، انقر على \"فك تشفير الرسالة\""
     },
     "labels": {
         "compose_colin": "أنشأ:",
@@ -970,7 +974,46 @@
         "remove_action": "إزالة هذا الإجراء",
         "perform_following_action": "قم بتنفيذ الإجراءات التالية:",
         "under": "تحت",
-        "condition_met": "من الشروط التالية:"
+        "condition_met": "من الشروط التالية:",
+        "certificatePassword": {
+            "pswdNotIncludeCharacters": "يجب أن تتضمن كلمة السر أحرفًا كبيرة وصغيرة وأرقامًا وأحرفًا خاصة",
+            "createPasswordMsg1": "لضمان أمان اتصالات البريد الإلكتروني الخاصة بك، يتعين عليك إنشاء كلمة سر سيتم استخدامها لكل عملية S/MIME.",
+            "createPasswordMsg3": "إذا نسيت كلمة المرور هذه، فلن نتمكن من استرداد شهاداتك أو الوصول إلى رسائلك المشفرة. يرجى تخزينها بشكل آمن في مدير كلمات المرور أو مكان آمن آخر.",
+            "resetPasswordMsg1": "ستؤدي إعادة تعيين كلمة المرور الخاصة بك إلى إلغاء إمكانية الوصول إلى جميع شهاداتك الشخصية. وهذا يعني أنه سيتعين عليك إعادة تحميل شهاداتك لاستعادة إمكانية الوصول.",
+            "create_password_header": "إنشاء كلمة سر لعمليات S/MIME",
+            "createPasswordMsg2": "تعتبر هذه كلمة المرور ضرورية لتوقيع رسائل البريد الإلكتروني وتشفيرها وفك تشفيرها.",
+            "createPasswordRule": "يجب أن تكون كلمة السر الخاصة بك:",
+            "createPasswordRule1": "يجب أن يكون طوله 8 أحرف على الأقل.",
+            "createPasswordRule2": "تتضمن مزيجًا من الأحرف الكبيرة والصغيرة والأرقام والأحرف الخاصة",
+            "passwordCreatedFailed": "فشل إنشاء كلمة السر",
+            "passwordCreated": "تم إنشاء كلمة السر بنجاح",
+            "passwordLengthNotMatch": "يجب أن تكون كلمة السر مكونة من 8 أحرف على الأقل",
+            "passwordNotMatch": "كلمات السر غير متطابقة",
+            "resetPasswordMsg2": "إذا كنت متأكدًا من رغبتك في المتابعة، فانقر فوق \"إعادة تعيين كلمة السر\" لإنشاء كلمة سر جديدة."
+        },
+        "uploadCertificate": {
+            "certtificateUploaded": "تم تحميل الشهادة بنجاح",
+            "delete_certificate_text": "هل أنت متأكد من حذف شهادة",
+            "passwordIsInCorrect": "كلمة السر غير صحيحة",
+            "errorWhileFetchingCert": "خطأ أثناء جلب الشهادات",
+            "active": "‫مفعلة",
+            "createPasswordFromSettings": "يرجى إنشاء كلمة سر التشفير الخاصة بك من الإعدادات",
+            "delete_certificate": "حذف الشهادة",
+            "enter_password": "أدخل كلمة السر",
+            "EnterPasswordMsg": "لاستخدام الإجراءات المتعلقة بـ S/MIME، أدخل كلمة السر",
+            "errorWhileUploadCert": "خطأ أثناء تحميل الشهادة",
+            "expired": "منتهي الصلاحية",
+            "inactive": "غير نشط",
+            "mailAddress": "عنوان البريد الإلكتروني",
+            "passwordIsCorrect": "كلمة السر صحيحة",
+            "resetPassword": "‬إعادة تعيين كلمة السر",
+            "serial": "الرقم التسلسلي",
+            "unableToDecrypt": "غير قادر على فك التشفير",
+            "uploadCertificateInSettings": "الرجاء تحميل شهادتك من الإعدادات",
+            "validFrom": "صالحة من",
+            "validTo": "صالح إلى"
+        },
+        "smime_certificates": "شهادات S/MIME"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
@@ -1037,7 +1080,8 @@
         "edit": "تحرير خصائص المشاركة",
         "add_attachments": "لإضافة المرفقات",
         "disable_urgent": "لتعطيل العاجل",
-        "markedAsSingedSmime": "معلمة كموقعه (S/MIME)"
+        "markedAsSingedSmime": "معلمة كموقعه (S/MIME)",
+        "markedAsEncryptedSmime": "مُعَلم كمشفر (S/MIME)"
     },
     "layoutView": {
         "tooltip": {
