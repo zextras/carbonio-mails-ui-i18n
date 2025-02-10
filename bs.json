@@ -106,7 +106,9 @@
             "emailNotMatch": "E-mail certifikat se ne podudara sa emailom pošiljaoca",
             "failed": "Neuspješan upload certifikata",
             "removeCertificateToSign": "Ukloni certifikat za potpisivanje (S/MIME)",
-            "useCertificateToSign": "Koristite certifikat za potpisivanje (S/MIME)"
+            "useCertificateToSign": "Koristite certifikat za potpisivanje (S/MIME)",
+            "removeCertificateToEncrypt": "Ukloni certifikat za enkripciju (S/MIME)",
+            "useCertificateToEncrypt": "Koristi certifikat za enkripciju (S/MIME)"
         }
     },
     "editor": {
@@ -543,7 +545,30 @@
         "distribution_list_app_name": "Distribucijske liste",
         "error_folder_exists": "Folder sa istim imenom već postoji, molimo odaberite drugi",
         "invalid_signature": "Nevažeći potpis",
-        "show_details": "Prikaži detalje"
+        "show_details": "Prikaži detalje",
+        "cancel": "Odustani",
+        "discard_changes": "ODBACI IZMJENE",
+        "save": "Sačuvaj",
+        "single_advanced_filter": "Napredni filteri",
+        "subject": "Predmet",
+        "tag": "Oznaka",
+        "tag_max_length": "Maksimalno 128 znakova je dopušteno",
+        "tag_name": "Naziv oznake",
+        "undo": "Poništi",
+        "warning": "Upozorenje",
+        "months": "Mjeseci",
+        "days": "Dani",
+        "delete": "Obriši",
+        "go_back": "Nazad",
+        "clear_search_query": "OBRIŠI PRETRAGU",
+        "filter_folders": "Filtriraj mape",
+        "new_folder": "Nova mapa",
+        "no_special_char_allowed": "Ime ne smije sadržavati specijalne znakove",
+        "decrypt_message": "Dekriptuj Poruku",
+        "tags": "Oznake",
+        "time": "Vrijeme",
+        "time_zone": "Vremenska zona",
+        "type": "Tip"
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -570,11 +595,22 @@
                 "declined": "Odbili ste zahtjev za dijeljenje"
             },
             "all_att_saved": "Prilozi uspješno spašeni u odabranom folderu",
-            "some_att_fails": "Čini se da postoji problem pri spremanju nekih datoteka, pokušajte ponovo"
+            "some_att_fails": "Čini se da postoji problem pri spremanju nekih datoteka, pokušajte ponovo",
+            "all_att_added": "Prilozi dodani uspješno",
+            "all_link_copied": "Javni link uspješno kopiran",
+            "att_err_adding": "Čini se da postoji problem pri dodavanju priloga, pokušajte ponovo",
+            "calendar_edits_saved": "Izmjene su ispravno sačuvane",
+            "some_att_add_fails": "Čini se da postoji problem prilikom dodavanja nekih priloga, pokušajte ponovo",
+            "some_link_copying_error": "Čini se da postoji problema prilikom generiranja javne URL adrese za neke datoteke, pokušajte ponovo",
+            "settings_saved": "Izmjene su ispravno sačuvane",
+            "link_copying_error": "Čini se da je došlo do problema prilikom generisanja javne veze, pokušajte ponovo"
         },
         "view_rights": "Pregled",
         "delete_attachment_message1": "Vaš prilog će biti trajno izbrisan sa mail servera.",
-        "select_date_time": "Odaberite datum i vrijeme za slanje ove poruke"
+        "select_date_time": "Odaberite datum i vrijeme za slanje ove poruke",
+        "copy": "Kopiraj",
+        "delete_tag_message1": "Jeste li sigurni da želite izbrisati oznaku \"{{name}}\"?",
+        "delete_tag_message2": "Nakon brisanja, bit će uklonjen sa svih stavki označenih njime."
     },
     "messages": {
         "cal_name_exist_warning": "Kalendar sa istim imenom već postoji na ovoj putanji",
@@ -683,7 +719,13 @@
             "folder_deleted": "Folder uspješno izbrisan.",
             "marked_as_spam": "Označili ste ovaj e-mail kao Spam neželjenu poštu",
             "folder_move_error": "Došlo je do pogreške, folder nije premještena. Molim vas pokušajte ponovo.",
-            "apply_filter_error": "Filter još uvijek radi na serveru, ali je potrebno previše vremena da se prijave stavke na koje se to odnosi. Filter nastavlja raditi na serveru bez dodatnih informacija."
+            "apply_filter_error": "Filter još uvijek radi na serveru, ali je potrebno previše vremena da se prijave stavke na koje se to odnosi. Filter nastavlja raditi na serveru bez dodatnih informacija.",
+            "conversation_move": "Konverzacija uspješno prebačena",
+            "folder_moved": "Folder uspješno premješten",
+            "message_move": "Poruka uspješno premještena",
+            "tag_created": "Oznaka {{name}} uspješno kreirana",
+            "tag_deleted": "{{name}} Oznaka uspješno obrisana",
+            "tag_updated": "Oznaka uspješno ažurirana"
         },
         "something_went_wrong": "NEŠTO JE POŠLO POGREŠNO",
         "trustee_addresses": "Pošta s ovih adresa ili domena smatrat će se pouzdanom i slike će se automatski prikazivati.",
@@ -697,7 +739,9 @@
         "edit_schedule_warning": "Uređivanjem ovog e-maila, vrijeme i datum koji su prethodno postavljeni za odloženo slanje će biti resetirani.",
         "allowed_addresses": "E-mail poruka poslata sa adresa na vašoj listi dozvoljenih pošiljalaca uvijek će zaobići vaš filter za neželjenu poštu i doći će direktno u vaš inbox.",
         "permanent_delete_body": "Ako trajno obrišete ovaj element, nećete ga moći vratiti. Nastavite?",
-        "invalid_trustee_address": "Unesite samo e-mail adrese ili domene"
+        "invalid_trustee_address": "Unesite samo e-mail adrese ili domene",
+        "encrypted_message": "Ova poruka je kriptovana. Da biste je vidjeli, kliknite na \"Dekriptuj poruku\"",
+        "permanent_delete_title": "Jeste li sigurni da želite trajno izbrisati ovu stavku?"
     },
     "messages,new_email": "novi email",
     "modal": {
@@ -711,7 +755,8 @@
             "upload": "Upload"
         },
         "initializeError": {
-            "title": "Nešto nije u redu"
+            "title": "Nešto nije u redu",
+            "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije."
         }
     },
     "modals": {
@@ -904,7 +949,62 @@
         "create_new_filter": "Kreiraj novi filter",
         "do_not_process_additional_filters": "Nemoj procesuirati dodatne filtere",
         "remove_condition": "Ukloni ovaj uslov",
-        "filter_folder_message": "Odaberite folder za primjenu filtera:"
+        "filter_folder_message": "Odaberite folder za primjenu filtera:",
+        "uploadCertificate": {
+            "smimeCertificate": "S/MIME certifikat (npr. certificate.p12)",
+            "passwordIsCorrect": "Lozinka je tačna",
+            "mailAddress": "Adresa e-pošte",
+            "active": "Aktivno",
+            "certificatePassword": "Lozinka certifikata",
+            "certtificateUploaded": "Certifikat uspješno otpremljen",
+            "createPasswordFromSettings": "Molimo kreirajte lozinku za enkripciju u postavkama",
+            "delete_certificate": "Obriši certifikat",
+            "delete_certificate_text": "Da li ste sigurni da želite izbrisati certifikat od",
+            "emailNotMatch": "E-mail certifikat se ne podudara sa emailom pošiljaoca",
+            "enter": "Ulaz",
+            "enter_password": "Unesite lozinku",
+            "EnterPasswordMsg": "Za korištenje S/MIME akcija unesite lozinku",
+            "errorWhileFetchingCert": "Greška prilikom dohvaćanja certifikata",
+            "errorWhileUploadCert": "Greška prilikom otpremanja certifikata",
+            "expired": "Istekao",
+            "failed": "Neuspješan upload certifikata",
+            "inactive": "Neaktivno",
+            "issuer": "Izdavač",
+            "password": "Lozinka",
+            "passwordIsInCorrect": "Lozinka nije ispravna",
+            "resetPassword": "Reset lozinke",
+            "serial": "Serijski",
+            "status": "Status",
+            "unableToDecrypt": "Nije moguće dekriptovati",
+            "upload": "Upload",
+            "uploadCertificate": "Upload certifikata",
+            "uploadCertificateInSettings": "Molimo učitajte(upload) svoj certifikat iz postavki",
+            "validFrom": "Važi od",
+            "validTo": "Važi do"
+        },
+        "certificatePassword": {
+            "createPasswordMsg3": "Ako zaboravite ovu lozinku, nećemo moći oporaviti vaše certifikate niti pristupiti vašim enkriptovanim porukama. Sačuvajte ga na siguran način u upravitelju lozinki ili na drugom sigurnom mjestu.",
+            "pswdNotIncludeCharacters": "Lozinka mora sadržavati velika i mala slova, brojeve i specijalne znakove",
+            "resetPasswordMsg1": "Resetovanje vaše lozinke će opozvati pristup svim vašim ličnim certifikatima. To znači da ćete morati ponovo učitati svoje certifikate da biste ponovo dobili pristup.",
+            "confirmPassword": "Potvrdite lozinku",
+            "create_password_header": "Kreiranje lozinke za S/MIME operacije",
+            "createPasswordMsg1": "Da biste osigurali sigurnost vaše e-mail pošte, morate stvoriti lozinku koja će se koristiti za svaku S/MIME operaciju.",
+            "createPasswordMsg2": "Ova lozinka je esencijalna za potpisivanje, enkripciju i dekripciju e-mail poruka.",
+            "createPasswordRule": "Vaša lozinka mora biti:",
+            "createPasswordRule1": "Minimalno 8 znakova dugačka.",
+            "createPasswordRule2": "Uključi kombinaciju velikih i malih slova, brojeva i posebnih znakova",
+            "enter": "Ulaz",
+            "important": "Važno",
+            "passwordCreated": "Lozinka uspješno kreirana",
+            "passwordCreatedFailed": "Kreiranje lozinke nije uspjelo",
+            "passwordLengthNotMatch": "Lozinka mora imati minimalno 8 znakova",
+            "passwordNotMatch": "Lozinke se ne poklapaju",
+            "reset_password": "Reset lozinke",
+            "resetPasswordMsg2": "Ako ste sigurni da želite nastaviti, kliknite „Resetirajte lozinku“ da biste kreirali novu."
+        },
+        "choose": "Izaberi",
+        "app": "Postavke",
+        "smime_certificates": "S/MIME certifikati"
     },
     "share": {
         "options": {
@@ -924,7 +1024,8 @@
         "standard_message": "Dodajte napomenu u standardnu poruku",
         "filter_folder_message": "Odaberite folder u kojem ćete započeti naprednu pretragu",
         "send_notification": "Pošaljite obavještenje o ovom dijeljenju",
-        "share_note": "Standardna poruka prikazuje vaše ime, ime dijeljene stavke, dozvole date primaocima i informacije za prijavu."
+        "share_note": "Standardna poruka prikazuje vaše ime, ime dijeljene stavke, dozvole date primaocima i informacije za prijavu.",
+        "is_contained_in": "Nalazi se u"
     },
     "signatures": {
         "add_signature": "Dodaj potpis",
@@ -1004,7 +1105,8 @@
             "noPreviousEmails": "Nema prethodne e-mail poruke",
             "goToNext": "Idi na sljedeći e-mail"
         },
-        "markedAsSingedSmime": "Označeno kao potpisano (S/MIME)"
+        "markedAsSingedSmime": "Označeno kao potpisano (S/MIME)",
+        "markedAsEncryptedSmime": "Označeno kao kriptovano (S/MIME)"
     },
     "layoutView": {
         "tooltip": {
@@ -1017,7 +1119,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "Poruka je predugačka i izrezana je",
+            "label": "Ova poruka je skraćena zbog dužine",
             "button": "UČITAJ PORUKU",
             "loadingButton": "UČITAVANJE . . ."
         }
