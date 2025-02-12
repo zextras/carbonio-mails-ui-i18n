@@ -468,7 +468,8 @@
         "mail_sensitivity_private": "Poufność prywatna",
         "mail_sensitivity_company_confidential": "Poufność firmowa-tajna",
         "mail_sensitivity_unknown": "Poufność nieznana",
-        "decrypt_message": "Odszyfruj wiadomość"
+        "decrypt_message": "Odszyfruj wiadomość",
+        "show_all_attachments": "Wyświetl wszystkie {count} załączniki"
     },
     "message": {
         "snackbar": {
