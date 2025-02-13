@@ -35,7 +35,8 @@
             "apply_filter_rules_completed": "Filtro '{{filterName}}' applicato correttamente a {{involvedMessagesCount}} messaggi della cartella '{{folderPath}}'",
             "sending_mail_in_count_one": "Invio del messaggio tra {{count}} secondo",
             "sending_mail_in_count_many": "Invio del messaggio tra {{count}} secondi",
-            "sending_mail_in_count_other": "Invio del messaggio tra {{count}} secondi"
+            "sending_mail_in_count_other": "Invio del messaggio tra {{count}} secondi",
+            "apply_filter_error": "Il filtro è ancora in esecuzione sul server, ma sta impiegando troppo tempo per segnalare gli elementi interessati. Il filtro continua a lavorare sul server senza ulteriori informazioni."
         },
         "modal": {
             "delete": {
@@ -449,7 +450,8 @@
             "failed": "non è stato possibile caricare uno o più allegati",
             "uploading": "Caricamento allegati in corso"
         },
-        "decrypt_message": "Decifra Messaggio"
+        "decrypt_message": "Decifra Messaggio",
+        "show_all_attachments": "Mostra {{count}} allegati"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -857,7 +859,8 @@
             "validFrom": "Valido da",
             "validTo": "Valido a"
         },
-        "smime_certificates": "Certificati S/MIME"
+        "smime_certificates": "Certificati S/MIME",
+        "app": "Impostazioni"
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
