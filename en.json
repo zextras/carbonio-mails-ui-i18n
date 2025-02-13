@@ -338,7 +338,7 @@
         "mail_sensitivity_private": "Sensitivity Private",
         "mail_sensitivity_company_confidential": "Sensitivity Company-Confidential",
         "mail_sensitivity_unknown": "Sensitivity Unknown",
-        "show_all_attachments": "Show all {count} attachments"
+        "show_all_attachments": "Show all {{count}} attachments"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
