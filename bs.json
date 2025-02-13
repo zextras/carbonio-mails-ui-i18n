@@ -454,8 +454,8 @@
         "mail_selected_other": "Odabrane e-poruke {{count}}",
         "mail_folder": "E-mail folder",
         "download_one": "Preuzmi",
-        "download_few": "Preuzmi",
-        "download_other": "Preuzmi",
+        "download_few": "Preuzmi sve",
+        "download_other": "Preuzmi sve",
         "duplicate_messages": "Duplicirane poruke",
         "errors": {
             "upload_failed_generic": "Otpremanje fajla \"{{filename}}\" nije uspjelo"
@@ -568,7 +568,8 @@
         "tags": "Oznake",
         "time": "Vrijeme",
         "time_zone": "Vremenska zona",
-        "type": "Tip"
+        "type": "Tip",
+        "show_all_attachments": "Prikaži sve {{count}} priloge"
     },
     "labels": {
         "compose_colin": "Sastavi :",
