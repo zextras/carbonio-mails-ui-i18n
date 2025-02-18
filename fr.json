@@ -407,7 +407,8 @@
         "mail_sensitivity_private": "Sensibilité privée",
         "mail_sensitivity_company_confidential": "Sensibilité Confidentialité de l'entreprise",
         "mail_sensitivity_unknown": "Sensibilité Inconnue",
-        "decrypt_message": "Décrypter le message"
+        "decrypt_message": "Décrypter le message",
+        "show_all_attachments": "Afficher les {{count}} pièces jointes"
     },
     "message": {
         "snackbar": {
