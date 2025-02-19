@@ -97,7 +97,8 @@
             },
             "mail_info": {
                 "message_id": "ID сообщения:",
-                "message_created_at": "Создано в:"
+                "message_created_at": "Создано в:",
+                "message_sensitivity": "Чувствительность:"
             },
             "distribution_list": "Это электронное письмо из списка рассылки",
             "external_domain": "Это письмо из внешнего домена"
@@ -450,7 +451,10 @@
         "start_recovery_description": "После завершения процесса вы получите уведомление в своем почтовом ящике и найдете восстановленные письма в новой папке.",
         "start_recovery_process": "Запустить процесс восстановления",
         "start_search": "Начать поиск",
-        "enter_single_email_address": "Введите адрес электронной почты"
+        "enter_single_email_address": "Введите адрес электронной почты",
+        "mail_sensitivity_company_confidential": "Чувствительность информации - корпоративная тайна",
+        "mail_sensitivity_unknown": "Чувствительность информации неизвестна",
+        "show_all_attachments": "Показать все {{count}} вложения"
     },
     "header": {
         "warning": "Предупреждение",
@@ -495,7 +499,8 @@
         "apply_filter_on_folder": "Применить фильтр к папке",
         "download_eml": "Скачать EML",
         "create_appointment": "Создать встречу",
-        "preview_on_separated_tab": "Открыть в новой вкладке"
+        "preview_on_separated_tab": "Открыть в новой вкладке",
+        "forward_as_attachment": "Переслать как вложение"
     },
     "tooltip": {
         "add_attachments": "Добавить вложения",
@@ -510,7 +515,18 @@
         "folder_linked_status": "Поделились со мной",
         "folder_sharing_status_one": "Общий доступ предоставлен {{count}} пользователю",
         "folder_sharing_status_few": "Общий доступ предоставлен {{count}} пользователям",
-        "folder_sharing_status_many": "Общий доступ предоставлен {{count}} пользователям"
+        "folder_sharing_status_many": "Общий доступ предоставлен {{count}} пользователям",
+        "list_navigation": {
+            "loadingNextEmail": "Загрузка следующего письма",
+            "noMoreEmails": "Больше нет писем",
+            "closeToNavigate": "Закройте это письмо, чтобы перейти к навигации",
+            "noPreviousEmails": "Предыдущих писем нет",
+            "goToNext": "Перейти к следующему письму",
+            "goToPrevious": "Перейти к предыдущему письму",
+            "unableToLoadNextEmail": "Невозможно загрузить следующее письмо. Попробуйте еще раз позже"
+        },
+        "markedAsEncryptedSmime": "Помечено как зашифрованное (S/MIME)",
+        "markedAsSingedSmime": "Помечено как подписанное (S/MIME)"
     },
     "composer": {
         "attachment": {
@@ -576,7 +592,8 @@
             "filter_name_required": "Укажите название фильтра",
             "mark_manually": "Отметить вручную",
             "not_changed_anything": "Изменений не было",
-            "mark_reading_panel": "Пометить как прочитанное"
+            "mark_reading_panel": "Пометить как прочитанное",
+            "recover_messages_infotext": "Восстановите удаленные из корзины электронные письма, введя ключевое слово, входящее в первые 100 символов сообщения, или выбрав дату.\nВыбранная дата будет включать электронные письма, удаленные за 3 дня до и 3 дня после\nПосле завершения поиска вы будете перенаправлены на страницу результатов, где сможете выбрать, какие элементы восстановить."
         },
         "msg_from_optn": {
             "discard": "Отменить сообщение автоматически",
@@ -738,8 +755,37 @@
             "certtificateUploaded": "Сертификат успешно загружен",
             "createPasswordFromSettings": "Пожалуйста, создайте свой пароль шифрования в настройках",
             "delete_certificate": "Удалить сертификат",
-            "delete_certificate_text": "Вы уверены, что хотите удалить сертификат"
-        }
+            "delete_certificate_text": "Вы уверены, что хотите удалить сертификат",
+            "emailNotMatch": "Электронная почта сертификата не совпадает с электронной почтой отправителя",
+            "enter": "Введите",
+            "EnterPasswordMsg": "Для использования действий, связанных с S/MIME, введите пароль",
+            "errorWhileFetchingCert": "Ошибка при получении сертификатов",
+            "errorWhileUploadCert": "Ошибка при загрузке сертификата",
+            "expired": "Срок действия истек",
+            "failed": "Не удалось загрузить сертификат",
+            "inactive": "Неактивный",
+            "issuer": "Эмитент",
+            "password": "Пароль",
+            "passwordIsCorrect": "Правильный пароль",
+            "passwordIsInCorrect": "Неправильный пароль",
+            "resetPassword": "Сбросить пароль",
+            "serial": "Серийный",
+            "smimeCertificate": "Сертификат S/MIME (например, certificate.p12)",
+            "status": "Статус",
+            "unableToDecrypt": "Невозможно расшифровать",
+            "upload": "Загрузить",
+            "uploadCertificateInSettings": "Загрузите свой сертификат из настроек",
+            "validFrom": "Действителен с",
+            "validTo": "Действителен до",
+            "caCertificateNotFound": "Сертификат CA не найден",
+            "mailAddress": "Адрес электронной почты",
+            "enter_password": "Введите пароль",
+            "uploadCertificate": "Загрузить сертификат"
+        },
+        "font_size_one": "{{count}} pt",
+        "font_size_few": "{{count}} pt",
+        "font_size_many": "{{count}} pt",
+        "condition_met": "выполняются следующие условия:"
     },
     "message": {
         "snackbar": {
@@ -819,7 +865,10 @@
         "email_moved_to_trash": "Письмо перенесено в Корзину",
         "tag_applied": "Тег \"{{tag}}\" применен",
         "tag_removed": "Тег \"{{tag}}\" удален",
-        "email_copied_to_clipboard": "Письмо скопировано в буфер обмена."
+        "email_copied_to_clipboard": "Письмо скопировано в буфер обмена.",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "Не удалось проверить сертификат"
+        }
     },
     "title": {
         "new_messages": "Новые Сообщения",
@@ -952,6 +1001,12 @@
             "title": "Упс!…Что-то пошло не так",
             "buttonConfirm": "Перезагрузить",
             "content": "Пожалуйста, перезагрузите страницу или повторите попытку позже"
+        },
+        "uploadCertificate": {
+            "upload": "Загрузить",
+            "smimeCertificate": "Сертификат S/MIME (например, certificate.p12)",
+            "certificatePassword": "Пароль сертификата",
+            "uploadCertificate": "Загрузить сертификат"
         }
     },
     "email_status": {
@@ -1004,7 +1059,8 @@
             "button_apply": "Применить",
             "title": "Фильтр приложения \"{{filterName}}\"",
             "label_confirm_request": "Применить фильтр?",
-            "label_involved_messages": "Сообщения <0>{{involvedMessagesCount}}</0> будут обрабатываться внутри выбранной папки."
+            "label_involved_messages": "Сообщения <0>{{involvedMessagesCount}}</0> будут обрабатываться внутри выбранной папки.",
+            "label_confirm_msg": "Чем больше сообщений, тем больше времени потребуется для применения фильтра."
         }
     },
     "sortingDropdown": {
@@ -1043,6 +1099,25 @@
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "Размер сообщения превышает лимит. Пожалуйста, преобразуйте некоторые вложения в смарт-ссылки"
+        },
+        "info": {
+            "bannerLargeAttachments": "Вы загружаете большое вложение. Это может занять некоторое время, пожалуйста, будьте терпеливы..."
+        }
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Горизонтальный вид",
+            "vertical": "Вертикальный вид",
+            "switchToNoSplit": "Переключить на режим без разделения",
+            "switchToHorizontal": "Переключить на горизонтальное разделение",
+            "switchToVertical": "Переключить на вертикальное разделение"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Это сообщение было обрезано из-за длины",
+            "button": "ЗАГРУЗИТЬ СООБЩЕНИЕ",
+            "loadingButton": "ЗАГРУЗКА . . ."
         }
     }
 }
