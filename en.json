@@ -521,9 +521,10 @@
             "unableToDecrypt": "Unable to decrypt",
             "upload": "Upload",
             "uploadCertificate": "Upload Certificate",
-            "uploadCertificateInSettings": "Please upload your certificate from settings",
+            "uploadCertificateInSettings": "Upload your certificate from settings",
             "validFrom": "Valid From",
-            "validTo": "Valid To"
+            "validTo": "Valid To",
+            "caCertificateNotFound": "CA certificate can not be found"
         },
         "actions": "Actions",
         "active_filter": "Active filter",
