@@ -987,7 +987,8 @@
             "some_att_fails": "There seems to be a problem when saving some files, please try again",
             "some_link_copying_error": "There seems to be a problem while generating public url for some files, please try again"
         },
-        "view_rights": "View"
+        "view_rights": "View",
+        "senderslist_empty": "No addresses have been included in the list yet"
     },
     "messages,new_email": "new email",
     "modal": {
