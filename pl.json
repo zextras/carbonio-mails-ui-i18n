@@ -507,7 +507,8 @@
         "delete_attachment_message2": "Czy chcesz pobrać go przed tym?",
         "delete_attachment_message1": "Załącznik zostanie trwale usunięty z Carbonio.",
         "send_email": "Wyślij e-maila",
-        "copy": "Skopiuj"
+        "copy": "Skopiuj",
+        "senderslist_empty": "Nie uwzględniono jeszcze żadnych adresów w liście"
     },
     "search": {
         "flagged_note": "Wyszukaj wszystkie oflagowane e-maile.",
@@ -954,9 +955,10 @@
             "unableToDecrypt": "Nie udało się odszyfrować",
             "upload": "Prześlij",
             "uploadCertificate": "Prześlij certyfikat",
-            "uploadCertificateInSettings": "Prześlij Twój certyfikat z poziomu ustawień",
+            "uploadCertificateInSettings": "Prześlij Twój certyfikat w ustawieniach",
             "validFrom": "Ważny od",
-            "validTo": "Ważny do"
+            "validTo": "Ważny do",
+            "caCertificateNotFound": "Nie udało się znaleźć CA certyfikatu"
         },
         "smime_certificates": "Certyfikaty S/MIME"
     },
