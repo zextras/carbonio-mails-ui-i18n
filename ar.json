@@ -562,7 +562,8 @@
         "mail_sensitivity_company_confidential": "الحساسية سرية للشركة",
         "mail_sensitivity_unknown": "الحساسية غير معروفة",
         "error_folder_exists": "يوجد مجلد يحمل نفس الاسم، يرجى اختيار أسم آخر",
-        "decrypt_message": "فك تشفير الرسالة"
+        "decrypt_message": "فك تشفير الرسالة",
+        "show_all_attachments": "إظهار جميع المرفقات {{count}}"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -1025,7 +1026,8 @@
             "password": "كلمه السر",
             "smimeCertificate": "شهادة S/MIME (مثلاً شهادة.p12)",
             "status": "الحالة",
-            "upload": "تحميل"
+            "upload": "تحميل",
+            "caCertificateNotFound": "لا يمكن العثور على شهادة هيئة الشهادات -CA-"
         },
         "smime_certificates": "شهادات S/MIME",
         "app": "الإعدادات"
