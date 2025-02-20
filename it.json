@@ -606,7 +606,8 @@
         "delete_attachment_message1": "L'allegato verrà eliminato permanentemente da Carbonio.",
         "delete_attachment_message2": "Vuoi scaricarlo prima?",
         "copy": "Copia",
-        "send_email": "Invia e-mail"
+        "send_email": "Invia e-mail",
+        "senderslist_empty": "Non è ancora presente nessun indirizzo nella lista"
     },
     "snackbar": {
         "share_resend": "Invito condivisione inviato",
