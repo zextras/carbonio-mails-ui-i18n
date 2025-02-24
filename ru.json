@@ -823,7 +823,8 @@
         "delete_attachment_message1": "Ваше вложение будет удалено из Carbonio.",
         "delete_attachment_message2": "Вы хотели бы загрузить вложение?",
         "copy": "Копировать",
-        "send_email": "Отправить письмо"
+        "send_email": "Отправить письмо",
+        "senderslist_empty": "Ни один адрес пока не был включен в список"
     },
     "search": {
         "flagged_note": "Поиск всех помеченных писем.",
