@@ -446,7 +446,8 @@
         "delete_attachment_message2": "Souhaitez-vous le télécharger avant ?",
         "delete_attachment_message1": "Votre pièce jointe sera définitivement supprimée de Carbonio.",
         "copy": "Copier",
-        "send_email": "Envoyer l'email"
+        "send_email": "Envoyer l'email",
+        "senderslist_empty": "Aucune adresse n'a encore été incluse dans la liste"
     },
     "messages": {
         "invalid_address": "L'adresse suivante semble être invalide",
@@ -804,8 +805,9 @@
             "unableToDecrypt": "Impossible de décrypter",
             "upload": "Téléverser",
             "uploadCertificate": "Téléverser le certificat",
-            "uploadCertificateInSettings": "Veuillez télécharger votre certificat à partir des paramètres",
-            "validFrom": "Valable à partir de"
+            "uploadCertificateInSettings": "Téléchargez votre certificat à partir des paramètres",
+            "validFrom": "Valable à partir de",
+            "caCertificateNotFound": "Le certificat de l'autorité de certification (CA) est introuvable"
         },
         "smime_certificates": "Certificats S/MIME"
     },
