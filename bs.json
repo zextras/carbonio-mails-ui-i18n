@@ -611,7 +611,8 @@
         "select_date_time": "Odaberite datum i vrijeme za slanje ove poruke",
         "copy": "Kopiraj",
         "delete_tag_message1": "Jeste li sigurni da želite izbrisati oznaku \"{{name}}\"?",
-        "delete_tag_message2": "Nakon brisanja, bit će uklonjen sa svih stavki označenih njime."
+        "delete_tag_message2": "Nakon brisanja, bit će uklonjen sa svih stavki označenih njime.",
+        "senderslist_empty": "Još nijedna adresa nije uključena u listu"
     },
     "messages": {
         "cal_name_exist_warning": "Kalendar sa istim imenom već postoji na ovoj putanji",
@@ -979,9 +980,10 @@
             "unableToDecrypt": "Nije moguće dekriptovati",
             "upload": "Upload",
             "uploadCertificate": "Upload certifikata",
-            "uploadCertificateInSettings": "Molimo učitajte(upload) svoj certifikat iz postavki",
+            "uploadCertificateInSettings": "Učitajte(upload) svoj certifikat iz postavki",
             "validFrom": "Važi od",
-            "validTo": "Važi do"
+            "validTo": "Važi do",
+            "caCertificateNotFound": "CA certifikat nije pronađen"
         },
         "certificatePassword": {
             "createPasswordMsg3": "Ako zaboravite ovu lozinku, nećemo moći oporaviti vaše certifikate niti pristupiti vašim enkriptovanim porukama. Sačuvajte ga na siguran način u upravitelju lozinki ili na drugom sigurnom mjestu.",
