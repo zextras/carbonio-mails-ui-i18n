@@ -1116,5 +1116,8 @@
             "button": "LOAD MESSAGE",
             "loadingButton": "LOADING . . ."
         }
+    },
+    "tag": {
+        "label": "Tag"
     }
 }
