@@ -248,7 +248,28 @@
             "failed": "एक या अधिक अनुलग्नक अपलोड होने में विफल",
             "uploading": "अनुलग्नक अपलोड किए जा रहे हैं"
         },
-        "attachment_upload_in_progress": "अनुलग्नक अपलोड प्रगति पर है"
+        "attachment_upload_in_progress": "अनुलग्नक अपलोड प्रगति पर है",
+        "invalid_recipients": "प्राप्तकर्ता का पता ग़लत लिखा गया है",
+        "convert_to_smart_link": "स्मार्ट लिंक में परिवर्तित करें",
+        "create_smart_links": "स्मार्ट लिंक बनाएं",
+        "download_one": "डाउनलोड",
+        "download_other": "सभी डाउनलोड करें",
+        "message_send_in_progress": "संदेश भेजने का कार्य प्रगति पर है",
+        "missing_sender": "संदेश भेजने वाला निर्धारित नहीं है",
+        "close": "बंद",
+        "convert_back_to_attachment": "वापस अनुलग्नक में बदलें",
+        "errors": {
+            "upload_failed_generic": "फ़ाइल \"{{filename}}\" के लिए अपलोड विफल रहा"
+        },
+        "remove_one": "हटाना",
+        "remove_other": "सभी हटाएं",
+        "decrypt_message": "संदेश डिक्रिप्ट करें",
+        "mail_selected_one": "{{count}} ई-मेल चयनित",
+        "mail_selected_other": "{{count}} ई-मेल चयनित",
+        "missing_recipients": "कोई वैध प्राप्तकर्ता नहीं है",
+        "no_folder_selected": "कोई फ़ोल्डर चयनित नहीं",
+        "no_identity_selected": "<No identity selected>",
+        "no_sender": "संदेश भेजने वाला निर्धारित नहीं है"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -429,6 +450,14 @@
             },
             "files": "Files से जोड़ें",
             "url": "फाइलों से पब्लिक लिंक जोड़ें"
+        },
+        "uploadCertificate": {
+            "removeCertificateToEncrypt": "एन्क्रिप्ट करने के लिए सर्टिफिकेट निकालें (S/MIME)",
+            "useCertificateToEncrypt": "एन्क्रिप्ट करने के लिए सर्टिफिकेट का उपयोग करें (S/MIME)",
+            "removeCertificateToSign": "हस्ताक्षर करने के लिए सर्टिफिकेट हटाएँ (S/MIME)",
+            "useCertificateToSign": "हस्ताक्षर करने के लिए सर्टिफिकेट का उपयोग करें (S/MIME)",
+            "emailNotMatch": "सर्टिफिकेट ईमेल प्रेषक ईमेल से मेल नहीं खाता",
+            "failed": "सर्टिफिकेट अपलोड करने में विफल"
         }
     },
     "settings": {
