@@ -439,7 +439,7 @@
             "noSplit": "Без разделения"
         },
         "decrypt_message": "Расшифровать сообщение",
-        "distribution_list_app_name": "Списки рассылки",
+        "distribution_list_app_name": "Списки рассылок",
         "close": "Закрыть",
         "error_folder_exists": "Папка с таким именем уже существует, выберите другое",
         "from_external_domain": "Это письмо из внешнего домена",
@@ -1120,5 +1120,8 @@
             "button": "ЗАГРУЗИТЬ СООБЩЕНИЕ",
             "loadingButton": "ЗАГРУЗКА . . ."
         }
+    },
+    "tag": {
+        "label": "Тег"
     }
 }
