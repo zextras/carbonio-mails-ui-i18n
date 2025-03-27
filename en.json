@@ -338,7 +338,10 @@
         "mail_sensitivity_private": "Sensitivity Private",
         "mail_sensitivity_company_confidential": "Sensitivity Company-Confidential",
         "mail_sensitivity_unknown": "Sensitivity Unknown",
-        "show_all_attachments": "Show all {{count}} attachments"
+        "show_all_attachments": "Show all {{count}} attachments",
+        "advancedFilters": {
+            "attachment": "Attachment"
+        }
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -682,7 +685,10 @@
         "tag_with": "Tag with",
         "to_cc": "To or CC",
         "twitter_notification": "Twitter notifications",
-        "under": "under"
+        "under": "under",
+        "filtersConditions": {
+            "attachment": "Attachment"
+        }
     },
     "snackbar": {
         "uploadCertificate": {
@@ -1119,5 +1125,10 @@
     },
     "tag": {
         "label": "Tag"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Empty ‘To’ Field]"
+        }
     }
 }
