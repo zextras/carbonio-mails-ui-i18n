@@ -451,7 +451,10 @@
             "uploading": "Caricamento allegati in corso"
         },
         "decrypt_message": "Decifra Messaggio",
-        "show_all_attachments": "Mostra {{count}} allegati"
+        "show_all_attachments": "Mostra {{count}} allegati",
+        "advancedFilters": {
+            "attachment": "Allegato"
+        }
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -862,7 +865,10 @@
             "caCertificateNotFound": "Il certificato CA non può essere trovato"
         },
         "smime_certificates": "Certificati S/MIME",
-        "app": "Impostazioni"
+        "app": "Impostazioni",
+        "filtersConditions": {
+            "attachment": "Allegato"
+        }
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
@@ -1123,5 +1129,10 @@
     },
     "tag": {
         "label": "Etichetta"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Campo 'A' vuoto]"
+        }
     }
 }
