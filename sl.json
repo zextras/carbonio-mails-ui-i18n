@@ -1,1 +1,38 @@
-{}
+{
+    "composer": {
+        "attachment": {
+            "local": "Dodaj iz lokalnega",
+            "url": "Dodaj javno povezavo iz datotek",
+            "files": "Dodaj iz datotek"
+        }
+    },
+    "label": {
+        "delete": "Izbriši",
+        "choose_file": "Izberi datoteko",
+        "create": "Ustvari",
+        "discard_changes": "Zavrzi spremembe",
+        "edit_access": "Uredi dostop",
+        "empty": "Prazno",
+        "loading_results": "Nalaganje rezultatov…",
+        "no_subject": "Brez zadeve",
+        "private": "Zasebno",
+        "months": "Meseci",
+        "calendar": "Koledar",
+        "days": "Dni",
+        "error_try_again": "Nekaj je šlo narobe, poskusite znova",
+        "create_tag": "Ustvari oznako",
+        "move": "Premakni",
+        "delete_tag": "Izbriši oznako",
+        "edit": "Uredi",
+        "edit_tag": "Uredi oznako",
+        "of": "od",
+        "keywords": "Ključne besede",
+        "no_special_char_allowed": "Ime ne sme vsebovati nobenih posebnih znakov",
+        "preview": "Predogled"
+    },
+    "action": {
+        "search": "Iskanje",
+        "reset": "Ponastavi",
+        "show_original": "Pokaži izvirn"
+    }
+}
