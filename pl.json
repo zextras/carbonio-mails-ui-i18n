@@ -469,7 +469,10 @@
         "mail_sensitivity_company_confidential": "Poufność firmowa-tajna",
         "mail_sensitivity_unknown": "Poufność nieznana",
         "decrypt_message": "Odszyfruj wiadomość",
-        "show_all_attachments": "Pokaż wszystkie {{count}} załączniki"
+        "show_all_attachments": "Pokaż wszystkie {{count}} załączniki",
+        "advancedFilters": {
+            "attachment": "Załącznik"
+        }
     },
     "message": {
         "snackbar": {
@@ -960,7 +963,10 @@
             "validTo": "Ważny do",
             "caCertificateNotFound": "Nie udało się znaleźć CA certyfikatu"
         },
-        "smime_certificates": "Certyfikaty S/MIME"
+        "smime_certificates": "Certyfikaty S/MIME",
+        "filtersConditions": {
+            "attachment": "Załącznik"
+        }
     },
     "signatures": {
         "signature_heading": "Podpisy",
@@ -1123,5 +1129,10 @@
     },
     "tag": {
         "label": "Etykieta"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Puste pole \"Do\"]"
+        }
     }
 }
