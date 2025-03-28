@@ -28,7 +28,22 @@
         "of": "od",
         "keywords": "Ključne besede",
         "no_special_char_allowed": "Ime ne sme vsebovati nobenih posebnih znakov",
-        "preview": "Predogled"
+        "preview": "Predogled",
+        "restore": "Obnovi",
+        "revoke": "Prekliči",
+        "select_color": "Izberite barvo",
+        "share_public_link": "Delite javno povezavo",
+        "share_with": "Delite z",
+        "tag": "Oznaka",
+        "tag_max_length": "Dovoljeno največ 128 znakov",
+        "tag_name": "Ime oznake",
+        "save": "Shrani",
+        "share": "Delite",
+        "results_for_error": "Ni mogoče začeti iskanja, počistite in poskusite znova: ",
+        "resend": "Ponovno pošlji",
+        "select": "Izberite",
+        "single_advanced_filter": "Napredni filtri",
+        "subject": "Zadeva"
     },
     "action": {
         "search": "Iskanje",
