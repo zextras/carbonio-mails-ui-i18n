@@ -493,7 +493,8 @@
             "pswdNotIncludeCharacters": "Password must include uppercase, lowercase, numbers, and special characters",
             "reset_password": "Reset Password",
             "resetPasswordMsg1": "Resetting your password will revoke access to all your personal certificates. This means you will need to re-upload your certificates to regain access.",
-            "resetPasswordMsg2": "If you are certain you want to proceed, click “Reset Password” to create a new one."
+            "resetPasswordMsg2": "If you are certain you want to proceed, click “Reset Password” to create a new one.",
+            "password": "Password"
         },
         "smime_certificates": "S/MIME Certificates",
         "uploadCertificate": {
