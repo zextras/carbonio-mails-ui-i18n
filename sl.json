@@ -43,11 +43,53 @@
         "resend": "Ponovno pošlji",
         "select": "Izberite",
         "single_advanced_filter": "Napredni filtri",
-        "subject": "Zadeva"
+        "subject": "Zadeva",
+        "tags": "Oznake",
+        "time": "Čas",
+        "undo": "Razveljavi",
+        "warning": "Opozorilo"
     },
     "action": {
         "search": "Iskanje",
         "reset": "Ponastavi",
         "show_original": "Pokaži izvirn"
+    },
+    "messages": {
+        "snackbar": {
+            "tag_created": "Oznaka {{name}} uspešno ustvarjena",
+            "tag_deleted": "Oznaka {{name}} uspešno izbrisana",
+            "tag_updated": "Oznaka uspešno posodobljena"
+        }
+    },
+    "message": {
+        "copy": "Kopiraj",
+        "delete_tag_message2": "Ko bo izbrisan, bo odstranjen iz vseh elementov, na katere je bila dodeljen.",
+        "snackbar": {
+            "all_att_added": "Priloge so bile uspešno dodane",
+            "all_link_copied": "Javna povezava uspešno kopirana",
+            "att_err_adding": "Pri dodajanju prilog je prišlo do težave, poskusite znova",
+            "calendar_edits_saved": "Spremembe uspešno shranjene",
+            "some_link_copying_error": "Pri ustvarjanju javne povezave za nekatere datoteke je prišlo do težave, poskusite znova",
+            "link_copying_error": "Pri ustvarjanju javne povezave je prišlo do težave, poskusite znova",
+            "some_att_add_fails": "Pri dodajanju nekaterih prilog je prišlo do težave, poskusite znova"
+        }
+    },
+    "share": {
+        "options": {
+            "share_calendar_with": {
+                "internal_users_groups": "Notranji uporabniki ali skupine",
+                "external_guests": "Zunanji gostje (samo ogled)",
+                "public": "Javno (samo ogled, geslo ni potrebno)"
+            },
+            "share_calendar_role": {
+                "none": "Brez"
+            }
+        }
+    },
+    "preview": {
+        "close": "Zapri predogled"
+    },
+    "snackbar": {
+        "email_copied_to_clipboard": "E-pošta kopirana v odložišče."
     }
 }
