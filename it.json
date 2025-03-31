@@ -829,7 +829,8 @@
             "passwordNotMatch": "Le password non corrispondono",
             "pswdNotIncludeCharacters": "La password deve includere lettere maiuscole, minuscole, numeri e caratteri speciali",
             "reset_password": "Reimposta Password",
-            "resetPasswordMsg2": "Se sei sicuro di voler procedere, fai clic su 'Reimposta password' per crearne una nuova."
+            "resetPasswordMsg2": "Se sei sicuro di voler procedere, fai clic su 'Reimposta password' per crearne una nuova.",
+            "password": "Password"
         },
         "uploadCertificate": {
             "EnterPasswordMsg": "Per utilizzare le azioni relative a S/MIME inserisci la password",
