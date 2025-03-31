@@ -24,7 +24,10 @@
         "go_back": "Назад",
         "new_folder": "Нова папка",
         "save": "Зберегти",
-        "time_zone": "Часовий пояс"
+        "time_zone": "Часовий пояс",
+        "advancedFilters": {
+            "attachment": "Вкладення"
+        }
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
@@ -32,6 +35,16 @@
     "message": {
         "snackbar": {
             "settings_saved": "Зміни збережено"
+        }
+    },
+    "settings": {
+        "filtersConditions": {
+            "attachment": "Вкладення"
+        }
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Порожнє поле ‘Кому’]"
         }
     }
 }
