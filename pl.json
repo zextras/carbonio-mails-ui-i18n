@@ -928,7 +928,8 @@
             "passwordNotMatch": "Hasła się nie zgadzają",
             "pswdNotIncludeCharacters": "Hasło musi zawierać wielką literę, małą literę, cyfrę i znak specjalny",
             "reset_password": "Zresetuj hasło",
-            "resetPasswordMsg2": "Jeśli jesteś pewien, że chcesz kontynuować, kliknij \"Zresetuj hasło\", aby stworzyć nowe."
+            "resetPasswordMsg2": "Jeśli jesteś pewien, że chcesz kontynuować, kliknij \"Zresetuj hasło\", aby stworzyć nowe.",
+            "password": "Hasło"
         },
         "uploadCertificate": {
             "smimeCertificate": "Certyfikat S/MIME (np. certyfikat.p12)",
