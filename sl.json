@@ -47,7 +47,11 @@
         "tags": "Oznake",
         "time": "Čas",
         "undo": "Razveljavi",
-        "warning": "Opozorilo"
+        "warning": "Opozorilo",
+        "download_one": "Prenesi",
+        "download_two": "Prenesi vse",
+        "download_few": "Prenesi vse",
+        "download_other": "Prenesi vse"
     },
     "action": {
         "search": "Iskanje",
@@ -91,5 +95,18 @@
     },
     "snackbar": {
         "email_copied_to_clipboard": "E-pošta kopirana v odložišče."
+    },
+    "tooltip": {
+        "revoke": "Prekliči dostop",
+        "folder_linked_status": "V skupni rabi z mano",
+        "edit": "Uredi lastnosti skupne rabe",
+        "add_attachments": "Dodaj priloge"
+    },
+    "modal": {
+        "initializeError": {
+            "buttonConfirm": "OSVEŽI",
+            "title": "Nekaj je šlo narobe",
+            "content": "Osvežite stran ali poskusite znova kasneje. Drugi moduli so lahko še vedno na voljo z omejeno funkcionalnostjo."
+        }
     }
 }
