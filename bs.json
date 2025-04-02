@@ -28,7 +28,7 @@
         "search": "Pretraga",
         "select_folders": "Odaberite foldere",
         "send_anyway": "Svejedno pošalji",
-        "share_folder": "Podijeli folder",
+        "share_folder": "Podijelite mapu",
         "show_details": "Prikaži detalje",
         "show_original": "Prikaži original",
         "unflag": "Ukloni zastavicu",
@@ -58,11 +58,11 @@
         "list_spam_title": "Ne postoje spam e-mail poruke",
         "list_trash_title": "Smeće je prazno",
         "search_description1": "Ili odaberite “Napredni filteri” da precizirate pretragu.",
-        "search_description2": "Pokušajte pokrenuti novu pretragu.",
+        "search_description2": "Pokušaj pokrenuti novu pretragu.",
         "search_list_title1": "Izgleda da nema rezultata. Nastavite pretragu!",
         "search_list_title2": "Nijedna od vaših stavki ne odgovara vašoj potrazi.",
         "search_title1": "Pokreni novu pretragu",
-        "search_title3": "Nema rezultata za Vašu pretragu.",
+        "search_title3": "Nema rezultata za vašu pretragu.",
         "search_title4": "Odaberite jedan ili više rezultata za izvršavanje radnji ili prikaz detalja.",
         "sent_title2": "Odaberi e-mail da se prikaže šta ste poslali.",
         "spam_title2": "Klikni na ikonu kante za smeće kako biste obrisali spam e-mail.",
@@ -246,7 +246,7 @@
     },
     "label": {
         "accept": "Prihvati",
-        "activate_selection_mode": "Aktivirajte režim selekcije",
+        "activate_selection_mode": "Aktiviraj režim selekcije",
         "add": "Dodaj",
         "add_custom_message": "Dodajte prilagođenu poruku",
         "add_task": "Ako trebate da zapišete bilješku, možete dodati zadatak na svoju TO DO LISTU",
@@ -324,7 +324,7 @@
         "enter_name": "Unesite ime",
         "error": "Greška",
         "error_address": "Validna e-adresa je obavezna",
-        "error_try_again": "Došlo je do pogreške, pokušajte ponovo",
+        "error_try_again": "Došlo je do greške, pokušaj ponovo",
         "exit_selection_mode": "Izađite iz režima odabira",
         "expand": "Proširi",
         "expand_receivers_list": "Proširi listu primatelja",
@@ -341,7 +341,7 @@
         "find_shares": "Pronađi dijeljenja",
         "flagged": "Označeno",
         "flash_browser_title": "Flash naslov pretraživača",
-        "folder_name": "Naziv foldera",
+        "folder_name": "Naziv mape",
         "folder_not_valid_destination": "Odabrani folder nije validno odredište",
         "forwarded": "Proslijeđeno",
         "freebusy": "Slobodno/Zauzeto",
@@ -558,7 +558,7 @@
         "warning": "Upozorenje",
         "months": "Mjeseci",
         "days": "Dani",
-        "delete": "Obriši",
+        "delete": "Izbriši",
         "go_back": "Nazad",
         "clear_search_query": "OBRIŠI PRETRAGU",
         "filter_folders": "Filtriraj mape",
@@ -569,7 +569,10 @@
         "time": "Vrijeme",
         "time_zone": "Vremenska zona",
         "type": "Tip",
-        "show_all_attachments": "Prikaži sve {{count}} priloge"
+        "show_all_attachments": "Prikaži sve {{count}} priloge",
+        "advancedFilters": {
+            "attachment": "Prilog"
+        }
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -757,7 +760,7 @@
             "upload": "Upload"
         },
         "initializeError": {
-            "title": "Nešto nije u redu",
+            "title": "Došlo je do greške",
             "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije."
         }
     },
@@ -1003,11 +1006,15 @@
             "passwordLengthNotMatch": "Lozinka mora imati minimalno 8 znakova",
             "passwordNotMatch": "Lozinke se ne poklapaju",
             "reset_password": "Reset lozinke",
-            "resetPasswordMsg2": "Ako ste sigurni da želite nastaviti, kliknite „Resetirajte lozinku“ da biste kreirali novu."
+            "resetPasswordMsg2": "Ako ste sigurni da želite nastaviti, kliknite „Resetirajte lozinku“ da biste kreirali novu.",
+            "password": "Lozinka"
         },
         "choose": "Izaberi",
         "app": "Postavke",
-        "smime_certificates": "S/MIME certifikati"
+        "smime_certificates": "S/MIME certifikati",
+        "filtersConditions": {
+            "attachment": "Prilog"
+        }
     },
     "share": {
         "options": {
@@ -1126,5 +1133,13 @@
             "button": "UČITAJ PORUKU",
             "loadingButton": "UČITAVANJE . . ."
         }
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Prazno polje ‘Za’]"
+        }
+    },
+    "tag": {
+        "label": "Oznaka"
     }
 }
