@@ -408,7 +408,10 @@
         "mail_sensitivity_company_confidential": "Sensibilité Confidentialité de l'entreprise",
         "mail_sensitivity_unknown": "Sensibilité Inconnue",
         "decrypt_message": "Décrypter le message",
-        "show_all_attachments": "Afficher les {{count}} pièces jointes"
+        "show_all_attachments": "Afficher les {{count}} pièces jointes",
+        "advancedFilters": {
+            "attachment": "Pièce jointe"
+        }
     },
     "message": {
         "snackbar": {
@@ -774,7 +777,8 @@
             "passwordNotMatch": "Les mots de passe ne correspondent pas",
             "pswdNotIncludeCharacters": "Le mot de passe doit comprendre des majuscules, des minuscules, des chiffres et des caractères spéciaux",
             "reset_password": "Réinitialiser le mot de passe",
-            "resetPasswordMsg2": "Si vous êtes certain de vouloir continuer, cliquez sur « Réinitialiser le mot de passe » pour en créer un nouveau."
+            "resetPasswordMsg2": "Si vous êtes certain de vouloir continuer, cliquez sur « Réinitialiser le mot de passe » pour en créer un nouveau.",
+            "password": "Mot de passe"
         },
         "uploadCertificate": {
             "delete_certificate_text": "Êtes-vous sûr de supprimer le certificat de",
@@ -809,7 +813,10 @@
             "validFrom": "Valable à partir de",
             "caCertificateNotFound": "Le certificat de l'autorité de certification (CA) est introuvable"
         },
-        "smime_certificates": "Certificats S/MIME"
+        "smime_certificates": "Certificats S/MIME",
+        "filtersConditions": {
+            "attachment": "Pièce jointe"
+        }
     },
     "share": {
         "options": {
@@ -1123,5 +1130,10 @@
     },
     "tag": {
         "label": "Étiquette"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Champ \"A\" vide]"
+        }
     }
 }
