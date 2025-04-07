@@ -998,7 +998,8 @@
             "confirmPassword": "تأكيد كلمة السر",
             "enter": "دخول",
             "important": "المهم",
-            "reset_password": "إعادة تعيين كلمة السر"
+            "reset_password": "إعادة تعيين كلمة السر",
+            "password": "كلمه السر"
         },
         "uploadCertificate": {
             "certtificateUploaded": "تم تحميل الشهادة بنجاح",
@@ -1034,7 +1035,10 @@
             "caCertificateNotFound": "لا يمكن العثور على شهادة هيئة الشهادات -CA-"
         },
         "smime_certificates": "شهادات S/MIME",
-        "app": "الإعدادات"
+        "app": "الإعدادات",
+        "filtersConditions": {
+            "attachment": "المرفق"
+        }
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
