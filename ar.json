@@ -563,7 +563,10 @@
         "mail_sensitivity_unknown": "الحساسية غير معروفة",
         "error_folder_exists": "يوجد مجلد يحمل نفس الاسم، يرجى اختيار أسم آخر",
         "decrypt_message": "فك تشفير الرسالة",
-        "show_all_attachments": "إظهار جميع المرفقات {{count}}"
+        "show_all_attachments": "إظهار جميع المرفقات {{count}}",
+        "advancedFilters": {
+            "attachment": "المرفق"
+        }
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -1153,5 +1156,8 @@
             "label": "الرسالة طويلة جدًا وتم اقتصاصها",
             "button": "حمل الرسالة"
         }
+    },
+    "tag": {
+        "label": "علامه"
     }
 }
