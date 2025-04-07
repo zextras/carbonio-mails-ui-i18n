@@ -565,7 +565,7 @@
         "decrypt_message": "فك تشفير الرسالة",
         "show_all_attachments": "إظهار جميع المرفقات {{count}}",
         "advancedFilters": {
-            "attachment": "المرفق"
+            "attachment": "مرفق"
         }
     },
     "header": {
