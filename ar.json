@@ -756,7 +756,8 @@
         "schedule_mail": "سيتم الإرسال بتاريخ: {{date}} في الساعة {{time}}",
         "select_date_time": "حدد التاريخ والوقت لإرسال هذه الرسالة",
         "send_later_success": "سيتم إرسال بريدك الإلكتروني بتاريخ {{date}} في الساعة {{time}}",
-        "view_rights": "طريقه العرض"
+        "view_rights": "طريقه العرض",
+        "senderslist_empty": "لم يتم إضافة أي عناوين إلى القائمة حتى الآن"
     },
     "messages,new_email": "بريد جديد",
     "modals": {
