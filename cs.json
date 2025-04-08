@@ -1,5 +1,87 @@
 {
     "action": {
         "apply_filter_on_folder": "Aplikovat filtr na adresáři"
+    },
+    "label": {
+        "automatically_delete_duplicates": "Automaticky odstranit duplicitní kopie stejné zprávy při přijetí",
+        "cc_bcc": "Kopie a skrytá kopie",
+        "close": "Zavřít",
+        "bcc": "Skrytá kopie",
+        "cc": "Kopie",
+        "choose_file": "Vybrat soubor",
+        "always_allow_address": "Povolit vždy od <strong>{{from}}</strong>",
+        "attachment_error_status": {
+            "failed": "Jedna nebo více příloh se nezdařilo nahrát",
+            "uploading": "Přílohy se nahrávají"
+        },
+        "attachments_disclaimer": "Zobrazujete připojenou zprávu. Autenticita připojených zpráv nemůže být ověřena.",
+        "contact_folder": "Složka kontaktů",
+        "add": "Přidat",
+        "arrival_notifications": "Příchozí oznámení",
+        "create_new_task": "Vytvořit novou úlohu",
+        "any": "jakýkoli",
+        "app_name": "Zprávy",
+        "attachment_one": "Příloha",
+        "attachment_few": "",
+        "attachment_other": "Přílohy",
+        "attachment_upload_in_progress": "Nahrávání přílohy probíhá",
+        "attachment_with_count_one": "{{count}} Přiložený soubor",
+        "attachment_with_count_few": "{{count}} Přiložené soubory",
+        "attachment_with_count_other": "{{count}} Přiložené soubory",
+        "calendar_color": "Barva položky",
+        "cancel": "Zrušit",
+        "choose_folder": "Vybrat složku",
+        "behalf_of": "jménem",
+        "calendar": "Kalendář",
+        "convert_to_smart_link": "Převést na odkaz",
+        "activate_selection_mode": "Aktivovat režim výběru",
+        "accept": "Přijmout",
+        "add_custom_message": "Přidat vlastní zprávu",
+        "add_task": "Pokud potřebujete udělat poznámku, můžete přidat úkol do svého SEZNAMU ÚKOLŮ",
+        "addresses_not_accepted": "Jedna nebo více adres nebylo akceptováno. Odmítnuté adresy:",
+        "admin_disabled_action": "Správce zakázal akci přesměrování",
+        "administer": "Upravit",
+        "advanced_filters_one": "Pokročilý filtr",
+        "advanced_filters_few": "",
+        "advanced_filters_other": "Pokročilé filtry",
+        "all": "vše",
+        "convert_back_to_attachment": "Přepnout zpět na přílohu",
+        "create": "Vytvořit",
+        "delete": "Smazat",
+        "attachment_status": "Status e-mailu",
+        "attachment_type": "Typ souboru",
+        "before_you_leave": "Než odejdeš",
+        "collapse_receivers_list": "Sbalit seznam příjemců",
+        "confirm": "Potvrdit",
+        "create_and_move": "Vytvořit a přesunout",
+        "decrypt_message": "Dešifrovat zprávu",
+        "all_items_selected": "Byly vybrány všechny viditelné položky",
+        "allowed_actions": "Povolené akce",
+        "always_allow_domain": "Povolit vždy z <strong>{{domain}}</strong> domény",
+        "as_html": "Jako HTML",
+        "as_text": "Jako text",
+        "attachement_unknown": "Neznámý <{{mimeType}}>",
+        "back": "Zpět",
+        "create_smart_links": "Vytvořit odkazy"
+    },
+    "composer": {
+        "uploadCertificate": {
+            "emailNotMatch": "E-mail certifikátu se neshoduje s e-mailem odesílatele",
+            "failed": "Selhalo nahrání certifikátu",
+            "removeCertificateToSign": "Odstranit certifikát pro podepsání (S/MIME)",
+            "useCertificateToSign": "Použít certifikát k podpisu (S/MIME)",
+            "removeCertificateToEncrypt": "Odstranit certifikát pro šifrování (S/MIME)",
+            "useCertificateToEncrypt": "Použít certifikát k šifrování (S/MIME)"
+        },
+        "attachment": {
+            "drag_and_drop": {
+                "title": "Režim Drag&Drop",
+                "content": "Přetáhněte zde své přílohy, aby jste je mohli rychle přidat do tohoto e-mailu"
+            },
+            "local": "Přidat z lokálního úložiště",
+            "contacts_mod": "Přidat kartu kontaktu",
+            "url": "Přidat veřejný odkaz na soubory",
+            "files": "Přidat ze souborů"
+        }
     }
 }
