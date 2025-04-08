@@ -62,7 +62,9 @@
         "as_text": "Jako text",
         "attachement_unknown": "Neznámý <{{mimeType}}>",
         "back": "Zpět",
-        "create_smart_links": "Vytvořit odkazy"
+        "create_smart_links": "Vytvořit odkazy",
+        "create_tag": "Vytvořit štítek",
+        "decline": "Odmítnout"
     },
     "composer": {
         "uploadCertificate": {
