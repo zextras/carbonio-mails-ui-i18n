@@ -33,12 +33,12 @@
         "revoke": "Prekliči",
         "select_color": "Izberite barvo",
         "share_public_link": "Delite javno povezavo",
-        "share_with": "Delite z",
+        "share_with": "Deli z",
         "tag": "Oznaka",
         "tag_max_length": "Dovoljeno največ 128 znakov",
         "tag_name": "Ime oznake",
         "save": "Shrani",
-        "share": "Delite",
+        "share": "Deli",
         "results_for_error": "Ni mogoče začeti iskanja, počistite in poskusite znova: ",
         "resend": "Ponovno pošlji",
         "select": "Izberite",
@@ -51,18 +51,36 @@
         "download_one": "Prenesi",
         "download_two": "Prenesi vse",
         "download_few": "Prenesi vse",
-        "download_other": "Prenesi vse"
+        "download_other": "Prenesi vse",
+        "activate_selection_mode": "Aktiviraj način izbire",
+        "cancel": "Prekliči",
+        "delete_permanently": "Trajno izbriši",
+        "delete_tag_name": "Izbriši oznako \"{{name}}\"",
+        "edit_tag_name": "Uredi oznako \"{{name}}\"",
+        "folder_name": "Ime mape",
+        "filter_folders": "Filtriraj mape",
+        "type": "Tip",
+        "distribution_list_app_name": "Distribucijski seznami",
+        "new_folder": "Nova mapa",
+        "errors": {
+            "upload_failed_generic": "Nalaganje datoteke \"{{filename}}\" ni uspelo"
+        },
+        "search_activate_selection_mode": "Način izbire trenutno ni na voljo v rezultatih iskanja"
     },
     "action": {
         "search": "Iskanje",
         "reset": "Ponastavi",
-        "show_original": "Pokaži izvirn"
+        "show_original": "Pokaži izvirn",
+        "share_folder": "Deli mapo"
     },
     "messages": {
         "snackbar": {
             "tag_created": "Oznaka {{name}} uspešno ustvarjena",
             "tag_deleted": "Oznaka {{name}} uspešno izbrisana",
-            "tag_updated": "Oznaka uspešno posodobljena"
+            "tag_updated": "Oznaka uspešno posodobljena",
+            "folder_moved": "Mapa uspešno premaknjena",
+            "message_move": "Sporočilo uspešno premaknjeno",
+            "conversation_move": "Pogovor uspešno premaknjen"
         }
     },
     "message": {
@@ -75,8 +93,10 @@
             "calendar_edits_saved": "Spremembe uspešno shranjene",
             "some_link_copying_error": "Pri ustvarjanju javne povezave za nekatere datoteke je prišlo do težave, poskusite znova",
             "link_copying_error": "Pri ustvarjanju javne povezave je prišlo do težave, poskusite znova",
-            "some_att_add_fails": "Pri dodajanju nekaterih prilog je prišlo do težave, poskusite znova"
-        }
+            "some_att_add_fails": "Pri dodajanju nekaterih prilog je prišlo do težave, poskusite znova",
+            "settings_saved": "Spremembe uspešno shranjene"
+        },
+        "delete_tag_message1": "Ali ste prepričani, da želite izbrisati oznako \"{{name}}\"?"
     },
     "share": {
         "options": {
@@ -88,13 +108,19 @@
             "share_calendar_role": {
                 "none": "Brez"
             }
-        }
+        },
+        "recipients_address": "E-poštni naslovi prejemnikov",
+        "share_note": "Standardno sporočilo prikazuje vaše ime, ime deljenega elementa, dovoljenja in podatke za prijavo."
     },
     "preview": {
         "close": "Zapri predogled"
     },
     "snackbar": {
-        "email_copied_to_clipboard": "E-pošta kopirana v odložišče."
+        "email_copied_to_clipboard": "E-pošta kopirana v odložišče.",
+        "share_revoke": "Dostop do delitve preklican",
+        "tag_applied": "Oznaka \"{{tag}}\" uporabljena",
+        "tag_removed": "Oznaka \"{{tag}}\" odstranjena",
+        "share_resend": "Povabilo k delitvi ponovno poslano"
     },
     "tooltip": {
         "revoke": "Prekliči dostop",
@@ -104,9 +130,22 @@
     },
     "modal": {
         "initializeError": {
-            "buttonConfirm": "OSVEŽI",
+            "buttonConfirm": "PONOVNO NALOŽI",
             "title": "Nekaj je šlo narobe",
             "content": "Osvežite stran ali poskusite znova kasneje. Drugi moduli so lahko še vedno na voljo z omejeno funkcionalnostjo."
         }
+    },
+    "displayer": {
+        "search_description1": "Ali izberite \"Napredni filtri\" za natančnejše iskanje.",
+        "search_title1": "Začnite novo iskanje",
+        "search_title4": "Izberite enega ali več rezultatov za izvedbo dejanj ali ogled podrobnosti.",
+        "search_description2": "Poskusite znova z drugim iskanjem.",
+        "search_list_title1": "Videti je, kot da ni rezultatov. Nadaljujte z iskanjem!",
+        "search_list_title2": "Noben element ne ustreza vašemu iskanju.",
+        "search_title2": "Oprostite, ni rezultatov za vaše iskanje",
+        "search_title3": "Ni rezultatov za vaše iskanje."
+    },
+    "folders": {
+        "trash": "Koš"
     }
 }
