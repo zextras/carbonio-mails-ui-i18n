@@ -65,7 +65,10 @@
         "errors": {
             "upload_failed_generic": "Nalaganje datoteke \"{{filename}}\" ni uspelo"
         },
-        "search_activate_selection_mode": "Način izbire trenutno ni na voljo v rezultatih iskanja"
+        "search_activate_selection_mode": "Način izbire trenutno ni na voljo v rezultatih iskanja",
+        "time_zone": "Časovni pas",
+        "go_back": "Nazaj",
+        "clear_search_query": "POČISTI ISKANJE"
     },
     "action": {
         "search": "Iskanje",
@@ -81,7 +84,8 @@
             "folder_moved": "Mapa uspešno premaknjena",
             "message_move": "Sporočilo uspešno premaknjeno",
             "conversation_move": "Pogovor uspešno premaknjen"
-        }
+        },
+        "permanent_delete_title": "Ali ste prepričani, da želite trajno izbrisati ta element?"
     },
     "message": {
         "copy": "Kopiraj",
