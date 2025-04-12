@@ -68,13 +68,16 @@
         "search_activate_selection_mode": "Način izbire trenutno ni na voljo v rezultatih iskanja",
         "time_zone": "Časovni pas",
         "go_back": "Nazaj",
-        "clear_search_query": "POČISTI ISKANJE"
+        "clear_search_query": "POČISTI ISKANJE",
+        "close": "Zapri"
     },
     "action": {
         "search": "Iskanje",
         "reset": "Ponastavi",
         "show_original": "Pokaži izvirn",
-        "share_folder": "Deli mapo"
+        "share_folder": "Deli mapo",
+        "forward": "Posreduj",
+        "reply": "Odgovori"
     },
     "messages": {
         "snackbar": {
@@ -114,7 +117,8 @@
             }
         },
         "recipients_address": "E-poštni naslovi prejemnikov",
-        "share_note": "Standardno sporočilo prikazuje vaše ime, ime deljenega elementa, dovoljenja in podatke za prijavo."
+        "share_note": "Standardno sporočilo prikazuje vaše ime, ime deljenega elementa, dovoljenja in podatke za prijavo.",
+        "is_contained_in": "Je vsebovan v"
     },
     "preview": {
         "close": "Zapri predogled"
@@ -151,5 +155,9 @@
     },
     "folders": {
         "trash": "Koš"
+    },
+    "settings": {
+        "app": "Nastavitve",
+        "choose": "Izberi"
     }
 }
