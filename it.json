@@ -1040,7 +1040,8 @@
             "certificatePassword": "Password Certificato",
             "smimeCertificate": "Certificato S/MIME (ad es. certificate.p12)",
             "upload": "Carica"
-        }
+        },
+        "messageFilteringList": "Solo i primi 100 risultati sono mostrati. Restringi la tua ricerca per vedere la lista completa."
     },
     "attachment_type": {
         "zipped_file": "File Zip",
