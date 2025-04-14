@@ -1015,7 +1015,8 @@
             "upload": "Prześlij",
             "uploadCertificate": "Prześlij certyfikat",
             "certificatePassword": "Hasło certyfikatu"
-        }
+        },
+        "messageFilteringList": "Wyświetlanych jest tylko 100 pierwszych wyników. Zawęź swoje wyszukiwanie, aby zobaczyć pełną listę."
     },
     "email_status": {
         "unreplied": "nie odpowiedziałem",
