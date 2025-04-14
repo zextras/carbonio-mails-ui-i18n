@@ -1012,7 +1012,8 @@
             "uploadCertificate": "Upload Certificate",
             "certificatePassword": "Certificate Password",
             "upload": "Upload"
-        }
+        },
+        "messageFilteringList": "Only the first 100 results are displayed. Narrow your search to see the complete list."
     },
     "modals": {
         "apply_filters": {
