@@ -14,7 +14,7 @@
         "mark_all_read": "جعل كل الرسائل مقروءة",
         "mark_as_non_spam": "ليست رسالة مزعجة",
         "reply_all": "الرد على الكل",
-        "reset": "اعاده تعيين",
+        "reset": "إعادة تعيين المرشحات",
         "apply_filter_on_folder": "تطبيق الفرز على المجلد",
         "mark_as_unread": "رسالة غير مقروءة",
         "ok": "حسناً",
@@ -1019,7 +1019,7 @@
             "resetPassword": "‬إعادة تعيين كلمة السر",
             "serial": "الرقم التسلسلي",
             "unableToDecrypt": "غير قادر على فك التشفير",
-            "uploadCertificateInSettings": "الرجاء تحميل شهادتك من الإعدادات",
+            "uploadCertificateInSettings": "قم بتحميل شهادتك من الإعدادات",
             "validFrom": "صالحة من",
             "validTo": "صالح إلى",
             "uploadCertificate": "تحميل الشهادة",
@@ -1157,7 +1157,7 @@
     "warningBanner": {
         "truncatedMessage": {
             "loadingButton": "تحميل . . .",
-            "label": "الرسالة طويلة جدًا وتم اقتصاصها",
+            "label": "تم اقتصاص هذه الرسالة بسبب طولها",
             "button": "حمل الرسالة"
         }
     },
