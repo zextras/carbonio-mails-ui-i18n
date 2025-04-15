@@ -808,7 +808,8 @@
             "uploadCertificate": "تحميل الشهادة",
             "certificatePassword": "كلمة سر الشهادة",
             "upload": "تحميل"
-        }
+        },
+        "messageFilteringList": "يظهر فقط أول 100 نتيجة. ضع حدوداً للبحث لكي تظهر القائمة الكاملة."
     },
     "settings": {
         "do_not_process_additional_filters": "لا تقم بمعالجة عوامل الفرز الإضافية",
