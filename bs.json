@@ -24,7 +24,7 @@
         "redirect": "Preusmjerenje",
         "reply": "Odgovori",
         "reply_all": "Odgovori svima",
-        "reset": "Resetiranje",
+        "reset": "Resetuj filtere",
         "search": "Pretraga",
         "select_folders": "Odaberite foldere",
         "send_anyway": "Svejedno pošalji",
@@ -418,7 +418,7 @@
         "select_all": "IZABERI sve",
         "select_color": "Odaberi boju",
         "select_date_time": "Odaberi datum i vrijeme",
-        "select_folder": "Odaberi folder",
+        "select_folder": "Odaberi mapu",
         "select_signature": "Odaberi potpis",
         "send": "Pošalji",
         "send_email": "Pošalji e-mail",
@@ -722,7 +722,7 @@
             "tag_not_updated": "Nešto nije u redu, oznaka nije ažurirana. Molimo pokušajte ponovo.",
             "apply_filter_rules_completed": "Filter '{{filterName}}' je uspješno primijenjen na {{involvedMessagesCount}} poruke foldera '{{folderPath}}'",
             "folder_deleted": "Folder uspješno izbrisan.",
-            "marked_as_spam": "Označili ste ovaj e-mail kao Spam neželjenu poštu",
+            "marked_as_spam": "Označili ste ovu e-poštu kao Spam neželjenu poštu",
             "folder_move_error": "Došlo je do pogreške, folder nije premještena. Molim vas pokušajte ponovo.",
             "apply_filter_error": "Filter još uvijek radi na serveru, ali je potrebno previše vremena da se prijave stavke na koje se to odnosi. Filter nastavlja raditi na serveru bez dodatnih informacija.",
             "conversation_move": "Konverzacija uspješno prebačena",
@@ -762,7 +762,8 @@
         "initializeError": {
             "title": "Došlo je do greške",
             "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije."
-        }
+        },
+        "messageFilteringList": "Samo su prikazani prvih 100 rezultata. Sužite pretragu kako biste vidjeli kompletnu listu."
     },
     "modals": {
         "apply_filters": {
