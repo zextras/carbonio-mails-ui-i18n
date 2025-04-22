@@ -30,11 +30,11 @@
         "redirect": "اعاده توجيه الرسالة",
         "share_folder": "مشاركة المجلد",
         "goto_drafts": "الانتقال إلى المسودات",
-        "preview_new_tab": "انقر لمعاينة الرسالة في صفحة أخرى",
+        "preview_new_tab": "انقر لمعاينة الرسالة في تبويبة أخرى",
         "show_original": "إظهار الأصل",
         "unflag": "إزالة العلامة",
         "show_details": "اظهر التفاصيل",
-        "preview_on_separated_tab": "إفتح في صفحة متصفح جديد",
+        "preview_on_separated_tab": "إفتح في تبويبه متصفح جديدة",
         "forward_as_attachment": "إرسالها كمرفق"
     },
     "folder": {
@@ -317,7 +317,7 @@
         "go_back": "الرجوع للخلف",
         "grantee": "المستفيد: ",
         "hide_more_info": "أخفى المعلومات",
-        "highlight_tab": "سلط الضوء على صفحة \"البريد\"",
+        "highlight_tab": "سلط الضوء على تبويبة \"البريد\"",
         "invalid_destination": "هذه العقدة الشبكية ليست وجهة صالحة",
         "convert_back_to_attachment": "التحويل إلى مرفق",
         "choose_file": "اختر ملف",
