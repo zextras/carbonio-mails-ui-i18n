@@ -713,8 +713,8 @@
         "enable_rich_text": "Enable rich text editor",
         "enable_urgent": "Enable urgent",
         "folder_linked_status": "Shared with me",
-        "folder_sharing_status_one": "Shared with {{count}} user",
-        "folder_sharing_status_other": "Shared with {{count}} users",
+        "folder_sharing_status_one": "Shared with {{count}} person",
+        "folder_sharing_status_other": "Shared with {{count}} people",
         "marked_as_important": "Marked as important",
         "resend": "Resend mail notification about this share",
         "revoke": "Revoke access",
@@ -727,7 +727,8 @@
             "noPreviousEmails": "There are no previous emails",
             "goToNext": "Go to next email"
         },
-        "markedAsSingedSmime": "Marked as signed (S/MIME)"
+        "markedAsSingedSmime": "Marked as signed (S/MIME)",
+        "moreActions": "More actions"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
