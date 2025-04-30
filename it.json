@@ -467,9 +467,9 @@
         "enable_urgent": "Abilita Urgente",
         "folder_linked_status": "Condivisa con me",
         "marked_as_important": "Contrassegnato come importante",
-        "folder_sharing_status_one": "Condiviso con {{count}} utente",
-        "folder_sharing_status_many": "Condiviso con {{count}} utenti",
-        "folder_sharing_status_other": "Condiviso con {{count}} utenti",
+        "folder_sharing_status_one": "Condiviso con {{count}} persona",
+        "folder_sharing_status_many": "Condiviso con {{count}} persone",
+        "folder_sharing_status_other": "Condiviso con {{count}} persone",
         "list_navigation": {
             "loadingNextEmail": "Caricamento email successiva",
             "noPreviousEmails": "Non ci sono email precedenti",
@@ -480,7 +480,8 @@
             "goToNext": "Vai all'email successiva"
         },
         "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)",
-        "markedAsEncryptedSmime": "Contrassegnato come cifrato (S/MIME)"
+        "markedAsEncryptedSmime": "Contrassegnato come cifrato (S/MIME)",
+        "moreActions": "Altre azioni"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
