@@ -454,7 +454,17 @@
         "show_all_attachments": "Mostra {{count}} allegati",
         "advancedFilters": {
             "attachment": "Allegato"
-        }
+        },
+        "colorRed": "Rosso",
+        "colorGrey": "Grigio",
+        "colorPink": "Rosa",
+        "colorPurple": "Viola",
+        "colorYellow": "Giallo",
+        "colorOrange": "Arancione",
+        "colorBlack": "Nero",
+        "colorCyan": "Ciano",
+        "colorBlue": "Blu",
+        "colorGreen": "Verde"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
