@@ -146,7 +146,8 @@
             "noPreviousEmails": "Nie ma poprzednich e-maili"
         },
         "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)",
-        "markedAsEncryptedSmime": "Oznaczony jako zaszyfrowany (S/MIME)"
+        "markedAsEncryptedSmime": "Oznaczony jako zaszyfrowany (S/MIME)",
+        "moreActions": "Więcej czynności"
     },
     "label": {
         "create": "Stwórz",
