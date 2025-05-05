@@ -411,7 +411,17 @@
         "show_all_attachments": "Afficher les {{count}} pièces jointes",
         "advancedFilters": {
             "attachment": "Pièce jointe"
-        }
+        },
+        "colorBlue": "Bleu",
+        "colorBlack": "Noir",
+        "colorCyan": "Cyan",
+        "colorGreen": "Vert",
+        "colorPurple": "Violet",
+        "colorRed": "Rouge",
+        "colorGrey": "Gris",
+        "colorYellow": "Jaune",
+        "colorPink": "Rose",
+        "colorOrange": "Orange"
     },
     "message": {
         "snackbar": {
@@ -880,7 +890,8 @@
             "noPreviousEmails": "Il n'y a pas d'emails précédents"
         },
         "markedAsSingedSmime": "Marqué comme signé (S/MIME)",
-        "markedAsEncryptedSmime": "Marqué comme crypté (S/MIME)"
+        "markedAsEncryptedSmime": "Marqué comme crypté (S/MIME)",
+        "moreActions": "Plus d'actions"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
@@ -1015,7 +1026,8 @@
             "certificatePassword": "Mot de passe du certificat",
             "smimeCertificate": "Certificat S/MIME (ex : certificate.p12)",
             "upload": "Téléverser"
-        }
+        },
+        "messageFilteringList": "Seuls les 100 premiers résultats sont affichés. Affinez votre recherche pour voir la liste complète."
     },
     "email_status": {
         "unreplied": "auquel je n'ai pas répondu",
