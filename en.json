@@ -887,6 +887,9 @@
                 "special_chars_warning_msg": "Special characters are not allowed in the folder name",
                 "threshold_message": "Messages in this folder which are older than the disposal threshold will be subject to automated cleanup and deletion."
             }
+        },
+        "size": {
+            "byte": "Byte"
         }
     },
     "folder_panel": {
