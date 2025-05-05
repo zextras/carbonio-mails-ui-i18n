@@ -27,7 +27,13 @@
         "time_zone": "Часовий пояс",
         "advancedFilters": {
             "attachment": "Вкладення"
-        }
+        },
+        "colorGreen": "Зелений",
+        "colorRed": "Червоний",
+        "colorYellow": "Жовтий",
+        "colorPink": "Рожевий",
+        "colorGrey": "Сірий",
+        "colorOrange": "Помаранчевий"
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
@@ -35,7 +41,9 @@
     "message": {
         "snackbar": {
             "settings_saved": "Зміни збережено"
-        }
+        },
+        "delete_tag_message2": "Після видалення він буде вилучений з усіх елементів, до яких був застосований.",
+        "delete_tag_message1": "Ви впевнені, що хочете видалити \"{{name}}\" Tag?"
     },
     "settings": {
         "filtersConditions": {
