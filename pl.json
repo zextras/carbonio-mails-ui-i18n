@@ -473,7 +473,17 @@
         "show_all_attachments": "Pokaż wszystkie {{count}} załączniki",
         "advancedFilters": {
             "attachment": "Załącznik"
-        }
+        },
+        "colorBlack": "Czarny",
+        "colorBlue": "Niebieski",
+        "colorCyan": "Cyjanowy",
+        "colorGreen": "Zielony",
+        "colorPurple": "Fioletowy",
+        "colorRed": "Czerwony",
+        "colorYellow": "Żółty",
+        "colorPink": "Różowy",
+        "colorGrey": "Szary",
+        "colorOrange": "Pomarańczowy"
     },
     "message": {
         "snackbar": {
@@ -968,7 +978,8 @@
         "smime_certificates": "Certyfikaty S/MIME",
         "filtersConditions": {
             "attachment": "Załącznik"
-        }
+        },
+        "tb": "TB"
     },
     "signatures": {
         "signature_heading": "Podpisy",
