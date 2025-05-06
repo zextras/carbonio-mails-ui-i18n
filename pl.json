@@ -133,9 +133,9 @@
         "revoke": "Odbierz dostęp",
         "folder_linked_status": "Udostępnione dla mnie",
         "marked_as_important": "Oznaczone jako ważne",
-        "folder_sharing_status_one": "Udostępniono {{count}} użytkownikowi",
-        "folder_sharing_status_few": "Udostępniono {{count}} użytkownikom",
-        "folder_sharing_status_many": "Udostępniono {{count}} użytkownikom",
+        "folder_sharing_status_one": "Udostępniono {{count}} osobie",
+        "folder_sharing_status_few": "Udostępniono {{count}} osobom",
+        "folder_sharing_status_many": "Udostępniono {{count}} osobom",
         "list_navigation": {
             "loadingNextEmail": "Ładowanie następnego e-maila",
             "unableToLoadNextEmail": "Nie udało się załadować następnego e-maila. Spróbuj ponownie później",
