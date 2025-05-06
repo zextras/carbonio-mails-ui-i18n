@@ -889,7 +889,7 @@
             }
         },
         "size": {
-            "byte": "Byte"
+            "byte": "B"
         }
     },
     "folder_panel": {
