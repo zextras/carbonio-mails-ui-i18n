@@ -54,5 +54,18 @@
         "toField": {
             "missing": "[Порожнє поле ‘Кому’]"
         }
+    },
+    "composer": {
+        "uploadCertificate": {
+            "removeCertificateToEncrypt": "Видалити сертифікат для шифрування (S/MIME)",
+            "useCertificateToSign": "Використовувати сертифікат для підпису (S/MIME)",
+            "emailNotMatch": "Адреса електронної пошти Сертифікату не збігається з адресою електронної пошти відправника",
+            "failed": "Не вдалося завантажити сертифікат",
+            "removeCertificateToSign": "Видалити сертифікат для підпису (S/MIME)",
+            "useCertificateToEncrypt": "Використовувати сертифікат для шифрування (S/MIME)"
+        },
+        "attachment": {
+            "contacts_mod": "Додати картку контакта"
+        }
     }
 }
