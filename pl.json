@@ -49,6 +49,9 @@
                 "invalid_folder_name_warning_msg": "Znaki specjalne nie są dozwolone. Max. długość to 128 znaków.",
                 "special_chars_warning_msg": "Znaki specjalne w nazwie folderu nie są dozwolone"
             }
+        },
+        "size": {
+            "byte": "Bajt"
         }
     },
     "action": {
