@@ -554,9 +554,6 @@
                 "invalid_folder_name_warning_msg": "Non sono consentiti i caratteri speciali. Lunghezza massima 128 caratteri.",
                 "special_chars_warning_msg": "Non sono consentiti i caratteri speciali nel nome della cartella"
             }
-        },
-        "size": {
-            "byte": "B"
         }
     },
     "folders": {
