@@ -556,7 +556,7 @@
             }
         },
         "size": {
-            "byte": "Byte"
+            "byte": "B"
         }
     },
     "folders": {
@@ -883,7 +883,8 @@
         "app": "Impostazioni",
         "filtersConditions": {
             "attachment": "Allegato"
-        }
+        },
+        "tb": "TB"
     },
     "search": {
         "attachment_note": "Cerca tutte le e-mail che hanno un allegato.",
