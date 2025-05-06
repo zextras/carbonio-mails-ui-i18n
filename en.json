@@ -699,7 +699,8 @@
         "under": "under",
         "filtersConditions": {
             "attachment": "Attachment"
-        }
+        },
+        "tb": "TB"
     },
     "snackbar": {
         "uploadCertificate": {
