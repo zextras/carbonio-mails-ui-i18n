@@ -25,7 +25,7 @@
         "reply": "Odgovori",
         "reply_all": "Odgovori svima",
         "reset": "Resetuj filtere",
-        "search": "Pretraga",
+        "search": "Pretraži",
         "select_folders": "Odaberite foldere",
         "send_anyway": "Svejedno pošalji",
         "share_folder": "Podijelite mapu",
@@ -572,7 +572,17 @@
         "show_all_attachments": "Prikaži sve {{count}} priloge",
         "advancedFilters": {
             "attachment": "Prilog"
-        }
+        },
+        "colorBlue": "Plava",
+        "colorBlack": "Crna",
+        "colorCyan": "Cijan",
+        "colorGreen": "Zeleno",
+        "colorPurple": "Ljubičasta",
+        "colorRed": "Crvena",
+        "colorGrey": "Siva",
+        "colorPink": "Roza",
+        "colorYellow": "Žuta",
+        "colorOrange": "Narandžasta"
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -761,7 +771,8 @@
         },
         "initializeError": {
             "title": "Došlo je do greške",
-            "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije."
+            "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije.",
+            "buttonConfirm": "PONOVO UČITAJ"
         },
         "messageFilteringList": "Samo su prikazani prvih 100 rezultata. Sužite pretragu kako biste vidjeli kompletnu listu."
     },
@@ -1015,7 +1026,8 @@
         "smime_certificates": "S/MIME certifikati",
         "filtersConditions": {
             "attachment": "Prilog"
-        }
+        },
+        "tb": "TB"
     },
     "share": {
         "options": {
@@ -1117,7 +1129,8 @@
             "goToNext": "Idi na sljedeći e-mail"
         },
         "markedAsSingedSmime": "Označeno kao potpisano (S/MIME)",
-        "markedAsEncryptedSmime": "Označeno kao kriptovano (S/MIME)"
+        "markedAsEncryptedSmime": "Označeno kao kriptovano (S/MIME)",
+        "moreActions": "Više akcija"
     },
     "layoutView": {
         "tooltip": {
