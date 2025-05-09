@@ -454,8 +454,7 @@
         "show_all_attachments": "Mostra {{count}} allegati",
         "advancedFilters": {
             "attachment": "Allegato"
-        },
-        "colorOrange": "Arancione"
+        }
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
