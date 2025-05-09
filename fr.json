@@ -1070,7 +1070,7 @@
     "new_folder": "Nouveau Dossier",
     "labels": {
         "composing_messages": "Composition des messages",
-        "compose_colin": "Composer :"
+        "compose_colin": "Éditer :"
     },
     "go_back": "Retour",
     "messages,new_email": "Nouvel email",
