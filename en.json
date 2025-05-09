@@ -1134,5 +1134,17 @@
         "toField": {
             "missing": "[Empty ‘To’ Field]"
         }
+    },
+    "colors": {
+        "green": "Green",
+        "black": "Black",
+        "blue": "Blue",
+        "cyan": "Cyan",
+        "red": "Red",
+        "purple": "Purple",
+        "yellow": "Yellow",
+        "pink": "Pink",
+        "grey": "Grey",
+        "orange": "Orange"
     }
 }
