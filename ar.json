@@ -566,8 +566,7 @@
         "show_all_attachments": "إظهار جميع المرفقات {{count}}",
         "advancedFilters": {
             "attachment": "مرفق"
-        },
-        "colorOrange": "برتقالي"
+        }
     },
     "header": {
         "edit_draft": "تعديل المسودة",
