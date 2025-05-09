@@ -27,8 +27,7 @@
         "time_zone": "Часовий пояс",
         "advancedFilters": {
             "attachment": "Вкладення"
-        },
-        "colorOrange": "Помаранчевий"
+        }
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
