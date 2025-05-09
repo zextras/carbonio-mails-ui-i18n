@@ -572,8 +572,7 @@
         "show_all_attachments": "Prikaži sve {{count}} priloge",
         "advancedFilters": {
             "attachment": "Prilog"
-        },
-        "colorOrange": "Narandžasta"
+        }
     },
     "labels": {
         "compose_colin": "Sastavi :",
