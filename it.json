@@ -1138,5 +1138,17 @@
         "toField": {
             "missing": "[Campo 'A' vuoto]"
         }
+    },
+    "colors": {
+        "red": "Rosso",
+        "pink": "Rosa",
+        "grey": "Grigio",
+        "blue": "Blu",
+        "green": "Verde",
+        "yellow": "Giallo",
+        "black": "Nero",
+        "cyan": "Ciano",
+        "purple": "Viola",
+        "orange": "Arancione"
     }
 }
