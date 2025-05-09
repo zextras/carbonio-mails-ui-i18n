@@ -411,8 +411,7 @@
         "show_all_attachments": "Afficher les {{count}} pièces jointes",
         "advancedFilters": {
             "attachment": "Pièce jointe"
-        },
-        "colorOrange": "Orange"
+        }
     },
     "message": {
         "snackbar": {
