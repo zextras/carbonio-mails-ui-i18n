@@ -341,8 +341,7 @@
         "show_all_attachments": "Show all {{count}} attachments",
         "advancedFilters": {
             "attachment": "Attachment"
-        },
-        "colorOrange": "Orange"
+        }
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
