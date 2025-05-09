@@ -816,7 +816,8 @@
         "smime_certificates": "Certificats S/MIME",
         "filtersConditions": {
             "attachment": "Pièce jointe"
-        }
+        },
+        "tb": "To"
     },
     "share": {
         "options": {
@@ -1137,5 +1138,17 @@
         "toField": {
             "missing": "[Champ \"A\" vide]"
         }
+    },
+    "colors": {
+        "black": "Noir",
+        "red": "Rouge",
+        "green": "Vert",
+        "purple": "Violet",
+        "pink": "Rose",
+        "grey": "Gris",
+        "yellow": "Jaune",
+        "orange": "Orange",
+        "cyan": "Cyan",
+        "blue": "Bleu"
     }
 }
