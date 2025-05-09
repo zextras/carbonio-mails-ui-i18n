@@ -473,8 +473,7 @@
         "show_all_attachments": "Pokaż wszystkie {{count}} załączniki",
         "advancedFilters": {
             "attachment": "Załącznik"
-        },
-        "colorOrange": "Pomarańczowy"
+        }
     },
     "message": {
         "snackbar": {
