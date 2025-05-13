@@ -441,7 +441,7 @@
         "admin_rights": "Voir, Éditer, Ajouter, Supprimer, Administrer",
         "manager_rights": "Voir, Éditer, Ajouter, Supprimer",
         "view_rights": "Affichage",
-        "external_images_blocked": "Les images externe ont été bloquées pour vous protéger contre des spams potentiels",
+        "external_images_blocked": "Les images externes ont été bloquées pour vous protéger contre des spams potentiels",
         "schedule_time": "le {{date}} à {{time}}",
         "schedule_mail": "Sera envoyé le : {{date}} à {{time}}",
         "send_later_success": "Votre email sera envoyé le {{date}} à {{time}}",
