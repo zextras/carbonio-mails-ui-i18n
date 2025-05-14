@@ -1146,5 +1146,9 @@
         "pink": "Pink",
         "grey": "Grey",
         "orange": "Orange"
+    },
+    "text": {
+        "loading_conversation": "Loading conversation, please wait...",
+        "loading_message": "Loading message, please wait..."
     }
 }
