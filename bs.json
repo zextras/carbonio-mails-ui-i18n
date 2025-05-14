@@ -1145,5 +1145,21 @@
     },
     "tag": {
         "label": "Oznaka"
+    },
+    "colors": {
+        "black": "Crna",
+        "blue": "Plava",
+        "cyan": "Cijan",
+        "red": "Crvena",
+        "green": "Zeleno",
+        "purple": "Ljubičasta",
+        "grey": "Siva",
+        "pink": "Roza",
+        "yellow": "Žuta",
+        "orange": "Narandžasta"
+    },
+    "text": {
+        "loading_conversation": "Učitavanje razgovora, molim vas pričekajte...",
+        "loading_message": "Učitavanje poruke, molim Vas sačekajte..."
     }
 }
