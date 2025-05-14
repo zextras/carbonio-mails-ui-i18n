@@ -1150,5 +1150,9 @@
         "cyan": "Ciano",
         "purple": "Viola",
         "orange": "Arancione"
+    },
+    "text": {
+        "loading_conversation": "Caricamento conversazione, attendi...",
+        "loading_message": "Caricamento messaggio, attendi..."
     }
 }
