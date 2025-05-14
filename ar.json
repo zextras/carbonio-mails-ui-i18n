@@ -1039,7 +1039,8 @@
         "app": "الإعدادات",
         "filtersConditions": {
             "attachment": "المرفق"
-        }
+        },
+        "tb": "تيرابايت"
     },
     "share": {
         "filter_folder_message": "حدد مجلدا لبدء البحث المتقدم فيه",
