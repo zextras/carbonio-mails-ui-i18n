@@ -1109,7 +1109,7 @@
         "disable_urgent": "لتعطيل العاجل",
         "markedAsSingedSmime": "معلمة كموقعه (S/MIME)",
         "markedAsEncryptedSmime": "مُعَلم كمشفر (S/MIME)",
-        "moreActions": "مزيد من الإجراءات"
+        "moreActions": "المزيد من الإجراءات"
     },
     "layoutView": {
         "tooltip": {
