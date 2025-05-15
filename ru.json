@@ -516,9 +516,9 @@
         "edit": "Изменить свойства общего доступа",
         "marked_as_important": "Высокий приоритет",
         "folder_linked_status": "Поделились со мной",
-        "folder_sharing_status_one": "Общий доступ предоставлен {{count}} пользователю",
-        "folder_sharing_status_few": "Общий доступ предоставлен {{count}} пользователям",
-        "folder_sharing_status_many": "Общий доступ предоставлен {{count}} пользователям",
+        "folder_sharing_status_one": "Поделиться с {{count}} человеком",
+        "folder_sharing_status_few": "Поделиться с {{count}} человеками",
+        "folder_sharing_status_many": "Поделиться с {{count}} человеками",
         "list_navigation": {
             "loadingNextEmail": "Загрузка следующего письма",
             "noMoreEmails": "Больше нет писем",
@@ -1136,5 +1136,17 @@
         "toField": {
             "missing": "[Поле «Кому» пустое]"
         }
+    },
+    "colors": {
+        "black": "Черный",
+        "blue": "Синий",
+        "cyan": "Голубой",
+        "red": "Красный",
+        "green": "Зеленый",
+        "purple": "Фиолетовый",
+        "grey": "Серый",
+        "pink": "Розовый",
+        "yellow": "Желтый",
+        "orange": "Оранжевый"
     }
 }
