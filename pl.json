@@ -1150,5 +1150,9 @@
         "grey": "Szary",
         "yellow": "Żółty",
         "orange": "Pomarańczowy"
+    },
+    "text": {
+        "loading_message": "Ładowanie wiadomości...",
+        "loading_conversation": "Ładowanie konwersacji..."
     }
 }
