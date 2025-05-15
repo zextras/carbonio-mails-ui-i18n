@@ -1150,5 +1150,9 @@
         "orange": "Orange",
         "cyan": "Cyan",
         "blue": "Bleu"
+    },
+    "text": {
+        "loading_conversation": "Chargement de la conversation, veuillez patienter...",
+        "loading_message": "Chargement du message, veuillez patienter..."
     }
 }
