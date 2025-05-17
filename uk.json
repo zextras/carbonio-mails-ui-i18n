@@ -27,7 +27,9 @@
         "time_zone": "Часовий пояс",
         "advancedFilters": {
             "attachment": "Вкладення"
-        }
+        },
+        "close": "Закрити",
+        "clear_search_query": "ОЧИСТИТИ ПОШУК"
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
@@ -42,7 +44,9 @@
     "settings": {
         "filtersConditions": {
             "attachment": "Вкладення"
-        }
+        },
+        "choose": "Виберіть",
+        "app": "Налаштування"
     },
     "recipient": {
         "toField": {
@@ -78,5 +82,8 @@
         "pink": "Рожевий",
         "yellow": "Жовтий",
         "orange": "Помаранчевий"
+    },
+    "share": {
+        "is_contained_in": "Міститься у"
     }
 }
