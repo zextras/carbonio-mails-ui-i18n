@@ -188,7 +188,7 @@
         "highlight_tab": "Označi zavihek E-pošta",
         "include_shared_folders": "Vključi deljene mape",
         "insert": "Vstavi",
-        "invalid_destination": "Ta točka ni veljavna ciljna lokacija",
+        "invalid_destination": "To vozlišče ni veljavna ciljna lokacija",
         "invalid_query": "Ni mogoče razčleniti iskalnega niza, izbrišite ga in poskusite znova",
         "invalid_recipients": "Naslov enega od prejemnikov je napačno zapisan",
         "keep_draft": "Shrani osnutek",
