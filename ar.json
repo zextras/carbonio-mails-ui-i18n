@@ -244,7 +244,7 @@
         "all": "الكل",
         "all_items_selected": "تم تحديد كل العناصر المرئية",
         "always_allow_address": "السماح دائمًا من <strong>{{from}}</strong>",
-        "always_allow_domain": "السماح من نطاق <strong>{{domain}}</strong>",
+        "always_allow_domain": "السماح دائمًا من النطاق <strong>{{domain}}</strong>",
         "arrival_notifications": "إشعارات الوصول",
         "as_text": "كنص",
         "attachment_zero": "لا مرفقات",
@@ -440,7 +440,7 @@
         "retention_policy": "سياسة الاحتفاظ",
         "revoke_access_tooltip": "إبطال الوصول بإرسال إشعار عادي",
         "revoke_access_without_notification": "إبطال الوصول بدون إرسال إشعار",
-        "revoke_share": "إبطال المشاركة",
+        "revoke_share": "إلغاء المشاركة",
         "role": "وظيفة: ",
         "save": "حفظ",
         "save_to_files": "حفظ في الملفات",
@@ -1183,5 +1183,9 @@
         "pink": "وردي",
         "yellow": "أصفر",
         "orange": "برتقالي"
+    },
+    "text": {
+        "loading_conversation": "جاري تحميل المحادثة، الرجاء الانتظار...",
+        "loading_message": "جاري تحميل الرسالة، الرجاء الانتظار..."
     }
 }
