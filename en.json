@@ -729,7 +729,8 @@
             "goToNext": "Go to next email"
         },
         "markedAsSingedSmime": "Marked as signed (S/MIME)",
-        "moreActions": "More actions"
+        "moreActions": "More actions",
+        "subfolder_unread_status": "{{count}} unread mails in subfolders"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
