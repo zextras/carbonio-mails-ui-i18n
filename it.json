@@ -481,7 +481,8 @@
         },
         "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)",
         "markedAsEncryptedSmime": "Contrassegnato come cifrato (S/MIME)",
-        "moreActions": "Altre azioni"
+        "moreActions": "Altre azioni",
+        "subfolder_unread_status": "{{count}} mails non lette nelle sottocartelle"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
