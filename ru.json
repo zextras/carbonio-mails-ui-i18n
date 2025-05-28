@@ -141,7 +141,7 @@
         "save": "Сохранить",
         "no_subject": "(без темы)",
         "from": "От",
-        "cc": "копия",
+        "cc": "Копия",
         "me": "Мне",
         "bcc": "ск",
         "cancel": "Отменить",
@@ -247,7 +247,7 @@
         "set_default_signatures": "Установить подписи по умолчанию",
         "show_quoted_text": "Показать цитируемый текст",
         "from_identity": "От:{{identity}}",
-        "cc_bcc": "копия скрытая копия",
+        "cc_bcc": "Копия скрытая копия",
         "folder_name": "Имя папки",
         "select_color": "Выбрать цвет",
         "add_task": "Если вам нужно сделать заметку, вы можете добавить задачу в свой TODO LIST",
@@ -529,7 +529,9 @@
             "unableToLoadNextEmail": "Невозможно загрузить следующее письмо. Попробуйте еще раз позже"
         },
         "markedAsEncryptedSmime": "Помечено как зашифрованное (S/MIME)",
-        "markedAsSingedSmime": "Помечено как подписанное (S/MIME)"
+        "markedAsSingedSmime": "Помечено как подписанное (S/MIME)",
+        "moreActions": "Больше действий",
+        "subfolder_unread_status": "{{count}} непрочитанных писем в подпапках"
     },
     "composer": {
         "attachment": {
@@ -792,7 +794,8 @@
         "condition_met": "выполняются следующие условия:",
         "filtersConditions": {
             "attachment": "Вложение"
-        }
+        },
+        "tb": "TB"
     },
     "message": {
         "snackbar": {
@@ -1148,5 +1151,9 @@
         "pink": "Розовый",
         "yellow": "Желтый",
         "orange": "Оранжевый"
+    },
+    "text": {
+        "loading_conversation": "Загрузка беседы, пожалуйста, подождите...",
+        "loading_message": "Загрузка сообщения, пожалуйста, подождите..."
     }
 }
