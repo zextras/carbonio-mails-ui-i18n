@@ -914,7 +914,8 @@
         "does_not_match_exactly": "se ne ujema popolnoma",
         "filter_folder_message": "Izberite mapo, za katero želite uporabiti filter:",
         "header_name": "Ime glave",
-        "does_not_exists": "ne obstaja"
+        "does_not_exists": "ne obstaja",
+        "tb": "TB"
     },
     "attachment_type": {
         "application": "Aplikacija",
@@ -1155,5 +1156,21 @@
         "info": {
             "bannerLargeAttachments": "Nalagate veliko prilogo. To lahko traja nekaj časa, prosimo, bodite potrpežljivi..."
         }
+    },
+    "colors": {
+        "black": "Črna",
+        "blue": "Modra",
+        "cyan": "Turkizna",
+        "red": "Rdeča",
+        "purple": "Vijolična",
+        "grey": "Siva",
+        "pink": "Roza",
+        "yellow": "Rumena",
+        "orange": "Oranžna",
+        "green": "Zelena"
+    },
+    "text": {
+        "loading_conversation": "Nalagam pogovor, prosim počakajte...",
+        "loading_message": "Nalagam sporočilo, prosim počakajte..."
     }
 }
