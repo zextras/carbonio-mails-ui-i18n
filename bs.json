@@ -1120,7 +1120,8 @@
         },
         "markedAsSingedSmime": "Označeno kao potpisano (S/MIME)",
         "markedAsEncryptedSmime": "Označeno kao kriptovano (S/MIME)",
-        "moreActions": "Više akcija"
+        "moreActions": "Više akcija",
+        "subfolder_unread_status": "{{count}} nepročitanih poruka u podfolderima"
     },
     "layoutView": {
         "tooltip": {
