@@ -376,7 +376,7 @@
         "do_not_have_perm": "Nie masz uprawnień",
         "folder_not_valid_destination": "Wybrany folder nie jest prawidłowym miejscem docelowym",
         "invalid_recipients": "Adres co najmniej jednego z odbiorców jest niepoprawnie wpisany",
-        "missing_recipients": "brak prawidłowych odbiorców",
+        "missing_recipients": "Brak odbiorców",
         "missing_sender": "nie ustawiono nadawcy wiadomości",
         "no_sender": "nie ustawiono nadawcy wiadomości",
         "message_send_in_progress": "trwa wysyłanie wiadomości",
@@ -474,7 +474,8 @@
         "show_all_attachments": "Pokaż wszystkie {{count}} załączniki",
         "advancedFilters": {
             "attachment": "Załącznik"
-        }
+        },
+        "message_size_exceeded": "Rozmiar wiadomości przekracza limit"
     },
     "message": {
         "snackbar": {
