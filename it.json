@@ -454,7 +454,8 @@
         "show_all_attachments": "Mostra {{count}} allegati",
         "advancedFilters": {
             "attachment": "Allegato"
-        }
+        },
+        "message_size_exceeded": "La dimensione del messaggio supera il limite consentito"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
