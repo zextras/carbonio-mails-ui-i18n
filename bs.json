@@ -368,7 +368,7 @@
         "message_from_me": "Moje poruke",
         "message_send_in_progress": "slanje poruke u toku",
         "messages": "Poruke",
-        "missing_recipients": "nema validnih primaoca",
+        "missing_recipients": "Nema primatelja",
         "missing_sender": "pošiljalac poruke nije postavljen",
         "move": "Pomijeri",
         "need_to_select_atleast_one_item": "Potrebno je izabrati barem jedan stavku kako biste izvršili akciju",
