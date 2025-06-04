@@ -361,7 +361,7 @@
         },
         "invalid_recipients": "L'indirizzo di un destinatario è scritto in modo errato",
         "message_send_in_progress": "invio del messaggio in corso",
-        "missing_recipients": "non ci sono destinatari validi",
+        "missing_recipients": "Non ci sono destinatari validi",
         "missing_sender": "non è specificato il mittente del messaggio",
         "no_sender": "non è specificato il mittente del messaggio",
         "upload_failed": "Caricamento non riuscito",
