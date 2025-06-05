@@ -318,7 +318,7 @@
         "attachment_upload_in_progress": "téléversement de la pièce jointe en cours",
         "invalid_recipients": "L'adresse d'un destinataire est mal orthographiée",
         "message_send_in_progress": "envoi de message en cours",
-        "missing_recipients": "il n'y a pas de destinataires valides",
+        "missing_recipients": "Il n'y a pas de destinataires",
         "missing_sender": "l'expéditeur du message n'est pas défini",
         "no_identity_selected": "<Aucune identité sélectionnée>",
         "no_sender": "l'expéditeur du message n'est pas défini",
@@ -411,7 +411,8 @@
         "show_all_attachments": "Afficher les {{count}} pièces jointes",
         "advancedFilters": {
             "attachment": "Pièce jointe"
-        }
+        },
+        "message_size_exceeded": "Le message dépasse la taille limite"
     },
     "message": {
         "snackbar": {
