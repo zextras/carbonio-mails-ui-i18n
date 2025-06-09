@@ -1146,7 +1146,8 @@
         "purple": "Purple",
         "yellow": "Yellow",
         "pink": "Pink",
-        "orange": "Orange"
+        "orange": "Orange",
+        "gray": "Gray"
     },
     "text": {
         "loading_conversation": "Loading conversation, please wait...",
