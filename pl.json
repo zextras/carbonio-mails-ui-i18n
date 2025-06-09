@@ -1150,7 +1150,8 @@
         "purple": "Fioletowy",
         "pink": "Różowy",
         "yellow": "Żółty",
-        "orange": "Pomarańczowy"
+        "orange": "Pomarańczowy",
+        "gray": "Szary"
     },
     "text": {
         "loading_message": "Ładowanie wiadomości...",
