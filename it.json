@@ -1150,7 +1150,8 @@
         "black": "Nero",
         "cyan": "Ciano",
         "purple": "Viola",
-        "orange": "Arancione"
+        "orange": "Arancione",
+        "gray": "Grigio"
     },
     "text": {
         "loading_conversation": "Caricamento conversazione, attendi...",
