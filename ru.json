@@ -365,7 +365,7 @@
             "upload_failed_generic": "Не удалось загрузить файл «{{filename}}»"
         },
         "message_send_in_progress": "идет отправка сообщения",
-        "missing_recipients": "нет действительных получателей",
+        "missing_recipients": "Получателей нет",
         "missing_sender": "отправитель письма не установлен",
         "no_sender": "Отправитель письма не указан",
         "no_folder_selected": "Папка не выбрана",
@@ -457,7 +457,8 @@
         "show_all_attachments": "Показать все {{count}} вложения",
         "advancedFilters": {
             "attachment": "Вложение"
-        }
+        },
+        "message_size_exceeded": "Размер сообщения превышает лимит"
     },
     "header": {
         "warning": "Предупреждение",
