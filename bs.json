@@ -572,7 +572,8 @@
         "show_all_attachments": "Prikaži sve {{count}} priloge",
         "advancedFilters": {
             "attachment": "Prilog"
-        }
+        },
+        "message_size_exceeded": "Veličina poruke premašuje ograničenje"
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -1156,7 +1157,8 @@
         "purple": "Ljubičasta",
         "pink": "Roza",
         "yellow": "Žuta",
-        "orange": "Narandžasta"
+        "orange": "Narandžasta",
+        "gray": "Sivi"
     },
     "text": {
         "loading_conversation": "Učitavanje razgovora, molim vas pričekajte...",
