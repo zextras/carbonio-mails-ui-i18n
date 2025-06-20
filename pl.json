@@ -346,7 +346,7 @@
         "mark_all_as_read": "Oznacz wszystkie jako przeczytane",
         "send_scheduled": "Zaplanuj wysyłanie",
         "not_in_list": "{{name}} - nie znajduje się na Twojej liście etykiet",
-        "invalid_query": "Nie udało się przetworzyć filtrów, wyczyść wyszukiwanie i spróbuj ponownie",
+        "invalid_query": "Znaki specjalne, takie jak !, :, -, \" itp., są ignorowane w wyszukiwaniu. To może prowadzić do nieoczekiwanych wyników.",
         "download_and_delete": "Pobierz i usuń",
         "enter_name": "Wprowadź nazwę",
         "mark_read_message_manually": "Manualnie oznaczaj wiadomości jako przeczytane klikając w tę ikonkę",
