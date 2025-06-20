@@ -189,7 +189,7 @@
         "include_shared_folders": "Vključi deljene mape",
         "insert": "Vstavi",
         "invalid_destination": "To vozlišče ni veljavna ciljna lokacija",
-        "invalid_query": "Ni mogoče razčleniti iskalnega niza, izbrišite ga in poskusite znova",
+        "invalid_query": "Posebni znaki, kot so :, \", -, ! itd., so pri iskanju prezrti. To lahko povzroči nepričakovane rezultate.",
         "invalid_recipients": "Naslov enega od prejemnikov je napačno zapisan",
         "keep_draft": "Shrani osnutek",
         "mail_folder": "Mapa e-pošte",
@@ -208,7 +208,7 @@
         "message_from_me": "Sporočila od mene",
         "message_send_in_progress": "pošiljanje sporočila v teku",
         "messages": "Sporočila",
-        "missing_recipients": "ni veljavnih prejemnikov",
+        "missing_recipients": "Ni prejemnikov",
         "missing_sender": "pošiljatelj sporočila ni nastavljen",
         "need_to_select_atleast_one_item": "Za izvedbo dejanja morate izbrati vsaj en element",
         "new_email": "Nova e-pošta",
@@ -353,7 +353,8 @@
         "show_all_attachments": "Pokaži vseh {{count}} prilog",
         "advancedFilters": {
             "attachment": "Priloga"
-        }
+        },
+        "message_size_exceeded": "Velikost sporočila presega dovoljeno mejo"
     },
     "action": {
         "search": "Iskanje",
@@ -627,7 +628,8 @@
             "noPreviousEmails": "Ni prejšnjih e-poštnih sporočil"
         },
         "markedAsSingedSmime": "Označeno kot podpisano (S/MIME)",
-        "moreActions": "Več dejanj"
+        "moreActions": "Več dejanj",
+        "subfolder_unread_status": "{{count}} neprebranih sporočil v podmapah"
     },
     "modal": {
         "initializeError": {
@@ -1166,7 +1168,8 @@
         "pink": "Roza",
         "yellow": "Rumena",
         "orange": "Oranžna",
-        "green": "Zelena"
+        "green": "Zelena",
+        "gray": "Siva"
     },
     "text": {
         "loading_conversation": "Nalagam pogovor, prosim počakajte...",
