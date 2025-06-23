@@ -51,7 +51,10 @@
         "keywords": "Ключові слова",
         "mark_as_un_important": "Позначити як неважливе",
         "mark_as_important": "Позначити як важливе",
-        "need_to_select_atleast_one_item": "Для виконання дії потрібно вибрати хоча б один елемент"
+        "need_to_select_atleast_one_item": "Для виконання дії потрібно вибрати хоча б один елемент",
+        "me": "Я",
+        "move": "Перемістити",
+        "mark_all_as_read": "Позначити все як прочитане"
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
