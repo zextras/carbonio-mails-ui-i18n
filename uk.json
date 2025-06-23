@@ -36,7 +36,22 @@
         "mail_folder": "Поштова папка",
         "mark_read_message_immediately": "Позначати повідомлення у вікні перегляду як прочитані негайно",
         "mark_read_message_manually": "Позначати як прочитане вручну, натискаючи цю іконку",
-        "message_arrival": "Надходження повідомлення"
+        "message_arrival": "Надходження повідомлення",
+        "loading_results": "Завантаження результатів…",
+        "messages": "Повідомлення",
+        "missing_sender": "відправник повідомлення не встановлений",
+        "invalid_recipients": "Адреса одержувача написана з помилкою",
+        "keep_draft": "Зберегти чернетку",
+        "message_from_me": "Повідомлення від мене",
+        "new_email": "Новий електронний лист",
+        "mail_settings": "Налаштування пошти",
+        "mail_selected_one": "",
+        "mail_selected_few": "",
+        "mail_selected_many": "{{count}} електронних листів вибрано",
+        "keywords": "Ключові слова",
+        "mark_as_un_important": "Позначити як неважливе",
+        "mark_as_important": "Позначити як важливе",
+        "need_to_select_atleast_one_item": "Для виконання дії потрібно вибрати хоча б один елемент"
     },
     "messages": {
         "permanent_delete_title": "Ви впевнені, що хочете назавжди видалити цей елемент?"
