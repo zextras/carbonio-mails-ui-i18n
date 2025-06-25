@@ -285,7 +285,7 @@
         "mark_all_as_read": "Définir tous comme lus",
         "send_scheduled": "Envoi programmé",
         "not_in_list": "{{name}} - N'est pas dans votre liste d'étiquettes",
-        "invalid_query": "Impossible d'analyser la requête de recherche, supprimez la et réessayez",
+        "invalid_query": "Les caractères spéciaux comme :, \", -, !, etc., seront ignorés par la recherche. Cela peut même générer des résultats erronés.",
         "download_and_delete": "Télécharger et Supprimer",
         "enter_name": "Saisir le nom",
         "no_signature": "Pas de signature",
