@@ -148,7 +148,7 @@
         "include_shared_folders": "Include shared folders",
         "insert": "Insert",
         "invalid_destination": "This node is not a valid destination",
-        "invalid_query": "Special characters like :, \", -, !, etc., are ignored in the search. This may lead to unexpected results.",
+        "invalid_query": "Special characters like :, \", -, !, etc., are ignored in the search. This may lead to unexpected results for:",
         "invalid_recipients": "A recipient's address is spelled incorrectly",
         "keep_draft": "Save Draft",
         "keywords": "Keywords",
