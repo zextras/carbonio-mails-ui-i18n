@@ -1,1 +1,6 @@
-{}
+{
+    "action": {
+        "click_open": "열기 클릭",
+        "click_preview": "미리 보기 클릭"
+    }
+}
