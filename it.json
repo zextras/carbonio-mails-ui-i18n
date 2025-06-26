@@ -326,7 +326,7 @@
         "send_scheduled": "Invio Programmato",
         "message_arrival": "Messaggi in arrivo",
         "enter_name": "Inserisci Nome",
-        "invalid_query": "I caratteri speciali come :, \", -, !, ecc. vengono ignorati nella ricerca. Questo potrebbe portare a risultati inattesi.",
+        "invalid_query": "I caratteri speciali come :, \", -, !, ecc. vengono ignorati nella ricerca. Questo potrebbe portare a risultati inaspettati per:",
         "download_and_delete": "Scarica e Elimina",
         "not_in_list": "{{name}} - Non presente nella tua lista di tag",
         "mark_read_message_immediately": "Contrassegna immediatamente i messaggi come letti nel riquadro di lettura",
