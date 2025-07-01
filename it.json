@@ -455,7 +455,8 @@
         "advancedFilters": {
             "attachment": "Allegato"
         },
-        "message_size_exceeded": "La dimensione del messaggio supera il limite consentito"
+        "message_size_exceeded": "La dimensione del messaggio supera il limite consentito",
+        "reply_to": "Rispondi A"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
