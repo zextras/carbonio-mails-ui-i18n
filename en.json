@@ -342,7 +342,8 @@
         "advancedFilters": {
             "attachment": "Attachment"
         },
-        "message_size_exceeded": "The message size exceeds the limit"
+        "message_size_exceeded": "The message size exceeds the limit",
+        "reply_to": "Reply To"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
