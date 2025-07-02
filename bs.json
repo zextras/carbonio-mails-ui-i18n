@@ -63,7 +63,7 @@
         "search_list_title2": "Nijedna od vaših stavki ne odgovara vašoj potrazi.",
         "search_title1": "Pokreni novu pretragu",
         "search_title3": "Nema rezultata za vašu pretragu.",
-        "search_title4": "Odaberite jedan ili više rezultata za izvršavanje radnji ili prikaz detalja.",
+        "search_title4": "Odaberi jedan ili više rezultata za izvršenje akcija ili prikaz detalja.",
         "sent_title2": "Odaberi e-mail da se prikaže šta ste poslali.",
         "spam_title2": "Klikni na ikonu kante za smeće kako biste obrisali spam e-mail.",
         "title1": "Klikni na dugme \"NOVO\" za sastavljanje nove e-mail poruke",
@@ -352,7 +352,7 @@
         "hide_more_info": "Sakrij više informacija",
         "include_shared_folders": "Uključi dijeljene foldere",
         "insert": "Ubaci",
-        "invalid_query": "Nije moguće raščlaniti upit za pretragu, obrišite ga i pokušajte ponovo",
+        "invalid_query": "Specijalni karakteri kao što su :, \", -, !, itd., ignorišu se u pretrazi. Ovo može dovesti do neočekivanih rezultata za:",
         "invalid_recipients": "Adresa primaoca je pogrešno napisana",
         "keep_draft": "Sačuvaj Nacrt",
         "keywords": "Ključne riječi",
@@ -573,7 +573,8 @@
         "advancedFilters": {
             "attachment": "Prilog"
         },
-        "message_size_exceeded": "Veličina poruke premašuje ograničenje"
+        "message_size_exceeded": "Veličina poruke premašuje ograničenje",
+        "reply_to": "Odgovori na"
     },
     "labels": {
         "compose_colin": "Sastavi :",
