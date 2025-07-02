@@ -475,7 +475,8 @@
         "advancedFilters": {
             "attachment": "Załącznik"
         },
-        "message_size_exceeded": "Rozmiar wiadomości przekracza limit"
+        "message_size_exceeded": "Rozmiar wiadomości przekracza limit",
+        "reply_to": "Odpowiedz"
     },
     "message": {
         "snackbar": {
