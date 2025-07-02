@@ -285,7 +285,7 @@
         "mark_all_as_read": "Définir tous comme lus",
         "send_scheduled": "Envoi programmé",
         "not_in_list": "{{name}} - N'est pas dans votre liste d'étiquettes",
-        "invalid_query": "Les caractères spéciaux comme :, \", -, !, etc., seront ignorés par la recherche. Cela peut même générer des résultats erronés.",
+        "invalid_query": "Les caractères spéciaux comme :, \", -, !, etc., seront ignorés par la recherche. Cela peut même générer des résultats erronés pour :",
         "download_and_delete": "Télécharger et Supprimer",
         "enter_name": "Saisir le nom",
         "no_signature": "Pas de signature",
@@ -412,7 +412,8 @@
         "advancedFilters": {
             "attachment": "Pièce jointe"
         },
-        "message_size_exceeded": "Le message dépasse la taille limite"
+        "message_size_exceeded": "Le message dépasse la taille limite",
+        "reply_to": "Répondre À"
     },
     "message": {
         "snackbar": {
@@ -914,7 +915,7 @@
         "search_list_title2": "Aucun de vos éléments ne correspond à votre recherche.",
         "search_title1": "Lancer une autre recherche",
         "search_title3": "Il n'y a pas de résultats pour votre recherche.",
-        "search_title4": "Sélectionner un ou plusieurs résultats pour effectuer des actions ou afficher des détails.",
+        "search_title4": "Sélectionnez un ou plusieurs résultats pour effectuer des actions ou afficher des détails.",
         "sent_title2": "Sélectionner un email pour afficher ce que vous avez envoyé.",
         "title3": "Restez en contact avec les autres utilisateurs.",
         "title4": "Sélectionner un email pour le lire",
