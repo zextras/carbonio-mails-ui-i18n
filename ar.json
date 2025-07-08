@@ -329,7 +329,7 @@
         "filter_modified": "تم تعديل الفرز بنجاح",
         "from_identity": "من: {{identity}}",
         "include_shared_folders": "ضمن المجلدات المشتركة",
-        "invalid_query": "غير قادر على تحليل استعلام البحث ، امسحها وأعد المحاولة",
+        "invalid_query": "يتم تجاهل الأحرف الخاصة مثل :، \"، -، !، إلخ، في البحث. قد يؤدي هذا إلى نتائج غير متوقعة لما يلي:",
         "exit_selection_mode": "الخروج من وضع التحديد",
         "expand_receivers_list": "توسيع قائمة المستلمين",
         "mail_folder": "مجلد البريد الإلكتروني",
@@ -386,7 +386,7 @@
         "message_from_me": "رسائل مني",
         "message_send_in_progress": "إرسال الرسالة قيد التنفيذ",
         "messages": "الرسائل",
-        "missing_recipients": "لا يوجد مستلمون صالحون",
+        "missing_recipients": "لا يوجد مستلمين",
         "missing_sender": "لم يتم إضافة مرسل للرسالة",
         "move": "نقل",
         "no_folder_selected": "لم يتم تحديد أي مجلد",
@@ -566,7 +566,9 @@
         "show_all_attachments": "إظهار جميع المرفقات {{count}}",
         "advancedFilters": {
             "attachment": "مرفق"
-        }
+        },
+        "reply_to": "الرد على",
+        "message_size_exceeded": "حجم الرسالة يتجاوز الحد الأقصى"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -1182,7 +1184,8 @@
         "purple": "أرجواني",
         "pink": "وردي",
         "yellow": "أصفر",
-        "orange": "برتقالي"
+        "orange": "برتقالي",
+        "gray": "رمادي"
     },
     "text": {
         "loading_conversation": "جاري تحميل المحادثة، الرجاء الانتظار...",
