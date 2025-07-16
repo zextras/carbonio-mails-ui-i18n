@@ -456,7 +456,10 @@
             "attachment": "Allegato"
         },
         "message_size_exceeded": "La dimensione del messaggio supera il limite consentito",
-        "reply_to": "Rispondi A"
+        "reply_to": "Rispondi A",
+        "change_filtering_sorting_options": "Modifica filtri e ordinamento",
+        "reset": "Reimposta",
+        "reset_to_sort_by_date": "Reimposta su \"Ordina per: Data\""
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -1108,7 +1111,9 @@
         "important": "Importante",
         "subject": "Oggetto",
         "to": "A",
-        "unread": "Non letto"
+        "unread": "Non letto",
+        "sort_by": "Ordina per:",
+        "show": "Mostra:"
     },
     "editor": {
         "warning": {
