@@ -476,7 +476,10 @@
             "attachment": "Załącznik"
         },
         "message_size_exceeded": "Rozmiar wiadomości przekracza limit",
-        "reply_to": "Odpowiedz"
+        "reply_to": "Odpowiedz",
+        "reset": "Zresetuj",
+        "change_filtering_sorting_options": "Zmień filtry i opcje sortowania",
+        "reset_to_sort_by_date": "Zresetuj do \"Sortuj wg: Data\""
     },
     "message": {
         "snackbar": {
@@ -1108,7 +1111,9 @@
         "subject": "Temat",
         "to": "Do",
         "unread": "Nieprzeczytane",
-        "descendingOrder": "Malejąco"
+        "descendingOrder": "Malejąco",
+        "show": "Pokaż:",
+        "sort_by": "Sortuj wg:"
     },
     "editor": {
         "warning": {
