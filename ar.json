@@ -1133,7 +1133,9 @@
         "subject": "عنوان الرسالة",
         "to": "المُستقبِل",
         "unread": "الغير مقروئة",
-        "ascendingOrder": "ترتيب تصاعدي"
+        "ascendingOrder": "ترتيب تصاعدي",
+        "show": "عرض:",
+        "sort_by": "فرز حسب:"
     },
     "title": {
         "new_messages": "الرسائل الجديدة",
