@@ -413,7 +413,10 @@
             "attachment": "Pièce jointe"
         },
         "message_size_exceeded": "Le message dépasse la taille limite",
-        "reply_to": "Répondre À"
+        "reply_to": "Répondre À",
+        "reset": "Réinitialiser",
+        "change_filtering_sorting_options": "Changer les options de filtrage et de tri",
+        "reset_to_sort_by_date": "Réinitialiser par \"Tri par : Date\""
     },
     "message": {
         "snackbar": {
@@ -1108,7 +1111,9 @@
         "subject": "Objet",
         "to": "À",
         "unread": "Non lu",
-        "descendingOrder": "Ordre décroissant"
+        "descendingOrder": "Ordre décroissant",
+        "show": "Afficher :",
+        "sort_by": "Trier par :"
     },
     "editor": {
         "warning": {
