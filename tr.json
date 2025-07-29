@@ -46,6 +46,9 @@
             "contacts_mod": "Kişi Kartı Ekle",
             "files": "Dosyalar'dan Ekle",
             "url": "Dosyalar'dan genel bağlantı ekle"
+        },
+        "uploadCertificate": {
+            "failed": "Sertifikayı yükleme işlemi başarısız oldu"
         }
     },
     "folder": {
