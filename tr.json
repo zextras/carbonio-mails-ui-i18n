@@ -48,7 +48,7 @@
             "url": "Dosyalar'dan genel bağlantı ekle"
         },
         "uploadCertificate": {
-            "failed": "Sertifikayı yükleme işlemi başarısız oldu",
+            "failed": "Sertifika yükleme işlemi başarısız oldu",
             "removeCertificateToSign": "İmza için sertifikayı kaldır (S/MIME)"
         }
     },
