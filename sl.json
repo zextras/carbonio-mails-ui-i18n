@@ -354,7 +354,8 @@
         "advancedFilters": {
             "attachment": "Priloga"
         },
-        "message_size_exceeded": "Velikost sporočila presega dovoljeno mejo"
+        "message_size_exceeded": "Velikost sporočila presega dovoljeno mejo",
+        "reply_to": "Odgovor na"
     },
     "action": {
         "search": "Iskanje",
