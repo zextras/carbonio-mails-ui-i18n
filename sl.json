@@ -355,7 +355,10 @@
             "attachment": "Priloga"
         },
         "message_size_exceeded": "Velikost sporočila presega dovoljeno mejo",
-        "reply_to": "Odgovor na"
+        "reply_to": "Odgovor na",
+        "reset_to_sort_by_date": "Ponastavi na \"Razvrsti po: datumu\"",
+        "change_filtering_sorting_options": "Spremeni nastavitve urejenosti in filtriranja",
+        "reset": "Ponastavi"
     },
     "action": {
         "search": "Iskanje",
@@ -1122,7 +1125,9 @@
         "important": "Pomembno",
         "subject": "Zadeva",
         "to": "Za",
-        "unread": "Neprebrano"
+        "unread": "Neprebrano",
+        "show": "Prikaz:",
+        "sort_by": "Urejeno po:"
     },
     "title": {
         "new_messages": "Nova sporočila",
