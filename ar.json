@@ -568,7 +568,10 @@
             "attachment": "مرفق"
         },
         "reply_to": "الرد على",
-        "message_size_exceeded": "حجم الرسالة يتجاوز الحد الأقصى"
+        "message_size_exceeded": "حجم الرسالة يتجاوز الحد الأقصى",
+        "reset_to_sort_by_date": "إعادة الضبط إلى \"الفرز حسب: التاريخ\"",
+        "reset": "إعادة الضبط",
+        "change_filtering_sorting_options": "تغيير خيارات التصفية والفرز"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
