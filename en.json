@@ -346,7 +346,8 @@
         "reply_to": "Reply To",
         "reset_to_sort_by_date": "Reset to “Sort by: Date\"",
         "change_filtering_sorting_options": "Change filtering and sorting options",
-        "reset": "Reset"
+        "reset": "Reset",
+        "uploading": "Uploading"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -1158,5 +1159,18 @@
     "text": {
         "loading_conversation": "Loading conversation, please wait...",
         "loading_message": "Loading message, please wait..."
+    },
+    "smart_link_modal": {
+        "body": {
+            "text1": "The attachment exceeds the size limit.",
+            "text2": "Would you like to convert it into a Smart Link?"
+        },
+        "header": {
+            "title": "Upload attachment as Smart Link"
+        },
+        "progress": {
+            "title": "Uploading attachment as Smart Link",
+            "text": "You are uploading a large attachment. This may take a moment, please wait."
+        }
     }
 }
