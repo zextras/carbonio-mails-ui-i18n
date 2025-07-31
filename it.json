@@ -459,7 +459,8 @@
         "reply_to": "Rispondi A",
         "change_filtering_sorting_options": "Modifica filtri e ordinamento",
         "reset": "Reimposta",
-        "reset_to_sort_by_date": "Reimposta su \"Ordina per: Data\""
+        "reset_to_sort_by_date": "Reimposta su \"Ordina per: Data\"",
+        "uploading": "Caricamento"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -1162,5 +1163,18 @@
     "text": {
         "loading_conversation": "Caricamento conversazione, attendi...",
         "loading_message": "Caricamento messaggio, attendi..."
+    },
+    "smart_link_modal": {
+        "body": {
+            "text2": "Desideri convertirlo in uno Smart Link?",
+            "text1": "L'allegato supera il limite della dimensione."
+        },
+        "progress": {
+            "title": "Caricamento allegato come Smart Link",
+            "text": "Stai caricando un allegato di grandi dimensioni. Questo potrebbe richiedere un momento, per favore attendi."
+        },
+        "header": {
+            "title": "Carica allegato come Smart Link"
+        }
     }
 }
