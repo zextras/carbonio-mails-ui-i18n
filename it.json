@@ -871,7 +871,11 @@
             "uploadCertificate": "Carica Certificato",
             "validFrom": "Valido da",
             "validTo": "Valido a",
-            "caCertificateNotFound": "Il certificato CA non può essere trovato"
+            "caCertificateNotFound": "Il certificato CA non può essere trovato",
+            "personalCertificatesTitle": "Certificati personali per la firma, crittografia e decrittografia",
+            "noPersonalCertificate": "La lista dei certificati personali è vuota",
+            "noRecipientCertificate": "La lista dei certificati dei destinatari è vuota",
+            "recipientCertificatesTitle": "Certificati dei destinatari per la crittografia"
         },
         "smime_certificates": "Certificati S/MIME",
         "app": "Impostazioni",
