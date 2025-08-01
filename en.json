@@ -534,7 +534,11 @@
             "uploadCertificateInSettings": "Upload your certificate from settings",
             "validFrom": "Valid From",
             "validTo": "Valid To",
-            "caCertificateNotFound": "CA certificate can not be found"
+            "caCertificateNotFound": "CA certificate can not be found",
+            "noPersonalCertificate": "Personal certificate list is empty",
+            "personalCertificatesTitle": "Personal certificates for signing, encryption and decryption",
+            "recipientCertificatesTitle": "Recipients certificates for encryption",
+            "noRecipientCertificate": "Recipients certificate list is empty"
         },
         "actions": "Actions",
         "active_filter": "Active filter",
