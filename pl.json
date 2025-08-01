@@ -479,7 +479,8 @@
         "reply_to": "Odpowiedz",
         "reset": "Zresetuj",
         "change_filtering_sorting_options": "Zmień filtry i opcje sortowania",
-        "reset_to_sort_by_date": "Zresetuj do \"Sortuj wg: Data\""
+        "reset_to_sort_by_date": "Zresetuj do \"Sortuj wg: Data\"",
+        "uploading": "Przesyłanie"
     },
     "message": {
         "snackbar": {
@@ -1162,5 +1163,18 @@
     "text": {
         "loading_message": "Ładowanie wiadomości...",
         "loading_conversation": "Ładowanie konwersacji..."
+    },
+    "smart_link_modal": {
+        "header": {
+            "title": "Prześlij załącznik jako inteligentny link"
+        },
+        "body": {
+            "text1": "Załącznik przekracza limit rozmiaru.",
+            "text2": "Czy chcesz go przekształcić w inteligentny link?"
+        },
+        "progress": {
+            "title": "Przesyłanie załącznika jako inteligentny link",
+            "text": "Przesyłasz duży załącznik. To może chwilę potrwać, prosimy o cierpliwość."
+        }
     }
 }
