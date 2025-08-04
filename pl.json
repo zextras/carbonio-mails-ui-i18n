@@ -970,7 +970,11 @@
             "uploadCertificateInSettings": "Prześlij Twój certyfikat w ustawieniach",
             "validFrom": "Ważny od",
             "validTo": "Ważny do",
-            "caCertificateNotFound": "Nie udało się znaleźć CA certyfikatu"
+            "caCertificateNotFound": "Nie udało się znaleźć CA certyfikatu",
+            "personalCertificatesTitle": "Osobiste certyfikaty do podpisywania, szyfrowania i odszyfrowywania",
+            "recipientCertificatesTitle": "Certyfikaty odbiorców do szyfrowania",
+            "noPersonalCertificate": "Lista osobistych certyfikatów jest pusta",
+            "noRecipientCertificate": "Lista certyfikatów odbiorców jest pusta"
         },
         "smime_certificates": "Certyfikaty S/MIME",
         "filtersConditions": {
