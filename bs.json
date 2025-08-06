@@ -574,7 +574,11 @@
             "attachment": "Prilog"
         },
         "message_size_exceeded": "Veličina poruke premašuje ograničenje",
-        "reply_to": "Odgovori na"
+        "reply_to": "Odgovori na",
+        "change_filtering_sorting_options": "Promijenite opcije filtriranja i sortiranja",
+        "reset": "Resetuj",
+        "uploading": "Otpremanje",
+        "reset_to_sort_by_date": "Reset na “Sortiraj po: Datumu”"
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -990,7 +994,11 @@
             "uploadCertificateInSettings": "Učitajte(upload) svoj certifikat iz postavki",
             "validFrom": "Važi od",
             "validTo": "Važi do",
-            "caCertificateNotFound": "CA certifikat nije pronađen"
+            "caCertificateNotFound": "CA certifikat nije pronađen",
+            "personalCertificatesTitle": "Lični certifikati za potpisivanje, enkripciju i dekripciju",
+            "noPersonalCertificate": "Lista ličnih certifikata je prazna",
+            "noRecipientCertificate": "Lista certifikata primatelja je prazna",
+            "recipientCertificatesTitle": "Certifikati primatelja za šifriranje"
         },
         "certificatePassword": {
             "createPasswordMsg3": "Ako zaboravite ovu lozinku, nećemo moći oporaviti vaše certifikate niti pristupiti vašim enkriptovanim porukama. Sačuvajte ga na siguran način u upravitelju lozinki ili na drugom sigurnom mjestu.",
@@ -1091,7 +1099,9 @@
         "important": "Važno",
         "subject": "Predmet",
         "to": "Do",
-        "unread": "Nepročitano"
+        "unread": "Nepročitano",
+        "show": "Prikaži:",
+        "sort_by": "Sortiraj po:"
     },
     "title": {
         "new_messages": "Nove Poruke",
@@ -1164,5 +1174,18 @@
     "text": {
         "loading_conversation": "Učitavanje razgovora, molim vas pričekajte...",
         "loading_message": "Učitavanje poruke, molim Vas sačekajte..."
+    },
+    "smart_link_modal": {
+        "header": {
+            "title": "Prenesite prilog kao Smart Link"
+        },
+        "body": {
+            "text1": "Prilog premašuje ograničenje veličine.",
+            "text2": "Želite li ga pretvoriti u Smart Link?"
+        },
+        "progress": {
+            "title": "Postavljanje priloga kao Smart Link",
+            "text": "Otpremate veliki prilog. Ovo može potrajati, molimo pričekajte."
+        }
     }
 }
