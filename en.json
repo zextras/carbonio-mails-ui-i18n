@@ -1176,5 +1176,8 @@
             "title": "Uploading attachment as Smart Link",
             "text": "You are uploading a large attachment. This may take a moment, please wait."
         }
+    },
+    "error": {
+        "invalid_recipient": "The recipient address \\\"${invalidAddress}\\\" does not exist or is invalid"
     }
 }
