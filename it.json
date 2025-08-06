@@ -1180,5 +1180,8 @@
         "header": {
             "title": "Carica allegato come Smart Link"
         }
+    },
+    "error": {
+        "invalid_recipient": "L'indirizzo email \\\"${invalidAddress}\\\" non esiste o è invalido"
     }
 }
