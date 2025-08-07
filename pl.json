@@ -1180,5 +1180,8 @@
             "title": "Przesyłanie załącznika jako inteligentny link",
             "text": "Przesyłasz duży załącznik. To może chwilę potrwać, prosimy o cierpliwość."
         }
+    },
+    "error": {
+        "invalid_recipient": "Adres odbiorcy \\\"${invalidAddress}\\\" nie istnieje lub jest nieprawidłowy"
     }
 }
