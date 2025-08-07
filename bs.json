@@ -1187,5 +1187,8 @@
             "title": "Postavljanje priloga kao Smart Link",
             "text": "Otpremate veliki prilog. Ovo može potrajati, molimo pričekajte."
         }
+    },
+    "error": {
+        "invalid_recipient": "Adresa primaoca „${invalidAddress}“ ne postoji ili je nevažeća"
     }
 }
