@@ -149,7 +149,7 @@
         "attachment_status": "Statut de l'élément de l'email",
         "attachment_type": "Type de pièce jointe",
         "back": "Retour",
-        "choose_folder": "Choisir le dossier",
+        "choose_folder": "Choisissez un dossier",
         "delete": "Supprimer",
         "email_perm_deleted": "Email supprimé définitivement",
         "error_address": "Un email valide est requis",
@@ -843,7 +843,7 @@
         "standard_message": "Ajouter une note au message standard",
         "share_note": "Le message standard affiche votre nom, le nom de l'élément partagé, les autorisations accordées aux destinataires, et les informations de connexion.",
         "filter_folder_message": "Sélectionnez un dossier dans lequel vous souhaitez lancer votre recherche avancée",
-        "is_contained_in": "Dans le dossier"
+        "is_contained_in": "Est contenu dans"
     },
     "snackbar": {
         "folder_shared": "Dossier partagé",
