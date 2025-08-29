@@ -1166,7 +1166,7 @@
     },
     "smart_link_modal": {
         "body": {
-            "text1": "The attachment exceeds the size limit.",
+            "text1": "The attachment exceeds the maximum allowed size for sending the message.",
             "text2": "Would you like to convert it into a Smart Link?"
         },
         "header": {
