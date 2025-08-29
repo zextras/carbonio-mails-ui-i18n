@@ -1171,7 +1171,7 @@
     "smart_link_modal": {
         "body": {
             "text2": "Desideri convertirlo in uno Smart Link?",
-            "text1": "L'allegato supera il limite della dimensione."
+            "text1": "L'allegato supera la dimensione massima consentita per l'invio del messaggio."
         },
         "progress": {
             "title": "Caricamento allegato come Smart Link",
