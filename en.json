@@ -347,7 +347,9 @@
         "reset_to_sort_by_date": "Reset to “Sort by: Date\"",
         "change_filtering_sorting_options": "Change filtering and sorting options",
         "reset": "Reset",
-        "uploading": "Uploading"
+        "uploading": "Uploading",
+        "sort_by": "Sort by",
+        "show": "Show"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
