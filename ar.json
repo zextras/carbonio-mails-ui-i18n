@@ -555,7 +555,7 @@
             "failed": "فشل تحميل مرفق واحد أو أكثر",
             "uploading": "جاري تحميل المرفقات"
         },
-        "close": "اغلق",
+        "close": "إغلاق",
         "from_external_domain": "هذا البريد الإلكتروني من نطاق خارجي",
         "distribution_list": "هذا البريد من قائمة توزيع",
         "mail_sensitivity_private": "الحساسية خاصة",
@@ -571,7 +571,10 @@
         "message_size_exceeded": "حجم الرسالة يتجاوز الحد الأقصى",
         "reset_to_sort_by_date": "إعادة الضبط إلى \"الفرز حسب: التاريخ\"",
         "reset": "إعادة الضبط",
-        "change_filtering_sorting_options": "تغيير خيارات التصفية والفرز"
+        "change_filtering_sorting_options": "تغيير خيارات التصفية والفرز",
+        "uploading": "جاري التحميل",
+        "sort_by": "فرز حسب",
+        "show": "عرض"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -1038,7 +1041,11 @@
             "smimeCertificate": "شهادة S/MIME (مثلاً شهادة.p12)",
             "status": "الحالة",
             "upload": "تحميل",
-            "caCertificateNotFound": "لا يمكن العثور على شهادة هيئة الشهادات -CA-"
+            "caCertificateNotFound": "لا يمكن العثور على شهادة هيئة الشهادات -CA-",
+            "personalCertificatesTitle": "الشهادات الشخصية للتوقيع والتشفير وفك التشفير",
+            "recipientCertificatesTitle": "شهادات المستلمين للتشفير",
+            "noPersonalCertificate": "قائمة الشهادات الشخصية فارغة",
+            "noRecipientCertificate": "قائمة شهادات المستلمين فارغة"
         },
         "smime_certificates": "شهادات S/MIME",
         "app": "الإعدادات",
@@ -1195,5 +1202,21 @@
     "text": {
         "loading_conversation": "جاري تحميل المحادثة، الرجاء الانتظار...",
         "loading_message": "جاري تحميل الرسالة، الرجاء الانتظار..."
+    },
+    "smart_link_modal": {
+        "header": {
+            "title": "تحميل المرفق كرابط ذكي"
+        },
+        "body": {
+            "text1": "يتجاوز حجم المرفق الحد الأقصى المسموح به لإرسال الرسالة.",
+            "text2": "هل ترغب في تحويله إلى رابط ذكي؟"
+        },
+        "progress": {
+            "title": "تحميل المرفق كرابط ذكي",
+            "text": "أنت تقوم بتحميل ملف كبير. قد يستغرق هذا بعض الوقت، يُرجى الانتظار."
+        }
+    },
+    "error": {
+        "invalid_recipient": "عنوان المستلم \\\"${invalidAddress}\\\" غير موجود أو غير صالح"
     }
 }
