@@ -480,7 +480,9 @@
         "reset": "Zresetuj",
         "change_filtering_sorting_options": "Zmień filtry i opcje sortowania",
         "reset_to_sort_by_date": "Zresetuj do \"Sortuj wg: Data\"",
-        "uploading": "Przesyłanie"
+        "uploading": "Przesyłanie",
+        "show": "Pokaż",
+        "sort_by": "Sortuj wg"
     },
     "message": {
         "snackbar": {
@@ -1173,7 +1175,7 @@
             "title": "Prześlij załącznik jako inteligentny link"
         },
         "body": {
-            "text1": "Załącznik przekracza limit rozmiaru.",
+            "text1": "Załącznik przekracza max. dozwolony rozmiar wysyłanej wiadomości.",
             "text2": "Czy chcesz go przekształcić w inteligentny link?"
         },
         "progress": {
