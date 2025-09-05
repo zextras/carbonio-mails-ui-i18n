@@ -416,7 +416,10 @@
         "reply_to": "Répondre À",
         "reset": "Réinitialiser",
         "change_filtering_sorting_options": "Changer les options de filtrage et de tri",
-        "reset_to_sort_by_date": "Réinitialiser par \"Tri par : Date\""
+        "reset_to_sort_by_date": "Réinitialiser par \"Tri par : Date\"",
+        "uploading": "Téléversement",
+        "sort_by": "Trier par",
+        "show": "Filtré par"
     },
     "message": {
         "snackbar": {
@@ -816,7 +819,11 @@
             "uploadCertificate": "Téléverser le certificat",
             "uploadCertificateInSettings": "Téléchargez votre certificat à partir des paramètres",
             "validFrom": "Valable à partir de",
-            "caCertificateNotFound": "Le certificat de l'autorité de certification (CA) est introuvable"
+            "caCertificateNotFound": "Le certificat de l'autorité de certification (CA) est introuvable",
+            "personalCertificatesTitle": "Certificats personnels pour signatures, chiffrage et déchiffrage",
+            "recipientCertificatesTitle": "Certificats des destinataires pour chiffrement",
+            "noPersonalCertificate": "La liste des certificats personnels est vide",
+            "noRecipientCertificate": "La liste des certificats des destinataires est vide"
         },
         "smime_certificates": "Certificats S/MIME",
         "filtersConditions": {
@@ -1162,5 +1169,21 @@
     "text": {
         "loading_conversation": "Chargement de la conversation, veuillez patienter...",
         "loading_message": "Chargement du message, veuillez patienter..."
+    },
+    "smart_link_modal": {
+        "header": {
+            "title": "Téléverser une pièce jointe comme un Smart Link"
+        },
+        "body": {
+            "text2": "Souhaitez-vous la convertir en Smart Link ?",
+            "text1": "La pièce jointe dépasse la taille maximum autorisée pour l'envoi de message."
+        },
+        "progress": {
+            "title": "Téléverser la pièce jointe comme un Smart Link",
+            "text": "Le téléversement d'une grosse pièce jointe est en cours. Cela peut prendre un certain temps, merci de patienter."
+        }
+    },
+    "error": {
+        "invalid_recipient": "L'adresse du destinataire \\\"${invalidAddress}\\\" n'existe pas ou n'est pas valide"
     }
 }
