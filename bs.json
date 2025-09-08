@@ -508,7 +508,7 @@
         "select_recovery_date": "Odaberite datum oporavka",
         "recovery_period": "Odaberite period oporavka",
         "search_recover_emails": "Pretraži e-mail za oporavak",
-        "start_date": "Datum početka",
+        "start_date": "Početni datum",
         "signature_size_exceed": "Jedan ili više potpisa premašuje ograničenje veličine.",
         "start_recovery": "Pokreni oporavak",
         "want_to_continue": "Želite li nastaviti?",
@@ -578,7 +578,9 @@
         "change_filtering_sorting_options": "Promijenite opcije filtriranja i sortiranja",
         "reset": "Resetuj",
         "uploading": "Otpremanje",
-        "reset_to_sort_by_date": "Reset na “Sortiraj po: Datumu”"
+        "reset_to_sort_by_date": "Reset na “Sortiraj po: Datumu”",
+        "sort_by": "Sortiraj po",
+        "show": "Prikaži"
     },
     "labels": {
         "compose_colin": "Sastavi :",
@@ -1180,7 +1182,7 @@
             "title": "Prenesite prilog kao Smart Link"
         },
         "body": {
-            "text1": "Prilog premašuje ograničenje veličine.",
+            "text1": "Prilog premašuje maksimalnu dozvoljenu veličinu za slanje poruke.",
             "text2": "Želite li ga pretvoriti u Smart Link?"
         },
         "progress": {
