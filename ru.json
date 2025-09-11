@@ -463,7 +463,9 @@
         "change_filtering_sorting_options": "Изменить параметры фильтра и сортировки",
         "reset_to_sort_by_date": "Сбросить до «Сортировать по: дате»",
         "reset": "Сбросить",
-        "uploading": "Загрузка"
+        "uploading": "Загрузка",
+        "sort_by": "Сортировать по",
+        "show": "Показать"
     },
     "header": {
         "warning": "Предупреждение",
