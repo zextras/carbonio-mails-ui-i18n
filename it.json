@@ -1184,6 +1184,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "L'indirizzo email \\\"${invalidAddress}\\\" non esiste o è invalido"
+        "invalid_recipient": "L'indirizzo email {{invalidAddress}} non esiste o non è valido"
     }
 }
