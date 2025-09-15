@@ -1180,6 +1180,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "The recipient address \\\"${invalidAddress}\\\" does not exist or is invalid"
+        "invalid_recipient": "The recipient address {{invalidAddress}} does not exist or is invalid"
     }
 }
