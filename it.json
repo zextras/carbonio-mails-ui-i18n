@@ -462,7 +462,8 @@
         "reset_to_sort_by_date": "Reimposta su \"Ordina per: Data\"",
         "uploading": "Caricamento",
         "sort_by": "Ordina per",
-        "show": "Mostra"
+        "show": "Mostra",
+        "senderslist_numentries": "{{count}} su {{max}}"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
