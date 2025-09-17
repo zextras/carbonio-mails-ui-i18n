@@ -349,7 +349,8 @@
         "reset": "Reset",
         "uploading": "Uploading",
         "sort_by": "Sort by",
-        "show": "Show"
+        "show": "Show",
+        "senderslist_numentries": "{{count}} of {{max}}"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
