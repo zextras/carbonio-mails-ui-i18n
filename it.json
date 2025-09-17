@@ -1177,7 +1177,7 @@
         },
         "progress": {
             "title": "Caricamento allegato come Smart Link",
-            "text": "Stai caricando un allegato di grandi dimensioni. Questo potrebbe richiedere un momento, per favore attendi."
+            "text": "Stai caricando un allegato grande. Potrebbe volerci un momento, per favore attendi."
         },
         "header": {
             "title": "Carica allegato come Smart Link"
