@@ -482,7 +482,8 @@
         "reset_to_sort_by_date": "Zresetuj do \"Sortuj wg: Data\"",
         "uploading": "Przesyłanie",
         "show": "Pokaż",
-        "sort_by": "Sortuj wg"
+        "sort_by": "Sortuj wg",
+        "senderslist_numentries": "{{count}} z {{max}}"
     },
     "message": {
         "snackbar": {
