@@ -189,7 +189,7 @@
         "include_shared_folders": "Vključi deljene mape",
         "insert": "Vstavi",
         "invalid_destination": "To vozlišče ni veljavna ciljna lokacija",
-        "invalid_query": "Posebni znaki, kot so :, \", -, ! itd., so pri iskanju prezrti. To lahko povzroči nepričakovane rezultate.",
+        "invalid_query": "Posebni znaki, kot so :, \", -, ! itd., so pri iskanju prezrti. To lahko povzroči nepričakovane rezultate za:",
         "invalid_recipients": "Naslov enega od prejemnikov je napačno zapisan",
         "keep_draft": "Shrani osnutek",
         "mail_folder": "Mapa e-pošte",
@@ -358,7 +358,10 @@
         "reply_to": "Odgovor na",
         "reset_to_sort_by_date": "Ponastavi na \"Razvrsti po: datumu\"",
         "change_filtering_sorting_options": "Spremeni nastavitve urejenosti in filtriranja",
-        "reset": "Ponastavi"
+        "reset": "Ponastavi",
+        "sort_by": "Urejeno po",
+        "show": "Prikaži",
+        "senderslist_numentries": "{{count}} od {{max}}"
     },
     "action": {
         "search": "Iskanje",
@@ -675,7 +678,7 @@
         "list_trash_title": "Koš je prazen",
         "search_description3": "Preverite črkovanje in možnosti filtrov ali poskusite z drugo ključno besedo.",
         "sent_title2": "Izberite e-pošto, da si ogledate, kaj ste poslali.",
-        "spam_title1": "Imate srečo! Ni nezaželene pošte, o kateri bi morali skrbeti.",
+        "spam_title1": "Imate srečo! Ni nezaželene pošte, o kateri bi morali skrbeti",
         "spam_title2": "Kliknite ikono koša, da izbrišete nezaželeno pošto.",
         "title2": "Kliknite gumb \"NOVA\"",
         "title3": "Ostanite v stiku z drugimi uporabniki.",
@@ -688,7 +691,7 @@
         "description4": "Lahko jo označite, odgovorite ali posredujete drugim uporabnikom.",
         "list_sent_title": "Še niste poslali nobene e-pošte",
         "title8": "Izberite e-pošto za branje ali brisanje.",
-        "junk_title1": "Imate srečo! Ni nezaželene pošte, o kateri bi morali skrbeti."
+        "junk_title1": "Imate srečo! Ni nezaželene pošte, o kateri bi morali skrbeti"
     },
     "folders": {
         "trash": "Smeti",
@@ -1180,5 +1183,8 @@
     "text": {
         "loading_conversation": "Nalagam pogovor, prosim počakajte...",
         "loading_message": "Nalagam sporočilo, prosim počakajte..."
+    },
+    "error": {
+        "invalid_recipient": "Naslov prejemnika {{invalidAddress}} ne obstaja ali je neveljaven"
     }
 }
