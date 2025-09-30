@@ -923,9 +923,9 @@
             "discard": "Odbaci poruku automatski"
         },
         "msg_selection_optn": {
-            "based_on_previous": "Izaberi sledeću poruku na osnovu prethodnih izbora",
+            "based_on_previous": "Odaberi slijedeću poruku na osnovu prethodnih izbora",
             "below_deleted": "Odaberi poruku ispod izbrisane ili premještene poruke",
-            "above_deleted": "Selektuj poruku iznad izbrisane ili premještene poruke"
+            "above_deleted": "Odaberi poruku iznad izbrisane ili premještene poruke"
         },
         "my_frequent_emails": "moji učestali e-mailovi",
         "new_mail_optn": {
