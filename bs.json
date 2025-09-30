@@ -580,7 +580,8 @@
         "uploading": "Otpremanje",
         "reset_to_sort_by_date": "Reset na “Sortiraj po: Datumu”",
         "sort_by": "Sortiraj po",
-        "show": "Prikaži"
+        "show": "Prikaži",
+        "senderslist_numentries": "{{count}} od {{max}}"
     },
     "labels": {
         "compose_colin": "Sastavi :",
