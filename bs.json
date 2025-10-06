@@ -1192,6 +1192,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "Adresa primaoca „${invalidAddress}“ ne postoji ili je nevažeća"
+        "invalid_recipient": "Adresa primaoca „{{invalidAddress}}“ ne postoji ili je nevažeća"
     }
 }
