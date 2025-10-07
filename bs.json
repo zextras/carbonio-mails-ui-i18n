@@ -885,7 +885,7 @@
         "keep_in_sent": "Zadrži u Poslato",
         "keyword": "Ključna riječ",
         "label": {
-            "check_new_mail": "Provjeri nove e-mail poruke",
+            "check_new_mail": "Provjeri nove e-mail poruke svakih",
             "conversation_ordering": "Redosljed razgovora",
             "default": "Zadano default",
             "default_mail_search": "Pretraga e-mail poruka po zadanom",
