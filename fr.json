@@ -233,7 +233,7 @@
         "tags": "Étiquettes",
         "no_special_char_allowed": "Le nom ne doit pas contenir de caractère spécial",
         "calendar": "Calendrier",
-        "confirm": "Confirmer",
+        "confirm": "Valider",
         "contact_folder": "Dossier de contact",
         "create_and_move": "Créer et déplacer",
         "error": "Erreur",
@@ -419,7 +419,8 @@
         "reset_to_sort_by_date": "Réinitialiser par \"Tri par : Date\"",
         "uploading": "Téléversement",
         "sort_by": "Trier par",
-        "show": "Filtré par"
+        "show": "Filtré par",
+        "senderslist_numentries": "{{count}} sur {{max}}"
     },
     "message": {
         "snackbar": {
@@ -1184,6 +1185,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "L'adresse du destinataire \\\"${invalidAddress}\\\" n'existe pas ou n'est pas valide"
+        "invalid_recipient": "L'adresse du destinataire {{invalidAddress}} n'existe pas ou n'est pas valide"
     }
 }
