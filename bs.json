@@ -1073,30 +1073,30 @@
     },
     "sortingDropdown": {
         "tooltip": {
-            "attachmentAscending": "Uzlazni redoslijed po prilogu",
-            "attachmentDescending": "Silazni redoslijed prema prilogu",
-            "dateDescending": "Silazni redoslijed prema datumu",
-            "flaggedAscending": "Uzlazni redoslijed prema Označeno",
-            "flaggedDescending": "Silazni redoslijed prema Označeno",
-            "fromAscending": "Uzlazni redoslijed po Od",
-            "fromDescending": "Silaznim redoslijedom po Od",
-            "importantDescending": "Silaznim redoslijedom po Važno",
-            "sizeDescending": "Silaznim redoslijedom prema veličini",
-            "subjectAscending": "Uzlazni redoslijed prema Predmetu",
-            "subjectDescending": "Silazni redoslijed prema Predmetu",
-            "toAscending": "Uzlazni redoslijed prema Za",
-            "toDescending": "Silaznim redoslijedom prema Za",
-            "unreadDescending": "Silazni redoslijed prema Nepročitano",
-            "unreadAscending": "Uzlazni redoslijed prema Nepročitano",
-            "importantAscending": "Uzlazni redoslijed po Važno",
-            "dateAscending": "Rastući redosled po veličini"
+            "attachmentAscending": "Rastući redoslijed po prilogu",
+            "attachmentDescending": "Opadajući redoslijed po prilogu",
+            "dateDescending": "Opadajući redoslijed po datumu",
+            "flaggedAscending": "Rastući redoslijed po Označeno",
+            "flaggedDescending": "Opadajući redoslijed po Označeno",
+            "fromAscending": "Rastući redoslijed po Od",
+            "fromDescending": "Opadajući redoslijed po Od",
+            "importantDescending": "Opadajući redoslijed po Važno",
+            "sizeDescending": "Opadajući redoslijed po veličini",
+            "subjectAscending": "Rastući redoslijed po Predmetu",
+            "subjectDescending": "Opadajući redoslijed po Predmetu",
+            "toAscending": "Rastući redoslijed po primaocu (Za)",
+            "toDescending": "Opadajući redoslijedi po primaocu (Za)",
+            "unreadDescending": "Opadajući redoslijed po Nepročitano",
+            "unreadAscending": "Rastući redoslijed po Nepročitano",
+            "importantAscending": "Rastući redoslijed po Važno",
+            "dateAscending": "Rastući redoslijed po veličini"
         }
     },
     "sorting_dropdown": {
-        "ascendingOrder": "Uzlazni redosljed",
+        "ascendingOrder": "Rastući redosljed",
         "attachment": "Prilog",
         "date": "Datum",
-        "descendingOrder": "Silaznim redoslijedom",
+        "descendingOrder": "Opadajući redoslijed",
         "flagged": "Označeno",
         "from": "Od",
         "important": "Važno",
@@ -1140,11 +1140,11 @@
     },
     "layoutView": {
         "tooltip": {
-            "horizontal": "Vodoravni Pregled",
-            "vertical": "Vertikalni pregled",
-            "switchToVertical": "Prebaciti na vertikalni raspored",
-            "switchToNoSplit": "Prebaci se na bez podjele",
-            "switchToHorizontal": "Prebaci se na horizontalnu podjelu"
+            "horizontal": "Vodoravni prikaz",
+            "vertical": "Vertikalni prikaz",
+            "switchToVertical": "Promiijeniti na vertikalnu podjelu",
+            "switchToNoSplit": "Promijeniti na prikaz bez podjele",
+            "switchToHorizontal": "Promijenjiti na horizontalnu podjelu"
         }
     },
     "warningBanner": {
