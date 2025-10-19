@@ -280,7 +280,7 @@
         "insert": "ادرج",
         "create_and_move": "انشئ وإنتقل للتالي",
         "collapse_receivers_list": "اطوي قائمة المستلمين",
-        "confirm": "أكد",
+        "confirm": "تأكيد",
         "contact_folder": "مجلد جهات الاتصال",
         "delete": "حذف",
         "flagged": "المُعلمة",
@@ -574,7 +574,8 @@
         "change_filtering_sorting_options": "تغيير خيارات التصفية والفرز",
         "uploading": "جاري التحميل",
         "sort_by": "فرز حسب",
-        "show": "عرض"
+        "show": "عرض",
+        "senderslist_numentries": "{{count}} من {{max}}"
     },
     "header": {
         "edit_draft": "تعديل المسودة",
@@ -1217,6 +1218,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "عنوان المستلم \\\"${invalidAddress}\\\" غير موجود أو غير صالح"
+        "invalid_recipient": "عنوان المستلم {{invalidAddress}} غير موجود أو غير صالح"
     }
 }
