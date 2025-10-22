@@ -69,7 +69,7 @@
         "title1": "Klikni na dugme \"NOVO\" za sastavljanje nove e-mail poruke",
         "title4": "Odaberi e-mail za čitanje",
         "title8": "Odaberi e-mail za čitanje ili ga izbrišite.",
-        "trash_title1": "Klikni na ikonu smeća kako biste obrisali e-mail",
+        "trash_title1": "Kliknite na ikonu kante za otpad kako biste obrisali e-mail",
         "trash_title2": "Odaberi i vrati e-poruke iz smeća.",
         "title2": "Kliknite na dugme \"NOVO\"",
         "title3": "Ostanite u kontaktu s drugim korisnicima.",
@@ -158,13 +158,13 @@
         "modal": {
             "edit": {
                 "add_share": "Dodaj dijeljenje",
-                "enter_valid_folder_name": "Unesite validan naziv foldera",
+                "enter_valid_folder_name": "Unesite validan naziv direktorija",
                 "invalid_folder_name_warning_msg": "Specijalni znakovi nisu dozvoljeni. Maksimalna dužina je 128 znakova.",
                 "retention_duration_warning": "Rok trajanja retencije mora biti pozitivan broj",
-                "special_chars_warning_msg": "Specijalni karakteri nisu dozvoljeni u imenu foldera",
+                "special_chars_warning_msg": "Specijalni karakteri nisu dozvoljeni u imenu direktorija",
                 "threshold_message": "Poruke u ovom folderu koje su starije od praga za odlaganje podliježu automatskom čišćenju i brisanju.",
                 "retention_message": "Poruke u ovom folderu koje spadaju u opseg retencije će zahtijevati eksplicitnu potvrdu prije brisanja",
-                "rename_warning": "Nije moguće preimenovati folder u sistemski folder."
+                "rename_warning": "Nije moguće direktoriju dodijeliti isto ime kao sistemskom direktoriju."
             }
         }
     },
@@ -175,7 +175,7 @@
                 "trash": "Isprazni smeće"
             },
             "wipe": {
-                "folder_panel": "Obriši folder"
+                "folder_panel": "Obriši direktorij"
             }
         },
         "lists_item": {
@@ -184,22 +184,22 @@
         "modal": {
             "delete": {
                 "body": {
-                    "message1": "Želite li isprazniti odabrani folder?",
-                    "message2": "Želite li stalno izbrisati izabrani folder?",
-                    "message4": "Ako ga izbrišete, sav povezani sadržaj će biti trajno uklonjen i folder se više neće moći oporaviti.",
-                    "message3": "Ako ga izbrišete, sav povezani sadržaj će biti premješten u Otpad i folder više neće biti vidljiv."
+                    "message1": "Želite li isprazniti odabrani direktorij?",
+                    "message2": "Želite li trajno izbrisati izabrani direktorij?",
+                    "message4": "Ako ga izbrišete, sav povezani sadržaj će biti trajno uklonjen i direktorij se više neće moći vratiti.",
+                    "message3": "Ako ga izbrišete, sav povezani sadržaj će biti premješten u Otpad i direktorij više neće biti vidljiv."
                 }
             },
             "empty": {
                 "body": {
-                    "message1": "Želite li isprazniti odabrani folder?",
+                    "message1": "Želite li isprazniti odabrani direktorij?",
                     "message2": "Ako ga ispraznite, svaki povezani sadržaj će biti trajno obrisan."
                 }
             },
             "move": {
                 "body": {
-                    "message2": "Odaberite folder u koji želite vratiti:",
-                    "message1": "Odaberite folder u koji želite premjestiti razmatrani:"
+                    "message2": "Odaberite direktorij u koji želite vratiti:",
+                    "message1": "Odaberite direktorij u koji želite premjestiti razmatrani:"
                 },
                 "title_modal": "Premjesti razgovor",
                 "title_modal_conversation": "Premjesti razgovor",
@@ -208,18 +208,18 @@
             "new": {
                 "create_footer": "Kreiraj i premjesti",
                 "input": {
-                    "name": "Unesite naziv foldera",
+                    "name": "Unesite naziv direktorija",
                     "name_exist": "Ime već postoji u ovoj putanji",
-                    "position": "Roditelj folder"
+                    "position": "Direktorij roditelj"
                 },
                 "name_exist_warning": "Ime već postoji",
-                "title": "Kreiraj novi folder",
+                "title": "Kreiraj novi direktorij",
                 "restore_create_footer": "Kreiraj i Vrati"
             },
             "wipe": {
                 "body": {
                     "message2": "Ako ga obrišete, sav povezani sadržaj će biti trajno obrisan.",
-                    "message1": "Želite li obrisati odabrani folder?"
+                    "message1": "Želite li obrisati odabrani direktorij?"
                 }
             },
             "lists-item": {
@@ -229,7 +229,7 @@
     },
     "folders": {
         "drafts": "Nacrti",
-        "junk": "Otpad",
+        "junk": "Bezvrijedna pošta",
         "sent": "Poslano",
         "spam": "Neželjena pošta",
         "trash": "Smeće",
