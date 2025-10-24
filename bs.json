@@ -771,7 +771,7 @@
         "initializeError": {
             "title": "Došlo je do greške",
             "content": "Molimo osvježite stranicu ili pokušajte ponovo kasnije. Ostali moduli mogli bi i dalje biti dostupni uz ograničene funkcije.",
-            "buttonConfirm": "PONOVO UČITAJ"
+            "buttonConfirm": "UČITAJ PONOVO"
         },
         "messageFilteringList": "Samo su prikazani prvih 100 rezultata. Sužite pretragu kako biste vidjeli kompletnu listu."
     },
