@@ -1081,7 +1081,6 @@
     "messages,new_email": "nuova email",
     "modals": {
         "apply_filters": {
-            "label_involved_messages": "<0>{{involvedMessagesCount}} messaggi</0> verranno elaborati all'interno della cartella selezionata.",
             "title": "Applicazione filtro \"{{filterName}}\"",
             "label_confirm_request": "Vuoi applicare il filtro?",
             "button_apply": "Applica",
