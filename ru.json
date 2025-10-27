@@ -1083,7 +1083,6 @@
             "button_apply": "Применить",
             "title": "Фильтр приложения \"{{filterName}}\"",
             "label_confirm_request": "Применить фильтр?",
-            "label_involved_messages": "Сообщения <0>{{involvedMessagesCount}}</0> будут обрабатываться внутри выбранной папки.",
             "label_confirm_msg": "Чем больше сообщений, тем больше времени потребуется для применения фильтра."
         }
     },
