@@ -979,7 +979,6 @@
         "apply_filters": {
             "button_apply": "นำไปใช้",
             "label_confirm_request": "คุณต้องการใช้ตัวกรองหรือไม่?",
-            "label_involved_messages": "<0>ข้อความ {{involvedMessagesCount}}</0> จะถูกประมวลผลภายในโฟลเดอร์ที่เลือก",
             "title": "ตัวกรองแอปพลิเคชัน \"{{filterName}}\"",
             "label_confirm_msg": "ยิ่งมีข้อความมากเท่าไหร่ ก็ยิ่งต้องใช้เวลาในการใช้ตัวกรองมากขึ้นเท่านั้น"
         }
