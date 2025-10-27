@@ -673,7 +673,6 @@
             "label_confirm_request": "Iragazkia aplikatu nahi duzu?",
             "title": "'{{filterName}}' aplikazio-iragazkia",
             "button_apply": "Aplikatu",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} mezu</0> hautatutako karpetaren barruan prozesatuko dira.",
             "label_confirm_msg": "Zenbat eta mezu gehiago egon, orduan eta denbora gehiago beharko da iragazkia aplikatzeko."
         }
     },
