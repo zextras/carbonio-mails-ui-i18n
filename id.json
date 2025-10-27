@@ -980,7 +980,6 @@
             "button_apply": "Terapkan",
             "label_confirm_request": "Anda ingin menerapkan filter?",
             "title": "Filter aplikasi \"{{filterName}}\"",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} pesan</0> akan diproses di dalam folder yang dipilih.",
             "label_confirm_msg": "Semakin banyak pesan yang ada, semakin banyak waktu yang dibutuhkan untuk menerapkan filter."
         }
     },
