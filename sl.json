@@ -1068,7 +1068,6 @@
         "apply_filters": {
             "button_apply": "Uporabi",
             "label_confirm_request": "Ali želite uporabiti filter?",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} sporočil</0> bo obdelanih v izbrani mapi.",
             "title": "Uporaba filtra \"{{filterName}}\"",
             "label_confirm_msg": "Več kot je sporočil, več časa bo potrebnega za uporabo filtra."
         }
