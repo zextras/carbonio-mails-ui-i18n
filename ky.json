@@ -766,7 +766,6 @@
     },
     "modals": {
         "apply_filters": {
-            "label_involved_messages": "{{involvedMessagesCount}} <0> билдирүү тандалган папканын ичинде иштелип чыгат.",
             "button_apply": "Колдонуу",
             "label_confirm_request": "Чыпканы колдонуу керекпи?",
             "title": "{{filterName}} тиркемесине чыпка"
