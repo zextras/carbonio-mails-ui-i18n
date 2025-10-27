@@ -775,7 +775,6 @@
     "modals": {
         "apply_filters": {
             "button_apply": "طبق الفرز",
-            "label_involved_messages": "ستتم معالجة <0>{{involvedMessagesCount}}</0> رسالة داخل المجلد المحدد.",
             "label_confirm_request": "هل تريد تطبيق الفرز؟",
             "title": "تطبيق عامل الفرز \"{{filterName}}\"",
             "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق الفرز."
