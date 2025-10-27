@@ -851,7 +851,6 @@
         "apply_filters": {
             "button_apply": "Uygula",
             "label_confirm_request": "Filtreyi uygulamak istiyor musunuz?",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} iletileri</0> seçilen klasör içinde işlenecektir.",
             "title": "Uygulama filtresi \"{{filterName}}\""
         }
     },
