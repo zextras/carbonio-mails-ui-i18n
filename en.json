@@ -1035,7 +1035,6 @@
         "apply_filters": {
             "button_apply": "Apply",
             "label_confirm_request": "Do you want to apply the filter?",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} messages</0> will be processed inside the selected folder.",
             "title": "Application filter \"{{filterName}}\"",
             "label_confirm_msg": "The more messages are present, the more time will be required to apply the filter."
         }
