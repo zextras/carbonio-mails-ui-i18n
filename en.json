@@ -1036,7 +1036,9 @@
             "button_apply": "Apply",
             "label_confirm_request": "Do you want to apply the filter?",
             "title": "Application filter \"{{filterName}}\"",
-            "label_confirm_msg": "The more messages are present, the more time will be required to apply the filter."
+            "label_confirm_msg": "The more messages are present, the more time will be required to apply the filter.",
+            "apply_folder_one": "<bold>{{count}} message</bold> will be processed inside the selected folder.",
+            "apply_folder_other": "<bold>{{count}} messages</bold> will be processed inside the selected folder."
         }
     },
     "new_folder": "New Folder",
