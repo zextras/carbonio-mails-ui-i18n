@@ -1084,7 +1084,6 @@
             "button_apply": "Appliquer",
             "label_confirm_request": "Souhaitez-vous appliquer le filtre ?",
             "title": "Traitement du filtre '{{filterName}}'",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} messages</0> seront traités dans le dossier sélectionné.",
             "label_confirm_msg": "Plus il y a de messages, plus il faut de temps pour appliquer le filtre."
         }
     },
