@@ -996,7 +996,6 @@
         "apply_filters": {
             "button_apply": "Aplicar",
             "label_confirm_request": "Deseja aplicar o filtro?",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} mensagens</0> serão processadas na pasta selecionada.",
             "title": "Aplicação do filtro \"{{filterName}}\"",
             "label_confirm_msg": "Quanto mais mensagens, mais tempo será necessário para aplicar o filtro."
         }
