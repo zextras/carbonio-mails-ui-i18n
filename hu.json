@@ -928,7 +928,6 @@
     },
     "modals": {
         "apply_filters": {
-            "label_involved_messages": "<0>{{involvedMessagesCount}} üzenet</0> lesz feldolgozva a kiválasztott mappában.",
             "title": "A(z) \"{{filterName}}\" szűrő alkalmazása",
             "button_apply": "Alkalmaz",
             "label_confirm_msg": "Minél több üzenetre alkalmazza a szűrőt, annál több időre lesz szükség ehhez.",
