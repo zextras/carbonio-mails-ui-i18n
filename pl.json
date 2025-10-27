@@ -1083,7 +1083,6 @@
         "apply_filters": {
             "button_apply": "Zastosuj",
             "label_confirm_request": "Czy chcesz zastosować filtr?",
-            "label_involved_messages": "<0>{{involvedMessagesCount}} wiadomości</0> zostanie przetworzonych w wybranym folderze.",
             "title": "Zastosowywanie filtra \"{{filterName}}\"",
             "label_confirm_msg": "Im więcej wiadomości, tym więcej czasu będzie potrzebne, aby zastosować filtr."
         }
