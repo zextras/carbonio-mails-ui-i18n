@@ -1084,7 +1084,10 @@
             "button_apply": "Zastosuj",
             "label_confirm_request": "Czy chcesz zastosować filtr?",
             "title": "Zastosowywanie filtra \"{{filterName}}\"",
-            "label_confirm_msg": "Im więcej wiadomości, tym więcej czasu będzie potrzebne, aby zastosować filtr."
+            "label_confirm_msg": "Im więcej wiadomości, tym więcej czasu będzie potrzebne, aby zastosować filtr.",
+            "apply_folder_one": "<bold>{{count}} wiadomość</bold> zostanie przetworzona w wybranym folderze.",
+            "apply_folder_few": "<bold>{{count}} wiadomości</bold> zostaną przetworzone w wybranym folderze.",
+            "apply_folder_many": "<bold>{{count}} wiadomości</bold> zostanie przetworzonych w wybranym folderze."
         }
     },
     "sortingDropdown": {
