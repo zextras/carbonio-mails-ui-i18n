@@ -589,7 +589,7 @@
     },
     "message": {
         "admin_rights": "Pregled, Uredi, Dodaj, Ukloni, Administracija",
-        "delete_attachment_message2": "Želite li preuzeti prije?",
+        "delete_attachment_message2": "Želite li prvo preuzeti?",
         "email_saved_at": "E-mail poruka spremljena kao nacrt u {{time}}",
         "external_images_blocked": "Vanjske slike su blokirane kako biste bili zaštićeni od potencijalnog spama",
         "invalid_search_message": "Nismo našli nijedno podudaranje",
@@ -597,7 +597,7 @@
         "schedule_mail": "Biće poslano: {{date}} u {{time}}",
         "schedule_time": "za {{date}} na {{time}}",
         "send_email": "Pošalji e-mail",
-        "send_later_success": "Vaš e-mail će biti poslat {{date}} u {{time}}",
+        "send_later_success": "Vaš e-mail će biti poslan {{date}} u {{time}}",
         "sending_mail_to_self": "Izgleda da šaljete e-mail samom sebi",
         "snackbar": {
             "att_err": "Čini se da postoji problem prilikom spašavanja, pokušajte ponovo",
