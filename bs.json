@@ -755,7 +755,7 @@
         "permanent_delete_body": "Ako trajno obrišete ovaj element, nećete ga moći vratiti. Nastavite?",
         "invalid_trustee_address": "Unesite samo e-mail adrese ili domene",
         "encrypted_message": "Ova poruka je kriptovana. Da biste je vidjeli, kliknite na \"Dekriptuj poruku\"",
-        "permanent_delete_title": "Jeste li sigurni da želite trajno izbrisati ovu stavku?"
+        "permanent_delete_title": "Jeste li siguni da želite trajno izbrisati ovu stavku?"
     },
     "messages,new_email": "novi email",
     "modal": {
