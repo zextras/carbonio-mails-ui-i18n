@@ -28,7 +28,7 @@
         "search": "Pretraži",
         "select_folders": "Odaberite foldere",
         "send_anyway": "Svejedno pošalji",
-        "share_folder": "Podijelite mapu",
+        "share_folder": "Podijelite direktorij",
         "show_details": "Prikaži detalje",
         "show_original": "Prikaži original",
         "unflag": "Ukloni zastavicu",
@@ -50,13 +50,13 @@
         "draft_title1": "Spremanje e-mail poruke kao nacrta omogućava da sačuvate poruke koje želite kasnije poslati.",
         "draft_title2": "Odaberi i uredi e-mail za slanje drugim korisnicima.",
         "junk_title1": "Kakva sreća! Nema neželjenih e-mailova o kojima morate da brinete",
-        "junk_title2": "Klikni na ikonu kante za smeće kako biste obrisali spam e-mail",
+        "junk_title2": "Klikni na ikonu kante kako biste obrisali spam e-mail",
         "list_draft_title": "Nema sačuvanih nacrta",
         "list_folder_title": "Izgleda da još uvijek nema e-mail poruka",
         "list_junk_title": "Ne postoje spam e-mail poruke",
         "list_sent_title": "Niste još poslali nijedan e-mail",
         "list_spam_title": "Ne postoje spam e-mail poruke",
-        "list_trash_title": "Smeće je prazno",
+        "list_trash_title": "Kanta za otpad je prazna",
         "search_description1": "Ili odaberite “Napredni filteri” da precizirate pretragu.",
         "search_description2": "Pokušaj pokrenuti novu pretragu.",
         "search_list_title1": "Izgleda da nema rezultata. Nastavite pretragu!",
@@ -65,12 +65,12 @@
         "search_title3": "Nema rezultata za vašu pretragu.",
         "search_title4": "Odaberi jedan ili više rezultata za izvršenje akcija ili prikaz detalja.",
         "sent_title2": "Odaberi e-mail da se prikaže šta ste poslali.",
-        "spam_title2": "Klikni na ikonu kante za smeće kako biste obrisali spam e-mail.",
+        "spam_title2": "Klikni na ikonu kante kako biste obrisali spam e-mail.",
         "title1": "Klikni na dugme \"NOVO\" za sastavljanje nove e-mail poruke",
         "title4": "Odaberi e-mail za čitanje",
         "title8": "Odaberi e-mail za čitanje ili ga izbrišite.",
         "trash_title1": "Kliknite na ikonu kante za otpad kako biste obrisali e-mail",
-        "trash_title2": "Odaberi i vrati e-poruke iz smeća.",
+        "trash_title2": "Odaberi i vrati e-poruke iz kante za otpad.",
         "title2": "Kliknite na dugme \"NOVO\"",
         "title3": "Ostanite u kontaktu s drugim korisnicima.",
         "spam_title1": "Kakva sreća! Nema neželjenih e-mailova o kojima morate da brinete"
@@ -172,7 +172,7 @@
         "action": {
             "edit_properties": "Uredi svojstva",
             "empty": {
-                "trash": "Isprazni smeće"
+                "trash": "Isprazni kantu za Otpad"
             },
             "wipe": {
                 "folder_panel": "Obriši direktorij"
@@ -229,10 +229,10 @@
     },
     "folders": {
         "drafts": "Nacrti",
-        "junk": "Bezvrijedna pošta",
+        "junk": "Neželjena pošta",
         "sent": "Poslano",
         "spam": "Neželjena pošta",
-        "trash": "Smeće",
+        "trash": "Otpad",
         "inbox": "Dolazna pošta"
     },
     "go_back": "Nazad",
@@ -720,7 +720,7 @@
             "folder_wiped": "Direktorij je uspješno obrisan",
             "mail_saved_to_drafts": "E-mail pohranjen u nacrtima",
             "mail_sent": "Poruka poslana",
-            "marked_as_non_spam": "Označili ste ovaj e-mail kao da se ne radi o bezvrijednoj pošti",
+            "marked_as_non_spam": "Označili ste ovaj e-mail kao da se ne radi o neželjenoj pošti",
             "message_delete_error": "Došlo je do greške, ova poruka nije obrisana. Pokušajte ponovo.",
             "message_deleted": "Poruka obrisana",
             "message_redirected": "Poruka je preusmjerena",
@@ -731,7 +731,7 @@
             "tag_not_updated": "Došlo je do greške, oznaka nije ažurirana. Molimo pokušajte ponovo.",
             "apply_filter_rules_completed": "Filter '{{filterName}}' je uspješno primijenjen na {{involvedMessagesCount}} poruke foldera '{{folderPath}}'",
             "folder_deleted": "Direktorij uspješno izbrisan.",
-            "marked_as_spam": "Označili ste ovaj e-mail kao bezvrijednu poštu (Spam)",
+            "marked_as_spam": "Označili ste ovaj e-mail kao neželjenu poštu (Spam)",
             "folder_move_error": "Došlo je do pogreške, direktorij nije premješten. Molim Vas pokušajte ponovo.",
             "apply_filter_error": "Filter još uvijek radi na serveru, ali je potrebno previše vremena da se prijave stavke na koje se to odnosi. Filter nastavlja raditi na serveru bez dodatnih informacija.",
             "conversation_move": "Razgovor je uspješno premješten",
@@ -749,7 +749,7 @@
         "recover_messages_modal_body": "Kada se proces završi, primit ćete obavijest u svom Inboxu i pronaći oporavljene poruke u potpuno novom direktoriju.",
         "searching_deleted_emails": "Pretraživanje izbrisanih e-mail poruka iz direktorija Obrisano može potrajati neko vrijeme. Kada se operacija završi, bit ćete upućeni na rezultate.",
         "invalid_sender_address": "Unesite samo e-mail adrese",
-        "blocked_addresses": "E-mail poruke poslane sa adresa na listi blokiranih pošiljalaca automatski će se premjestiti u vaš direktorij Bezvrijedna pošta.",
+        "blocked_addresses": "E-mail poruke poslane sa adresa na listi blokiranih pošiljalaca automatski će se premjestiti u vaš direktorij Neželjena pošta.",
         "edit_schedule_warning": "Uređivanjem ovog e-maila, vrijeme i datum koji su prethodno postavljeni za odloženo slanje će biti resetirani.",
         "allowed_addresses": "E-mail poruke poslane sa adresa na vašoj listi dozvoljenih pošiljalaca uvijek će zaobići vaš filter za neželjenu poštu i doći će direktno u vaš Inbox.",
         "permanent_delete_body": "Ako trajno obrišete ovaj element, nećete ga moći vratiti. Nastavite?",
@@ -900,7 +900,7 @@
             "set_message_color": "Postavi boju poruka i razgovora u skladu s bojom oznake.",
             "unsend_time": "Postavi vrijeme slanja",
             "visualization_options": "Opcije za vizuelizaciju",
-            "recover_messages_infotext": "Oporavite e-poruke izbrisane iz smeća upisivanjem ključne riječi unutar prvih 100 znakova poruke ili odabirom datuma.\nOdabrani datum će uključivati e-poruke izbrisane 3 dana prije i 3 dana poslije.\nKada se pretraga završi, bit ćete preusmjereni na stranicu s rezultatima gdje možete odabrati koje stavke želite vratiti."
+            "recover_messages_infotext": "Povratite e-poruke izbrisane iz kante za otpad upisivanjem ključne riječi unutar prvih 100 znakova poruke ili odabirom datuma.\nOdabrani datum će uključivati e-poruke izbrisane 3 dana prije i 3 dana poslije.\nKada se pretraga završi, bit ćete preusmjereni na stranicu s rezultatima gdje možete odabrati koje stavke želite vratiti."
         },
         "linkedin_msg": "LinkedIn poruke i veze",
         "localpart": "lokalni dio",
@@ -1059,7 +1059,7 @@
     },
     "snackbar": {
         "email_copied_to_clipboard": "E-mail poruka kopirana u međuspremnik.",
-        "email_moved_to_trash": "E-mail premješten u smeće",
+        "email_moved_to_trash": "E-mail premješten u Otpad",
         "folder_shared": "Folder je podijeljen",
         "share_resend": "Ponovno je poslana pozivnica za dijeljenje",
         "share_revoke": "Otkazano dijeljenje pristupa",
