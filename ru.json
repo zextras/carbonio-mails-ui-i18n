@@ -465,7 +465,8 @@
         "reset": "Сбросить",
         "uploading": "Загрузка",
         "sort_by": "Сортировать по",
-        "show": "Показать"
+        "show": "Показать",
+        "senderslist_numentries": "{{count}} из {{max}}"
     },
     "header": {
         "warning": "Предупреждение",
