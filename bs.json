@@ -780,7 +780,10 @@
             "button_apply": "Primijeni",
             "label_confirm_request": "Želite li primijeniti filter?",
             "title": "Filter aplikacije \"{{filterName}}\"",
-            "label_confirm_msg": "Što je više poruka prisutno, više će vremena biti potrebno za primijenu filtera."
+            "label_confirm_msg": "Što je više poruka prisutno, više će vremena biti potrebno za primijenu filtera.",
+            "apply_folder_one": "<bold>{{count}} </bold> poruka će biti obrađene unutar odabranog foldera.",
+            "apply_folder_few": "<bold>{{count}} </bold> poruke će biti obrađene unutar odabranog foldera.",
+            "apply_folder_other": "<bold>{{count}} </bold> poruka će biti obrađene unutar odabranog foldera."
         }
     },
     "new_folder": "Novi direktorij",
