@@ -777,7 +777,13 @@
             "button_apply": "طبق الفرز",
             "label_confirm_request": "هل تريد تطبيق الفرز؟",
             "title": "تطبيق عامل الفرز \"{{filterName}}\"",
-            "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق الفرز."
+            "label_confirm_msg": "كلما زاد عدد الرسائل الموجودة ، سيتطلب الأمر مزيدا من الوقت لتطبيق الفرز.",
+            "apply_folder_zero": "سيتم معالجة <bold>{{count}} رسالة</bold> داخل المجلد المحدد.",
+            "apply_folder_one": "سيتم معالجة <bold>رسالة واحدة</bold> داخل المجلد المحدد.",
+            "apply_folder_two": "سيتم معالجة <bold>رسالتان</bold> داخل المجلد المحدد.",
+            "apply_folder_few": "سيتم معالجة <bold>{{count}} رسائل</bold> داخل المجلد المحدد.",
+            "apply_folder_many": "سيتم معالجة <bold>{{count}} رسالة</bold> داخل المجلد المحدد.",
+            "apply_folder_other": "سيتم معالجة <bold>{{count}} رسالة</bold> داخل المجلد المحدد."
         }
     },
     "notification": {
