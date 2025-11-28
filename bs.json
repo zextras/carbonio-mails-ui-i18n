@@ -186,14 +186,14 @@
                 "body": {
                     "message1": "Želite li isprazniti odabrani direktorij?",
                     "message2": "Želite li trajno izbrisati izabrani direktorij?",
-                    "message4": "Ako ga izbrišete, sav povezani sadržaj će biti trajno uklonjen i direktorij se više neće moći vratiti.",
-                    "message3": "Ako ga izbrišete, sav povezani sadržaj će biti premješten u Otpad i direktorij više neće biti vidljiv."
+                    "message4": "Ako ga izbrišete, njegov sadržaj će biti trajno uklonjen i direktorij se više neće moći vratiti.",
+                    "message3": "Ako ga izbrišete, njegov sadržaj će biti premješten u Otpad i direktorij više neće biti vidljiv."
                 }
             },
             "empty": {
                 "body": {
                     "message1": "Želite li isprazniti odabrani direktorij?",
-                    "message2": "Ako ga ispraznite, svaki povezani sadržaj će biti trajno obrisan."
+                    "message2": "Ako ga ispraznite, njegov sadržaj će biti trajno obrisan."
                 }
             },
             "move": {
@@ -318,7 +318,7 @@
         "edit_tag": "Uredi oznaku",
         "edit_tag_name": "Uredi \"{{name}}\" oznaku",
         "email_perm_deleted": "E-mail poruka je trajno izbrisana",
-        "empty": "Prazan",
+        "empty": "Isprazni",
         "enable_message_disposal": "Omogući odlaganje poruka",
         "enter_email_address": "Unesite e-mail adresu ili domenu",
         "enter_name": "Unesite ime",
