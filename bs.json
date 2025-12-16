@@ -32,9 +32,9 @@
         "show_details": "Prikaži detalje",
         "show_original": "Prikaži original",
         "unflag": "Ukloni zastavicu",
-        "forward_as_attachment": "Prosledi kao priloženi dokument",
+        "forward_as_attachment": "Proslijedi kao priloženi dokument",
         "mark_as_read": "Označi kao pročitano",
-        "preview_on_separated_tab": "Otvari u novom tabu",
+        "preview_on_separated_tab": "Otvori u novom tabu",
         "preview_new_tab": "Kliknite za pregled u drugom tabu"
     },
     "displayer": {
@@ -193,7 +193,7 @@
             "empty": {
                 "body": {
                     "message1": "Želite li isprazniti odabrani direktorij?",
-                    "message2": "Ako ga ispraznite, njegov sadržaj će biti trajno obrisan."
+                    "message2": "Ako ga ispraznite njegov sadržaj će biti trajno obrisan."
                 }
             },
             "move": {
@@ -218,7 +218,7 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Ako ga obrišete, sav povezani sadržaj će biti trajno obrisan.",
+                    "message2": "Ako ga obrišete njegov sadržaj će biti trajno obrisan.",
                     "message1": "Želite li obrisati odabrani direktorij?"
                 }
             },
