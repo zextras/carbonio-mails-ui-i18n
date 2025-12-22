@@ -948,7 +948,7 @@
             "new_message_folder": "Prikaži obavještenja za nove poruke koje stignu u bilo koji direktorij"
         },
         "over": "preko",
-        "perform_following_action": "Izvrsite sljedeće radnje:",
+        "perform_following_action": "Izvršite sljedeće radnje:",
         "read_rcpt_optn": {
             "always": "Uvijek šalji potvrdu o prijemu",
             "ask_me": "Pitaj me",
@@ -1127,7 +1127,7 @@
         "resend": "Ponovo pošalji mail obavještenje o ovom dijeljenju",
         "revoke": "Otkaži pristup",
         "list_navigation": {
-            "loadingNextEmail": "Učitavanje sledećeg e-maila",
+            "loadingNextEmail": "Učitavanje sljedećeg e-maila",
             "goToPrevious": "Idi na prethodni e-mail",
             "closeToNavigate": "Zatvorite ovaj e-mail da biste navigirali",
             "unableToLoadNextEmail": "Nije moguće učitati sljedeću e-mail poruku. Pokušajte ponovo kasnije",
