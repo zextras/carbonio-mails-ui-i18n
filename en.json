@@ -469,7 +469,8 @@
             "tag_deleted": "{{name}} Tag deleted successfully",
             "tag_not_updated": "Something went wrong, the tag was not updated. Please try again.",
             "tag_updated": "Tag successfully updated",
-            "apply_filter_error": "Filter is still running on the server but it’s taking too much time to report the affected items. The filter keeps working on the server without additional information."
+            "apply_filter_error": "Filter is still running on the server but it’s taking too much time to report the affected items. The filter keeps working on the server without additional information.",
+            "folder_emptied": "Folder successfully emptied"
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
@@ -898,7 +899,8 @@
         "action": {
             "edit_properties": "Edit Properties",
             "empty": {
-                "trash": "Empty Trash"
+                "trash": "Empty Trash",
+                "folder_panel": "Empty Folder"
             },
             "wipe": {
                 "folder_panel": "Wipe Folder"
@@ -919,7 +921,19 @@
             "empty": {
                 "body": {
                     "message1": "Do you want to empty the selected folder?",
-                    "message2": "If you empty it, all the related content will be deleted permanently."
+                    "message2": "If you empty it, all the related content will be deleted permanently.",
+                    "message3": "This action cannot be undone."
+                },
+                "folder": {
+                    "button": {
+                        "yes": "Yes, Empty Folder",
+                        "no": "No, Cancel"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "Yes, Empty"
+                    }
                 }
             },
             "lists-item": {
