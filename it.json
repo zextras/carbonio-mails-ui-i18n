@@ -36,7 +36,8 @@
             "sending_mail_in_count_one": "Invio del messaggio tra {{count}} secondo",
             "sending_mail_in_count_many": "Invio del messaggio tra {{count}} secondi",
             "sending_mail_in_count_other": "Invio del messaggio tra {{count}} secondi",
-            "apply_filter_error": "Il filtro è ancora in esecuzione sul server, ma sta impiegando troppo tempo per segnalare gli elementi interessati. Il filtro continua a lavorare sul server senza ulteriori informazioni."
+            "apply_filter_error": "Il filtro è ancora in esecuzione sul server, ma sta impiegando troppo tempo per segnalare gli elementi interessati. Il filtro continua a lavorare sul server senza ulteriori informazioni.",
+            "folder_emptied": "Cartella svuotata con successo"
         },
         "modal": {
             "delete": {
@@ -979,7 +980,19 @@
             "empty": {
                 "body": {
                     "message1": "Vuoi svuotare la cartella selezionata?",
-                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente."
+                    "message2": "Se rimuovi il contenuto questo verrà eliminato definitivamente.",
+                    "message3": "L'azione è irreversibile."
+                },
+                "folder": {
+                    "button": {
+                        "yes": "Si, svuota cartella",
+                        "no": "No, annulla"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "Si, svuota"
+                    }
                 }
             },
             "move": {
@@ -994,7 +1007,8 @@
         },
         "action": {
             "empty": {
-                "trash": "Svuota cestino"
+                "trash": "Svuota cestino",
+                "folder_panel": "Svuota cartella"
             },
             "edit_properties": "Modifica Proprietà",
             "wipe": {
