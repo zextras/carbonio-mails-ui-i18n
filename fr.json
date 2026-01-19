@@ -565,7 +565,8 @@
             "sending_mail_in_count_one": "Envoi de votre message dans {{count}} seconde",
             "sending_mail_in_count_many": "Envoi de votre message dans {{count}} secondes",
             "sending_mail_in_count_other": "Envoi de votre message dans {{count}} secondes",
-            "apply_filter_error": "Le filtre est toujours en cours sur le serveur, mais il prend trop de temps pour indiquer les éléments concernés. Le filtre continue de fonctionner sur le serveur sans informations supplémentaires."
+            "apply_filter_error": "Le filtre est toujours en cours sur le serveur, mais il prend trop de temps pour indiquer les éléments concernés. Le filtre continue de fonctionner sur le serveur sans informations supplémentaires.",
+            "folder_emptied": "Fichier vidé avec succès"
         },
         "check_and_try_again": "Merci de vérifier Carbonio et de réessayer",
         "could_not_find_to_show": "Désolé, il n'est pas possible de trouver un élément à afficher",
@@ -953,7 +954,8 @@
         "action": {
             "edit_properties": "Modifier les propriétés",
             "empty": {
-                "trash": "Vider la Corbeille"
+                "trash": "Vider la Corbeille",
+                "folder_panel": "Vider le dossier"
             },
             "wipe": {
                 "folder_panel": "Effacer le dossier"
@@ -991,7 +993,19 @@
             "empty": {
                 "body": {
                     "message1": "Souhaitez-vous vider le dossier sélectionné ?",
-                    "message2": "Si vous le videz, tout le contenu relatif sera supprimé définitivement."
+                    "message2": "Si vous le videz, tout le contenu relatif sera supprimé définitivement.",
+                    "message3": "Cette action ne peut être annulée."
+                },
+                "folder": {
+                    "button": {
+                        "yes": "Oui, vider le dossier",
+                        "no": "Non, Annuler"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "Oui, vider"
+                    }
                 }
             },
             "wipe": {
