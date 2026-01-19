@@ -580,7 +580,19 @@
             "empty": {
                 "body": {
                     "message1": "Czy na pewno chcesz opróżnić wskazany folder?",
-                    "message2": "Jeśli go opróżnisz, cała powiązana z nim zawartość zostanie trwale usunięta."
+                    "message2": "Jeśli go opróżnisz, cała powiązana z nim zawartość zostanie trwale usunięta.",
+                    "message3": "Tej czynności nie da się cofnąć."
+                },
+                "folder": {
+                    "button": {
+                        "yes": "Tak, opróżnij folder",
+                        "no": "Nie, anuluj"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "Tak, opróżnij"
+                    }
                 }
             },
             "move": {
@@ -613,7 +625,8 @@
         "action": {
             "edit_properties": "Edytuj Właściwości",
             "empty": {
-                "trash": "Opróżnij kosz"
+                "trash": "Opróżnij kosz",
+                "folder_panel": "Opróżnij folder"
             },
             "wipe": {
                 "folder_panel": "Wyczyść Folder"
@@ -667,7 +680,8 @@
             "sending_mail_in_count_few": "Twoja wiadomość zostanie wysłana za {{count}} sekundy",
             "sending_mail_in_count_many": "Twoja wiadomość zostanie wysłana za {{count}} sekund",
             "apply_filter_error": "Filtr dalej działa na serwerze, ale zgłoszenie dotkniętych elementów zajmuje zbyt dużo czasu. Filtr dalej pracuje na serwerze bez dodatkowych informacji.",
-            "folder_will_be_moved_in_time": "Folder zostanie przeniesiony za {{remainingTime}}."
+            "folder_will_be_moved_in_time": "Folder zostanie przeniesiony za {{remainingTime}}.",
+            "folder_emptied": "Folder został opróżniony"
         },
         "modal": {
             "delete": {
