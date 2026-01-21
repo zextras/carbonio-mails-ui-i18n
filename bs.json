@@ -578,7 +578,6 @@
         "change_filtering_sorting_options": "Promijenite opcije filtriranja i sortiranja",
         "reset": "Resetuj",
         "uploading": "Otpremanje",
-        "reset_to_sort_by_date": "Reset na “Sortiraj po: Datumu”",
         "sort_by": "Sortiraj po",
         "show": "Prikaži",
         "senderslist_numentries": "{{count}} od {{max}}"
