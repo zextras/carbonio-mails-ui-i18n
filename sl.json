@@ -356,7 +356,6 @@
         },
         "message_size_exceeded": "Velikost sporočila presega dovoljeno mejo",
         "reply_to": "Odgovor na",
-        "reset_to_sort_by_date": "Ponastavi na \"Razvrsti po: datumu\"",
         "change_filtering_sorting_options": "Spremeni nastavitve urejenosti in filtriranja",
         "reset": "Ponastavi",
         "sort_by": "Urejeno po",
