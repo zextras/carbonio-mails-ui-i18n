@@ -344,7 +344,6 @@
         },
         "message_size_exceeded": "The message size exceeds the limit",
         "reply_to": "Reply To",
-        "reset_to_sort_by_date": "Reset to “Sort by: Date\"",
         "change_filtering_sorting_options": "Change filtering and sorting options",
         "reset": "Reset",
         "uploading": "Uploading",
