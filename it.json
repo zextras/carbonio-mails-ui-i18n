@@ -463,7 +463,8 @@
         "uploading": "Caricamento",
         "sort_by": "Ordina per",
         "show": "Mostra",
-        "senderslist_numentries": "{{count}} su {{max}}"
+        "senderslist_numentries": "{{count}} su {{max}}",
+        "reset_sort_and_filter_to_default": "Ripristina predefiniti"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -1133,7 +1134,8 @@
         "to": "A",
         "unread": "Non letto",
         "sort_by": "Ordina per:",
-        "show": "Mostra:"
+        "show": "Mostra:",
+        "default": "Predefinito"
     },
     "editor": {
         "warning": {
