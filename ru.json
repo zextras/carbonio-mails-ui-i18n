@@ -461,7 +461,6 @@
         "message_size_exceeded": "Размер сообщения превышает лимит",
         "reply_to": "Ответить",
         "change_filtering_sorting_options": "Изменить параметры фильтра и сортировки",
-        "reset_to_sort_by_date": "Сбросить до «Сортировать по: дате»",
         "reset": "Сбросить",
         "uploading": "Загрузка",
         "sort_by": "Сортировать по",
