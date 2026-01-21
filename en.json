@@ -349,7 +349,8 @@
         "uploading": "Uploading",
         "sort_by": "Sort by",
         "show": "Show",
-        "senderslist_numentries": "{{count}} of {{max}}"
+        "senderslist_numentries": "{{count}} of {{max}}",
+        "reset_sort_and_filter_to_default": "Reset to default"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -1135,7 +1136,9 @@
         "to": "To",
         "unread": "Unread",
         "show": "Show:",
-        "sort_by": "Sort by:"
+        "sort_by": "Sort by:",
+        "all": "All",
+        "default": "Default"
     },
     "title": {
         "new_messages": "New Messages",
