@@ -482,7 +482,8 @@
         "uploading": "Przesyłanie",
         "show": "Pokaż",
         "sort_by": "Sortuj wg",
-        "senderslist_numentries": "{{count}} z {{max}}"
+        "senderslist_numentries": "{{count}} z {{max}}",
+        "reset_sort_and_filter_to_default": "Zresetuj do domyślnego"
     },
     "message": {
         "snackbar": {
@@ -539,7 +540,7 @@
             "share_calendar_with": {
                 "external_guests": "Goście spoza mojej domeny (mogą tylko wyświetlać)",
                 "internal_users_groups": "Użytkownicy lub grupy z mojej organizacji",
-                "public": "Publiczny (można tylko wyświetlać, hasło niewymagane)"
+                "public": "Udostępnij publicznie (można tylko wyświetlać, hasło niewymagane)"
             },
             "share_calendar_role": {
                 "admin": "Administrator",
@@ -1136,7 +1137,8 @@
         "unread": "Nieprzeczytane",
         "descendingOrder": "Malejąco",
         "show": "Pokaż:",
-        "sort_by": "Sortuj wg:"
+        "sort_by": "Sortuj wg:",
+        "default": "Domyślne"
     },
     "editor": {
         "warning": {
