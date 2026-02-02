@@ -681,7 +681,9 @@
             "sending_mail_in_count_many": "Twoja wiadomość zostanie wysłana za {{count}} sekund",
             "apply_filter_error": "Filtr dalej działa na serwerze, ale zgłoszenie dotkniętych elementów zajmuje zbyt dużo czasu. Filtr dalej pracuje na serwerze bez dodatkowych informacji.",
             "folder_will_be_moved_in_time": "Folder zostanie przeniesiony za {{remainingTime}}.",
-            "folder_emptied": "Folder został opróżniony"
+            "folder_emptied": "Folder został opróżniony",
+            "conversation_marked_as_non_spam": "Konwersacja oznaczona jako nie-spam",
+            "conversation_marked_as_spam": "Konwersacja oznaczona jako spam"
         },
         "modal": {
             "delete": {
@@ -1015,7 +1017,8 @@
         "email_copied_to_clipboard": "E-mail został skopiowany do schowka.",
         "uploadCertificate": {
             "failToVerifyCertificate": "Nie udało się zweryfikować certyfikatu"
-        }
+        },
+        "conversation_moved_to_trash": "Konwersację przeniesiono do kosza"
     },
     "title": {
         "new_messages": "Nowe wiadomości",
