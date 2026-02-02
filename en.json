@@ -470,7 +470,9 @@
             "tag_not_updated": "Something went wrong, the tag was not updated. Please try again.",
             "tag_updated": "Tag successfully updated",
             "apply_filter_error": "Filter is still running on the server but it’s taking too much time to report the affected items. The filter keeps working on the server without additional information.",
-            "folder_emptied": "Folder successfully emptied"
+            "folder_emptied": "Folder successfully emptied",
+            "conversation_marked_as_non_spam": "Conversation marked as Not Spam",
+            "conversation_marked_as_spam": "Conversation marked as Spam"
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
@@ -717,7 +719,8 @@
         "share_revoke": "Share access revoked",
         "share_updated": "\"Access rights updated\"",
         "tag_applied": "\"{{tag}}\" tag applied",
-        "tag_removed": "\"{{tag}}\" tag removed"
+        "tag_removed": "\"{{tag}}\" tag removed",
+        "conversation_moved_to_trash": "Conversation moved to Trash"
     },
     "tooltip": {
         "markedAsEncryptedSmime": "Marked as encrypted (S/MIME)",
