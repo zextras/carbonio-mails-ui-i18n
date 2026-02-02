@@ -37,7 +37,9 @@
             "sending_mail_in_count_many": "Invio del messaggio tra {{count}} secondi",
             "sending_mail_in_count_other": "Invio del messaggio tra {{count}} secondi",
             "apply_filter_error": "Il filtro è ancora in esecuzione sul server, ma sta impiegando troppo tempo per segnalare gli elementi interessati. Il filtro continua a lavorare sul server senza ulteriori informazioni.",
-            "folder_emptied": "Cartella svuotata con successo"
+            "folder_emptied": "Cartella svuotata con successo",
+            "conversation_marked_as_non_spam": "Conversazione contrassegnata come Non Spam",
+            "conversation_marked_as_spam": "Conversazione contrassegnata come Spam"
         },
         "modal": {
             "delete": {
@@ -635,7 +637,8 @@
         "email_copied_to_clipboard": "Email copiata negli appunti.",
         "uploadCertificate": {
             "failToVerifyCertificate": "Verifica del certificato non riuscita"
-        }
+        },
+        "conversation_moved_to_trash": "Conversazione spostata nel Cestino"
     },
     "share": {
         "options": {
