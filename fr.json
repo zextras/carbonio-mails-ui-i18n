@@ -566,7 +566,9 @@
             "sending_mail_in_count_many": "Envoi de votre message dans {{count}} secondes",
             "sending_mail_in_count_other": "Envoi de votre message dans {{count}} secondes",
             "apply_filter_error": "Le filtre est toujours en cours sur le serveur, mais il prend trop de temps pour indiquer les éléments concernés. Le filtre continue de fonctionner sur le serveur sans informations supplémentaires.",
-            "folder_emptied": "Fichier vidé avec succès"
+            "folder_emptied": "Fichier vidé avec succès",
+            "conversation_marked_as_non_spam": "La conversation a été marquée comme Non Spam",
+            "conversation_marked_as_spam": "Conversation marquée comme Spam"
         },
         "check_and_try_again": "Merci de vérifier Carbonio et de réessayer",
         "could_not_find_to_show": "Désolé, il n'est pas possible de trouver un élément à afficher",
@@ -865,7 +867,8 @@
         "email_copied_to_clipboard": "Email copié dans le presse papier.",
         "uploadCertificate": {
             "failToVerifyCertificate": "Échec lors de la vérification du certificat"
-        }
+        },
+        "conversation_moved_to_trash": "Conversation déplacée dans la corbeille"
     },
     "title": {
         "new_messages": "Nouveaux messages",
