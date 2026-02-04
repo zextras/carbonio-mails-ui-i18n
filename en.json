@@ -747,7 +747,8 @@
         },
         "markedAsSingedSmime": "Marked as signed (S/MIME)",
         "moreActions": "More actions",
-        "subfolder_unread_status": "{{count}} unread mails in subfolders"
+        "subfolder_unread_status": "{{count}} unread mails in subfolders",
+        "view_more": "View all items in this list"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
