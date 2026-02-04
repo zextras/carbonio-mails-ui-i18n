@@ -148,7 +148,8 @@
         "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)",
         "markedAsEncryptedSmime": "Oznaczony jako zaszyfrowany (S/MIME)",
         "moreActions": "Więcej czynności",
-        "subfolder_unread_status": "{{count}} nieprzeczytanych e-maili w podfolderach"
+        "subfolder_unread_status": "{{count}} nieprzeczytanych e-maili w podfolderach",
+        "view_more": "Zobacz wszystkie elementy na tej liście"
     },
     "label": {
         "create": "Stwórz",
