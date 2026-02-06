@@ -583,7 +583,6 @@
         "senderslist_numentries": "{{count}} od {{max}}"
     },
     "labels": {
-        "compose_colin": "Sastavi :",
         "composing_messages": "Sastavljanje poruka"
     },
     "message": {
