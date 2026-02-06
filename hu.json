@@ -903,7 +903,6 @@
         "tag_removed": "„{{tag}}” címke eltávolítva"
     },
     "labels": {
-        "compose_colin": "Új üzenet:",
         "composing_messages": "Üzenetek írása"
     },
     "messages,new_email": "új e- mail",
