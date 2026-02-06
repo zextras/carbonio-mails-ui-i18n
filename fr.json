@@ -900,7 +900,8 @@
         "markedAsSingedSmime": "Marqué comme signé (S/MIME)",
         "markedAsEncryptedSmime": "Marqué comme crypté (S/MIME)",
         "moreActions": "Plus d'actions",
-        "subfolder_unread_status": "{{count}} messages non lus dans les sous-dossiers"
+        "subfolder_unread_status": "{{count}} messages non lus dans les sous-dossiers",
+        "view_more": "Voir tous les éléments de cette liste"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
