@@ -728,7 +728,6 @@
         "encrypted_message": "تم تشفير هذه الرسالة. لعرضها، انقر على \"فك تشفير الرسالة\""
     },
     "labels": {
-        "compose_colin": "أنشأ:",
         "composing_messages": "إنشاء الرسائل"
     },
     "message": {
