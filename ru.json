@@ -1074,7 +1074,6 @@
     "new_folder": "Новая папка",
     "go_back": "Назад",
     "labels": {
-        "compose_colin": "Создать:",
         "composing_messages": "Создание сообщений"
     },
     "messages,new_email": "Новое письмо",
