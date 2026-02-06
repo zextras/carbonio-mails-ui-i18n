@@ -350,7 +350,9 @@
         "sort_by": "Sort by",
         "show": "Show",
         "senderslist_numentries": "{{count}} of {{max}}",
-        "reset_sort_and_filter_to_default": "Reset to default"
+        "reset_sort_and_filter_to_default": "Reset to default",
+        "always_request_read_receipts": "Always request read receipts",
+        "read_receipt_description": "Get notified when recipients open your emails. This applies to all messages unless changed manually"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -990,7 +992,8 @@
     },
     "labels": {
         "compose_colin": "Compose :",
-        "composing_messages": "Composing Messages"
+        "composing_messages": "Composing Messages",
+        "compose": "Compose"
     },
     "message": {
         "admin_rights": "View,Edit,Add,Remove,Administer",
