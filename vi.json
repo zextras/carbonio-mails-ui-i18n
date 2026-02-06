@@ -725,8 +725,7 @@
         }
     },
     "labels": {
-        "composing_messages": "Soạn thư",
-        "compose_colin": "Soạn:"
+        "composing_messages": "Soạn thư"
     },
     "go_back": "Quay lại"
 }
