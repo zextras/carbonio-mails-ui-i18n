@@ -525,7 +525,6 @@
         "error_unable_load_signatures": "Ezin dira sinadurak kargatu. Mesedez, kargatu berriro edo saiatu geroago."
     },
     "labels": {
-        "compose_colin": "Idatzi:",
         "composing_messages": "Mezuak idatzi"
     },
     "message": {
