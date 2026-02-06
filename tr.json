@@ -842,8 +842,7 @@
     },
     "new_folder": "Yeni Klasör",
     "labels": {
-        "composing_messages": "Mesaj Oluşturma",
-        "compose_colin": "Oluştur:"
+        "composing_messages": "Mesaj Oluşturma"
     },
     "go_back": "Geriye git",
     "messages,new_email": "yeni e-posta",
