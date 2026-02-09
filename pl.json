@@ -484,7 +484,10 @@
         "show": "Pokaż",
         "sort_by": "Sortuj wg",
         "senderslist_numentries": "{{count}} z {{max}}",
-        "reset_sort_and_filter_to_default": "Zresetuj do domyślnego"
+        "reset_sort_and_filter_to_default": "Zresetuj do domyślnego",
+        "always_request_read_receipts": "Zawsze proś o potwierdzenie przeczytania",
+        "read_receipt_description": "Dostawaj powiadomienia kiedy odbiorcy otwierają Twoje e-maile. To dotyczy wszystkich wiadomości, chyba, że zmienisz to manualnie.",
+        "composing_messages_read_receipt": "Potwierdzenie przeczytania"
     },
     "message": {
         "snackbar": {
@@ -774,7 +777,10 @@
         "invalid_sender_address": "Wprowadź tylko adresy e-mail",
         "allowed_addresses": "E-maile wysłane przez adresy znajdujące się na Twojej liście dozwolonych nadawców zawsze będą omijać filtr spamu i będą trafiać bezpośrednio do Twojej skrzynki odbiorczej.",
         "blocked_addresses": "E-maile wysłane przez adresy znajdujące się na liście zablokowanych nadawców zostaną automatycznie przeniesione do Twojego folderu spamu.",
-        "encrypted_message": "Ta wiadomość została zaszyfrowana. Aby ją zobaczyć, kliknij na \"Odszyfruj wiadomość\""
+        "encrypted_message": "Ta wiadomość została zaszyfrowana. Aby ją zobaczyć, kliknij na \"Odszyfruj wiadomość\"",
+        "confirm_delete_draft_one": "Czy na pewno chcesz usunąć tę wersję roboczą?",
+        "confirm_delete_draft_few": "Jedna lub więcej wersji roboczych jest otwartych w edytorze. Czy na pewno chcesz je usunąć?",
+        "confirm_delete_draft_many": "Jedna lub więcej wersji roboczych jest otwartych w edytorze. Czy na pewno chcesz je usunąć?"
     },
     "settings": {
         "conv_is_participated": "w konwersacjach, w których uczestniczyłem",
@@ -1092,7 +1098,8 @@
     },
     "new_folder": "Nowy folder",
     "labels": {
-        "composing_messages": "Tworzenie wiadomości"
+        "composing_messages": "Tworzenie wiadomości",
+        "compose": "Twórz"
     },
     "go_back": "Powrót",
     "messages,new_email": "nowy e-mail",
@@ -1141,7 +1148,8 @@
         "descendingOrder": "Malejąco",
         "show": "Pokaż:",
         "sort_by": "Sortuj wg:",
-        "default": "Domyślne"
+        "default": "Domyślne",
+        "all": "Wszystkie"
     },
     "editor": {
         "warning": {
@@ -1206,5 +1214,13 @@
     },
     "error": {
         "invalid_recipient": "Adres odbiorcy {{invalidAddress}} nie istnieje lub jest nieprawidłowy"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "Wersja robocza zapisana o {{time}}",
+            "draftSaveDateTime": "Wersja robocza zapisana {{date}} o {{time}}",
+            "draftSaving": "Zapisywanie…",
+            "draftNotSaved": "Wersja robocza nie jest zapisana"
+        }
     }
 }
