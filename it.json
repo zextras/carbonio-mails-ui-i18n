@@ -131,7 +131,10 @@
         "searching_deleted_emails": "La ricerca all'interno del cestino delle email eliminate può richiedere del tempo. Una volta che l'operazione sarà completata, verrai reindirizzato ai risultati.",
         "blocked_addresses": "Le email inviate da indirizzi inclusi nella lista dei mittenti bloccati verranno automaticamente spostate nella cartella di spam.",
         "allowed_addresses": "Le email inviate da un indirizzo incluso tra nella lista dei mittenti consentiti supereranno sempre il filtro spam e arriveranno direttamente nella tua casella di posta.",
-        "encrypted_message": "Questo messaggio è stato cifrato. Per visualizzarlo fare clic su \"Decifra messaggio\""
+        "encrypted_message": "Questo messaggio è stato cifrato. Per visualizzarlo fare clic su \"Decifra messaggio\"",
+        "confirm_delete_draft_one": "Sei sicuro di voler eliminare questa bozza?",
+        "confirm_delete_draft_many": "Una o più bozze sono aperte nell'editor. Sei sicuro di volerle eliminare?",
+        "confirm_delete_draft_other": "Una o più bozze sono aperte nell'editor. Sei sicuro di volerle eliminare?"
     },
     "label": {
         "cc": "Cc",
@@ -497,7 +500,8 @@
         "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)",
         "markedAsEncryptedSmime": "Contrassegnato come cifrato (S/MIME)",
         "moreActions": "Altre azioni",
-        "subfolder_unread_status": "{{count}} mails non lette nelle sottocartelle"
+        "subfolder_unread_status": "{{count}} mails non lette nelle sottocartelle",
+        "view_more": "Mostra tutti gli elementi in questa lista"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -1141,7 +1145,8 @@
         "unread": "Non letto",
         "sort_by": "Ordina per:",
         "show": "Mostra:",
-        "default": "Predefinito"
+        "default": "Predefinito",
+        "all": "Tutto"
     },
     "editor": {
         "warning": {
@@ -1206,5 +1211,13 @@
     },
     "error": {
         "invalid_recipient": "L'indirizzo email {{invalidAddress}} non esiste o non è valido"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "Bozza salvata alle {{time}}",
+            "draftSaveDateTime": "Bozza salvata il {{date}} alle {{time}}",
+            "draftSaving": "Salvataggio in corso…",
+            "draftNotSaved": "Bozza non salvata"
+        }
     }
 }
