@@ -16,7 +16,8 @@
             },
             "files": "Add from Files",
             "local": "Add from local",
-            "url": "Add public link from Files"
+            "url": "Add public link from Files",
+            "add_original": "Add original attachment(s)"
         }
     },
     "label": {
