@@ -16,7 +16,8 @@
             },
             "files": "Add from Files",
             "local": "Add from local",
-            "url": "Add public link from Files"
+            "url": "Add public link from Files",
+            "add_original": "Add original attachment(s)"
         }
     },
     "label": {
@@ -486,7 +487,9 @@
         "searching_deleted_emails": "Searching deleted e-mails from Trash may take some time. Once the operation is completed, you will be directed to the results.",
         "invalid_sender_address": "Please enter only e-mail addresses",
         "allowed_addresses": "Mails sent from addresses on your allowed senders list will always bypass your spam filter and land directly in your inbox.",
-        "blocked_addresses": "Mails sent from addresses on the blocked senders list will be automatically moved to your spam folder."
+        "blocked_addresses": "Mails sent from addresses on the blocked senders list will be automatically moved to your spam folder.",
+        "confirm_delete_draft_one": "Are you sure you want to delete this draft?",
+        "confirm_delete_draft_other": "One or more drafts are open in the editor. Are you sure you want to delete them?"
     },
     "settings": {
         "app": "Settings",
@@ -1206,5 +1209,13 @@
     },
     "error": {
         "invalid_recipient": "The recipient address {{invalidAddress}} does not exist or is invalid"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "Draft saved at {{time}}",
+            "draftSaveDateTime": "Draft saved on {{date}} at {{time}}",
+            "draftSaving": "Saving…",
+            "draftNotSaved": "Draft not saved"
+        }
     }
 }
