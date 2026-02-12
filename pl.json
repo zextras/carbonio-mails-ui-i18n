@@ -98,7 +98,8 @@
                 "title": "Tryb przeciągnij i upuść"
             },
             "files": "Dodaj z Plików",
-            "url": "Dodaj publiczny link z Plików"
+            "url": "Dodaj publiczny link z Plików",
+            "add_original": "Dodaj oryginalne załączniki"
         },
         "uploadCertificate": {
             "emailNotMatch": "E-mail certyfikatu nie pasuje do e-maila nadawcy",
