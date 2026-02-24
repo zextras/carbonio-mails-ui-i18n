@@ -538,8 +538,7 @@
         },
         "markedAsEncryptedSmime": "Помечено как зашифрованное (S/MIME)",
         "markedAsSingedSmime": "Помечено как подписанное (S/MIME)",
-        "moreActions": "Больше действий",
-        "subfolder_unread_status": "{{count}} непрочитанных писем в подпапках"
+        "moreActions": "Больше действий"
     },
     "composer": {
         "attachment": {
