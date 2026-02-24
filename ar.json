@@ -1125,8 +1125,7 @@
         "disable_urgent": "لتعطيل العاجل",
         "markedAsSingedSmime": "معلمة كموقعه (S/MIME)",
         "markedAsEncryptedSmime": "مُعَلم كمشفر (S/MIME)",
-        "moreActions": "المزيد من الإجراءات",
-        "subfolder_unread_status": "{{count}} رسائل بريد إلكتروني غير مقروءة في المجلدات الفرعية"
+        "moreActions": "المزيد من الإجراءات"
     },
     "layoutView": {
         "tooltip": {
