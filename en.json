@@ -755,7 +755,6 @@
         },
         "markedAsSingedSmime": "Marked as signed (S/MIME)",
         "moreActions": "More actions",
-        "subfolder_unread_status": "{{count}} unread mails in subfolders",
         "view_more_one": "View {{count}} more item",
         "view_more_other": "View {{count}} more items",
         "account_unread_count_one": "{{count}} unread mail",
