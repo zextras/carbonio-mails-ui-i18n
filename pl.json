@@ -148,7 +148,16 @@
         },
         "markedAsSingedSmime": "Oznaczone jako podpisane (S/MIME)",
         "markedAsEncryptedSmime": "Oznaczony jako zaszyfrowany (S/MIME)",
-        "moreActions": "Więcej czynności"
+        "moreActions": "Więcej czynności",
+        "view_more_one": "Wyświetl {{count}} kolejny element",
+        "view_more_few": "Wyświetl {{count}} kolejne elementy",
+        "view_more_many": "Wyświetl {{count}} kolejnych elementów",
+        "account_unread_count_one": "{{count}} nieprzeczytany e-mail",
+        "account_unread_count_few": "{{count}} nieprzeczytane e-maile",
+        "account_unread_count_many": "{{count}} nieprzeczytanych e-maili",
+        "subfolder_unread_count_one": "{{count}} nieprzeczytany e-mail w podfolderach",
+        "subfolder_unread_count_few": "{{count}} nieprzeczytane e-maile w podfolderach",
+        "subfolder_unread_count_many": "{{count}} nieprzeczytanych e-maili w podfolderach"
     },
     "label": {
         "create": "Stwórz",
@@ -642,7 +651,8 @@
         "junk": "Spam",
         "spam": "Spam",
         "trash": "Kosz",
-        "sent": "Wysłane"
+        "sent": "Wysłane",
+        "archive": "Archiwum"
     },
     "messages": {
         "invalid_address": "Wygląda na to, że ten adres jest nieprawidłowy",
@@ -1024,7 +1034,9 @@
         "uploadCertificate": {
             "failToVerifyCertificate": "Nie udało się zweryfikować certyfikatu"
         },
-        "conversation_moved_to_trash": "Konwersację przeniesiono do kosza"
+        "conversation_moved_to_trash": "Konwersację przeniesiono do kosza",
+        "message_moved_to_archive": "E-mail został przeniesiony do archiwum",
+        "conversation_moved_to_archive": "Konwersacja została przeniesiona do archiwum"
     },
     "title": {
         "new_messages": "Nowe wiadomości",
