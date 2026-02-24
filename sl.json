@@ -634,8 +634,7 @@
             "noPreviousEmails": "Ni prejšnjih e-poštnih sporočil"
         },
         "markedAsSingedSmime": "Označeno kot podpisano (S/MIME)",
-        "moreActions": "Več dejanj",
-        "subfolder_unread_status": "{{count}} neprebranih sporočil v podmapah"
+        "moreActions": "Več dejanj"
     },
     "modal": {
         "initializeError": {
