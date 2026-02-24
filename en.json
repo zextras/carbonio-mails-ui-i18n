@@ -726,7 +726,9 @@
         "share_updated": "\"Access rights updated\"",
         "tag_applied": "\"{{tag}}\" tag applied",
         "tag_removed": "\"{{tag}}\" tag removed",
-        "conversation_moved_to_trash": "Conversation moved to Trash"
+        "conversation_moved_to_trash": "Conversation moved to Trash",
+        "message_moved_to_archive": "E-mail moved to Archive",
+        "conversation_moved_to_archive": "Conversation moved to Archive"
     },
     "tooltip": {
         "markedAsEncryptedSmime": "Marked as encrypted (S/MIME)",
@@ -755,7 +757,11 @@
         "moreActions": "More actions",
         "subfolder_unread_status": "{{count}} unread mails in subfolders",
         "view_more_one": "View {{count}} more item",
-        "view_more_other": "View {{count}} more items"
+        "view_more_other": "View {{count}} more items",
+        "account_unread_count_one": "{{count}} unread mail",
+        "account_unread_count_other": "{{count}} unread mails",
+        "subfolder_unread_count_one": "{{count}} unread mail in subfolders",
+        "subfolder_unread_count_other": "{{count}} unread mails in subfolders"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
@@ -984,7 +990,8 @@
         "junk": "Junk",
         "sent": "Sent",
         "spam": "Spam",
-        "trash": "Trash"
+        "trash": "Trash",
+        "archive": "Archive"
     },
     "go_back": "Go Back",
     "header": {
