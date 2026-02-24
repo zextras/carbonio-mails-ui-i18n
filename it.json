@@ -499,7 +499,16 @@
         },
         "markedAsSingedSmime": "Contrassegnato come firmato (S/MIME)",
         "markedAsEncryptedSmime": "Contrassegnato come cifrato (S/MIME)",
-        "moreActions": "Altre azioni"
+        "moreActions": "Altre azioni",
+        "view_more_one": "Visualizza {{count}} altro elemento",
+        "view_more_many": "Visualizza altri {{count}} elementi",
+        "view_more_other": "Visualizza altri {{count}} elementi",
+        "account_unread_count_one": "{{count}} mail non letta",
+        "account_unread_count_many": "{{count}} mail non lette",
+        "account_unread_count_other": "{{count}} mail non lette",
+        "subfolder_unread_count_one": "{{count}} mail non letta nelle sottocartelle",
+        "subfolder_unread_count_many": "{{count}} mail non lette nelle sottocartelle",
+        "subfolder_unread_count_other": "{{count}} mail non lette nelle sottocartelle"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -570,7 +579,8 @@
         "junk": "Spam",
         "sent": "Inviati",
         "trash": "Cestino",
-        "spam": "Spam"
+        "spam": "Spam",
+        "archive": "Archivio"
     },
     "composer": {
         "attachment": {
@@ -581,7 +591,8 @@
                 "content": "Trascina qui gli allegati per aggiungerli velocemente a questa e-mail"
             },
             "files": "Aggiungi da Files",
-            "url": "Aggiungi link pubblico da Files"
+            "url": "Aggiungi link pubblico da Files",
+            "add_original": "Carica allegati originali"
         },
         "uploadCertificate": {
             "emailNotMatch": "L'email del certificato non corrisponde all'email del mittente",
@@ -643,7 +654,9 @@
         "uploadCertificate": {
             "failToVerifyCertificate": "Verifica del certificato non riuscita"
         },
-        "conversation_moved_to_trash": "Conversazione spostata nel Cestino"
+        "conversation_moved_to_trash": "Conversazione spostata nel Cestino",
+        "message_moved_to_archive": "E-mail spostata nell'Archivio",
+        "conversation_moved_to_archive": "Conversazione spostata nell'Archivio"
     },
     "share": {
         "options": {
