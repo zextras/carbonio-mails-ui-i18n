@@ -46,7 +46,8 @@
                 "title": "Mode Glisser-Déposer"
             },
             "files": "Ajouter à partir de Files",
-            "url": "Ajouter un lien public à partir de Files"
+            "url": "Ajouter un lien public à partir de Files",
+            "add_original": "Ajouter les pièces jointes originales"
         },
         "uploadCertificate": {
             "emailNotMatch": "L'adresse électronique du certificat ne correspond pas à celle de l'expéditeur",
@@ -420,7 +421,10 @@
         "sort_by": "Trier par",
         "show": "Filtré par",
         "senderslist_numentries": "{{count}} sur {{max}}",
-        "reset_sort_and_filter_to_default": "Appliquer les valeurs par défaut"
+        "reset_sort_and_filter_to_default": "Appliquer les valeurs par défaut",
+        "always_request_read_receipts": "Toujours demander des accusés de lecture",
+        "read_receipt_description": "Recevez une notification lorsque les destinataires ouvrent vos e-mails. Cela s'applique à tous les messages, sauf modification manuelle.",
+        "composing_messages_read_receipt": "Accusé de réception"
     },
     "message": {
         "snackbar": {
@@ -593,7 +597,10 @@
         "invalid_sender_address": "Veuillez saisir uniquement des adresses email",
         "allowed_addresses": "Les emails envoyés à partir d'adresses figurant sur votre liste d'expéditeurs autorisés contourneront toujours votre filtre anti-spam et atterriront directement dans votre boîte de réception.",
         "blocked_addresses": "Les emails envoyés à partir d'adresses figurant sur la liste des expéditeurs bloqués seront automatiquement déplacés vers votre dossier spam.",
-        "encrypted_message": "Ce message a été crypté. Pour le visualiser, cliquez sur « Décrypter le message »"
+        "encrypted_message": "Ce message a été crypté. Pour le visualiser, cliquez sur « Décrypter le message »",
+        "confirm_delete_draft_one": "Êtes-vous sûr de vouloir supprimer ce brouillon ?",
+        "confirm_delete_draft_many": "Un ou plusieurs brouillons sont ouverts dans l'éditeur. Êtes-vous sûr de vouloir les supprimer ?",
+        "confirm_delete_draft_other": "Un ou plusieurs brouillons sont ouverts dans l'éditeur. Êtes-vous sûr de vouloir les supprimer ?"
     },
     "placeholder": {
         "add_new_recipients": "Ajouter de nouveaux destinataires"
