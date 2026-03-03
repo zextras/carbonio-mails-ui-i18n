@@ -875,7 +875,9 @@
         "uploadCertificate": {
             "failToVerifyCertificate": "Échec lors de la vérification du certificat"
         },
-        "conversation_moved_to_trash": "Conversation déplacée dans la corbeille"
+        "conversation_moved_to_trash": "Conversation déplacée dans la corbeille",
+        "message_moved_to_archive": "Email déplacé dans Archive",
+        "conversation_moved_to_archive": "Conversation déplacée dans Archive"
     },
     "title": {
         "new_messages": "Nouveaux messages",
@@ -906,7 +908,13 @@
         },
         "markedAsSingedSmime": "Marqué comme signé (S/MIME)",
         "markedAsEncryptedSmime": "Marqué comme crypté (S/MIME)",
-        "moreActions": "Plus d'actions"
+        "moreActions": "Plus d'actions",
+        "account_unread_count_one": "{{count}} email non lu",
+        "account_unread_count_many": "{{count}} emails non lus",
+        "account_unread_count_other": "",
+        "subfolder_unread_count_one": "{{count}} email non lu dans les sous-dossiers",
+        "subfolder_unread_count_many": "{{count}} emails non lus dans les sous-dossiers",
+        "subfolder_unread_count_other": ""
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
