@@ -78,7 +78,8 @@
         "sent": "Envoyé",
         "trash": "Corbeille",
         "junk": "Spam",
-        "spam": "Spam"
+        "spam": "Spam",
+        "archive": "Archive"
     },
     "header": {
         "delete_email": "Supprimer l'email",
@@ -911,10 +912,13 @@
         "moreActions": "Plus d'actions",
         "account_unread_count_one": "{{count}} email non lu",
         "account_unread_count_many": "{{count}} emails non lus",
-        "account_unread_count_other": "",
+        "account_unread_count_other": "{{count}} emails non lus",
         "subfolder_unread_count_one": "{{count}} email non lu dans les sous-dossiers",
         "subfolder_unread_count_many": "{{count}} emails non lus dans les sous-dossiers",
-        "subfolder_unread_count_other": ""
+        "subfolder_unread_count_other": "",
+        "view_more_one": "Voir {{count}} élément supplémentaire",
+        "view_more_many": "Voir {{count}} éléments supplémentaires",
+        "view_more_other": "Voir {{count}} éléments supplémentaires"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
@@ -1105,7 +1109,8 @@
     },
     "new_folder": "Nouveau Dossier",
     "labels": {
-        "composing_messages": "Composition des messages"
+        "composing_messages": "Composition des messages",
+        "compose": "Rédiger"
     },
     "go_back": "Retour",
     "messages,new_email": "Nouvel email",
@@ -1154,7 +1159,8 @@
         "descendingOrder": "Ordre décroissant",
         "show": "Afficher :",
         "sort_by": "Trier par :",
-        "default": "Par défaut"
+        "default": "Par défaut",
+        "all": "Tout"
     },
     "editor": {
         "warning": {
@@ -1219,5 +1225,13 @@
     },
     "error": {
         "invalid_recipient": "L'adresse du destinataire {{invalidAddress}} n'existe pas ou n'est pas valide"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "Brouillon enregistré à {{time}}",
+            "draftSaveDateTime": "Brouillon enregistré le {{date}} à {{time}}",
+            "draftSaving": "Enregistrement…",
+            "draftNotSaved": "Brouillon non enregistré"
+        }
     }
 }
