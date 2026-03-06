@@ -269,7 +269,8 @@
         "missing_recipients": "कोई वैध प्राप्तकर्ता नहीं है",
         "no_folder_selected": "कोई फ़ोल्डर चयनित नहीं",
         "no_identity_selected": "<No identity selected>",
-        "no_sender": "संदेश भेजने वाला निर्धारित नहीं है"
+        "no_sender": "संदेश भेजने वाला निर्धारित नहीं है",
+        "clear_search_query": "सर्च क्लीयर करें"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -368,7 +369,7 @@
         "print": "प्रिंट",
         "redirect": "दूसरी जगह भेजें",
         "reply_all": "सभी को उत्तर",
-        "reset": "रीसेट करें",
+        "reset": "फिल्टर रीसेट करें",
         "send_anyway": "फिर भी भेजें",
         "share_folder": "फोल्डर साझा करें",
         "show_details": "जानकारी दिखाएँ",
@@ -449,7 +450,8 @@
                 "content": "इस ई-मेल में तुरंत जोड़ने के लिए अपने अटैचमेंट यहाँ छोड़ें"
             },
             "files": "Files से जोड़ें",
-            "url": "फाइलों से पब्लिक लिंक जोड़ें"
+            "url": "फाइलों से पब्लिक लिंक जोड़ें",
+            "add_original": "मूल संलग्नक जोड़ें"
         },
         "uploadCertificate": {
             "removeCertificateToEncrypt": "एन्क्रिप्ट करने के लिए सर्टिफिकेट निकालें (S/MIME)",
