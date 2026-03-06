@@ -33,7 +33,7 @@
         "print": "พิมพ์",
         "redirect": "เปลี่ยนเส้นทาง",
         "reply_all": "ตอบกลับทั้งหมด",
-        "reset": "รีเซ็ต",
+        "reset": "รีเซ็ตตัวกรอง",
         "send_anyway": "ส่งเลย",
         "show_details": "แสดงรายละเอียด",
         "show_original": "แสดงต้นฉบับ",
@@ -374,7 +374,8 @@
             "failed": "ไฟล์แนบอย่างน้อยหนึ่งรายการไม่สามารถอัปโหลดได้",
             "uploading": "กำลังอัปโหลดไฟล์แนบ"
         },
-        "mail_sensitivity_company_confidential": "ความอ่อนไหวของบริษัท-ความลับ"
+        "mail_sensitivity_company_confidential": "ความอ่อนไหวของบริษัท-ความลับ",
+        "decrypt_message": "ถอดรหัสข้อความ"
     },
     "messages": {
         "modal": {
@@ -552,13 +553,16 @@
                 "content": "วางไฟล์แนบของคุณที่นี่เพื่อเพิ่มลงในอีเมลนี้ได้อย่างรวดเร็ว"
             },
             "files": "เพิ่มจาก Files",
-            "url": "เพิ่มลิงก์สาธารณะจาก Files"
+            "url": "เพิ่มลิงก์สาธารณะจาก Files",
+            "add_original": "เพิ่มไฟล์แนบต้นฉบับ"
         },
         "uploadCertificate": {
             "emailNotMatch": "อีเมลใบรับรองไม่ตรงกับอีเมลผู้ส่ง",
             "useCertificateToSign": "ใช้ใบรับรองเพื่อลงนาม (S/MIME)",
             "failed": "การอัปโหลดใบรับรองล้มเหลว",
-            "removeCertificateToSign": "นำใบรับรองออกเพื่อลงนาม (S/MIME)"
+            "removeCertificateToSign": "นำใบรับรองออกเพื่อลงนาม (S/MIME)",
+            "removeCertificateToEncrypt": "ลบใบรับรองเพื่อเข้ารหัส (S/MIME)",
+            "useCertificateToEncrypt": "ใช้ใบรับรองเพื่อเข้ารหัส (S/MIME)"
         }
     },
     "message": {
