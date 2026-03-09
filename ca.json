@@ -237,7 +237,47 @@
         "clear_search_query": "NETEJA DE CERCA",
         "last_7_days": "Els últims 7 dies",
         "uploading": "Pujant",
-        "senderslist_numentries": "{{count}} de [X13X"
+        "senderslist_numentries": "{{count}} de [X13X",
+        "delete_permanently": "Eliminar permanentment",
+        "delete_tag_name": "Eliminar etiqueta {{name}}",
+        "discard_changes": "DESCARTAR CANVIS",
+        "no_search_results_found": "No s’han trobat resultats.",
+        "shared_item": "Elements compartits",
+        "show_all": "Mostra tot",
+        "years": "Anys",
+        "advanced_filters_one": "Filtres avançats",
+        "advanced_filters_many": "",
+        "advanced_filters_other": "Filtres avançats",
+        "app_name": "Correu",
+        "attachment_one": "Fitxer adjunt",
+        "attachment_many": "",
+        "attachment_other": "Fitxers adjunts",
+        "attachment_type": "Fitxer adjunt",
+        "choose_folder": "Seleccioneu una carpeta",
+        "create": "Creat",
+        "edit_folder_properties": "Edita les propietats de {{name}}",
+        "edit_tag_name": "Editar etiqueta {{name}}",
+        "error_try_again": "Alguna cosa ha anat malament, torneu-ho a provar",
+        "extra_window": {
+            "save_to_files_disabled": "Desa a Fitxers"
+        },
+        "filter_folders": "Filtre carpetes",
+        "freebusy": "Ocupat/Lliure",
+        "go_back": "Tornar",
+        "invalid_destination": "Aquest node no és un destí vàlid",
+        "of": "de",
+        "remove_one": "Elimina",
+        "remove_many": "",
+        "remove_other": "Suprimir tot",
+        "results_for": "Resultats per: ",
+        "retention_policy": "Política de retenció",
+        "save_to_files": "Desa a Fitxers",
+        "select_folder": "Selecioni carpeta",
+        "date_created": "Data de creació",
+        "last_14_days": "Darrers 60 dies",
+        "start_search": "Iniciar una cerca",
+        "weeks": "Setmana",
+        "days": "Dia"
     },
     "messages": {
         "modal": {
@@ -255,6 +295,9 @@
             },
             "delete": {
                 "sure_delete_email": "Esteu segur que voleu suprimir els elements seleccionats?"
+            },
+            "smime": {
+                "issuer": "Emisor"
             }
         },
         "new_email": "Correu nou",
@@ -269,20 +312,31 @@
         "invalid_address": "<p>Les adreces següents no semblen vàlides: {0}</p><br>",
         "confirm_delete_draft_one": "Esteu segur que voleu suprimir aquesta regla?",
         "confirm_delete_draft_many": "",
-        "confirm_delete_draft_other": ""
+        "confirm_delete_draft_other": "",
+        "no_content": "El missatge no té contingut de text.",
+        "permanent_delete_title": "Esteu segur que voleu suprimir permanentment aquesta cita?",
+        "cal_name_exist_warning": "Ja existeix un àlies amb el mateix nom."
     },
     "settings": {
         "certificatePassword": {
             "confirmPassword": "Confirmeu la contrasenya",
             "enter": "Retorn",
             "passwordLengthNotMatch": "El valor ha de tenir {0} caràcters com a mínim.",
-            "password": "Contrasenya"
+            "password": "Contrasenya",
+            "important": "Importa",
+            "passwordNotMatch": "Les contrasenyes no coincideixen!",
+            "reset_password": "Repetir contrasenya"
         },
         "uploadCertificate": {
             "active": "Actiu",
             "enter": "Retorn",
             "password": "Contrasenya",
-            "status": "Estat"
+            "status": "Estat",
+            "delete_certificate": "Certificat de domini",
+            "inactive": "Inactiu",
+            "issuer": "Emisor",
+            "mailAddress": "Adreça de correu:",
+            "resetPassword": "Repetir contrasenya"
         },
         "actions": "Accions",
         "address": "Adreça",
@@ -348,7 +402,9 @@
             "check_new_mail": "Comprova el nou correu electrònic",
             "conversation_ordering": "Ordenació de converses",
             "filter_name_required": "Es requereix un nom de filtre",
-            "display_mail": "Mostrar correu"
+            "display_mail": "Mostrar correu",
+            "mark_reading_panel": "Marca com a no llegit",
+            "unsend_time": "Estableix nova hora"
         },
         "linkedin_msg": "Missatges i connexions del LinkedIn",
         "localpart": "part local",
@@ -371,7 +427,8 @@
         },
         "my_frequent_emails": "Els meus correus freqüents",
         "new_mail_optn": {
-            "manually": "Manualment"
+            "manually": "Manualment",
+            "when_arrive": "Quan arribi correu nou"
         },
         "not_after": "no després",
         "not_before": "no abans",
@@ -428,7 +485,10 @@
         "font_size_one": "{{count}} pt",
         "font_size_many": "",
         "font_size_other": "",
-        "tb": "TB"
+        "tb": "TB",
+        "choose": "Trieu",
+        "keyword": "Paraules clau",
+        "app": "Configuració:"
     },
     "tooltip": {
         "add_attachments": "Afegeix fitxers adjunts",
@@ -441,7 +501,10 @@
             "noPreviousEmails": "No hi ha correus anteriors",
             "goToNext": "Anar al següent correu"
         },
-        "markedAsSingedSmime": "Marcat com a signat (S/MIME)"
+        "markedAsSingedSmime": "Marcat com a signat (S/MIME)",
+        "disable_rich_text": "Habilitar/Deshabilitar editor de text ric",
+        "enable_rich_text": "Habilitar/Deshabilitar editor de text ric",
+        "resend": "Enviar notificació per correu electrònic sobre aquesta compartició"
     },
     "email_status": {
         "draft": "esborrany",
@@ -515,6 +578,9 @@
                 "trash": "Buida la paperera",
                 "folder_panel": "Carpeta buida"
             }
+        },
+        "lists_item": {
+            "root": "Arrel"
         }
     },
     "folders": {
@@ -533,7 +599,11 @@
         "copy": "Copia",
         "select_date_time": "Seleccioneu una data i una hora per enviar aquest missatge",
         "send_email": "Envia correu",
-        "view_rights": "Mostra"
+        "view_rights": "Mostra",
+        "snackbar": {
+            "calendar_edits_saved": "Edicions desades correctament",
+            "settings_saved": "Edicions desades correctament"
+        }
     },
     "share": {
         "options": {
@@ -551,7 +621,9 @@
         },
         "share_note": "<b>Nota:</b> El missatge estàndard inclou el vostre nom, el nom de l’element compartit, els permisos concedits als destinataris i les dades d’inici de sessió, si s’escau.",
         "filter_folder_message": "Selecciona una carpeta on iniciar la cerca avançada",
-        "is_contained_in": "Està contingut a"
+        "is_contained_in": "Està contingut a",
+        "send_notification": "Enviar notificació per correu electrònic sobre aquesta compartició",
+        "standard_message": "Afegeix nota al missatge estàndard"
     },
     "signatures": {
         "name": "Nom",
@@ -602,7 +674,11 @@
         "edit_anyway": "Editar igualment",
         "flag": "Afegir senyal",
         "goto_drafts": "Anar a esborrany",
-        "goto_folder": "ANAR A CARPETA"
+        "goto_folder": "ANAR A CARPETA",
+        "mark_as_read": "Marca com a no llegit",
+        "mark_as_unread": "Marca com a no llegit",
+        "select_folders": "Selecioni carpeta",
+        "edit_share": "Editar compartició"
     },
     "attachment_type": {
         "application": "Aplicació",
@@ -660,7 +736,8 @@
         "descendingOrder": "Ordre descendent",
         "important": "Important",
         "to": "A",
-        "show": "Mostra:"
+        "show": "Mostra:",
+        "all": "Tots"
     },
     "title": {
         "new_messages": "Missatges nous",
@@ -737,5 +814,11 @@
     "text": {
         "loading_conversation": "Carregant conversa, si us plau, espereu...",
         "loading_message": "Carregant missatge, si us plau, espereu..."
+    },
+    "go_back": "Tornar",
+    "modal": {
+        "initializeError": {
+            "title": "Alguna cosa ha anat malament"
+        }
     }
 }
