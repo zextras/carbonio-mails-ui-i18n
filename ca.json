@@ -119,7 +119,125 @@
         "sort_by": "Ordena per",
         "show": "Mostra",
         "always_request_read_receipts": "Sol·licita sempre una notificació de lectura",
-        "composing_messages_read_receipt": "Notificació de lectura"
+        "composing_messages_read_receipt": "Notificació de lectura",
+        "convert_back_to_attachment": "Torna a adjunt",
+        "create_smart_links": "crear enllaços intel·ligents",
+        "create_tag": "Crea etiqueta",
+        "delayed_sending": "Enviament retardat",
+        "delete_draft": "Suprimir esborrany",
+        "delete_tag": "Eliminar etiqueta",
+        "deselect_all": "DESELECCIONAR tot",
+        "destination_folder": "Carpeta de destinació",
+        "do_not_have_perm": "No tens permís",
+        "do_not_notify": "No notificar",
+        "download_and_delete": "Baixar i Eliminar",
+        "draft_folder": "[ESBORRANY]",
+        "message_send_in_progress": "s'envia el missatge en progrés",
+        "missing_recipients": "No hi ha destinataris",
+        "missing_sender": "el remitent del missatge no està establert",
+        "need_to_select_atleast_one_item": "Heu de seleccionar almenys un element per realitzar l'acció",
+        "no_folder_selected": "No s'ha seleccionat cap carpeta",
+        "no_identity_selected": "<No s'ha seleccionat cap identitat>",
+        "no_special_char_allowed": "El nom no hauria de contenir cap caràcter especial",
+        "no_subject": "Sense assignatura",
+        "not_in_list": "{{name}} - No està a la vostra llista d'etiquetes",
+        "searching": "Cercant…",
+        "select_all": "SELECCIONA tot",
+        "select_color": "Selecciona color",
+        "send_email": "Enviar correu electrònic",
+        "shares_info": "Informació de la carpeta compartida",
+        "shares_items": "Carpetes compartides de {{value}}",
+        "show_more_info": "Mostra més informació",
+        "signature_required": "Es requereix informació de signatura.",
+        "size_larger": "Mida superior a (MB)",
+        "size_smaller": "Mida inferior a (MB)",
+        "smart_links_created": "enllaços intel·ligents creats",
+        "tag_max_length": "S'allowen com a màxim 128 caràcters",
+        "to": "A",
+        "type_name_here": "Nom de l'element",
+        "upload_failed": "Pujada fallida",
+        "upload_from_files": "Pujar des de fitxers",
+        "using_signatures": "Ús de signatures",
+        "view_images": "VEURE IMATGES",
+        "wipe": "Esborrar",
+        "invalid_signature": "Signatura no vàlida",
+        "valid_signature": "Signatura vàlida",
+        "error_folder_exists": "Ja existeix una carpeta amb el mateix nom, tria un altre",
+        "from_external_domain": "Aquest correu electrònic prové d'un domini extern",
+        "distribution_list": "Aquest correu electrònic prové d'una llista de distribució",
+        "mail_sensitivity_private": "Sensibilitat Privada",
+        "mail_sensitivity_company_confidential": "Sensibilitat Confidencial de l'empresa",
+        "mail_sensitivity_unknown": "Sensibilitat Desconeguda",
+        "show_all_attachments": "Mostra tots els annexos {{count}}",
+        "message_size_exceeded": "La mida del missatge supera el límit",
+        "change_filtering_sorting_options": "Canvia les opcions de filtratge i ordenació",
+        "decrypt_message": "Desxifra el missatge",
+        "activate_selection_mode": "Activa el mode de selecció",
+        "add_custom_message": "Afegeix un missatge personalitzat",
+        "add_task": "Si necessites prendre una nota, pots afegir una tasca a la teva LLISTA DE FEINES PENDENTS",
+        "attachment_upload_in_progress": "pujada d'adjunt en curs",
+        "attachment_with_count_one": "{{count}} Adjunt",
+        "attachment_with_count_many": "",
+        "attachment_with_count_other": "{{count}} Adjunts",
+        "attachments_disclaimer": "Esteu visualitzant un missatge adjunt. No es pot verificar l'autenticitat dels missatges adjunts.",
+        "before_you_leave": "Abans de sortir",
+        "calendar_color": "Color de l'element",
+        "cc": "Ccc",
+        "cc_bcc": "Ccc Bcc",
+        "choose_file": "Triar fitxer",
+        "collapse_receivers_list": "Plegar la llista de destinataris",
+        "convert_to_smart_link": "Convertir a enllaç intel·ligent",
+        "create_and_move": "Crear i moure",
+        "edit_access": "Editar accés",
+        "edit_tag": "Editar etiqueta",
+        "email_perm_deleted": "Correu electrònic eliminat permanentment",
+        "enter_name": "Introduïu nom",
+        "error_address": "Es requereix un correu electrònic vàlid",
+        "errors": {
+            "upload_failed_generic": "Ha fallat la càrrega del fitxer \"{{filename}}\""
+        },
+        "exit_selection_mode": "Surt de la modalitat de selecció",
+        "expand_receivers_list": "Amplia la llista de destinataris",
+        "extra_windows": {
+            "opening_blocked": {
+                "title": "No es pot obrir una nova finestra"
+            }
+        },
+        "filter_modified": "Filtre modificat correctament",
+        "filter_user": "Filtre d'usuaris",
+        "find_mail_shares": "Cerca carpeta compartida",
+        "folder_not_valid_destination": "La carpeta seleccionada no és una destinació vàlida",
+        "from_identity": "De: {{identity}}",
+        "no_sender": "el remitent del missatge no està establert",
+        "notification_audio": "Reprodueix l'indicador d'àudio quan apareix una nova notificació",
+        "read_receipt_req": "Rebuig de lectura requerit",
+        "received_from_address": "Rebuts de (adreça)",
+        "remove_from_this_list": "Suprimir d'aquesta llista",
+        "remove_request_receipt": "Suprimir la sol·licitud de rebut de lectura",
+        "restore": "Restaurar",
+        "results_for_error": "No es pot iniciar la cerca, netegeu-la i torneu-ho a provar: ",
+        "revoke_access_tooltip": "Revoqua l'accés enviant una notificació estàndard",
+        "revoke_access_without_notification": "Revoqua l'accés sense enviar cap notificació",
+        "revoke_with_custom_message": "Revoqua l'accés enviant una notificació personalitzada",
+        "search_activate_selection_mode": "Mode de selecció no està disponible encara en els resultats de la cerca",
+        "select_date_time": "Sel·lecciona data i hora",
+        "select_signature": "Sel·lecciona una signatura",
+        "send_later": "Envia més tard",
+        "send_scheduled": "Programat d'enviament",
+        "sending": "Enviant",
+        "sent_to_address": "Enviat a (adreça)",
+        "set_default_signatures": "Estableix signatures per defecte",
+        "share_public_link": "Compartir enllaç públic",
+        "with_you": "amb tu",
+        "workflow": "Flux de treball",
+        "would_like_to_share": "ha compartit",
+        "write": "Escriure",
+        "displayer_restore_emails_title": "Selecció dels correus electrònics que voleu restaurar",
+        "backup_search": "Cerca de còpia de seguretat",
+        "clear_search_query": "NETEJA DE CERCA",
+        "last_7_days": "Els últims 7 dies",
+        "uploading": "Pujant",
+        "senderslist_numentries": "{{count}} de [X13X"
     },
     "messages": {
         "modal": {
@@ -226,7 +344,11 @@
             "message_color": "Color del missatge:",
             "message_selection": "Selecció de missatges:",
             "set_message_color": "Configureu el color dels missatges i les converses segons el color d’etiqueta.",
-            "default_mail_search": "Cerca de correu per defecte:"
+            "default_mail_search": "Cerca de correu per defecte:",
+            "check_new_mail": "Comprova el nou correu electrònic",
+            "conversation_ordering": "Ordenació de converses",
+            "filter_name_required": "Es requereix un nom de filtre",
+            "display_mail": "Mostrar correu"
         },
         "linkedin_msg": "Missatges i connexions del LinkedIn",
         "localpart": "part local",
@@ -277,7 +399,36 @@
         },
         "gb": "GB",
         "over": "de més de",
-        "contains": "conté"
+        "contains": "conté",
+        "active_filter": "Filtre actiu",
+        "add_action": "Afegir nova acció",
+        "add_condition": "Afegir nova condició",
+        "address_required": "Ompliu el camp \"Adreça\" per completar l'acció \"Redirigir a l'adreça\".",
+        "browse": "Navega",
+        "condition_met": "de les següents condicions es compleixen:",
+        "contacts": "contactes",
+        "create_new_filter": "Crea un nou filtre",
+        "display_mail_options": {
+            "html": "Com a HTML (quan sigui possible)",
+            "text": "Com a text"
+        },
+        "field": "Camp",
+        "filter_deleted": "Filtre eliminat correctament",
+        "filter_folder_message": "Selecció d'una carpeta per aplicar el filtre:",
+        "folder_path_required": "Seleccioneu una carpeta de destinació per completar l'acció \"Moure dins de la carpeta\".",
+        "font": "Font",
+        "if": "Si",
+        "in": "en a",
+        "is": "és",
+        "remove_action": "Suprimeix aquesta acció",
+        "remove_condition": "Suprimeix aquesta condició",
+        "tag_name_required": "Omple el camp \"Etiqueta\" per completar l'acció \"Etiquetar amb\".",
+        "to_cc": "A o CC",
+        "delete_filter_text": "Esteu segur de voler eliminar el filtre ",
+        "font_size_one": "{{count}} pt",
+        "font_size_many": "",
+        "font_size_other": "",
+        "tb": "TB"
     },
     "tooltip": {
         "add_attachments": "Afegeix fitxers adjunts",
@@ -285,8 +436,12 @@
         "folder_linked_status": "Comparteix amb:",
         "marked_as_important": "marcat com a important",
         "list_navigation": {
-            "goToPrevious": "Ves a la pàgina anterior"
-        }
+            "goToPrevious": "Ves a la pàgina anterior",
+            "noMoreEmails": "No hi ha més correus",
+            "noPreviousEmails": "No hi ha correus anteriors",
+            "goToNext": "Anar al següent correu"
+        },
+        "markedAsSingedSmime": "Marcat com a signat (S/MIME)"
     },
     "email_status": {
         "draft": "esborrany",
@@ -299,7 +454,14 @@
         "tome": "a mi",
         "unflagged": "no marcat",
         "unforwarded": "no reenviat",
-        "unread": "no llegit"
+        "unread": "no llegit",
+        "remote": "en una carpeta compartida per mi",
+        "replied": "respost per mi",
+        "solo": "converses amb un sol missatge",
+        "toccme": "a mi o en còpia a mi",
+        "tofromccme": "a mi, de mi o en còpia a mi",
+        "tofromme": "a mi o de mi",
+        "unreplied": "no respost per mi"
     },
     "folder": {
         "modal": {
@@ -314,7 +476,15 @@
     "folder_panel": {
         "modal": {
             "new": {
-                "title": "Crear una carpeta nova"
+                "title": "Crear una carpeta nova",
+                "input": {
+                    "name": "Introduïu el nom de la carpeta",
+                    "name_exist": "El nom ja existeix en aquest camí",
+                    "position": "Carpeta pare"
+                },
+                "name_exist_warning": "El nom ja existeix",
+                "restore_create_footer": "Crear i Restaurar",
+                "create_footer": "Crear i Moure"
             },
             "empty": {
                 "folder": {
@@ -322,6 +492,21 @@
                         "yes": "Carpeta buida"
                     }
                 }
+            },
+            "wipe": {
+                "body": {
+                    "message1": "Voleu esborrar la carpeta seleccionada?",
+                    "message2": "Si l'esborreu, tot el contingut relacionat es eliminarà de manera permanent."
+                }
+            },
+            "move": {
+                "body": {
+                    "message1": "Seleccioneu una carpeta per moure la considerada a:",
+                    "message2": "Seleccioneu una carpeta per restaurar:"
+                },
+                "title_modal": "Moure Conversa",
+                "title_modal_conversation": "Moure Conversa",
+                "title_modal_message": "Moure Missatge"
             }
         },
         "action": {
@@ -360,10 +545,13 @@
             },
             "share_calendar_with": {
                 "external_guests": "Convidats externs (només visualitza)",
-                "internal_users_groups": "Usuaris o grups interns"
+                "internal_users_groups": "Usuaris o grups interns",
+                "public": "Compart"
             }
         },
-        "share_note": "<b>Nota:</b> El missatge estàndard inclou el vostre nom, el nom de l’element compartit, els permisos concedits als destinataris i les dades d’inici de sessió, si s’escau."
+        "share_note": "<b>Nota:</b> El missatge estàndard inclou el vostre nom, el nom de l’element compartit, els permisos concedits als destinataris i les dades d’inici de sessió, si s’escau.",
+        "filter_folder_message": "Selecciona una carpeta on iniciar la cerca avançada",
+        "is_contained_in": "Està contingut a"
     },
     "signatures": {
         "name": "Nom",
@@ -378,7 +566,9 @@
         "green": "Verd",
         "blue": "Blau",
         "cyan": "Cian",
-        "purple": "Porpra"
+        "purple": "Porpra",
+        "black": "Negre",
+        "red": "Vermell"
     },
     "action": {
         "mark_as_spam": "Marca com a correu brossa",
@@ -395,7 +585,24 @@
         "create_appointment": "Crea cita",
         "edit_as_new": "Edita com nou",
         "forward": "Reenvia",
-        "hide_details": "Amaga els detalls"
+        "hide_details": "Amaga els detalls",
+        "mark_all_read": "Marcar tot com a llegit",
+        "mark_as_non_spam": "No és spam",
+        "ok": "D'acord",
+        "preview_new_tab": "Feu clic per prévisualitzar en una altra pestanya",
+        "preview_on_separated_window": "Obre en una nova finestra",
+        "reply_all": "Respon a tots",
+        "reset": "Reinicia els filtres",
+        "unflag": "Treure la bandera",
+        "preview_on_separated_tab": "Obre en una nova pestanya",
+        "apply_filter_on_folder": "Aplicar filtre a la carpeta",
+        "click_open": "Feu clic per obrir",
+        "click_preview": "Feu clic per previsualitzar",
+        "download_eml": "Descarregar EML",
+        "edit_anyway": "Editar igualment",
+        "flag": "Afegir senyal",
+        "goto_drafts": "Anar a esborrany",
+        "goto_folder": "ANAR A CARPETA"
     },
     "attachment_type": {
         "application": "Aplicació",
@@ -430,7 +637,15 @@
         "new_message": "Missatge nou"
     },
     "search": {
-        "unread": "No llegit"
+        "unread": "No llegit",
+        "attachment_note": "Cerca tots els correus electrònics amb un arxiu adjunt.",
+        "flagged_note": "Cerca tots els correus electrònics marcats.",
+        "sent_after": "Enviat després",
+        "sent_before": "Enviat abans",
+        "sent_on": "Enviat el",
+        "shared_folders_note": "Inclou elements compartits a les cerques.",
+        "size_error": "Només es permeten números",
+        "unread_note": "Cerca tots els elements de correu electrònic sense llegir."
     },
     "sorting_dropdown": {
         "attachment": "Fitxer adjunt",
@@ -440,7 +655,12 @@
         "subject": "Assumpte",
         "unread": "No llegit",
         "sort_by": "Ordena per",
-        "default": "Per defecte"
+        "default": "Per defecte",
+        "ascendingOrder": "Ordre ascendent",
+        "descendingOrder": "Ordre descendent",
+        "important": "Important",
+        "to": "A",
+        "show": "Mostra:"
     },
     "title": {
         "new_messages": "Missatges nous",
@@ -451,7 +671,71 @@
     },
     "composer": {
         "attachment": {
-            "add_original": "Inclou els fitxers adjunts originals"
+            "add_original": "Inclou els fitxers adjunts originals",
+            "contacts_mod": "Afegeix la targeta de contacte",
+            "drag_and_drop": {
+                "content": "Deixa anar aquí les teves adjuntes per afegir-les ràpidament a aquest correu electrònic",
+                "title": "Mode d'arrosatge"
+            },
+            "files": "Afegir des d'arxius",
+            "local": "Afegir des de local",
+            "url": "Afegir enllaç públic des d'arxius"
+        },
+        "uploadCertificate": {
+            "removeCertificateToEncrypt": "Suprimeix el certificat per xifrar (S/MIME)",
+            "useCertificateToEncrypt": "Feu servir el certificat per xifrar (S/MIME)",
+            "emailNotMatch": "El certificat de correu electrònic no coincideix amb el remitent",
+            "failed": "Ha fallat la càrrega del certificat",
+            "removeCertificateToSign": "Suprimeix el certificat per signar (S/MIME)",
+            "useCertificateToSign": "Feu servir el certificat per signar (S/MIME)"
         }
+    },
+    "snackbar": {
+        "uploadCertificate": {
+            "failToVerifyCertificate": "No s'ha pogut verificar el certificat"
+        },
+        "email_copied_to_clipboard": "Correu electrònic copiat al porta-retalls.",
+        "email_moved_to_trash": "Correu electrònic mogut a la Paperera",
+        "folder_shared": "Carpeta compartida",
+        "share_resend": "Reenviament de la invitació de"
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "toDescending": "Ordre descendent per A",
+            "unreadAscending": "Ordre ascendent per No llegits",
+            "toAscending": "Ordre ascendent per A",
+            "unreadDescending": "Ordre descendent per No llegits"
+        }
+    },
+    "placeholder": {
+        "add_new_recipients": "Afegeix nous destinataris"
+    },
+    "preview": {
+        "close": "Tanca la previsualització"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "Vista horitzontal",
+            "vertical": "Vista vertical",
+            "switchToVertical": "Commuta a divisió vertical",
+            "switchToNoSplit": "Commuta a sense divisió",
+            "switchToHorizontal": "Commuta a divisió horitzontal"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "Aquest missatge s'ha retallat a causa de la seva longitud",
+            "button": "CARREGAR MISSATGE",
+            "loadingButton": "CARREGANT . . ."
+        }
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Camps ‘A’ buits]"
+        }
+    },
+    "text": {
+        "loading_conversation": "Carregant conversa, si us plau, espereu...",
+        "loading_message": "Carregant missatge, si us plau, espereu..."
     }
 }
