@@ -57,7 +57,8 @@
         "inbox": "กล่องจดหมาย",
         "spam": "ขยะ",
         "sent": "ส่งแล้ว",
-        "junk": "ขยะ"
+        "junk": "ขยะ",
+        "archive": "เก็บถาวร"
     },
     "header": {
         "warning": "คำเตือน",
@@ -551,7 +552,7 @@
             "share_calendar_with": {
                 "external_guests": "ผู้ใช้ภายนอก (ดูเท่านั้น)",
                 "internal_users_groups": "ผู้ใช้ภายในหรือกลุ่ม",
-                "public": "สาธารณะ (ดูเท่านั้น, ไม่ต้องใช้รหัสผ่าน)"
+                "public": "แชร์แบบสาธารณะ (ดูเท่านั้น, ไม่ต้องใช้รหัสผ่าน)"
             }
         },
         "recipients_address": "ที่อยู่อีเมลของผู้รับ",
@@ -622,7 +623,8 @@
         "delete_attachment_message1": "ไฟล์แนบของคุณจะถูกลบออกจาก Carbonio อย่างถาวร",
         "delete_attachment_message2": "คุณต้องการดาวน์โหลดไว้ก่อนหรือไม่?",
         "copy": "คัดลอก",
-        "send_email": "ส่งอีเมล"
+        "send_email": "ส่งอีเมล",
+        "senderslist_empty": "ยังไม่มีการเพิ่มที่อยู่ในรายการ"
     },
     "settings": {
         "label": {
@@ -791,8 +793,58 @@
             "enter": "เข้าสู่",
             "important": "สำคัญ",
             "passwordCreated": "สร้างรหัสผ่านสำเร็จแล้ว",
-            "passwordCreatedFailed": "สร้างรหัสผ่านไม่สำเร็จ"
-        }
+            "passwordCreatedFailed": "สร้างรหัสผ่านไม่สำเร็จ",
+            "passwordLengthNotMatch": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+            "passwordNotMatch": "รหัสผ่านไม่ตรงกัน",
+            "pswdNotIncludeCharacters": "รหัสผ่านต้องประกอบด้วยตัวอักษรพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอักขระพิเศษ",
+            "reset_password": "รีเซ็ตรหัสผ่าน",
+            "resetPasswordMsg1": "การรีเซ็ตรหัสผ่านของคุณจะยกเลิกการเข้าถึงใบรับรองส่วนบุคคลทั้งหมด ซึ่งหมายความว่าคุณจะต้องอัปโหลดใบรับรองของคุณอีกครั้งเพื่อให้สามารถเข้าถึงได้",
+            "resetPasswordMsg2": "หากคุณแน่ใจว่าต้องการดำเนินการต่อ ให้คลิก \"รีเซ็ตรหัสผ่าน\" เพื่อสร้างรหัสผ่านใหม่",
+            "password": "รหัสผ่าน"
+        },
+        "smime_certificates": "ใบรับรอง S/MIME",
+        "uploadCertificate": {
+            "active": "ใช้งานอยู่",
+            "certificatePassword": "รหัสผ่านใบรับรอง",
+            "certtificateUploaded": "อัปโหลดใบรับรองสำเร็จแล้ว",
+            "createPasswordFromSettings": "โปรดสร้างรหัสผ่านสำหรับการเข้ารหัสในการตั้งค่า",
+            "delete_certificate": "ลบใบรับรอง",
+            "delete_certificate_text": "คุณแน่ใจหรือไม่ว่าต้องการลบใบรับรองของ",
+            "emailNotMatch": "อีเมลใบรับรองไม่ตรงกับอีเมลผู้ส่ง",
+            "enter": "ป้อน",
+            "enter_password": "ป้อนรหัสผ่าน",
+            "EnterPasswordMsg": "หากต้องการใช้การดำเนินการที่เกี่ยวข้องกับ S/MIME โปรดป้อนรหัสผ่าน",
+            "errorWhileFetchingCert": "เกิดข้อผิดพลาดขณะดึงข้อมูลใบรับรอง",
+            "errorWhileUploadCert": "เกิดข้อผิดพลาดขณะอัปโหลดใบรับรอง",
+            "expired": "หมดอายุแล้ว",
+            "failed": "การอัปโหลดใบรับรองล้มเหลว",
+            "inactive": "ไม่ใช้งาน",
+            "issuer": "ผู้ออก",
+            "mailAddress": "ที่อยู่อีเมล",
+            "password": "รหัสผ่าน",
+            "passwordIsCorrect": "รหัสผ่านถูกต้อง",
+            "passwordIsInCorrect": "รหัสผ่านไม่ถูกต้อง",
+            "resetPassword": "รีเซ็ตรหัสผ่าน",
+            "serial": "ซีเรียล",
+            "smimeCertificate": "ใบรับรอง S/MIME (เช่น ใบรับรอง.p12)",
+            "status": "สถานะ",
+            "unableToDecrypt": "ไม่สามารถถอดรหัสได้",
+            "upload": "อัปโหลด",
+            "uploadCertificate": "อัปโหลดใบรับรอง",
+            "uploadCertificateInSettings": "อัปโหลดใบรับรองของคุณในการตั้งค่า",
+            "validFrom": "มีผลตั้งแต่",
+            "validTo": "มีผลใช้งานถึง",
+            "caCertificateNotFound": "ไม่พบใบรับรอง CA",
+            "noPersonalCertificate": "รายการใบรับรองส่วนบุคคลว่างเปล่า",
+            "personalCertificatesTitle": "ใบรับรองส่วนบุคคลสำหรับการลงลายเซ็น เข้ารหัส และถอดรหัส",
+            "recipientCertificatesTitle": "ใบรับรองของผู้รับสำหรับการเข้ารหัส",
+            "noRecipientCertificate": "รายการใบรับรองของผู้รับว่างเปล่า"
+        },
+        "condition_met": "หากตรงตามเงื่อนไขต่อไปนี้:",
+        "filtersConditions": {
+            "attachment": "สิ่งที่แนบมา"
+        },
+        "tb": "TB"
     },
     "snackbar": {
         "share_resend": "ส่งการแชร์คำเชิญอีกครั้ง",
@@ -805,7 +857,10 @@
         "email_copied_to_clipboard": "คัดลอกอีเมลไปยังคลิปบอร์ดแล้ว",
         "uploadCertificate": {
             "failToVerifyCertificate": "การตรวจสอบใบรับรองล้มเหลว"
-        }
+        },
+        "conversation_moved_to_trash": "การสนทนาถูกย้ายไปที่ถังขยะแล้ว",
+        "message_moved_to_archive": "อีเมลถูกย้ายไปยัง Archive แล้ว",
+        "conversation_moved_to_archive": "การสนทนาถูกย้ายไปที่ Archive แล้ว"
     },
     "tooltip": {
         "revoke": "เพิกถอนการเข้าถึง",
@@ -818,7 +873,7 @@
         "enable_urgent": "เปิดการใช้งานแบบเร่งด่วน",
         "folder_linked_status": "แชร์กับฉัน",
         "marked_as_important": "ทำเครื่องหมายว่าสำคัญแล้ว",
-        "folder_sharing_status_other": "แชร์กับผู้ใช้ {{count}} ราย",
+        "folder_sharing_status_other": "แชร์กับ {{count}} คน",
         "list_navigation": {
             "loadingNextEmail": "กําลังโหลดอีเมลถัดไป",
             "closeToNavigate": "ปิดอีเมลนี้เพื่อนําทาง",
@@ -828,7 +883,12 @@
             "noMoreEmails": "ไม่มีอีเมลแล้ว",
             "unableToLoadNextEmail": "ไม่สามารถโหลดอีเมลถัดไปได้ ลองใหม่อีกครั้ง"
         },
-        "markedAsSingedSmime": "ทำเครื่องหมายว่าลงนามแล้ว (S/MIME)"
+        "markedAsSingedSmime": "ทำเครื่องหมายว่าลงนามแล้ว (S/MIME)",
+        "markedAsEncryptedSmime": "ทำเครื่องหมายว่าเข้ารหัสแล้ว (S/MIME)",
+        "moreActions": "การดำเนินการเพิ่มเติม",
+        "view_more_other": "ดูเพิ่มอีก {{count}} รายการ",
+        "account_unread_count_other": "อีเมลที่ยังไม่ได้อ่าน {{count}} ฉบับ",
+        "subfolder_unread_count_other": "มีอีเมลที่ยังไม่ได้อ่าน {{count}} ฉบับในโฟลเดอร์ย่อย"
     },
     "folder_panel": {
         "modal": {
@@ -854,7 +914,19 @@
             "empty": {
                 "body": {
                     "message1": "คุณต้องการล้างโฟลเดอร์ที่เลือกหรือไม่?",
-                    "message2": "หากคุณล้างออกจะทำให้เนื้อหาที่เกี่ยวข้องทั้งหมดถูกลบอย่างถาวร"
+                    "message2": "หากคุณล้างออกจะทำให้เนื้อหาที่เกี่ยวข้องทั้งหมดถูกลบอย่างถาวร",
+                    "message3": "การดำเนินการนี้ไม่สามารถย้อนกลับได้"
+                },
+                "folder": {
+                    "button": {
+                        "yes": "ใช่ ล้างโฟลเดอร์",
+                        "no": "ไม่ ยกเลิก"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "ใช่ ดำเนินการล้าง"
+                    }
                 }
             },
             "move": {
@@ -875,7 +947,8 @@
         },
         "action": {
             "empty": {
-                "trash": "ถังขยะว่างเปล่า"
+                "trash": "ถังขยะว่างเปล่า",
+                "folder_panel": "ล้างโฟลเดอร์"
             },
             "edit_properties": "แก้ไขคุณสมบัติ",
             "wipe": {
@@ -988,7 +1061,8 @@
         "zipped_file": "ไฟล์ซิป"
     },
     "labels": {
-        "composing_messages": "การเขียนข้อความ"
+        "composing_messages": "การเขียนข้อความ",
+        "compose": "เขียน"
     },
     "new_folder": "โฟลเดอร์ใหม่",
     "go_back": "ย้อนกลับ",
@@ -1006,11 +1080,15 @@
             "certificatePassword": "รหัสผ่านใบรับรอง",
             "upload": "อัปโหลด",
             "smimeCertificate": "ใบรับรอง S/MIME (เช่น ใบรับรอง.p12)"
-        }
+        },
+        "messageFilteringList": "แสดงผลเฉพาะ 100 รายการแรกเท่านั้น โปรดจำกัดการค้นหาให้แคบลงเพื่อดูรายการทั้งหมด"
     },
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "ขนาดข้อความเกินขีดจำกัด โปรดแปลงไฟล์แนบบางส่วนเป็นสมาร์ทลิงก์"
+        },
+        "info": {
+            "bannerLargeAttachments": "คุณกำลังอัปโหลดไฟล์แนบขนาดใหญ่ อาจใช้เวลาสักครู่ โปรดรอ..."
         }
     },
     "messages,new_email": "อีเมลใหม่",
@@ -1019,7 +1097,8 @@
             "button_apply": "นำไปใช้",
             "label_confirm_request": "คุณต้องการใช้ตัวกรองหรือไม่?",
             "title": "ตัวกรองแอปพลิเคชัน \"{{filterName}}\"",
-            "label_confirm_msg": "ยิ่งมีข้อความมากเท่าไหร่ ก็ยิ่งต้องใช้เวลาในการใช้ตัวกรองมากขึ้นเท่านั้น"
+            "label_confirm_msg": "ยิ่งมีข้อความมากเท่าไหร่ ก็ยิ่งต้องใช้เวลาในการใช้ตัวกรองมากขึ้นเท่านั้น",
+            "apply_folder_other": "<bold>{{count}} ข้อความ</bold> จะถูกประมวลผลภายในโฟลเดอร์ที่เลือก"
         }
     },
     "sortingDropdown": {
@@ -1053,7 +1132,11 @@
         "important": "ความสำคัญ",
         "subject": "หัวเรื่อง",
         "to": "ถึง",
-        "unread": "ยังไม่ได้อ่าน"
+        "unread": "ยังไม่ได้อ่าน",
+        "show": "แสดง:",
+        "sort_by": "จัดเรียงตาม:",
+        "all": "ทั้งหมด",
+        "default": "ค่าเริ่มต้น"
     },
     "layoutView": {
         "tooltip": {
@@ -1066,7 +1149,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "ข้อความยาวเกินไปและถูกตัดออก",
+            "label": "ข้อความนี้ถูกตัดทอนเนื่องจากมีความยาวเกินไป",
             "button": "โหลดข้อความ",
             "loadingButton": "กำลังโหลด..."
         }
@@ -1082,5 +1165,41 @@
         "pink": "สีชมพู",
         "yellow": "สีเหลือง",
         "gray": "สีเทา"
+    },
+    "tag": {
+        "label": "แท็ก"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[ช่อง ‘ถึง’ ว่างอยู่]"
+        }
+    },
+    "text": {
+        "loading_conversation": "กำลังโหลดการสนทนา โปรดรอสักครู่...",
+        "loading_message": "กำลังโหลดข้อความ โปรดรอสักครู่..."
+    },
+    "smart_link_modal": {
+        "body": {
+            "text1": "ไฟล์แนบมีขนาดเกินกว่าขนาดสูงสุดที่อนุญาตสำหรับการส่งข้อความ",
+            "text2": "คุณต้องการแปลงเป็น Smart Link หรือไม่?"
+        },
+        "header": {
+            "title": "อัปโหลดไฟล์แนบเป็น Smart Link"
+        },
+        "progress": {
+            "title": "กำลังอัปโหลดไฟล์แนบเป็น Smart Link",
+            "text": "คุณกำลังอัปโหลดไฟล์แนบขนาดใหญ่ การดำเนินการนี้อาจใช้เวลาสักครู่ โปรดรอ"
+        }
+    },
+    "error": {
+        "invalid_recipient": "ที่อยู่อีเมลผู้รับ {{invalidAddress}} ไม่มีอยู่หรือไม่ถูกต้อง"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "บันทึกฉบับร่างเมื่อ {{time}}",
+            "draftSaveDateTime": "บันทึกฉบับร่างเมื่อ {{date}} เวลา {{time}}",
+            "draftSaving": "กำลังบันทึก…",
+            "draftNotSaved": "ยังไม่ได้บันทึกฉบับร่าง"
+        }
     }
 }
