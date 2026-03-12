@@ -629,8 +629,8 @@
             },
             "wipe": {
                 "body": {
-                    "message2": "Jeśli go wyczyścisz, cała powiązana z nim zawartość zostanie trwale usunięta.",
-                    "message1": "Czy chcesz wyczyścić wybrany folder?"
+                    "message2": "Jeśli go opróżnisz, cała powiązana z nim zawartość zostanie trwale usunięta.",
+                    "message1": "Czy chcesz opróżnić wybrany folder?"
                 }
             }
         },
@@ -641,7 +641,7 @@
                 "folder_panel": "Opróżnij folder"
             },
             "wipe": {
-                "folder_panel": "Wyczyść Folder"
+                "folder_panel": "Opróżnij folder"
             }
         }
     },
@@ -674,7 +674,7 @@
             "folder_moved": "Folder został przeniesiony",
             "folder_moved_to_trash": "Folder został przeniesiony do kosza",
             "folder_restored": "Folder został przywrócony",
-            "folder_wiped": "Folder został wyczyszczony",
+            "folder_wiped": "Folder został opróżniony",
             "mail_saved_to_drafts": "E-mail został zapisany jako wersja robocza",
             "mail_sent": "Wiadomość została wysłana",
             "marked_as_non_spam": "Oznaczyłeś ten e-mail jako nie-spam",
