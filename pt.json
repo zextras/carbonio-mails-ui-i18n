@@ -733,7 +733,8 @@
             "emailNotMatch": "O e-mail do certificado não corresponde ao e-mail do remetente",
             "failed": "Falha ao carregar o certificado",
             "removeCertificateToSign": "Remover certificado para assinar (S/MIME)",
-            "useCertificateToSign": "Utilizar certificado para assinar (S/MIME)"
+            "useCertificateToSign": "Utilizar certificado para assinar (S/MIME)",
+            "removeCertificateToEncrypt": "Remover certificado para criptografar (S/MIME)"
         }
     },
     "message": {
