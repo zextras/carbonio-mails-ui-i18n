@@ -18,7 +18,7 @@
         "print": "Imprimir",
         "redirect": "Redirecionar",
         "reply_all": "Responder a todos",
-        "reset": "Redefinir",
+        "reset": "Redefinir filtros",
         "share_folder": "Compartilhar pasta",
         "send_anyway": "Enviar mesmo assim",
         "show_details": "Mostrar detalhes",
@@ -370,7 +370,8 @@
         "mail_sensitivity_private": "Sensibilidade Privada",
         "mail_sensitivity_company_confidential": "Sensibilidade Confidencial da Empresa",
         "mail_sensitivity_unknown": "Sensibilidade Desconhecida",
-        "distribution_list": "Este e-mail é de uma Lista de Distribuição"
+        "distribution_list": "Este e-mail é de uma Lista de Distribuição",
+        "decrypt_message": "Decriptar Mensagem"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -727,14 +728,16 @@
                 "content": "Solte aqui seus anexos para adicioná-los rapidamente a este e-mail"
             },
             "files": "Adicionar do Files",
-            "url": "Adicionar link público a partir do Files"
+            "url": "Adicionar link público a partir do Files",
+            "add_original": "Adicionar anexo(s) original(is)"
         },
         "uploadCertificate": {
             "emailNotMatch": "O e-mail do certificado não corresponde ao e-mail do remetente",
             "failed": "Falha ao carregar o certificado",
             "removeCertificateToSign": "Remover certificado para assinar (S/MIME)",
             "useCertificateToSign": "Utilizar certificado para assinar (S/MIME)",
-            "removeCertificateToEncrypt": "Remover certificado para criptografar (S/MIME)"
+            "removeCertificateToEncrypt": "Remover certificado para criptografar (S/MIME)",
+            "useCertificateToEncrypt": "Usar certificado para criptografar (S/MIME)"
         }
     },
     "message": {
