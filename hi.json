@@ -62,7 +62,7 @@
         "insert": "सम्मिलित करना",
         "messages": "मैसेज",
         "move": "ले जाएँ",
-        "new_folder": "नया फोल्डर",
+        "new_folder": "नया फ़ोल्डर",
         "no_search_results_found": "कोई रिज़ल्ट नहीं मिले",
         "of": "में से",
         "private": "निजी",
@@ -207,7 +207,7 @@
         "delayed_sending": "देर से भेजें",
         "collapse_receivers_list": "पाने वालों की लिस्ट नीचे छिपाएँ",
         "before_you_leave": "इससे पहले कि आप जाएँ",
-        "invalid_query": "सर्च क्वेरी पार्स नहीं कर पा रहा, इसे साफ करें और दोबारा कोशिश करें",
+        "invalid_query": "विशेष वर्ण जैसे:, \", -, !, आदि को खोज में अनदेखा किया जाता है। इससे अप्रत्याशित परिणाम हो सकते हैं:",
         "send_scheduled": "शैड्यूल्ड भेजें",
         "download_and_delete": "डाउनलोड और डिलीट करें",
         "enter_name": "नाम एंटर करें",
@@ -270,7 +270,9 @@
         "no_folder_selected": "कोई फ़ोल्डर चयनित नहीं",
         "no_identity_selected": "<No identity selected>",
         "no_sender": "संदेश भेजने वाला निर्धारित नहीं है",
-        "clear_search_query": "सर्च क्लीयर करें"
+        "clear_search_query": "सर्च क्लीयर करें",
+        "distribution_list_app_name": "वितरण सूचियाँ",
+        "smart_links_created": "स्मार्ट लिंक बनाए गए"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
