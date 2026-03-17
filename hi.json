@@ -272,7 +272,38 @@
         "no_sender": "संदेश भेजने वाला निर्धारित नहीं है",
         "clear_search_query": "सर्च क्लीयर करें",
         "distribution_list_app_name": "वितरण सूचियाँ",
-        "smart_links_created": "स्मार्ट लिंक बनाए गए"
+        "smart_links_created": "स्मार्ट लिंक बनाए गए",
+        "upload_failed": "अपलोड नहीं हुआ",
+        "displayer_restore_emails_title": "आप उन ईमेल्स का चयन करें जिन्हें आप पुनर्स्थापित करना चाहते हैं",
+        "backup_search": "बैकअप खोज",
+        "last_7_days": "पिछले 7 दिन",
+        "date_created": "निर्माण तिथि",
+        "date_deleted": "हटाने की तिथि",
+        "deleted_folder": "मिटाए गए फ़ोल्डर",
+        "displayer_restore_emails_description": "एक बार चयनित ईमेल पुनर्प्राप्ति पूर्ण हो जाने के बाद, आपको परिणामों के संबंध में जानकारी के साथ एक ईमेल प्राप्त होगा।",
+        "end_date": "समाप्ति तिथि",
+        "error_no_backup_messages": "आपकी खोज किसी भी संदेश को नहीं ढूँढ पाई",
+        "start_recovery_description": "प्रक्रिया पूरी होने के बाद आपको अपने इनबॉक्स में एक अधिसूचना प्राप्त होगी और पुनर्प्राप्त ईमेल एक बिल्कुल नए फ़ोल्डर में मिलेंगे।",
+        "start_recovery_process": "पुनर्प्राप्ति प्रक्रिया शुरू करें",
+        "start_search": "सर्च शुरू करें",
+        "enter_single_email_address": "ईमेल पता दर्ज करें",
+        "blocked_addresses": "ब्लॉक किए गए लोगों की सूची",
+        "allowed_addresses": "अनुमति प्राप्त भेजने वालों की सूची",
+        "do_not_use_signature": "हस्ताक्षर का उपयोग न करें",
+        "error_unable_load_signatures": "हस्ताक्षर लोड करने में असमर्थ। कृपया पुनः लोड करें या बाद में पुनः प्रयास करें।",
+        "error_recovering_emails": "ईमेल पुनर्प्राप्ति में त्रुटि",
+        "folder": "फ़ोल्डर",
+        "import_to_contacts": "संपर्कों में आयात करें",
+        "last_30_days": "पिछले 30 दिन",
+        "last_14_days": "पिछले 14 दिन",
+        "recover_selected_emails": "चुने हुए ई-मेल पुनर्प्राप्त करें",
+        "recover_messages": "संदेश पुनर्प्राप्त करें",
+        "last_90_days": "पिछले 90 दिन",
+        "recover_emails": "पुनर्प्राप्ति प्रक्रिया शुरू हो गई है, यह पूर्ण होने पर आपको सूचित किया जाएगा",
+        "search_emails": "ई-मेल खोजें",
+        "select_recovery_date": "पुनर्प्राप्ति तिथि चुनें",
+        "recovery_period": "पुनर्प्राप्ति अवधि चुनें",
+        "searching_recover_emails": "ईमेल को पुनर्प्राप्त करने के लिए खोज रहे हैं"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -306,7 +337,7 @@
         "permanent_delete_title": "क्या आप वाकई में इस एलीमेंट को परमानेंट डिलीट करना चाहते हैं?",
         "snackbar": {
             "conversation_deleted": "बात-चीत डिलीट कर दी गई",
-            "conversation_move": "बात-चीत भेजी गई",
+            "conversation_move": "बातचीत सफलतापूर्वक स्थानांतरित की गई",
             "conversation_move_error": "कुछ गड़बड़ हुई, बात-चीत पूरी नहीं भेजी नहीं जा सकी, दोबारा कोशिश करें।",
             "email_moved_to_trash": "ई-मेल रद्दी में भेजी गई",
             "email_restored": "ई-मेल गंतव्य फोल्डर में वापस लाई गई",
@@ -316,13 +347,13 @@
             "folder_empty": "रद्दी खाली की गई",
             "folder_empty_error": "कुछ गड़बड़ हुई, बदलाव नहीं हो पाए। दोबारा कोशिश करें।",
             "folder_move_error": "कुछ गड़बड़ हुई, फोल्डर नहीं गया। दोबारा कोशिश करें।",
-            "folder_moved": "फोल्डर भेज दिया गया",
+            "folder_moved": "फ़ोल्डर सफलतापूर्वक स्थानांतरित किया गया",
             "folder_moved_to_trash": "फोल्डर रद्दी में भेजा गया",
             "folder_will_be_moved_in_time": "फोल्डर {{remainingTime}} में भेज दिया जाएगा",
             "mail_sent": "मैसेज भेजा गया",
             "marked_as_spam": "आपने इस ईमेल को स्पैम मार्क किया है",
             "message_deleted": "मैसेज डिलीट हो गया",
-            "message_move": "मैसेज भेजा गया",
+            "message_move": "संदेश सफलतापूर्वक स्थानांतरित किया गया",
             "message_redirected": "मैसेज को रीडायरेक्ट किया गया",
             "folder_wiped": "फोल्डर साफ किया गया",
             "marked_as_non_spam": "आपने इस ईमेल को स्पैम नहीं है मार्क किया है",
@@ -837,6 +868,11 @@
     "modal": {
         "delete_draft": {
             "message1": "क्या आप इस ड्राफ्ट को रखना चाहते हैं या डिलीट कर दें?"
+        },
+        "initializeError": {
+            "content": "कृपया पृष्ठ को ताज़ा करें या बाद में पुनः प्रयास करें। अन्य मॉड्यूल सीमित कार्यक्षमता के साथ अभी भी उपलब्ध हो सकते हैं।",
+            "title": "कुछ गड़बड़ हुई",
+            "buttonConfirm": "पुनः लोड करें"
         }
     },
     "editor": {
