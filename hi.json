@@ -162,7 +162,7 @@
         "no_subject_with_tags": "<विषयहीन>",
         "save_to_files": "Files में सेव करें",
         "calendar": "कैलेंडर",
-        "confirm": "कन्फ़र्म करें",
+        "confirm": "पुष्टि करें",
         "notification_audio": "नया नोटिफ़िकेशन आने पर ऑडियो हिंट प्ले करें",
         "notification_folders": "नोटिफ़िकेशन फोल्डर",
         "upload_from_files": "Files से अपलोड करें",
@@ -320,7 +320,30 @@
             "noSplit": "विभाजित नहीं"
         },
         "invalid_signature": "अमान्य हस्ताक्षर",
-        "show_details": "जानकारी दिखाएँ"
+        "show_details": "जानकारी दिखाएँ",
+        "valid_signature": "वैध हस्ताक्षर",
+        "error_folder_exists": "एक फ़ोल्डर पहले से ही इसी नाम से मौजूद है, कृपया कोई अलग नाम चुनें",
+        "from_external_domain": "यह ईमेल बाहरी डोमेन से है",
+        "distribution_list": "यह ईमेल एक वितरण सूची से है",
+        "mail_sensitivity_private": "संवेदनशीलता निजी",
+        "mail_sensitivity_company_confidential": "संवेदनशीलता कंपनी-गोपनीय",
+        "mail_sensitivity_unknown": "संवेदनशीलता अनजान",
+        "show_all_attachments": "सभी {{count}} संलग्नक दिखाएं",
+        "advancedFilters": {
+            "attachment": "संलग्नक"
+        },
+        "message_size_exceeded": "संदेश का आकार सीमा से अधिक है",
+        "reply_to": "उत्तर दें",
+        "change_filtering_sorting_options": "फ़िल्टरिंग और सॉर्टिंग विकल्प बदलें",
+        "reset": "रीसेट करें",
+        "uploading": "अपलोड हो रहा है",
+        "sort_by": "क्रमबद्ध करें",
+        "show": "दिखाएँ",
+        "senderslist_numentries": "{{count}} {{max}} का",
+        "reset_sort_and_filter_to_default": "डिफ़ॉल्ट पर रीसेट करें",
+        "always_request_read_receipts": "सदा पढ़े गए रसीद का अनुरोध करें",
+        "read_receipt_description": "जब प्राप्तकर्ता आपके ईमेल खोलें, तो सूचित करें। यह सभी संदेशों पर लागू होता है, जब तक कि इसे मैन्युअल रूप से बदला न जाए।",
+        "composing_messages_read_receipt": "पठन रसीद"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
@@ -718,7 +741,8 @@
         "share_updated": "\"एक्सेस अधिकार अपडेट हुए\"",
         "email_moved_to_trash": "ई-मेल रद्दी में भेजी गई",
         "tag_applied": "\"{{tag}}\" टैग अप्लाई हो गया",
-        "tag_removed": "\"{{tag}}\" टैग हटाया गया"
+        "tag_removed": "\"{{tag}}\" टैग हटाया गया",
+        "email_copied_to_clipboard": "ईमेल क्लिपबोर्ड पर कॉपी किया गया है।"
     },
     "folder_panel": {
         "modal": {
