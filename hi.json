@@ -303,7 +303,24 @@
         "search_emails": "ई-मेल खोजें",
         "select_recovery_date": "पुनर्प्राप्ति तिथि चुनें",
         "recovery_period": "पुनर्प्राप्ति अवधि चुनें",
-        "searching_recover_emails": "ईमेल को पुनर्प्राप्त करने के लिए खोज रहे हैं"
+        "searching_recover_emails": "ईमेल को पुनर्प्राप्त करने के लिए खोज रहे हैं",
+        "search_recover_emails": "पुनर्प्राप्त के लिए ई-मेल ढूंढें",
+        "start_date": "प्रारंभ दिनांक",
+        "send_mail": "ई-मेल भेजें",
+        "signature_size_exceed": "एक या एक से अधिक हस्ताक्षर आकार सीमा से अधिक हैं।",
+        "start_recovery": "पुनर्प्राप्ति शुरू करें",
+        "want_to_continue": "क्या आप जारी रखना चाहते हैं?",
+        "weeks": "सप्ताह",
+        "months": "महीने",
+        "days": "दिन",
+        "years": "वर्ष",
+        "layoutView": {
+            "verticalSplit": "ऊर्ध्वाधर विभाजन",
+            "horizontalSplit": "क्षैतिज विभाजन",
+            "noSplit": "विभाजित नहीं"
+        },
+        "invalid_signature": "अमान्य हस्ताक्षर",
+        "show_details": "जानकारी दिखाएँ"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
