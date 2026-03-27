@@ -65,7 +65,7 @@
                 "retention_message": "Les messages de ce dossier qui se situent dans la plage de rétention devront être confirmés explicitement avant d'être supprimés",
                 "add_share": "Ajouter un Partage",
                 "retention_duration_warning": "La durée de rétention doit être un nombre positif",
-                "threshold_message": "Les messages de ce dossier qui sont plus anciens que le seuil d'élimination seront soumis à un nettoyage et une suppression automatiques.",
+                "threshold_message": "Les messages de ce dossier qui sont plus anciens que le seuil d'élimination seront soumis à un nettoyage et une suppression automatique.",
                 "enter_valid_folder_name": "Saisir un nom de dossier valide",
                 "special_chars_warning_msg": "Les caractères spéciaux ne sont pas autorisés dans le nom de dossier",
                 "invalid_folder_name_warning_msg": "Les caractères spéciaux ne sont pas autorisés. Le nombre de caractères maximum est de 128."
