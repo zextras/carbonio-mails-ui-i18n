@@ -401,7 +401,7 @@
         "replied": "Odgovorio",
         "request_receipt": "Zatraži potvrdu o čitanju",
         "resend": "Ponovite slanje",
-        "restore": "Povrati",
+        "restore": "Vrati",
         "results_for": "Rezultati za: ",
         "results_for_error": "Nije moguće pokrenuti pretragu, obrišite je i pokušajte ponovo: ",
         "retention_policy": "Politika retencije",
@@ -901,7 +901,7 @@
             "set_message_color": "Postavi boju poruka i razgovora u skladu s bojom oznake.",
             "unsend_time": "Postavi vrijeme slanja",
             "visualization_options": "Opcije za vizuelizaciju",
-            "recover_messages_infotext": "Povratite e-poruke izbrisane iz kante za otpad upisivanjem ključne riječi unutar prvih 100 znakova poruke ili odabirom datuma.\nOdabrani datum će uključivati e-poruke izbrisane 3 dana prije i 3 dana poslije.\nKada se pretraga završi, bit ćete preusmjereni na stranicu s rezultatima gdje možete odabrati koje stavke želite vratiti."
+            "recover_messages_infotext": "Vratite izbrisane poruke iz kante za otpad upisivanjem ključne riječi unutar prvih 100 znakova poruke ili odabirom datuma.\nOdabrani datum će uključivati poruke izbrisane 3 dana prije i 3 dana poslije.\nKada se pretraga završi, bit ćete preusmjereni na stranicu s rezultatima gdje možete odabrati koje stavke želite vratiti."
         },
         "linkedin_msg": "LinkedIn poruke i veze",
         "localpart": "lokalni dio",
