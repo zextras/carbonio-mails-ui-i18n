@@ -785,8 +785,27 @@
             "issuer": "जारीकर्ता",
             "mailAddress": "ईमेल पता",
             "password": "पासवर्ड",
-            "passwordIsCorrect": "पासवर्ड सही है"
-        }
+            "passwordIsCorrect": "पासवर्ड सही है",
+            "passwordIsInCorrect": "पासवर्ड गलत है",
+            "resetPassword": "पासवर्ड पुनः सेट करें",
+            "serial": "श्रृंखला",
+            "smimeCertificate": "एस/एमआईएमई प्रमाणपत्र (अर्थात् certificate.p12)",
+            "status": "स्थिति",
+            "unableToDecrypt": "डिक्रिप्ट करने में असमर्थ",
+            "upload": "अपलोड करें",
+            "uploadCertificate": "प्रमाणपत्र अपलोड करें",
+            "uploadCertificateInSettings": "सेटिंग्स से अपना प्रमाणपत्र अपलोड करें",
+            "validFrom": "वैधता से",
+            "validTo": "वैध तक",
+            "caCertificateNotFound": "सीए प्रमाणपत्र नहीं मिल सकता है",
+            "noPersonalCertificate": "व्यक्तिगत प्रमाणपत्र सूची खाली है",
+            "personalCertificatesTitle": "व्यक्तिगत प्रमाणपत्र हस्ताक्षर, एन्क्रिप्शन और डिक्रिप्शन के लिए",
+            "recipientCertificatesTitle": "प्राप्तकर्ता प्रमाणपत्र एन्क्रिप्शन के लिए",
+            "noRecipientCertificate": "प्राप्तकर्ता प्रमाणपत्र सूची खाली है"
+        },
+        "condition_met": "निम्नलिखित शर्तें पूरी होती हैं:",
+        "font_size_one": "{{count}} pt",
+        "font_size_other": "{{count}} pt"
     },
     "tooltip": {
         "edit": "शेयर गुणों में संशोधन",
