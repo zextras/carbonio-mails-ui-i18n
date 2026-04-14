@@ -515,7 +515,8 @@
         "download_eml": "ईएमएल डाउनलोड करें",
         "preview_on_separated_window": "एक नई विंडो पर खोलें",
         "select_folders": "फ़ोल्डर चुनें",
-        "preview_on_separated_tab": "नये टैब में खोलें"
+        "preview_on_separated_tab": "नये टैब में खोलें",
+        "forward_as_attachment": "संलग्नक के रूप में आगे बढ़ाएं"
     },
     "folders": {
         "trash": "रद्दी",
@@ -614,7 +615,8 @@
             "not_changed_anything": "कोई बदलाव नहीं किए गए",
             "mark_manually": "मैनुअल चिन्हित करें",
             "filter_name_required": "फ़िल्टर नाम आवश्‍यक है",
-            "mark_reading_panel": "पढ़ा गया मार्क करें"
+            "mark_reading_panel": "पढ़ा गया मार्क करें",
+            "recover_messages_infotext": "ट्रैश से हटाए गए ई-मेल को पुनर्प्राप्त करने के लिए, संदेश के पहले 100 अक्षरों में शामिल किसी कीवर्ड को टाइप करें या एक तारीख चुनें।\nचुनी गई तारीख में उस तारीख से 3 दिन पहले और 3 दिन बाद तक हटाए गए ई-मेल शामिल होंगे।\nखोज पूरी होने के बाद आपको परिणाम पेज पर ले जाया जाएगा, जहाँ आप यह चुन सकते हैं कि किन आइटम्स को पुनर्स्थापित करना है।"
         },
         "msg_from_optn": {
             "discard": "मैसेज ऑटोमैटिक हटाएँ",
@@ -623,7 +625,9 @@
         },
         "new_mail_optn": {
             "manually": "मैनुअल",
-            "when_arrive": "जब नई ई-मेल आती है"
+            "when_arrive": "जब नई ई-मेल आती है",
+            "minute_one": "{{count}} मिनट",
+            "minute_other": "{{count}} मिनट"
         },
         "read_rcpt_optn": {
             "always": "हमेशा पढ़ लिया रसीद भेजें",
@@ -735,7 +739,9 @@
             "comic": "Comic"
         },
         "mail_unsend_time": {
-            "no_delay": "कोई देर नहीं"
+            "no_delay": "कोई देर नहीं",
+            "second_one": "{{count}} सेकंड",
+            "second_other": "{{count}} सेकंड"
         },
         "address": "एड्रैस",
         "tag_name_required": "\"इससे टैग करें\" एक्शन पूरी करने के लिए \"टैग\" फील्ड भरें।",
@@ -805,7 +811,11 @@
         },
         "condition_met": "निम्नलिखित शर्तें पूरी होती हैं:",
         "font_size_one": "{{count}} pt",
-        "font_size_other": "{{count}} pt"
+        "font_size_other": "{{count}} pt",
+        "filtersConditions": {
+            "attachment": "संलग्नक"
+        },
+        "tb": "टीबी"
     },
     "tooltip": {
         "edit": "शेयर गुणों में संशोधन",
@@ -817,7 +827,27 @@
         "add_attachments": "अटैचमेंट लगाएं",
         "disable_rich_text": "रिच टेक्स्ट एडिटर बंद करें",
         "folder_linked_status": "मुझसे साझा किया गया",
-        "marked_as_important": "महत्वपूर्ण के रूप में चिह्नित किया गया"
+        "marked_as_important": "महत्वपूर्ण के रूप में चिह्नित किया गया",
+        "folder_sharing_status_one": "{{count}} व्यक्ति के साथ साझा किया गया",
+        "folder_sharing_status_other": "{{count}} व्यक्तियों के साथ शेयर किया गया",
+        "markedAsEncryptedSmime": "एस/एमआईएमई (एन्क्रिप्टेड के रूप में चिह्नित)",
+        "list_navigation": {
+            "loadingNextEmail": "अगला ईमेल लोड हो रहा है",
+            "goToPrevious": "पिछले ईमेल पर जाएं",
+            "closeToNavigate": "इस ईमेल को बंद करें और नेविगेट करें",
+            "unableToLoadNextEmail": "अगला ईमेल लोड नहीं किया जा सकता। बाद में पुनः प्रयास करें",
+            "noMoreEmails": "अब और कोई ईमेल नहीं हैं",
+            "noPreviousEmails": "पिछले ईमेल नहीं हैं",
+            "goToNext": "अगला ईमेल पर जाएं"
+        },
+        "markedAsSingedSmime": "हस्ताक्षरित के रूप में चिह्नित (एस/एमआईएमई)",
+        "moreActions": "और क्रियाएँ",
+        "view_more_one": "{{count}} और अधिक आइटम देखें",
+        "view_more_other": "{{count}} और अधिक आइटम देखें",
+        "account_unread_count_one": "{{count}} अपठित ईमेल",
+        "account_unread_count_other": "{{count}} अपठित ईमेल",
+        "subfolder_unread_count_one": "सबफ़ोल्डरों में {{count}} अपठित ईमेल",
+        "subfolder_unread_count_other": "सबफ़ोल्डरों में {{count}} अपठित ईमेल"
     },
     "message": {
         "snackbar": {
@@ -863,7 +893,13 @@
         "email_moved_to_trash": "ई-मेल रद्दी में भेजी गई",
         "tag_applied": "\"{{tag}}\" टैग अप्लाई हो गया",
         "tag_removed": "\"{{tag}}\" टैग हटाया गया",
-        "email_copied_to_clipboard": "ईमेल क्लिपबोर्ड पर कॉपी किया गया है।"
+        "email_copied_to_clipboard": "ईमेल क्लिपबोर्ड पर कॉपी किया गया है।",
+        "uploadCertificate": {
+            "failToVerifyCertificate": "प्रमाणपत्र की पुष्टि करने में विफल"
+        },
+        "conversation_moved_to_trash": "बातचीत को कूड़े में ले जाया गया",
+        "message_moved_to_archive": "ई-मेल आर्काइव में स्थानांतरित किया गया",
+        "conversation_moved_to_archive": "वार्तालाप आर्काइव में स्थानांतरित कर दिया गया है"
     },
     "folder_panel": {
         "modal": {
@@ -939,7 +975,7 @@
     "displayer": {
         "search_description1": "या \"एड्वान्स्ड फिल्टर\" सिलेक्ट करके अपनी सर्च को और बारीक करें।",
         "search_description2": "कोई दूसरी सर्च शुरू करने की कोशिश करें।",
-        "search_list_title1": "ऐसा लगता है कोई रिज़ल्ट नहीं हैं। सर्च करते रहें!",
+        "search_list_title1": "ऐसा लगता है कि कोई परिणाम नहीं हैं। खोज जारी रखें!",
         "list_junk_title": "कोई स्पैम ई-मेल नहीं हैं",
         "list_sent_title": "आपने अभी तक कोई ई-मेल नहीं भेजी है",
         "list_trash_title": "रद्दी खाली है",
@@ -961,7 +997,7 @@
         "search_title1": "एक और सर्च शुरू करें",
         "search_title2": "क्षमा करें पर आपके सर्च के कोई रिज़ल्ट नहीं मिले",
         "search_title3": "आपकी सर्च के लिए कोई रिज़ल्ट नहीं मिले।",
-        "search_title4": "एक या ज़्यादा रिज़ल्ट सिलेक्ट करके और कुछ करें या विवरण दिखाएँ।",
+        "search_title4": "एक या एक से अधिक परिणाम चुनें कार्रवाई करने या विवरण प्रदर्शित करने के लिए।",
         "sent_title2": "आपने क्या भेजा है उसे देखने के लिए कोई ई-मेल सिलेक्ट करें।",
         "description2": "दस्तावेज़, फोटो और भी कई चीजों को एक नई ई-मेल बनाकर भेजें।",
         "description4": "आप इसे फ्लैग कर सकते हैं, रिप्लाई कर सकते हैं या दूसरे यूजरों को फॉरवर्ड कर सकते हैं।",
