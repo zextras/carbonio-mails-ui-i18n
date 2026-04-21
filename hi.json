@@ -1122,7 +1122,100 @@
     "modals": {
         "apply_filters": {
             "button_apply": "लागू",
-            "label_confirm_request": "क्या आप फ़िल्टर लागू करना चाहते हैं?"
+            "label_confirm_request": "क्या आप फ़िल्टर लागू करना चाहते हैं?",
+            "title": "एप्लिकेशन फ़िल्टर \"{{filterName}}\"",
+            "label_confirm_msg": "जितने अधिक संदेश हैं, फ़िल्टर लागू करने में उतना अधिक समय लगेगा।",
+            "apply_folder_one": "<bold>{{count}} संदेश</bold> चयनित फ़ोल्डर के भीतर संसाधित किए जाएंगे।",
+            "apply_folder_other": "<bold>{{count}} संदेश</bold> चयनित फ़ोल्डर के भीतर संसाधित किए जाएंगे।"
+        }
+    },
+    "sortingDropdown": {
+        "tooltip": {
+            "attachmentAscending": "संलग्नक द्वारा आरोही क्रम",
+            "attachmentDescending": "संलग्नक के अनुसार अवरोही क्रम",
+            "dateAscending": "आकार के अनुसार आरोही क्रम",
+            "dateDescending": "तारीख के अनुसार अवरोही क्रम",
+            "flaggedAscending": "चिह्नित के अनुसार बढ़ते क्रम में",
+            "flaggedDescending": "चिह्नित के अनुसार घटते क्रम में",
+            "fromAscending": "प्रेषक के अनुसार बढ़ते क्रम में",
+            "fromDescending": "प्रेषक के अनुसार घटते क्रम में",
+            "importantAscending": "महत्वपूर्ण के अनुसार बढ़ते क्रम में",
+            "importantDescending": "महत्वपूर्ण के अनुसार घटते क्रम में",
+            "sizeDescending": "साइज़ के अनुसार घटते क्रम में",
+            "subjectAscending": "विषय के अनुसार आरोही क्रम",
+            "subjectDescending": "विषय के अनुसार अवरोही क्रम",
+            "toAscending": "प्राप्तकर्ता के अनुसार बढ़ते क्रम में",
+            "toDescending": "प्राप्तकर्ता के अनुसार घटते क्रम में",
+            "unreadAscending": "अपठित के अनुसार बढ़ते क्रम में",
+            "unreadDescending": "अपठित के अनुसार घटते क्रम में"
+        }
+    },
+    "sorting_dropdown": {
+        "ascendingOrder": "बढ़ते क्रम में",
+        "attachment": "संलग्नक",
+        "date": "दिनांक",
+        "descendingOrder": "घटते क्रम में",
+        "flagged": "फ़्लैग किया गया",
+        "from": "प्रेषक",
+        "important": "महत्वपूर्ण",
+        "subject": "विषय",
+        "to": "को",
+        "unread": "अपठित",
+        "show": "दिखाएँ:",
+        "sort_by": "क्रमबद्ध करें:",
+        "all": "सभी",
+        "default": "डिफ़ॉल्ट"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "क्षैतिज दृश्य",
+            "vertical": "लंबवत दृश्य",
+            "switchToVertical": "वर्टिकल स्प्लिट पर स्विच करें",
+            "switchToNoSplit": "नो स्प्लिट मोड में स्विच करें",
+            "switchToHorizontal": "क्षैतिज विभाजन पर स्विच करें"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "label": "इस संदेश को लंबाई के कारण काटा गया है।",
+            "button": "संदेश लोड करें",
+            "loadingButton": "लोड हो रहा है . . ।"
+        }
+    },
+    "tag": {
+        "label": "टैग"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[खाली ‘To’ फ़ील्ड]"
+        }
+    },
+    "text": {
+        "loading_conversation": "संवाद लोड हो रहा है, कृपया प्रतीक्षा करें..।",
+        "loading_message": "संदेश लोड हो रहा है, कृपया प्रतीक्षा करें..।"
+    },
+    "smart_link_modal": {
+        "body": {
+            "text1": "यह संलग्नक संदेश भेजने के लिए अनुमत अधिकतम आकार से अधिक है।",
+            "text2": "क्या आप इसे स्मार्ट लिंक में परिवर्तित करना चाहेंगे?"
+        },
+        "header": {
+            "title": "अटैचमेंट को स्मार्ट लिंक के रूप में अपलोड करें"
+        },
+        "progress": {
+            "title": "स्मार्ट लिंक के रूप में अटैचमेंट अपलोड हो रहा है",
+            "text": "आप एक बड़ा अटैचमेंट अपलोड कर रहे हैं। इसमें कुछ समय लग सकता है, कृपया प्रतीक्षा करें।"
+        }
+    },
+    "error": {
+        "invalid_recipient": "प्राप्तकर्ता पता {{invalidAddress}} मौजूद नहीं है या अमान्य है"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "ड्राफ्ट {{time}} पर सहेजा गया",
+            "draftSaveDateTime": "ड्राफ्ट {{date}} को सहेजा गया {{time}} पर",
+            "draftSaving": "सहेजा जा रहा है…",
+            "draftNotSaved": "ड्राफ्ट सहेजा नहीं गया"
         }
     }
 }
