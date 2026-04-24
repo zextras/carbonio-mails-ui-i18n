@@ -354,7 +354,8 @@
         "reset_sort_and_filter_to_default": "Reset to default",
         "always_request_read_receipts": "Always request read receipts",
         "read_receipt_description": "Get notified when recipients open your emails. This applies to all messages unless changed manually.",
-        "composing_messages_read_receipt": "Read receipt"
+        "composing_messages_read_receipt": "Read receipt",
+        "view_all_actions": "View all actions"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
