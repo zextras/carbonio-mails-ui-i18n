@@ -472,7 +472,8 @@
         "reset_sort_and_filter_to_default": "Ripristina predefiniti",
         "always_request_read_receipts": "Richiedi sempre conferme di lettura",
         "read_receipt_description": "Ricevi una notifica quando i destinatari aprono le tue email. Si applica a tutti i messaggi a meno che non venga modificato manualmente.",
-        "composing_messages_read_receipt": "Ricevuta di lettura"
+        "composing_messages_read_receipt": "Ricevuta di lettura",
+        "view_all_actions": "Vedi tutte le azioni"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
