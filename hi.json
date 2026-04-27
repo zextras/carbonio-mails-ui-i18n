@@ -343,7 +343,8 @@
         "reset_sort_and_filter_to_default": "डिफ़ॉल्ट पर रीसेट करें",
         "always_request_read_receipts": "सदा पढ़े गए रसीद का अनुरोध करें",
         "read_receipt_description": "जब प्राप्तकर्ता आपके ईमेल खोलें, तो सूचित करें। यह सभी संदेशों पर लागू होता है, जब तक कि इसे मैन्युअल रूप से बदला न जाए।",
-        "composing_messages_read_receipt": "पठन रसीद"
+        "composing_messages_read_receipt": "पठन रसीद",
+        "view_all_actions": "सभी क्रियाएँ देखें"
     },
     "messages": {
         "invalid_address": "निम्नलिखित एड्रेस अमान्य लग रहा है",
