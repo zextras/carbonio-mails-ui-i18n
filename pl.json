@@ -495,7 +495,8 @@
         "reset_sort_and_filter_to_default": "Zresetuj do domyślnego",
         "always_request_read_receipts": "Zawsze proś o potwierdzenie przeczytania",
         "read_receipt_description": "Dostawaj powiadomienia kiedy odbiorcy otwierają Twoje e-maile. To dotyczy wszystkich wiadomości, chyba, że zmienisz to manualnie.",
-        "composing_messages_read_receipt": "Potwierdzenie przeczytania"
+        "composing_messages_read_receipt": "Potwierdzenie przeczytania",
+        "view_all_actions": "Zobacz wszystkie czynności"
     },
     "message": {
         "snackbar": {
