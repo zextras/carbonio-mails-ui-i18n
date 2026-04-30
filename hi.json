@@ -256,7 +256,7 @@
         "download_other": "सभी डाउनलोड करें",
         "message_send_in_progress": "संदेश भेजने का कार्य प्रगति पर है",
         "missing_sender": "संदेश भेजने वाला निर्धारित नहीं है",
-        "close": "बंद",
+        "close": "बंद करें",
         "convert_back_to_attachment": "वापस अनुलग्नक में बदलें",
         "errors": {
             "upload_failed_generic": "फ़ाइल \"{{filename}}\" के लिए अपलोड विफल रहा"
