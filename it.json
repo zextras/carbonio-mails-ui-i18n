@@ -882,7 +882,7 @@
             "errorWhileFetchingCert": "Errore durante il recupero dei certificati",
             "errorWhileUploadCert": "Errore durante il caricamento del certificato",
             "expired": "Scaduto",
-            "failed": "Caricamento del certificato non riuscito",
+            "failed": "Caricamento certificato non riuscito",
             "inactive": "Inattivo",
             "issuer": "Emittente",
             "mailAddress": "Indirizzo mail",
