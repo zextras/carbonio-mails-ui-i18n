@@ -371,7 +371,23 @@
         "mail_sensitivity_company_confidential": "Sensibilidade Confidencial da Empresa",
         "mail_sensitivity_unknown": "Sensibilidade Desconhecida",
         "distribution_list": "Este e-mail é de uma Lista de Distribuição",
-        "decrypt_message": "Decriptar Mensagem"
+        "decrypt_message": "Decriptar Mensagem",
+        "show_all_attachments": "Mostrar todos os {{count}} anexos",
+        "advancedFilters": {
+            "attachment": "Anexo"
+        },
+        "message_size_exceeded": "O tamanho da mensagem excede o limite",
+        "reply_to": "Responder para",
+        "change_filtering_sorting_options": "Alterar opções de filtragem e classificação",
+        "reset": "Redefinir",
+        "uploading": "Carregando",
+        "sort_by": "Ordenar por",
+        "show": "Mostrar",
+        "senderslist_numentries": "{{count}} de {{max}}",
+        "reset_sort_and_filter_to_default": "Redefinir para o padrão",
+        "always_request_read_receipts": "Sempre solicitar confirmações de leitura",
+        "read_receipt_description": "Receba uma notificação quando os destinatários abrirem seus e-mails. Isso se aplica a todas as mensagens, a menos que seja alterado manualmente.",
+        "composing_messages_read_receipt": "Confirmação de leitura"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -521,7 +537,8 @@
         "searching_deleted_emails": "A busca de e-mails excluídos da Lixeira pode levar algum tempo. Quando a operação for concluída, você será redirecionado para os resultados.",
         "allowed_addresses": "Os e-mails enviados desses endereços na sua lista de remetentes permitidos sempre vão burlar o filtro de spam e aparecer na sua caixa de entrada.",
         "invalid_sender_address": "Insira apenas endereços de e-mail",
-        "blocked_addresses": "Os e-mails enviados desses endereços na lista de remetentes bloqueados serão automaticamente movidos para a sua pasta de spam."
+        "blocked_addresses": "Os e-mails enviados desses endereços na lista de remetentes bloqueados serão automaticamente movidos para a sua pasta de spam.",
+        "encrypted_message": "Esta mensagem foi criptografada. Para visualizá-la, clique em \"Descriptografar mensagem\"."
     },
     "placeholder": {
         "add_new_recipients": "Adicionar destinatários"
@@ -556,7 +573,7 @@
         "send_notification": "Enviar uma notificação sobre este compartilhamento",
         "share_note": "A mensagem padrão exibe seu nome, o nome do item compartilhado, as permissões concedidas aos destinatários e as informações de acesso.",
         "filter_folder_message": "Selecione uma pasta para iniciar a busca avançada",
-        "is_contained_in": "Na pasta"
+        "is_contained_in": "Está contido em"
     },
     "settings": {
         "notify_folder_optn": {
@@ -1056,5 +1073,17 @@
             "button": "CARREGAR MENSAGEM",
             "loadingButton": "CARREGANDO..."
         }
+    },
+    "colors": {
+        "black": "Preto",
+        "purple": "Roxo",
+        "blue": "Azul",
+        "cyan": "Ciano",
+        "red": "Vermelho",
+        "green": "Verde",
+        "orange": "Laranja",
+        "pink": "Rosa",
+        "yellow": "Amarelo",
+        "gray": "Cinza"
     }
 }
