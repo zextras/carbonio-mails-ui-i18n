@@ -446,7 +446,10 @@
             "sending_mail_in_count_one": "Enviando sua mensagem em {{count}} segundo",
             "sending_mail_in_count_many": "Enviando sua mensagem em {{count}} segundos",
             "sending_mail_in_count_other": "Enviando sua mensagem em {{count}} segundos",
-            "apply_filter_error": "O filtro ainda está em execução no servidor, mas está demorando muito para indicar os itens afetados. O filtro continua funcionando no servidor sem informações adicionais."
+            "apply_filter_error": "O filtro ainda está em execução no servidor, mas está demorando muito para indicar os itens afetados. O filtro continua funcionando no servidor sem informações adicionais.",
+            "folder_emptied": "Pasta esvaziada com sucesso",
+            "conversation_marked_as_non_spam": "Conversa marcada como Não é Spam",
+            "conversation_marked_as_spam": "Conversa marcada como Spam"
         },
         "invalid_address": "O seguinte endereço parece ser inválido",
         "modal": {
@@ -538,7 +541,10 @@
         "allowed_addresses": "Os e-mails enviados desses endereços na sua lista de remetentes permitidos sempre vão burlar o filtro de spam e aparecer na sua caixa de entrada.",
         "invalid_sender_address": "Insira apenas endereços de e-mail",
         "blocked_addresses": "Os e-mails enviados desses endereços na lista de remetentes bloqueados serão automaticamente movidos para a sua pasta de spam.",
-        "encrypted_message": "Esta mensagem foi criptografada. Para visualizá-la, clique em \"Descriptografar mensagem\"."
+        "encrypted_message": "Esta mensagem foi criptografada. Para visualizá-la, clique em \"Descriptografar mensagem\".",
+        "confirm_delete_draft_one": "Você tem certeza de que deseja excluir este rascunho?",
+        "confirm_delete_draft_many": "Um ou mais rascunhos estão abertos no editor. Você tem certeza de que deseja excluí-los?",
+        "confirm_delete_draft_other": "Um ou mais rascunhos estão abertos no editor. Você tem certeza de que deseja excluí-los?"
     },
     "placeholder": {
         "add_new_recipients": "Adicionar destinatários"
@@ -734,7 +740,13 @@
         "remove_action": "Remover ação",
         "font_size_one": "{{count}} ponto",
         "font_size_many": "{{count}} pontos",
-        "font_size_other": "{{count}} pontos"
+        "font_size_other": "{{count}} pontos",
+        "app": "Configurações",
+        "certificatePassword": {
+            "confirmPassword": "Confirmar Senha",
+            "create_password_header": "Criar uma senha para operações S/MIME",
+            "createPasswordMsg1": "Para garantir a segurança das suas comunicações por e-mail, você precisa criar uma senha que será usada em todas as operações S/MIME."
+        }
     },
     "composer": {
         "attachment": {
