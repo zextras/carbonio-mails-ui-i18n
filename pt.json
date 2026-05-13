@@ -785,7 +785,6 @@
             "passwordIsCorrect": "A senha está correta",
             "passwordIsInCorrect": "A senha está incorreta",
             "resetPassword": "Redefinir senha",
-            "serial": "",
             "smimeCertificate": "Certificado S/MIME (ex., certificate.p12)",
             "unableToDecrypt": "Não foi possível descriptografar",
             "upload": "Carregar",
