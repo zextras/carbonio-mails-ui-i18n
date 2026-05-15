@@ -387,7 +387,8 @@
         "reset_sort_and_filter_to_default": "Redefinir para o padrão",
         "always_request_read_receipts": "Sempre solicitar confirmações de leitura",
         "read_receipt_description": "Receba uma notificação quando os destinatários abrirem seus e-mails. Isso se aplica a todas as mensagens, a menos que seja alterado manualmente.",
-        "composing_messages_read_receipt": "Confirmação de leitura"
+        "composing_messages_read_receipt": "Confirmação de leitura",
+        "view_all_actions": "Ver todas as ações"
     },
     "title": {
         "new_messages": "Novas mensagens",
@@ -399,7 +400,8 @@
         "inbox": "Caixa de entrada",
         "spam": "Spam",
         "sent": "Enviados",
-        "junk": "Spam"
+        "junk": "Spam",
+        "archive": "Arquivo"
     },
     "header": {
         "warning": "Atenção",
@@ -541,7 +543,7 @@
         "allowed_addresses": "Os e-mails enviados desses endereços na sua lista de remetentes permitidos sempre vão burlar o filtro de spam e aparecer na sua caixa de entrada.",
         "invalid_sender_address": "Insira apenas endereços de e-mail",
         "blocked_addresses": "Os e-mails enviados desses endereços na lista de remetentes bloqueados serão automaticamente movidos para a sua pasta de spam.",
-        "encrypted_message": "Esta mensagem foi criptografada. Para visualizá-la, clique em \"Descriptografar mensagem\".",
+        "encrypted_message": "Esta mensagem foi criptografada. Para visualizá-la, clique em \"Descriptografar mensagem\"",
         "confirm_delete_draft_one": "Você tem certeza de que deseja excluir este rascunho?",
         "confirm_delete_draft_many": "Um ou mais rascunhos estão abertos no editor. Você tem certeza de que deseja excluí-los?",
         "confirm_delete_draft_other": "Um ou mais rascunhos estão abertos no editor. Você tem certeza de que deseja excluí-los?"
@@ -571,7 +573,7 @@
             "share_calendar_with": {
                 "external_guests": "Convidados externos (apenas visualizar)",
                 "internal_users_groups": "Usuários ou grupos internos",
-                "public": "Público (apenas ver, senha não requerida)"
+                "public": "Compartilhar publicamente (somente visualização, sem necessidade de senha)"
             }
         },
         "recipients_address": "Endereços de e-mail dos destinatários",
@@ -796,9 +798,16 @@
             "noPersonalCertificate": "A lista de certificados pessoais está vazia",
             "personalCertificatesTitle": "Certificados pessoais para assinatura, criptografia e descriptografia",
             "recipientCertificatesTitle": "Certificados dos destinatários para criptografia",
-            "noRecipientCertificate": "A lista de certificados de destinatários está vazia"
+            "noRecipientCertificate": "A lista de certificados de destinatários está vazia",
+            "serial": "Serial",
+            "status": "Status"
         },
-        "smime_certificates": "Certificados S/MIME"
+        "smime_certificates": "Certificados S/MIME",
+        "condition_met": "das seguintes condições forem atendidas:",
+        "filtersConditions": {
+            "attachment": "Anexo"
+        },
+        "tb": "TB"
     },
     "composer": {
         "attachment": {
@@ -857,7 +866,8 @@
         "delete_attachment_message1": "O anexo será excluído permanentemente do Carbonio.",
         "delete_attachment_message2": "Deseja baixá-lo antes?",
         "copy": "Copiar",
-        "send_email": "Enviar e-mail"
+        "send_email": "Enviar e-mail",
+        "senderslist_empty": "Nenhum endereço foi incluído na lista ainda"
     },
     "snackbar": {
         "share_resend": "Convite do compartilhamento reenviado",
@@ -870,7 +880,10 @@
         "email_copied_to_clipboard": "E-mail copiado para área de transferência.",
         "uploadCertificate": {
             "failToVerifyCertificate": "Falha ao verificar o certificado"
-        }
+        },
+        "conversation_moved_to_trash": "A conversa foi movida para a Lixeira",
+        "message_moved_to_archive": "E-mail movido para o Arquivo",
+        "conversation_moved_to_archive": "Conversa movida para o Arquivo"
     },
     "tooltip": {
         "add_attachments": "Adicionar anexos",
@@ -883,9 +896,9 @@
         "enable_urgent": "Ativar Urgente",
         "folder_linked_status": "Compartilhado comigo",
         "marked_as_important": "Marcar como importante",
-        "folder_sharing_status_one": "Compartilhado com {{count}} usuário",
-        "folder_sharing_status_many": "Compartilhado com {{count}} usuários",
-        "folder_sharing_status_other": "Compartilhado com {{count}} usuários",
+        "folder_sharing_status_one": "Compartilhado com {{count}} pessoa",
+        "folder_sharing_status_many": "Compartilhado com {{count}} pessoas",
+        "folder_sharing_status_other": "Compartilhado com {{count}} pessoas",
         "list_navigation": {
             "loadingNextEmail": "Carregando próximo e-mail",
             "closeToNavigate": "Feche este e-mail para navegar",
@@ -895,7 +908,18 @@
             "noMoreEmails": "Não há mais e-mails",
             "unableToLoadNextEmail": "Não foi possível carregar o próximo e-mail. Tente novamente"
         },
-        "markedAsSingedSmime": "Marcado como assinado (S/MIME)"
+        "markedAsSingedSmime": "Marcado como assinado (S/MIME)",
+        "markedAsEncryptedSmime": "Marcado como criptografado (S/MIME)",
+        "moreActions": "Mais ações",
+        "view_more_one": "Ver mais {{count}} item",
+        "view_more_many": "Ver mais {{count}} itens",
+        "view_more_other": "Ver mais {{count}} itens",
+        "account_unread_count_one": "{{count}} mensagem não lida",
+        "account_unread_count_many": "{{count}} mensagens não lidas",
+        "account_unread_count_other": "{{count}} mensagens não lidas",
+        "subfolder_unread_count_one": "{{count}} mensagem não lida em subpastas",
+        "subfolder_unread_count_many": "{{count}} mensagens não lidas em subpastas",
+        "subfolder_unread_count_other": "{{count}} mensagens não lidas em subpastas"
     },
     "folder_panel": {
         "modal": {
@@ -910,7 +934,19 @@
             "empty": {
                 "body": {
                     "message2": "Ao esvaziá-la, todo o seu conteúdo será excluído permanentemente.",
-                    "message1": "Deseja esvaziar a pasta selecionada?"
+                    "message1": "Deseja esvaziar a pasta selecionada?",
+                    "message3": "Esta ação não pode ser desfeita."
+                },
+                "folder": {
+                    "button": {
+                        "yes": "Sim, esvaziar pasta",
+                        "no": "Não, Cancelar"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "Sim, Esvaziar"
+                    }
                 }
             },
             "new": {
@@ -942,7 +978,8 @@
         },
         "action": {
             "empty": {
-                "trash": "Esvaziar lixeira"
+                "trash": "Esvaziar lixeira",
+                "folder_panel": "Esvaziar pasta"
             },
             "edit_properties": "Editar propriedades",
             "wipe": {
@@ -1055,7 +1092,8 @@
         "zipped_file": "Arquivo compactado"
     },
     "labels": {
-        "composing_messages": "Composição de mensagens"
+        "composing_messages": "Composição de mensagens",
+        "compose": "Compor"
     },
     "new_folder": "Nova pasta",
     "go_back": "Voltar",
@@ -1073,7 +1111,8 @@
             "certificatePassword": "Senha do Certificado",
             "upload": "Carregar",
             "uploadCertificate": "Carregar Certificado"
-        }
+        },
+        "messageFilteringList": "Apenas os 100 primeiros resultados são exibidos. Refine sua busca para ver a lista completa."
     },
     "messages,new_email": "Novo email",
     "modals": {
@@ -1081,7 +1120,10 @@
             "button_apply": "Aplicar",
             "label_confirm_request": "Deseja aplicar o filtro?",
             "title": "Aplicação do filtro \"{{filterName}}\"",
-            "label_confirm_msg": "Quanto mais mensagens, mais tempo será necessário para aplicar o filtro."
+            "label_confirm_msg": "Quanto mais mensagens, mais tempo será necessário para aplicar o filtro.",
+            "apply_folder_one": "<bold>{{count}} mensagem</bold> será processada dentro da pasta selecionada.",
+            "apply_folder_many": "<bold>{{count}} mensagens</bold> serão processadas dentro da pasta selecionada.",
+            "apply_folder_other": "<bold>{{count}} mensagens</bold> serão processadas dentro da pasta selecionada."
         }
     },
     "sortingDropdown": {
@@ -1115,11 +1157,18 @@
         "important": "Importante",
         "subject": "Assunto",
         "to": "Para",
-        "unread": "Não lido"
+        "unread": "Não lido",
+        "show": "Mostrar:",
+        "sort_by": "Ordenar por:",
+        "all": "Todos",
+        "default": "Padrão"
     },
     "editor": {
         "warning": {
             "mail_size_exceeds_limit": "O tamanho da mensagem excedeu o limite. Transforme alguns anexos em links inteligentes"
+        },
+        "info": {
+            "bannerLargeAttachments": "Você está enviando um anexo grande. Isso pode levar algum tempo, por favor, seja paciente..."
         }
     },
     "layoutView": {
@@ -1133,7 +1182,7 @@
     },
     "warningBanner": {
         "truncatedMessage": {
-            "label": "A mensagem é muito longa e foi cortada",
+            "label": "Esta mensagem foi encurtada devido ao tamanho",
             "button": "CARREGAR MENSAGEM",
             "loadingButton": "CARREGANDO..."
         }
@@ -1149,5 +1198,41 @@
         "pink": "Rosa",
         "yellow": "Amarelo",
         "gray": "Cinza"
+    },
+    "tag": {
+        "label": "Marcador"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[Campo ‘Para’ vazio]"
+        }
+    },
+    "text": {
+        "loading_conversation": "Carregando conversa, aguarde...",
+        "loading_message": "Carregando mensagem, aguarde..."
+    },
+    "smart_link_modal": {
+        "body": {
+            "text1": "O anexo excede o tamanho máximo permitido para enviar a mensagem.",
+            "text2": "Deseja convertê-lo em um Smart Link?"
+        },
+        "header": {
+            "title": "Faça o upload do anexo como um Smart Link"
+        },
+        "progress": {
+            "title": "Carregando anexo como um Smart Link",
+            "text": "Você está enviando um anexo grande. Isso pode levar alguns instantes, aguarde."
+        }
+    },
+    "error": {
+        "invalid_recipient": "O endereço do destinatário {{invalidAddress}} não existe ou é inválido"
+    },
+    "editView": {
+        "footer": {
+            "draftSaveTime": "Rascunho salvo em {{time}}",
+            "draftSaveDateTime": "Rascunho salvo em {{date}} às {{time}}",
+            "draftSaving": "Salvando…",
+            "draftNotSaved": "Rascunho não salvo"
+        }
     }
 }
