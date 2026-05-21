@@ -921,7 +921,7 @@
         "msg_from_optn": {
             "inbox": "Stavi u inbox",
             "inbox_if_cc": "Stavi u inbox ako sam u Za: ili Cc:",
-            "discard": "Odbaci poruku automatski"
+            "discard": "Automatski odbaci poruku"
         },
         "msg_selection_optn": {
             "based_on_previous": "Odaberi slijedeću poruku na osnovu prethodnih izbora",
