@@ -425,7 +425,8 @@
         "reset_sort_and_filter_to_default": "Appliquer les valeurs par défaut",
         "always_request_read_receipts": "Toujours demander des accusés de lecture",
         "read_receipt_description": "Recevez une notification lorsque les destinataires ouvrent vos e-mails. Cela s'applique à tous les messages, sauf modification manuelle.",
-        "composing_messages_read_receipt": "Accusé de réception"
+        "composing_messages_read_receipt": "Accusé de réception",
+        "view_all_actions": "Voir toutes les actions"
     },
     "message": {
         "snackbar": {
