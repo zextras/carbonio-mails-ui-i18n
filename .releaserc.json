@@ -1,0 +1,28 @@
+{
+  "branches": ["master"],
+  "tagFormat": "v${version}",
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "breaking": true, "release": "major" },
+          { "type": "feat", "release": "minor" },
+          { "type": "fix", "release": "patch" },
+          { "type": "refactor", "release": "patch" },
+          { "type": "build", "release": "patch" },
+          { "type": "ci", "release": "patch" },
+          { "type": "perf", "release": "patch" },
+          { "type": "chore", "scope": "release", "release": false },
+          { "message": "/Added translation using Weblate/u", "release": "minor" },
+          { "message": "/Translated using Weblate/u", "release": "patch" },
+          { "message": "/Deleted translation using Weblate/u", "release": "patch" },
+          { "message": "/Update translation files/u", "release": "patch" },
+          { "message": "/Weblate/u", "release": "patch" }
+        ]
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
