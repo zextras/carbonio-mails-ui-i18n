@@ -39,7 +39,10 @@
             "apply_filter_error": "Il filtro è ancora in esecuzione sul server, ma sta impiegando troppo tempo per segnalare gli elementi interessati. Il filtro continua a lavorare sul server senza ulteriori informazioni.",
             "folder_emptied": "Cartella svuotata con successo",
             "conversation_marked_as_non_spam": "Conversazione contrassegnata come Non Spam",
-            "conversation_marked_as_spam": "Conversazione contrassegnata come Spam"
+            "conversation_marked_as_spam": "Conversazione contrassegnata come Spam",
+            "import_archive_started": "L'importazione di {{filename}} è iniziata. Riceverai una notifica quando sarà completa",
+            "import_archive_success": "{{filename}} importato con successo",
+            "import_archive_error": "Importazione di {{filename}} non riuscita. Riprova o contatta l'amministratore"
         },
         "modal": {
             "delete": {
@@ -473,7 +476,13 @@
         "always_request_read_receipts": "Richiedi sempre conferme di lettura",
         "read_receipt_description": "Ricevi una notifica quando i destinatari aprono le tue email. Si applica a tutti i messaggi a meno che non venga modificato manualmente.",
         "composing_messages_read_receipt": "Ricevuta di lettura",
-        "view_all_actions": "Vedi tutte le azioni"
+        "view_all_actions": "Vedi tutte le azioni",
+        "import": "Importa",
+        "export": "Esporta",
+        "export_archive": "Esporta archivio",
+        "import_archive": "Importa archivio",
+        "dismiss": "Ignora",
+        "unsupported_file_type": "Formato file non supportato. Seleziona un archivio .zip, .tgz o .mbox"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -509,7 +518,8 @@
         "account_unread_count_other": "{{count}} mail non lette",
         "subfolder_unread_count_one": "{{count}} mail non letta nelle sottocartelle",
         "subfolder_unread_count_many": "{{count}} mail non lette nelle sottocartelle",
-        "subfolder_unread_count_other": "{{count}} mail non lette nelle sottocartelle"
+        "subfolder_unread_count_other": "{{count}} mail non lette nelle sottocartelle",
+        "export_archive_disabled": "Questa cartella è vuota e non può essere esportata"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -1093,7 +1103,30 @@
             "smimeCertificate": "Certificato S/MIME (ad es. certificate.p12)",
             "upload": "Carica"
         },
-        "messageFilteringList": "Solo i primi 100 risultati sono mostrati. Restringi la tua ricerca per vedere la lista completa."
+        "messageFilteringList": "Solo i primi 100 risultati sono mostrati. Restringi la tua ricerca per vedere la lista completa.",
+        "export_archive": {
+            "description": "Scegli il formato che vuoi utilizzare per l'esportazione.",
+            "file_type": {
+                "zip": "ZIP · Archivio mailbox compresso",
+                "tgz": "TGZ · Archivio Carbonio"
+            }
+        },
+        "import_archive": {
+            "file_type": {
+                "mbox": "MBOX · Archivio mailbox",
+                "zip": "ZIP · Archivio mailbox compresso",
+                "tgz": "TGZ · Archivio mailbox compress"
+            },
+            "size_label": "Dimensione",
+            "destination_label": "Destinazione",
+            "warning": "Questa azione non può essere annullata. Se le dimensioni superano la quota disponibile, l'importazione sarà parziale."
+        },
+        "import": {
+            "title": "Procedere con l'importazione?"
+        },
+        "export": {
+            "title": "Procedere con l'esportazione?"
+        }
     },
     "attachment_type": {
         "zipped_file": "File Zip",
