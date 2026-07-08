@@ -355,7 +355,13 @@
         "always_request_read_receipts": "Always request read receipts",
         "read_receipt_description": "Get notified when recipients open your emails. This applies to all messages unless changed manually.",
         "composing_messages_read_receipt": "Read receipt",
-        "view_all_actions": "View all actions"
+        "view_all_actions": "View all actions",
+        "import": "Import",
+        "export": "Export",
+        "export_archive": "Export Archive",
+        "import_archive": "Import Archive",
+        "dismiss": "Dismiss",
+        "unsupported_file_type": "Unsupported file format. Please select a .zip, .tgz or .mbox archive"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -477,7 +483,10 @@
             "apply_filter_error": "Filter is still running on the server but it’s taking too much time to report the affected items. The filter keeps working on the server without additional information.",
             "folder_emptied": "Folder successfully emptied",
             "conversation_marked_as_non_spam": "Conversation marked as Not Spam",
-            "conversation_marked_as_spam": "Conversation marked as Spam"
+            "conversation_marked_as_spam": "Conversation marked as Spam",
+            "import_archive_started": "{{filename}} import has started. You will be notified when it's ready",
+            "import_archive_success": "{{filename}} imported successfully",
+            "import_archive_error": "{{filename}} import failed. Please try again or contact your administrator"
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
@@ -761,7 +770,8 @@
         "account_unread_count_one": "{{count}} unread mail",
         "account_unread_count_other": "{{count}} unread mails",
         "subfolder_unread_count_one": "{{count}} unread mail in subfolders",
-        "subfolder_unread_count_other": "{{count}} unread mails in subfolders"
+        "subfolder_unread_count_other": "{{count}} unread mails in subfolders",
+        "export_archive_disabled": "This folder is empty and can't be exported"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
@@ -1061,7 +1071,30 @@
             "certificatePassword": "Certificate Password",
             "upload": "Upload"
         },
-        "messageFilteringList": "Only the first 100 results are displayed. Narrow your search to see the complete list."
+        "messageFilteringList": "Only the first 100 results are displayed. Narrow your search to see the complete list.",
+        "export_archive": {
+            "description": "Chose the format you would like to use for your export.",
+            "file_type": {
+                "zip": "ZIP · Compressed mailbox archive",
+                "tgz": "TGZ · Carbonio Archive"
+            }
+        },
+        "import_archive": {
+            "file_type": {
+                "mbox": "MBOX · Mailbox archive",
+                "zip": "ZIP · Compressed mailbox archive",
+                "tgz": "TGZ · Compressed mailbox archive"
+            },
+            "size_label": "Size",
+            "destination_label": "Destination",
+            "warning": "This action can't be undone. If the size exceeds your quota, the import will be partial."
+        },
+        "import": {
+            "title": "Ready to import?"
+        },
+        "export": {
+            "title": "Ready to export?"
+        }
     },
     "modals": {
         "apply_filters": {
