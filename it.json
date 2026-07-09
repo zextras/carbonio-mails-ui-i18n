@@ -482,7 +482,8 @@
         "export_archive": "Esporta archivio",
         "import_archive": "Importa archivio",
         "dismiss": "Ignora",
-        "unsupported_file_type": "Formato file non supportato. Seleziona un archivio .zip, .tgz o .mbox"
+        "unsupported_file_type": "Formato file non supportato. Seleziona un archivio .zip, .tgz o .mbox",
+        "import_to_calendar": "Importa in Calendars"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
