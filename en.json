@@ -361,7 +361,8 @@
         "export_archive": "Export Archive",
         "import_archive": "Import Archive",
         "dismiss": "Dismiss",
-        "unsupported_file_type": "Unsupported file format. Please select a .zip, .tgz or .mbox archive"
+        "unsupported_file_type": "Unsupported file format. Please select a .zip, .tgz or .mbox archive",
+        "import_to_calendar": "Import to Calendars"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
