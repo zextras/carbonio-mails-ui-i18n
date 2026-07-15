@@ -1268,6 +1268,26 @@
         "heading_4": "Heading 4",
         "heading_5": "Heading 5",
         "heading_6": "Heading 6",
-        "blockquote": "Blockquote"
+        "blockquote": "Blockquote",
+        "bold": "Bold",
+        "italic": "Italic",
+        "underline": "Underline",
+        "strikethrough": "Strikethrough",
+        "remove_format": "Clear formatting",
+        "align_left": "Align left",
+        "align_center": "Center",
+        "align_right": "Align right",
+        "align_justify": "Justify",
+        "indent_increase": "Increase indent",
+        "indent_decrease": "Decrease indent",
+        "bullet_list": "Bulleted list",
+        "numbered_list": "Numbered list",
+        "link": "Link",
+        "table": "Table",
+        "image": "Image",
+        "special_character": "Special character",
+        "emoji": "Emoji",
+        "show_blocks": "Show blocks",
+        "source_code": "Source code"
     }
 }
