@@ -1277,6 +1277,26 @@
         "heading_4": "Titolo 4",
         "heading_5": "Titolo 5",
         "heading_6": "Titolo 6",
-        "blockquote": "Citazione"
+        "blockquote": "Citazione",
+        "bold": "Grassetto",
+        "italic": "Corsivo",
+        "underline": "Sottolineato",
+        "strikethrough": "Barrato",
+        "remove_format": "Rimuovi formattazione",
+        "align_left": "Allinea a sinistra",
+        "align_center": "Centra",
+        "align_right": "Allinea a destra",
+        "align_justify": "Giustifica",
+        "indent_increase": "Aumenta rientro",
+        "indent_decrease": "Riduci rientro",
+        "bullet_list": "Elenco puntato",
+        "numbered_list": "Elenco numerato",
+        "link": "Link",
+        "table": "Tabella",
+        "image": "Immagine",
+        "special_character": "Carattere speciale",
+        "emoji": "Emoji",
+        "show_blocks": "Mostra blocchi",
+        "source_code": "Codice sorgente"
     }
 }
