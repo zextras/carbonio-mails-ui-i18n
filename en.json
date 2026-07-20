@@ -487,7 +487,8 @@
             "conversation_marked_as_spam": "Conversation marked as Spam",
             "import_archive_started": "{{filename}} import has started. You will be notified when it's ready",
             "import_archive_success": "{{filename}} imported successfully",
-            "import_archive_error": "{{filename}} import failed. Please try again or contact your administrator"
+            "import_archive_error": "{{filename}} import failed. Please try again or contact your administrator",
+            "sending_in_progress": "Sending message, please wait…"
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
@@ -1288,6 +1289,28 @@
         "special_character": "Special character",
         "emoji": "Emoji",
         "show_blocks": "Show blocks",
-        "source_code": "Source code"
+        "source_code": "Source code",
+        "insert_edit_link": "Insert/Edit Link",
+        "url": "URL",
+        "text_to_display": "Text to display",
+        "link_title": "Title",
+        "open_link_in": "Open link in…",
+        "current_window": "Current window",
+        "new_window": "New window",
+        "insert_edit_image": "Insert/Edit Image",
+        "image_source": "Source",
+        "image_alt": "Alternative description",
+        "width": "Width",
+        "height": "Height",
+        "lock_aspect_ratio": "Lock aspect ratio",
+        "unlock_aspect_ratio": "Unlock aspect ratio",
+        "insert_table": "Insert table",
+        "table_add_row": "Add row",
+        "table_add_column": "Add column",
+        "table_insert_row_above": "Insert row above",
+        "table_insert_row_below": "Insert row below",
+        "table_insert_column_left": "Insert column left",
+        "table_insert_column_right": "Insert column right",
+        "table_delete_row": "Delete row"
     }
 }
