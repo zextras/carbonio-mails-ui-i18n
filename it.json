@@ -42,7 +42,8 @@
             "conversation_marked_as_spam": "Conversazione contrassegnata come Spam",
             "import_archive_started": "L'importazione di {{filename}} è iniziata. Riceverai una notifica quando sarà completa",
             "import_archive_success": "{{filename}} importato con successo",
-            "import_archive_error": "Importazione di {{filename}} non riuscita. Riprova o contatta l'amministratore"
+            "import_archive_error": "Importazione di {{filename}} non riuscita. Riprova o contatta l'amministratore",
+            "sending_in_progress": "Invio del messaggio in corso, attendere…"
         },
         "modal": {
             "delete": {
@@ -1297,6 +1298,28 @@
         "special_character": "Carattere speciale",
         "emoji": "Emoji",
         "show_blocks": "Mostra blocchi",
-        "source_code": "Codice sorgente"
+        "source_code": "Codice sorgente",
+        "insert_edit_link": "Inserisci/Modifica link",
+        "url": "URL",
+        "text_to_display": "Testo da visualizzare",
+        "link_title": "Titolo",
+        "open_link_in": "Apri link in…",
+        "current_window": "Finestra corrente",
+        "new_window": "Nuova finestra",
+        "insert_edit_image": "Inserisci/Modifica immagine",
+        "image_source": "Origine",
+        "image_alt": "Descrizione alternativa",
+        "width": "Larghezza",
+        "height": "Altezza",
+        "lock_aspect_ratio": "Blocca proporzioni",
+        "unlock_aspect_ratio": "Sblocca proporzioni",
+        "insert_table": "Inserisci tabella",
+        "table_add_row": "Aggiungi riga",
+        "table_add_column": "Aggiungi colonna",
+        "table_insert_row_above": "Inserisci riga sopra",
+        "table_insert_row_below": "Inserisci riga sotto",
+        "table_insert_column_left": "Inserisci colonna a sinistra",
+        "table_insert_column_right": "Inserisci colonna a destra",
+        "table_delete_row": "Elimina riga"
     }
 }
