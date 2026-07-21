@@ -587,7 +587,7 @@
     },
     "folder_panel": {
         "lists_item": {
-            "root": "/Źródło"
+            "root": "/Root"
         },
         "modal": {
             "delete": {
@@ -708,7 +708,8 @@
             "conversation_marked_as_spam": "Konwersacja oznaczona jako spam",
             "import_archive_started": "Importowanie {{filename}} zostało rozpoczęte. Będziesz powiadomiony, kiedy zostanie ukończone",
             "import_archive_success": "{{filename}} zostało zaimportowane",
-            "import_archive_error": "Importowanie {{filename}} się nie powiodło. Spróbuj ponownie lub skontaktuj się z Twoim administratorem"
+            "import_archive_error": "Importowanie {{filename}} się nie powiodło. Spróbuj ponownie lub skontaktuj się z Twoim administratorem",
+            "sending_in_progress": "Wysyłanie wiadomości, prosimy o cierpliwość…"
         },
         "modal": {
             "delete": {
@@ -1277,6 +1278,48 @@
         "heading_4": "Nagłówek 4",
         "heading_5": "Nagłówek 5",
         "heading_6": "Nagłówek 6",
-        "blockquote": "Blok cytatu"
+        "blockquote": "Blok cytatu",
+        "bold": "Pogrubienie",
+        "italic": "Kursywa",
+        "underline": "Podkreślenie",
+        "strikethrough": "Przekreślenie",
+        "remove_format": "Zresetuj formatowanie",
+        "align_left": "Wyrównaj do lewej",
+        "align_center": "Wyśrodkuj",
+        "align_right": "Wyrównaj do prawej",
+        "align_justify": "Wyjustuj",
+        "indent_increase": "Zwiększ wcięcie",
+        "indent_decrease": "Zmniejsz wcięcie",
+        "bullet_list": "Lista punktowana",
+        "numbered_list": "Lista numerowana",
+        "link": "Link",
+        "table": "Tabela",
+        "image": "Obraz",
+        "special_character": "Znak specjalny",
+        "emoji": "Emoji",
+        "show_blocks": "Pokaż bloki",
+        "source_code": "Kod źródłowy",
+        "insert_edit_link": "Wstawianie/edycja linku",
+        "url": "URL",
+        "text_to_display": "Wyświetlany tekst",
+        "link_title": "Tytuł",
+        "open_link_in": "Otwórz link w…",
+        "current_window": "Bieżącym oknie",
+        "new_window": "Nowym oknie",
+        "insert_edit_image": "Wstawianie/edycja obrazu",
+        "image_source": "Źródło",
+        "image_alt": "Tekst alternatywny",
+        "width": "Szerokość",
+        "height": "Wysokość",
+        "lock_aspect_ratio": "Zablokuj proporcje",
+        "unlock_aspect_ratio": "Odblokuj proporcje",
+        "insert_table": "Wstaw tabelę",
+        "table_add_row": "Dodaj wiersz",
+        "table_add_column": "Dodaj kolumnę",
+        "table_insert_row_above": "Wstaw wiersz powyżej",
+        "table_insert_row_below": "Wstaw wiersz poniżej",
+        "table_insert_column_left": "Wstaw kolumnę po lewej",
+        "table_insert_column_right": "Wstaw kolumnę po prawej",
+        "table_delete_row": "Usuń wiersz"
     }
 }
