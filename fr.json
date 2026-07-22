@@ -426,7 +426,14 @@
         "always_request_read_receipts": "Toujours demander des accusés de lecture",
         "read_receipt_description": "Recevez une notification lorsque les destinataires ouvrent vos e-mails. Cela s'applique à tous les messages, sauf modification manuelle.",
         "composing_messages_read_receipt": "Accusé de réception",
-        "view_all_actions": "Voir toutes les actions"
+        "view_all_actions": "Voir toutes les actions",
+        "import": "IMPORTER",
+        "export": "EXPORTER",
+        "export_archive": "Exporter l'archive",
+        "import_archive": "Importer l'archive",
+        "dismiss": "ANNULER",
+        "unsupported_file_type": "Format de fichier non supporté. Veuillez sélectionner une archive au format .zip, .tgz, ou mbox",
+        "import_to_calendar": "Importer dans Calendriers"
     },
     "message": {
         "snackbar": {
@@ -574,7 +581,11 @@
             "apply_filter_error": "Le filtre est toujours en cours sur le serveur, mais il prend trop de temps pour indiquer les éléments concernés. Le filtre continue de fonctionner sur le serveur sans informations supplémentaires.",
             "folder_emptied": "Fichier vidé avec succès",
             "conversation_marked_as_non_spam": "La conversation a été marquée comme Non Spam",
-            "conversation_marked_as_spam": "Conversation marquée comme Spam"
+            "conversation_marked_as_spam": "Conversation marquée comme Spam",
+            "import_archive_started": "L'import de {{filename}} a commencé. Vous serez averti lorsqu'il sera prêt",
+            "import_archive_success": "{{filename}} importé avec succès",
+            "import_archive_error": "Échec de l'import de {{filename}}. Veuillez réessayer ou contacter votre administrateur",
+            "sending_in_progress": "Envoi du message en cours, veuillez patienter…"
         },
         "check_and_try_again": "Merci de vérifier Carbonio et de réessayer",
         "could_not_find_to_show": "Désolé, il n'est pas possible de trouver un élément à afficher",
@@ -919,7 +930,8 @@
         "subfolder_unread_count_other": "",
         "view_more_one": "Voir {{count}} élément supplémentaire",
         "view_more_many": "Voir {{count}} éléments supplémentaires",
-        "view_more_other": "Voir {{count}} éléments supplémentaires"
+        "view_more_other": "Voir {{count}} éléments supplémentaires",
+        "export_archive_disabled": "Ce fichier est vide et ne peut pas être exporté"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
@@ -1068,7 +1080,30 @@
             "smimeCertificate": "Certificat S/MIME (ex : certificate.p12)",
             "upload": "Téléverser"
         },
-        "messageFilteringList": "Seuls les 100 premiers résultats sont affichés. Affinez votre recherche pour voir la liste complète."
+        "messageFilteringList": "Seuls les 100 premiers résultats sont affichés. Affinez votre recherche pour voir la liste complète.",
+        "export_archive": {
+            "description": "Choisissez le format que vous souhaitez utiliser pour votre export.",
+            "file_type": {
+                "zip": "ZIP · Archive compressée de la boîte email",
+                "tgz": "TGZ · Archive Carbonio"
+            }
+        },
+        "import_archive": {
+            "file_type": {
+                "mbox": "MBOX · Archive de la boîte email",
+                "zip": "ZIP · Archive compressée de la boîte email",
+                "tgz": "TGZ · Archive compressée de la boîte email"
+            },
+            "size_label": "Taille",
+            "destination_label": "Destination",
+            "warning": "Cette action est irréversible. Si la taille dépasse votre quota, l'import sera partiel."
+        },
+        "import": {
+            "title": "Prêt pour l'import ?"
+        },
+        "export": {
+            "title": "Prêt pour l'export ?"
+        }
     },
     "email_status": {
         "unreplied": "auquel je n'ai pas répondu",
@@ -1234,5 +1269,57 @@
             "draftSaving": "Enregistrement…",
             "draftNotSaved": "Brouillon non enregistré"
         }
+    },
+    "lexical-label": {
+        "paragraph": "Paragraphe",
+        "heading_1": "Titre 1",
+        "heading_2": "Titre 2",
+        "heading_3": "Titre 3",
+        "heading_4": "Titre 4",
+        "heading_5": "Titre 5",
+        "heading_6": "Titre 6",
+        "blockquote": "Citation",
+        "bold": "Gras",
+        "italic": "Italique",
+        "underline": "Souligné",
+        "strikethrough": "Barré",
+        "remove_format": "Effacer la mise en forme",
+        "align_left": "Aligner à gauche",
+        "align_center": "Centrer",
+        "align_right": "Aligner à droite",
+        "align_justify": "Justifier",
+        "indent_increase": "Augmenter le retrait",
+        "indent_decrease": "Réduire le retrait",
+        "bullet_list": "Liste à puces",
+        "numbered_list": "Liste numérotée",
+        "link": "Lien",
+        "table": "Tableau",
+        "image": "Image",
+        "special_character": "Caractères spéciaux",
+        "emoji": "Émojis",
+        "show_blocks": "Afficher les blocs",
+        "source_code": "Code source",
+        "insert_edit_link": "Insérer/modifier un lien",
+        "url": "URL",
+        "text_to_display": "Texte à afficher",
+        "link_title": "Titre",
+        "open_link_in": "Ouvrir le lien dans…",
+        "current_window": "Fenêtre active",
+        "new_window": "Nouvelle fenêtre",
+        "insert_edit_image": "Insérer/modifier une image",
+        "image_source": "Source",
+        "image_alt": "Description alternative",
+        "width": "Largeur",
+        "height": "Hauteur",
+        "lock_aspect_ratio": "Verrouiller les proportions",
+        "unlock_aspect_ratio": "Déverrouiller les proportions",
+        "insert_table": "Insérer un tableau",
+        "table_add_row": "Ajouter une ligne",
+        "table_add_column": "Ajouter une colonne",
+        "table_insert_row_above": "Insérer une ligne au-dessus",
+        "table_insert_row_below": "Insérer une ligne au-dessous",
+        "table_insert_column_left": "Insérer une colonne à gauche",
+        "table_insert_column_right": "Insérer une colonne à droite",
+        "table_delete_row": "Supprimer la ligne"
     }
 }
