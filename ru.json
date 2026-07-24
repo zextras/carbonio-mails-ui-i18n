@@ -1181,6 +1181,6 @@
         }
     },
     "error": {
-        "invalid_recipient": "Адрес получателя \\\"${invalid Address}\\\" не существует или недействителен"
+        "invalid_recipient": "Адрес получателя \"{{invalidAddress}}\" не существует или недействителен"
     }
 }
