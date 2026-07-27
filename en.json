@@ -1312,6 +1312,27 @@
         "table_insert_row_below": "Insert row below",
         "table_insert_column_left": "Insert column left",
         "table_insert_column_right": "Insert column right",
-        "table_delete_row": "Delete row"
+        "table_delete_row": "Delete row",
+        "table_delete_column": "Delete column",
+        "table_delete": "Delete table",
+        "table_toggle_row_header": "Toggle header row",
+        "table_toggle_column_header": "Toggle header column",
+        "table_cell_background": "Cell background",
+        "table_cell_background_clear": "Clear background",
+        "table_merge_cells": "Merge cells",
+        "text_color": "Text color",
+        "background_color": "Background color",
+        "rtl": "Right to left",
+        "ltr": "Left to right",
+        "table_unmerge_cells": "Unmerge cells",
+        "table_resize_row": "Resize row",
+        "table_resize_column": "Resize column",
+        "remove_link": "Remove link",
+        "edit_link": "Edit link",
+        "image_align": "Align image",
+        "image_resize": "Resize image"
+    },
+    "lexical-messages": {
+        "write_your_message": "Write your message"
     }
 }
