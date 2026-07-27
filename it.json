@@ -1321,6 +1321,27 @@
         "table_insert_row_below": "Inserisci riga sotto",
         "table_insert_column_left": "Inserisci colonna a sinistra",
         "table_insert_column_right": "Inserisci colonna a destra",
-        "table_delete_row": "Elimina riga"
+        "table_delete_row": "Elimina riga",
+        "table_delete_column": "Elimina colonna",
+        "table_delete": "Elimina tabella",
+        "table_toggle_row_header": "Attiva/disattiva riga di intestazione",
+        "table_toggle_column_header": "Attiva/disattiva colonna di intestazione",
+        "table_cell_background": "Sfondo cella",
+        "table_cell_background_clear": "Rimuovi sfondo",
+        "table_merge_cells": "Unisci celle",
+        "text_color": "Colore testo",
+        "background_color": "Colore sfondo",
+        "rtl": "Da destra a sinistra",
+        "ltr": "Da sinistra a destra",
+        "table_unmerge_cells": "Separa celle",
+        "table_resize_row": "Ridimensiona riga",
+        "table_resize_column": "Ridimensiona colonna",
+        "remove_link": "Rimuovi link",
+        "edit_link": "Modifica link",
+        "image_align": "Allinea immagine",
+        "image_resize": "Ridimensiona immagine"
+    },
+    "lexical-messages": {
+        "write_your_message": "Scrivi il tuo messaggio"
     }
 }
