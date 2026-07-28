@@ -1260,7 +1260,8 @@
         }
     },
     "error": {
-        "invalid_recipient": "L'adresse du destinataire {{invalidAddress}} n'existe pas ou n'est pas valide"
+        "invalid_recipient": "L'adresse du destinataire {{invalidAddress}} n'existe pas ou n'est pas valide",
+        "invalid_recipients": "Les adresses des destinataires {{invalidAddresses}} n'existent pas ou sont invalides"
     },
     "editView": {
         "footer": {
@@ -1320,6 +1321,27 @@
         "table_insert_row_below": "Insérer une ligne au-dessous",
         "table_insert_column_left": "Insérer une colonne à gauche",
         "table_insert_column_right": "Insérer une colonne à droite",
-        "table_delete_row": "Supprimer la ligne"
+        "table_delete_row": "Supprimer la ligne",
+        "table_delete_column": "Supprimer la colonne",
+        "table_delete": "Supprimer le tableau",
+        "table_toggle_row_header": "Basculer la ligne d'en-tête",
+        "table_toggle_column_header": "Basculer la colonne d'en-tête",
+        "table_cell_background": "Arrière-plan de la cellule",
+        "table_cell_background_clear": "Effacer l'arrière-plan",
+        "table_merge_cells": "Fusionner les cellules",
+        "text_color": "Couleur du texte",
+        "background_color": "Couleur de l'arrière-plan",
+        "rtl": "De droite à gauche",
+        "ltr": "De gauche à droite",
+        "table_unmerge_cells": "Défusionner les cellules",
+        "table_resize_row": "Redimensionner la ligne",
+        "table_resize_column": "Redimensionner la colonne",
+        "remove_link": "Supprimer le lien",
+        "edit_link": "Éditer le lien",
+        "image_align": "Aligner l'image",
+        "image_resize": "Redimensionner l'image"
+    },
+    "lexical-messages": {
+        "write_your_message": "Rédigez votre message"
     }
 }
