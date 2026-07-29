@@ -1260,7 +1260,8 @@
         }
     },
     "error": {
-        "invalid_recipient": "Adres odbiorcy {{invalidAddress}} nie istnieje lub jest nieprawidłowy"
+        "invalid_recipient": "Adres odbiorcy \"{{invalidAddress}}\" nie istnieje lub jest nieprawidłowy",
+        "invalid_recipients": "Adresy odbiorców \"{{invalidAddresses}}\" nie istnieją lub są nieprawidłowe"
     },
     "editView": {
         "footer": {
@@ -1320,6 +1321,27 @@
         "table_insert_row_below": "Wstaw wiersz poniżej",
         "table_insert_column_left": "Wstaw kolumnę po lewej",
         "table_insert_column_right": "Wstaw kolumnę po prawej",
-        "table_delete_row": "Usuń wiersz"
+        "table_delete_row": "Usuń wiersz",
+        "table_delete_column": "Usuń kolumnę",
+        "table_delete": "Usuń tabelę",
+        "table_toggle_row_header": "Wiersz nagłówka",
+        "table_toggle_column_header": "Kolumna nagłówkowa",
+        "table_cell_background": "Tło komórek",
+        "table_cell_background_clear": "Wyczyść tło",
+        "table_merge_cells": "Scal komórki",
+        "text_color": "Kolor tekstu",
+        "background_color": "Kolor tła",
+        "rtl": "Od prawej do lewej",
+        "ltr": "Od lewej do prawej",
+        "table_unmerge_cells": "Rozdziel komórki",
+        "table_resize_row": "Zmień rozmiar wiersza",
+        "table_resize_column": "Zmień rozmiar kolumny",
+        "remove_link": "Usuń link",
+        "edit_link": "Edytuj link",
+        "image_align": "Wyrównaj obraz",
+        "image_resize": "Zmień rozmiar obrazu"
+    },
+    "lexical-messages": {
+        "write_your_message": "Wpisz Twoją wiadomość"
     }
 }
