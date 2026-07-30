@@ -23,7 +23,7 @@
         "unflag": "Markierung entfernen",
         "print": "Drucken",
         "reply_all": "Allen antworten",
-        "reset": "Zurücksetzen",
+        "reset": "Filter wiederherstellen",
         "preview_new_tab": "Klicken zur Vorschau in einem anderen Reiter",
         "click_preview": "Klicken zur Vorschau",
         "mark_all_read": "Alle als gelesen markieren",
@@ -73,7 +73,7 @@
         "cc": "Cc",
         "draft_folder": "[ENTWURF]",
         "filter_user": "Benutzer filtern",
-        "find_shares": "Geteilte Elemente finden",
+        "find_shares": "Geteilte Postfächer finden",
         "from": "Von",
         "grantee": "Begünstigter: ",
         "keywords": "Schlüsselwörter",
@@ -128,7 +128,7 @@
         "revoke_with_custom_message": "Zugriff widerrufen mit einer benutzerdefinierten Benachrichtigung",
         "shared_folders": "Geteilte Ordner",
         "shares_info": "Informationen geteilter Ordner",
-        "single_advanced_filter": "Fortgeschrittene Filter",
+        "single_advanced_filter": "erweiterte Filter",
         "tag": "Tag",
         "wipe": "Leeren",
         "workflow": "WorkFlow",
@@ -148,7 +148,7 @@
         "sending": "Wird gesendet",
         "activate_selection_mode": "Auswahlmodus aktivieren",
         "all": "alle",
-        "any": "alle",
+        "any": "eine",
         "attachment_status": "Status des E-Mail-Elements",
         "attachment_type": "Art des Anhangs",
         "choose_folder": "Ordner auswählen",
@@ -254,7 +254,7 @@
         "before_you_leave": "Bevor Sie gehen",
         "send_scheduled": "Geplante senden",
         "download_and_delete": "Herunterladen und Löschen",
-        "invalid_query": "Die Suche kann nicht geparst werden, löschen Sie sie und versuchen Sie es erneut",
+        "invalid_query": "Sonderzeichen wie :, \", -, ! usw. werden bei der Suche ignoriert. Dies kann bei Folgendem zu unerwarteten Ergebnissen führen:",
         "not_in_list": "{{name}} - Nicht in Ihrer Tag-Liste",
         "enter_name": "Namen eingeben",
         "no_signature": "Keine Signatur",
@@ -348,7 +348,10 @@
         "invalid_recipients": "Die Adresse des Empfängers ist falsch geschrieben",
         "displayer_restore_emails_title": "Wählen Sie die E-Mails aus die Sie wiederherstellen wollen",
         "advanced_filters_one": "Erweiterter Filter",
-        "advanced_filters_other": "Erweiterte Filter"
+        "advanced_filters_other": "Erweiterte Filter",
+        "close": "Schließen",
+        "decrypt_message": "Nachricht entschlüsseln",
+        "convert_back_to_attachment": "Zurück in Anhang umwandeln"
     },
     "share": {
         "options": {
@@ -483,7 +486,16 @@
                 "content": "Legen Sie hier Ihre Anhänge ab, um diese Ihrer E-Mail schnell hinzuzufügen"
             },
             "files": "Aus Files hinzufügen",
-            "url": "Öffentlichen Link von Files hinzufügen"
+            "url": "Öffentlichen Link von Files hinzufügen",
+            "add_original": "Original-Anhänge hinzufügen"
+        },
+        "uploadCertificate": {
+            "removeCertificateToEncrypt": "Zertifikat zum Verschlüsseln entfernen (S/MIME)",
+            "useCertificateToEncrypt": "Zertifikat zum Verschlüsseln verwenden (S/MIME)",
+            "emailNotMatch": "Zertifikat-E-Mail stimmt nicht mit Absender-E-Mail überein",
+            "failed": "Zertifikatsupload fehlgeschlagen",
+            "removeCertificateToSign": "Zertifikat zum Signieren entfernen (S/MIME)",
+            "useCertificateToSign": "Zertifikat zum Signieren verwenden (S/MIME)"
         }
     },
     "message": {
@@ -692,7 +704,8 @@
         "address_required": "Füllen Sie das Feld „Adresse“ aus, um die Aktion „Weiterleiten an Adresse“ abzuschließen.",
         "remove_action": "Diese Aktion entfernen",
         "folder_path_required": "Wählen Sie einen Zielordner aus, um die Aktion \"In Ordner verschieben\" abzuschließen.",
-        "tag_name_required": "Füllen Sie das Feld \"Erwähnen\" aus, um die Aktion \"Erwähnen mit\" abzuschließen."
+        "tag_name_required": "Füllen Sie das Feld \"Erwähnen\" aus, um die Aktion \"Erwähnen mit\" abzuschließen.",
+        "condition_met": "aus den folgenden Bedingungen erfüllt ist/sind:"
     },
     "folder_panel": {
         "modal": {
@@ -739,7 +752,8 @@
         },
         "action": {
             "empty": {
-                "trash": "Papierkorb leeren"
+                "trash": "Papierkorb leeren",
+                "folder_panel": "Ordner leeren"
             },
             "edit_properties": "Eigenschaften bearbeiten",
             "wipe": {
@@ -773,7 +787,7 @@
         "search_description2": "Versuchen Sie, eine weitere Suche zu starten.",
         "archive_title1": "Speichern Sie eine E-Mail im Archiv, damit Sie sie später noch einmal lesen können.",
         "archive_title2": "Wählen Sie eine archivierte E-Mail aus, um sie zu überprüfen.",
-        "description4": "Sie können es markieren, antworten oder an andere Benutzer weiterleiten.",
+        "description4": "Sie können diese markieren, antworten oder an andere Benutzer weiterleiten.",
         "description5": "Finden Sie heraus, worüber andere Nutzer mit Ihnen sprechen möchten.",
         "description6": "Antworten Sie auf diese E-Mail oder leiten Sie sie an andere Benutzer weiter.",
         "description7": "Wählen Sie eine E-Mail zur Beantwortung aus.",
