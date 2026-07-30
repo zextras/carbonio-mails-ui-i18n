@@ -351,7 +351,8 @@
         "advanced_filters_other": "Erweiterte Filter",
         "close": "Schließen",
         "decrypt_message": "Nachricht entschlüsseln",
-        "convert_back_to_attachment": "Zurück in Anhang umwandeln"
+        "convert_back_to_attachment": "Zurück in Anhang umwandeln",
+        "clear_search_query": "SUCHE LÖSCHEN"
     },
     "share": {
         "options": {
