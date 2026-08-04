@@ -1,1 +1,15 @@
-{}
+{
+    "label": {
+        "draft_save_in_progress": " ",
+        "save_draft": {
+            "incomplete_response": " "
+        }
+    },
+    "folder_panel": {
+        "modal": {
+            "lists-item": {
+                "empty": " "
+            }
+        }
+    }
+}
