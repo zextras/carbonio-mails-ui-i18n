@@ -3,13 +3,332 @@
         "draft_save_in_progress": " ",
         "save_draft": {
             "incomplete_response": " "
-        }
+        },
+        "add": "დამატება",
+        "cancel": "გაუქმება",
+        "save": "შენახვა",
+        "calendar": "კალენდარი",
+        "close": "დახურვა",
+        "create": "შექმნა",
+        "days": "დღე",
+        "delete": "წაშლა",
+        "edit": "ჩასწორება",
+        "from": "ვისგან",
+        "messages": "შეტყობინებები",
+        "of": "/",
+        "path": "ბილიკი",
+        "private": "პირადი",
+        "reset": "ჩამოყრა",
+        "subject": "თემა",
+        "to": "ვის",
+        "type": "ტიპი",
+        "warning": "გაფრთხილება",
+        "empty": "დაცარიელება",
+        "keywords": "საკვანძო სიტყვები",
+        "months": "თვე",
+        "move": "გადატანა",
+        "preview": "მინიატურა",
+        "resend": "თავიდან გაგზავნა",
+        "restore": "აღდგენა",
+        "revoke": "გაბათილება",
+        "select": "არჩევა",
+        "share": "გაზიარება",
+        "tag": "ჭდე",
+        "tags": "ჭდეები",
+        "time": "დრო",
+        "undo": "ბრძანების გაუქმება",
+        "confirm": "დასტური",
+        "clear_search_query": "ძებნის გასუფთავება",
+        "accept": "მიღება",
+        "administer": "ადმინისტრირება",
+        "all": "ყველა",
+        "any": "ნებისმიერი",
+        "app_name": "ელფოსტები",
+        "back": "უკან",
+        "bcc": "ბრმა ასლი",
+        "cc": "ასლი",
+        "decline": "უარყოფა",
+        "draft": "მონახაზი",
+        "draft_folder": "[მონახაზი]",
+        "error": "შეცდომა",
+        "expand": "გაფართოება",
+        "flagged": "ალამდასმული",
+        "forwarded": "გადაგზავნილია",
+        "freebusy": "თავისუფალიდაკავებული",
+        "grantee": "მიმღები: ",
+        "hide": "დამალვა",
+        "insert": "ჩასმა",
+        "me": "მე",
+        "notify": "გაფრთხილება",
+        "owner": "მფლობელი: ",
+        "read": "კითხვა",
+        "replied": "უპასუხა",
+        "role": "როლი: ",
+        "searching": "იძებნება…",
+        "send": "გაგზავნა",
+        "sending": "იგზავნება",
+        "sent": "გაგზავნილია",
+        "size": "ზომა",
+        "spam": "სპამი",
+        "wipe": "გაწმენდა",
+        "workflow": "სამუშაო პროცესი",
+        "write": "ჩაწერა",
+        "folder": "საქაღალდე",
+        "weeks": "კვირა",
+        "years": "წელი",
+        "advancedFilters": {
+            "attachment": "მიმაგრებული ფაილი"
+        },
+        "uploading": "მიმდინარეობს ატვირთვა",
+        "show": "ჩვენება",
+        "import": "შემოტანა",
+        "export": "გატანა",
+        "dismiss": "მოცილება"
     },
     "folder_panel": {
         "modal": {
             "lists-item": {
                 "empty": " "
             }
+        },
+        "lists_item": {
+            "root": "/Root"
         }
+    },
+    "action": {
+        "search": "ძებნა",
+        "forward": "გადაგზავნა",
+        "reply": "პასუხი",
+        "ok": "Ok",
+        "preview": "მინიატურა",
+        "print": "დაბეჭდვა",
+        "redirect": "გადამისამართება"
+    },
+    "message": {
+        "copy": "კოპირება",
+        "admin_rights": "ნახვა,ჩასწორება,დამატება,წაშლა,ადმინისტრირება",
+        "manager_rights": "დათვალიერება,ჩასწორება,დამატება,წაშლა",
+        "view_rights": "ნახვა"
+    },
+    "share": {
+        "options": {
+            "share_calendar_role": {
+                "none": "არცერთი",
+                "admin": "ადმინი",
+                "manager": "მმართველი",
+                "viewer": "დამთვალიერებელი"
+            }
+        }
+    },
+    "modal": {
+        "initializeError": {
+            "buttonConfirm": "თავიდან ჩატვირთვა"
+        },
+        "uploadCertificate": {
+            "upload": "ატვირთვა"
+        },
+        "import_archive": {
+            "size_label": "ზომა",
+            "destination_label": "სამიზნე"
+        }
+    },
+    "settings": {
+        "app": "მორგება",
+        "choose": "აირჩიეთ",
+        "certificatePassword": {
+            "enter": "შეიყვანეთ",
+            "important": "მნიშვნელოვანი",
+            "password": "პაროლი"
+        },
+        "uploadCertificate": {
+            "active": "აქტიური",
+            "enter": "შეიყვანეთ",
+            "expired": "ვადაამოწურულია",
+            "inactive": "არააქტიურია",
+            "issuer": "გამომცემელი",
+            "password": "პაროლი",
+            "serial": "სერიული",
+            "status": "სტატუსი",
+            "upload": "ატვირთვა"
+        },
+        "actions": "ქმედებები",
+        "address": "მისამართი",
+        "after": "შემდეგ",
+        "b": "ბ",
+        "before": "მანამდე",
+        "body": "სხეული",
+        "browse": "დათვალიერება",
+        "calendar": "კალენდარი",
+        "conditions": "პირობები",
+        "contacts": "კონტაქტები",
+        "contains": "შეიცავს",
+        "date": "თარიღი",
+        "discard": "მოცილება",
+        "domain": "დომენი",
+        "exists": "არსებობს",
+        "field": "ველი",
+        "font": "ფონტი",
+        "fonts": {
+            "comic": "Comic",
+            "console": "კონსოლი",
+            "elegant": "ელეგანტური",
+            "garamond": "Garamond",
+            "modern": "Modern",
+            "monospaced": "Monospaced",
+            "professional": "Professional",
+            "serif": "Serif",
+            "terminal": "Terminal",
+            "wide": "ფართო"
+        },
+        "gb": "გბ",
+        "if": "თუ",
+        "in": "შიგნით",
+        "is": "არის",
+        "kb": "კბ",
+        "keyword": "საკვანძო სიტყვა",
+        "label": {
+            "default": "ნაგულისხმევი"
+        },
+        "localpart": "ლოკალური ნაწილი",
+        "mb": "მბ",
+        "message": "შეტყობინება",
+        "new_mail_optn": {
+            "manually": "ხელით"
+        },
+        "over": "მეტი, ვიდრე",
+        "social": "სოცქსელები",
+        "under": "ნაკლები, ვიდრე",
+        "filtersConditions": {
+            "attachment": "მიმაგრებული ფაილი"
+        },
+        "tb": "ტბ"
+    },
+    "colors": {
+        "blue": "ლურჯი",
+        "green": "მწვანე",
+        "cyan": "მომწვანო-მოცისფრო",
+        "purple": "იისფერი",
+        "yellow": "ყვითელი",
+        "red": "წითელი",
+        "pink": "ვარდისფერი",
+        "orange": "ნარინჯისფერი",
+        "black": "შავი",
+        "gray": "ნაცრისფერი"
+    },
+    "folders": {
+        "trash": "ნაგვის ყუთი",
+        "drafts": "მონახაზები",
+        "inbox": "საფოსტო ყუთი",
+        "junk": "ნაგავი",
+        "sent": "გაგზავნილი",
+        "spam": "სპამი",
+        "archive": "არქივი"
+    },
+    "messages": {
+        "modal": {
+            "send_anyway": {
+                "attach": "მიმაგრება",
+                "attached": "მიმაგრებული",
+                "attaching": "მიმდინარეობს მიმაგრება",
+                "attachment": "მიმაგრებული ფაილი",
+                "attachments": "მიმაგრებული ფაილები",
+                "enclose": "ჩასმა",
+                "enclosed": "ჩასმული",
+                "enclosing": "მიმდინარეობს ჩასმა"
+            },
+            "smime": {
+                "issuer": "გამომცემელი",
+                "validity": "სისწორე"
+            },
+            "mail_authentication_headers": {
+                "missing": "აკლია"
+            },
+            "mail_info": {
+                "message_sensitivity": "მგრძნლობელობა:"
+            }
+        }
+    },
+    "attachment_type": {
+        "application": "აპლიკაცია",
+        "email": "ელფოსტა",
+        "excel": "Excel",
+        "html": "HTML",
+        "image": "გამოსახულება",
+        "pdf": "PDF",
+        "powerpoint": "Powerpoint",
+        "video": "ვიდეო",
+        "word": "Word"
+    },
+    "email_status": {
+        "draft": "მონახაზი",
+        "flagged": "ალამდასმული",
+        "forwarded": "გადაგზავნილია",
+        "invitations": "მოსაწვევები",
+        "read": "წაკითხულია",
+        "unread": "წაუკითხავია"
+    },
+    "filters": {
+        "apply": "გადატარება",
+        "filters": "ფილტრები",
+        "run": "გაშვება"
+    },
+    "header": {
+        "attention": "ყურადღება",
+        "warning": "გაფრთხილება"
+    },
+    "labels": {
+        "compose": "შედგენა"
+    },
+    "modals": {
+        "apply_filters": {
+            "button_apply": "გადატარება"
+        }
+    },
+    "search": {
+        "unread": "წაუკითხავი"
+    },
+    "signatures": {
+        "name": "სახელი",
+        "signature_heading": "ხელმოწერები"
+    },
+    "sorting_dropdown": {
+        "attachment": "მიმაგრებული ფაილი",
+        "date": "თარიღი",
+        "flagged": "ალამდასმული",
+        "from": "ვისგან",
+        "important": "მნიშვნელოვანი",
+        "subject": "თემა",
+        "to": "ვის",
+        "unread": "წაუკითხავი",
+        "show": "ჩვენება:",
+        "all": "ყველა",
+        "default": "ნაგულისხმევი"
+    },
+    "tag": {
+        "label": "ჭდე"
+    },
+    "editView": {
+        "footer": {
+            "draftSaving": "შენახვა…"
+        }
+    },
+    "lexical-label": {
+        "paragraph": "აბზაცი",
+        "blockquote": "ციტატის ბლოკი",
+        "bold": "სქელი",
+        "italic": "კურსივი",
+        "underline": "ხაზგასმული",
+        "strikethrough": "გადახაზული",
+        "align_center": "ცენტრი",
+        "align_justify": "სწორება",
+        "link": "ბმული",
+        "table": "ცხრილი",
+        "image": "გამოსახულება",
+        "emoji": "ემოჯი",
+        "url": "URL",
+        "link_title": "სათაური",
+        "image_source": "წყარო",
+        "width": "სიგანე",
+        "height": "სიმაღლე"
     }
 }
