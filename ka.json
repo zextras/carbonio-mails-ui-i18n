@@ -83,7 +83,27 @@
         "show": "ჩვენება",
         "import": "შემოტანა",
         "export": "გატანა",
-        "dismiss": "მოცილება"
+        "dismiss": "მოცილება",
+        "attachement_unknown": "უცნობი <{{mimeType}}>",
+        "discard_changes": "ცვლილებების გაუქმება",
+        "go_back": "უკან გადასვლა",
+        "select_folder": "საქაღალდის არჩევა",
+        "show_all": "ყველა ჩვენება",
+        "time_zone": "დროის სარტყელი",
+        "view_images": "გამოსახულებების დათვალიერება",
+        "filter_folders": "საქაღალდეების გაფილტვრა",
+        "new_folder": "ახალი საქაღალდე",
+        "choose_file": "ფაილის არჩევა",
+        "create_tag": "ჭდის შექმნა",
+        "delete_tag": "ჭდის წაშლა",
+        "edit_access": "წვდომის ჩასწორება",
+        "edit_tag": "ჭდის ჩასწორება",
+        "loading_results": "შედეგების ჩატვირთვა…",
+        "no_subject": "თემის გარეშე",
+        "select_color": "ფერის არჩევა",
+        "share_with": "გაზიარება ვისთან",
+        "single_advanced_filter": "გაფართოებული ფილტრები",
+        "tag_name": "ჭდის სახელი"
     },
     "folder_panel": {
         "modal": {
@@ -98,11 +118,13 @@
     "action": {
         "search": "ძებნა",
         "forward": "გადაგზავნა",
-        "reply": "პასუხი",
+        "reply": "პასუხიhttps://translate.zextras.tools/js/ignore-check/530477/?revert=1",
         "ok": "Ok",
         "preview": "მინიატურა",
         "print": "დაბეჭდვა",
-        "redirect": "გადამისამართება"
+        "redirect": "გადამისამართება",
+        "reset": "ფილტრების ჩამოყრა",
+        "show_original": "ორიგინალის ჩვენება"
     },
     "message": {
         "copy": "კოპირება",
@@ -330,5 +352,12 @@
         "image_source": "წყარო",
         "width": "სიგანე",
         "height": "სიმაღლე"
+    },
+    "preview": {
+        "close": "მინიატურის დახურვა"
+    },
+    "tooltip": {
+        "add_attachments": "მიმაგრებული ფაილების დამატება",
+        "revoke": "წვდომის გაბათილება"
     }
 }
