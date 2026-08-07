@@ -103,16 +103,132 @@
         "select_color": "ფერის არჩევა",
         "share_with": "გაზიარება ვისთან",
         "single_advanced_filter": "გაფართოებული ფილტრები",
-        "tag_name": "ჭდის სახელი"
+        "tag_name": "ჭდის სახელი",
+        "folder_name": "საქაღალდის სახელი",
+        "distribution_list_app_name": "განაწილების სიები",
+        "decrypt_message": "შეტყობინების გაშიფვრა",
+        "allowed_actions": "დაშვებული ქმედებები",
+        "arrival_notifications": "მოსვლის შეტყობინებები",
+        "as_html": "HTML‑ის სახით",
+        "as_text": "ტექსტის სახით",
+        "attachment_one": "მიმაგრებული ფაილი",
+        "attachment_other": "მიმაგრებული ფაილები",
+        "attachment_type": "მიმაგრებული ფაილის ტიპი",
+        "by_conversation": "საუბრის მიხედვით",
+        "by_message": "შეტყობინების მიხედვით",
+        "calendar_color": "ელემენტის ფერი",
+        "cc_bcc": "Cc Bcc",
+        "choose_folder": "აირჩიეთ საქაღალდე",
+        "contact_folder": "კონტაქტის საქაღალდე",
+        "delayed_sending": "დაყოვნებული გაგზავნა",
+        "delete_draft": "მონახაზის წაშლა",
+        "delete_permanently": "სამუდამოდ წაშლა",
+        "deselect_all": "ყველა მონიშვნის მოხსნა",
+        "destination_folder": "სამიზნე საქაღალდე",
+        "disposal_threshold": "უტილიზააციის ზღვარი",
+        "duplicate_messages": "გამეორებული შეტყობინებები",
+        "enter_name": "შეიყვანეთ სახელი",
+        "filter_user": "მომხმარებლების გაფილტვრა",
+        "find_shares": "გაზიარებების ძებნა",
+        "from_identity": "ვისგან: {{identity}}",
+        "keep_draft": "მონახაზის შენახვა",
+        "mail_folder": "ელფოსტის საქაღალდე",
+        "mail_settings": "ელფოსტის მორგება",
+        "message_arrival": "შეტყობინების მიღება",
+        "new_email": "ახალი ელფოსტა",
+        "no_name": "<სახელის გარეშე>",
+        "no_signature": "ხელმოწერის გარეშე",
+        "no_subject_with_tags": "<თემის გარეშე>",
+        "notification_folders": "საქაღალდის გაფრთხილებები",
+        "notify_organizer": "ორგანიზატორის გაფრთხილება",
+        "read_receipt": "წაკითხვის დადასტურება",
+        "read_reciept": "წაკითხვის დადასტურება",
+        "receive_message": "შეტყობინებების მიღება",
+        "results_for": "შედეგები მოთხოვნისთვის: ",
+        "retention_policy": "შენარჩუნების პოლიტიკა",
+        "retention_range": "შენარჩუნების დიაპაზონი",
+        "revoke_share": "გაზიარების გაუქმება",
+        "schedule_send": "გაგზავნის დაგეგმვა",
+        "select_all": "ყველას მონიშვნა",
+        "send_email": "ელფოსტის გაგზავნა",
+        "send_later": "მოგვიანებით გაგზავნა",
+        "send_scheduled": "დაგეგმილად გაგზავნა",
+        "shared_folders": "გაზიარებული საქაღალდეები",
+        "shared_item": "გაზიარებული ელემენტი",
+        "trusted_addresses": "სანდო მისამართები",
+        "type_name_here": "ელემენტის სახელი",
+        "upload_failed": "ატვირთვა ჩავარდა",
+        "using_signatures": "ხელმოწერების გამოყენება",
+        "with_you": "თქვენთან",
+        "would_like_to_share": "გაგიზიარათ მისი",
+        "backup_search": "მარქაფის ძებნა",
+        "date_created": "შექმნის თარიღი",
+        "date_deleted": "წაშლის თარიღი",
+        "deleted_folder": "წაშლილი საქაღალდე",
+        "end_date": "დასრულების თარიღი",
+        "recover_messages": "შეტყობინებების აღდგენა",
+        "search_emails": "ელფოსტის ძებნა",
+        "start_date": "დაწყების თარიღი",
+        "send_mail": "ელფოსტის გაგზავნა",
+        "start_recovery": "აღდგენის დაწყება",
+        "start_search": "ძებნის დაწყება",
+        "layoutView": {
+            "verticalSplit": "ვერტიკალური გაყოფა",
+            "horizontalSplit": "ჰორიზონტალური გაყოფა",
+            "noSplit": "გაყოფის გარეშე"
+        },
+        "invalid_signature": "არასწორი ხელმოწერა",
+        "show_details": "დეტალების ჩვენება",
+        "valid_signature": "სწორი ხელმოწერა",
+        "mail_sensitivity_private": "ინფორმაციის მგრძნობელობა: პირადი",
+        "mail_sensitivity_company_confidential": "ინფორმაციის მგრძნობელობა: კომპანიის. საიდუმლო",
+        "mail_sensitivity_unknown": "მგრძნობელობა: უცნობი",
+        "reply_to": "პასუხი",
+        "sort_by": "დალაგების პირობა",
+        "composing_messages_read_receipt": "წაკითხვის დადასტურება",
+        "export_archive": "არქივის გატანა",
+        "import_archive": "არქივის შემოტანა"
     },
     "folder_panel": {
         "modal": {
             "lists-item": {
                 "empty": " "
+            },
+            "empty": {
+                "folder": {
+                    "button": {
+                        "no": "არა, გაუქმება"
+                    }
+                },
+                "trash": {
+                    "button": {
+                        "yes": "კი, დაცარიელება"
+                    }
+                }
+            },
+            "move": {
+                "title_modal": "საუბრის გადატანა",
+                "title_modal_conversation": "საუბრის გადატანა",
+                "title_modal_message": "შეტყობინების გადატანა"
+            },
+            "new": {
+                "input": {
+                    "position": "მშობელი საქაღალდე"
+                }
             }
         },
         "lists_item": {
             "root": "/Root"
+        },
+        "action": {
+            "edit_properties": "თვისებების ჩასწორება",
+            "empty": {
+                "trash": "სანაგვე ყუთის გასუფთავება",
+                "folder_panel": "ცარიელი საქაღალდე"
+            },
+            "wipe": {
+                "folder_panel": "საქაღალდის გასუფთავება"
+            }
         }
     },
     "action": {
@@ -124,13 +240,27 @@
         "print": "დაბეჭდვა",
         "redirect": "გადამისამართება",
         "reset": "ფილტრების ჩამოყრა",
-        "show_original": "ორიგინალის ჩვენება"
+        "show_original": "ორიგინალის ჩვენება",
+        "share_folder": "საქაღალდის გაზიარება",
+        "create_appointment": "შეხვედრის შექმნა",
+        "download_eml": "EML‑ის გადმოწერა",
+        "edit_anyway": "მაინც ჩასწორება",
+        "edit_share": "გაზიარების ჩასწორება",
+        "flag": "ალმის დამატება",
+        "hide_details": "დეტალების დამალვა",
+        "mark_as_non_spam": "სპამი არაა",
+        "reply_all": "პასუხი ყველას",
+        "select_folders": "საქაღალდეების არჩევა",
+        "send_anyway": "მაინც გაგზავნა",
+        "show_details": "დეტალების ჩვენება",
+        "unflag": "ალმის მოცილება"
     },
     "message": {
         "copy": "კოპირება",
         "admin_rights": "ნახვა,ჩასწორება,დამატება,წაშლა,ადმინისტრირება",
         "manager_rights": "დათვალიერება,ჩასწორება,დამატება,წაშლა",
-        "view_rights": "ნახვა"
+        "view_rights": "ნახვა",
+        "send_email": "ელფოსტის გაგზავნა"
     },
     "share": {
         "options": {
@@ -147,7 +277,9 @@
             "buttonConfirm": "თავიდან ჩატვირთვა"
         },
         "uploadCertificate": {
-            "upload": "ატვირთვა"
+            "upload": "ატვირთვა",
+            "uploadCertificate": "სერტიფიკატის ატვირთვა",
+            "certificatePassword": "სერტიფიკატის პაროლი"
         },
         "import_archive": {
             "size_label": "ზომა",
@@ -160,7 +292,9 @@
         "certificatePassword": {
             "enter": "შეიყვანეთ",
             "important": "მნიშვნელოვანი",
-            "password": "პაროლი"
+            "password": "პაროლი",
+            "confirmPassword": "პაროლის დადასტურება",
+            "reset_password": "პაროლის ჩამოყრა"
         },
         "uploadCertificate": {
             "active": "აქტიური",
@@ -171,7 +305,15 @@
             "password": "პაროლი",
             "serial": "სერიული",
             "status": "სტატუსი",
-            "upload": "ატვირთვა"
+            "upload": "ატვირთვა",
+            "certificatePassword": "სერტიფიკატის პაროლი",
+            "delete_certificate": "სერტიფიკატის წაშლა",
+            "enter_password": "შეიყვანეთ პაროლი",
+            "mailAddress": "ელფოსტის მისამართი",
+            "resetPassword": "პაროლის ჩამოყრა",
+            "uploadCertificate": "სერტიფიკატის ატვირთვა",
+            "validFrom": "მოქმედია თარიღიდან",
+            "validTo": "მოქმედია თარიღამდე"
         },
         "actions": "ქმედებები",
         "address": "მისამართი",
@@ -200,7 +342,9 @@
             "professional": "Professional",
             "serif": "Serif",
             "terminal": "Terminal",
-            "wide": "ფართო"
+            "wide": "ფართო",
+            "sans_serif": "Sans Serif",
+            "wide_block": "Wide Block"
         },
         "gb": "გბ",
         "if": "თუ",
@@ -209,7 +353,15 @@
         "kb": "კბ",
         "keyword": "საკვანძო სიტყვა",
         "label": {
-            "default": "ნაგულისხმევი"
+            "default": "ნაგულისხმევი",
+            "conversation_ordering": "საუბრის დალაგება",
+            "display_mail": "ელფოსტის ჩვენება",
+            "display_messages": "შეტყობინებების ჩვენება",
+            "mark_manually": "ხელით დანიშვნა",
+            "message_color": "შეტყობინების ფერი",
+            "message_selection": "შეტყობინების მონიშვნა",
+            "search_query": "ნაგულისხმევი მოთხოვნა",
+            "visualization_options": "ვიზუალიზაციის მორგება"
         },
         "localpart": "ლოკალური ნაწილი",
         "mb": "მბ",
@@ -223,7 +375,38 @@
         "filtersConditions": {
             "attachment": "მიმაგრებული ფაილი"
         },
-        "tb": "ტბ"
+        "tb": "ტბ",
+        "smime_certificates": "S/MIME სერტიფიკატები",
+        "active_filter": "აქტიური ფილტრი",
+        "address_in": "მისამართი რაში",
+        "choose_date": "თარიღის არჩევა",
+        "delete_filter": "ფილტრის წაშლა",
+        "display_mail_options": {
+            "text": "ტექსტის სახით"
+        },
+        "facebook_notification": "Facebook-ის გაფრთხილება",
+        "filter_name": "ფილტრის სახელი",
+        "font_size_one": "{{count}} წრტ",
+        "font_size_other": "{{count}} წრტ",
+        "header_name": "თავსართი სახელით",
+        "is_me": "ვარ მე",
+        "is_not": "არაა",
+        "mail_unsend_time": {
+            "no_delay": "დაყოვნების გარეშე"
+        },
+        "mark_as": "დანიშვნა, როგორც",
+        "matches_exactly": "ზუსტად ემთხვევა",
+        "not_after": "არა უგვიანეს",
+        "not_before": "არა თარიღამდე",
+        "not_in": "არა შუალედში",
+        "not_over": "არა შუალედს გარეთ",
+        "not_under": "არა ქვეშ",
+        "read_rcpt_optn": {
+            "ask_me": "მკითხე"
+        },
+        "read_receipt": "წაკითხვის დადასტურება",
+        "tag_with": "ჭდის დადება",
+        "twitter_notification": "Twitter-ის გაფრთხილებები"
     },
     "colors": {
         "blue": "ლურჯი",
@@ -260,14 +443,32 @@
             },
             "smime": {
                 "issuer": "გამომცემელი",
-                "validity": "სისწორე"
+                "validity": "სისწორე",
+                "title": "სერტიფიკატის დეტალები",
+                "signed_by": "ხელმოწერის ავტორი"
             },
             "mail_authentication_headers": {
                 "missing": "აკლია"
             },
             "mail_info": {
-                "message_sensitivity": "მგრძნლობელობა:"
+                "message_sensitivity": "მგრძნლობელობა:",
+                "message_id": "შეტყობინების ID:",
+                "message_created_at": "შექმნის დრო:"
+            },
+            "info_details": {
+                "title": "შეტყობინების დეტალები"
+            },
+            "mail_general_info": {
+                "title": "ზოგადი ინფორმაცია"
             }
+        },
+        "new_email": "ახალი ელფოსტა",
+        "powered_by": "მუშაობს პროგრამით",
+        "snackbar": {
+            "conversation_deleted": "საუბარი წაიშალა",
+            "folder_restored": "საქაღალდე აღდგა",
+            "mail_sent": "შეტყობინება გაიგზავნა",
+            "message_deleted": "შეტყობინება წაიშალა"
         }
     },
     "attachment_type": {
@@ -279,7 +480,9 @@
         "pdf": "PDF",
         "powerpoint": "Powerpoint",
         "video": "ვიდეო",
-        "word": "Word"
+        "word": "Word",
+        "text_document": "ტექსტური დოკუმენტი",
+        "zipped_file": "შეკუმშული ფაილი"
     },
     "email_status": {
         "draft": "მონახაზი",
@@ -287,19 +490,29 @@
         "forwarded": "გადაგზავნილია",
         "invitations": "მოსაწვევები",
         "read": "წაკითხულია",
-        "unread": "წაუკითხავია"
+        "unread": "წაუკითხავია",
+        "fromme": "ჩემგან",
+        "tome": "ჩემსკენ",
+        "unflagged": "ალმის გარეშე",
+        "unforwarded": "გადაგზავნილი არაა"
     },
     "filters": {
         "apply": "გადატარება",
         "filters": "ფილტრები",
-        "run": "გაშვება"
+        "run": "გაშვება",
+        "active_filters": "აქტიური ფილტრები",
+        "available_filters": "ხელმისაწვდომი ფილტრები"
     },
     "header": {
         "attention": "ყურადღება",
-        "warning": "გაფრთხილება"
+        "warning": "გაფრთხილება",
+        "delete_email": "ელფოსტის წაშლა",
+        "edit_draft": "მონახაზის ჩასწორება",
+        "redirect_email": "ელფოსტის გადამისამართება"
     },
     "labels": {
-        "compose": "შედგენა"
+        "compose": "შედგენა",
+        "composing_messages": "შეტყობინებების შედგენა"
     },
     "modals": {
         "apply_filters": {
@@ -307,11 +520,15 @@
         }
     },
     "search": {
-        "unread": "წაუკითხავი"
+        "unread": "წაუკითხავი",
+        "sent_after": "გაგზავნილია შემდეგ",
+        "sent_before": "გაგზავნილია დრომდე",
+        "sent_on": "გაგზავნის თარიღი"
     },
     "signatures": {
         "name": "სახელი",
-        "signature_heading": "ხელმოწერები"
+        "signature_heading": "ხელმოწერები",
+        "add_signature": "ხელმოწერის დამატება"
     },
     "sorting_dropdown": {
         "attachment": "მიმაგრებული ფაილი",
@@ -324,7 +541,10 @@
         "unread": "წაუკითხავი",
         "show": "ჩვენება:",
         "all": "ყველა",
-        "default": "ნაგულისხმევი"
+        "default": "ნაგულისხმევი",
+        "ascendingOrder": "აღმავალი",
+        "descendingOrder": "დაღმავალი",
+        "sort_by": "დალაგების პირობა:"
     },
     "tag": {
         "label": "ჭდე"
@@ -351,13 +571,95 @@
         "link_title": "სათაური",
         "image_source": "წყარო",
         "width": "სიგანე",
-        "height": "სიმაღლე"
+        "height": "სიმაღლე",
+        "heading_1": "სათაური 1",
+        "heading_2": "სათაური 2",
+        "heading_3": "სათაური 3",
+        "heading_4": "სათაური 4",
+        "heading_5": "სათაური 5",
+        "heading_6": "სათაური 6",
+        "remove_format": "დაფორმატების გასუფთავება",
+        "align_left": "მარცხნივ სწორება",
+        "align_right": "მარჯვნივ სწორება",
+        "indent_increase": "შეწევის გაზრდა",
+        "indent_decrease": "შეწევის შემცირება",
+        "bullet_list": "მარკირებული სია",
+        "numbered_list": "დანომრილი სია",
+        "special_character": "სპეციალური სიმბოლო",
+        "show_blocks": "ბლოკების ჩვენება",
+        "source_code": "წყარო კოდი",
+        "insert_edit_link": "ბმულის ჩასმა/ჩასწორება",
+        "current_window": "მიმდინარე ფანჯარა",
+        "new_window": "ახალი ფანჯარა",
+        "insert_edit_image": "გამოსახულების ჩასმა/ჩასწორება",
+        "image_alt": "ალტერნატიული აღწერა",
+        "insert_table": "ცხრილის ჩასმა",
+        "table_add_row": "მწკრივის დამატება",
+        "table_add_column": "სვეტის დამატება",
+        "table_delete_row": "მწკრივის წაშლა",
+        "table_delete_column": "სვეტის წაშლა",
+        "table_delete": "ცხრილის წაშლა",
+        "table_cell_background": "უჯრედის ფონი",
+        "table_cell_background_clear": "ფონის გასუფთავება",
+        "table_merge_cells": "უჯრედების შერევა",
+        "text_color": "ტექსტის ფერი",
+        "background_color": "ფონის ფერი",
+        "table_unmerge_cells": "უჯრედების შერწყმის გაუქმება",
+        "table_resize_row": "მწკრივის ზომის შეცვლა",
+        "table_resize_column": "სვეტის ზომის შეცვლა",
+        "remove_link": "ბმულის წაშლა",
+        "edit_link": "ბმულის ჩასწორება",
+        "image_align": "გამოსახულების სწორება",
+        "image_resize": "გამოსახულების ზომის შეცვლა"
     },
     "preview": {
         "close": "მინიატურის დახურვა"
     },
     "tooltip": {
         "add_attachments": "მიმაგრებული ფაილების დამატება",
-        "revoke": "წვდომის გაბათილება"
+        "revoke": "წვდომის გაბათილება",
+        "disable_urgent": "სასწრაფოობის გამორთვა",
+        "enable_urgent": "სასწრაფოობის ჩართვა",
+        "moreActions": "მეტი ქმედება"
+    },
+    "composer": {
+        "attachment": {
+            "drag_and_drop": {
+                "title": "გადათრევა/დაგდების რეჟიმი"
+            }
+        }
+    },
+    "snackbar": {
+        "folder_shared": "გაზიარებული საქაღალდე"
+    },
+    "board": {
+        "show": "დაფის ჩვენება"
+    },
+    "folder": {
+        "modal": {
+            "edit": {
+                "add_share": "გაზიარებულის დამატება"
+            }
+        }
+    },
+    "go_back": "უკან გადასვლა",
+    "messages,new_email": "ახალი ელფოსტა",
+    "new_folder": "ახალი საქაღალდე",
+    "notification": {
+        "new_message": "ახალი შეტყობინება"
+    },
+    "title": {
+        "new_messages": "ახალი შეტყობინებები"
+    },
+    "layoutView": {
+        "tooltip": {
+            "horizontal": "ჰორიზონტალური ხედი",
+            "vertical": "ვერტიკალური ხედი"
+        }
+    },
+    "warningBanner": {
+        "truncatedMessage": {
+            "button": "შეტყობინების ჩატვირთვა"
+        }
     }
 }
