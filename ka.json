@@ -187,7 +187,12 @@
         "sort_by": "დალაგების პირობა",
         "composing_messages_read_receipt": "წაკითხვის დადასტურება",
         "export_archive": "არქივის გატანა",
-        "import_archive": "არქივის შემოტანა"
+        "import_archive": "არქივის შემოტანა",
+        "save_to_files": "ფაილებში შენახვა",
+        "show_quoted_text": "ციტირებული ტექსტის ჩვენება",
+        "download_one": "გადმოწერა",
+        "download_other": "ყველას გადმოწერა",
+        "share_public_link": "საჯარო ბმული გაზიარება"
     },
     "folder_panel": {
         "modal": {
@@ -253,14 +258,21 @@
         "select_folders": "საქაღალდეების არჩევა",
         "send_anyway": "მაინც გაგზავნა",
         "show_details": "დეტალების ჩვენება",
-        "unflag": "ალმის მოცილება"
+        "unflag": "ალმის მოცილება",
+        "click_open": "დააწკაპუნეთ გასახსნელად",
+        "click_preview": "დააწკაპუნეთ მინიატურისთვის"
     },
     "message": {
         "copy": "კოპირება",
         "admin_rights": "ნახვა,ჩასწორება,დამატება,წაშლა,ადმინისტრირება",
         "manager_rights": "დათვალიერება,ჩასწორება,დამატება,წაშლა",
         "view_rights": "ნახვა",
-        "send_email": "ელფოსტის გაგზავნა"
+        "send_email": "ელფოსტის გაგზავნა",
+        "snackbar": {
+            "settings_saved": "ჩასწორებები შენახულია",
+            "all_att_added": "მიმაგრებული ფაილები წარმატებით დაემატა",
+            "calendar_edits_saved": "ჩასწორებები შენახულია"
+        }
     },
     "share": {
         "options": {
@@ -270,11 +282,13 @@
                 "manager": "მმართველი",
                 "viewer": "დამთვალიერებელი"
             }
-        }
+        },
+        "is_contained_in": "რა შეიცავს"
     },
     "modal": {
         "initializeError": {
-            "buttonConfirm": "თავიდან ჩატვირთვა"
+            "buttonConfirm": "თავიდან ჩატვირთვა",
+            "title": "რაღაც არასწორად წავიდა"
         },
         "uploadCertificate": {
             "upload": "ატვირთვა",
@@ -468,7 +482,8 @@
             "conversation_deleted": "საუბარი წაიშალა",
             "folder_restored": "საქაღალდე აღდგა",
             "mail_sent": "შეტყობინება გაიგზავნა",
-            "message_deleted": "შეტყობინება წაიშალა"
+            "message_deleted": "შეტყობინება წაიშალა",
+            "tag_updated": "ჭდე წარმატებით განახლდა"
         }
     },
     "attachment_type": {
@@ -620,13 +635,17 @@
         "revoke": "წვდომის გაბათილება",
         "disable_urgent": "სასწრაფოობის გამორთვა",
         "enable_urgent": "სასწრაფოობის ჩართვა",
-        "moreActions": "მეტი ქმედება"
+        "moreActions": "მეტი ქმედება",
+        "edit": "გაზიარების თვისებების ჩასწორება",
+        "folder_linked_status": "გამიზიარეს"
     },
     "composer": {
         "attachment": {
             "drag_and_drop": {
                 "title": "გადათრევა/დაგდების რეჟიმი"
-            }
+            },
+            "files": "დამატება Files-დან",
+            "local": "დამატება ლოკალურიდან"
         }
     },
     "snackbar": {
@@ -661,5 +680,8 @@
         "truncatedMessage": {
             "button": "შეტყობინების ჩატვირთვა"
         }
+    },
+    "displayer": {
+        "search_title1": "კიდევ ერთი ძებნის დაწყება"
     }
 }
