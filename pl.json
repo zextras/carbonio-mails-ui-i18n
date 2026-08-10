@@ -1339,7 +1339,9 @@
         "remove_link": "Usuń link",
         "edit_link": "Edytuj link",
         "image_align": "Wyrównaj obraz",
-        "image_resize": "Zmień rozmiar obrazu"
+        "image_resize": "Zmień rozmiar obrazu",
+        "insert_image_url": "Obraz z URL",
+        "table_size": "{{rows}} x {{columns}}"
     },
     "lexical-messages": {
         "write_your_message": "Wpisz Twoją wiadomość"
