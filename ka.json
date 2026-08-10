@@ -188,11 +188,72 @@
         "composing_messages_read_receipt": "წაკითხვის დადასტურება",
         "export_archive": "არქივის გატანა",
         "import_archive": "არქივის შემოტანა",
-        "save_to_files": "ფაილებში შენახვა",
+        "save_to_files": "Files-ში შენახვა",
         "show_quoted_text": "ციტირებული ტექსტის ჩვენება",
         "download_one": "გადმოწერა",
         "download_other": "ყველას გადმოწერა",
-        "share_public_link": "საჯარო ბმული გაზიარება"
+        "share_public_link": "საჯარო ბმული გაზიარება",
+        "extra_window": {
+            "save_to_files_disabled": "Files-ში შენახვა"
+        },
+        "activate_selection_mode": "მონიშვნის რეჟიმის გააქტიურება",
+        "delete_tag_name": "\"{{name}}\" ჭდის წაშლა",
+        "edit_tag_name": "\"{{name}}\" ჭდის ჩასწორება",
+        "before_you_leave": "სანამ გახვალთ",
+        "behalf_of": "სახელით",
+        "collapse_receivers_list": "მიმღებების სიის აკეცვა",
+        "create_and_move": "შექმნა და გადატანა",
+        "create_new_task": "ახალი ამოცანის შექმნა",
+        "create_smart_links": "ჭკვიანი ბმულების შექმნა",
+        "do_not_notify": "გაფრთხილების გარეშე",
+        "download_and_delete": "გადმოწერა და წაშლა",
+        "edit_folder_properties": "{{name}}-ის თვისებების ჩასწორება",
+        "email_perm_deleted": "ელფოსტა სამუდამოდ წაიშალა",
+        "enable_message_disposal": "შეტყობინებების წაშლის ჩართვა",
+        "enable_message_retention": "შეტყობინებების შენარჩუნების ჩართვა",
+        "exit_selection_mode": "არჩევის რეჟიმიდან გასვლა",
+        "expand_receivers_list": "მიმღებების სიის ჩამოშლა",
+        "filter_modified": "ფილტრი წარმატებით შეიცვალა",
+        "find_mail_shares": "გაზიარებული საქაღალდეების პოვნა",
+        "hide_more_info": "მეტი ინფორმაციის დამალვა",
+        "include_shared_folders": "გაზიარებული საქაღალდეების ჩასმა",
+        "mark_as_important": "მნიშვნელოვნად მონიშვნა",
+        "message_from_me": "შეტყობინებები ჩემგან",
+        "no_folder_selected": "საქაღალდე არჩეული არაა",
+        "no_identity_selected": "<იდენტიფიკატორი არჩეული არაა>",
+        "no_search_results_found": "შედეგების გარეშე",
+        "on_behalf_of": "სახელით",
+        "read_receipt_req": "წაკითხვის დადასტურება აუცილებელია",
+        "received_from_address": "მიღებულია საიდან (მისამართი)",
+        "remove_one": "წაშლა",
+        "remove_other": "ყველას წაშლა",
+        "request_receipt": "წაკითხვის დადასტურების მოთხოვნა",
+        "select_signature": "აირჩიეთ ხელმოწერა",
+        "sent_to_address": "გაგზავნილია ვისთან (მისამართი)",
+        "set_default_signatures": "ნაგულისხმევი ხელმოწერების დაყენება",
+        "shares_info": "გაზიარებული საქაღალდის ინფორმაცია",
+        "shares_items": "{{value}}-ის გაზიარებული საქაღალდეები",
+        "show_more_info": "მეტი ინფორმაციის ჩვენება",
+        "smart_links_created": "ჭკვიანი ბმულები შექმნილია",
+        "upload_from_files": "ატვირთვა Files-დან",
+        "last_7_days": "ბოლო 7 დღე",
+        "error_recovering_emails": "ელფოსტის აღდგენის შეცდომა",
+        "import_to_contacts": "კონტაქტებში შემოტანა",
+        "last_30_days": "ბოლო 30 დღე",
+        "last_14_days": "ბოლო 14 დღე",
+        "recover_selected_emails": "არჩეული ელფოსტების აღდგენა",
+        "last_90_days": "ბოლო 90 დღე",
+        "select_recovery_date": "აირჩიეთ აღდგენის თარიღი",
+        "recovery_period": "აირჩიეთ აღდგენის პერიოდი",
+        "start_recovery_process": "აღდგენის პროცესის დაწყება",
+        "enter_single_email_address": "შეიყვანეთ ელფოსტის მისამართი",
+        "blocked_addresses": "დაბლოკილი გამომგზავნების სია",
+        "allowed_addresses": "დაშვებული გამომგზავნების სია",
+        "senderslist_numentries": "{{count}} / {{max}}",
+        "reset_sort_and_filter_to_default": "ნაგულისხმევზე ჩამოყრა",
+        "view_all_actions": "ყველა ქმედების ნახვა",
+        "import_to_calendar": "შემოტანა კალენდრებში",
+        "signature_required": "ხელმოწერის ინფორმაცია აუცილებელია."
     },
     "folder_panel": {
         "modal": {
@@ -202,7 +263,8 @@
             "empty": {
                 "folder": {
                     "button": {
-                        "no": "არა, გაუქმება"
+                        "no": "არა, გაუქმება",
+                        "yes": "დიახ, დააცარიელე საქაღალდე"
                     }
                 },
                 "trash": {
@@ -218,8 +280,12 @@
             },
             "new": {
                 "input": {
-                    "position": "მშობელი საქაღალდე"
-                }
+                    "position": "მშობელი საქაღალდე",
+                    "name": "შეიყვანეთ საქაღალდის სახელი"
+                },
+                "create_footer": "შექმნა და გადატანა",
+                "name_exist_warning": "სახელი უკვე არსებობს",
+                "restore_create_footer": "შექმნა და აღდგენა"
             }
         },
         "lists_item": {
@@ -260,7 +326,14 @@
         "show_details": "დეტალების ჩვენება",
         "unflag": "ალმის მოცილება",
         "click_open": "დააწკაპუნეთ გასახსნელად",
-        "click_preview": "დააწკაპუნეთ მინიატურისთვის"
+        "click_preview": "დააწკაპუნეთ მინიატურისთვის",
+        "edit_as_new": "ჩასწორება, როგორც ახლის",
+        "goto_drafts": "მონახაზებზე გადართვა",
+        "goto_folder": "საქაღალდეზე გადასვლა",
+        "mark_as_read": "წაკითხულად მონიშვნა",
+        "mark_as_spam": "სპამად მონიშვნა",
+        "mark_as_unread": "წაუკითხავად მონიშვნა",
+        "forward_as_attachment": "გადაგზავნა მიმაგრებული ფაილის სახით"
     },
     "message": {
         "copy": "კოპირება",
@@ -271,7 +344,8 @@
         "snackbar": {
             "settings_saved": "ჩასწორებები შენახულია",
             "all_att_added": "მიმაგრებული ფაილები წარმატებით დაემატა",
-            "calendar_edits_saved": "ჩასწორებები შენახულია"
+            "calendar_edits_saved": "ჩასწორებები შენახულია",
+            "all_link_copied": "საჯარო ბმული წარმატებით დაკოპირდა"
         }
     },
     "share": {
@@ -283,7 +357,8 @@
                 "viewer": "დამთვალიერებელი"
             }
         },
-        "is_contained_in": "რა შეიცავს"
+        "is_contained_in": "რა შეიცავს",
+        "recipients_address": "მიმღების ელფოსტის მისამართები"
     },
     "modal": {
         "initializeError": {
@@ -298,6 +373,12 @@
         "import_archive": {
             "size_label": "ზომა",
             "destination_label": "სამიზნე"
+        },
+        "import": {
+            "title": "მზად ხართ იმპორტისთვის?"
+        },
+        "export": {
+            "title": "მზად ბრძანდებით გატანის დასაწყებად?"
         }
     },
     "settings": {
@@ -308,7 +389,9 @@
             "important": "მნიშვნელოვანი",
             "password": "პაროლი",
             "confirmPassword": "პაროლის დადასტურება",
-            "reset_password": "პაროლის ჩამოყრა"
+            "reset_password": "პაროლის ჩამოყრა",
+            "passwordCreated": "პაროლა წარმატებით შეიქმნა",
+            "passwordCreatedFailed": "პაროლის შექმნა ჩავარდა"
         },
         "uploadCertificate": {
             "active": "აქტიური",
@@ -327,7 +410,11 @@
             "resetPassword": "პაროლის ჩამოყრა",
             "uploadCertificate": "სერტიფიკატის ატვირთვა",
             "validFrom": "მოქმედია თარიღიდან",
-            "validTo": "მოქმედია თარიღამდე"
+            "validTo": "მოქმედია თარიღამდე",
+            "certtificateUploaded": "სერტიფიკატი წარმატებით აიტვირთა",
+            "passwordIsCorrect": "პაროლი სწორია",
+            "passwordIsInCorrect": "პაროლი არასწორია",
+            "unableToDecrypt": "გაშიფვრა შეუძლებელია"
         },
         "actions": "ქმედებები",
         "address": "მისამართი",
@@ -375,7 +462,11 @@
             "message_color": "შეტყობინების ფერი",
             "message_selection": "შეტყობინების მონიშვნა",
             "search_query": "ნაგულისხმევი მოთხოვნა",
-            "visualization_options": "ვიზუალიზაციის მორგება"
+            "visualization_options": "ვიზუალიზაციის მორგება",
+            "check_new_mail": "ახალი ელფოსტის შემოწმება",
+            "default_mail_search": "ნაგულისხმევად ფოსტაში ძებნა",
+            "mark_reading_panel": "წაკითხულად მონიშვნა",
+            "unsend_time": "გაგზავნის დროის დაყენება"
         },
         "localpart": "ლოკალური ნაწილი",
         "mb": "მბ",
@@ -396,7 +487,8 @@
         "choose_date": "თარიღის არჩევა",
         "delete_filter": "ფილტრის წაშლა",
         "display_mail_options": {
-            "text": "ტექსტის სახით"
+            "text": "ტექსტის სახით",
+            "html": "როგორც HTML (როცა შესაძლებელია)"
         },
         "facebook_notification": "Facebook-ის გაფრთხილება",
         "filter_name": "ფილტრის სახელი",
@@ -420,7 +512,31 @@
         },
         "read_receipt": "წაკითხვის დადასტურება",
         "tag_with": "ჭდის დადება",
-        "twitter_notification": "Twitter-ის გაფრთხილებები"
+        "twitter_notification": "Twitter-ის გაფრთხილებები",
+        "add_action": "ახალი ქმედების დამატება",
+        "add_condition": "ახალი პირობის დამატება",
+        "create_new_filter": "ახალი ფილტრის შექმნა",
+        "does_not_contain": "არ შეიცავს",
+        "does_not_exists": "არ არსებობს",
+        "filter_deleted": "ფილტრი წარმატებით წაიშალა",
+        "from_distribution_list": "განაწილების სიიდან",
+        "invite_replied": "მოწვევა ნაპასუხებია",
+        "invite_requested": "მოწვევა მოთხოვნილია",
+        "is_not_me": "მე არ ვარ",
+        "keep_in_inbox": "საფოსტო ყუთში დატოვება",
+        "keep_in_sent": "გაგზავნილებში დატოვება",
+        "mass_marketing": "მასიური მარკეტინგი (პაკეტური)",
+        "matches_wildcard_condition": "ემთხვევა ვაილდკარდის პირობას",
+        "move_into_folder": "გადატანა საქაღალდეში",
+        "msg_from_optn": {
+            "discard": "შეტყობინების ავტომატური მოცილება",
+            "inbox": "საფოსტო ყუთში მოთავსება"
+        },
+        "my_frequent_emails": "ჩემი ხშირი ელფოსტები",
+        "redirect_to_address": "გადამისამართება მისამართზე",
+        "remove_action": "ამ ქმედების წაშლა",
+        "remove_condition": "ამ პირობის წაშლა",
+        "to_cc": "მიმღები, ან ასლი"
     },
     "colors": {
         "blue": "ლურჯი",
@@ -453,13 +569,15 @@
                 "attachments": "მიმაგრებული ფაილები",
                 "enclose": "ჩასმა",
                 "enclosed": "ჩასმული",
-                "enclosing": "მიმდინარეობს ჩასმა"
+                "enclosing": "მიმდინარეობს ჩასმა",
+                "subject": "თემა მითითებული არაა"
             },
             "smime": {
                 "issuer": "გამომცემელი",
                 "validity": "სისწორე",
                 "title": "სერტიფიკატის დეტალები",
-                "signed_by": "ხელმოწერის ავტორი"
+                "signed_by": "ხელმოწერის ავტორი",
+                "valid_title": "შეტყობინება ხელმოწერილია"
             },
             "mail_authentication_headers": {
                 "missing": "აკლია"
@@ -483,8 +601,19 @@
             "folder_restored": "საქაღალდე აღდგა",
             "mail_sent": "შეტყობინება გაიგზავნა",
             "message_deleted": "შეტყობინება წაიშალა",
-            "tag_updated": "ჭდე წარმატებით განახლდა"
-        }
+            "tag_updated": "ჭდე წარმატებით განახლდა",
+            "conversation_move": "საუბრის გადატანა წარმატებულია",
+            "folder_moved": "საქაღალდის გადატანა წარმატებულია",
+            "message_move": "შეტყობინების გადატანა წარმატებულია",
+            "folder_created": "ახალი საქაღალდე შეიქმნა",
+            "folder_deleted": "საქაღალდე წარმატებით წაიშალა.",
+            "folder_edited": "ცვლილებების შენახვა წარმატებულია",
+            "folder_empty": "ნაგვის ყუთის დაცარიელება წარმატებულია",
+            "folder_wiped": "საქაღალდე წარმატებით გასუფთავდა",
+            "folder_emptied": "საქაღალდე წარმატებით დაცარიელდა",
+            "import_archive_success": "{{filename}}-ის შემოტანა წარმატებულია"
+        },
+        "something_went_wrong": "რაღაც არასწორად წავიდა"
     },
     "attachment_type": {
         "application": "აპლიკაცია",
@@ -509,14 +638,20 @@
         "fromme": "ჩემგან",
         "tome": "ჩემსკენ",
         "unflagged": "ალმის გარეშე",
-        "unforwarded": "გადაგზავნილი არაა"
+        "unforwarded": "გადაგზავნილი არაა",
+        "local": "ჩემს საქაღალდეებზე",
+        "received": "მიღებული ჩემს მიერ",
+        "replied": "მე ვუპასუხე",
+        "sent": "ჩემს მიერ გაგზავნილი"
     },
     "filters": {
         "apply": "გადატარება",
         "filters": "ფილტრები",
         "run": "გაშვება",
         "active_filters": "აქტიური ფილტრები",
-        "available_filters": "ხელმისაწვდომი ფილტრები"
+        "available_filters": "ხელმისაწვდომი ფილტრები",
+        "incoming_msg_filters": "შემომავალი შეტყობინების ფილტრები",
+        "outgoing_message_filters": "გამავალი შეტყობინების ფილტრები"
     },
     "header": {
         "attention": "ყურადღება",
@@ -531,7 +666,8 @@
     },
     "modals": {
         "apply_filters": {
-            "button_apply": "გადატარება"
+            "button_apply": "გადატარება",
+            "title": "აპლიკაციის ფილტრი \"{{filterName}}\""
         }
     },
     "search": {
@@ -566,7 +702,8 @@
     },
     "editView": {
         "footer": {
-            "draftSaving": "შენახვა…"
+            "draftSaving": "შენახვა…",
+            "draftNotSaved": "მონახაზი შენახული არაა"
         }
     },
     "lexical-label": {
@@ -625,7 +762,21 @@
         "remove_link": "ბმულის წაშლა",
         "edit_link": "ბმულის ჩასწორება",
         "image_align": "გამოსახულების სწორება",
-        "image_resize": "გამოსახულების ზომის შეცვლა"
+        "image_resize": "გამოსახულების ზომის შეცვლა",
+        "text_to_display": "საჩვენებელი ტექსტი",
+        "open_link_in": "ბმულის გახსნა პროგრამაში…",
+        "lock_aspect_ratio": "გვერდების ფარდობის დაბლოკვა",
+        "unlock_aspect_ratio": "გვერდების ფარდობის განბლოკვა",
+        "table_insert_row_above": "მწკრივის დამატება ზემოთ",
+        "table_insert_row_below": "მწკრივის დამატება ქვემოთ",
+        "table_insert_column_left": "სვეტის დამატება მარცხნივ",
+        "table_insert_column_right": "სვეტის დამატება მარჯვნივ",
+        "table_toggle_row_header": "სათაურის მწკრივის გადართვა",
+        "table_toggle_column_header": "სათაურის სვეტის გადართვა",
+        "rtl": "მარჯვნიდან მარცხნივ",
+        "ltr": "მარცხნიდან მარჯვნივ",
+        "insert_image_url": "გამოსახულება URL-დან",
+        "table_size": "{{rows}} x {{columns}}"
     },
     "preview": {
         "close": "მინიატურის დახურვა"
@@ -637,7 +788,11 @@
         "enable_urgent": "სასწრაფოობის ჩართვა",
         "moreActions": "მეტი ქმედება",
         "edit": "გაზიარების თვისებების ჩასწორება",
-        "folder_linked_status": "გამიზიარეს"
+        "folder_linked_status": "გამიზიარეს",
+        "marked_as_important": "მნიშვნელოვანად მონიშნული",
+        "list_navigation": {
+            "loadingNextEmail": "შემდეგი ელფოსტის ჩატვირთვა"
+        }
     },
     "composer": {
         "attachment": {
@@ -645,11 +800,18 @@
                 "title": "გადათრევა/დაგდების რეჟიმი"
             },
             "files": "დამატება Files-დან",
-            "local": "დამატება ლოკალურიდან"
+            "local": "დამატება ლოკალურიდან",
+            "contacts_mod": "კონტაქტის ბარათის დამატება",
+            "add_original": "ორიგინალი მიმაგრებული ფაილების დამატება"
         }
     },
     "snackbar": {
-        "folder_shared": "გაზიარებული საქაღალდე"
+        "folder_shared": "გაზიარებული საქაღალდე",
+        "share_resend": "გაზიარების მოსაწვევი გადაიგზავნა",
+        "share_revoke": "გაზიარებულთან წვდომა გაბათილებულია",
+        "tag_applied": "ჭდე \"{{tag}}\" გადატარებულია",
+        "tag_removed": "ჭდე \"{{tag}}\" წაიშალა",
+        "share_updated": "\"წვდომის უფლებები განახლდა\""
     },
     "board": {
         "show": "დაფის ჩვენება"
@@ -665,10 +827,12 @@
     "messages,new_email": "ახალი ელფოსტა",
     "new_folder": "ახალი საქაღალდე",
     "notification": {
-        "new_message": "ახალი შეტყობინება"
+        "new_message": "ახალი შეტყობინება",
+        "no_content": "შეტყობინება შემცველობის გარეშე"
     },
     "title": {
-        "new_messages": "ახალი შეტყობინებები"
+        "new_messages": "ახალი შეტყობინებები",
+        "replies_forwards": "პასუხები და გადამისამართებები"
     },
     "layoutView": {
         "tooltip": {
@@ -683,5 +847,16 @@
     },
     "displayer": {
         "search_title1": "კიდევ ერთი ძებნის დაწყება"
+    },
+    "placeholder": {
+        "add_new_recipients": "ახალი მიმღებლების დამატება"
+    },
+    "recipient": {
+        "toField": {
+            "missing": "[ველი 'ვის' ცარიელია]"
+        }
+    },
+    "lexical-messages": {
+        "write_your_message": "დაწერეთ თქვენი შეტყობინება"
     }
 }
