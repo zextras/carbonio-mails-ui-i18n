@@ -271,7 +271,7 @@
         "delayed_sending": "Envoi différé",
         "collapse_receivers_list": "Réduire la liste des destinataires",
         "before_you_leave": "Avant de quitter",
-        "warning": "Avertissement",
+        "warning": "Attention",
         "show_more_info": "Afficher les informations complémentaires",
         "select_date_time": "Sélectionnez la date et l'heure",
         "schedule_send": "Planifier l'envoi",
@@ -1339,7 +1339,9 @@
         "remove_link": "Supprimer le lien",
         "edit_link": "Éditer le lien",
         "image_align": "Aligner l'image",
-        "image_resize": "Redimensionner l'image"
+        "image_resize": "Redimensionner l'image",
+        "insert_image_url": "Image depuis une URL",
+        "table_size": "{{rows}} x {{columns}}"
     },
     "lexical-messages": {
         "write_your_message": "Rédigez votre message"
