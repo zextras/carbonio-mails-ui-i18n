@@ -288,7 +288,16 @@
         "size_smaller": "ზომით პატარა ვიდრე (მბ)",
         "search_recover_emails": "აღსადგენი ელფოსტების ძებნა",
         "show_all_attachments": "{{count}} მიმაგრებული ფაილის ჩვენება",
-        "always_request_read_receipts": "წაკითხვის დადასტურების ყოველთვის მოთხოვნა"
+        "always_request_read_receipts": "წაკითხვის დადასტურების ყოველთვის მოთხოვნა",
+        "tag_max_length": "დაშვებულია მაქს. 128 სიმბოლო",
+        "always_allow_domain": "ყოველთვის დაშვება დომენიდან <strong>{{domain}}</strong>",
+        "enter_email_address": "შეიყვანეთ ელფოსტის მისამართი, ან დომენი",
+        "error_address": "საჭიროა სწორი ელფოსტა",
+        "send_notification": "გაფრთხილების შეტყობინების გაგზავნა მისამართზე",
+        "searching_recover_emails": "მიმდინარეობს აღსადგენი ელფოსტების ძებნა",
+        "want_to_continue": "გააგრძელებთ?",
+        "do_not_use_signature": "ხელმოწერის არგამოყენება",
+        "change_filtering_sorting_options": "გაფილტვრის და დალაგების პარამეტრების შეცვლა"
     },
     "folder_panel": {
         "modal": {
@@ -306,6 +315,9 @@
                     "button": {
                         "yes": "კი, დაცარიელება"
                     }
+                },
+                "body": {
+                    "message3": "ეს ქმედება შეუქცევადია."
                 }
             },
             "move": {
@@ -371,7 +383,9 @@
         "mark_as_unread": "წაუკითხავად მონიშვნა",
         "forward_as_attachment": "გადაგზავნა მიმაგრებული ფაილის სახით",
         "apply_filter_on_folder": "ფილტრის გადატარება საქაღალდზე",
-        "mark_all_read": "ყველას წაკითხულად მონიშვნა"
+        "mark_all_read": "ყველას წაკითხულად მონიშვნა",
+        "preview_on_separated_window": "გახსნა ახალ ფანჯარაში",
+        "preview_on_separated_tab": "გახსნა ახალ ჩანართში"
     },
     "message": {
         "copy": "კოპირება",
@@ -385,7 +399,8 @@
             "calendar_edits_saved": "ჩასწორებები შენახულია",
             "all_link_copied": "საჯარო ბმული წარმატებით დაკოპირდა"
         },
-        "schedule_time": "{{date}}-ისთვის {{time}}-ზე"
+        "schedule_time": "{{date}}-ისთვის {{time}}-ზე",
+        "invalid_search_message": "დამთხვევები აღმოჩენილი არაა"
     },
     "share": {
         "options": {
@@ -418,7 +433,9 @@
             "size_label": "ზომა",
             "destination_label": "სამიზნე",
             "file_type": {
-                "mbox": "MBOX · საფოსტო ყუთის არქივი"
+                "mbox": "MBOX · საფოსტო ყუთის არქივი",
+                "zip": "ZIP · შეკუმშული საფოსტო ყუთის არქივი",
+                "tgz": "TGZ · შეკუმშული ფოსტის ყუთის არქივი"
             }
         },
         "import": {
@@ -429,7 +446,8 @@
         },
         "export_archive": {
             "file_type": {
-                "tgz": "TGZ · Carbonio-ის არქივი"
+                "tgz": "TGZ · Carbonio-ის არქივი",
+                "zip": "ZIP · შეკუმშული საფოსტო ყუთის არქივი"
             }
         }
     },
@@ -445,7 +463,8 @@
             "passwordCreated": "პაროლა წარმატებით შეიქმნა",
             "passwordCreatedFailed": "პაროლის შექმნა ჩავარდა",
             "createPasswordRule": "თქვენი პაროლი უნდა იყოს:",
-            "passwordNotMatch": "პაროლები არ ემთხვევა"
+            "passwordNotMatch": "პაროლები არ ემთხვევა",
+            "createPasswordRule1": "სულ ცოტა 8 სიმბოლო."
         },
         "uploadCertificate": {
             "active": "აქტიური",
@@ -473,7 +492,10 @@
             "errorWhileUploadCert": "შეცდომა სერტიფიკატის ატვირთვისას",
             "failed": "სერტიფიკატის ატვირთვა ჩავარდა",
             "smimeCertificate": "S/MIME სერტიფიკატი (მაგ. certificate.p12)",
-            "recipientCertificatesTitle": "მიმღების სერტიფიკატები დაშიფვრისთვის"
+            "recipientCertificatesTitle": "მიმღების სერტიფიკატები დაშიფვრისთვის",
+            "uploadCertificateInSettings": "ატვირთეთ თქვენი სერტიფიკატი მორგების ფანჯრიდან",
+            "noPersonalCertificate": "პირადი სერტიფიკატების სია ცარიელია",
+            "noRecipientCertificate": "მიმღების სერტიფიკატების სია ცარიელია"
         },
         "actions": "ქმედებები",
         "address": "მისამართი",
@@ -574,7 +596,9 @@
         "not_over": "არა შუალედს გარეთ",
         "not_under": "არა ქვეშ",
         "read_rcpt_optn": {
-            "ask_me": "მკითხე"
+            "ask_me": "მკითხე",
+            "always": "წაკითხვის დადასტურების ყოველთვის გაგზავნა",
+            "never": "წაკითხვის დადასტურების არასდროს გაგზავნა"
         },
         "read_receipt": "წაკითხვის დადასტურება",
         "tag_with": "ჭდის დადება",
@@ -613,7 +637,9 @@
         "invite_not_replied": "მოსაწვევი პასუხგაუცემელია ",
         "invite_not_requested": "მოწვევა მოთხოვნილი არაა",
         "linkedin_msg": "LinkedIn‑შეტყობინებები და კავშირები",
-        "perform_following_action": "შემდეგი ქმედებების შესრულება:"
+        "perform_following_action": "შემდეგი ქმედებების შესრულება:",
+        "do_not_process_additional_filters": "დამატებითი ფილტრების არდამუშავება",
+        "does_not_match_wildcard_condition": "არ ემთხვევა ვაილდკარდის პირობას"
     },
     "colors": {
         "blue": "ლურჯი",
@@ -648,7 +674,8 @@
                 "enclosed": "ჩასმული",
                 "enclosing": "მიმდინარეობს ჩასმა",
                 "subject": "თემა მითითებული არაა",
-                "no_subject": "ელფოსტის საგანი ცარიელია."
+                "no_subject": "ელფოსტის საგანი ცარიელია.",
+                "no_attachments": "ფაილები არ მიგიმაგრებიათ."
             },
             "smime": {
                 "issuer": "გამომცემელი",
@@ -657,7 +684,10 @@
                 "signed_by": "ხელმოწერის ავტორი",
                 "valid_title": "შეტყობინება ხელმოწერილია",
                 "cert_not_found_title": "ხელმომწერის სერტიფიკატი აღმოჩენილი არაა",
-                "issuer_not_found_title": "გამომცემლის სერტიფიკატი ვერ მოიძებნა"
+                "issuer_not_found_title": "გამომცემლის სერტიფიკატი ვერ მოიძებნა",
+                "invalid_title": "ციფრული ხელმოწერა სწორი არაა",
+                "untrusted_title": "შეტყობინება არასანდო წყაროდან",
+                "cert_expired_title": "ხელმომწერის სერტიფიკატის ვადა ამოიწურა"
             },
             "mail_authentication_headers": {
                 "missing": "აკლია"
@@ -699,9 +729,13 @@
             "mail_saved_to_drafts": "ელფოსტა შენახულია მონახაზებში",
             "message_sending_aborted": "გაუქმდა მომხმარებლის მიერ",
             "conversation_marked_as_spam": "საუბარი მონიშნულია, როგორც სპამი",
-            "sending_in_progress": "მიმდინარეობს შეტყობინების გაგზავნა. მოითმინეთ…"
+            "sending_in_progress": "მიმდინარეობს შეტყობინების გაგზავნა. მოითმინეთ…",
+            "email_restored": "ელფოსტა აღდგა სამიზნე საქაღალდეში",
+            "message_redirected": "შეტყობინება გადამისამართდა",
+            "conversation_marked_as_non_spam": "საუბარი მოინიშნა, როგორც არა-სპამი"
         },
-        "something_went_wrong": "რაღაც არასწორად წავიდა"
+        "something_went_wrong": "რაღაც არასწორად წავიდა",
+        "invalid_sender_address": "შეიყვანეთ, მხოლოდ, ელფოსტის მისამართები"
     },
     "attachment_type": {
         "application": "აპლიკაცია",
@@ -733,7 +767,9 @@
         "sent": "ჩემს მიერ გაგზავნილი",
         "anywhere": "ყველა საქაღალდეში",
         "ccme": "ასლში ჩემთვის",
-        "unreplied": "არ მიპასუხია"
+        "unreplied": "არ მიპასუხია",
+        "solo": "საუბრები ერთი შეტყობინებით",
+        "tofromme": "ჩემთვის, ან ჩემგან"
     },
     "filters": {
         "apply": "გადატარება",
@@ -749,7 +785,8 @@
         "warning": "გაფრთხილება",
         "delete_email": "ელფოსტის წაშლა",
         "edit_draft": "მონახაზის ჩასწორება",
-        "redirect_email": "ელფოსტის გადამისამართება"
+        "redirect_email": "ელფოსტის გადამისამართება",
+        "message_not_sent": "შეცდომა - შეტყობინება არ გაიგზავნა"
     },
     "labels": {
         "compose": "შედგენა",
@@ -766,7 +803,9 @@
         "sent_after": "გაგზავნილია შემდეგ",
         "sent_before": "გაგზავნილია დრომდე",
         "sent_on": "გაგზავნის თარიღი",
-        "size_error": "დაშვებულია, მხოლოდ , ციფრები"
+        "size_error": "დაშვებულია, მხოლოდ , ციფრები",
+        "flagged_note": "ყველა ალმიანი ელფოსტის მოძებნა.",
+        "shared_folders_note": "გაზიარებული ელემენტების ჩათვლა ძებნაში."
     },
     "signatures": {
         "name": "სახელი",
@@ -795,7 +834,8 @@
     "editView": {
         "footer": {
             "draftSaving": "შენახვა…",
-            "draftNotSaved": "მონახაზი შენახული არაა"
+            "draftNotSaved": "მონახაზი შენახული არაა",
+            "draftSaveTime": "მონახაზის შენახვის დროა {{time}}"
         }
     },
     "lexical-label": {
@@ -885,7 +925,10 @@
         "list_navigation": {
             "loadingNextEmail": "შემდეგი ელფოსტის ჩატვირთვა",
             "goToPrevious": "წინა ელფოსტაზე გადართვა",
-            "goToNext": "შემდეგ ელფოსტაზე გადართვა"
+            "goToNext": "შემდეგ ელფოსტაზე გადართვა",
+            "closeToNavigate": "ნავიგაციისთვის დახურეთ ეს ელფოსტა",
+            "noMoreEmails": "მეტი ელფოსტა ვერ მოიძებნა",
+            "noPreviousEmails": "წინა ელფოსტები არ არსებობს"
         },
         "markedAsEncryptedSmime": "მონიშნულია დაშიფრული (S/MIME)",
         "disable_rich_text": "მდიდარი ტექსტის რედაქტორის გათიშვა",
@@ -900,10 +943,15 @@
             "files": "დამატება Files-დან",
             "local": "დამატება ლოკალურიდან",
             "contacts_mod": "კონტაქტის ბარათის დამატება",
-            "add_original": "ორიგინალი მიმაგრებული ფაილების დამატება"
+            "add_original": "ორიგინალი მიმაგრებული ფაილების დამატება",
+            "url": "საჯარო ბმულის დამატება Files‑დან"
         },
         "uploadCertificate": {
-            "failed": "სერტიფიკატის ატვირთვა ჩავარდა"
+            "failed": "სერტიფიკატის ატვირთვა ჩავარდა",
+            "removeCertificateToEncrypt": "დაშიფვრის სერტიფიკატის წაშლა (S/MIME)",
+            "useCertificateToEncrypt": "სერტიფიკატის გამოყენება დასაშიფრად (S/MIME)",
+            "removeCertificateToSign": "ხელმოწერის სერტიფიკატის წაშლა (S/MIME)",
+            "useCertificateToSign": "სერტიფიკატის გამოყენება ხელმოწერისთვის (S/MIME)"
         }
     },
     "snackbar": {
@@ -928,7 +976,8 @@
     "folder": {
         "modal": {
             "edit": {
-                "add_share": "გაზიარებულის დამატება"
+                "add_share": "გაზიარებულის დამატება",
+                "enter_valid_folder_name": "შეიყვანეთ სწორი საქაღალდის სახელი"
             }
         }
     },
@@ -961,7 +1010,12 @@
     "displayer": {
         "search_title1": "კიდევ ერთი ძებნის დაწყება",
         "list_trash_title": "ნაგვის ყუთი ცარიელია",
-        "title2": "დააჭირეთ ღილაკს “ახალი”"
+        "title2": "დააჭირეთ ღილაკს “ახალი”",
+        "search_description2": "კიდევ ერთი ძებნის დაწყების ცდა.",
+        "description7": "აირჩიეთ ელფოსტა, რომ უპასუხოთ.",
+        "list_draft_title": "შენახული მონახაზების გარეშე",
+        "list_junk_title": "სპამის გარეშე",
+        "list_spam_title": "სპამი ელფოსტის გარეშე"
     },
     "placeholder": {
         "add_new_recipients": "ახალი მიმღებლების დამატება"
@@ -996,6 +1050,15 @@
         }
     },
     "text": {
-        "loading_conversation": "მიმდინარეობს საუბრის ჩატვირთვა. მოითმინეთ..."
+        "loading_conversation": "მიმდინარეობს საუბრის ჩატვირთვა. მოითმინეთ...",
+        "loading_message": "მიმდინარეობს შეტყობინების ჩატვირთვა. მოითმინეთ..."
+    },
+    "smart_link_modal": {
+        "header": {
+            "title": "მიმაგრებული ფაილის ატვირთვა ჭკვიანი ბმულის სახით"
+        },
+        "progress": {
+            "title": "მიმდინარეობს მიმაგრებული ფაილების ჭკვიანი ბმულის სახით ატვირთვა"
+        }
     }
 }
