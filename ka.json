@@ -297,7 +297,22 @@
         "searching_recover_emails": "მიმდინარეობს აღსადგენი ელფოსტების ძებნა",
         "want_to_continue": "გააგრძელებთ?",
         "do_not_use_signature": "ხელმოწერის არგამოყენება",
-        "change_filtering_sorting_options": "გაფილტვრის და დალაგების პარამეტრების შეცვლა"
+        "change_filtering_sorting_options": "გაფილტვრის და დალაგების პარამეტრების შეცვლა",
+        "error_try_again": "რაღაც არასწორად წავიდა. კიდევ სცადეთ",
+        "errors": {
+            "upload_failed_generic": "ატვირთვა ჩავარდა ფაილისთვის \"{{filename}}\""
+        },
+        "admin_disabled_action": "ადმინისტრატორმა გამორთო გადამისამართება",
+        "all_items_selected": "ყველა ხილული ელემენტი მონიშნულია",
+        "invalid_recipients": "მიმღების მისამართი არასწორადაა დაწერილი",
+        "mail_selected_one": "მონიშნულია {{count}} ელფოსტა",
+        "mail_selected_other": "მონიშნულია {{count}} ელფოსტა",
+        "revoke_access_tooltip": "წვდომის გაბათილება სტანდარტული გაფრთხილების გაგზავნით",
+        "revoke_access_without_notification": "წვდომის გაბათილება გაფრთხილების გაგზავნის გარეშე",
+        "revoke_with_custom_message": "წვდომის გაბათილება მორგებული გაფრთხილების გაგზავნით",
+        "message_size_exceeded": "შეტყობინების ზომა ზღვარს სცდება",
+        "invalid_destination": "ეს კვანძი სწორი სამიზნე არაა",
+        "no_special_char_allowed": "სახელი სპეციალურ სიმბოლოს არ უნდა შეიცავდეს"
     },
     "folder_panel": {
         "modal": {
@@ -323,12 +338,16 @@
             "move": {
                 "title_modal": "საუბრის გადატანა",
                 "title_modal_conversation": "საუბრის გადატანა",
-                "title_modal_message": "შეტყობინების გადატანა"
+                "title_modal_message": "შეტყობინების გადატანა",
+                "body": {
+                    "message2": "აირჩიეთ საქაღალდე, რომელშიც აღდგება:"
+                }
             },
             "new": {
                 "input": {
                     "position": "მშობელი საქაღალდე",
-                    "name": "შეიყვანეთ საქაღალდის სახელი"
+                    "name": "შეიყვანეთ საქაღალდის სახელი",
+                    "name_exist": "სახელი უკვე არსებობს მითითებულ ბილიკში"
                 },
                 "create_footer": "შექმნა და გადატანა",
                 "name_exist_warning": "სახელი უკვე არსებობს",
@@ -385,7 +404,8 @@
         "apply_filter_on_folder": "ფილტრის გადატარება საქაღალდზე",
         "mark_all_read": "ყველას წაკითხულად მონიშვნა",
         "preview_on_separated_window": "გახსნა ახალ ფანჯარაში",
-        "preview_on_separated_tab": "გახსნა ახალ ჩანართში"
+        "preview_on_separated_tab": "გახსნა ახალ ჩანართში",
+        "preview_new_tab": "დააწკაპუნეთ სხვა ჩანართში სანახავად"
     },
     "message": {
         "copy": "კოპირება",
@@ -397,10 +417,18 @@
             "settings_saved": "ჩასწორებები შენახულია",
             "all_att_added": "მიმაგრებული ფაილები წარმატებით დაემატა",
             "calendar_edits_saved": "ჩასწორებები შენახულია",
-            "all_link_copied": "საჯარო ბმული წარმატებით დაკოპირდა"
+            "all_link_copied": "საჯარო ბმული წარმატებით დაკოპირდა",
+            "att_saved": "მიმაგრებული ფაილი შენახულია მონიშნულ საქაღალდეში",
+            "share": {
+                "accepted": "თქვენ დაეთანხმეთ გაზიარების მოთხოვნას",
+                "declined": "თქვენ უარჰყავით გაზიარების მოთხოვნა"
+            },
+            "eml_download_failed": "მიმაგრებული ფაილი შენახულია მონიშნულ საქაღალდეში",
+            "all_att_saved": "მიმაგრებული ფაილები წარმატებით იქნა შენახული არჩეულ საქაღალდეში"
         },
         "schedule_time": "{{date}}-ისთვის {{time}}-ზე",
-        "invalid_search_message": "დამთხვევები აღმოჩენილი არაა"
+        "invalid_search_message": "დამთხვევები აღმოჩენილი არაა",
+        "delete_tag_message1": "მართლა გნებავთ, წაშალოთ ჭდე \"{{name}}\"?"
     },
     "share": {
         "options": {
@@ -416,7 +444,8 @@
             }
         },
         "is_contained_in": "რა შეიცავს",
-        "recipients_address": "მიმღების ელფოსტის მისამართები"
+        "recipients_address": "მიმღების ელფოსტის მისამართები",
+        "send_notification": "გაფრთხილების გაგზავნა ამ გაზიარების შესახებ"
     },
     "modal": {
         "initializeError": {
@@ -464,7 +493,8 @@
             "passwordCreatedFailed": "პაროლის შექმნა ჩავარდა",
             "createPasswordRule": "თქვენი პაროლი უნდა იყოს:",
             "passwordNotMatch": "პაროლები არ ემთხვევა",
-            "createPasswordRule1": "სულ ცოტა 8 სიმბოლო."
+            "createPasswordRule1": "სულ ცოტა 8 სიმბოლო.",
+            "create_password_header": "პაროლის შექმნა S/MIME ოპერაციებისთვის"
         },
         "uploadCertificate": {
             "active": "აქტიური",
@@ -495,7 +525,8 @@
             "recipientCertificatesTitle": "მიმღების სერტიფიკატები დაშიფვრისთვის",
             "uploadCertificateInSettings": "ატვირთეთ თქვენი სერტიფიკატი მორგების ფანჯრიდან",
             "noPersonalCertificate": "პირადი სერტიფიკატების სია ცარიელია",
-            "noRecipientCertificate": "მიმღების სერტიფიკატების სია ცარიელია"
+            "noRecipientCertificate": "მიმღების სერტიფიკატების სია ცარიელია",
+            "caCertificateNotFound": "CA სერტიფიკატის აღმოჩენა შეუძლებელია"
         },
         "actions": "ქმედებები",
         "address": "მისამართი",
@@ -639,7 +670,9 @@
         "linkedin_msg": "LinkedIn‑შეტყობინებები და კავშირები",
         "perform_following_action": "შემდეგი ქმედებების შესრულება:",
         "do_not_process_additional_filters": "დამატებითი ფილტრების არდამუშავება",
-        "does_not_match_wildcard_condition": "არ ემთხვევა ვაილდკარდის პირობას"
+        "does_not_match_wildcard_condition": "არ ემთხვევა ვაილდკარდის პირობას",
+        "condition_met": "შესრულებულია შემდეგი პირობები:",
+        "delete_filter_text": "მართლა გნებავთ, წაშალოთ ფილტრი "
     },
     "colors": {
         "blue": "ლურჯი",
@@ -687,7 +720,8 @@
                 "issuer_not_found_title": "გამომცემლის სერტიფიკატი ვერ მოიძებნა",
                 "invalid_title": "ციფრული ხელმოწერა სწორი არაა",
                 "untrusted_title": "შეტყობინება არასანდო წყაროდან",
-                "cert_expired_title": "ხელმომწერის სერტიფიკატის ვადა ამოიწურა"
+                "cert_expired_title": "ხელმომწერის სერტიფიკატის ვადა ამოიწურა",
+                "error_title": "ხელმოწერის გადამოწმებისას აღმოჩენილია შეცდომა"
             },
             "mail_authentication_headers": {
                 "missing": "აკლია"
@@ -732,10 +766,13 @@
             "sending_in_progress": "მიმდინარეობს შეტყობინების გაგზავნა. მოითმინეთ…",
             "email_restored": "ელფოსტა აღდგა სამიზნე საქაღალდეში",
             "message_redirected": "შეტყობინება გადამისამართდა",
-            "conversation_marked_as_non_spam": "საუბარი მოინიშნა, როგორც არა-სპამი"
+            "conversation_marked_as_non_spam": "საუბარი მოინიშნა, როგორც არა-სპამი",
+            "marked_as_spam": "თქვენ ეს ფოსტა სპამად მონიშნეთ"
         },
         "something_went_wrong": "რაღაც არასწორად წავიდა",
-        "invalid_sender_address": "შეიყვანეთ, მხოლოდ, ელფოსტის მისამართები"
+        "invalid_sender_address": "შეიყვანეთ, მხოლოდ, ელფოსტის მისამართები",
+        "no_content": "ეს შეტყობინება ტექსტს არ შეიცავს",
+        "check_and_try_again": "შეამოწმეთ Carbonio და კიდევ სცადეთ"
     },
     "attachment_type": {
         "application": "აპლიკაცია",
@@ -769,7 +806,8 @@
         "ccme": "ასლში ჩემთვის",
         "unreplied": "არ მიპასუხია",
         "solo": "საუბრები ერთი შეტყობინებით",
-        "tofromme": "ჩემთვის, ან ჩემგან"
+        "tofromme": "ჩემთვის, ან ჩემგან",
+        "remote": "ჩემს მიერ გაზიარებული საქაღალდეზე"
     },
     "filters": {
         "apply": "გადატარება",
@@ -805,7 +843,8 @@
         "sent_on": "გაგზავნის თარიღი",
         "size_error": "დაშვებულია, მხოლოდ , ციფრები",
         "flagged_note": "ყველა ალმიანი ელფოსტის მოძებნა.",
-        "shared_folders_note": "გაზიარებული ელემენტების ჩათვლა ძებნაში."
+        "shared_folders_note": "გაზიარებული ელემენტების ჩათვლა ძებნაში.",
+        "unread_note": "ყველა წაუკითხავი ელფოსტის ელემენტის მოძებნა."
     },
     "signatures": {
         "name": "სახელი",
@@ -835,7 +874,8 @@
         "footer": {
             "draftSaving": "შენახვა…",
             "draftNotSaved": "მონახაზი შენახული არაა",
-            "draftSaveTime": "მონახაზის შენახვის დროა {{time}}"
+            "draftSaveTime": "მონახაზის შენახვის დროა {{time}}",
+            "draftSaveDateTime": "მონახაზის შენახვის დროა {{date}} {{time}}"
         }
     },
     "lexical-label": {
@@ -933,7 +973,10 @@
         "markedAsEncryptedSmime": "მონიშნულია დაშიფრული (S/MIME)",
         "disable_rich_text": "მდიდარი ტექსტის რედაქტორის გათიშვა",
         "enable_rich_text": "მდიდარი ტექსტის რედაქტორის ჩართვა",
-        "markedAsSingedSmime": "მონიშნულია ხელმოწერილად (S/MIME)"
+        "markedAsSingedSmime": "მონიშნულია ხელმოწერილად (S/MIME)",
+        "resend": "ელფოსტის შეტყობინების თავიდან გაგზავნა ამ გაზიარებულის შესახებ",
+        "account_unread_count_one": "{{count}} წაუკითხავი ფოსტა",
+        "account_unread_count_other": "{{count}} წაუკითხავი ფოსტა"
     },
     "composer": {
         "attachment": {
@@ -1015,7 +1058,12 @@
         "description7": "აირჩიეთ ელფოსტა, რომ უპასუხოთ.",
         "list_draft_title": "შენახული მონახაზების გარეშე",
         "list_junk_title": "სპამის გარეშე",
-        "list_spam_title": "სპამი ელფოსტის გარეშე"
+        "list_spam_title": "სპამი ელფოსტის გარეშე",
+        "list_sent_title": "ჯერ ფოსტა არ გაგიზავნიათ",
+        "title3": "დარჩით სხვა მომხმარებლებთან კავშირზე.",
+        "title4": "აირჩიეთ წასაკითხი ელფოსტა",
+        "search_list_title2": "ელემენტებიდან თქვენს საძიებო სტრიქონს არცერთი ემთხვევა.",
+        "search_title3": "თქვენს ძებნას შედეგები არ აქვს."
     },
     "placeholder": {
         "add_new_recipients": "ახალი მიმღებლების დამატება"
