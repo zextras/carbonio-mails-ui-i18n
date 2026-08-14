@@ -731,7 +731,7 @@
         "msg_from_optn": {
             "discard": "Elimina il messaggio automaticamente",
             "inbox": "Sposta in posta in arrivo",
-            "inbox_if_cc": "Sposta in posta in arrivi se sono in A: o Cc:"
+            "inbox_if_cc": "Sposta in posta in arrivo se sono in A: o Cc:"
         },
         "notify_folder_optn": {
             "new_message_folder": "Mostra notifiche per ogni nuovo messaggio che arriva in qualsiasi cartella",
@@ -1339,7 +1339,9 @@
         "remove_link": "Rimuovi link",
         "edit_link": "Modifica link",
         "image_align": "Allinea immagine",
-        "image_resize": "Ridimensiona immagine"
+        "image_resize": "Ridimensiona immagine",
+        "insert_image_url": "Immagine da URL",
+        "table_size": "{{rows}} x {{columns}}"
     },
     "lexical-messages": {
         "write_your_message": "Scrivi il tuo messaggio"
