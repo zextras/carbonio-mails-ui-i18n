@@ -49,7 +49,8 @@
         },
         "uploadCertificate": {
             "failed": "Sertifika yükleme işlemi başarısız oldu",
-            "removeCertificateToSign": "İmza için sertifikayı kaldır (S/MIME)"
+            "removeCertificateToSign": "İmza için sertifikayı kaldır (S/MIME)",
+            "removeCertificateToEncrypt": "Şifreleme için sertifikayı kaldır (S/MIME)"
         }
     },
     "folder": {
