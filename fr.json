@@ -585,7 +585,7 @@
             "import_archive_started": "L'import de {{filename}} a commencé. Vous serez averti lorsqu'il sera prêt",
             "import_archive_success": "{{filename}} importé avec succès",
             "import_archive_error": "Échec de l'import de {{filename}}. Veuillez réessayer ou contacter votre administrateur",
-            "sending_in_progress": "Envoi du message en cours, veuillez patienter…"
+            "sending_in_progress": "Envoi du message, veuillez patienter…"
         },
         "check_and_try_again": "Merci de vérifier Carbonio et de réessayer",
         "could_not_find_to_show": "Désolé, il n'est pas possible de trouver un élément à afficher",
@@ -1260,7 +1260,7 @@
         }
     },
     "error": {
-        "invalid_recipient": "L'adresse du destinataire {{invalidAddress}} n'existe pas ou n'est pas valide",
+        "invalid_recipient": "L'adresse du destinataire \"{{invalidAddress}}\" n'existe pas ou n'est pas valide",
         "invalid_recipients": "Les adresses des destinataires {{invalidAddresses}} n'existent pas ou sont invalides"
     },
     "editView": {
