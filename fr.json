@@ -427,13 +427,13 @@
         "read_receipt_description": "Recevez une notification lorsque les destinataires ouvrent vos e-mails. Cela s'applique à tous les messages, sauf modification manuelle.",
         "composing_messages_read_receipt": "Accusé de réception",
         "view_all_actions": "Voir toutes les actions",
-        "import": "IMPORTER",
-        "export": "EXPORTER",
+        "import": "Importer",
+        "export": "Exporter",
         "export_archive": "Exporter l'archive",
         "import_archive": "Importer l'archive",
-        "dismiss": "ANNULER",
-        "unsupported_file_type": "Format de fichier non supporté. Veuillez sélectionner une archive au format .zip, .tgz, ou mbox",
-        "import_to_calendar": "Importer dans Calendriers"
+        "dismiss": "Annuler",
+        "unsupported_file_type": "Format de fichier non supporté. Veuillez sélectionner une archive au format .zip, .tgz, ou .mbox",
+        "import_to_calendar": "Importer dans les Calendriers"
     },
     "message": {
         "snackbar": {
@@ -931,7 +931,7 @@
         "view_more_one": "Voir {{count}} élément supplémentaire",
         "view_more_many": "Voir {{count}} éléments supplémentaires",
         "view_more_other": "Voir {{count}} éléments supplémentaires",
-        "export_archive_disabled": "Ce fichier est vide et ne peut pas être exporté"
+        "export_archive_disabled": "Ce dossier est vide et ne peut pas être exporté"
     },
     "displayer": {
         "archive_title1": "Sauvegarder un email dans les archives afin de pouvoir le consulter plus tard.",
