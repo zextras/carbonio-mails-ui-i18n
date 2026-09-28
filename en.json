@@ -362,7 +362,15 @@
         "import_archive": "Import Archive",
         "dismiss": "Dismiss",
         "unsupported_file_type": "Unsupported file format. Please select a .zip, .tgz or .mbox archive",
-        "import_to_calendar": "Import to Calendars"
+        "import_to_calendar": "Import to Calendars",
+        "choose_color_caption": "Choose a color to make this calendar easier to recognize",
+        "choose_address_book_color_caption": "Choose a color to make this address book easier to recognize",
+        "choose_folder_color_caption": "Choose a color to make this folder easier to recognize",
+        "choose_representative_name": "Choose a representative name",
+        "custom_color": "Custom color ({{hex}})",
+        "customize_color": "Customize color",
+        "hex_color": "Hex color",
+        "choose": "Choose"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -740,7 +748,8 @@
         "tag_removed": "\"{{tag}}\" tag removed",
         "conversation_moved_to_trash": "Conversation moved to Trash",
         "message_moved_to_archive": "E-mail moved to Archive",
-        "conversation_moved_to_archive": "Conversation moved to Archive"
+        "conversation_moved_to_archive": "Conversation moved to Archive",
+        "hex_color_copied": "Hex color copied"
     },
     "tooltip": {
         "markedAsEncryptedSmime": "Marked as encrypted (S/MIME)",
@@ -773,7 +782,8 @@
         "account_unread_count_other": "{{count}} unread mails",
         "subfolder_unread_count_one": "{{count}} unread mail in subfolders",
         "subfolder_unread_count_other": "{{count}} unread mails in subfolders",
-        "export_archive_disabled": "This folder is empty and can't be exported"
+        "export_archive_disabled": "This folder is empty and can't be exported",
+        "copy_hex_color": "Copy hex color"
     },
     "action": {
         "apply_filter_on_folder": "Apply filter on folder",
