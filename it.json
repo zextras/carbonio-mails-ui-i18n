@@ -484,7 +484,15 @@
         "import_archive": "Importa archivio",
         "dismiss": "Ignora",
         "unsupported_file_type": "Formato file non supportato. Seleziona un archivio .zip, .tgz o .mbox",
-        "import_to_calendar": "Importa in Calendars"
+        "import_to_calendar": "Importa in Calendars",
+        "choose_color_caption": "Scegli un colore per riconoscere più facilmente questo calendario",
+        "choose_address_book_color_caption": "Scegli un colore per riconoscere più facilmente questa rubrica",
+        "choose_folder_color_caption": "Scegli un colore per riconoscere più facilmente questa cartella",
+        "choose_representative_name": "Scegli un nome rappresentativo",
+        "custom_color": "Colore personalizzato ({{hex}})",
+        "customize_color": "Personalizza colore",
+        "hex_color": "Colore hex",
+        "choose": "Scegli"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
@@ -521,7 +529,8 @@
         "subfolder_unread_count_one": "{{count}} mail non letta nelle sottocartelle",
         "subfolder_unread_count_many": "{{count}} mail non lette nelle sottocartelle",
         "subfolder_unread_count_other": "{{count}} mail non lette nelle sottocartelle",
-        "export_archive_disabled": "Questa cartella è vuota e non può essere esportata"
+        "export_archive_disabled": "Questa cartella è vuota e non può essere esportata",
+        "copy_hex_color": "Copia colore esadecimale"
     },
     "placeholder": {
         "add_new_recipients": "Aggiungi nuovi destinatari"
@@ -669,7 +678,8 @@
         },
         "conversation_moved_to_trash": "Conversazione spostata nel Cestino",
         "message_moved_to_archive": "E-mail spostata nell'Archivio",
-        "conversation_moved_to_archive": "Conversazione spostata nell'Archivio"
+        "conversation_moved_to_archive": "Conversazione spostata nell'Archivio",
+        "hex_color_copied": "Colore esadecimale copiato"
     },
     "share": {
         "options": {
