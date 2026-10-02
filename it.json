@@ -689,10 +689,10 @@
                 "internal_users_groups": "Utenti Interni o Gruppi"
             },
             "share_calendar_role": {
-                "admin": "Amministratore",
-                "manager": "Gestore",
+                "admin": "Amministratore (può visualizzare, modificare, aggiungere, eliminare e condividere)",
+                "manager": "Gestore (può visualizzare, modificare, aggiungere ed eliminare)",
                 "none": "Nessuno",
-                "viewer": "Visualizzatore"
+                "viewer": "Visualizzatore (può visualizzare)"
             }
         },
         "recipients_address": "Indirizzi e-mail dei destinatari",
