@@ -158,7 +158,8 @@
         "subfolder_unread_count_one": "{{count}} nieprzeczytany e-mail w podfolderach",
         "subfolder_unread_count_few": "{{count}} nieprzeczytane e-maile w podfolderach",
         "subfolder_unread_count_many": "{{count}} nieprzeczytanych e-maili w podfolderach",
-        "export_archive_disabled": "Ten folder jest pusty i nie może być wyeksportowany"
+        "export_archive_disabled": "Ten folder jest pusty i nie może być wyeksportowany",
+        "copy_hex_color": "Skopiuj kolor Hex"
     },
     "label": {
         "create": "Stwórz",
@@ -504,7 +505,15 @@
         "import_archive": "Importuj archiwum",
         "dismiss": "Zamknij",
         "unsupported_file_type": "Niewspierany format pliku. Wybierz archiwum o formacie .zip, .tgz lub .mbox",
-        "import_to_calendar": "Importuj do Kalendarzy"
+        "import_to_calendar": "Importuj do Kalendarzy",
+        "choose_color_caption": "Wybierz kolor, żeby łatwiej rozpoznawać ten kalendarz",
+        "choose_address_book_color_caption": "Wybierz kolor, żeby łatwiej rozpoznawać tę książkę adresową",
+        "choose_folder_color_caption": "Wybierz kolor, żeby łatwiej rozpoznawać ten folder",
+        "choose_representative_name": "Wybierz charakterystyczną nazwę",
+        "custom_color": "Niestandardowy kolor ({{hex}})",
+        "customize_color": "Dostosuj kolor",
+        "hex_color": "Kolor Hex",
+        "choose": "Wybierz"
     },
     "message": {
         "snackbar": {
@@ -1049,7 +1058,8 @@
         },
         "conversation_moved_to_trash": "Konwersację przeniesiono do kosza",
         "message_moved_to_archive": "E-mail został przeniesiony do archiwum",
-        "conversation_moved_to_archive": "Konwersacja została przeniesiona do archiwum"
+        "conversation_moved_to_archive": "Konwersacja została przeniesiona do archiwum",
+        "hex_color_copied": "Kolor Hex został skopiowany"
     },
     "title": {
         "new_messages": "Nowe wiadomości",
