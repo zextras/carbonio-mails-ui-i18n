@@ -1145,10 +1145,10 @@
         "is_contained_in": "Is contained in",
         "options": {
             "share_calendar_role": {
-                "admin": "Admin",
-                "manager": "Manager",
+                "admin": "Admin (can view, edit, add, delete and share)",
+                "manager": "Manager (can view, edit, add and delete)",
                 "none": "None",
-                "viewer": "Viewer"
+                "viewer": "Viewer (can view)"
             },
             "share_calendar_with": {
                 "external_guests": "External guests (view only)",
