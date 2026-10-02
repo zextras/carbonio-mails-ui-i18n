@@ -491,7 +491,7 @@
         "choose_representative_name": "Scegli un nome rappresentativo",
         "custom_color": "Colore personalizzato ({{hex}})",
         "customize_color": "Personalizza colore",
-        "hex_color": "Colore hex",
+        "hex_color": "Colore esadecimale",
         "choose": "Scegli"
     },
     "tooltip": {
