@@ -573,10 +573,10 @@
                 "public": "Udostępnij publicznie (można tylko wyświetlać, hasło niewymagane)"
             },
             "share_calendar_role": {
-                "admin": "Administrator",
-                "manager": "Manager",
+                "admin": "Administrator (może wyświetlać, edytować, dodawać, usuwać i udostępniać)",
+                "manager": "Manager (może wyświetlać, edytować, dodawać i usuwać)",
                 "none": "Brak uprawnień",
-                "viewer": "Wyświetlający"
+                "viewer": "Wyświetlający (może wyświetlać)"
             }
         },
         "filter_folder_message": "Wybierz folder, w którym rozpoczniesz zaawansowane wyszukiwanie",
@@ -791,7 +791,7 @@
         "something_went_wrong": "COŚ POSZŁO NIE TAK",
         "trustee_addresses": "E-maile z tych adresów i domen zostaną uznane za zaufane, a obrazy w nich zawarte będą automatycznie wyświetlane.",
         "read_receipt_2": "Czy chcesz powiadomić nadawcę?",
-        "read_receipt_1": "Nadawca tej wiadomości poprosił o powiadomienie go kiedy przeczytasz tą wiadomość.",
+        "read_receipt_1": "Nadawca tej wiadomości poprosił o powiadomienie go kiedy przeczytasz tę wiadomość.",
         "invalid_trustee_address": "Wprowadź tylko adresy e-mail i domeny",
         "cal_name_exist_warning": "Kalendarz z wybraną nazwą już istnieje w tej ścieżce",
         "edit_schedule_warning": "Edytując ten e-mail, poprzednio ustawiona data i czas opóźnionego wysyłania zostanie zresetowana.",
