@@ -266,7 +266,7 @@
         "send_scheduled": "Envío programado",
         "download_and_delete": "Descargar y eliminar",
         "enter_name": "Nueva firma",
-        "invalid_query": "No se pudo completar la búsqueda. Bórrala e intenta nuevamente",
+        "invalid_query": "Los caracteres especiales como :, \", -, !, etc., se ignoran en la búsqueda. Esto puede dar lugar a resultados inesperados en casos como:",
         "not_in_list": "{{name}} - No está en la lista de etiquetas",
         "no_signature": "Sin firma",
         "mark_read_message_manually": "Marcar manualmente como leído haciendo clic en el ícono",
