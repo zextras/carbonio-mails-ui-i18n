@@ -951,9 +951,9 @@
         "modal": {
             "delete": {
                 "body": {
-                    "message1": "Do you want to empty the selected folder?",
+                    "message1": "Do you want to delete the selected folder?",
                     "message2": "Do you want to delete the selected folder permanently?",
-                    "message3": "If you delete it, all the related content will be moved to Trash and the folder will no longer be visible.",
+                    "message3": "Deleting it will move it and all the related content to Trash.",
                     "message4": "If you delete it, all the related content will be permanently removed and the folder will no longer be recoverable."
                 }
             },
