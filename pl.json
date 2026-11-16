@@ -66,7 +66,7 @@
         "ok": "Ok",
         "preview": "Podgląd",
         "preview_new_tab": "Kliknij, aby otworzyć podgląd w nowej karcie",
-        "print": "Drukuj",
+        "print": "Wydrukuj",
         "redirect": "Przekieruj",
         "reply": "Odpowiedz",
         "unflag": "Usuń flagę",
@@ -252,7 +252,7 @@
         "shares_info": "Informacje o udostępnionym folderze",
         "shares_items": "Udostępnione foldery użytkownika {{value}}",
         "show_all": "Pokaż wszystkie",
-        "show_popup": "Pokaż powiadomienie pop-up",
+        "show_popup": "Pokaż powiadomienie w formie wyskakującego okna",
         "single_advanced_filter": "Zaawansowane filtry",
         "size": "Rozmiar",
         "size_larger": "Rozmiar większy niż (MB)",
@@ -601,9 +601,9 @@
         "modal": {
             "delete": {
                 "body": {
-                    "message1": "Czy na pewno chcesz opróżnić wybrany folder?",
+                    "message1": "Czy na pewno chcesz usunąć wybrany folder?",
                     "message2": "Czy na pewno chcesz trwale usunąć wybrany folder?",
-                    "message3": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do kosza oraz folder przestanie być widoczny.",
+                    "message3": "Usunięcie go przeniesie go i całą powiązaną z nim zawartość do kosza.",
                     "message4": "Jeśli go usuniesz, cała powiązana z nim zawartość zostanie przeniesiona do kosza. Folderu nie będzie można odzyskać."
                 }
             },
