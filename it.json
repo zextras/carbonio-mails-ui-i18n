@@ -1016,8 +1016,8 @@
             "delete": {
                 "body": {
                     "message4": "Eliminando l'oggetto, i relativi contenuti saranno saranno eliminati definitivamente e non sarà. possibile ripristinare la cartella.",
-                    "message1": "Vuoi svoutare la cartella selezionata?",
-                    "message3": "Eliminando l'oggetto, i relativi contenuti saranno spostati nel cestino e la cartella non sarà più visibile.",
+                    "message1": "Eliminare la cartella selezionata?",
+                    "message3": "L'eliminazione lo sposterà la cartella e tutto il suo contenuto nel Cestino.",
                     "message2": "Vuoi eliminare la cartella in modo definitivo?"
                 }
             },
