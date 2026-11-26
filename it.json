@@ -43,7 +43,8 @@
             "import_archive_started": "L'importazione di {{filename}} è iniziata. Riceverai una notifica quando sarà completa",
             "import_archive_success": "{{filename}} importato con successo",
             "import_archive_error": "Importazione di {{filename}} non riuscita. Riprova o contatta l'amministratore",
-            "sending_in_progress": "Invio del messaggio in corso, attendere…"
+            "sending_in_progress": "Invio del messaggio in corso, attendere…",
+            "search_invalid_query": "Impossibile eseguire la ricerca, modifica le parole chiave e riprova"
         },
         "modal": {
             "delete": {
@@ -492,7 +493,10 @@
         "custom_color": "Colore personalizzato ({{hex}})",
         "customize_color": "Personalizza colore",
         "hex_color": "Colore esadecimale",
-        "choose": "Scegli"
+        "choose": "Scegli",
+        "error_try_again_search": "Qualcosa è andato storto con la ricerca, riprova",
+        "search_invalid_query": "Impossibile eseguire la ricerca, modifica queste parole chiave:",
+        "search_failed": "Impossibile completare la ricerca per:"
     },
     "tooltip": {
         "add_attachments": "Aggiungi allegati",
