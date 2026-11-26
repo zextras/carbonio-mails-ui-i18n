@@ -370,7 +370,10 @@
         "custom_color": "Custom color ({{hex}})",
         "customize_color": "Customize color",
         "hex_color": "Hex color",
-        "choose": "Choose"
+        "choose": "Choose",
+        "error_try_again_search": "Something went wrong with your search, please try again",
+        "search_invalid_query": "Unable to run the search, edit these keywords:",
+        "search_failed": "Unable to complete the search for:"
     },
     "messages": {
         "encrypted_message": "This message has been encrypted. To view it click on \"Decrypt Message\"",
@@ -496,7 +499,8 @@
             "import_archive_started": "{{filename}} import has started. You will be notified when it's ready",
             "import_archive_success": "{{filename}} imported successfully",
             "import_archive_error": "{{filename}} import failed. Please try again or contact your administrator",
-            "sending_in_progress": "Sending message, please wait…"
+            "sending_in_progress": "Sending message, please wait…",
+            "search_invalid_query": "Unable to run the search, edit the keywords and try again"
         },
         "something_went_wrong": "SOMETHING WENT WRONG",
         "trustee_addresses": "Mail from these addresses or domains will be considered trusted and images will automatically be displayed.",
